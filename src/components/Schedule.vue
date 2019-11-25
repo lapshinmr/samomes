@@ -52,7 +52,10 @@ export default {
   name: 'schedule',
   props: {
     'tankVolume': Number,
-    'syringe': Number
+    'syringe': {
+      type: Number,
+      default: 0
+    }
   },
   data () {
     return {

@@ -1,36 +1,54 @@
 <template lang="html">
-  <div class="row">
-    <div class="col-12">
-      <h2>Рецепт</h2>
-      <div class="form-group">
-        <template v-for="formula in formulas">
-          <input type="radio" v-model="formulaSelected" :value="formula" :key="formula + 'input'">
-          <label :key="formula + 'label'">{{ formula }}</label>
-        </template>
-      </div>
-      <div class="form-group">
-        {{ calcProcent | SHOW_COMPONENTS }}
-      </div>
-      <div class="form-group">
-        <label>Рецепт</label>
-        <input v-model.number.lazy="fertilizerMass" type="text" class="form-control" :class="{'bg-danger': FORMULAS[formulaSelected].solubilityLimit < fertilizerMass}">
-        <small>Введите массу удобрения в граммах {{ formulaSelected }} на литр воды</small>
-        <small>Растворимость: {{ FORMULAS[formulaSelected].solubilityLimit }} г/л</small>
-      </div>
+  <div>
+    <h4>Рецепт</h4>
 
-      <div class="form-group">
-        <label>Концентрация удобрения</label>
-        <span>{{ concentration.toFixed(2) }} мг/мл</span>
-        <input type="checkbox" v-model="isHoldConcentration">
-        <label>зафиксировать</label>
-      </div>
-
-      <div class="form-group">
-        <label>Хотим повышение концентрации в авариуме на каждый мл вводимого удобрения в шприце</label>
-        <input v-model.number.lazy="syringe" type="text" class="form-control" >
-        <small>мг/л</small>
+    <div class="form-group">
+      <template v-for="recipe in recipes">
+        <input type="radio" v-model="recipeSelected" :value="recipe" :key="recipe + 'input'">
+        <label :key="recipe + 'label'">{{ recipe }}</label>
+      </template>
+    </div>
+    <div class="form-group">
+      {{ calcProcent | SHOW_COMPONENTS }}
+    </div>
+    <div class="form-group">
+      <label>Объем аквариума</label>
+      <select v-if="tanks && tanks.length > 1" v-model="tankSelected" class="form-control">
+        <option v-for="tank in tanks" :key="tank">
+          {{ tank }}
+        </option>
+      </select>
+      <div v-else>
+        {{ tankSelected }}
       </div>
     </div>
+
+    <div class="form-group">
+      <label>Масса удобрения, г</label>
+      <input v-model.number.lazy="fertilizerMass" type="text" class="form-control" :class="{'bg-danger': FORMULAS[recipeSelected].solubilityLimit < fertilizerMass}">
+      <small>Введите массу удобрения {{ recipeSelected }}, которое будет замешано на литр воды.</small>
+      <br />
+      <small>Растворимость: {{ FORMULAS[recipeSelected].solubilityLimit }} г/л</small>
+    </div>
+
+    <div class="form-row">
+      <template v-for="component in FORMULAS[recipeSelected].components">
+        <div class="col" :key="component">
+          <label>{{ component }} мг/мл</label>
+          <input :value="syringe[component]" type="text" class="form-control">
+        </div>
+      </template>
+    </div>
+
+    <div class="form-group">
+      <label>Имя рецепта</label>
+      <input v-model.number.lazy="recipeName" type="text" class="form-control" >
+      <small></small>
+    </div>
+
+    <button class="btn btn-outline-success" @click="saveRecipe">
+      Добавить рецепт
+    </button>
   </div>
 </template>
 
@@ -61,10 +79,20 @@ const FORMULAS = {
 
 export default {
   name: 'recipe',
+  props: [ 'tanks' ],
   data () {
     return {
-      FORMULAS: FORMULAS
+      FORMULAS: FORMULAS,
+      recipes: ['KNO3', 'KH2PO4', 'K2SO4'],
+      recipeSelected: 'KNO3',
+      syringe: {},
+      isHoldConcentration: false,
+      tankSelected: null,
+      recipeName: ''
     }
+  },
+  created () {
+    this.tankSelected = this.tanks[0]
   },
   filters: {
     'SHOW_COMPONENTS': (components) => {
@@ -76,46 +104,44 @@ export default {
     }
   },
   computed: {
-    ion () {
-      switch (this.formulaSelected) {
-        case 'KNO3':
-          return 'NO3'
-        case 'KH2PO4':
-          return 'PO4'
-        case 'K2SO4':
-          return 'K2'
-        default:
-          return 'NO3'
-      }
-    },
     calcProcent () {
-      let massTotal = this.calcMass(this.formulaSelected)
+      let massTotal = this.calcMass(this.recipeSelected)
       let components = {}
-      FORMULAS[this.formulaSelected].components.forEach(value => {
+      FORMULAS[this.recipeSelected].components.forEach(value => {
         components[value] = this.calcMass(value) / massTotal
       })
       return components
     },
     fertilizerMass: {
       get () {
-        return (this.syringe * this.tankVolume / this.calcProcent[this.ion]).toFixed(2)
+        return (this.syringe * this.tankSelected / this.calcProcent[this.calcIon])
       },
       set (value) {
-        this.syringe = (this.calcProcent[this.ion] * value / this.tankVolume).toFixed(2)
+        for (let ion in this.FORMULAS[this.recipeSelected].components) {
+          this.syringe[ion] = (this.calcProcent[ion] * value / this.tankSelected)
+        }
       }
     }
   },
   methods: {
-    calcMass (formula) {
+    calcMass (recipe) {
       let mass = 0
       let lastElement
-      for (let el of formula) {
+      for (let el of recipe) {
         mass += !isNaN(el)
           ? COMPONENTS[lastElement] * (parseInt(el) - 1)
           : COMPONENTS[el]
         lastElement = el
       }
       return mass
+    },
+    saveRecipe () {
+      return this.$emit('save-recipe', {
+        'name': this.recipeName,
+        'NO3': '',
+        'PO4': '',
+        'K': ''
+      })
     }
   }
 }

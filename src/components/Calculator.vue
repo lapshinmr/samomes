@@ -2,37 +2,63 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h1>Калькулятор удобрений для аквариума</h1>
+        <h3 class="text-center my-4">Калькулятор удобрений для аквариума</h3>
       </div>
     </div>
 
-    <tank-volume />
+    <div class="row">
+      <div class="col-8">
 
-    <recipe />
+        <recipe :tanks="tanks" @save-recipe="recipes.push($event)"/>
 
+      </div>
+      <div class="col-4">
+
+        <tank @add-tank="tanks.push($event)" />
+
+        <div v-for="(volume, index) in tanks" :key="volume" class="d-flex justify-content-between mt-3">
+          <div>
+            {{ volume }} л
+          </div>
+          <div @click="tanks.pop(index)" style="cursor: pointer">
+            удалить
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
     <schedule :tankVolume="tankVolume" :syringe="syringe"/>
+    -->
 
   </div>
 </template>
 
 <script>
-import Schedule from './Schedule.vue'
+// import Schedule from './Schedule.vue'
 import Recipe from './Recipe.vue'
-import TankVolume from './TankVolume.vue'
+import Tank from './Tank.vue'
 
 export default {
   name: 'Calculator',
-  components: { Schedule, Recipe, TankVolume },
+  components: { Recipe, Tank },
   data () {
     return {
-      formulas: ['KNO3', 'KH2PO4', 'K2SO4'],
-      formulaSelected: 'KNO3',
-      tankVolume: 100,
-      isTankVolumeCalc: false,
-      isHoldConcentration: false,
-      concentration: 0,
-      syringe: 0,
-      amount: 0
+      tanks: [],
+      recipes: []
+    }
+  },
+  created () {
+    let data = JSON.parse(localStorage.getItem('data'))
+    if (data && data.tanks.length > 0) {
+      this.tanks = data.tanks
+    }
+  },
+  watch: {
+    tanks () {
+      let data = JSON.parse(localStorage.getItem('data')) || {}
+      data['tanks'] = this.tanks
+      localStorage.setItem('data', JSON.stringify(data))
     }
   }
 }
