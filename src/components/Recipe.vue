@@ -15,10 +15,11 @@
     </div>
 
     <div class="form-row">
-      <template v-for="(isNeeded, ion) in FORMULAS[reagentSelected].ions">
-        <div v-if="isNeeded" class="col" :key="ion">
+      <template v-for="(data, ion) in FORMULAS[reagentSelected].ions">
+        <div v-if="data.isNeeded" class="col" :key="ion">
           <label>{{ ion }}, мг/мл</label>
           <input :value="solute[ion]" @input="inputIon(ion)" type="text" class="form-control">
+          <small>Концентрация в удобрении {{ concentration[ion].toFixed(2) }}, г/л</small>
         </div>
       </template>
     </div>
@@ -50,23 +51,44 @@ const COMPONENTS = {
 const FORMULAS = {
   'KNO3': {
     ions: {
-      'K': true,
-      'NO3': true
+      'K': {
+        isNeeded: true,
+        count: 1
+      },
+      'NO3': {
+        isNeeded: true,
+        count: 1
+      }
     },
     solubilityLimit: 242
   },
   'KH2PO4': {
     ions: {
-      'K': true,
-      'PO4': true,
-      'H2': false
+      'K': {
+        isNeeded: true,
+        count: 1
+      },
+      'PO4': {
+        isNeeded: true,
+        count: 1
+      },
+      'H2': {
+        isNeeded: false,
+        count: 1
+      }
     },
     solubilityLimit: 226
   },
   'K2SO4': {
     ions: {
-      'K2': true,
-      'SO4': false
+      'K': {
+        isNeeded: true,
+        count: 2
+      },
+      'SO4': {
+        isNeeded: false,
+        count: 1
+      }
     },
     solubilityLimit: 111
   }
@@ -75,13 +97,8 @@ const FORMULAS = {
 export default {
   name: 'recipe',
   props: {
-    tankVolume: {
-      type: Number,
-      default: 0
-    },
-    reagentSelected: {
-      type: String
-    }
+    tankVolume: { type: Number, default: 0 },
+    reagentSelected: { type: String }
   },
   data () {
     return {
@@ -94,28 +111,29 @@ export default {
   created () {
     let ions = this.FORMULAS[this.reagentSelected].ions
     for (let ion in ions) {
-      if (ions[ion]) {
+      if (ions[ion].isNeeded) {
         this.solute[ion] = 0
       }
-    }
-  },
-  filters: {
-    'SHOW_COMPONENTS': (ions) => {
-      let output = []
-      for (let key in ions) {
-        output.push(`${key}: ${(ions[key] * 100).toFixed(2)}%`)
-      }
-      return output.join(' ')
     }
   },
   computed: {
     calcProcent () {
       let massTotal = this.calcMass(this.reagentSelected)
-      let ions = {}
-      for (let ion in FORMULAS[this.reagentSelected].ions) {
-        ions[ion] = this.calcMass(ion) / massTotal
+      let result = {}
+      let ions = FORMULAS[this.reagentSelected].ions
+      for (let ion in ions) {
+        result[ion] = this.calcMass(ion) * ions[ion].count / massTotal
       }
-      return ions
+      return result
+    },
+    concentration () {
+      let result = {}
+      let ions = FORMULAS[this.reagentSelected].ions
+      for (let ion in ions) {
+        result[ion] = this.fertilizerMass * this.calcProcent[ion]
+      }
+      console.log(result)
+      return result
     },
     recipeName: {
       get () {
@@ -152,9 +170,12 @@ export default {
     },
     inputFertilizerMass () {
       this.fertilizerMass = event.target.value
+      let ions = FORMULAS[this.reagentSelected].ions
       for (let ion in this.calcProcent) {
-        let value = (this.fertilizerMass / this.tankVolume * this.calcProcent[ion]).toFixed(2)
-        Vue.set(this.solute, ion, value)
+        if (ions[ion]) {
+          let value = (this.fertilizerMass / this.tankVolume * this.calcProcent[ion]).toFixed(2)
+          Vue.set(this.solute, ion, value)
+        }
       }
     },
     inputIon (curIon) {
@@ -174,6 +195,15 @@ export default {
         name: this.recipeName,
         solute: Object.assign({}, this.solute)
       })
+    }
+  },
+  filters: {
+    'SHOW_COMPONENTS': (ions) => {
+      let output = []
+      for (let key in ions) {
+        output.push(`${key}: ${(ions[key] * 100).toFixed(2)}%`)
+      }
+      return output.join(' ')
     }
   }
 }
