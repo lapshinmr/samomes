@@ -17,20 +17,18 @@
             v-for="recipe in recipesSelected"
             :key="recipe.name + index"
             class="schedule__amount d-flex justify-content-around"
+              :class="{
+                'bg-success': completed[recipe.name] && completed[recipe.name][index],
+                'bg-secondary': excluded[recipe.name] && excluded[recipe.name][index]
+              }"
         >
           <div
               @click="confirmDay(recipe.name, index)"
-              :class="{
-                'bg-success': completed[recipe.name] && completed[recipe.name][index],
-              }"
           >
-            {{ (recipe.amount / daysTotal).toFixed(1) }} мл
+            {{ (daysQuotas[recipe.name][index]).toFixed(1) }} мл
           </div>
           <div
               @click="excludeDay(recipe.name, index)"
-              :class="{
-                'bg-secondary': excluded[recipe.name] && excluded[recipe.name][index]
-              }"
           >
             -
           </div>
@@ -61,6 +59,22 @@ export default {
     }
   },
   computed: {
+    daysQuotas () {
+      let quotas = {}
+      for (const recipe of this.recipesSelected) {
+        let result = []
+        let excludeList = this.excluded[recipe.name]
+        console.log(recipe.name, this.excluded)
+        // let completeList = this.completed[recipeName]
+        let excludedTotal = this.excluded[recipe.name].filter(x => x === true).length
+        for (const index in excludeList) {
+          result.push(!excludeList[index] ? recipe.amount / (this.daysTotal - excludedTotal) : 0)
+        }
+        quotas[recipe.name] = result
+      }
+      console.log(quotas)
+      return quotas
+    },
     total () {
       let result = []
       for (const recipe of this.recipesSelected) {

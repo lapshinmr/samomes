@@ -68,8 +68,7 @@ export default {
   },
   data () {
     return {
-      recipesSelected: [],
-      amounts: []
+      recipesSelected: []
     }
   },
   computed: {
