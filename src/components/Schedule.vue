@@ -66,7 +66,7 @@ export default {
         let excludeList = this.excluded[recipe.name]
         console.log(recipe.name, this.excluded)
         // let completeList = this.completed[recipeName]
-        let excludedTotal = this.excluded[recipe.name].filter(x => x === true).length
+        let excludedTotal = excludeList.filter(x => x === true).length
         for (const index in excludeList) {
           result.push(!excludeList[index] ? recipe.amount / (this.daysTotal - excludedTotal) : 0)
         }
@@ -78,14 +78,16 @@ export default {
     total () {
       let result = []
       for (const recipe of this.recipesSelected) {
-        if (this.completed[recipe.name] && this.completed[recipe.name]) {
-          result.push(
-            recipe.amount / this.daysTotal * this.completed[recipe.name].filter(x => x === true).length
-          )
-        } else {
-          result.push(0)
+        let sum = 0
+        for (const index in this.daysQuotas[recipe.name]) {
+          if (this.completed[recipe.name][index]) {
+            sum += this.daysQuotas[recipe.name][index]
+            console.log(sum)
+          }
         }
+        result.push(sum)
       }
+      console.log(result)
       return result
     },
     daysTotal () {
@@ -106,7 +108,6 @@ export default {
         this.completed = Object.assign({}, this.completed)
         this.excluded = Object.assign({}, this.excluded)
       }
-      console.log('+')
     }
   },
   methods: {
