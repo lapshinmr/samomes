@@ -31,33 +31,34 @@
 
         <tank @add-tank="tanks.push($event)" />
 
-        <div v-for="(volume, index) in tanks" :key="volume" class="d-flex justify-content-between mt-3">
-          <div @click="tankSelected = volume" style="cursor: pointer" >
-            {{ volume }} л
-          </div>
-          <div v-if="tankSelected === volume">+</div>
-          <div @click="tanks.splice(index, 1)" style="cursor: pointer">
-            удалить
-          </div>
-        </div>
+        <tanks
+            :tanks="tanks"
+            :tank-selected="tankSelected"
+            :select-tank="selectTank"
+            :remove-tank="removeTank"
+        />
 
       </div>
     </div>
 
-    <schedule :tankVolume="tankSelected" :recipes="recipes"/>
+    <tank-recipes :tankVolume="tankSelected" :recipes="recipes"/>
+
+    <schedule />
 
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import Schedule from './Schedule.vue'
-import Recipe from './Recipe.vue'
 import Tank from './Tank.vue'
+import Tanks from './Tanks.vue'
+import Recipe from './Recipe.vue'
+import TankRecipes from './TankRecipes.vue'
+import Schedule from './Schedule.vue'
 
 export default {
   name: 'Calculator',
-  components: { Recipe, Tank, Schedule },
+  components: { Recipe, Tank, Tanks, TankRecipes, Schedule },
   data () {
     return {
       reagents: ['KNO3', 'KH2PO4', 'K2SO4'],
@@ -84,6 +85,12 @@ export default {
   methods: {
     saveRecipe (recipe) {
       Vue.set(this.recipes, recipe.name, recipe.solute)
+    },
+    selectTank (volume) {
+      this.tankSelected = volume
+    },
+    removeTank (index) {
+      this.tanks.splice(index, 1)
     }
   }
 }
