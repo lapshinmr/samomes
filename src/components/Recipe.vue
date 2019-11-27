@@ -132,7 +132,6 @@ export default {
       for (let ion in ions) {
         result[ion] = this.fertilizerMass * this.calcProcent[ion]
       }
-      console.log(result)
       return result
     },
     recipeName: {
@@ -147,7 +146,6 @@ export default {
   watch: {
     tankVolume () {
       this.calsSolute()
-      this.$forceUpdate()
     }
   },
   methods: {
@@ -165,7 +163,8 @@ export default {
     calsSolute () {
       for (let ion in this.calcProcent) {
         let value = (this.fertilizerMass / this.tankVolume * this.calcProcent[ion]).toFixed(2)
-        Vue.set(this.solute, ion, value)
+        this.solute[ion] = value
+        this.solute = Object.assign({}, this.solute)
       }
     },
     inputFertilizerMass () {

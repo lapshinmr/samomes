@@ -49,6 +49,9 @@
             </div>
           </div>
         </div>
+        <button class="btn btn-outline-success" @click="addToSchedule">
+          Добавить в расписание
+        </button>
       </div>
     </div>
   </div>
@@ -88,6 +91,7 @@ export default {
     addRecipe () {
       this.recipesSelected.push(
         {
+          name: '',
           recipe: {},
           amount: 0
         }
@@ -96,18 +100,26 @@ export default {
     selectRecipe (index) {
       Vue.set(this.recipesSelected, index, {
         amount: this.recipesSelected[index].amount,
-        recipe: this.recipes[event.target.value]
+        recipe: this.recipes[event.target.value],
+        name: event.target.value
       })
     },
     inputRecipeAmount (index) {
       Vue.set(this.recipesSelected, index, {
         amount: event.target.value,
-        recipe: this.recipesSelected[index].recipe
+        recipe: this.recipesSelected[index].recipe,
+        name: this.recipesSelected[index].name
       })
+    },
+    addToSchedule () {
+      return this.$emit('add-to-schedule', this.recipesSelected)
     }
   }
 }
 </script>
 
 <style lang="sass" scoped>
+  .schedule__amount
+    width: 25px
+    display: block
 </style>

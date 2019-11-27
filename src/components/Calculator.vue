@@ -41,9 +41,13 @@
       </div>
     </div>
 
-    <tank-recipes :tankVolume="tankSelected" :recipes="recipes"/>
+    <tank-recipes
+        :tankVolume="tankSelected"
+        :recipes="recipes"
+        @add-to-schedule="recipesSelected = $event"
+    />
 
-    <schedule />
+    <schedule :recipesSelected="recipesSelected"/>
 
   </div>
 </template>
@@ -65,20 +69,29 @@ export default {
       reagentSelected: 'KNO3',
       recipes: {},
       tanks: [],
-      tankSelected: null
+      tankSelected: null,
+      recipesSelected: []
     }
   },
   created () {
     let data = JSON.parse(localStorage.getItem('data'))
-    if (data && data.tanks.length > 0) {
-      this.tanks = data.tanks
-      this.tankSelected = data.tanks[0]
+    if (data) {
+      if (data.tanks.length > 0) {
+        this.tanks = data.tanks
+        this.tankSelected = data.tanks[0]
+      }
+      this.recipes = data.recipes || {}
     }
   },
   watch: {
     tanks () {
       let data = JSON.parse(localStorage.getItem('data')) || {}
       data['tanks'] = this.tanks
+      localStorage.setItem('data', JSON.stringify(data))
+    },
+    recipes () {
+      let data = JSON.parse(localStorage.getItem('data')) || {}
+      data['recipes'] = this.recipes
       localStorage.setItem('data', JSON.stringify(data))
     }
   },

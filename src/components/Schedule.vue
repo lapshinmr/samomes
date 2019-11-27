@@ -1,19 +1,48 @@
 <template>
   <div class="row mt-4">
     <div class="col-12 d-flex">
-      <div v-for="day in ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']" :key="day" class="flex-fill schedule__day">
+
+      <div class="flex-fill">
+        <h6>
+          Рецепт
+        </h6>
+        <div v-for="(recipe, index) in recipesSelected" :key="recipe.name + index">
+          {{ recipe.name }}
+        </div>
+      </div>
+
+      <div v-for="(day, index) in days" :key="day" class="flex-fill schedule__day">
         <h6>{{ day }}</h6>
-        <div>
-          <div>
-            <div>
-              NO3
-            </div>
-            <div>
-              {{ }} мл
-            </div>
+        <div
+            v-for="recipe in recipesSelected"
+            :key="recipe.name + index"
+            class="schedule__amount d-flex justify-content-around"
+        >
+          <div
+              @click="confirmDay(recipe.name, index)"
+              :class="{
+                'bg-success': completed[recipe.name] && completed[recipe.name][index],
+              }"
+          >
+            {{ (recipe.amount / daysTotal).toFixed(1) }} мл
           </div>
-          <div>PO4 </div>
-          <div>K {{  }}</div>
+          <div
+              @click="excludeDay(recipe.name, index)"
+              :class="{
+                'bg-secondary': excluded[recipe.name] && excluded[recipe.name][index]
+              }"
+          >
+            -
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-fill">
+        <h6>
+          Влито
+        </h6>
+        <div v-for="(item, index) in total" :key="index">
+          {{ item.toFixed(2) }}
         </div>
       </div>
     </div>
@@ -22,14 +51,74 @@
 
 <script>
 export default {
+  name: 'schedule',
+  props: [ 'recipesSelected' ],
+  data () {
+    return {
+      days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+      completed: {},
+      excluded: {}
+    }
+  },
+  computed: {
+    total () {
+      let result = []
+      for (const recipe of this.recipesSelected) {
+        if (this.completed[recipe.name] && this.completed[recipe.name]) {
+          result.push(
+            recipe.amount / this.daysTotal * this.completed[recipe.name].filter(x => x === true).length
+          )
+        } else {
+          result.push(0)
+        }
+      }
+      return result
+    },
+    daysTotal () {
+      return this.days.length
+    }
+  },
+  watch: {
+    recipesSelected () {
+      let update = false
+      for (const recipe of this.recipesSelected) {
+        if (!(recipe.name in this.completed)) {
+          this.completed[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+          this.excluded[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+          update = true
+        }
+      }
+      if (update) {
+        this.completed = Object.assign({}, this.completed)
+        this.excluded = Object.assign({}, this.excluded)
+      }
+      console.log('+')
+    }
+  },
+  methods: {
+    confirmDay (recipeName, index) {
+      if (!this.excluded[recipeName][index]) {
+        let value = this.completed[recipeName][index]
+        this.completed[recipeName][index] = !value
+        this.completed = Object.assign({}, this.completed)
+      }
+    },
+    excludeDay (recipeName, index) {
+      if (!this.completed[recipeName][index]) {
+        let value = this.excluded[recipeName][index]
+        this.excluded[recipeName][index] = !value
+        this.excluded = Object.assign({}, this.excluded)
+      }
+    }
+  }
 }
 </script>
 
 <style lang="sass" scoped>
-.schedule
-  .schedule__day
-    font-size: 10px
-  .schedule__amount
-    width: 25px
-    display: block
+.schedule__day
+  font-size: 12px
+.schedule__amount
+  cursor: pointer
+  &.completed
+    background-color: gray
 </style>
