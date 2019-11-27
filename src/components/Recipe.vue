@@ -172,7 +172,7 @@ export default {
     saveRecipe () {
       return this.$emit('save-recipe', {
         name: this.recipeName,
-        solute: this.solute
+        solute: Object.assign({}, this.solute)
       })
     }
   }

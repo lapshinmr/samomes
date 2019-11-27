@@ -12,15 +12,17 @@
         <div class="col-4">
           <h6>Рецепт</h6>
           <div v-for="(recipeSelected, index) in recipesSelected" class="d-flex justify-content-between" :key="index">
-            <select :value="recipesSelected[index]" @change="selectRecipe(index)">
-              <option v-for="(recipe, name) in recipes" :key="name" :value="name">
+            <select @input="selectRecipe(index)">
+              <option disabled value="">Выберите рецепт</option>
+              <option v-for="(recipe, name) in recipes" :key="name">
                 {{ name }}
               </option>
             </select>
             <div class="d-flex align-items-center">
               <input
                   type="text"
-                  v-model="recipeSelected.amount"
+                  :value="recipeSelected.amount"
+                  @input="inputRecipeAmount(index)"
                   class="schedule__amount"
               >
               <span>
@@ -70,6 +72,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 export default {
   name: 'schedule',
   props: {
@@ -90,8 +94,8 @@ export default {
         K: 0
       }
       for (let recipe of this.recipesSelected) {
-        for (let ion in recipe) {
-          result[ion] += recipe[ion] * recipe.amount
+        for (let ion in recipe.recipe) {
+          result[ion] += recipe.recipe[ion] * recipe.amount
         }
       }
       return result
@@ -107,7 +111,16 @@ export default {
       )
     },
     selectRecipe (index) {
-      console.log(index, this.recipes[event.target.value])
+      Vue.set(this.recipesSelected, index, {
+        amount: this.recipesSelected[index].amount,
+        recipe: this.recipes[event.target.value]
+      })
+    },
+    inputRecipeAmount (index) {
+      Vue.set(this.recipesSelected, index, {
+        amount: event.target.value,
+        recipe: this.recipesSelected[index].recipe
+      })
     }
   }
 }
