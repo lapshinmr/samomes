@@ -18,8 +18,9 @@
             :key="recipe.name + index"
             class="schedule__amount d-flex justify-content-around"
               :class="{
-                'bg-success': completed[recipe.name] && completed[recipe.name][index],
-                'bg-secondary': excluded[recipe.name] && excluded[recipe.name][index]
+                'text-success': completed[recipe.name] && completed[recipe.name][index],
+                'text-muted': excluded[recipe.name] && excluded[recipe.name][index],
+                'text-info': skipped[recipe.name] && skipped[recipe.name][index]
               }"
         >
           <div
@@ -55,7 +56,8 @@ export default {
     return {
       days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
       completed: {},
-      excluded: {}
+      excluded: {},
+      skipped: {}
     }
   },
   computed: {
@@ -64,15 +66,33 @@ export default {
       for (const recipe of this.recipesSelected) {
         let result = []
         let excludeList = this.excluded[recipe.name]
-        console.log(recipe.name, this.excluded)
-        // let completeList = this.completed[recipeName]
+        let completeList = this.completed[recipe.name]
+        let skipList = this.skipped[recipe.name]
         let excludedTotal = excludeList.filter(x => x === true).length
-        for (const index in excludeList) {
-          result.push(!excludeList[index] ? recipe.amount / (this.daysTotal - excludedTotal) : 0)
+        let daysLeft = this.daysTotal - excludedTotal
+        let amount = recipe.amount
+        let currentDay = amount / (this.daysTotal - excludedTotal)
+        for (const index in [...Array(this.daysTotal)]) {
+          switch (true) {
+            case completeList[index]:
+              currentDay = amount / daysLeft
+              amount -= currentDay
+              daysLeft -= 1
+              break
+            case excludeList[index]:
+              currentDay = 0
+              break
+            case skipList[index]:
+              currentDay = 0
+              daysLeft -= 1
+              break
+            default:
+              currentDay = amount / daysLeft
+          }
+          result.push(currentDay)
         }
         quotas[recipe.name] = result
       }
-      console.log(quotas)
       return quotas
     },
     total () {
@@ -82,12 +102,10 @@ export default {
         for (const index in this.daysQuotas[recipe.name]) {
           if (this.completed[recipe.name][index]) {
             sum += this.daysQuotas[recipe.name][index]
-            console.log(sum)
           }
         }
         result.push(sum)
       }
-      console.log(result)
       return result
     },
     daysTotal () {
@@ -101,6 +119,7 @@ export default {
         if (!(recipe.name in this.completed)) {
           this.completed[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
           this.excluded[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+          this.skipped[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
           update = true
         }
       }
@@ -119,10 +138,18 @@ export default {
       }
     },
     excludeDay (recipeName, index) {
+      let isSkipped = this.completed[recipeName].some(x => x === true)
       if (!this.completed[recipeName][index]) {
-        let value = this.excluded[recipeName][index]
-        this.excluded[recipeName][index] = !value
-        this.excluded = Object.assign({}, this.excluded)
+        if (isSkipped && !this.excluded[recipeName][index]) {
+          let value = this.skipped[recipeName][index]
+          this.skipped[recipeName][index] = !value
+          this.skipped = Object.assign({}, this.skipped)
+        }
+        if (!isSkipped) {
+          let value = this.excluded[recipeName][index]
+          this.excluded[recipeName][index] = !value
+          this.excluded = Object.assign({}, this.excluded)
+        }
       }
     }
   }
