@@ -1,12 +1,28 @@
-<template lang="html">
-  <div class="">
-    <div v-for="(volume, index) in tanks" :key="volume" class="d-flex justify-content-between mt-3">
-      <div @click="selectTank(volume)" style="cursor: pointer" >
-        {{ volume }} л
-      </div>
-      <div v-if="tankSelected === volume">+</div>
-      <div @click="removeTank(index)" style="cursor: pointer">
-        удалить
+<template>
+  <div class="row">
+    <div
+        v-for="(tank, index) in tanks"
+        :key="tank.name"
+        class="col-4 tank"
+    >
+      <div class="card">
+        <div class="card-body">
+          <button type="button" class="close" @click="removeTank(index)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h5 class="card-title">
+            {{ tank.name }}
+          </h5>
+          <div class="card-subtitle mb-2 text-muted">
+            Объем: {{ tank.volume }} л
+          </div>
+          <div v-if="tank.length" class="tank__sizes">
+            {{ tank.length }} x
+            {{ tank.width }} x
+            {{ tank.height }} x
+            {{ tank.glassThickness }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -15,9 +31,12 @@
 <script>
 export default {
   name: 'tanks',
-  props: [ 'tanks', 'tankSelected', 'selectTank', 'removeTank' ]
+  props: [ 'tanks', 'removeTank' ]
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="sass" scoped>
+.tank
+  .tank__sizes
+    font-size: 0.9rem
 </style>

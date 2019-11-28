@@ -38,61 +38,7 @@
 
 <script>
 import Vue from 'vue'
-
-const COMPONENTS = {
-  'H': 1,
-  'N': 14,
-  'O': 16,
-  'P': 31,
-  'S': 32.1,
-  'K': 39.1
-}
-
-const FORMULAS = {
-  'KNO3': {
-    ions: {
-      'K': {
-        isNeeded: true,
-        count: 1
-      },
-      'NO3': {
-        isNeeded: true,
-        count: 1
-      }
-    },
-    solubilityLimit: 242
-  },
-  'KH2PO4': {
-    ions: {
-      'K': {
-        isNeeded: true,
-        count: 1
-      },
-      'PO4': {
-        isNeeded: true,
-        count: 1
-      },
-      'H2': {
-        isNeeded: false,
-        count: 1
-      }
-    },
-    solubilityLimit: 226
-  },
-  'K2SO4': {
-    ions: {
-      'K': {
-        isNeeded: true,
-        count: 2
-      },
-      'SO4': {
-        isNeeded: false,
-        count: 1
-      }
-    },
-    solubilityLimit: 111
-  }
-}
+import { FORMULAS, COMPONENTS } from '../constants.js'
 
 export default {
   name: 'recipe',
@@ -145,7 +91,11 @@ export default {
   },
   watch: {
     tankVolume () {
-      this.calsSolute()
+      for (let ion in this.calcProcent) {
+        let value = (this.fertilizerMass / this.tankVolume * this.calcProcent[ion]).toFixed(2)
+        this.solute[ion] = value
+        this.solute = Object.assign({}, this.solute)
+      }
     }
   },
   methods: {
@@ -159,13 +109,6 @@ export default {
         lastElement = el
       }
       return mass
-    },
-    calsSolute () {
-      for (let ion in this.calcProcent) {
-        let value = (this.fertilizerMass / this.tankVolume * this.calcProcent[ion]).toFixed(2)
-        this.solute[ion] = value
-        this.solute = Object.assign({}, this.solute)
-      }
     },
     inputFertilizerMass () {
       this.fertilizerMass = event.target.value

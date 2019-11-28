@@ -2,43 +2,49 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h3 class="text-center my-4">Калькулятор удобрений для аквариума</h3>
+        <h1 class="text-center my-4">Калькулятор удобрений для аквариума</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <h3 class="text-center my-4">Аквариумы</h3>
+        <div class="row">
+          <div class="col-12">
+            <tank @add-tank="tanks.push($event)" :tanks="tanks" />
+          </div>
+          <div class="col-12">
+            <tanks
+                :tanks="tanks"
+                :remove-tank="removeTank"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="row">
 
-      <div class="col-8">
+      <div class="col-12">
         <template v-for="reagent in reagents">
           <input type="radio" v-model="reagentSelected" :value="reagent" :key="reagent + 'input'">
           <label :key="reagent + 'label'">{{ reagent }}</label>
         </template>
       </div>
 
-      <div class="col-8">
+      <div class="col-12">
 
         <recipe
             v-for="reagent in reagents"
             v-show="reagent === reagentSelected"
-            :tank-volume="tankSelected"
+            :tanks="tanks"
             :reagentSelected="reagent"
             :key="reagent"
             @save-recipe="saveRecipe($event)"
         />
 
       </div>
-      <div class="col-4">
 
-        <tank @add-tank="tanks.push($event)" />
-
-        <tanks
-            :tanks="tanks"
-            :tank-selected="tankSelected"
-            :select-tank="selectTank"
-            :remove-tank="removeTank"
-        />
-
-      </div>
     </div>
 
     <tank-recipes
