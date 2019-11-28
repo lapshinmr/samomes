@@ -7,13 +7,18 @@
       <div class="row">
         <div class="col-2">
           <h6>Аквариум</h6>
-          {{ tankVolume }}
+          <div v-for="(tankVolume, index) in tanks"
+              @click="selectTank(tankVolume)"
+              :key="tankVolume + index">
+            {{ tankVolume }}
+            <span v-if="tankSelected === tankVolume">+</span>
+          </div>
         </div>
         <div class="col-4">
           <h6>Рецепт</h6>
           <div v-for="(recipeSelected, index) in recipesSelected" class="d-flex justify-content-between" :key="index">
             <select @input="selectRecipe(index)">
-              <option disabled value="">Выберите рецепт</option>
+              <option disabled value="" selected>Выберите рецепт</option>
               <option v-for="(recipe, name) in recipes" :key="name">
                 {{ name }}
               </option>
@@ -30,7 +35,9 @@
               </span>
             </div>
           </div>
-          <button @click="addRecipe">add</button>
+          <button @click="addRecipe">
+            Добавить удобрение
+          </button>
         </div>
         <div class="col-6">
           <h6>Итото повышение в аквариуме</h6>
@@ -63,12 +70,18 @@ import Vue from 'vue'
 export default {
   name: 'tank-recipes',
   props: {
-    'tankVolume': Number,
+    'tanks': Array,
     'recipes': Object
   },
   data () {
     return {
-      recipesSelected: []
+      recipesSelected: [],
+      tankSelected: null
+    }
+  },
+  created () {
+    if (this.tanks.length > 0) {
+      this.tankSelected = this.tanks[0]
     }
   },
   computed: {
@@ -80,13 +93,16 @@ export default {
       }
       for (let recipe of this.recipesSelected) {
         for (let ion in recipe.recipe) {
-          result[ion] += recipe.recipe[ion] * recipe.amount
+          result[ion] += recipe.recipe[ion] * recipe.amount / this.tankSelected
         }
       }
       return result
     }
   },
   methods: {
+    selectTank (value) {
+      this.tankSelected = value
+    },
     addRecipe () {
       this.recipesSelected.push(
         {
@@ -111,7 +127,10 @@ export default {
       })
     },
     addToSchedule () {
-      return this.$emit('add-to-schedule', this.recipesSelected)
+      return this.$emit('add-to-schedule', {
+        tankVolume: this.tankSelected,
+        recipesSelected: [...this.recipesSelected]
+      })
     }
   }
 }

@@ -1,17 +1,27 @@
 <template>
   <div class="row mt-4">
+    <div class="col-12">
+      <h3>{{ tankVolume }}</h3>
+    </div>
     <div class="col-12 d-flex">
-
       <div class="flex-fill">
         <h6>
           Рецепт
         </h6>
-        <div v-for="(recipe, index) in recipesSelected" :key="recipe.name + index">
+        <div
+            v-for="(recipe, index) in recipesSelected"
+            :key="recipe.name + index"
+            class="schedule__cell"
+        >
           {{ recipe.name }}
         </div>
       </div>
 
-      <div v-for="(day, index) in days" :key="day" class="flex-fill schedule__day">
+      <div
+          v-for="(day, index) in days"
+          :key="day"
+          class="flex-fill schedule__cell"
+      >
         <h6>{{ day }}</h6>
         <div
             v-for="recipe in recipesSelected"
@@ -40,7 +50,11 @@
         <h6>
           Влито
         </h6>
-        <div v-for="(item, index) in total" :key="index">
+        <div
+            v-for="(item, index) in total"
+            :key="index"
+            class="schedule__cell"
+        >
           {{ item.toFixed(2) }}
         </div>
       </div>
@@ -51,7 +65,7 @@
 <script>
 export default {
   name: 'schedule',
-  props: [ 'recipesSelected' ],
+  props: [ 'recipesSelected', 'tankVolume' ],
   data () {
     return {
       days: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
@@ -112,20 +126,19 @@ export default {
       return this.days.length
     }
   },
+  created () {
+    for (const recipe of this.recipesSelected) {
+      this.completed[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+      this.excluded[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+      this.skipped[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+    }
+  },
   watch: {
-    recipesSelected () {
-      let update = false
-      for (const recipe of this.recipesSelected) {
-        if (!(recipe.name in this.completed)) {
-          this.completed[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
-          this.excluded[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
-          this.skipped[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
-          update = true
-        }
-      }
-      if (update) {
-        this.completed = Object.assign({}, this.completed)
-        this.excluded = Object.assign({}, this.excluded)
+    recipesSelected (newValue, oldValue) {
+      for (const recipe of newValue.slice(oldValue.length, newValue.length)) {
+        this.completed[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+        this.excluded[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
+        this.skipped[recipe.name] = Array(this.daysTotal).fill(false, 0, this.daysTotal)
       }
     }
   },
@@ -157,7 +170,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.schedule__day
+.schedule__cell
   font-size: 12px
 .schedule__amount
   cursor: pointer

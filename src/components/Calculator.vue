@@ -42,12 +42,17 @@
     </div>
 
     <tank-recipes
-        :tankVolume="tankSelected"
+        :tanks="tanks"
         :recipes="recipes"
-        @add-to-schedule="recipesSelected = $event"
+        @add-to-schedule="addToSchedule($event)"
     />
 
-    <schedule :recipesSelected="recipesSelected"/>
+    <schedule
+        v-for="(recipes, tankVolume) in recipesSelected"
+        :recipesSelected="recipes"
+        :tankVolume="tankVolume"
+        :key="tankVolume"
+    />
 
   </div>
 </template>
@@ -70,7 +75,7 @@ export default {
       recipes: {},
       tanks: [],
       tankSelected: null,
-      recipesSelected: []
+      recipesSelected: {}
     }
   },
   created () {
@@ -97,13 +102,17 @@ export default {
   },
   methods: {
     saveRecipe (recipe) {
-      Vue.set(this.recipes, recipe.name, recipe.solute)
+      this.recipes[recipe.name] = recipe.concentration
+      this.recipes = Object.assign({}, this.recipes)
     },
     selectTank (volume) {
       this.tankSelected = volume
     },
     removeTank (index) {
       this.tanks.splice(index, 1)
+    },
+    addToSchedule (value) {
+      Vue.set(this.recipesSelected, value.tankVolume, value.recipesSelected)
     }
   }
 }

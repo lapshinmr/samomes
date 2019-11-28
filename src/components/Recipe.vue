@@ -192,6 +192,7 @@ export default {
     saveRecipe () {
       return this.$emit('save-recipe', {
         name: this.recipeName,
+        concentration: this.concentration,
         solute: Object.assign({}, this.solute)
       })
     }
