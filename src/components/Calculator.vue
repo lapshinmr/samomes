@@ -1,64 +1,51 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="text-center my-4">Калькулятор удобрений для аквариума</h1>
-      </div>
-    </div>
+  <div class="">
 
-    <div class="row">
-      <div class="col-12">
-        <h3 class="text-center my-4">Аквариумы</h3>
-        <div class="row">
-          <div class="col-12">
-            <tank @add-tank="tanks.push($event)" :tanks="tanks" />
-          </div>
-          <div class="col-12">
-            <tanks
-                :tanks="tanks"
-                :remove-tank="removeTank"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    <section class="box bg-green bg-parallax">
+      <h1 class="text-center text-white">
+        Калькулятор удобрений для аквариума
+      </h1>
+    </section>
+    <section class="box bg-yellow bg-parallax">
+      <h3 class="text-center">Аквариумы</h3>
 
-    <div class="row">
+      <tank @add-tank="tanks.push($event)" :tanks="tanks" />
 
-      <div class="col-12">
-        <template v-for="reagent in reagents">
-          <input type="radio" v-model="reagentSelected" :value="reagent" :key="reagent + 'input'">
-          <label :key="reagent + 'label'">{{ reagent }}</label>
-        </template>
-      </div>
+      <tanks
+          :tanks="tanks"
+          :remove-tank="removeTank"
+      />
+    </section>
+    <section class="box bg-blue bg-parallax">
+      <template v-for="reagent in reagents">
+        <input type="radio" v-model="reagentSelected" :value="reagent" :key="reagent + 'input'">
+        <label :key="reagent + 'label'">{{ reagent }}</label>
+      </template>
 
-      <div class="col-12">
+      <recipe
+          v-for="reagent in reagents"
+          v-show="reagent === reagentSelected"
+          :tanks="tanks"
+          :reagentSelected="reagent"
+          :key="reagent"
+          @save-recipe="saveRecipe($event)"
+      />
+    </section>
 
-        <recipe
-            v-for="reagent in reagents"
-            v-show="reagent === reagentSelected"
-            :tanks="tanks"
-            :reagentSelected="reagent"
-            :key="reagent"
-            @save-recipe="saveRecipe($event)"
-        />
+    <section class="box bg-emerald bg-parallax">
+      <tank-recipes
+          :tanks="tanks"
+          :recipes="recipes"
+          @add-to-schedule="addToSchedule($event)"
+      />
 
-      </div>
-
-    </div>
-
-    <tank-recipes
-        :tanks="tanks"
-        :recipes="recipes"
-        @add-to-schedule="addToSchedule($event)"
-    />
-
-    <schedule
-        v-for="(recipes, tankVolume) in recipesSelected"
-        :recipesSelected="recipes"
-        :tankVolume="tankVolume"
-        :key="tankVolume"
-    />
+      <schedule
+          v-for="(recipes, tankVolume) in recipesSelected"
+          :recipesSelected="recipes"
+          :tankVolume="tankVolume"
+          :key="tankVolume"
+      />
+    </section>
 
   </div>
 </template>
@@ -125,4 +112,23 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+  .bg-parallax
+    background-attachment: fixed
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+  .box
+    height: 100vh
+  .bg-yellow
+    background-color: #f1c40f
+    background-image: url("../assets/bg-yellow.png")
+  .bg-green
+    background-color: #2ecc71
+    background-image: url("../assets/bg-green.png")
+  .bg-emerald
+    background-color: #1abc9c
+    background-image: url("../assets/bg-emerald.png")
+  .bg-blue
+    background-color: #3498db
+    background-image: url("../assets/bg-blue.png")
 </style>

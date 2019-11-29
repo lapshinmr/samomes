@@ -93,7 +93,7 @@ export default {
           width: this.width,
           glassThickness: this.glassThickness
         })
-        this.$data = Object.assign({}, this.resetComponent())
+        Object.assign(this.$data, this.resetComponent())
       }
     },
     resetComponent () {
