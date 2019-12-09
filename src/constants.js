@@ -19,7 +19,8 @@ export const FORMULAS = {
         count: 1
       }
     },
-    solubilityLimit: 242
+    solubilityLimit: 242,
+    name: 'Калиевая селитра'
   },
   'KH2PO4': {
     ions: {
@@ -36,7 +37,8 @@ export const FORMULAS = {
         count: 1
       }
     },
-    solubilityLimit: 226
+    solubilityLimit: 226,
+    name: 'Монофосфат калия'
   },
   'K2SO4': {
     ions: {
@@ -49,6 +51,7 @@ export const FORMULAS = {
         count: 1
       }
     },
-    solubilityLimit: 111
+    solubilityLimit: 111,
+    name: 'Сернокислый калий'
   }
 }
