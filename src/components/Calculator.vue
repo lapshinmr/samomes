@@ -89,6 +89,7 @@ export default {
   watch: {
     tanks () {
       let data = JSON.parse(localStorage.getItem('data')) || {}
+      console.log(this.tanks)
       data['tanks'] = this.tanks
       localStorage.setItem('data', JSON.stringify(data))
     },
@@ -126,7 +127,7 @@ section
   background-repeat: no-repeat
   background-size: cover
 .box
-  height: 100vh
+  min-height: 100vh
 .bg-yellow
   background-color: #f1c40f
   background-image: url("../assets/bg-yellow.png")
@@ -139,4 +140,16 @@ section
 .bg-blue
   background-color: #3498db
   background-image: url("../assets/bg-blue.png")
+
+.fade-enter
+  opacity: 0
+
+.fade-enter-active
+  transition: opacity 0.3s
+
+.fade-leave
+
+.fade-leave-active
+  opacity: 0
+  transition: opacity 0.3s
 </style>

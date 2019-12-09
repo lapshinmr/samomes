@@ -37,39 +37,52 @@
       </span>
     </div>
 
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <select v-model="tankVolume" class="form-control">
-            <option selected value="">Выберите аквариум</option>
-            <option v-for="tank in tanks" :key="tank.name" :value="tank.volume">
-              {{ tank.name }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Масса удобрения, г</label>
-          <input
-              :value="fertilizerMass"
-              @input="inputFertilizerMass()"
-              type="text"
-              class="form-control"
-              placeholder="Введите массу"
-          >
-          <small>Введите массу удобрения {{ reagentSelected }}, которое будет замешано на литр воды.</small>
-        </div>
-      </div>
-        <label>
-          Повышение концентрации удобрения в аквариуме на 1 мл вводимого раствора
-        </label>
-        <div class="d-flex">
-        <template v-for="(data, ion) in FORMULAS[reagentSelected].ions">
-          <div v-if="data.isNeeded" class="ml-2" :key="ion">
+    <div class="form-group">
+      <select v-model="tank" class="form-control">
+        <option selected value="">Выберите аквариум</option>
+        <option v-for="tank in tanks" :key="tank.name" :value="tank">
+          {{ tank.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Масса удобрения, г</label>
+      <input
+          :value="fertilizerMass"
+          @input="inputFertilizerMass()"
+          type="text"
+          class="form-control"
+          placeholder="Введите массу"
+      >
+      <small>Введите массу удобрения {{ reagentSelected }}</small>
+    </div>
+
+    <div class="form-group">
+      <label>Объем воды, мл</label>
+      <input
+          v-model.number.lazy="fertilizerVolume"
+          type="text"
+          class="form-control"
+      >
+      <small>Введите объем воды</small>
+    </div>
+
+    <div class="form-group">
+      <label>
+        Настройка дозы удобрения
+      </label>
+      <div class="d-flex">
+        <template v-for="(data, ion, index) in FORMULAS[reagentSelected].ions">
+          <div v-if="data.isNeeded" class="flex-fill" :class="{'ml-2': index !== 0}" :key="ion">
             <label>{{ ion }} ({{ concentration[ion].toFixed(2) }} г/л), мг/мл</label>
             <input :value="solute[ion]" @input="inputIon(ion)" type="text" class="form-control">
           </div>
         </template>
-        </div>
+      </div>
+      <small>
+        Повышение концентрации удобрения в аквариуме на 1 мл вводимого раствора
+      </small>
     </div>
 
     <div class="form-group">
@@ -96,14 +109,18 @@ export default {
       FORMULAS: FORMULAS,
       reagents: ['KNO3', 'KH2PO4', 'K2SO4'],
       reagentSelected: 'KNO3',
-      tankVolume: '',
+      tank: {},
       solute: {},
       fertilizerMass: 0,
+      fertilizerVolume_: 1,
       recipeName_: ''
     }
   },
   created () {
     this.solute = this.resetSolute()
+    if (this.tanks.length >= 0) {
+      this.tank = this.tanks[0]
+    }
   },
   computed: {
     calcProcent () {
@@ -119,24 +136,38 @@ export default {
       let result = {}
       let ions = FORMULAS[this.reagentSelected].ions
       for (let ion in ions) {
-        result[ion] = this.fertilizerMass * this.calcProcent[ion]
+        result[ion] = this.fertilizerMass * this.calcProcent[ion] / this.fertilizerVolume_
       }
       return result
     },
     recipeName: {
       get () {
         let name = this.FORMULAS[this.reagentSelected].name
-        return this.recipeName_ || `${name}_${this.fertilizerMass}_${this.tankVolume}`
+        return (
+          this.recipeName_ ||
+          `${this.tank.name} (${name} ${this.fertilizerMass.toFixed(1)} г на ${this.fertilizerVolume} мл)`
+        )
       },
       set (value) {
         this.recipeName_ = value
       }
+    },
+    fertilizerVolume: {
+      get () {
+        return this.fertilizerVolume_ * 1000
+      },
+      set (value) {
+        this.fertilizerVolume_ = value / 1000
+      }
+    },
+    watched () {
+      return `${this.tank.volume}|${this.fertilizerVolume}`
     }
   },
   watch: {
-    tankVolume () {
+    watched () {
       for (let ion in this.calcProcent) {
-        let value = (this.fertilizerMass / this.tankVolume * this.calcProcent[ion]).toFixed(2)
+        let value = this.fertilizerMass / this.tank.volume * this.calcProcent[ion] * this.fertilizerVolume_
         this.solute[ion] = value
         this.solute = Object.assign({}, this.solute)
       }
@@ -171,11 +202,9 @@ export default {
     inputFertilizerMass () {
       this.fertilizerMass = event.target.value
       let ions = FORMULAS[this.reagentSelected].ions
-      console.log(ions)
       for (let ion in this.calcProcent) {
         if (ions[ion]) {
-          let value = (this.fertilizerMass / this.tankVolume * this.calcProcent[ion]).toFixed(2)
-          console.log(value)
+          let value = this.fertilizerMass / this.tank.volume / this.fertilizerVolume_ * this.calcProcent[ion]
           Vue.set(this.solute, ion, value)
         }
       }
@@ -186,16 +215,19 @@ export default {
         if (ion === curIon) {
           value = event.target.value
         } else {
-          value = (event.target.value / (this.calcProcent[curIon] / this.calcProcent[ion])).toFixed(2)
+          value = event.target.value / (this.calcProcent[curIon] / this.calcProcent[ion])
         }
         Vue.set(this.solute, ion, value)
       }
-      this.fertilizerMass = (this.solute[curIon] * this.tankVolume / this.calcProcent[curIon]).toFixed(2)
+      console.log(this.fertilizerVolume)
+      this.fertilizerMass = this.solute[curIon] * this.tank.volume / this.calcProcent[curIon] * this.fertilizerVolume_
     },
     saveRecipe () {
       return this.$emit('save-recipe', {
         name: this.recipeName,
-        concentration: this.concentration,
+        mass: this.fertilizerMass,
+        volume: this.fertilizerVolume,
+        concentration: Object.assign({}, this.concentration),
         solute: Object.assign({}, this.solute)
       })
     }
