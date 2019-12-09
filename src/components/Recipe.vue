@@ -87,13 +87,70 @@
 
     <div class="form-group">
       <label>Имя рецепта</label>
-      <input v-model.number.lazy="recipeName" type="text" class="form-control" >
+      <input v-model.number.lazy="recipeName" type="text" class="form-control">
       <small></small>
     </div>
 
-    <button class="btn btn-outline-success" @click="saveRecipe">
+    <button class="btn btn-success btn-block" @click="saveRecipe">
       Добавить рецепт
     </button>
+
+    <transition name="fade">
+      <div v-if="recipes.length > 0" class="row mb-4">
+        <h2 class="col-12 text-center my-3">
+          Рецепты
+        </h2>
+        <div
+            v-for="(recipe, index) in recipes"
+            :key="recipe.name"
+            class="col-md-4 col-sm-6 recipe"
+        >
+          <div class="card recipe__container">
+            <div class="card-body p-3">
+              <button type="button" class="close" @click.stop="removeRecipe(index)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h5 class="card-title recipe__title">
+                {{ recipe.name }}
+              </h5>
+              <div class="card-subtitle recipe__subtitle mb-2 text-muted">
+                {{ recipe.reagent }}
+              </div>
+              <div class="recipe__body">
+                <div class="d-flex justify-content-between">
+                  <span>Аквариум</span><span>{{ recipe.tank.name }}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span>Объем аквариума</span><span>{{ recipe.tank.volume }} л</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span>Масса реагента</span><span>{{ recipe.mass.toFixed(1) }} г</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span>Объем раствора удобрения</span><span>{{ recipe.volume }} мл</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span>Концентрация в удобрении</span>
+                  <span class="d-flex flex-column align-items-end">
+                    <span v-for="(value, key) in recipe.concentration" class="" :key="key">
+                      {{ key }}: {{ value.toFixed(1) }} г/л
+                    </span>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span>Доза</span>
+                  <span class="d-flex flex-column align-items-end">
+                    <span v-for="(value, key) in recipe.solute" class="" :key="key">
+                      {{ key }}: {{ value.toFixed(2) }} г/мл
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -103,7 +160,7 @@ import { FORMULAS, COMPONENTS } from '../constants.js'
 
 export default {
   name: 'recipe',
-  props: ['tanks'],
+  props: ['tanks', 'recipes', 'removeRecipe'],
   data () {
     return {
       FORMULAS: FORMULAS,
@@ -136,7 +193,9 @@ export default {
       let result = {}
       let ions = FORMULAS[this.reagentSelected].ions
       for (let ion in ions) {
-        result[ion] = this.fertilizerMass * this.calcProcent[ion] / this.fertilizerVolume_
+        if (ions[ion].isNeeded) {
+          result[ion] = this.fertilizerMass * this.calcProcent[ion] / this.fertilizerVolume_
+        }
       }
       return result
     },
@@ -166,15 +225,19 @@ export default {
   },
   watch: {
     watched () {
-      for (let ion in this.calcProcent) {
-        let value = this.fertilizerMass / this.tank.volume * this.calcProcent[ion] * this.fertilizerVolume_
-        this.solute[ion] = value
-        this.solute = Object.assign({}, this.solute)
+      let ions = this.FORMULAS[this.reagentSelected].ions
+      for (let ion in ions) {
+        if (ions[ion].isNeeded) {
+          let value = this.fertilizerMass / this.tank.volume * this.calcProcent[ion] * this.fertilizerVolume_
+          this.solute[ion] = value
+          this.solute = Object.assign({}, this.solute)
+        }
       }
     },
     reagentSelected () {
       this.solute = this.resetSolute()
       this.fertilizerMass = 0
+      this.recipeName_ = ''
     }
   },
   methods: {
@@ -202,8 +265,8 @@ export default {
     inputFertilizerMass () {
       this.fertilizerMass = event.target.value
       let ions = FORMULAS[this.reagentSelected].ions
-      for (let ion in this.calcProcent) {
-        if (ions[ion]) {
+      for (let ion in ions) {
+        if (ions[ion].isNeeded) {
           let value = this.fertilizerMass / this.tank.volume / this.fertilizerVolume_ * this.calcProcent[ion]
           Vue.set(this.solute, ion, value)
         }
@@ -213,18 +276,19 @@ export default {
       let value
       for (let ion in this.solute) {
         if (ion === curIon) {
-          value = event.target.value
+          value = parseFloat(event.target.value)
         } else {
           value = event.target.value / (this.calcProcent[curIon] / this.calcProcent[ion])
         }
         Vue.set(this.solute, ion, value)
       }
-      console.log(this.fertilizerVolume)
       this.fertilizerMass = this.solute[curIon] * this.tank.volume / this.calcProcent[curIon] * this.fertilizerVolume_
     },
     saveRecipe () {
       return this.$emit('save-recipe', {
         name: this.recipeName,
+        reagent: this.reagentSelected,
+        tank: Object.assign({}, this.tank),
         mass: this.fertilizerMass,
         volume: this.fertilizerVolume,
         concentration: Object.assign({}, this.concentration),
@@ -266,5 +330,15 @@ export default {
 .components
   font-size: 1.2rem
   text-align: center
+
+.recipe
+  color: black
+  .recipe__container
+  .recipe__title
+    font-size: 1rem
+  .recipe__body
+    font-size: 0.85rem
+    div > span + span
+      opacity: 0.6
 
 </style>

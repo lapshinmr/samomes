@@ -26,7 +26,7 @@
       </div>
     </section>
 
-    <section class="box bg-blue bg-parallax">
+    <section v-if="tanks.length > 0" class="box bg-blue bg-parallax">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -35,6 +35,8 @@
             </h2>
             <recipe
                 :tanks="tanks"
+                :recipes="recipes"
+                :remove-recipe="removeRecipe"
                 @save-recipe="saveRecipe($event)"
             />
           </div>
@@ -42,7 +44,7 @@
       </div>
     </section>
 
-    <section class="box bg-emerald bg-parallax">
+    <section v-if="tanks.length > 0 && recipes.length > 0" class="box bg-emerald bg-parallax">
       <tank-recipes
           :tanks="tanks"
           :recipes="recipes"
@@ -70,8 +72,8 @@ export default {
   components: { Recipe, Tanks, TankRecipes, Schedule },
   data () {
     return {
-      recipes: {},
       tanks: [],
+      recipes: [],
       tankSelected: null,
       recipesSelected: {}
     }
@@ -101,14 +103,16 @@ export default {
   },
   methods: {
     saveRecipe (recipe) {
-      this.recipes[recipe.name] = recipe.concentration
-      this.recipes = Object.assign({}, this.recipes)
+      this.recipes.push(recipe)
     },
     selectTank (volume) {
       this.tankSelected = volume
     },
     removeTank (index) {
       this.tanks.splice(index, 1)
+    },
+    removeRecipe (index) {
+      this.recipes.splice(index, 1)
     },
     addToSchedule (value) {
       Vue.set(this.recipesSelected, value.tankVolume, value.recipesSelected)

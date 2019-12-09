@@ -71,7 +71,7 @@ export default {
   name: 'tank-recipes',
   props: {
     'tanks': Array,
-    'recipes': Object
+    'recipes': Array
   },
   data () {
     return {
