@@ -1,31 +1,31 @@
 <template>
   <div class="row schedule pb-4">
     <div class="col-12">
-      <h2>Расписание</h2>
+      <h2>Цель на неделю</h2>
     </div>
     <div class="col-12">
       <div class="row">
-        <div class="col-2">
+        <div class="col">
           <h6>Аквариум</h6>
-          <div v-for="(tankVolume, index) in tanks"
-              @click="selectTank(tankVolume)"
-              :key="tankVolume + index">
-            {{ tankVolume }}
-            <span v-if="tankSelected === tankVolume">+</span>
+          <div v-for="(tank, index) in tanks"
+              @click="selectTank(index)"
+              :key="tank.name">
+            {{ tank.name }}
+            <span v-if="tankSelected.name === tank.name">+</span>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col">
           <h6>Рецепт</h6>
           <div v-for="(recipeSelected, index) in recipesSelected" class="d-flex justify-content-between" :key="index">
             <select @input="selectRecipe(index)">
               <option disabled value="" selected>Выберите рецепт</option>
-              <option v-for="(recipe, name) in recipes" :key="name">
-                {{ name }}
+              <option v-for="recipe in recipes" :key="recipe.name">
+                {{ recipe.name }}
               </option>
             </select>
             <div class="d-flex align-items-center">
               <input
-                  type="text"
+                  type="number"
                   :value="recipeSelected.amount"
                   @input="inputRecipeAmount(index)"
                   class="schedule__amount"
@@ -39,7 +39,7 @@
             Добавить удобрение
           </button>
         </div>
-        <div class="col-6">
+        <div class="col">
           <h6>Итото повышение в аквариуме</h6>
           <div>
             <div>
@@ -56,9 +56,13 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-outline-success" @click="addToSchedule">
-          Добавить в расписание
-        </button>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-outline-success" @click="addToSchedule">
+            Добавить в расписание
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -92,8 +96,8 @@ export default {
         K: 0
       }
       for (let recipe of this.recipesSelected) {
-        for (let ion in recipe.recipe) {
-          result[ion] += recipe.recipe[ion] * recipe.amount / this.tankSelected
+        for (let ion in recipe.recipe.solute) {
+          result[ion] += recipe.recipe.solute[ion] * recipe.amount
         }
       }
       return result
@@ -115,8 +119,8 @@ export default {
     selectRecipe (index) {
       Vue.set(this.recipesSelected, index, {
         amount: this.recipesSelected[index].amount,
-        recipe: this.recipes[event.target.value],
-        name: event.target.value
+        recipe: this.recipes[index],
+        name: this.recipes[index].name
       })
     },
     inputRecipeAmount (index) {
@@ -138,6 +142,6 @@ export default {
 
 <style lang="sass" scoped>
   .schedule__amount
-    width: 25px
+    width: 45px
     display: block
 </style>

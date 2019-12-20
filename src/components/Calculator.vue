@@ -85,13 +85,12 @@ export default {
         this.tanks = data.tanks
         this.tankSelected = data.tanks[0]
       }
-      this.recipes = data.recipes || {}
+      this.recipes = data.recipes || []
     }
   },
   watch: {
     tanks () {
       let data = JSON.parse(localStorage.getItem('data')) || {}
-      console.log(this.tanks)
       data['tanks'] = this.tanks
       localStorage.setItem('data', JSON.stringify(data))
     },
@@ -103,6 +102,7 @@ export default {
   },
   methods: {
     saveRecipe (recipe) {
+      console.log(recipe, this.recipes)
       this.recipes.push(recipe)
     },
     selectTank (volume) {
