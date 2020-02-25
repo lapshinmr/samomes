@@ -3,21 +3,13 @@
     <v-navigation-drawer app
       v-model="drawer"
     >
-      <v-list dense>
-        <v-list-item link>
+      <v-list>
+        <v-list-item v-for="item in links" :to="item.path" :key="item.icon">
           <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-contact-mail</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -29,38 +21,33 @@
       dense
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Fertilizer</v-toolbar-title>
     </v-app-bar>
 
     <v-content>
-      <v-container
-          class="fill-height"
-          fluid
-        >
-        <v-row>
-          <v-col>
-            <HelloWorld/>
-            <Calculator />
-          </v-col>
-        </v-row>
-      </v-container>
+      <transition name="fade" mode="out-in">
+        <router-view />
+        <!--<Calculator />-->
+      </transition>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-import Calculator from './components/Calculator'
 
 export default {
   name: 'App',
-
   components: {
-    HelloWorld, Calculator
   },
-
   data: () => ({
-    drawer: null
+    drawer: null,
+    links: [
+      { path: '/tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
+      { path: '/', icon: 'mdi-clipboard-plus-outline', text: 'Создать рецепт' },
+      { path: '/', icon: 'mdi-clipboard-multiple-outline', text: 'Мои Рецепты' },
+      { path: '/', icon: 'mdi-calendar-plus', text: 'Создать расписание' },
+      { path: '/', icon: 'mdi-calendar-blank-multiple', text: 'Мои Расписания' }
+    ]
   })
 }
 </script>

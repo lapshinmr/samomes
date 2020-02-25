@@ -203,7 +203,7 @@ export default {
         let name = this.FORMULAS[this.reagentSelected].name
         return (
           this.recipeName_ ||
-          `${this.tank.name} (${name} ${this.fertilizerMass_.toFixed(2)} г на ${this.fertilizerVolume} мл)`
+          `${this.tank.name} (${name} ${this.fertilizerMass_} г на ${this.fertilizerVolume} мл)`
         )
       },
       set (value) {
@@ -237,7 +237,6 @@ export default {
       return `${this.tank.volume}|${this.fertilizerVolume}`
     },
     isWarning () {
-      console.log(this.fertilizerMass_, this.fertilizerVolume_)
       return FORMULAS[this.reagentSelected].solubilityLimit < this.fertilizerMass / this.fertilizerVolume_
     }
   },

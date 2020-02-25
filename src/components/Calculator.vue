@@ -1,31 +1,6 @@
 <template>
   <div class="">
 
-    <section class="box bg-green bg-parallax">
-      <h1 class="text-center text-white py-4">
-        Калькулятор удобрений для аквариума
-      </h1>
-    </section>
-
-    <section class="box bg-yellow bg-parallax">
-      <h2 class="text-center text-white p-3">
-        Аквариумы
-      </h2>
-
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <tanks
-                @add-tank="tanks.push($event)"
-                :tanks="tanks"
-                :remove-tank="removeTank"
-                class="mb-2"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section v-if="tanks.length > 0" class="box bg-blue bg-parallax">
       <div class="container-fluid">
         <div class="row">
@@ -62,14 +37,13 @@
 
 <script>
 import Vue from 'vue'
-import Tanks from './Tanks.vue'
 import Recipe from './Recipe.vue'
 import TankRecipes from './TankRecipes.vue'
 import Schedule from './Schedule.vue'
 
 export default {
   name: 'Calculator',
-  components: { Recipe, Tanks, TankRecipes, Schedule },
+  components: { Recipe, TankRecipes, Schedule },
   data () {
     return {
       tanks: [],
@@ -109,7 +83,6 @@ export default {
       this.tankSelected = volume
     },
     removeTank (index) {
-      this.tanks.splice(index, 1)
     },
     removeRecipe (index) {
       this.recipes.splice(index, 1)
@@ -122,29 +95,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-section
-  color: white
-
-.bg-parallax
-  background-attachment: fixed
-  background-position: center
-  background-repeat: no-repeat
-  background-size: cover
-.box
-  min-height: 100vh
-.bg-yellow
-  background-color: #f1c40f
-  background-image: url("../assets/bg-yellow.png")
-.bg-green
-  background-color: #2ecc71
-  background-image: url("../assets/bg-green.png")
-.bg-emerald
-  background-color: #1abc9c
-  background-image: url("../assets/bg-emerald.png")
-.bg-blue
-  background-color: #3498db
-  background-image: url("../assets/bg-blue.png")
-
 .fade-enter
   opacity: 0
 
