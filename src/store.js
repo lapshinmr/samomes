@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const loadState = function () {
   let stateData = JSON.parse(localStorage.getItem('udata'))
   let defaultData = {
-    tanks: []
+    tanks: [],
+    recipes: []
   }
   if (!stateData) {
     localStorage.setItem('udata', JSON.stringify(defaultData))
@@ -38,16 +39,25 @@ export default new Vuex.Store({
     ...loadState()
   },
   getters: {
-    CUR_TIME_FORMATTED (state) {
+    DUMMY (state) {
       return false
     }
   },
   mutations: {
-    ADD_TANK (state, payload) {
+    TANK_ADD (state, payload) {
       state.tanks.push(payload)
     },
-    REMOVE_TANK (state, payload) {
+    TANK_REMOVE (state, payload) {
       state.tanks.splice(payload, 1)
+    },
+    TANK_EDIT (state, payload) {
+      Vue.set(state.tanks, payload.index, payload.tank)
+    },
+    RECIPE_ADD (state, payload) {
+      state.recipes.push(payload)
+    },
+    RECIPE_REMOVE (state, payload) {
+      state.recipes.splice(payload, 1)
     }
   },
   actions: {

@@ -8,12 +8,6 @@
             <h2 class="text-center text-white p-3">
               Рецепты
             </h2>
-            <recipe
-                :tanks="tanks"
-                :recipes="recipes"
-                :remove-recipe="removeRecipe"
-                @save-recipe="saveRecipe($event)"
-            />
           </div>
         </div>
       </div>
@@ -37,13 +31,12 @@
 
 <script>
 import Vue from 'vue'
-import Recipe from './Recipe.vue'
 import TankRecipes from './TankRecipes.vue'
 import Schedule from './Schedule.vue'
 
 export default {
   name: 'Calculator',
-  components: { Recipe, TankRecipes, Schedule },
+  components: { TankRecipes, Schedule },
   data () {
     return {
       tanks: [],
@@ -75,17 +68,8 @@ export default {
     }
   },
   methods: {
-    saveRecipe (recipe) {
-      console.log(recipe, this.recipes)
-      this.recipes.push(recipe)
-    },
     selectTank (volume) {
       this.tankSelected = volume
-    },
-    removeTank (index) {
-    },
-    removeRecipe (index) {
-      this.recipes.splice(index, 1)
     },
     addToSchedule (value) {
       Vue.set(this.recipesSelected, value.tankVolume, value.recipesSelected)

@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app
-      v-model="drawer"
-    >
+    <v-navigation-drawer app v-model="drawer">
       <v-list>
         <v-list-item v-for="item in links" :to="item.path" :key="item.icon">
           <v-list-item-action>
@@ -43,8 +41,7 @@ export default {
     drawer: null,
     links: [
       { path: '/tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
-      { path: '/', icon: 'mdi-clipboard-plus-outline', text: 'Создать рецепт' },
-      { path: '/', icon: 'mdi-clipboard-multiple-outline', text: 'Мои Рецепты' },
+      { path: '/recipes', icon: 'mdi-clipboard-multiple-outline', text: 'Мои удобрения' },
       { path: '/', icon: 'mdi-calendar-plus', text: 'Создать расписание' },
       { path: '/', icon: 'mdi-calendar-blank-multiple', text: 'Мои Расписания' }
     ]

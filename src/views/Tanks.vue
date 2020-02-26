@@ -28,11 +28,6 @@
               {{ tank.glassThickness }}
             </div>
           </v-card-text>
-          <!--
-          <v-btn right large absolute text fab @click.stop="REMOVE_TANK(index)">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        -->
           <v-card-actions>
             <v-spacer />
             <v-btn
@@ -40,7 +35,7 @@
               right
               @click.stop="setComponent(index)"
             >
-              Редактировать
+              Изменить
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -55,93 +50,102 @@
         <v-card-title class="" color="primary">
           Добавить аквариум
         </v-card-title>
-        <v-container>
-          <v-row class="mx-2">
-            <v-col cols="12">
-              <v-text-field
-                v-model.lazy="name"
-                label="Название"
-                hide-details
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                v-model.number="volume"
-                label="Введите объем, л"
-                hide-details
-              ></v-text-field>
-            </v-col>
+        <v-card-text>
+          <v-container>
+            <v-form ref="tankForm">
+              <v-row class="mx-2">
+                <v-col cols="12">
+                  <v-text-field
+                    v-model.lazy="name"
+                    label="Название"
+                    hide-details="auto"
+                    clearable
+                    :hint="nameHint"
+                    :rules="nameRules"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model.number="volume"
+                    label="Введите объем, л"
+                    hide-details="auto"
+                    :hint="volumeHint"
+                    :rules="volumeRules"
+                  ></v-text-field>
+                </v-col>
 
-            <v-expand-transition>
-              <v-col cols="12" v-if="isTankVolumeCalc">
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model.lazy="length"
-                      label="Длина, см"
-                      hide-details
-                    ></v-text-field>
+                <v-expand-transition>
+                  <v-col cols="12" v-if="isTankVolumeCalc">
+                    <v-row>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model.lazy="length"
+                          label="Длина, см"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model.lazy="width"
+                          label="Ширина, см"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model.lazy="height"
+                          label="Высота, см"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model.lazy="glassThickness"
+                          label="Толщина стекла, мм"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
                   </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model.lazy="width"
-                      label="Ширина, см"
-                      hide-details
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model.lazy="height"
-                      label="Высота, см"
-                      hide-details
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model.lazy="glassThickness"
-                      label="Толщина стекла, мм"
-                      hide-details
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-expand-transition>
+                </v-expand-transition>
 
-          </v-row>
-        </v-container>
+              </v-row>
+            </v-form>
+          </v-container>
+        </v-card-text>
         <v-card-actions>
           <v-btn
-            v-if="!isTankVolumeCalc"
             text
-            color="primary"
-            @click="isTankVolumeCalc = true"
-          >Рассчитать</v-btn>
-          <v-btn
-            v-if="isTankVolumeCalc"
-            text
-            color="primary"
-            @click="isTankVolumeCalc = false"
-          >Скрыть</v-btn>
+            @click="isTankVolumeCalc = !isTankVolumeCalc"
+          >
+            <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            Калькулятор
+          </v-btn>
           <v-spacer />
           <v-btn
+            v-if="isExist"
             text
-            color="primary"
+            color="red"
+            @click="removeTank"
+          >Удалить</v-btn>
+          <v-btn
+            text
             @click="dialog = false"
           >Отменить</v-btn>
           <v-btn
-            v-if="!isEditing"
+            v-if="!isExist"
             text
-            :class="{'disabled': isExist !== -1}"
+            color="primary"
             @click="addTank"
           >Добавить</v-btn>
           <v-btn
-            v-if="isEditing"
+            v-if="isExist"
             text
-            :class="{'disabled': isExist !== -1}"
+            color="primary"
             @click="editTank"
-          >Изменить</v-btn>
+          >Сохранить</v-btn>
         </v-card-actions>
-      </v-card>this.tanks[index]
+      </v-card>
     </v-dialog>
     <v-btn
       bottom
@@ -163,14 +167,23 @@ import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'tank',
-  props: [ 'removeTank' ],
   data () {
     return {
-      ...this.resetComponent(),
+      name: null,
+      volume: null,
+      length: null,
+      height: null,
+      width: null,
+      glassThickness: null,
+      curTankIndex: null,
       isTankVolumeCalc: false,
-      tankEditedIndex: null,
       dialog: false,
-      isEditing: false
+      nameRules: [
+        v => !!v || 'Введите название'
+      ],
+      volumeRules: [
+        v => !!v || 'Введите объем в литрах'
+      ]
     }
   },
   computed: {
@@ -182,16 +195,14 @@ export default {
     },
     isExist () {
       let names = this.tanks.map(item => item.name)
-      return names.findIndex(item => item === this.name_)
+      return names.findIndex(item => item === this.name) !== -1
     },
-    name: {
-      get () {
-        let counter = this.tanks.length + 1
-        return this.name_ || `Аквариум #${counter}`
-      },
-      set (value) {
-        this.name_ = value
-      }
+    nameHint () {
+      let counter = this.tanks.length + 1
+      return `Придумайте простое название, например "Аквариум ${counter}" или "Большой аквариум"`
+    },
+    volumeHint () {
+      return `Воспользуйтесь калькулятором, если не знаете точное значение`
     }
   },
   watch: {
@@ -206,65 +217,70 @@ export default {
       } else {
         this.volume = 0
       }
-    },
-    name_ () {
-      if (this.isExist !== -1) {
-        let tank = this.tanks[this.isExist]
-        Object.assign(this.$data, {
-          name: tank.name,
-          volume: tank.volume,
-          length: tank.length,
-          height: tank.height,
-          width: tank.width,
-          glassThickness: tank.glassThickness
-        })
-      }
     }
   },
   methods: {
     ...mapMutations([
-      'ADD_TANK',
-      'REMOVE_TANK'
+      'TANK_ADD',
+      'TANK_REMOVE',
+      'TANK_EDIT'
     ]),
     resetComponent () {
-      return {
-        name_: null,
-        volume: null,
-        length: null,
-        height: null,
-        width: null,
-        glassThickness: null
-      }
+      this.name = null
+      this.volume = null
+      this.length = null
+      this.height = null
+      this.width = null
+      this.glassThickness = null
+      this.curTankIndex = null
+      this.isTankVolumeCalc = false
+      this.dialog = false
+      this.$refs.tankForm.resetValidation()
     },
     setComponent (index) {
       let tank = this.tanks[index]
-      this.name_ = tank.name
+      this.name = tank.name
       this.volume = tank.volume
       this.length = tank.length
       this.height = tank.height
       this.width = tank.width
       this.glassThickness = tank.glassThickness
+      this.curTankIndex = index
       this.dialog = true
-      this.isEditing = true
     },
     addTank () {
-      if (this.isExist === -1) {
-        this.ADD_TANK({
-          name: this.name_ || this.name,
+      if (!this.$refs.tankForm.validate()) {
+      } else {
+        if (!this.isExist) {
+          this.TANK_ADD({
+            name: this.name,
+            volume: this.volume,
+            length: this.length,
+            height: this.height,
+            width: this.width,
+            glassThickness: this.glassThickness
+          })
+          this.resetComponent()
+        }
+      }
+    },
+    editTank () {
+      this.TANK_EDIT({
+        index: this.curTankIndex,
+        tank: {
+          name: this.name,
           volume: this.volume,
           length: this.length,
           height: this.height,
           width: this.width,
           glassThickness: this.glassThickness
-        })
-        Object.assign(this.$data, this.resetComponent())
-      }
-      this.dialog = false
+        }
+      })
+      this.resetComponent()
     },
-    editTank () {
-      Object.assign(this.$data, this.resetComponent())
-      this.dialog = false
-      this.isEditing = false
+    removeTank () {
+      this.TANK_REMOVE(this.curTankIndex)
+      this.resetComponent()
     }
   }
 }
