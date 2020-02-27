@@ -123,7 +123,7 @@
           </v-btn>
           <v-spacer />
           <v-btn
-            v-if="isExist"
+            v-if="isEditing"
             text
             color="red"
             @click="removeTank"
@@ -133,17 +133,17 @@
             @click="dialog = false"
           >Отменить</v-btn>
           <v-btn
-            v-if="!isExist"
-            text
-            color="primary"
-            @click="addTank"
-          >Добавить</v-btn>
-          <v-btn
-            v-if="isExist"
+            v-if="isEditing"
             text
             color="primary"
             @click="editTank"
           >Сохранить</v-btn>
+          <v-btn
+            v-if="!isEditing"
+            text
+            color="primary"
+            @click="addTank"
+          >Добавить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -179,7 +179,8 @@ export default {
       isTankVolumeCalc: false,
       dialog: false,
       nameRules: [
-        v => !!v || 'Введите название'
+        v => !!v || 'Введите название',
+        v => (!this.isExist || this.isSame) || 'Аквариум с таким названием уже существует'
       ],
       volumeRules: [
         v => !!v || 'Введите объем в литрах'
@@ -196,6 +197,13 @@ export default {
     isExist () {
       let names = this.tanks.map(item => item.name)
       return names.findIndex(item => item === this.name) !== -1
+    },
+    isSame () {
+      let names = this.tanks.map(item => item.name)
+      return names.findIndex(item => item === this.name) === this.curTankIndex
+    },
+    isEditing () {
+      return this.curTankIndex !== null
     },
     nameHint () {
       let counter = this.tanks.length + 1
@@ -249,34 +257,33 @@ export default {
       this.dialog = true
     },
     addTank () {
-      if (!this.$refs.tankForm.validate()) {
-      } else {
-        if (!this.isExist) {
-          this.TANK_ADD({
-            name: this.name,
-            volume: this.volume,
-            length: this.length,
-            height: this.height,
-            width: this.width,
-            glassThickness: this.glassThickness
-          })
-          this.resetComponent()
-        }
-      }
-    },
-    editTank () {
-      this.TANK_EDIT({
-        index: this.curTankIndex,
-        tank: {
+      if (this.$refs.tankForm.validate()) {
+        this.TANK_ADD({
           name: this.name,
           volume: this.volume,
           length: this.length,
           height: this.height,
           width: this.width,
           glassThickness: this.glassThickness
-        }
-      })
-      this.resetComponent()
+        })
+        this.resetComponent()
+      }
+    },
+    editTank () {
+      if (this.$refs.tankForm.validate()) {
+        this.TANK_EDIT({
+          index: this.curTankIndex,
+          tank: {
+            name: this.name,
+            volume: this.volume,
+            length: this.length,
+            height: this.height,
+            width: this.width,
+            glassThickness: this.glassThickness
+          }
+        })
+        this.resetComponent()
+      }
     },
     removeTank () {
       this.TANK_REMOVE(this.curTankIndex)

@@ -58,6 +58,9 @@ export default new Vuex.Store({
     },
     RECIPE_REMOVE (state, payload) {
       state.recipes.splice(payload, 1)
+    },
+    RECIPE_EDIT (state, payload) {
+      Vue.set(state.recipes, payload.index, payload.recipe)
     }
   },
   actions: {

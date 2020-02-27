@@ -2,7 +2,7 @@
   <v-app>
     <v-navigation-drawer app v-model="drawer">
       <v-list>
-        <v-list-item v-for="item in links" :to="item.path" :key="item.icon">
+        <v-list-item v-for="item in links" :to="item.path" :key="item.icon" link>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
