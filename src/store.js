@@ -7,7 +7,8 @@ const loadState = function () {
   let stateData = JSON.parse(localStorage.getItem('udata'))
   let defaultData = {
     tanks: [],
-    recipes: []
+    recipes: [],
+    schedules: []
   }
   if (!stateData) {
     localStorage.setItem('udata', JSON.stringify(defaultData))
@@ -61,6 +62,15 @@ export default new Vuex.Store({
     },
     RECIPE_EDIT (state, payload) {
       Vue.set(state.recipes, payload.index, payload.recipe)
+    },
+    SCHEDULE_ADD (state, payload) {
+      state.schedules.push(payload)
+    },
+    SCHEDULE_REMOVE (state, payload) {
+      state.schedules.splice(payload, 1)
+    },
+    SCHEDULE_EDIT (state, payload) {
+      Vue.set(state.schedules, payload.index, payload.schedule)
     }
   },
   actions: {

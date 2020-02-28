@@ -41,9 +41,8 @@ export default {
     drawer: null,
     links: [
       { path: '/tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
-      { path: '/recipes', icon: 'mdi-clipboard-multiple-outline', text: 'Мои удобрения' },
-      { path: '/', icon: 'mdi-calendar-plus', text: 'Создать расписание' },
-      { path: '/', icon: 'mdi-calendar-blank-multiple', text: 'Мои Расписания' }
+      { path: '/recipes', icon: 'mdi-clipboard-multiple-outline', text: 'Удобрения' },
+      { path: '/schedule', icon: 'mdi-calendar-blank-multiple', text: 'Расписания' }
     ]
   })
 }

@@ -41,7 +41,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn text @click.stop="setComponent(index)">
+            <v-btn text @click="setComponent(index)">
               Изменить
             </v-btn>
           </v-card-actions>
@@ -60,7 +60,7 @@
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Рецепт</v-toolbar-title>
+          <v-toolbar-title v-if="isEditing">Новый рецепт</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
@@ -260,7 +260,7 @@
           dark
           fab
           fixed
-          @click="dialog = !dialog"
+          @click="openAddRecipe"
           v-on="on"
         >
           <v-icon>mdi-clipboard-plus-outline</v-icon>
@@ -392,9 +392,11 @@ export default {
       this.fertilizerMass = null
       this.fertilizerVolume = null
       this.recipeName_ = null
-      this.dialog = false
+      this.recipeNote = null
+      this.tankVolume = null
+      this.curRecipeIndex = null
       this.solute = {}
-      this.$refs.recipeForm.resetValidation()
+      this.dialog = false
     },
     setComponent (index) {
       let recipe = this.recipes[index]
@@ -402,6 +404,7 @@ export default {
       this.fertilizerMass = recipe.mass
       this.fertilizerVolume = recipe.volume
       this.recipeName_ = recipe.name
+      this.recipeNote = recipe.note
       this.curRecipeIndex = index
       this.dialog = true
     },
@@ -450,6 +453,13 @@ export default {
       let fertilizerMass = this.solute[curIon] * this.tankVolume / this.calcProcent[curIon] * this.fertilizerVolume / 1000
       this.fertilizerMass = fertilizerMass.toFixed(2)
     },
+    openAddRecipe () {
+      this.resetComponent()
+      this.dialog = !this.dialog
+      if (this.$refs.recipeForm) {
+        this.$refs.recipeForm.resetValidation()
+      }
+    },
     addRecipe () {
       if (this.$refs.recipeForm.validate()) {
         this.RECIPE_ADD({
@@ -480,7 +490,7 @@ export default {
       }
     },
     removeRecipe () {
-      this.RECIPE_REMOVE(this.curTankIndex)
+      this.RECIPE_REMOVE(this.curRecipeIndex)
       this.resetComponent()
     },
     showComponents (ions) {
@@ -495,36 +505,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.reagent
-  &:not(:first-child)
-    margin-left: 1rem
-  .reagent__input
-    display: none
-
-  .reagent__label
-    cursor: pointer
-
-    .reagent__formula
-      font-size: 1.5rem
-
-    .reagent__name
-      font-size: 1rem
-
-  .reagent__input:checked + label
-    color: red
-
-.components
-  font-size: 1.2rem
-  text-align: center
-
-.recipe
-  color: black
-  .recipe__container
-  .recipe__title
-    font-size: 1rem
-  .recipe__body
-    font-size: 0.85rem
-    div > span + span
-      opacity: 0.6
-
 </style>

@@ -44,16 +44,44 @@
 
     <v-dialog
       v-model="dialog"
-      max-width="800px"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-card-title class="" color="primary">
-          Добавить аквариум
-        </v-card-title>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title v-if="!isEditing">Новый аквариум</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn
+              v-if="isEditing"
+              text
+              dark
+              @click="removeTank"
+            >Удалить</v-btn>
+            <v-btn
+              v-if="isEditing"
+              dark
+              text
+              @click="editTank"
+            >Сохранить</v-btn>
+            <v-btn
+              v-if="!isEditing"
+              dark
+              text
+              @click="addTank"
+            >
+              Создать
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
         <v-card-text>
           <v-container>
             <v-form ref="tankForm">
-              <v-row class="mx-2">
+              <v-row>
                 <v-col cols="12">
                   <v-text-field
                     v-model.lazy="name"
@@ -73,91 +101,65 @@
                     :rules="volumeRules"
                   ></v-text-field>
                 </v-col>
-
+                <v-col cols="12">
+                  <v-btn
+                    center
+                    text
+                    @click="isTankVolumeCalc = !isTankVolumeCalc"
+                    class="px-0"
+                  >
+                    Калькулятор
+                    <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                  </v-btn>
+                </v-col>
                 <v-expand-transition>
                   <v-col cols="12" v-if="isTankVolumeCalc">
-                    <v-row>
-                      <v-col cols="12" md="6">
-                        <v-text-field
-                          v-model.lazy="length"
-                          label="Длина, см"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" md="6">
-                        <v-text-field
-                          v-model.lazy="width"
-                          label="Ширина, см"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" md="6">
-                        <v-text-field
-                          v-model.lazy="height"
-                          label="Высота, см"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" md="6">
-                        <v-text-field
-                          v-model.lazy="glassThickness"
-                          label="Толщина стекла, мм"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
+                    <v-text-field
+                      v-model.lazy="length"
+                      label="Длина, см"
+                      hide-details="auto"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model.lazy="width"
+                      label="Ширина, см"
+                      hide-details="auto"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model.lazy="height"
+                      label="Высота, см"
+                      hide-details="auto"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model.lazy="glassThickness"
+                      label="Толщина стекла, мм"
+                      hide-details="auto"
+                    ></v-text-field>
                   </v-col>
                 </v-expand-transition>
-
               </v-row>
             </v-form>
           </v-container>
         </v-card-text>
-        <v-card-actions>
-          <v-btn
-            text
-            @click="isTankVolumeCalc = !isTankVolumeCalc"
-          >
-            <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            Калькулятор
-          </v-btn>
-          <v-spacer />
-          <v-btn
-            v-if="isEditing"
-            text
-            color="red"
-            @click="removeTank"
-          >Удалить</v-btn>
-          <v-btn
-            text
-            @click="dialog = false"
-          >Отменить</v-btn>
-          <v-btn
-            v-if="isEditing"
-            text
-            color="primary"
-            @click="editTank"
-          >Сохранить</v-btn>
-          <v-btn
-            v-if="!isEditing"
-            text
-            color="primary"
-            @click="addTank"
-          >Добавить</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn
-      bottom
-      right
-      color="primary"
-      dark
-      fab
-      fixed
-      @click="dialog = !dialog"
-    >
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
+
+    <v-tooltip left>
+      <template v-slot:activator="{ on }">
+        <v-btn
+          bottom
+          right
+          color="primary"
+          dark
+          fab
+          fixed
+          @click="openAddTank"
+          v-on="on"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <span>Добавить аквариум</span>
+    </v-tooltip>
 
   </v-container>
 </template>
@@ -243,7 +245,6 @@ export default {
       this.curTankIndex = null
       this.isTankVolumeCalc = false
       this.dialog = false
-      this.$refs.tankForm.resetValidation()
     },
     setComponent (index) {
       let tank = this.tanks[index]
@@ -255,6 +256,13 @@ export default {
       this.glassThickness = tank.glassThickness
       this.curTankIndex = index
       this.dialog = true
+    },
+    openAddTank () {
+      this.resetComponent()
+      this.dialog = !this.dialog
+      if (this.$refs.tankForm) {
+        this.$refs.tankForm.resetValidation()
+      }
     },
     addTank () {
       if (this.$refs.tankForm.validate()) {
