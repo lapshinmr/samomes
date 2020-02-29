@@ -25,7 +25,6 @@
     <v-content>
       <transition name="fade" mode="out-in">
         <router-view />
-        <!--<Calculator />-->
       </transition>
     </v-content>
   </v-app>
@@ -42,7 +41,7 @@ export default {
     links: [
       { path: '/tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
       { path: '/recipes', icon: 'mdi-clipboard-multiple-outline', text: 'Удобрения' },
-      { path: '/schedule', icon: 'mdi-calendar-blank-multiple', text: 'Расписания' }
+      { path: '/schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписания' }
     ]
   })
 }

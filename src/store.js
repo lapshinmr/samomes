@@ -68,9 +68,6 @@ export default new Vuex.Store({
     },
     SCHEDULE_REMOVE (state, payload) {
       state.schedules.splice(payload, 1)
-    },
-    SCHEDULE_EDIT (state, payload) {
-      Vue.set(state.schedules, payload.index, payload.schedule)
     }
   },
   actions: {
