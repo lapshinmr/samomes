@@ -127,6 +127,7 @@
                     <v-text-field
                       v-model.lazy="height"
                       label="Высота, см"
+                      hint="Введите высоту чистого столба воды"
                       hide-details="auto"
                     ></v-text-field>
                     <v-text-field

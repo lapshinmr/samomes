@@ -59,19 +59,7 @@
                   ></v-select>
                 </v-col>
                 <v-expand-transition>
-                  <v-col cols="12" v-if="tank">
-                    <v-text-field
-                      v-model.number="days"
-                      label="Введите длительность периода"
-                      hint="Выберите количество дней, в течении которых будут вноситься удобрения"
-                      :suffix="daysSuffix"
-                      :rules="rulesDays"
-                      hide-details="auto"
-                    ></v-text-field>
-                  </v-col>
-                </v-expand-transition>
-                <v-expand-transition>
-                  <v-col v-if="tank && days" cols="12">
+                  <v-col v-if="tank" cols="12">
                     <v-select
                       :items="recipes"
                       v-model="recipesSelected"
@@ -111,6 +99,49 @@
                     </div>
                   </v-col>
                 </v-expand-transition>
+                <v-expand-transition>
+                  <v-col  v-if="tank && recipesSelected.length > 0" cols="12">
+                    <v-text-field
+                      v-model.number="daysTotal"
+                      label="Введите длительность периода"
+                      hint="Выберите количество дней, в течении которых будут вноситься удобрения"
+                      :suffix="daysSuffix"
+                      :rules="rulesDays"
+                      hide-details="auto"
+                    ></v-text-field>
+                  </v-col>
+                </v-expand-transition>
+                <template v-if="daysTotal && recipesSelected.length > 0">
+                  <v-col v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
+                    <v-card>
+                      <v-card-title>
+                        {{ recipeName }}
+                      </v-card-title>
+                      <v-card-text>
+                        <v-list two-line flat>
+                          <v-list-item-group>
+                            <v-list-item v-for="(day, index) in quotas"  :key="recipeName + index">
+                              <template>
+                                <v-list-item-action>
+                                  <v-checkbox
+                                    color="primary"
+                                    v-model="selected[recipeName][index]"
+                                  ></v-checkbox>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                  <v-list-item-title>
+                                    {{ isNaN(day) ? '-' : day.toFixed(2) + 'мл' }}
+                                  </v-list-item-title>
+                                  <v-list-item-subtitle>Allow notifications</v-list-item-subtitle>
+                                </v-list-item-content>
+                              </template>
+                            </v-list-item>
+                          </v-list-item-group>
+                        </v-list>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </template>
                 <!--
                 <v-col cols="12">
                   <v-date-picker v-model="dates" locale="ru" no-title scrollable first-day-of-week="1" range></v-date-picker>
@@ -158,7 +189,10 @@ export default {
     return {
       tank: null,
       recipesSelected: [],
-      days: 7,
+      daysTotal: 7,
+      completed: {},
+      selected: {},
+      skipped: {},
       curScheduleIndex: null,
       dialog: false,
       rulesDays: [
@@ -201,32 +235,71 @@ export default {
     },
     daysSuffix () {
       let word = 'дней'
-      if ([2, 3, 4].includes(this.days)) {
+      if ([2, 3, 4].includes(this.daysTotal)) {
         word = 'дня'
       }
       return word
     },
-    recipesSelectedProgress () {
-      let result = {
-        completed: {},
-        excluded: {},
-        skipped: {}
+    daysQuotas () {
+      let quotas = {}
+      if (Object.keys(this.completed).length === 0) {
+        return
       }
       for (const recipe of this.recipesSelected) {
-        result.completed[recipe.name] = Array(this.days).fill(false, 0, this.days)
-        result.excluded[recipe.name] = Array(this.days).fill(false, 0, this.days)
-        result.skipped[recipe.name] = Array(this.days).fill(false, 0, this.days)
+        let result = []
+        let selectedList = this.selected[recipe.name]
+        let completeList = this.completed[recipe.name]
+        let skipList = this.skipped[recipe.name]
+        let excludedTotal = selectedList.filter(x => x === false).length
+        let daysLeft = this.daysTotal - excludedTotal
+        let amount = recipe.amount
+        let currentDay = amount / (this.daysTotal - excludedTotal)
+        for (const index in [...Array(this.daysTotal)]) {
+          switch (true) {
+            case completeList[index]:
+              currentDay = amount / daysLeft
+              amount -= currentDay
+              daysLeft -= 1
+              break
+            case !selectedList[index]:
+              currentDay = 0
+              break
+            case skipList[index]:
+              currentDay = 0
+              daysLeft -= 1
+              break
+            default:
+              currentDay = amount / daysLeft
+          }
+          result.push(currentDay)
+        }
+        quotas[recipe.name] = result
       }
-      return result
+      return quotas
+    }
+  },
+  watch: {
+    daysTotal () {
+      this.fillDays()
+    },
+    recipesSelected () {
+      this.fillDays()
     }
   },
   methods: {
     ...mapMutations([
       'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE'
     ]),
+    fillDays () {
+      for (const recipe of this.recipesSelected) {
+        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
+        Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
+        Vue.set(this.skipped, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
+      }
+    },
     resetComponent () {
       this.tank = null
-      this.days = 7
+      this.daysTotal = 7
       this.recipesSelected = []
       this.curScheduleIndex = null
       this.dialog = false
@@ -234,7 +307,7 @@ export default {
     setComponent (index) {
       let schedule = this.schedules[index]
       this.tank = schedule.tank
-      this.days = schedule.days
+      this.daysTotal = schedule.daysTotal
       this.recipesSelected = schedule.recipesSelected
       this.curScheduleIndex = index
       this.dialog = true
@@ -250,16 +323,31 @@ export default {
       if (this.$refs.scheduleForm.validate()) {
         this.SCHEDULE_ADD({
           tank: this.tank,
-          days: this.days,
-          recipesSelected: [...this.recipesSelected],
-          recipesSelectedProgress: this.recipesSelectedProgress
+          daysTotal: this.daysTotal,
+          recipesSelected: [...this.recipesSelected]
         })
         this.resetComponent()
       }
     },
     removeSchedule () {
-      this.Schedule_REMOVE(this.curScheduleIndex)
+      this.SCHEDULE_REMOVE(this.curScheduleIndex)
       this.resetComponent()
+    },
+    excludeDay (recipeName, index) {
+      // let isSkipped = this.completed[recipeName].some(x => x === true)
+      // if (!this.completed[recipeName][index]) {
+      //   if (isSkipped && !this.excluded[recipeName][index]) {
+      //     let value = this.skipped[recipeName][index]
+      //     this.skipped[recipeName][index] = !value
+      //     this.skipped = Object.assign({}, this.skipped)
+      //   }
+      //   if (!isSkipped) {
+      let value = this.excluded[recipeName][index]
+      this.excluded[recipeName][index] = !value
+      this.excluded = Object.assign({}, this.excluded)
+      console.log(this.excluded)
+      // }
+      // }
     }
   }
 }
