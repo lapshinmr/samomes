@@ -5,7 +5,14 @@
       <v-col cols="12">
         <Schedule
           v-for="schedule in schedules"
-          :schedule="schedule"
+          :tank="schedule.tank"
+          :recipesSelected="schedule.recipesSelected"
+          :datesRange="schedule.datesRange"
+          :datesColumn="schedule.datesColumn"
+          :daysTotal="schedule.daysTotal"
+          :selected="schedule.selected"
+          :completed="schedule.completed"
+          :skipped="schedule.skipped"
           :key="schedule.tank.name"
         />
       </v-col>
@@ -91,7 +98,7 @@
                  </div>
                 </v-col>
                 <v-expand-transition>
-                  <v-col v-if="tank && recipesSelected.length > 0" cols="12">
+                  <v-col v-if="isAmount" cols="12">
                     <h6>Повышение концентрации в аквариуме</h6>
                     <div v-for="(value, name) in totalElements" :key="name" class="d-flex justify-content-between">
                       <span>{{ name }}</span>
@@ -100,60 +107,97 @@
                   </v-col>
                 </v-expand-transition>
                 <v-expand-transition>
-                  <v-col  v-if="tank && recipesSelected.length > 0" cols="12">
-                    <v-text-field
-                      v-model.number="daysTotal"
-                      label="Введите длительность периода"
-                      hint="Выберите количество дней, в течении которых будут вноситься удобрения"
-                      :suffix="daysSuffix"
-                      :rules="rulesDays"
-                      hide-details="auto"
-                    ></v-text-field>
+                  <v-col v-if="isAmount" cols="12">
+                    <v-date-picker
+                      v-model="datesRange"
+                      locale="ru"
+                      no-title
+                      first-day-of-week="1"
+                      full-width
+                      range
+                    >
+                      <template v-slot:default>
+                        <v-text-field
+                          :value="daysTotal"
+                          label="Длительность периода"
+                          :suffix="daysSuffix"
+                          :rules="rulesDays"
+                          hide-details="auto"
+                          readonly
+                        ></v-text-field>
+                      </template>
+                    </v-date-picker>
                   </v-col>
                 </v-expand-transition>
-                <template v-if="daysTotal && recipesSelected.length > 0">
-                  <v-col v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
-                    <v-card>
-                      <v-card-title>
-                        {{ recipeName }}
-                      </v-card-title>
-                      <v-card-text>
-                        <v-list two-line flat>
-                          <v-list-item-group>
-                            <v-list-item v-for="(day, index) in quotas"  :key="recipeName + index">
-                              <template>
-                                <v-list-item-action>
-                                  <v-checkbox
-                                    color="primary"
-                                    v-model="selected[recipeName][index]"
-                                  ></v-checkbox>
-                                </v-list-item-action>
-                                <v-list-item-content>
-                                  <v-list-item-title>
-                                    {{ isNaN(day) ? '-' : day.toFixed(2) + 'мл' }}
-                                  </v-list-item-title>
-                                  <v-list-item-subtitle>Allow notifications</v-list-item-subtitle>
-                                </v-list-item-content>
-                              </template>
-                            </v-list-item>
-                          </v-list-item-group>
-                        </v-list>
-                      </v-card-text>
-                    </v-card>
+                <v-expand-transition>
+                  <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal">
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <tr>
+                            <th class="text-left">Дни</th>
+                            <th class="text-left" v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
+                              {{ recipeName }}, мл
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(day, index) in daysTotal" :key="day">
+                            <td>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div>{{ day }}</div>
+                                <div class="d-flex flex-column align-items-end">
+                                  <small class="text--secondary">{{ datesColumn[index].weekday }}</small>
+                                  <small class="text--secondary">{{ datesColumn[index].date }}</small>
+                                </div>
+                              </div>
+                            </td>
+                            <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
+                              <v-checkbox
+                                v-if="!isNaN(quotas[index])"
+                                color="primary"
+                                dense
+                                v-model="selected[recipeName][index]"
+                                hide-details="auto"
+                                class="mt-0"
+                              >
+                                 <template v-slot:label>
+                                   <span class="mt-1">
+                                    {{ quotas[index].toFixed(2) }}
+                                   </span>
+                                 </template>
+                              </v-checkbox>
+                              <span v-else> - </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
                   </v-col>
-                </template>
-                <!--
-                <v-col cols="12">
-                  <v-date-picker v-model="dates" locale="ru" no-title scrollable first-day-of-week="1" range></v-date-picker>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field :value="dates" label="Date range" readonly></v-text-field>
-                </v-col>
-                -->
+                </v-expand-transition>
               </v-row>
             </v-form>
           </v-container>
         </v-card-text>
+        <v-toolbar v-if="recipesSelected.length > 0 && isAmount && daysTotal" dark color="primary">
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn
+              v-if="isEditing"
+              text
+              dark
+              @click="removeSchedule"
+            >Удалить</v-btn>
+            <v-btn
+              v-if="!isEditing"
+              dark
+              text
+              @click="addSchedule"
+            >
+              Создать
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
       </v-card>
     </v-dialog>
 
@@ -189,9 +233,9 @@ export default {
     return {
       tank: null,
       recipesSelected: [],
-      daysTotal: 7,
-      completed: {},
+      datesRange: [],
       selected: {},
+      completed: {},
       skipped: {},
       curScheduleIndex: null,
       dialog: false,
@@ -204,12 +248,23 @@ export default {
       ]
     }
   },
+  created () {
+    const duration = 6
+    let dateStart = new Date().toISOString().split('T')[0]
+    let dateFinish = new Date()
+    dateFinish = new Date(dateFinish.setDate(dateFinish.getDate() + duration))
+    dateFinish = dateFinish.toISOString().split('T')[0]
+    this.datesRange = [dateStart, dateFinish]
+  },
   computed: {
     ...mapState([
       'tanks', 'recipes', 'schedules'
     ]),
     isExist () {
       let names = this.schedules.map(item => item.tank.name)
+      if (!this.tank) {
+        return
+      }
       return names.findIndex(item => item === this.tank.name) !== -1
     },
     isSame () {
@@ -218,6 +273,9 @@ export default {
     },
     isEditing () {
       return this.curScheduleIndex !== null
+    },
+    isAmount () {
+      return this.recipesSelected.find(x => x.amount !== undefined)
     },
     totalElements () {
       let result = {}
@@ -233,6 +291,31 @@ export default {
       }
       return result
     },
+    datesRangeSorted () {
+      let datesRange = this.datesRange.slice()
+      datesRange.sort()
+      return datesRange
+    },
+    datesColumn () {
+      let range = []
+      let startDate = new Date(this.datesRangeSorted[0])
+      for (let i = 0; i < this.daysTotal; i++) {
+        let date = new Date(startDate.setDate(startDate.getDate() + 1))
+        let day = date.toLocaleDateString('ru-Ru', { weekday: 'long' })
+        let weekday = date.toLocaleDateString('ru-Ru', { month: 'long', day: 'numeric' })
+        range.push({
+          weekday: weekday,
+          date: day
+        })
+      }
+      return range
+    },
+    daysTotal () {
+      if (this.datesRangeSorted.length < 2) {
+        return 0
+      }
+      return (new Date(this.datesRangeSorted[1]) - new Date(this.datesRangeSorted[0])) / (1000 * 3600 * 24) + 1
+    },
     daysSuffix () {
       let word = 'дней'
       if ([2, 3, 4].includes(this.daysTotal)) {
@@ -242,31 +325,17 @@ export default {
     },
     daysQuotas () {
       let quotas = {}
-      if (Object.keys(this.completed).length === 0) {
-        return
-      }
       for (const recipe of this.recipesSelected) {
         let result = []
         let selectedList = this.selected[recipe.name]
-        let completeList = this.completed[recipe.name]
-        let skipList = this.skipped[recipe.name]
         let excludedTotal = selectedList.filter(x => x === false).length
         let daysLeft = this.daysTotal - excludedTotal
         let amount = recipe.amount
         let currentDay = amount / (this.daysTotal - excludedTotal)
         for (const index in [...Array(this.daysTotal)]) {
           switch (true) {
-            case completeList[index]:
-              currentDay = amount / daysLeft
-              amount -= currentDay
-              daysLeft -= 1
-              break
             case !selectedList[index]:
               currentDay = 0
-              break
-            case skipList[index]:
-              currentDay = 0
-              daysLeft -= 1
               break
             default:
               currentDay = amount / daysLeft
@@ -292,9 +361,9 @@ export default {
     ]),
     fillDays () {
       for (const recipe of this.recipesSelected) {
-        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
         Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
-        Vue.set(this.skipped, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
+        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
+        Vue.set(this.skipped, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
       }
     },
     resetComponent () {
@@ -323,8 +392,13 @@ export default {
       if (this.$refs.scheduleForm.validate()) {
         this.SCHEDULE_ADD({
           tank: this.tank,
+          recipesSelected: [...this.recipesSelected],
+          datesRange: this.datesRange,
           daysTotal: this.daysTotal,
-          recipesSelected: [...this.recipesSelected]
+          datesColumn: [...this.datesColumn],
+          selected: Object.assign({}, this.selected),
+          completed: Object.assign({}, this.completed),
+          skipped: Object.assign({}, this.skipped)
         })
         this.resetComponent()
       }
@@ -332,22 +406,6 @@ export default {
     removeSchedule () {
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
       this.resetComponent()
-    },
-    excludeDay (recipeName, index) {
-      // let isSkipped = this.completed[recipeName].some(x => x === true)
-      // if (!this.completed[recipeName][index]) {
-      //   if (isSkipped && !this.excluded[recipeName][index]) {
-      //     let value = this.skipped[recipeName][index]
-      //     this.skipped[recipeName][index] = !value
-      //     this.skipped = Object.assign({}, this.skipped)
-      //   }
-      //   if (!isSkipped) {
-      let value = this.excluded[recipeName][index]
-      this.excluded[recipeName][index] = !value
-      this.excluded = Object.assign({}, this.excluded)
-      console.log(this.excluded)
-      // }
-      // }
     }
   }
 }
