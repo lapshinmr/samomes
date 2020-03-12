@@ -1,11 +1,15 @@
 {
   "name": "udo",
   "version": "0.1.0",
+  "author": "Mikhail Lapshin <lapshinmr@gmail.com>",
+  "license": "MIT",
+  "repository": "https://github.com/pomodoro-ketchup/pomodoro-ketchup.git",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "core-js": "^3.3.2",
@@ -22,6 +26,7 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "gh-pages": "^2.2.0",
     "node-sass": "^4.13.0",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",

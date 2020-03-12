@@ -4,16 +4,12 @@
     <v-row>
       <v-col cols="12">
         <Schedule
-          v-for="schedule in schedules"
-          :tank="schedule.tank"
-          :recipesSelected="schedule.recipesSelected"
-          :datesRange="schedule.datesRange"
-          :datesColumn="schedule.datesColumn"
-          :daysTotal="schedule.daysTotal"
-          :selected="schedule.selected"
-          :completed="schedule.completed"
-          :skipped="schedule.skipped"
+          v-for="(schedule, index) in schedules"
+          v-bind="schedule"
+          :index="index"
+          :removeSchedule="removeSchedule"
           :key="schedule.tank.name"
+          @remove="openRemoveDialog($event)"
         />
       </v-col>
     </v-row>
@@ -29,17 +25,12 @@
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title v-if="isEditing">Новое расписание</v-toolbar-title>
+          <v-toolbar-title>
+            Новое расписание
+          </v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
-              v-if="isEditing"
-              text
-              dark
-              @click="removeSchedule"
-            >Удалить</v-btn>
-            <v-btn
-              v-if="!isEditing"
               dark
               text
               @click="addSchedule"
@@ -144,13 +135,8 @@
                         <tbody>
                           <tr v-for="(day, index) in daysTotal" :key="day">
                             <td>
-                              <div class="d-flex justify-content-between align-items-center">
-                                <div>{{ day }}</div>
-                                <div class="d-flex flex-column align-items-end">
-                                  <small class="text--secondary">{{ datesColumn[index].weekday }}</small>
-                                  <small class="text--secondary">{{ datesColumn[index].date }}</small>
-                                </div>
-                              </div>
+                              <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
+                              <span class="text-secondary">{{ datesColumn[index].date }}</span>
                             </td>
                             <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
                               <v-checkbox
@@ -183,13 +169,6 @@
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
-              v-if="isEditing"
-              text
-              dark
-              @click="removeSchedule"
-            >Удалить</v-btn>
-            <v-btn
-              v-if="!isEditing"
               dark
               text
               @click="addSchedule"
@@ -198,6 +177,34 @@
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog
+      v-model="dialogRemove"
+      width="500"
+    >
+      <v-card>
+        <v-card-title>
+          Удаление расписания
+        </v-card-title>
+        <v-card-text>
+          Нажмите кнопку "удалить" если действительно собираетесь это сделать.
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="removeSchedule"
+          >
+            Удалить
+          </v-btn>
+          <v-btn text @click="dialogRemove = false">
+            Отменить
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -210,7 +217,7 @@
           dark
           fab
           fixed
-          @click="dialog = !dialog"
+          @click="openAddSchedule"
           v-on="on"
         >
           <v-icon>mdi-calendar-plus</v-icon>
@@ -239,6 +246,7 @@ export default {
       skipped: {},
       curScheduleIndex: null,
       dialog: false,
+      dialogRemove: false,
       rulesDays: [
         v => v >= 2 || 'Период должен быть больше одного дня'
       ],
@@ -271,9 +279,6 @@ export default {
       let names = this.schedules.map(item => item.tank.name)
       return names.findIndex(item => item === this.tank.name) === this.curScheduleIndex
     },
-    isEditing () {
-      return this.curScheduleIndex !== null
-    },
     isAmount () {
       return this.recipesSelected.find(x => x.amount !== undefined)
     },
@@ -300,13 +305,13 @@ export default {
       let range = []
       let startDate = new Date(this.datesRangeSorted[0])
       for (let i = 0; i < this.daysTotal; i++) {
-        let date = new Date(startDate.setDate(startDate.getDate() + 1))
-        let day = date.toLocaleDateString('ru-Ru', { weekday: 'long' })
-        let weekday = date.toLocaleDateString('ru-Ru', { month: 'long', day: 'numeric' })
+        let day = startDate.toLocaleDateString('ru-Ru', { month: 'numeric', day: 'numeric' })
+        let weekday = startDate.toLocaleDateString('ru-Ru', { weekday: 'short' })
         range.push({
           weekday: weekday,
           date: day
         })
+        startDate = new Date(startDate.setDate(startDate.getDate() + 1))
       }
       return range
     },
@@ -353,6 +358,11 @@ export default {
     },
     recipesSelected () {
       this.fillDays()
+    },
+    dialogRemove () {
+      if (!this.dialogRemove) {
+        this.curScheduleIndex = null
+      }
     }
   },
   methods: {
@@ -362,24 +372,19 @@ export default {
     fillDays () {
       for (const recipe of this.recipesSelected) {
         Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
-        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
-        Vue.set(this.skipped, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
+        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
+        Vue.set(this.skipped, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
       }
     },
     resetComponent () {
       this.tank = null
-      this.daysTotal = 7
       this.recipesSelected = []
       this.curScheduleIndex = null
       this.dialog = false
-    },
-    setComponent (index) {
-      let schedule = this.schedules[index]
-      this.tank = schedule.tank
-      this.daysTotal = schedule.daysTotal
-      this.recipesSelected = schedule.recipesSelected
-      this.curScheduleIndex = index
-      this.dialog = true
+      this.datesRange = []
+      this.selected = {}
+      this.completed = {}
+      this.skipped = {}
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
@@ -387,6 +392,12 @@ export default {
         ...recipe,
         amount: event.target.value
       })
+    },
+    openAddSchedule () {
+      if (this.$refs.scheduleForm) {
+        this.$refs.scheduleForm.resetValidation()
+      }
+      this.dialog = true
     },
     addSchedule () {
       if (this.$refs.scheduleForm.validate()) {
@@ -403,9 +414,13 @@ export default {
         this.resetComponent()
       }
     },
+    openRemoveDialog (index) {
+      this.curScheduleIndex = index
+      this.dialogRemove = true
+    },
     removeSchedule () {
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
-      this.resetComponent()
+      this.dialogRemove = false
     }
   }
 }

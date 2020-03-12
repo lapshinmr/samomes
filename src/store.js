@@ -68,6 +68,18 @@ export default new Vuex.Store({
     },
     SCHEDULE_REMOVE (state, payload) {
       state.schedules.splice(payload, 1)
+    },
+    SCHEDULE_COMPLETE (state, payload) {
+      console.log(payload)
+      let schedule = state.schedules[payload.indexSchedule]
+      console.log(schedule)
+      schedule.completed[payload.recipeName][payload.indexDay] = payload.status
+      Vue.set(state.schedules, payload.indexSchedule, schedule)
+    },
+    SCHEDULE_SKIP (state, payload) {
+      let schedule = state.schedules[payload.indexSchedule]
+      schedule.skipped[payload.recipeName][payload.indexDay] = payload.status
+      Vue.set(state.schedules, payload.indexSchedule, schedule)
     }
   },
   actions: {
