@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "Mikhail Lapshin <lapshinmr@gmail.com>",
   "license": "MIT",
-  "repository": "https://github.com/pomodoro-ketchup/pomodoro-ketchup.git",
+  "repository": "https://github.com/lapshinmr/udo.git",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
