@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer">
+    <v-navigation-drawer app right v-model="drawer">
       <v-list>
         <v-list-item v-for="item in links" :to="item.path" :key="item.icon" link>
           <v-list-item-action>
@@ -18,8 +18,9 @@
       dark
       dense
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Fertilizer</v-toolbar-title>
+      <v-spacer />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     </v-app-bar>
 
     <v-content>
@@ -37,7 +38,7 @@ export default {
   components: {
   },
   data: () => ({
-    drawer: null,
+    drawer: false,
     links: [
       { path: '/tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
       { path: '/recipes', icon: 'mdi-clipboard-multiple-outline', text: 'Удобрения' },

@@ -71,12 +71,8 @@ export default new Vuex.Store({
     },
     SCHEDULE_COMPLETE (state, payload) {
       let schedule = state.schedules[payload.indexSchedule]
-      schedule.completed[payload.recipeName][payload.indexDay] = payload.status
-      Vue.set(state.schedules, payload.indexSchedule, schedule)
-    },
-    SCHEDULE_SKIP (state, payload) {
-      let schedule = state.schedules[payload.indexSchedule]
-      schedule.skipped[payload.recipeName][payload.indexDay] = payload.status
+      let status = schedule.completed[payload.recipeName][payload.indexDay]
+      schedule.completed[payload.recipeName][payload.indexDay] = (status + 1) % 3
       Vue.set(state.schedules, payload.indexSchedule, schedule)
     }
   },

@@ -1,10 +1,10 @@
 <template>
   <v-card class="mb-2">
     <v-card-title>
-      {{ tank.name }}
+      {{ schedule.tank.name }}
     </v-card-title>
     <v-card-subtitle>
-      Объем: {{ tank.volume }} л
+      Объем: {{ schedule.tank.volume }} л
     </v-card-subtitle>
     <v-card-text>
       <v-simple-table class="schedule">
@@ -18,26 +18,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(day, index) in daysTotal" :key="day">
+            <tr v-for="(day, index) in schedule.daysTotal" :key="day">
               <td>
-                <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
-                <span class="schedule__date text-secondary">{{ datesColumn[index].date }}</span>
+                <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>,
+                <span class="schedule__date text-secondary">{{ schedule.datesColumn[index].date }}</span>
               </td>
               <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
                 <v-checkbox
-                  v-if="selected[recipeName][index]"
+                  v-if="schedule.selected[recipeName][index]"
                   color="primary"
                   dense
-                  :input-value="completed[recipeName][index]"
+                  :input-value="schedule.completed[recipeName][index] === 1"
                   @click.stop="clickDay(recipeName, index)"
-                  :indeterminate="skipped[recipeName][index]"
+                  :indeterminate="schedule.completed[recipeName][index] === 2"
                   hide-details="auto"
                   class="mt-0"
                 >
                    <template v-slot:label>
                      <span class="schedule__label" :class="{
-                       'text-success': completed[recipeName][index],
-                       'text-secondary': skipped[recipeName][index]
+                       'text-success': schedule.completed[recipeName][index] === 1,
+                       'text-secondary': schedule.completed[recipeName][index] === 2
                       }"
                      >
                       {{ quotas[index].toFixed(1) }}
@@ -68,48 +68,38 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'schedule',
-  props: [
-    'index',
-    'tank',
-    'recipesSelected',
-    'selected',
-    'completed',
-    'skipped',
-    'daysTotal',
-    'datesColumn',
-    'datesRange',
-    'removeSchedule'
-  ],
+  props: [ 'index' ],
   data () {
     return {
     }
   },
   computed: {
+    ...mapState([
+      'schedules'
+    ]),
     schedule () {
       return this.schedules[this.index]
     },
     daysQuotas () {
       let quotas = {}
-      if (Object.keys(this.completed).length === 0) {
+      if (Object.keys(this.schedule.completed).length === 0) {
         return
       }
-      for (const recipe of this.recipesSelected) {
+      for (const recipe of this.schedule.recipesSelected) {
         let result = []
-        let selectedList = this.selected[recipe.name]
-        let completeList = this.completed[recipe.name]
-        let skipList = this.skipped[recipe.name]
+        let selectedList = this.schedule.selected[recipe.name]
+        let completeList = this.schedule.completed[recipe.name]
         let excludedTotal = selectedList.filter(x => x === false).length
-        let daysLeft = this.daysTotal - excludedTotal
+        let daysLeft = this.schedule.daysTotal - excludedTotal
         let amount = parseFloat(recipe.amount)
-        let currentDay = amount / (this.daysTotal - excludedTotal)
-        for (const index in [...Array(this.daysTotal)]) {
+        let currentDay = amount / (this.schedule.daysTotal - excludedTotal)
+        for (const index in [...Array(this.schedule.daysTotal)]) {
           switch (true) {
-            case completeList[index]:
+            case completeList[index] === 1:
               currentDay = amount / daysLeft
               amount -= currentDay
               daysLeft -= 1
@@ -117,7 +107,7 @@ export default {
             case !selectedList[index]:
               currentDay = 0
               break
-            case skipList[index]:
+            case completeList[index] === 2:
               currentDay = 0
               daysLeft -= 1
               break
@@ -132,10 +122,10 @@ export default {
     },
     totalSum () {
       let result = []
-      for (const recipe of this.recipesSelected) {
+      for (const recipe of this.schedule.recipesSelected) {
         let sum = 0
         for (const index in this.daysQuotas[recipe.name]) {
-          if (this.completed[recipe.name][index]) {
+          if (this.schedule.completed[recipe.name][index]) {
             sum += this.daysQuotas[recipe.name][index]
           }
         }
@@ -149,53 +139,14 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_COMPLETE',
-      'SCHEDULE_SKIP'
+      'SCHEDULE_COMPLETE'
     ]),
     clickDay (recipeName, index) {
-      if (this.completed[recipeName][index]) {
-        let completed = [...this.completed[recipeName]]
-        let skipped = [...this.skipped[recipeName]]
-        completed[index] = false
-        if (index !== skipped.length - 1) {
-          skipped[index] = true
-          Vue.set(this.skipped, recipeName, skipped)
-          this.SCHEDULE_SKIP({
-            indexSchedule: this.index,
-            recipeName: recipeName,
-            indexDay: index,
-            status: true
-          })
-        }
-        Vue.set(this.completed, recipeName, completed)
-        this.SCHEDULE_COMPLETE({
-          indexSchedule: this.index,
-          recipeName: recipeName,
-          indexDay: index,
-          status: false
-        })
-      } else if (this.skipped[recipeName][index]) {
-        let skipped = [...this.skipped[recipeName]]
-        skipped[index] = false
-        Vue.set(this.skipped, recipeName, skipped)
-        this.SCHEDULE_SKIP({
-          indexSchedule: this.index,
-          recipeName: recipeName,
-          indexDay: index,
-          status: false
-        })
-      } else {
-        let completed = [...this.completed[recipeName]]
-        completed[index] = true
-        this.completed[recipeName][index] = true
-        Vue.set(this.completed, recipeName, completed)
-        this.SCHEDULE_COMPLETE({
-          indexSchedule: this.index,
-          recipeName: recipeName,
-          indexDay: index,
-          status: true
-        })
-      }
+      this.SCHEDULE_COMPLETE({
+        indexSchedule: this.index,
+        indexDay: index,
+        recipeName: recipeName
+      })
     }
   }
 }

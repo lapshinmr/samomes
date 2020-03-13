@@ -5,9 +5,7 @@
       <v-col cols="12">
         <Schedule
           v-for="(schedule, index) in schedules"
-          v-bind="schedule"
           :index="index"
-          :removeSchedule="removeSchedule"
           :key="schedule.tank.name"
           @remove="openRemoveDialog($event)"
         />
@@ -243,7 +241,6 @@ export default {
       datesRange: [],
       selected: {},
       completed: {},
-      skipped: {},
       curScheduleIndex: null,
       dialog: false,
       dialogRemove: false,
@@ -372,8 +369,7 @@ export default {
     fillDays () {
       for (const recipe of this.recipesSelected) {
         Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
-        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
-        Vue.set(this.skipped, recipe.name, Array(this.daysTotal).fill(false, 0, this.daysTotal))
+        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal))
       }
     },
     resetComponent () {
@@ -384,7 +380,6 @@ export default {
       this.datesRange = []
       this.selected = {}
       this.completed = {}
-      this.skipped = {}
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
@@ -408,8 +403,7 @@ export default {
           daysTotal: this.daysTotal,
           datesColumn: [...this.datesColumn],
           selected: Object.assign({}, this.selected),
-          completed: Object.assign({}, this.completed),
-          skipped: Object.assign({}, this.skipped)
+          completed: Object.assign({}, this.completed)
         })
         this.resetComponent()
       }
