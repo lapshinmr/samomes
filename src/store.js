@@ -70,9 +70,7 @@ export default new Vuex.Store({
       state.schedules.splice(payload, 1)
     },
     SCHEDULE_COMPLETE (state, payload) {
-      console.log(payload)
       let schedule = state.schedules[payload.indexSchedule]
-      console.log(schedule)
       schedule.completed[payload.recipeName][payload.indexDay] = payload.status
       Vue.set(state.schedules, payload.indexSchedule, schedule)
     },

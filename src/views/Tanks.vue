@@ -192,7 +192,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks'
+      'tanks', 'schedules'
     ]),
     dimensions () {
       return `${this.length}|${this.height}|${this.width}|${this.glassThickness}`

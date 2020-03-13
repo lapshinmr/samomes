@@ -1,74 +1,70 @@
 <template>
-  <v-container>
-    <v-card>
-      <v-card-title>
-        {{ tank.name }}
-      </v-card-title>
-      <v-card-subtitle>
-        {{ tank.volume }} л
-      </v-card-subtitle>
-      <v-card-text>
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">Дни</th>
-                <th class="text-left" v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
-                  {{ recipeName }}, мл
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(day, index) in daysTotal" :key="day">
-                <td>
-                  <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
-                  <span class="text-secondary">{{ datesColumn[index].date }}</span>
-                </td>
-                <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
-                  <v-checkbox
-                    v-if="selected[recipeName][index]"
-                    color="primary"
-                    dense
-                    :input-value="completed[recipeName][index]"
-                    @click.stop="clickDay(recipeName, index)"
-                    :indeterminate="skipped[recipeName][index]"
-                    hide-details="auto"
-                    class="mt-0"
-                  >
-                     <template v-slot:label>
-                       <span class="mt-1" :class="{
-                         'text-success': completed[recipeName][index],
-                         'text-secondary': skipped[recipeName][index]
-                        }"
-                       >
-                        {{ quotas[index].toFixed(2) }}
-                       </span>
-                     </template>
-                  </v-checkbox>
-                  <span v-else> - </span>
-                </td>
-              </tr>
-              <tr class="mt-4 pt-4">
-                <td class="font-weight-bold">
-                  Влито
-                </td>
-                <td v-for="(item, index) in totalSum" :key="index">
-                    {{ item.sum.toFixed(1) }} / {{ item.amount }} мл
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn text @click="$emit('remove', index)">
-          Удалить
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-container>
-
+  <v-card class="mb-2">
+    <v-card-title>
+      {{ tank.name }}
+    </v-card-title>
+    <v-card-subtitle>
+      Объем: {{ tank.volume }} л
+    </v-card-subtitle>
+    <v-card-text>
+      <v-simple-table class="schedule">
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">Дни</th>
+              <th class="text-left" v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
+                {{ recipeName }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(day, index) in daysTotal" :key="day">
+              <td>
+                <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
+                <span class="schedule__date text-secondary">{{ datesColumn[index].date }}</span>
+              </td>
+              <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
+                <v-checkbox
+                  v-if="selected[recipeName][index]"
+                  color="primary"
+                  dense
+                  :input-value="completed[recipeName][index]"
+                  @click.stop="clickDay(recipeName, index)"
+                  :indeterminate="skipped[recipeName][index]"
+                  hide-details="auto"
+                  class="mt-0"
+                >
+                   <template v-slot:label>
+                     <span class="schedule__label" :class="{
+                       'text-success': completed[recipeName][index],
+                       'text-secondary': skipped[recipeName][index]
+                      }"
+                     >
+                      {{ quotas[index].toFixed(1) }}
+                     </span>
+                   </template>
+                </v-checkbox>
+                <span v-else> - </span>
+              </td>
+            </tr>
+            <tr class="">
+              <td>
+              </td>
+              <td v-for="(item, index) in totalSum" :key="index">
+                  {{ item.sum.toFixed(1) }} / {{ item.amount }}
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer />
+      <v-btn text @click="$emit('remove', index)">
+        Удалить
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -204,3 +200,19 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+  @media (max-width: 600px)
+    .schedule__date
+      font-size: 0.8rem!important
+    .schedule__label
+      font-size: 0.9rem!important
+    .v-data-table td
+      padding: 0 8px!important
+    .v-input--selection-controls__ripple
+      margin: 0!important
+    .v-input--selection-controls__input
+      margin-right: 0!important
+    .v-label
+      margin-bottom: 0
+</style>
