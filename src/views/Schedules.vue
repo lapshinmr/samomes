@@ -26,155 +26,138 @@
           <v-toolbar-title>
             Новое расписание
           </v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn
-              dark
-              text
-              @click="addSchedule"
-            >
-              Создать
-            </v-btn>
-          </v-toolbar-items>
         </v-toolbar>
         <v-card-text>
-          <v-container>
-            <v-form ref="scheduleForm">
-              <v-row>
-                <v-col cols="12">
+          <v-form ref="scheduleForm">
+            <v-row>
+              <v-col cols="12">
+                <v-select
+                  :items="tanks"
+                  v-model="tank"
+                  item-text="name"
+                  label="Выберите аквариум"
+                  persistent-hint
+                  hide-selected
+                  hint="Выберите аквариум, для которого будет составлено расписание"
+                  :return-object="true"
+                  :rules="rulesTank"
+                ></v-select>
+              </v-col>
+              <v-expand-transition>
+                <v-col v-if="tank" cols="12">
                   <v-select
-                    :items="tanks"
-                    v-model="tank"
+                    :items="recipes"
+                    v-model="recipesSelected"
+                    label="Выберите рецепты"
                     item-text="name"
-                    label="Выберите аквариум"
                     persistent-hint
                     hide-selected
-                    hint="Выберите аквариум, для которого будет составлено расписание"
+                    multiple
+                    hint="Выберите рецепты, которые хотите использовать для данного аквариума"
                     :return-object="true"
-                    :rules="rulesTank"
                   ></v-select>
                 </v-col>
-                <v-expand-transition>
-                  <v-col v-if="tank" cols="12">
-                    <v-select
-                      :items="recipes"
-                      v-model="recipesSelected"
-                      label="Выберите рецепты"
-                      item-text="name"
-                      persistent-hint
-                      hide-selected
-                      multiple
-                      hint="Выберите рецепты, которые хотите использовать для данного аквариума"
-                      :return-object="true"
-                    ></v-select>
-                  </v-col>
-                </v-expand-transition>
-                <v-col v-if="recipesSelected.length > 0" cols="12">
-                  <h6>Выбранные рецепты</h6>
-                  <div v-for="(recipeSelected, index) in recipesSelected" :key="index" class="d-flex justify-content-between align-items-center">
-                    <div>
-                      {{ recipeSelected.name }}
-                    </div>
-                    <div>
-                      <v-text-field
-                        :value="recipeSelected.amount"
-                        @input="inputRecipeAmount(index)"
-                        label="Введите объем"
-                        suffix="мл"
-                        hide-details="auto"
-                      ></v-text-field>
-                    </div>
-                 </div>
+              </v-expand-transition>
+              <v-col v-if="recipesSelected.length > 0" cols="12">
+                <h6>Выбранные рецепты</h6>
+                <div v-for="(recipeSelected, index) in recipesSelected" :key="index" class="d-flex justify-content-between align-items-center">
+                  <div>
+                    {{ recipeSelected.name }}
+                  </div>
+                  <div>
+                    <v-text-field
+                      :value="recipeSelected.amount"
+                      @input="inputRecipeAmount(index)"
+                      label="Введите объем"
+                      suffix="мл"
+                      hide-details="auto"
+                    ></v-text-field>
+                  </div>
+               </div>
+              </v-col>
+              <v-expand-transition>
+                <v-col v-if="isAmount" cols="12">
+                  <h6>Повышение концентрации в аквариуме</h6>
+                  <div v-for="(value, name) in totalElements" :key="name" class="d-flex justify-content-between">
+                    <span>{{ name }}</span>
+                    <span>{{ value !== undefined ? value.toFixed(2) : 0 }} мг/л</span>
+                  </div>
                 </v-col>
-                <v-expand-transition>
-                  <v-col v-if="isAmount" cols="12">
-                    <h6>Повышение концентрации в аквариуме</h6>
-                    <div v-for="(value, name) in totalElements" :key="name" class="d-flex justify-content-between">
-                      <span>{{ name }}</span>
-                      <span>{{ value !== undefined ? value.toFixed(2) : 0 }} мг/л</span>
-                    </div>
-                  </v-col>
-                </v-expand-transition>
-                <v-expand-transition>
-                  <v-col v-if="isAmount" cols="12">
-                    <v-date-picker
-                      v-model="datesRange"
-                      locale="ru"
-                      no-title
-                      first-day-of-week="1"
-                      full-width
-                      range
-                    >
-                      <template v-slot:default>
-                        <v-text-field
-                          :value="daysTotal"
-                          label="Длительность периода"
-                          :suffix="daysSuffix"
-                          :rules="rulesDays"
-                          hide-details="auto"
-                          readonly
-                        ></v-text-field>
-                      </template>
-                    </v-date-picker>
-                  </v-col>
-                </v-expand-transition>
-                <v-expand-transition>
-                  <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal">
-                    <v-simple-table>
-                      <template v-slot:default>
-                        <thead>
-                          <tr>
-                            <th class="text-left">Дни</th>
-                            <th class="text-left" v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
-                              {{ recipeName }}, мл
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="(day, index) in daysTotal" :key="day">
-                            <td>
-                              <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
-                              <span class="text-secondary">{{ datesColumn[index].date }}</span>
-                            </td>
-                            <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
-                              <v-checkbox
-                                v-if="!isNaN(quotas[index])"
-                                color="primary"
-                                dense
-                                v-model="selected[recipeName][index]"
-                                hide-details="auto"
-                                class="mt-0"
-                              >
-                                 <template v-slot:label>
-                                   <span class="mt-1">
-                                    {{ quotas[index].toFixed(2) }}
-                                   </span>
-                                 </template>
-                              </v-checkbox>
-                              <span v-else> - </span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </template>
-                    </v-simple-table>
-                  </v-col>
-                </v-expand-transition>
-              </v-row>
-            </v-form>
-          </v-container>
+              </v-expand-transition>
+              <v-expand-transition>
+                <v-col v-if="isAmount" cols="12">
+                  <v-date-picker
+                    v-model="datesRange"
+                    locale="ru"
+                    no-title
+                    first-day-of-week="1"
+                    full-width
+                    range
+                  >
+                    <template v-slot:default>
+                      <v-text-field
+                        :value="daysTotal"
+                        label="Длительность периода"
+                        :suffix="daysSuffix"
+                        :rules="rulesDays"
+                        hide-details="auto"
+                        readonly
+                      ></v-text-field>
+                    </template>
+                  </v-date-picker>
+                </v-col>
+              </v-expand-transition>
+              <v-expand-transition>
+                <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal" cols="12">
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th class="text-left">Дни</th>
+                          <th class="text-left" v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
+                            {{ recipeName }}, мл
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(day, index) in daysTotal" :key="day">
+                          <td>
+                            <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
+                            <span class="text-secondary">{{ datesColumn[index].date }}</span>
+                          </td>
+                          <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
+                            <v-checkbox
+                              v-if="!isNaN(quotas[index])"
+                              color="primary"
+                              dense
+                              v-model="selected[recipeName][index]"
+                              hide-details="auto"
+                              class="mt-0"
+                            >
+                               <template v-slot:label>
+                                 <span class="mt-1">
+                                  {{ quotas[index].toFixed(2) }}
+                                 </span>
+                               </template>
+                            </v-checkbox>
+                            <span v-else> - </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </v-col>
+              </v-expand-transition>
+              <v-expand-transition>
+                <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal" class="text-right" cols="12">
+                  <v-btn color="primary" @click="addSchedule">
+                    Создать
+                  </v-btn>
+                </v-col>
+              </v-expand-transition>
+            </v-row>
+          </v-form>
         </v-card-text>
-        <v-toolbar v-if="recipesSelected.length > 0 && isAmount && daysTotal" dark color="primary">
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn
-              dark
-              text
-              @click="addSchedule"
-            >
-              Создать
-            </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
       </v-card>
     </v-dialog>
 
@@ -186,8 +169,8 @@
         <v-card-title>
           Удаление расписания
         </v-card-title>
-        <v-card-text>
-          Нажмите кнопку "удалить" если действительно собираетесь это сделать.
+        <v-card-text v-if="curScheduleIndex !== null">
+          Подтвердите, что вы хотите удалить расписание для аквариума "{{ schedules[curScheduleIndex].tank.name }}"
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -218,7 +201,7 @@
           @click="openAddSchedule"
           v-on="on"
         >
-          <v-icon>mdi-calendar-plus</v-icon>
+          <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
       <span>Добавить расписание</span>

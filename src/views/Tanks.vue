@@ -1,14 +1,6 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
-        <h2 class="text-center">
-          Аквариумы
-        </h2>
-      </v-col>
-    </v-row>
-
-    <v-row>
       <v-col cols="12" md="6"
         v-for="(tank, index) in tanks"
         :key="tank.name"
@@ -53,93 +45,94 @@
           <v-btn icon dark @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title v-if="!isEditing">Новый аквариум</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn
-              v-if="isEditing"
-              text
-              dark
-              @click="removeTank"
-            >Удалить</v-btn>
-            <v-btn
-              v-if="isEditing"
-              dark
-              text
-              @click="editTank"
-            >Сохранить</v-btn>
-            <v-btn
-              v-if="!isEditing"
-              dark
-              text
-              @click="addTank"
-            >
-              Создать
-            </v-btn>
-          </v-toolbar-items>
+          <v-toolbar-title v-if="!isEditing">
+            Новый аквариум
+          </v-toolbar-title>
+          <v-toolbar-title v-else>
+            Редактирование аквариума
+          </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <v-container>
-            <v-form ref="tankForm">
-              <v-row>
-                <v-col cols="12">
+          <v-form ref="tankForm">
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  v-model.lazy="name"
+                  label="Название"
+                  hide-details="auto"
+                  clearable
+                  :hint="nameHint"
+                  :rules="nameRules"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-model.number="volume"
+                  label="Введите объем, л"
+                  hide-details="auto"
+                  :hint="volumeHint"
+                  :rules="volumeRules"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-btn
+                  center
+                  text
+                  @click="isTankVolumeCalc = !isTankVolumeCalc"
+                  class="px-0"
+                >
+                  Калькулятор
+                  <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+              </v-col>
+              <v-expand-transition>
+                <v-col cols="12" v-if="isTankVolumeCalc">
                   <v-text-field
-                    v-model.lazy="name"
-                    label="Название"
+                    v-model.lazy="length"
+                    label="Длина, см"
                     hide-details="auto"
-                    clearable
-                    :hint="nameHint"
-                    :rules="nameRules"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.lazy="width"
+                    label="Ширина, см"
+                    hide-details="auto"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.lazy="height"
+                    label="Высота, см"
+                    hint="Введите высоту чистого столба воды"
+                    hide-details="auto"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.lazy="glassThickness"
+                    label="Толщина стекла, мм"
+                    hide-details="auto"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model.number="volume"
-                    label="Введите объем, л"
-                    hide-details="auto"
-                    :hint="volumeHint"
-                    :rules="volumeRules"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12">
+              </v-expand-transition>
+              <v-expand-transition>
+                <v-col class="text-right" cols="12">
                   <v-btn
-                    center
-                    text
-                    @click="isTankVolumeCalc = !isTankVolumeCalc"
-                    class="px-0"
+                    v-if="isEditing"
+                    @click="removeTank"
+                  >Удалить</v-btn>
+                  <v-btn
+                    v-if="isEditing"
+                    @click="editTank"
+                    color="primary"
+                    class="ml-2"
+                  >Сохранить</v-btn>
+                  <v-btn
+                    v-if="!isEditing"
+                    @click="addTank"
+                    color="primary"
                   >
-                    Калькулятор
-                    <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                    Создать
                   </v-btn>
                 </v-col>
-                <v-expand-transition>
-                  <v-col cols="12" v-if="isTankVolumeCalc">
-                    <v-text-field
-                      v-model.lazy="length"
-                      label="Длина, см"
-                      hide-details="auto"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model.lazy="width"
-                      label="Ширина, см"
-                      hide-details="auto"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model.lazy="height"
-                      label="Высота, см"
-                      hint="Введите высоту чистого столба воды"
-                      hide-details="auto"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model.lazy="glassThickness"
-                      label="Толщина стекла, мм"
-                      hide-details="auto"
-                    ></v-text-field>
-                  </v-col>
-                </v-expand-transition>
-              </v-row>
-            </v-form>
-          </v-container>
+              </v-expand-transition>
+            </v-row>
+          </v-form>
         </v-card-text>
       </v-card>
     </v-dialog>

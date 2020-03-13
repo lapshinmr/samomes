@@ -10,6 +10,14 @@
             <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item href="https://github.com/lapshinmr/udo">
+          <v-list-item-action>
+            <v-icon>fab fa-github</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>GitHub</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -18,7 +26,13 @@
       dark
       dense
     >
-      <v-toolbar-title>Fertilizer</v-toolbar-title>
+      <v-toolbar-title>
+        <div class="d-flex align-content-center text-uppercase">
+          <span>Aqualizer</span>
+          <v-icon class="mx-2">mdi-chevron-right</v-icon>
+          <span>{{ this.$router.currentRoute.name }}</span>
+        </div>
+      </v-toolbar-title>
       <v-spacer />
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     </v-app-bar>
@@ -41,12 +55,17 @@ export default {
     drawer: false,
     links: [
       { path: '/tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
-      { path: '/recipes', icon: 'mdi-clipboard-multiple-outline', text: 'Удобрения' },
-      { path: '/schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписания' }
+      { path: '/recipes', icon: 'mdi-test-tube', text: 'Рецепты' },
+      { path: '/schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписание' },
+      { path: '/about', icon: 'mdi-information-outline', text: 'О проекте' }
     ]
   })
 }
 </script>
 
 <style lang="sass">
+  .v-toolbar__title
+    font-size: 1rem!important
+  a.v-list-item
+    text-decoration: none
 </style>
