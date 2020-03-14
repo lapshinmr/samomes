@@ -68,7 +68,8 @@
               <v-col cols="12">
                 <v-text-field
                   v-model.number="volume"
-                  label="Введите объем, л"
+                  label="Введите объем"
+                  suffix="л"
                   hide-details="auto"
                   :hint="volumeHint"
                   :rules="volumeRules"
@@ -89,23 +90,27 @@
                 <v-col cols="12" v-if="isTankVolumeCalc">
                   <v-text-field
                     v-model.lazy="length"
-                    label="Длина, см"
+                    label="Длина"
+                    suffix="см"
                     hide-details="auto"
                   ></v-text-field>
                   <v-text-field
                     v-model.lazy="width"
-                    label="Ширина, см"
+                    label="Ширина"
+                    suffix="см"
                     hide-details="auto"
                   ></v-text-field>
                   <v-text-field
                     v-model.lazy="height"
-                    label="Высота, см"
+                    label="Высота"
+                    suffix="см"
                     hint="Введите высоту чистого столба воды"
                     hide-details="auto"
                   ></v-text-field>
                   <v-text-field
                     v-model.lazy="glassThickness"
-                    label="Толщина стекла, мм"
+                    label="Толщина стекла"
+                    suffix="мм"
                     hide-details="auto"
                   ></v-text-field>
                 </v-col>
