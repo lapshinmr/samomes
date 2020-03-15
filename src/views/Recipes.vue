@@ -16,10 +16,10 @@
             <div class="d-flex justify-content-between">
               <span>Реагент</span><span>{{ recipe.reagent }}</span>
             </div>
-            <div class="d-flex justify-content-between">
+            <div v-if="recipe.mass" class="d-flex justify-content-between">
               <span>Масса реагента</span><span>{{ parseFloat(recipe.mass).toFixed(2) }} г</span>
             </div>
-            <div class="d-flex justify-content-between">
+            <div v-if="recipe.mass" class="d-flex justify-content-between">
               <span>Объем удобрения</span><span>{{ recipe.volume }} мл</span>
             </div>
             <div class="d-flex justify-content-between">
@@ -246,9 +246,13 @@
               <v-col v-else cols="12">
                 <v-row>
                   <v-col cols="12">
+                    Введите концентрации элементов. Концентрацию можно найти на этикетке флакона с удобрением.
+                    Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
+                  </v-col>
+                  <v-col cols="12">
                     <v-text-field
                       v-for="(value, name) in elements"
-                      v-model="elements[name]"
+                      v-model.number="elements[name]"
                       :label="name"
                       :value="value"
                       suffix="г/л"
@@ -344,7 +348,9 @@ export default {
       reagents: ['KNO3', 'KH2PO4', 'K2SO4'],
       elements: {
         'NO3': null,
+        'N': null,
         'PO4': null,
+        'P': null,
         'K': null
       },
       isNO3: true,
@@ -409,22 +415,33 @@ export default {
             result[ion] = this.fertilizerMass * this.calcProcent[ion] / (this.fertilizerVolume / 1000)
           }
         }
-        return result
       } else {
-        return this.elements
+        for (let el in this.elements) {
+          if (el === 'N' && this.elements['N']) {
+            result['NO3'] = this.calcMass('NO3') / this.calcMass('N') * this.elements[el]
+          } else if (el === 'P' && this.elements['P']) {
+            result['PO4'] = this.calcMass('PO4') / this.calcMass('P') * this.elements[el]
+          } else {
+            result[el] = this.elements[el]
+          }
+        }
       }
+      return result
     },
     recipeName: {
       get () {
-        if (!this.reagentSelected) { return '' }
-        let name = this.FORMULAS[this.reagentSelected].name
-        if (this.recipeName_ === null) {
-          if (this.fertilizerMass && this.fertilizerVolume) {
-            name += ` ${parseFloat(this.fertilizerMass).toFixed(2)} г на ${this.fertilizerVolume} мл`
+        if (this.reagentSelected) {
+          let name = this.FORMULAS[this.reagentSelected].name
+          if (this.recipeName_ === null) {
+            if (this.fertilizerMass && this.fertilizerVolume) {
+              name += ` ${parseFloat(this.fertilizerMass).toFixed(2)} г на ${this.fertilizerVolume} мл`
+            }
+            return name
+          } else {
+            return this.recipeName_
           }
-          return name
         } else {
-          return this.recipeName_
+          return 'Удобрение'
         }
       },
       set (value) {
@@ -495,6 +512,7 @@ export default {
           : COMPONENTS[el]
         lastElement = el
       }
+      console.log(mass)
       return mass
     },
     countDose () {
