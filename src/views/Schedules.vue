@@ -78,8 +78,8 @@
                 <v-col v-if="isAmount" cols="12">
                   <h6>Повышение концентрации в аквариуме</h6>
                   <div v-for="(value, name) in totalElements" :key="name" class="d-flex justify-content-between">
-                    <span>{{ name }}</span>
-                    <span>{{ value !== undefined ? value.toFixed(2) : 0 }} мг/л</span>
+                    <span>{{ convertIonName(name) }}</span>
+                    <span>{{ value !== undefined ? (convertIonRatio(name) * value).toFixed(2) : 0 }} мг/л</span>
                   </div>
                 </v-col>
               </v-expand-transition>
@@ -212,6 +212,7 @@
 import Vue from 'vue'
 import { mapState, mapMutations } from 'vuex'
 import Schedule from '@/components/Schedule.vue'
+import { convertIonName, convertIonRatio } from '../funcs.js'
 
 export default {
   name: 'schedules',
@@ -259,17 +260,19 @@ export default {
       return names.findIndex(item => item === this.tank.name) === this.curScheduleIndex
     },
     isAmount () {
-      return this.recipesSelected.find(x => x.amount !== undefined)
+      return this.recipesSelected.find(x => x.amount)
     },
     totalElements () {
       let result = {}
       for (let recipe of this.recipesSelected) {
-        for (let ion in recipe.concentration) {
-          if (!(ion in result)) {
-            result[ion] = 0
-          }
-          if (recipe.amount) {
-            result[ion] += recipe.concentration[ion] / this.tank.volume * recipe.amount
+        for (let reagent in recipe.concentration) {
+          for (let ion in recipe.concentration[reagent]) {
+            if (!(ion in result)) {
+              result[ion] = 0
+            }
+            if (recipe.amount) {
+              result[ion] += recipe.concentration[reagent][ion] / this.tank.volume * recipe.amount
+            }
           }
         }
       }
@@ -348,6 +351,12 @@ export default {
     ...mapMutations([
       'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE'
     ]),
+    convertIonName (ion) {
+      return convertIonName(ion)
+    },
+    convertIonRatio (ion) {
+      return convertIonRatio(ion)
+    },
     fillDays () {
       for (const recipe of this.recipesSelected) {
         Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
@@ -365,9 +374,10 @@ export default {
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
+      let value = parseFloat(event.target.value)
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: event.target.value
+        amount: !isNaN(value) ? value : ''
       })
     },
     openAddSchedule () {

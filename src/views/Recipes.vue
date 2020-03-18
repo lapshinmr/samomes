@@ -25,21 +25,22 @@
                   {{ FORMULAS[reagent].name }} ({{ reagent }})
                 </span>
                 <span>
-                  {{ parseFloat(recipe.mass[reagent]).toFixed(2) }} г
+                  {{ recipe.mass[reagent].toFixed(2) }} г
                 </span>
               </div>
             </template>
             <v-divider />
             <div class="mt-3 d-flex justify-content-between">
-              <div>Концентрация</div>
-              <div>
-                <span
-                  v-for="(value, ion, index) in countTotalConcentration(recipe.concentration)"
-                  :class="{'ml-2': index !== 0}"
+              <div>Концентрация, г/л</div>
+              <div class="d-flex flex-column">
+                <div
+                  v-for="(value, ion) in countTotalConcentration(recipe.concentration)"
                   :key="ion"
+                  class="d-flex justify-content-between"
                 >
-                  {{ convertIonName(ion) }}: {{ (convertIonRatio(ion) * value).toFixed(1) }} г/л
-                </span>
+                  <div>{{ convertIonName(ion) }}:</div>
+                  <div class="ml-3">{{ (convertIonRatio(ion) * value).toFixed(1) }}</div>
+                </div>
               </div>
             </div>
           </v-card-text>
@@ -507,7 +508,7 @@ export default {
         if (this.recipeNote_ === null && this.reagentsSelected.length === 1) {
           let reagent = this.reagentsSelected[0]
           if (this.fertilizerMass[reagent] && this.fertilizerVolume) {
-            return `${parseFloat(this.fertilizerMass[reagent]).toFixed(2)} г на ${this.fertilizerVolume} мл`
+            return `${this.fertilizerMass[reagent].toFixed(2)} г на ${this.fertilizerVolume} мл`
           } else {
             return ''
           }
