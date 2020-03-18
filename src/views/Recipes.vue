@@ -79,7 +79,7 @@
                   :items="fertilizerTypes"
                   v-model="fertilizerType"
                   label="Выберите тип удобрения"
-                  hint="От типа зависит как будет использоваться удобрение в расчете"
+                  hint="От типа зависит расчет удобрения"
                   persistent-hint
                   hide-details="auto"
                   hide-selected
@@ -124,7 +124,7 @@
                     <v-col v-if="reagentsSelected.length > 0" cols="12">
                       <v-combobox
                         :items="tanks"
-                        v-model="tankVolume"
+                        v-model.number="tankVolume"
                         item-text="name"
                         item-value="volume"
                         label="Объем аквариума"
@@ -133,6 +133,7 @@
                         hint="Выберите аквариум или введите объем"
                         suffix="л"
                         :return-object="false"
+                        :rules="rulesTankVolume"
                       ></v-combobox>
                     </v-col>
                   </v-expand-transition>
@@ -163,49 +164,39 @@
                                   <v-icon v-on="on">mdi-help-circle-outline</v-icon>
                                 </template>
                                 Введите массу реагента и калькулятор автоматически рассчитает
-                                дозы элементов.
+                                дозы элементов, которые показаны ниже.
                               </v-tooltip>
                             </span>
                             <v-divider />
                           </div>
                         </v-col>
-                        <v-col cols="12">
-                          <v-row>
-                            <template v-for="reagent in reagentsSelected">
-                              <v-col :key="reagent + 1" cols="6">
-                                <v-text-field
-                                  :value="fertilizerMass[reagent]"
-                                  @input="inputMass(reagent)"
-                                  :label="reagent"
-                                  suffix="г"
-                                  hint="Введите массу"
-                                  hide-details="auto"
-                                  :key="reagent"
-                                  :rules="[rulesMass.isExist(), rulesMass.solubility(reagent, fertilizerVolume, FORMULAS)]"
-                                >
-                                </v-text-field>
-                              </v-col>
-                              <v-col class="d-flex align-items-center" cols="6" :key="reagent + 2">
-                                <template v-for="(data, ion) in FORMULAS[reagent].ions">
-                                  <span v-if="data.isNeeded" :key="reagent + '_' + ion" class="ml-2" style="white-space: nowrap">
-                                    {{ convertIonName(ion) + ': ' + (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) + ' г/л' }}
-                                  </span>
-                                </template>
-                              </v-col>
+                        <v-col v-for="reagent in reagentsSelected" cols="12" :key="reagent" class="py-0">
+                          <v-text-field
+                            :value="fertilizerMass[reagent]"
+                            @input="inputMass(reagent)"
+                            :label="reagent"
+                            suffix="г"
+                            :hint="fertilizerMassHint(reagent)"
+                            hide-details="auto"
+                            :key="reagent"
+                            :rules="[rulesMass.isExist(), rulesMass.solubility(reagent, fertilizerVolume, FORMULAS)]"
+                          >
+                          </v-text-field>
+                        </v-col>
+                        <v-col v-if="reagentsSelected.length > 1" cols="12" class="d-flex justify-content-between">
+                          <div>Концентрация, г/л</div>
+                          <div class="d-flex flex-column">
+                            <template v-for="(value, name) in countTotalConcentration(concentration)">
+                              <div v-if="name !== convertIonName(name)" class="d-flex justify-content-between" :key="name">
+                                <div>{{ name }}/{{ convertIonName(name) }}:</div>
+                                <div class="ml-3">{{ value.toFixed(1) }} / {{ (convertIonRatio(name) * value).toFixed(1) }}</div>
+                              </div>
+                              <div v-else class="d-flex justify-content-between" :key="name">
+                                <div>{{ name }}:</div>
+                                <div class="ml-3">{{ value.toFixed(1) }}</div>
+                              </div>
                             </template>
-                            <v-col v-if="reagentsSelected.length > 1" cols="12">
-                              <v-row>
-                                <v-col cols="6">
-                                  Суммарная концентрация
-                                </v-col>
-                                <v-col cols="6">
-                                  <span class="ml-2" v-for="(value, name) in countTotalConcentration(concentration)" :key="name">
-                                    {{ convertIonName(name) }}: {{ (convertIonRatio(name) * value).toFixed(2) }} г/л
-                                  </span>
-                                </v-col>
-                              </v-row>
-                            </v-col>
-                          </v-row>
+                          </div>
                         </v-col>
                         <v-col cols="12">
                           <div class="d-flex align-items-center">
@@ -226,13 +217,13 @@
                             <v-divider />
                           </div>
                         </v-col>
-                        <v-col cols="12">
+                        <v-col cols="12" class="pb-0">
                           <v-row>
                             <template v-for="reagent in reagentsSelected">
                               <v-col cols="12" :key="reagent" class="py-0">
                                 <v-row>
                                   <v-col cols="4">
-                                    {{ reagent }}
+                                    {{ reagent }}, мг/л
                                   </v-col>
                                   <template v-for="(data, ion) in FORMULAS[reagent].ions">
                                     <v-col v-if="data.isNeeded" :key="reagent + ion" class="py-0">
@@ -240,7 +231,6 @@
                                         :value="solute[reagent][ion]"
                                         @input="inputIon(reagent, ion)"
                                         :label="convertIonName(ion)"
-                                        suffix="мг/л"
                                         hide-details="auto"
                                       ></v-text-field>
                                     </v-col>
@@ -248,15 +238,20 @@
                                 </v-row>
                               </v-col>
                             </template>
-                            <v-col v-if="reagentsSelected.length > 1" cols="12">
-                              <v-row>
-                                <v-col cols="4">
-                                  Общая доза
-                                </v-col>
-                                <v-col v-for="(value, name) in countTotalDose(solute)" :key="name">
-                                  {{ convertIonName(name) }}: {{ value}} мг/л
-                                </v-col>
-                              </v-row>
+                            <v-col v-if="reagentsSelected.length > 1" cols="12" class="d-flex justify-content-between pb-0">
+                              <div>
+                                Общая доза, мг/л
+                              </div>
+                              <div class="d-flex flex-column">
+                                <div
+                                  v-for="(value, name) in countTotalDose(solute)"
+                                  class="d-flex justify-content-between"
+                                  :key="name"
+                                >
+                                  <div>{{ convertIonName(name) }}:</div>
+                                  <div class="ml-3">{{ value.toFixed(3) }}</div>
+                                </div>
+                              </div>
                             </v-col>
                           </v-row>
                         </v-col>
@@ -443,6 +438,9 @@ export default {
       rulesVolume: [
         v => !!v || 'Введите объем удобрения'
       ],
+      rulesTankVolume: [
+        v => !!v || 'Введите обеъм аквариума'
+      ],
       rulesName: [
         v => !!v || 'Введите название',
         v => (!this.isExist || this.isSame) || 'Рецепт с таким названием уже существует'
@@ -626,14 +624,15 @@ export default {
       }
     },
     inputMass (reagent) {
-      Vue.set(this.fertilizerMass, reagent, parseFloat(event.target.value))
-      if (this.tankVolume) {
+      let value = parseFloat(event.target.value)
+      Vue.set(this.fertilizerMass, reagent, !isNaN(value) ? value : '')
+      if (this.tankVolume && !isNaN(value)) {
         this.countDose()
       }
     },
     inputVolume () {
-      this.fertilizerVolume = event.target.value
-      if (this.tankVolume) {
+      this.fertilizerVolume = parseFloat(event.target.value)
+      if (this.tankVolume && !isNaN(this.fertilizerVolumeVolume)) {
         this.countDose()
       }
     },
@@ -673,6 +672,16 @@ export default {
     },
     countTotalDose (solute) {
       return countTotalDose(solute)
+    },
+    fertilizerMassHint (reagent) {
+      let hint = ''
+      for (let ion in this.FORMULAS[reagent].ions) {
+        let data = this.FORMULAS[reagent].ions[ion]
+        if (data.isNeeded) {
+          hint += this.convertIonName(ion) + ': ' + (this.convertIonRatio(ion) * this.concentration[reagent][ion]).toFixed(2) + ' г/л '
+        }
+      }
+      return hint
     },
     openAddRecipe () {
       this.resetComponent()
