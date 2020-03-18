@@ -24,27 +24,27 @@
                 <span class="schedule__date text-secondary">{{ schedule.datesColumn[index].date }}</span>
               </td>
               <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
-                <v-checkbox
-                  v-if="schedule.selected[recipeName][index]"
-                  color="primary"
-                  dense
-                  :input-value="schedule.completed[recipeName][index] === 1"
-                  @click.stop="clickDay(recipeName, index)"
-                  :indeterminate="schedule.completed[recipeName][index] === 2"
-                  hide-details="auto"
-                  class="mt-0"
-                >
-                   <template v-slot:label>
-                     <span class="schedule__label" :class="{
-                       'text-success': schedule.completed[recipeName][index] === 1,
-                       'text-secondary': schedule.completed[recipeName][index] === 2
-                      }"
-                     >
-                      {{ quotas[index].toFixed(1) }}
-                     </span>
-                   </template>
-                </v-checkbox>
-                <span v-else> - </span>
+                <div class="d-flex align-items-center">
+                  <v-checkbox
+                    v-if="schedule.selected[recipeName][index]"
+                    color="primary"
+                    :input-value="schedule.completed[recipeName][index] === 1"
+                    @click.stop="clickDay(recipeName, index)"
+                    :indeterminate="schedule.completed[recipeName][index] === 2"
+                    hide-details="auto"
+                    dense
+                    class="mt-0 pt-0"
+                  >
+                  </v-checkbox>
+                  <span v-if="schedule.selected[recipeName][index]" class="schedule__label" :class="{
+                    'text-success': schedule.completed[recipeName][index] === 1,
+                    'text-secondary': schedule.completed[recipeName][index] === 2
+                   }"
+                  >
+                   {{ quotas[index].toFixed(2) }}
+                  </span>
+                  <span v-if="!schedule.selected[recipeName][index]"> - </span>
+                </div>
               </td>
             </tr>
             <tr class="">
