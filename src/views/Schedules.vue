@@ -51,7 +51,6 @@
                     label="Выберите рецепты"
                     item-text="name"
                     persistent-hint
-                    hide-selected
                     multiple
                     hint="Выберите рецепты, которые хотите использовать для данного аквариума"
                     :return-object="true"
