@@ -41,7 +41,9 @@ export const countMass = (reagent) => {
 export const convertIonName = (ion) => {
   let ions = {
     'N': 'NO3',
-    'P': 'PO4'
+    'NO3': 'N',
+    'P': 'PO4',
+    'PO4': 'P'
   }
   return ion in ions ? ions[ion] : ion
 }
