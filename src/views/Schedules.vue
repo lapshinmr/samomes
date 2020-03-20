@@ -169,7 +169,12 @@
           Удаление расписания
         </v-card-title>
         <v-card-text v-if="curScheduleIndex !== null">
-          Подтвердите, что вы хотите удалить расписание для аквариума "{{ schedules[curScheduleIndex].tank.name }}"
+          <p>
+            Подтвердите, что вы хотите удалить расписание для аквариума "{{ schedules[curScheduleIndex].tank.name }}".
+          </p>
+          <p>
+            После нажатия кнопки "Удалить" будет предложено создать новое расписание с помощью ранее используемых рецептов.
+          </p>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -237,12 +242,7 @@ export default {
     }
   },
   created () {
-    const duration = 6
-    let dateStart = new Date().toISOString().split('T')[0]
-    let dateFinish = new Date()
-    dateFinish = new Date(dateFinish.setDate(dateFinish.getDate() + duration))
-    dateFinish = dateFinish.toISOString().split('T')[0]
-    this.datesRange = [dateStart, dateFinish]
+    this.createDatesRange()
   },
   computed: {
     ...mapState([
@@ -357,11 +357,25 @@ export default {
     convertIonRatio (ion) {
       return convertIonRatio(ion)
     },
+    createDatesRange () {
+      const duration = 6
+      let dateStart = new Date().toISOString().split('T')[0]
+      let dateFinish = new Date()
+      dateFinish = new Date(dateFinish.setDate(dateFinish.getDate() + duration))
+      dateFinish = dateFinish.toISOString().split('T')[0]
+      this.datesRange = [dateStart, dateFinish]
+    },
     fillDays () {
+      let selected = {}
       for (const recipe of this.recipesSelected) {
-        Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal))
+        if (recipe.name in this.selected) {
+          selected[recipe.name] = [ ...this.selected[recipe.name] ]
+        } else {
+          selected[recipe.name] = Array(this.daysTotal).fill(true, 0, this.daysTotal)
+        }
         Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal))
       }
+      this.selected = { ...selected }
     },
     resetComponent () {
       this.tank = null
@@ -371,6 +385,13 @@ export default {
       this.datesRange = []
       this.selected = {}
       this.completed = {}
+    },
+    setComponent (index) {
+      let schedule = this.schedules[index]
+      this.tank = schedule.tank
+      this.recipesSelected = [ ...schedule.recipesSelected ]
+      this.selected = { ...schedule.selected }
+      this.createDatesRange()
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
@@ -390,12 +411,12 @@ export default {
       if (this.$refs.scheduleForm.validate()) {
         this.SCHEDULE_ADD({
           tank: this.tank,
-          recipesSelected: [...this.recipesSelected],
+          recipesSelected: [ ...this.recipesSelected ],
           datesRange: this.datesRange,
           daysTotal: this.daysTotal,
-          datesColumn: [...this.datesColumn],
-          selected: Object.assign({}, this.selected),
-          completed: Object.assign({}, this.completed)
+          datesColumn: [ ...this.datesColumn ],
+          selected: { ...this.selected },
+          completed: { ...this.completed }
         })
         this.resetComponent()
       }
@@ -405,8 +426,10 @@ export default {
       this.dialogRemove = true
     },
     removeSchedule () {
+      this.setComponent(this.curScheduleIndex)
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
       this.dialogRemove = false
+      this.dialog = true
     }
   }
 }

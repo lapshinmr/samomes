@@ -61,7 +61,7 @@
     <v-card-actions>
       <v-spacer />
       <v-btn text @click="$emit('remove', index)">
-        Удалить
+        Завершить
       </v-btn>
     </v-card-actions>
   </v-card>
