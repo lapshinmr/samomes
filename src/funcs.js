@@ -1,6 +1,6 @@
 import { COMPONENTS } from './constants.js'
 
-export const countTotalConcentration = (concentration) => {
+export const countTotalIonConcentration = (concentration) => {
   let total = {}
   for (let reagent in concentration) {
     for (let ion in concentration[reagent]) {
@@ -11,6 +11,27 @@ export const countTotalConcentration = (concentration) => {
     }
   }
   return total
+}
+
+export const countTotalConcentration = (concentration) => {
+  let total = 0
+  let totalIonConcentration = countTotalIonConcentration(concentration)
+  for (let ion in totalIonConcentration) {
+    total += convertIonRatio(ion) * totalIonConcentration[ion]
+  }
+  return total
+}
+
+export const isConcentration = (concentration) => {
+  let result = false
+  for (let reagent in concentration) {
+    for (let ion in concentration[reagent]) {
+      if (concentration[reagent][ion]) {
+        result = true
+      }
+    }
+  }
+  return result
 }
 
 export const countTotalDose = (solute) => {

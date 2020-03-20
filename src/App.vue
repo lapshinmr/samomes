@@ -59,7 +59,15 @@ export default {
       { path: '/schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписание' },
       { path: '/about', icon: 'mdi-information-outline', text: 'О проекте' }
     ]
-  })
+  }),
+  mounted () {
+    let path = localStorage.getItem('path')
+    console.log(path)
+    if (path) {
+      localStorage.removeItem('path')
+      this.$router.push(path)
+    }
+  }
 }
 </script>
 
