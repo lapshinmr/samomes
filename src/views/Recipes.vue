@@ -1,6 +1,20 @@
 <template>
   <v-container>
-    <v-row v-if="recipes.length > 0">
+    <v-row>
+      <v-col v-if="recipes.length === 0" cols="12" md="8" offset-md="2">
+        <p class="display-1">
+          У вас еще нет ни одного рецепта
+        </p>
+        <p class="headline">
+          <a @click="dialog = true">Добавьте рецепты</a>, чтобы вы могли
+          использовать их для составления расписания по внесению удобрений.
+        </p>
+        <p v-if="tanks.length === 0" class="">
+          У вас нет еще ни одного аквариума.
+          <router-link :to="{ name: 'tanks', params: { open: true }}">Добавьте аквариум</router-link>
+          и после этого можно будет составить расписание.
+        </p>
+      </v-col>
       <v-col cols="12" md="6"
         v-for="(recipe, index) in recipes"
         :key="recipe.name"
@@ -93,389 +107,395 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <v-form ref="recipeForm">
+          <v-container>
             <v-row>
-              <v-col cols="12">
-                <v-select
-                  :items="fertilizerTypes"
-                  v-model="fertilizerType"
-                  label="Выберите тип удобрения"
-                  hint="От типа зависит расчет удобрения"
-                  persistent-hint
-                  hide-details="auto"
-                  hide-selected
-                  :disabled="isEditing"
-                ></v-select>
-              </v-col>
-
-              <v-col v-if="fertilizerType === 'Самомес'" cols="12">
-                <v-row>
-                  <v-col cols="12">
-                    <v-select
-                      :items="reagents"
-                      item-text="text"
-                      item-value="value"
-                      v-model="reagentsSelected"
-                      multiple
-                      label="Реагент"
-                      hint="Вы можете выбрать несколько реагентов"
-                      persistent-hint
-                      hide-details="auto"
-                      :rules="rulesReagent"
-                    ></v-select>
-                    <div
-                      class="mt-2"
-                    >
-                      <template v-for="(reagent, index) in reagents">
-                        <div
-                          v-if="reagentsSelected.includes(reagent.value)"
-                          class="d-flex justify-content-between"
-                          :key="reagent.value"
-                        >
-                          <div>{{ reagents[index].text }}</div>
-                          <div>{{ showComponents(countProcent(reagent.value)) }}</div>
-                        </div>
-                      </template>
-                    </div>
-                    <div v-if="reagentsSelected.length > 0" class="mt-3">
-                      <small>
-                        *Так как аквариумисту удобнее работать с нитратом (NO3), а не с азотом (N), далее
-                        азот будет приведен к нитрату.
-                      </small>
-                    </div>
-                  </v-col>
-                  <v-expand-transition>
-                    <v-col v-if="reagentsSelected.length > 0" cols="12">
-                      <v-combobox
-                        :items="tanks"
-                        v-model.number="tankVolume"
-                        item-text="name"
-                        item-value="volume"
-                        label="Объем аквариума"
+              <v-col cols="12" md="8" offset-md="2">
+                <v-form ref="recipeForm">
+                  <v-row>
+                    <v-col cols="12">
+                      <v-select
+                        :items="fertilizerTypes"
+                        v-model="fertilizerType"
+                        label="Выберите тип удобрения"
+                        hint="От типа зависит расчет удобрения"
                         persistent-hint
-                        hide-selected
-                        hint="Выберите аквариум или введите объем"
-                        suffix="л"
-                        :return-object="false"
-                        :rules="rulesTankVolume"
-                      ></v-combobox>
-                    </v-col>
-                  </v-expand-transition>
-                  <v-expand-transition>
-                    <v-col v-if="reagentsSelected.length > 0" cols="12">
-                      <v-text-field
-                        :value="fertilizerVolume"
-                        @input="inputVolume"
-                        label="Введите объем удобрения"
-                        suffix="мл"
-                        hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев"
                         hide-details="auto"
-                        :rules="rulesVolume"
-                      >
-                      </v-text-field>
+                        hide-selected
+                        :disabled="isEditing"
+                      ></v-select>
                     </v-col>
-                  </v-expand-transition>
-                  <v-expand-transition>
-                    <v-col v-if="reagentsSelected.length > 0 && fertilizerVolume && tankVolume" cols="12">
+
+                    <v-col v-if="fertilizerType === 'Самомес'" cols="12">
                       <v-row>
                         <v-col cols="12">
-                          <div class="d-flex align-items-center">
-                            <v-divider />
-                            <span class="mx-3">
-                              Введите массу реагента
-                              <v-tooltip bottom max-width="400">
-                                <template v-slot:activator="{ on }">
-                                  <v-icon v-on="on">mdi-help-circle-outline</v-icon>
-                                </template>
-                                Введите массу реагента и калькулятор автоматически рассчитает
-                                дозы элементов, которые показаны ниже.
-                              </v-tooltip>
-                            </span>
-                            <v-divider />
-                          </div>
-                        </v-col>
-                        <v-col v-for="reagent in reagentsSelected" cols="12" :key="reagent" class="py-0 d-flex">
-                          <v-text-field
-                            :value="fertilizerMass[reagent]"
-                            @input="inputMass(reagent)"
-                            :label="reagent"
-                            suffix="г"
-                            :hint="fertilizerMassHint(reagent)"
+                          <v-select
+                            :items="reagents"
+                            item-text="text"
+                            item-value="value"
+                            v-model="reagentsSelected"
+                            multiple
+                            label="Реагент"
+                            hint="Вы можете выбрать несколько реагентов"
+                            persistent-hint
                             hide-details="auto"
-                            :key="reagent"
-                            :rules="[rulesMass.isExist(), rulesMass.solubility(reagent, fertilizerVolume, FORMULAS)]"
+                            :rules="rulesReagent"
+                          ></v-select>
+                          <div
+                            class="mt-2"
                           >
-                          </v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-simple-table>
-                            <template v-slot:default>
-                              <thead>
-                                <tr>
-                                  <th>
-                                    Реагент
-                                  </th>
-                                  <th
-                                    v-for="ion in Object.keys(countTotalIonConcentration(concentration))"
-                                    :key="ion"
-                                  >
-                                    <template v-if="ion !== convertIonName(ion)">
-                                      {{ ion }}/{{ convertIonName(ion) }}, мг/л
-                                    </template>
-                                    <template v-else>
-                                      {{ ion }}, мг/л
-                                    </template>
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr v-for="reagent in Object.keys(concentration)" :key="reagent">
-                                  <td>
-                                    {{ reagent }}
-                                  </td>
-                                  <td v-for="(value, ion) in countTotalIonConcentration(concentration)" :key="reagent + ion">
-                                    <template v-if="Object.keys(concentration[reagent]).includes(ion)">
-                                      <template v-if="ion !== convertIonName(ion)" >
-                                        {{ concentration[reagent][ion].toFixed(2) }} / {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) }}
-                                      </template>
-                                      <template v-else>
-                                        {{ concentration[reagent][ion].toFixed(2) }}
-                                      </template>
-                                      ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
-                                    </template>
-                                    <template v-else>
-                                      -
-                                    </template>
-                                  </td>
-                                </tr>
-                                <tr class="font-weight-bold">
-                                  <td>
-                                    Сумма
-                                  </td>
-                                  <template v-for="(value, ion) in countTotalIonConcentration(concentration)">
-                                    <td v-if="ion !== convertIonName(ion)" :key="ion">
-                                      <div class="d-flex flex-column">
-                                        <div>
-                                          {{ value.toFixed(2) }} / {{ (convertIonRatio(ion) * value).toFixed(2) }}
-                                        </div>
-                                        <div>
-                                          {{ (value / countTotalConcentration(concentration) * 100).toFixed(1) }}% /
-                                          {{ (value / countTotalConcentration(concentration) * 100 * convertIonRatio(ion)).toFixed(1) }}%
-                                          <v-tooltip bottom max-width="400">
-                                            <template v-slot:activator="{ on }">
-                                              <v-icon v-on="on">mdi-help-circle-outline</v-icon>
-                                            </template>
-                                            Эти проценты показывают соотношение элементов в удобрении.
-                                          </v-tooltip>
-                                        </div>
-                                      </div>
-                                    </td>
-                                    <td v-else :key="ion">
-                                      <div class="d-flex flex-column">
-                                        <div>
-                                          {{ value.toFixed(2) }}
-                                        </div>
-                                        <div>
-                                          {{ (value / countTotalConcentration(concentration) * 100).toFixed(1) }}%
-                                        </div>
-                                      </div>
-                                    </td>
-                                  </template>
-                                </tr>
-                              </tbody>
+                            <template v-for="(reagent, index) in reagents">
+                              <div
+                                v-if="reagentsSelected.includes(reagent.value)"
+                                class="d-flex justify-content-between"
+                                :key="reagent.value"
+                              >
+                                <div>{{ reagents[index].text }}</div>
+                                <div>{{ showComponents(countProcent(reagent.value)) }}</div>
+                              </div>
                             </template>
-                         </v-simple-table>
-                        </v-col>
-                        <v-col cols="12">
-                          <div class="d-flex align-items-center">
-                            <v-divider />
-                            <span class="mx-3">
-                              Или введите дозу элемента
-                              <v-tooltip bottom max-width="400">
-                                <template v-slot:activator="{ on }">
-                                  <v-icon v-on="on">mdi-help-circle-outline</v-icon>
-                                </template>
-                                Введите дозу элемента. Калькулятор автоматически рассчитает
-                                необходимую массу реагента.
-                                Доза - это количество элемента, на которую повысится концентрация
-                                элемента в заданном объеме аквариума при внесении 1 мл удобрения.
-                                Например, вы хотите сделать макро удобрение с нитратом.
-                                И для удобства введения его в аквариум вы бы хотели, чтобы
-                                на каждый вводимый 1 мл удобрения, нитрат повышался на 0.5 мг/л.
-                                0.5 - это доза.
-                              </v-tooltip>
-                            </span>
-                            <v-divider />
+                          </div>
+                          <div v-if="reagentsSelected.length > 0" class="mt-3">
+                            <small>
+                              *Так как аквариумисту удобнее работать с нитратом (NO3), а не с азотом (N), далее
+                              азот будет приведен к нитрату.
+                            </small>
                           </div>
                         </v-col>
-                        <v-col cols="12" class="pb-0">
-                          <v-row>
-                            <template v-for="reagent in reagentsSelected">
-                              <v-col cols="12" :key="reagent" class="py-0">
+                        <v-expand-transition>
+                          <v-col v-if="reagentsSelected.length > 0" cols="12">
+                            <v-combobox
+                              :items="tanks"
+                              v-model.number="tankVolume"
+                              item-text="name"
+                              item-value="volume"
+                              label="Объем аквариума"
+                              persistent-hint
+                              hide-selected
+                              hint="Выберите аквариум или введите объем"
+                              suffix="л"
+                              :return-object="false"
+                              :rules="rulesTankVolume"
+                            ></v-combobox>
+                          </v-col>
+                        </v-expand-transition>
+                        <v-expand-transition>
+                          <v-col v-if="reagentsSelected.length > 0" cols="12">
+                            <v-text-field
+                              :value="fertilizerVolume"
+                              @input="inputVolume"
+                              label="Введите объем удобрения"
+                              suffix="мл"
+                              hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев"
+                              hide-details="auto"
+                              :rules="rulesVolume"
+                            >
+                            </v-text-field>
+                          </v-col>
+                        </v-expand-transition>
+                        <v-expand-transition>
+                          <v-col v-if="reagentsSelected.length > 0 && fertilizerVolume && tankVolume" cols="12">
+                            <v-row>
+                              <v-col cols="12">
+                                <div class="d-flex align-items-center">
+                                  <v-divider />
+                                  <span class="mx-3">
+                                    Введите массу реагента
+                                    <v-tooltip bottom max-width="400">
+                                      <template v-slot:activator="{ on }">
+                                        <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                                      </template>
+                                      Введите массу реагента и калькулятор автоматически рассчитает
+                                      дозы элементов, которые показаны ниже.
+                                    </v-tooltip>
+                                  </span>
+                                  <v-divider />
+                                </div>
+                              </v-col>
+                              <v-col v-for="reagent in reagentsSelected" cols="12" :key="reagent" class="py-0 d-flex">
+                                <v-text-field
+                                  :value="fertilizerMass[reagent]"
+                                  @input="inputMass(reagent)"
+                                  :label="reagent"
+                                  suffix="г"
+                                  :hint="fertilizerMassHint(reagent)"
+                                  hide-details="auto"
+                                  :key="reagent"
+                                  :rules="[rulesMass.isExist(), rulesMass.solubility(reagent, fertilizerVolume, FORMULAS)]"
+                                >
+                                </v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-simple-table>
+                                  <template v-slot:default>
+                                    <thead>
+                                      <tr>
+                                        <th>
+                                          Реагент
+                                        </th>
+                                        <th
+                                          v-for="ion in Object.keys(countTotalIonConcentration(concentration))"
+                                          :key="ion"
+                                        >
+                                          <template v-if="ion !== convertIonName(ion)">
+                                            {{ ion }}/{{ convertIonName(ion) }}, мг/л
+                                          </template>
+                                          <template v-else>
+                                            {{ ion }}, мг/л
+                                          </template>
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr v-for="reagent in Object.keys(concentration)" :key="reagent">
+                                        <td>
+                                          {{ reagent }}
+                                        </td>
+                                        <td v-for="(value, ion) in countTotalIonConcentration(concentration)" :key="reagent + ion">
+                                          <template v-if="Object.keys(concentration[reagent]).includes(ion)">
+                                            <template v-if="ion !== convertIonName(ion)" >
+                                              {{ concentration[reagent][ion].toFixed(2) }} / {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) }}
+                                            </template>
+                                            <template v-else>
+                                              {{ concentration[reagent][ion].toFixed(2) }}
+                                            </template>
+                                            ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
+                                          </template>
+                                          <template v-else>
+                                            -
+                                          </template>
+                                        </td>
+                                      </tr>
+                                      <tr class="font-weight-bold">
+                                        <td>
+                                          Сумма
+                                        </td>
+                                        <template v-for="(value, ion) in countTotalIonConcentration(concentration)">
+                                          <td v-if="ion !== convertIonName(ion)" :key="ion">
+                                            <div class="d-flex flex-column">
+                                              <div>
+                                                {{ value.toFixed(2) }} / {{ (convertIonRatio(ion) * value).toFixed(2) }}
+                                              </div>
+                                              <div>
+                                                {{ (value / countTotalConcentration(concentration) * 100).toFixed(1) }}% /
+                                                {{ (value / countTotalConcentration(concentration) * 100 * convertIonRatio(ion)).toFixed(1) }}%
+                                                <v-tooltip bottom max-width="400">
+                                                  <template v-slot:activator="{ on }">
+                                                    <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                                                  </template>
+                                                  Эти проценты показывают соотношение элементов в удобрении.
+                                                </v-tooltip>
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td v-else :key="ion">
+                                            <div class="d-flex flex-column">
+                                              <div>
+                                                {{ value.toFixed(2) }}
+                                              </div>
+                                              <div>
+                                                {{ (value / countTotalConcentration(concentration) * 100).toFixed(1) }}%
+                                              </div>
+                                            </div>
+                                          </td>
+                                        </template>
+                                      </tr>
+                                    </tbody>
+                                  </template>
+                               </v-simple-table>
+                              </v-col>
+                              <v-col cols="12">
+                                <div class="d-flex align-items-center">
+                                  <v-divider />
+                                  <span class="mx-3">
+                                    Или введите дозу элемента
+                                    <v-tooltip bottom max-width="400">
+                                      <template v-slot:activator="{ on }">
+                                        <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                                      </template>
+                                      Введите дозу элемента. Калькулятор автоматически рассчитает
+                                      необходимую массу реагента.
+                                      Доза - это количество элемента, на которую повысится концентрация
+                                      элемента в заданном объеме аквариума при внесении 1 мл удобрения.
+                                      Например, вы хотите сделать макро удобрение с нитратом.
+                                      И для удобства введения его в аквариум вы бы хотели, чтобы
+                                      на каждый вводимый 1 мл удобрения, нитрат повышался на 0.5 мг/л.
+                                      0.5 - это доза.
+                                    </v-tooltip>
+                                  </span>
+                                  <v-divider />
+                                </div>
+                              </v-col>
+                              <v-col cols="12" class="pb-0">
                                 <v-row>
-                                  <v-col cols="4">
-                                    {{ reagent }}, мг/л
-                                  </v-col>
-                                  <template v-for="(data, ion) in FORMULAS[reagent].ions">
-                                    <v-col v-if="data.isNeeded" :key="reagent + ion" class="py-0">
-                                      <v-text-field
-                                        :value="solute[reagent][ion]"
-                                        @input="inputIon(reagent, ion)"
-                                        :label="convertIonName(ion)"
-                                        hide-details="auto"
-                                      ></v-text-field>
+                                  <template v-for="reagent in reagentsSelected">
+                                    <v-col cols="12" :key="reagent" class="py-0">
+                                      <v-row>
+                                        <v-col cols="4">
+                                          {{ reagent }}, мг/л
+                                        </v-col>
+                                        <template v-for="(data, ion) in FORMULAS[reagent].ions">
+                                          <v-col v-if="data.isNeeded" :key="reagent + ion" class="py-0">
+                                            <v-text-field
+                                              :value="solute[reagent][ion]"
+                                              @input="inputIon(reagent, ion)"
+                                              :label="convertIonName(ion)"
+                                              hide-details="auto"
+                                            ></v-text-field>
+                                          </v-col>
+                                        </template>
+                                      </v-row>
                                     </v-col>
                                   </template>
+                                  <v-col v-if="reagentsSelected.length > 1" cols="12" class="d-flex justify-content-between pb-0">
+                                    <div>
+                                      Общая доза, мг/л
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                      <div
+                                        v-for="(value, name) in countTotalDose(solute)"
+                                        class="d-flex justify-content-between"
+                                        :key="name"
+                                      >
+                                        <div>{{ convertIonName(name) }}:</div>
+                                        <div class="ml-3">{{ value.toFixed(3) }}</div>
+                                      </div>
+                                    </div>
+                                  </v-col>
                                 </v-row>
                               </v-col>
-                            </template>
-                            <v-col v-if="reagentsSelected.length > 1" cols="12" class="d-flex justify-content-between pb-0">
-                              <div>
-                                Общая доза, мг/л
-                              </div>
-                              <div class="d-flex flex-column">
-                                <div
-                                  v-for="(value, name) in countTotalDose(solute)"
-                                  class="d-flex justify-content-between"
-                                  :key="name"
+                            </v-row>
+                          </v-col>
+                        </v-expand-transition>
+                        <v-expand-transition>
+                          <v-col v-if="reagentsSelected.length > 0 && fertilizerVolume && tankVolume" cols="12">
+                            <v-row>
+                              <v-col cols="12">
+                                <v-text-field
+                                  v-model="recipeName"
+                                  label="Имя рецепта"
+                                  hide-details="auto"
+                                  hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
+                                  :rules="rulesName"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col cols="12">
+                                <v-text-field
+                                  v-model="recipeNote"
+                                  label="Примечание"
+                                  hide-details="auto"
+                                  hint="Вы можете добавить дополнительные сведения к рецепту"
+                                ></v-text-field>
+                              </v-col>
+                              <v-col class="text-right" cols="12">
+                                <v-btn
+                                  v-if="isEditing"
+                                  @click="removeRecipe"
+                                >Удалить</v-btn>
+                                <v-btn
+                                  v-if="isEditing"
+                                  color="primary"
+                                  @click="editRecipe"
+                                  class="ml-2"
+                                >Сохранить</v-btn>
+                                <v-btn
+                                  v-if="!isEditing"
+                                  color="primary"
+                                  @click="addRecipe"
                                 >
-                                  <div>{{ convertIonName(name) }}:</div>
-                                  <div class="ml-3">{{ value.toFixed(3) }}</div>
-                                </div>
-                              </div>
+                                  Создать
+                                </v-btn>
+                              </v-col>
+                            </v-row>
+                          </v-col>
+                        </v-expand-transition>
+                      </v-row>
+                    </v-col>
+                    <v-col v-else cols="12">
+                      <v-row>
+                        <v-col cols="12">
+                          Выберите единицы и введите концентрации элементов, которые указаны в составе удобрения.
+                          Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
+                        </v-col>
+                        <v-col cols="12">
+                          <v-radio-group
+                            v-model="isPercent"
+                            row
+                            class="mt-0"
+                            hide-details="auto"
+                          >
+                            <v-radio label="г/л" :value="false"></v-radio>
+                            <v-radio label="%" :value="true"></v-radio>
+                          </v-radio-group>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-row>
+                            <v-col
+                              v-for="(amount, el) in elements"
+                              :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6: 12"
+                              class="py-0"
+                              :key="el"
+                            >
+                              <v-text-field
+                                v-model.number="elements[el]"
+                                :label="el"
+                                :value="amount"
+                                :suffix="isPercent ? '%' : 'г/л'"
+                                persistent-hint
+                                hide-details="auto"
+                                :disabled="opposite[el] ? Boolean(elements[opposite[el]]) : false"
+                              ></v-text-field>
                             </v-col>
                           </v-row>
                         </v-col>
+                        <v-expand-transition>
+                          <v-col cols="12">
+                            <v-text-field
+                              v-model="recipeName"
+                              label="Имя рецепта"
+                              hide-details="auto"
+                              hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
+                              :rules="rulesName"
+                            ></v-text-field>
+                          </v-col>
+                        </v-expand-transition>
+                        <v-expand-transition>
+                          <v-col cols="12">
+                            <v-text-field
+                              v-model="recipeNote"
+                              label="Примечание"
+                              hide-details="auto"
+                              hint="Вы можете добавить дополнительные сведения к рецепту"
+                            ></v-text-field>
+                          </v-col>
+                        </v-expand-transition>
+                        <v-expand-transition>
+                          <v-col class="text-right" cols="12">
+                            <v-btn
+                              v-if="isEditing"
+                              @click="removeRecipe"
+                            >Удалить</v-btn>
+                            <v-btn
+                              v-if="isEditing"
+                              color="primary"
+                              @click="editRecipe"
+                              class="ml-2"
+                            >Сохранить</v-btn>
+                            <v-btn
+                              v-if="!isEditing"
+                              color="primary"
+                              @click="addRecipe"
+                            >
+                              Создать
+                            </v-btn>
+                          </v-col>
+                        </v-expand-transition>
                       </v-row>
                     </v-col>
-                  </v-expand-transition>
-                  <v-expand-transition>
-                    <v-col v-if="reagentsSelected.length > 0 && fertilizerVolume && tankVolume" cols="12">
-                      <v-row>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="recipeName"
-                            label="Имя рецепта"
-                            hide-details="auto"
-                            hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
-                            :rules="rulesName"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="recipeNote"
-                            label="Примечание"
-                            hide-details="auto"
-                            hint="Вы можете добавить дополнительные сведения к рецепту"
-                          ></v-text-field>
-                        </v-col>
-                        <v-col class="text-right" cols="12">
-                          <v-btn
-                            v-if="isEditing"
-                            @click="removeRecipe"
-                          >Удалить</v-btn>
-                          <v-btn
-                            v-if="isEditing"
-                            color="primary"
-                            @click="editRecipe"
-                            class="ml-2"
-                          >Сохранить</v-btn>
-                          <v-btn
-                            v-if="!isEditing"
-                            color="primary"
-                            @click="addRecipe"
-                          >
-                            Создать
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-expand-transition>
-                </v-row>
-              </v-col>
-              <v-col v-else cols="12">
-                <v-row>
-                  <v-col cols="12">
-                    Выберите единицы и введите концентрации элементов, которые указаны в составе удобрения.
-                    Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
-                  </v-col>
-                  <v-col cols="12">
-                    <v-radio-group
-                      v-model="isPercent"
-                      row
-                      class="mt-0"
-                      hide-details="auto"
-                    >
-                      <v-radio label="г/л" :value="false"></v-radio>
-                      <v-radio label="%" :value="true"></v-radio>
-                    </v-radio-group>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-row>
-                      <v-col
-                        v-for="(amount, el) in elements"
-                        :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6: 12"
-                        class="py-0"
-                        :key="el"
-                      >
-                        <v-text-field
-                          v-model.number="elements[el]"
-                          :label="el"
-                          :value="amount"
-                          :suffix="isPercent ? '%' : 'г/л'"
-                          persistent-hint
-                          hide-details="auto"
-                          :disabled="opposite[el] ? Boolean(elements[opposite[el]]) : false"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                  <v-expand-transition>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model="recipeName"
-                        label="Имя рецепта"
-                        hide-details="auto"
-                        hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
-                        :rules="rulesName"
-                      ></v-text-field>
-                    </v-col>
-                  </v-expand-transition>
-                  <v-expand-transition>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model="recipeNote"
-                        label="Примечание"
-                        hide-details="auto"
-                        hint="Вы можете добавить дополнительные сведения к рецепту"
-                      ></v-text-field>
-                    </v-col>
-                  </v-expand-transition>
-                  <v-expand-transition>
-                    <v-col class="text-right" cols="12">
-                      <v-btn
-                        v-if="isEditing"
-                        @click="removeRecipe"
-                      >Удалить</v-btn>
-                      <v-btn
-                        v-if="isEditing"
-                        color="primary"
-                        @click="editRecipe"
-                        class="ml-2"
-                      >Сохранить</v-btn>
-                      <v-btn
-                        v-if="!isEditing"
-                        color="primary"
-                        @click="addRecipe"
-                      >
-                        Создать
-                      </v-btn>
-                    </v-col>
-                  </v-expand-transition>
-                </v-row>
+                  </v-row>
+                </v-form>
               </v-col>
             </v-row>
-          </v-form>
+          </v-container>
         </v-card-text>
       </v-card>
 
@@ -545,7 +565,7 @@ export default {
       },
       isPercent: false,
       curRecipeIndex: null,
-      dialog: false,
+      dialog: this.$route.params.open,
       rulesReagent: [
         v => !!(v.length > 0) || 'Выберите реагент'
       ],
@@ -898,6 +918,4 @@ export default {
 </script>
 
 <style lang="sass">
-  .label
-    margin-bottom: 0!important
 </style>

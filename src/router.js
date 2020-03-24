@@ -15,22 +15,22 @@ export default new Router({
       path: '/',
       component: Tanks,
       alias: ['/tanks'],
-      name: 'Аквариумы'
+      name: 'tanks'
     },
     {
       path: '/recipes',
       component: Recipes,
-      name: 'Рецепты'
+      name: 'recipes'
     },
     {
       path: '/schedules',
       component: Schedules,
-      name: 'Расписание'
+      name: 'schedules'
     },
     {
       path: '/about',
       component: About,
-      name: 'О проекте'
+      name: 'about'
     }
   ]
 })

@@ -1,7 +1,17 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" md="6"
+      <v-col v-if="tanks.length === 0" cols="12" md="8" offset-md="2">
+        <p class="display-1">
+          У вас еще нет ни одного аквариума
+        </p>
+        <p class="headline">
+          <a @click="dialog = true">Добавьте аквариум</a>,
+          чтобы вы могли создавать рецепты удобрений и расписание по внесению удобрений
+          для него.
+        </p>
+      </v-col>
+      <v-col cols="12" md="4"
         v-for="(tank, index) in tanks"
         :key="tank.name"
       >
@@ -53,91 +63,97 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <v-form ref="tankForm">
+          <v-container>
             <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model.lazy="name"
-                  label="Название"
-                  hide-details="auto"
-                  clearable
-                  :hint="nameHint"
-                  :rules="nameRules"
-                ></v-text-field>
+              <v-col cols="12" md="8" offset-md="2">
+                <v-form ref="tankForm">
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model.lazy="name"
+                        label="Название"
+                        hide-details="auto"
+                        clearable
+                        :hint="nameHint"
+                        :rules="nameRules"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model.number="volume"
+                        label="Введите объем"
+                        suffix="л"
+                        hide-details="auto"
+                        :hint="volumeHint"
+                        :rules="volumeRules"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-btn
+                        center
+                        text
+                        @click="isTankVolumeCalc = !isTankVolumeCalc"
+                        class="px-0"
+                      >
+                        Калькулятор
+                        <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-expand-transition>
+                      <v-col cols="12" v-if="isTankVolumeCalc">
+                        <v-text-field
+                          v-model.lazy="length"
+                          label="Длина"
+                          suffix="см"
+                          hide-details="auto"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model.lazy="width"
+                          label="Ширина"
+                          suffix="см"
+                          hide-details="auto"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model.lazy="height"
+                          label="Высота"
+                          suffix="см"
+                          hint="Введите высоту чистого столба воды"
+                          hide-details="auto"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model.lazy="glassThickness"
+                          label="Толщина стекла"
+                          suffix="мм"
+                          hide-details="auto"
+                        ></v-text-field>
+                      </v-col>
+                    </v-expand-transition>
+                    <v-expand-transition>
+                      <v-col class="text-right" cols="12">
+                        <v-btn
+                          v-if="isEditing"
+                          @click="removeTank"
+                        >Удалить</v-btn>
+                        <v-btn
+                          v-if="isEditing"
+                          @click="editTank"
+                          color="primary"
+                          class="ml-2"
+                        >Сохранить</v-btn>
+                        <v-btn
+                          v-if="!isEditing"
+                          @click="addTank"
+                          color="primary"
+                        >
+                          Создать
+                        </v-btn>
+                      </v-col>
+                    </v-expand-transition>
+                  </v-row>
+                </v-form>
               </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model.number="volume"
-                  label="Введите объем"
-                  suffix="л"
-                  hide-details="auto"
-                  :hint="volumeHint"
-                  :rules="volumeRules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-btn
-                  center
-                  text
-                  @click="isTankVolumeCalc = !isTankVolumeCalc"
-                  class="px-0"
-                >
-                  Калькулятор
-                  <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                </v-btn>
-              </v-col>
-              <v-expand-transition>
-                <v-col cols="12" v-if="isTankVolumeCalc">
-                  <v-text-field
-                    v-model.lazy="length"
-                    label="Длина"
-                    suffix="см"
-                    hide-details="auto"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model.lazy="width"
-                    label="Ширина"
-                    suffix="см"
-                    hide-details="auto"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model.lazy="height"
-                    label="Высота"
-                    suffix="см"
-                    hint="Введите высоту чистого столба воды"
-                    hide-details="auto"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model.lazy="glassThickness"
-                    label="Толщина стекла"
-                    suffix="мм"
-                    hide-details="auto"
-                  ></v-text-field>
-                </v-col>
-              </v-expand-transition>
-              <v-expand-transition>
-                <v-col class="text-right" cols="12">
-                  <v-btn
-                    v-if="isEditing"
-                    @click="removeTank"
-                  >Удалить</v-btn>
-                  <v-btn
-                    v-if="isEditing"
-                    @click="editTank"
-                    color="primary"
-                    class="ml-2"
-                  >Сохранить</v-btn>
-                  <v-btn
-                    v-if="!isEditing"
-                    @click="addTank"
-                    color="primary"
-                  >
-                    Создать
-                  </v-btn>
-                </v-col>
-              </v-expand-transition>
             </v-row>
-          </v-form>
+          </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -178,7 +194,7 @@ export default {
       glassThickness: null,
       curTankIndex: null,
       isTankVolumeCalc: false,
-      dialog: false,
+      dialog: this.$route.params.open,
       nameRules: [
         v => !!v || 'Введите название',
         v => (!this.isExist || this.isSame) || 'Аквариум с таким названием уже существует'

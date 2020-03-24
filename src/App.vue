@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-navigation-drawer app right v-model="drawer">
+  <v-app id="inspire">
+    <v-navigation-drawer app right clipped v-model="drawer">
       <v-list>
         <v-list-item v-for="item in links" :to="item.path" :key="item.icon" link>
           <v-list-item-action>
@@ -25,12 +25,13 @@
       color="primary"
       dark
       dense
+      clipped-right
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
           <span>Aqualizer</span>
           <v-icon class="mx-2">mdi-chevron-right</v-icon>
-          <span>{{ this.$router.currentRoute.name }}</span>
+          <span>{{ breadcrumbs[this.$router.currentRoute.path] }}</span>
         </div>
       </v-toolbar-title>
       <v-spacer />
@@ -38,9 +39,14 @@
     </v-app-bar>
 
     <v-content>
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
+      <v-container
+        class="fill-height"
+        fluid
+      >
+        <transition name="fade" mode="out-in">
+          <router-view />
+        </transition>
+      </v-container>
     </v-content>
   </v-app>
 </template>
@@ -54,12 +60,21 @@ export default {
   data: () => ({
     drawer: false,
     links: [
-      { path: '/tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
+      { path: '/', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
       { path: '/recipes', icon: 'mdi-test-tube', text: 'Рецепты' },
       { path: '/schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписание' },
       { path: '/about', icon: 'mdi-information-outline', text: 'О проекте' }
     ]
   }),
+  computed: {
+    breadcrumbs () {
+      let result = {}
+      for (let item of this.links) {
+        result[item.path] = item.text
+      }
+      return result
+    }
+  },
   mounted () {
     let path = localStorage.getItem('path')
     if (path) {
@@ -73,6 +88,6 @@ export default {
 <style lang="sass">
   .v-toolbar__title
     font-size: 1rem!important
-  a.v-list-item
+  a
     text-decoration: none
 </style>

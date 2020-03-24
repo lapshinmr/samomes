@@ -2,6 +2,41 @@
   <v-container>
 
     <v-row>
+      <v-col v-if="tanks.length === 0 || recipes.length === 0" cols="12" md="8" offset-md="2">
+        <p class="display-1" v-if="tanks.length === 0">
+          <template>
+            У вас еще нет
+          </template>
+          <template v-if="tanks.length === 0">
+             ни одного аквариума
+          </template>
+          <template v-if="tanks.length === 0 && recipes.length === 0">
+            и
+          </template>
+          <template v-if="recipes.length === 0">
+            ни одного рецепта
+          </template>
+        </p>
+        <p class="headline">
+          Необходимо
+          <router-link v-if="tanks.length === 0" :to="{ name: 'tanks', params: { open: true }}">добавить аквариум</router-link>
+          <template v-if="tanks.length === 0 && recipes.length === 0">
+            и
+          </template>
+          <router-link v-if="recipes.length === 0" :to="{ name: 'recipes', params: { open: true }}">добавить рецепт</router-link>
+          и после этого можно будет составить расписание.
+        </p>
+      </v-col>
+      <v-col v-if="schedules.length === 0 && tanks.length > 0 && recipes.length > 0" cols="12" md="8" offset-md="2">
+        <p class="display-1" v-if="schedules.length === 0">
+          У вас нет ни одного расписания
+        </p>
+        <p class="headline">
+          <a @click="dialog = true">Добавьте расписание</a> и вам будет проще
+          следить за внесенным количеством удобрений.
+        </p>
+
+      </v-col>
       <v-col cols="12">
         <Schedule
           v-for="(schedule, index) in schedules"
@@ -193,7 +228,7 @@
       </v-card>
     </v-dialog>
 
-    <v-tooltip left>
+    <v-tooltip v-if="tanks.length > 0 && recipes.length > 0" left>
       <template v-slot:activator="{ on }">
         <v-btn
           bottom
@@ -336,10 +371,27 @@ export default {
   },
   watch: {
     daysTotal () {
-      this.fillDays()
+      if (!this.daystTotal) { return }
+      for (const recipe of this.recipesSelected) {
+        if (this.selected[recipe.name].length < this.daysTotal) {
+          let delta = this.daysTotal - this.selected[recipe.name].length
+          this.selected[recipe.name].push(...Array(this.daysTotal).fill(true, 0, delta))
+        } else {
+          this.selected[recipe.name] = [ ...this.selected[recipe.name].slice(this.daysTotal) ]
+        }
+      }
     },
     recipesSelected () {
-      this.fillDays()
+      let selected = {}
+      for (const recipe of this.recipesSelected) {
+        if (recipe.name in this.selected) {
+          selected[recipe.name] = [ ...this.selected[recipe.name] ]
+        } else {
+          selected[recipe.name] = Array(this.daysTotal).fill(true, 0, this.daysTotal)
+        }
+        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal))
+      }
+      this.selected = { ...selected }
     },
     dialogRemove () {
       if (!this.dialogRemove) {
@@ -364,18 +416,6 @@ export default {
       dateFinish = new Date(dateFinish.setDate(dateFinish.getDate() + duration))
       dateFinish = dateFinish.toISOString().split('T')[0]
       this.datesRange = [dateStart, dateFinish]
-    },
-    fillDays () {
-      let selected = {}
-      for (const recipe of this.recipesSelected) {
-        if (recipe.name in this.selected) {
-          selected[recipe.name] = [ ...this.selected[recipe.name] ]
-        } else {
-          selected[recipe.name] = Array(this.daysTotal).fill(true, 0, this.daysTotal)
-        }
-        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal))
-      }
-      this.selected = { ...selected }
     },
     resetComponent () {
       this.tank = null
