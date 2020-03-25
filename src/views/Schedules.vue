@@ -363,7 +363,6 @@ export default {
     daysQuotas () {
       let quotas = {}
       for (const recipe of this.recipesSelected) {
-        console.log('daysQuotas', this.daysTotal, this.selected[recipe.name])
         let result = []
         let selectedList = this.selected[recipe.name]
         let excludedTotal = selectedList.filter(x => x === false).length
@@ -389,13 +388,10 @@ export default {
     daysTotal () {
       if (!this.daysTotal) { return }
       for (const recipe of this.recipesSelected) {
-        console.log(this.selected[recipe.name].length, this.daysTotal)
         if (this.selected[recipe.name].length < this.daysTotal) {
           let delta = this.daysTotal - this.selected[recipe.name].length
           this.selected[recipe.name].push(...Array(delta).fill(true, 0, delta))
-          console.log('push', delta)
         } else {
-          console.log('slice')
           this.selected[recipe.name] = [ ...this.selected[recipe.name].slice(0, this.daysTotal) ]
         }
         Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal))

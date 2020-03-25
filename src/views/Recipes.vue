@@ -24,6 +24,9 @@
             <div class="d-flex justify-space-between" style="width: 100%;">
               <span>
                 {{ recipe.name }}
+                <a class="ml-3" @click="openShareDialog(index)">
+                  <v-icon>fas fa-share</v-icon>
+                </a>
               </span>
               <small class="font-weight-regular">
                 {{ recipe.type }}
@@ -80,7 +83,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn text @click="setComponent(index)">
+            <v-btn text @click="setComponent(recipes[index], index)">
               Изменить
             </v-btn>
           </v-card-actions>
@@ -516,6 +519,31 @@
 
     </v-dialog>
 
+    <v-dialog
+      v-model="dialogShare"
+      width="500"
+    >
+      <v-card>
+        <v-card-title>
+          Поделиться ссылкой
+        </v-card-title>
+        <v-card-text v-if="this.curRecipeIndex !== null">
+            <v-text-field
+              :value="encodedUrl"
+              label="Ваша ссылка для отправки"
+              hint="Скопируйте ссылку"
+            ></v-text-field>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialogShare = false">
+            Закрыть
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn
@@ -582,6 +610,7 @@ export default {
       isShowConcentration: false,
       curRecipeIndex: null,
       dialog: this.$route.params.open,
+      dialogShare: false,
       rulesReagent: [
         v => !!(v.length > 0) || 'Выберите реагент'
       ],
@@ -607,6 +636,9 @@ export default {
         v => (!this.isExist || this.isSame) || 'Рецепт с таким названием уже существует'
       ]
     }
+  },
+  mounted () {
+    this.setComponent(JSON.parse(decodeURIComponent(this.$router.currentRoute.query.share))[0])
   },
   computed: {
     ...mapState([
@@ -692,6 +724,10 @@ export default {
     },
     isEditing () {
       return this.curRecipeIndex !== null
+    },
+    encodedUrl () {
+      let encoded = encodeURIComponent(JSON.stringify([this.recipes[this.curRecipeIndex]]))
+      return window.location.href + '?share=' + encoded
     }
   },
   watch: {
@@ -725,6 +761,11 @@ export default {
       if (this.fertilizerVolume) {
         this.countDose()
       }
+    },
+    dialogShare () {
+      if (!this.dialogShare) {
+        this.curRecipeIndex = null
+      }
     }
   },
   methods: {
@@ -751,8 +792,7 @@ export default {
         'K': null
       }
     },
-    setComponent (index) {
-      let recipe = this.recipes[index]
+    setComponent (recipe, index = null) {
       this.fertilizerType = recipe.type
       this.reagentsSelected = recipe.reagents
       this.fertilizerMass = recipe.mass
@@ -928,6 +968,10 @@ export default {
         output.push(`${key}: ${(ions[key] * 100).toFixed(1)}%`)
       }
       return output.join(' ')
+    },
+    openShareDialog (index) {
+      this.curRecipeIndex = index
+      this.dialogShare = true
     }
   }
 }
