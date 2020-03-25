@@ -59,6 +59,9 @@
       </v-simple-table>
     </v-card-text>
     <v-card-actions>
+      <div class="caption ml-3">
+        * нажмите несколько раз, чтобы пропустить день
+      </div>
       <v-spacer />
       <v-btn text @click="$emit('remove', index)">
         Завершить

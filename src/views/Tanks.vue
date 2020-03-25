@@ -11,26 +11,17 @@
           для него.
         </p>
       </v-col>
-      <v-col cols="12" md="4"
+      <v-col
+        cols="12" md="8" offset-md="2"
+        class="px-0 px-sm-3"
         v-for="(tank, index) in tanks"
         :key="tank.name"
       >
-        <v-card class="tank">
+        <v-card>
           <v-card-title>
-            {{ tank.name }}
-          </v-card-title>
-          <v-card-subtitle>
-            Объем: {{ tank.volume }} л
-          </v-card-subtitle>
-          <v-card-text>
-            <div v-if="tank.length" class="tank__sizes">
-              {{ tank.length }} x
-              {{ tank.width }} x
-              {{ tank.height }} x
-              {{ tank.glassThickness }}
-            </div>
-          </v-card-text>
-          <v-card-actions>
+            <span>
+              {{ tank.name }}
+            </span>
             <v-spacer />
             <v-btn
               text
@@ -39,7 +30,16 @@
             >
               Изменить
             </v-btn>
-          </v-card-actions>
+          </v-card-title>
+          <v-card-subtitle>
+            <span>Объем: {{ tank.volume }} л</span>
+            <span v-if="tank.length">
+              ({{ tank.length }} x
+              {{ tank.width }} x
+              {{ tank.height }} x
+              {{ tank.glassThickness }})
+            </span>
+          </v-card-subtitle>
         </v-card>
       </v-col>
     </v-row>
