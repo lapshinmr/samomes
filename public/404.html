@@ -1,7 +1,7 @@
 <script>
     let path = window.location.pathname.slice(1).split('/');
     let search = window.location.search
-    path.shift()
+    // path.shift()
     if (path.length > 0) {
       path = path.join('/')
       if (search) {
@@ -9,5 +9,5 @@
       }
       localStorage.setItem('path', path);
     }
-    window.location.href='/udo';
+    window.location.href='/';
 </script>

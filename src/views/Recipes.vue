@@ -663,6 +663,7 @@ export default {
     }
   },
   mounted () {
+    // console.log(window.location)
     let query = this.$router.currentRoute.query
     if (query.share) {
       this.setComponent(JSON.parse(decodeURIComponent(query.share))[0])
