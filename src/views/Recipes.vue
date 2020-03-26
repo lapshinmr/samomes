@@ -425,7 +425,7 @@
                                   color="primary"
                                   @click="addRecipe"
                                 >
-                                  Создать
+                                  Сохранить
                                 </v-btn>
                               </v-col>
                             </v-row>
@@ -508,7 +508,7 @@
                               color="primary"
                               @click="addRecipe"
                             >
-                              Создать
+                              Сохранить
                             </v-btn>
                           </v-col>
                         </v-expand-transition>

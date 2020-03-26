@@ -145,7 +145,7 @@
                           @click="addTank"
                           color="primary"
                         >
-                          Создать
+                          Сохранить
                         </v-btn>
                       </v-col>
                     </v-expand-transition>

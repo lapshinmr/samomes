@@ -197,7 +197,7 @@
                     <v-expand-transition>
                       <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal" class="text-right" cols="12">
                         <v-btn color="primary" @click="addSchedule">
-                          Создать
+                          Сохранить
                         </v-btn>
                       </v-col>
                     </v-expand-transition>
