@@ -54,6 +54,9 @@ export default new Vuex.Store({
     TANK_EDIT (state, payload) {
       Vue.set(state.tanks, payload.index, payload.tank)
     },
+    TANKS_REMOVE (state, payload) {
+      state.tanks = []
+    },
     RECIPE_ADD (state, payload) {
       state.recipes.push(payload)
     },
@@ -62,6 +65,9 @@ export default new Vuex.Store({
     },
     RECIPE_EDIT (state, payload) {
       Vue.set(state.recipes, payload.index, payload.recipe)
+    },
+    RECIPES_REMOVE (state, payload) {
+      state.recipes = []
     },
     SCHEDULE_ADD (state, payload) {
       state.schedules.push(payload)
@@ -74,6 +80,9 @@ export default new Vuex.Store({
       let status = schedule.completed[payload.recipeName][payload.indexDay]
       schedule.completed[payload.recipeName][payload.indexDay] = (status + 1) % 3
       Vue.set(state.schedules, payload.indexSchedule, schedule)
+    },
+    SCHEDULES_REMOVE (state, payload) {
+      state.schedules = []
     }
   },
   actions: {
