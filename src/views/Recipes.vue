@@ -756,7 +756,7 @@ export default {
     },
     encodedUrl () {
       let encoded = encodeURIComponent(JSON.stringify([this.recipes[this.curRecipeIndex]]))
-      return window.location.href + '?share=' + encoded
+      return window.location.origin + window.location.pathname + '?share=' + encoded
     }
   },
   watch: {
