@@ -1,8 +1,13 @@
 <script>
     const path = window.location.pathname.slice(1).split('/');
+    const search = window.location.search
     path.shift()
     if (path.length > 0) {
-      localStorage.setItem('path', path.join('/'));
+      path = path.join('/')
+      if (search) {
+        path += search
+      }
+      localStorage.setItem('path', );
     }
     window.location.href='/udo';
 </script>

@@ -24,9 +24,14 @@
             <div class="d-flex justify-space-between" style="width: 100%;">
               <span>
                 {{ recipe.name }}
-                <a class="ml-3" @click="openShareDialog(index)">
-                  <v-icon>fas fa-share</v-icon>
-                </a>
+                <v-tooltip bottom max-width="400">
+                  <template v-slot:activator="{ on }">
+                    <a class="ml-3" @click="openShareDialog(index)" v-on="on">
+                      <v-icon>fas fa-share</v-icon>
+                    </a>
+                  </template>
+                  Поделиться ссылкой на рецепт
+                </v-tooltip>
               </span>
               <small class="font-weight-regular">
                 {{ recipe.type }}
@@ -532,7 +537,26 @@
               :value="encodedUrl"
               label="Ваша ссылка для отправки"
               hint="Скопируйте ссылку"
-            ></v-text-field>
+              id="encodedUrl"
+            >
+              <template v-slot:append>
+                <v-tooltip bottom max-width="400">
+                  <template v-slot:activator="{ on }">
+                    <a @click="copyUrl()">
+                      <v-icon v-on="on">fas fa-clipboard</v-icon>
+                    </a>
+                  </template>
+                  Скопировать
+                </v-tooltip>
+              </template>
+            </v-text-field>
+            <v-snackbar
+              v-model="snackbar"
+            >
+              <div>
+                  Ссылка скопирована
+              </div>
+            </v-snackbar>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -611,6 +635,8 @@ export default {
       curRecipeIndex: null,
       dialog: this.$route.params.open,
       dialogShare: false,
+      snackbar: false,
+      timeout: 2000,
       rulesReagent: [
         v => !!(v.length > 0) || 'Выберите реагент'
       ],
@@ -638,7 +664,10 @@ export default {
     }
   },
   mounted () {
-    this.setComponent(JSON.parse(decodeURIComponent(this.$router.currentRoute.query.share))[0])
+    let query = this.$router.currentRoute.query
+    if (query.share) {
+      this.setComponent(JSON.parse(decodeURIComponent(query.share))[0])
+    }
   },
   computed: {
     ...mapState([
@@ -972,6 +1001,13 @@ export default {
     openShareDialog (index) {
       this.curRecipeIndex = index
       this.dialogShare = true
+    },
+    copyUrl () {
+      var encodedUrl = document.getElementById('encodedUrl')
+      encodedUrl.select()
+      encodedUrl.setSelectionRange(0, 99999)
+      document.execCommand('copy')
+      this.snackbar = true
     }
   }
 }
