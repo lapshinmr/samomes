@@ -2,17 +2,16 @@
   <v-container>
     <v-row>
       <v-col v-if="recipes.length === 0" cols="12" md="8" offset-md="2">
-        <p class="display-1">
-          У вас еще нет ни одного рецепта
+        <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
+          У вас еще нет рецептов
         </p>
-        <p class="headline">
+        <p>
           <a @click="dialog = true">Добавьте рецепты</a>, чтобы вы могли
           использовать их для составления расписания по внесению удобрений.
         </p>
-        <p v-if="tanks.length === 0" class="">
-          У вас нет еще ни одного аквариума.
+        <p v-if="tanks.length === 0">
           <router-link :to="{ name: 'tanks', params: { open: true }}">Добавьте аквариум</router-link>
-          и после этого можно будет составить расписание.
+          и после этого можно будет составлять расписание.
         </p>
       </v-col>
       <v-col cols="12" md="8" offset-md="2"

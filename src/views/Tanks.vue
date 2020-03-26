@@ -2,10 +2,10 @@
   <v-container>
     <v-row>
       <v-col v-if="tanks.length === 0" cols="12" md="8" offset-md="2">
-        <p class="display-1">
-          У вас еще нет ни одного аквариума
+        <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
+          У вас еще нет аквариума
         </p>
-        <p class="headline">
+        <p>
           <a @click="dialog = true">Добавьте аквариум</a>,
           чтобы вы могли создавать рецепты удобрений и расписание по внесению удобрений
           для него.

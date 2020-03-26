@@ -3,35 +3,35 @@
 
     <v-row>
       <v-col v-if="tanks.length === 0 || recipes.length === 0" cols="12" md="8" offset-md="2">
-        <p class="display-1" v-if="tanks.length === 0">
+        <p v-if="tanks.length === 0" class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
           <template>
             У вас еще нет
           </template>
           <template v-if="tanks.length === 0">
-             ни одного аквариума
+             аквариума
           </template>
           <template v-if="tanks.length === 0 && recipes.length === 0">
             и
           </template>
           <template v-if="recipes.length === 0">
-            ни одного рецепта
+            рецептов
           </template>
         </p>
-        <p class="headline">
+        <p>
           Необходимо
           <router-link v-if="tanks.length === 0" :to="{ name: 'tanks', params: { open: true }}">добавить аквариум</router-link>
           <template v-if="tanks.length === 0 && recipes.length === 0">
             и
           </template>
           <router-link v-if="recipes.length === 0" :to="{ name: 'recipes', params: { open: true }}">добавить рецепт</router-link>
-          и после этого можно будет составить расписание.
+          и после этого можно будет составлять расписание.
         </p>
       </v-col>
       <v-col v-if="schedules.length === 0 && tanks.length > 0 && recipes.length > 0" cols="12" md="8" offset-md="2">
-        <p class="display-1" v-if="schedules.length === 0">
+        <p  v-if="schedules.length === 0">
           У вас нет ни одного расписания
         </p>
-        <p class="headline">
+        <p>
           <a @click="dialog = true">Добавьте расписание</a> и вам будет проще
           следить за внесенным количеством удобрений.
         </p>
