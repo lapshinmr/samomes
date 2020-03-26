@@ -1,10 +1,8 @@
 {
   "name": "udo",
   "version": "0.1.0",
-  "author": "Mikhail Lapshin <lapshinmr@gmail.com>",
-  "license": "MIT",
-  "repository": "https://github.com/lapshinmr/udo.git",
   "private": true,
+  "author": "Mikhail Lapshin <lapshinmr@gmail.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -22,6 +20,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
+    "@vue/cli-plugin-pwa": "^4.2.3",
     "@vue/cli-service": "^4.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.3",
@@ -34,5 +33,7 @@
     "vue-cli-plugin-vuetify": "^2.0.3",
     "vue-template-compiler": "^2.6.10",
     "vuetify-loader": "^1.3.0"
-  }
+  },
+  "license": "MIT",
+  "repository": "https://github.com/lapshinmr/udo.git"
 }
