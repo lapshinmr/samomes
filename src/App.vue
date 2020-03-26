@@ -62,8 +62,8 @@ export default {
       { path: '/', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
       { path: '/recipes', icon: 'mdi-test-tube', text: 'Рецепты' },
       { path: '/schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписание' },
-      { path: '/about', icon: 'mdi-information-outline', text: 'О проекте' },
-      { path: '/settings', icon: 'fas fa-cog', text: 'Настройки' }
+      { path: '/settings', icon: 'fas fa-cog', text: 'Настройки' },
+      { path: '/about', icon: 'mdi-information-outline', text: 'О проекте' }
     ]
   }),
   computed: {
