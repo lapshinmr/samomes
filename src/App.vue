@@ -39,14 +39,9 @@
     </v-app-bar>
 
     <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <transition name="fade" mode="out-in">
-          <router-view />
-        </transition>
-      </v-container>
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
     </v-content>
   </v-app>
 </template>
@@ -88,8 +83,20 @@ export default {
 </script>
 
 <style lang="sass">
-  .v-toolbar__title
-    font-size: 1rem!important
-  a
-    text-decoration: none
+.v-toolbar__title
+  font-size: 1rem!important
+a
+  text-decoration: none
+
+.fade-enter
+  opacity: 0
+
+.fade-enter-active
+  transition: opacity 0.3s
+
+.fade-leave
+
+.fade-leave-active
+  opacity: 0
+  transition: opacity 0.3s
 </style>

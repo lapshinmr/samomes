@@ -1,6 +1,5 @@
 <template>
   <v-container>
-
     <v-row>
       <v-col v-if="tanks.length === 0 || recipes.length === 0" cols="12" md="8" offset-md="2">
         <p v-if="tanks.length === 0" class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
@@ -28,14 +27,13 @@
         </p>
       </v-col>
       <v-col v-if="schedules.length === 0 && tanks.length > 0 && recipes.length > 0" cols="12" md="8" offset-md="2">
-        <p  v-if="schedules.length === 0">
+        <p v-if="schedules.length === 0" class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
           У вас нет ни одного расписания
         </p>
         <p>
           <a @click="dialog = true">Добавьте расписание</a> и вам будет проще
           следить за внесенным количеством удобрений.
         </p>
-
       </v-col>
       <v-col cols="12" md="8" offset-md="2">
         <Schedule
@@ -62,7 +60,7 @@
             Новое расписание
           </v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
+        <v-card-text class="px-2">
           <v-container>
             <v-row>
               <v-col cols="12" md="8" offset-md="2">

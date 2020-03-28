@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fill-height>
     <v-row>
       <v-col v-if="recipes.length === 0" cols="12" md="8" offset-md="2">
         <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
@@ -113,7 +113,7 @@
             Редактирование рецепта
           </v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
+        <v-card-text class="px-2">
           <v-container>
             <v-row>
               <v-col cols="12" md="8" offset-md="2">
