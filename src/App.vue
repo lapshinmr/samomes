@@ -29,8 +29,6 @@
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
-          <span>Самомес</span>
-          <v-icon class="mx-2">mdi-chevron-right</v-icon>
           <span>{{ breadcrumbs[this.$router.currentRoute.path] }}</span>
         </div>
       </v-toolbar-title>

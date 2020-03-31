@@ -1,10 +1,7 @@
 <template>
-  <v-container fill-height>
+  <v-container>
     <v-row>
       <v-col cols="12" md="8" offset-md="2">
-        <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
-          Удаление и перезагрузка
-        </p>
         <p class="mb-10">
           Эта страница предназначена для удаления данных и перезагрузки сайта в ситуации
           когда сайт был обновлен, сайт не реагирует на какие-либо ваши действия и т.д.
