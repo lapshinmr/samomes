@@ -86,6 +86,9 @@ export default {
 a
   text-decoration: none
 
+.w-100
+  width: 100%!important
+
 .fade-enter
   opacity: 0
 
