@@ -2,7 +2,7 @@
   <v-container class="mb-12">
     <v-row>
       <v-col v-if="tanks.length === 0 || recipes.length === 0" cols="12" md="8" offset-md="2">
-        <p v-if="tanks.length === 0" class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
+        <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
           <template>
             У вас еще нет
           </template>

@@ -45,6 +45,50 @@
     </v-app-bar>
 
     <v-content>
+      <v-container v-if="!tanks.length || !recipes.length || !schedules.length">
+        <v-row>
+          <v-col cols="12" md="8" offset-md="2">
+            <v-card>
+              <v-card-title>
+                Начните с этого:
+              </v-card-title>
+              <v-card-text>
+                <div class="d-flex flex-column flex-sm-row pa-3 pa-sm-5 align-sm-center">
+                  <router-link
+                    :to="links[0].path"
+                    class="d-flex align-center mx-2 mb-2 mb-sm-0"
+                    :class="{'primary--text': tanks.length > 0}"
+                  >
+                    <v-icon v-if="tanks.length > 0" class="primary--text">fas fa-check-circle</v-icon>
+                    <v-icon v-else>far fa-circle</v-icon>
+                    <span class="ml-2">Добавить аквариум</span>
+                  </router-link>
+                  <v-divider class="d-none d-sm-block"></v-divider>
+                  <router-link
+                    :to="links[1].path"
+                    class="d-flex align-center mx-2 mb-2 mb-sm-0"
+                    :class="{'primary--text': recipes.length > 0}"
+                  >
+                    <v-icon v-if="recipes.length > 0" class="primary--text">fas fa-check-circle</v-icon>
+                    <v-icon v-else>far fa-circle</v-icon>
+                    <span class="ml-2">Создать рецепт</span>
+                  </router-link>
+                  <v-divider class="d-none d-sm-block"></v-divider>
+                  <router-link
+                    :to="links[2].path"
+                    class="d-flex align-center mx-2"
+                    :class="{'primary--text': schedules.length > 0}"
+                  >
+                    <v-icon v-if="schedules.length > 0" class="primary--text">fas fa-check-circle</v-icon>
+                    <v-icon v-else>far fa-circle</v-icon>
+                    <span class="ml-2">Составить расписание</span>
+                  </router-link>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
@@ -53,12 +97,10 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'App',
-  components: {
-  },
   data: () => ({
     drawer: false,
     links: [
@@ -70,6 +112,9 @@ export default {
     ]
   }),
   computed: {
+    ...mapState([
+      'tanks', 'recipes', 'schedules'
+    ]),
     breadcrumbs () {
       let result = {}
       for (let item of this.links) {
@@ -109,6 +154,9 @@ a
 .drawer
   right: calc(16px + 256px)!important
   transition: all 0.2s
+
+.v-stepper__step__step .v-icon
+  font-size: 1rem!important
 
 .w-100
   width: 100%!important
