@@ -11,7 +11,7 @@
         v-model="activeIndex"
         alt-labels
       >
-        <v-stepper-items>
+        <v-stepper-items class="mb-4">
           <v-stepper-content
             v-for="(n, index) in schedule.daysTotal"
             :key="`${n}-content`"
@@ -24,7 +24,7 @@
             </div>
             <div v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + n" class="headline">
               <v-row>
-                <v-col cols="12" sm="8" offset-sm="2" class="py-0">
+                <v-col cols="12" sm="10" offset-sm="1" class="py-0">
                   <v-btn
                     v-if="schedule.selected[recipeName][index]"
                     block
@@ -85,6 +85,7 @@
         text
         v-if="activeIndex > 1"
         @click="prevStep()"
+        class="ml-auto"
       >
         Назад
       </v-btn>
@@ -92,7 +93,8 @@
         text
         v-if="activeIndex < schedule.daysTotal"
         @click="nextStep()"
-        class="ml-auto"
+        class="mr-auto"
+        :class="{'ml-auto': activeIndex === 1}"
       >
         Далее
       </v-btn>
@@ -100,7 +102,7 @@
         v-else
         text
         @click="$emit('remove', index)"
-        class="ml-auto"
+        class="mr-auto"
       >
         Завершить
       </v-btn>
@@ -122,6 +124,9 @@ export default {
     return {
       activeIndex: 1
     }
+  },
+  created () {
+    this.activeIndex = this.findCurActiveDay()
   },
   computed: {
     ...mapState([
@@ -189,7 +194,7 @@ export default {
           if (!this.schedule.selected[recipeName][day]) {
             continue
           }
-          result[day] = result[day] && (this.schedule.completed[recipeName][day] === 1)
+          result[day] = result[day] && (this.schedule.completed[recipeName][day] === 1 || this.schedule.completed[recipeName][day] === 2)
         }
       }
       return result
@@ -218,7 +223,6 @@ export default {
       if (this.isCompletedDay[index]) {
         setTimeout(() => this.nextStep(), 1000)
       }
-      console.log(this.schedule.tank.name)
       this.PROGRESS_EDIT({
         tankName: this.schedule.tank.name,
         value: this.progressValue
@@ -233,6 +237,17 @@ export default {
       if (this.activeIndex < this.schedule.daysTotal) {
         this.activeIndex++
       }
+    },
+    findCurActiveDay () {
+      let completed = [ ...this.isCompletedDay ]
+      completed.reverse()
+      let found = completed.findIndex(item => item === true)
+      found = found === -1 ? completed.length : found
+      let curActiveDay = completed.length - found + 1
+      if (curActiveDay > completed.length) {
+        curActiveDay = completed.length
+      }
+      return curActiveDay
     }
   }
 }

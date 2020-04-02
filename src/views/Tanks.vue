@@ -164,14 +164,16 @@
     <v-tooltip left>
       <template v-slot:activator="{ on }">
         <v-btn
-          bottom
-          right
           color="primary"
           dark
           fab
-          fixed
           @click="openAddTank"
           v-on="on"
+          fixed
+          bottom
+          right
+          :class="{'drawer': drawer && $vuetify.breakpoint['smAndUp']}"
+          style="transition: all 0.2s;"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -209,7 +211,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'schedules', 'progress'
+      'tanks', 'schedules', 'progress', 'drawer'
     ]),
     dimensions () {
       return `${this.length}|${this.height}|${this.width}|${this.glassThickness}`

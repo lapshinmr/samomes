@@ -249,14 +249,16 @@
     <v-tooltip v-if="tanks.length > 0 && recipes.length > 0" left>
       <template v-slot:activator="{ on }">
         <v-btn
-          bottom
-          right
           color="primary"
           dark
           fab
-          fixed
           @click="openAddSchedule"
           v-on="on"
+          fixed
+          bottom
+          right
+          :class="{'drawer': drawer && $vuetify.breakpoint['smAndUp']}"
+          style="transition: all 0.2s;"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -299,7 +301,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'schedules'
+      'tanks', 'recipes', 'schedules', 'drawer'
     ]),
     isExist () {
       let names = this.schedules.map(item => item.tank.name)

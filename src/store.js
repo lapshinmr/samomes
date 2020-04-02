@@ -38,14 +38,18 @@ const updateLocalStorage = store => {
 export default new Vuex.Store({
   plugins: [updateLocalStorage],
   state: {
-    ...loadState()
+    ...loadState(),
+    drawer: false
   },
   getters: {
-    DUMMY (state) {
+    DRAWER (state) {
       return false
     }
   },
   mutations: {
+    DRAWER_SET (state, payload) {
+      state.drawer = payload
+    },
     TANK_ADD (state, payload) {
       state.tanks.push(payload)
     },

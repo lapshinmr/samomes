@@ -1,7 +1,16 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer app right clipped v-model="drawer">
-      <v-list>
+    <v-navigation-drawer app right v-model="drawer">
+      <v-list class="pt-0">
+        <v-list-item v-if="$vuetify.breakpoint['xs']" @click.stop="drawer = false">
+          <v-list-item-action>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="d-flex justify-end">
+              <v-icon>mdi-close</v-icon>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item v-for="item in links" :to="item.path" :key="item.icon" link>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -25,7 +34,6 @@
       color="primary"
       dark
       dense
-      clipped-right
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
@@ -45,6 +53,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'App',
   components: {
@@ -68,6 +78,11 @@ export default {
       return result
     }
   },
+  watch: {
+    drawer () {
+      this.DRAWER_SET(this.drawer)
+    }
+  },
   mounted () {
     if (!this.$router.currentRoute.query.share) {
       let path = localStorage.getItem('path')
@@ -76,6 +91,11 @@ export default {
         this.$router.push(path)
       }
     }
+  },
+  methods: {
+    ...mapMutations([
+      'DRAWER_SET'
+    ])
   }
 }
 </script>
@@ -85,6 +105,10 @@ export default {
   font-size: 1rem!important
 a
   text-decoration: none
+
+.drawer
+  right: calc(16px + 256px)!important
+  transition: all 0.2s
 
 .w-100
   width: 100%!important
