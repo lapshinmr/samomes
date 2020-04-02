@@ -8,7 +8,8 @@ const loadState = function () {
   let defaultData = {
     tanks: [],
     recipes: [],
-    schedules: []
+    schedules: [],
+    progress: {}
   }
   if (!stateData) {
     localStorage.setItem('udata', JSON.stringify(defaultData))
@@ -83,6 +84,9 @@ export default new Vuex.Store({
     },
     SCHEDULES_REMOVE (state, payload) {
       state.schedules = []
+    },
+    PROGRESS_EDIT (state, payload) {
+      state.progress[payload.tankName] = payload.value
     }
   },
   actions: {

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mb-12">
     <v-row>
       <v-col v-if="tanks.length === 0 || recipes.length === 0" cols="12" md="8" offset-md="2">
         <p v-if="tanks.length === 0" class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
@@ -94,37 +94,42 @@
                       </v-col>
                     </v-expand-transition>
                     <v-col v-if="recipesSelected.length > 0" cols="12">
-                      <div class="title mb-3">Выбранные рецепты</div>
-                      <div v-for="(recipeSelected, index) in recipesSelected" :key="index" class="d-flex justify-space-between align-center">
-                        <div class="font-weight-medium">
-                          {{ recipeSelected.name }}
-                        </div>
-                        <div>
-                          <v-text-field
-                            :value="recipeSelected.amount"
-                            @input="inputRecipeAmount(index)"
-                            label="Введите объем"
-                            suffix="мл"
-                            hide-details="auto"
-                          ></v-text-field>
-                        </div>
+                      <div :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
+                        Выбранные рецепты
+                      </div>
+                      <div v-for="(recipeSelected, index) in recipesSelected" :key="index">
+                        <v-text-field
+                          :value="recipeSelected.amount"
+                          @input="inputRecipeAmount(index)"
+                          :label="recipeSelected.name"
+                          hint="Введите объем"
+                          suffix="мл"
+                          hide-details="auto"
+                        ></v-text-field>
                      </div>
                     </v-col>
                     <v-expand-transition>
-                      <v-col v-if="isAmount" cols="12">
-                        <div class="title mb-3">
-                          Повышение концентрации в аквариуме
+                      <v-col v-if="isAmount" cols="12" class="pt-0">
+                        <div v-for="(value, name) in totalElements" :key="name" class="d-flex justify-space-between">
+                          <span>{{ convertIonName(name) }}</span>
+                          <span>
+                            <span>
+                              {{ value !== undefined ? (convertIonRatio(name) * value).toFixed(2) : 0 }} мг/л
+                              <template v-if="daysTotal">
+                                ({{ value !== undefined ? (convertIonRatio(name) * value / daysTotal).toFixed(2) : 0 }} в день)
+                              </template>
+                            </span>
+                          </span>
+                        </div>
+                        <div :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}">
+                          * повышение концентрации в аквариуме
                           <v-tooltip bottom max-width="400">
                             <template v-slot:activator="{ on }">
                               <v-icon v-on="on">mdi-help-circle-outline</v-icon>
                             </template>
-                            Подбирая объем выбранных удобрений, получите необходимую концентрацию элементов в аквариуме.
-                            Эта ориентировочное значение, которое съедают растения за заданный период времени.
+                            Подбирая объем выбранных рецептов, вы можете получить необходимую концентрацию элементов в аквариуме.
+                            Таким образом вы можете подобрать ориентировочное значение, которое "съедают" растения за заданный период времени.
                           </v-tooltip>
-                        </div>
-                        <div v-for="(value, name) in totalElements" :key="name" class="d-flex justify-space-between">
-                          <span>{{ convertIonName(name) }}</span>
-                          <span>{{ value !== undefined ? (convertIonRatio(name) * value).toFixed(2) : 0 }} мг/л</span>
                         </div>
                       </v-col>
                     </v-expand-transition>

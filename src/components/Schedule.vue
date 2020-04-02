@@ -1,6 +1,6 @@
 <template>
   <v-card class="mb-2">
-    <v-card-title class="display-1">
+    <v-card-title class="headline">
       {{ schedule.tank.name }}
     </v-card-title>
     <v-card-subtitle>
@@ -35,12 +35,17 @@
                     @click="clickDay(recipeName, index)"
                     class="mb-2"
                   >
-                    <div class="d-flex align-center ml-4 w-100 headline">
+                    <div
+                      class="d-flex align-center w-100"
+                      :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'headline': $vuetify.breakpoint['smAndUp']}"
+                    >
                       <v-icon v-if="schedule.completed[recipeName][index] === 0" color="primary">far fa-circle</v-icon>
                       <v-icon v-if="schedule.completed[recipeName][index] === 1" color="white">far fa-check-circle</v-icon>
                       <v-icon v-if="schedule.completed[recipeName][index] === 2" color="grey">far fa-times-circle</v-icon>
                       <span class="ml-5">{{ recipeName }}</span>
-                      <div class="ml-auto d-flex flex-column">
+                      <div
+                        class="ml-auto d-flex flex-column align-end"
+                      >
                         <div>
                           {{ quotas[index].toFixed(2) }}
                         </div>
@@ -55,7 +60,7 @@
             </div>
           </v-stepper-content>
         </v-stepper-items>
-        <v-stepper-header>
+        <v-stepper-header v-if="$vuetify.breakpoint['smAndUp']">
           <template v-for="(n, index) in schedule.daysTotal">
             <v-stepper-step
               :key="`${n}-step`"
@@ -75,34 +80,35 @@
         </v-stepper-header>
       </v-stepper>
     </v-card-text>
-    <v-card-actions class="d-flex flex-column flex-sm-row">
-      <div class="caption ml-3 mr-auto">
-        * нажмите несколько раз, чтобы выполнить или пропустить день
-      </div>
+    <v-card-actions>
       <v-btn
         text
         v-if="activeIndex > 1"
         @click="prevStep()"
       >
-        Предыдущий
+        Назад
       </v-btn>
       <v-btn
         text
         v-if="activeIndex < schedule.daysTotal"
         @click="nextStep()"
-        class="ml-2"
+        class="ml-auto"
       >
-        Следующий
+        Далее
       </v-btn>
       <v-btn
         v-else
         text
         @click="$emit('remove', index)"
-        class="ml-2"
+        class="ml-auto"
       >
         Завершить
       </v-btn>
     </v-card-actions>
+    <v-progress-linear
+      :value="progressValue"
+    >
+    </v-progress-linear>
   </v-card>
 </template>
 
@@ -180,7 +186,6 @@ export default {
       let result = Array(this.schedule.daysTotal).fill(true)
       for (let day in result) {
         for (let recipeName in this.schedule.selected) {
-          console.log(this.schedule.selected[recipeName][day])
           if (!this.schedule.selected[recipeName][day]) {
             continue
           }
@@ -188,11 +193,21 @@ export default {
         }
       }
       return result
+    },
+    progressValue () {
+      let sum = 0
+      let amount = 0
+      for (let item in this.totalSum) {
+        amount += this.totalSum[item].amount
+        sum += this.totalSum[item].sum
+      }
+      return sum / amount * 100
     }
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_COMPLETE'
+      'SCHEDULE_COMPLETE',
+      'PROGRESS_EDIT'
     ]),
     clickDay (recipeName, index) {
       this.SCHEDULE_COMPLETE({
@@ -203,6 +218,11 @@ export default {
       if (this.isCompletedDay[index]) {
         setTimeout(() => this.nextStep(), 1000)
       }
+      console.log(this.schedule.tank.name)
+      this.PROGRESS_EDIT({
+        tankName: this.schedule.tank.name,
+        value: this.progressValue
+      })
     },
     prevStep () {
       if (this.activeIndex > 1) {

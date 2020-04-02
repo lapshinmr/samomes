@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mb-12">
     <v-row>
       <v-col v-if="tanks.length === 0" cols="12" md="8" offset-md="2">
         <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
@@ -39,6 +39,10 @@
               {{ tank.glassThickness }})
             </span>
           </v-card-subtitle>
+          <v-progress-linear
+            :value="progress[tank.name]"
+          >
+          </v-progress-linear>
         </v-card>
       </v-col>
     </v-row>
@@ -205,7 +209,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'schedules'
+      'tanks', 'schedules', 'progress'
     ]),
     dimensions () {
       return `${this.length}|${this.height}|${this.width}|${this.glassThickness}`
