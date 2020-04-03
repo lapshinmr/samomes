@@ -3,8 +3,8 @@
     <v-row>
       <v-col cols="12" md="8" offset-md="2">
         <p class="mb-10">
-          Эта страница предназначена для удаления данных и перезагрузки сайта в ситуации
-          когда сайт был обновлен, сайт не реагирует на какие-либо ваши действия и т.д.
+          Эта страница предназначена для удаления данных в ситуации
+          когда сайт не реагирует на какие-либо ваши действия и т.д.
         </p>
         <v-divider class="my-5" />
         <div>
@@ -56,15 +56,6 @@
               Удалить
             </v-btn>
           </div>
-          <v-divider class="my-5" />
-          <div class="d-flex justify-end">
-            <v-btn
-              color="primary"
-              @click="reload()"
-            >
-              Перезагрузить
-            </v-btn>
-          </div>
         </div>
       </v-col>
     </v-row>
@@ -95,9 +86,6 @@ export default {
       this.TANKS_REMOVE()
       this.RECIPES_REMOVE()
       this.SCHEDULES_REMOVE()
-    },
-    reload () {
-      location.reload(true)
     }
   }
 }

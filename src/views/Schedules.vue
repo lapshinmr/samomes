@@ -422,7 +422,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE'
+      'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE', 'PROGRESS_REMOVE'
     ]),
     convertIonName (ion) {
       return convertIonName(ion)
@@ -488,6 +488,7 @@ export default {
     },
     removeSchedule () {
       this.setComponent(this.curScheduleIndex)
+      this.PROGRESS_REMOVE(this.tank.name)
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
       this.dialogRemove = false
       this.dialog = true

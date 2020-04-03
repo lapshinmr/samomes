@@ -192,7 +192,7 @@
                               @input="inputVolume"
                               label="Введите объем удобрения"
                               suffix="мл"
-                              hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев"
+                              hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев. Обычно это 250-300 мл."
                               hide-details="auto"
                               :rules="rulesVolume"
                             >
@@ -482,12 +482,13 @@
                         </v-expand-transition>
                         <v-expand-transition>
                           <v-col cols="12">
-                            <v-text-field
+                            <v-textarea
                               v-model="recipeNote"
                               label="Примечание"
                               hide-details="auto"
+                              auto-grow
                               hint="Вы можете добавить дополнительные сведения к рецепту"
-                            ></v-text-field>
+                            ></v-textarea>
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
@@ -617,7 +618,7 @@ export default {
       fertilizerMass: {},
       solute: {},
       recipeName_: null,
-      recipeNote_: null,
+      recipeNote: null,
       elements: {
         'N': null,
         'NO3': null,
@@ -725,23 +726,6 @@ export default {
       },
       set (value) {
         this.recipeName_ = value
-      }
-    },
-    recipeNote: {
-      get () {
-        if (this.recipeNote_ === null && this.reagentsSelected.length === 1) {
-          let reagent = this.reagentsSelected[0]
-          if (this.fertilizerMass[reagent] && this.fertilizerVolume) {
-            return `${this.fertilizerMass[reagent].toFixed(2)} г на ${this.fertilizerVolume} мл`
-          } else {
-            return ''
-          }
-        } else {
-          return this.recipeNote_
-        }
-      },
-      set (value) {
-        this.recipeNote_ = value
       }
     },
     isExist () {

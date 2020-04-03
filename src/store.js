@@ -88,9 +88,13 @@ export default new Vuex.Store({
     },
     SCHEDULES_REMOVE (state, payload) {
       state.schedules = []
+      state.progress = {}
     },
     PROGRESS_EDIT (state, payload) {
       state.progress[payload.tankName] = payload.value
+    },
+    PROGRESS_REMOVE (state, payload) {
+      delete state.progress[payload]
     }
   },
   actions: {

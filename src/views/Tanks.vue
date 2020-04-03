@@ -21,6 +21,32 @@
             <span>
               {{ tank.name }}
             </span>
+          </v-card-title>
+          <v-card-text>
+            <div class="d-flex justify-space-between">
+              <span>Объем</span>
+              <span>{{ tank.volume }} л</span>
+            </div>
+            <div v-if="tank.length">
+              <div class="d-flex justify-space-between">
+                <div>Длина</div>
+                <div>{{ tank.length }} см</div>
+              </div>
+              <div class="d-flex justify-space-between">
+                <div>Ширина</div>
+                <div>{{ tank.width }} см</div>
+              </div>
+              <div class="d-flex justify-space-between">
+                <div>Высота</div>
+                <div>{{ tank.height }} см</div>
+              </div>
+              <div class="d-flex justify-space-between">
+                <div>Толщина стекла</div>
+                <div>{{ tank.glassThickness }} мм</div>
+              </div>
+            </div>
+          </v-card-text>
+          <v-card-actions>
             <v-spacer />
             <v-btn
               text
@@ -29,16 +55,7 @@
             >
               Изменить
             </v-btn>
-          </v-card-title>
-          <v-card-subtitle>
-            <span>Объем: {{ tank.volume }} л</span>
-            <span v-if="tank.length">
-              ({{ tank.length }} x
-              {{ tank.width }} x
-              {{ tank.height }} x
-              {{ tank.glassThickness }})
-            </span>
-          </v-card-subtitle>
+          </v-card-actions>
           <v-progress-linear
             :value="progress[tank.name]"
           >
