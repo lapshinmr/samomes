@@ -171,6 +171,9 @@ a
   right: calc(16px + 256px)!important
   transition: all 0.2s
 
+.no-break
+  word-break: normal
+
 .v-stepper__step__step .v-icon
   font-size: 1rem!important
 

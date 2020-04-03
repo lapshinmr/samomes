@@ -21,7 +21,7 @@
         <v-card>
           <v-card-title>
             <div class="d-flex justify-space-between" style="width: 100%;">
-              <span>
+              <span class="no-break">
                 {{ recipe.name }}
               </span>
               <span>

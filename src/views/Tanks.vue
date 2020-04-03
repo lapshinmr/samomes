@@ -17,7 +17,7 @@
       >
         <v-card>
           <v-card-title>
-            <span>
+            <span class="no-break">
               {{ tank.name }}
             </span>
           </v-card-title>

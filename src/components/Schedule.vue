@@ -1,17 +1,17 @@
 <template>
   <v-card class="mb-2">
-    <v-card-title class="headline d-flex justify-space-between align-center">
-      <div>
+    <v-card-title class="headline d-flex justify-space-between align-start flex-nowrap">
+      <div class="no-break">
         {{ schedule.tank.name }}
       </div>
-      <div>
-        <v-btn
-          text
-          @click="$emit('remove', index)"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </div>
+      <v-btn
+        text
+        @click="$emit('remove', index)"
+        class="px-0 ml-2"
+        style="min-width: 0px;"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
     </v-card-title>
     <v-card-subtitle>
       Объем: {{ schedule.tank.volume }} л
