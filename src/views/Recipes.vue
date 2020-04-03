@@ -568,13 +568,6 @@
                 </v-tooltip>
               </template>
             </v-text-field>
-            <v-snackbar
-              v-model="snackbar"
-            >
-              <div>
-                  Ссылка скопирована
-              </div>
-            </v-snackbar>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -658,7 +651,6 @@ export default {
       curRecipeIndex: null,
       dialog: this.$route.params.open,
       dialogShare: false,
-      snackbar: false,
       timeout: 2000,
       rulesReagent: [
         v => !!(v.length > 0) || 'Выберите реагент'
@@ -808,7 +800,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT'
+      'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'SNACKBAR_SHOW'
     ]),
     resetComponent () {
       this.fertilizerType = 'Самомес'
@@ -979,6 +971,7 @@ export default {
           isPercent: this.isPercent
         })
         this.resetComponent()
+        this.SNACKBAR_SHOW('Рецепт добавлен')
       }
     },
     editRecipe () {
@@ -998,11 +991,13 @@ export default {
           }
         })
         this.resetComponent()
+        this.SNACKBAR_SHOW('Рецепт изменен')
       }
     },
     removeRecipe () {
       this.RECIPE_REMOVE(this.curRecipeIndex)
       this.resetComponent()
+      this.SNACKBAR_SHOW('Рецепт удален')
     },
     showComponents (ions) {
       let output = []
@@ -1020,7 +1015,7 @@ export default {
       encodedUrl.select()
       encodedUrl.setSelectionRange(0, 99999)
       document.execCommand('copy')
-      this.snackbar = true
+      this.SNACKBAR_SHOW('Ссылка скопирована')
     }
   }
 }

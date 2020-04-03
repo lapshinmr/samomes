@@ -4,12 +4,14 @@
       <div>
         {{ schedule.tank.name }}
       </div>
-      <v-btn
-        text
-        @click="$emit('remove', index)"
-      >
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
+      <div>
+        <v-btn
+          text
+          @click="$emit('remove', index)"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </div>
     </v-card-title>
     <v-card-subtitle>
       Объем: {{ schedule.tank.volume }} л

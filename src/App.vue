@@ -95,6 +95,11 @@
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
+      <v-snackbar v-model="isSnackbar">
+        <div>
+            {{ snackbarMessage }}
+        </div>
+      </v-snackbar>
     </v-content>
   </v-app>
 </template>
@@ -116,7 +121,7 @@ export default {
   }),
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'schedules'
+      'tanks', 'recipes', 'schedules', 'isSnackbar', 'snackbarMessage'
     ]),
     breadcrumbs () {
       let result = {}
@@ -124,6 +129,14 @@ export default {
         result[item.path] = item.text
       }
       return result
+    },
+    isSnackbar: {
+      get () {
+        return this.$store.state.isSnackbar
+      },
+      set (value) {
+        this.SNACKBAR_HIDE()
+      }
     }
   },
   watch: {
@@ -142,7 +155,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'DRAWER_SET'
+      'DRAWER_SET', 'SNACKBAR_HIDE'
     ])
   }
 }

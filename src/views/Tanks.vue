@@ -272,7 +272,8 @@ export default {
     ...mapMutations([
       'TANK_ADD',
       'TANK_REMOVE',
-      'TANK_EDIT'
+      'TANK_EDIT',
+      'SNACKBAR_SHOW'
     ]),
     resetComponent () {
       this.name = null
@@ -314,6 +315,7 @@ export default {
           glassThickness: this.glassThickness
         })
         this.resetComponent()
+        this.SNACKBAR_SHOW('Аквариум добавлен')
       }
     },
     editTank () {
@@ -330,11 +332,13 @@ export default {
           }
         })
         this.resetComponent()
+        this.SNACKBAR_SHOW('Аквариум изменен')
       }
     },
     removeTank () {
       this.TANK_REMOVE(this.curTankIndex)
       this.resetComponent()
+      this.SNACKBAR_SHOW('Аквариум удален')
     }
   }
 }

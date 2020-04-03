@@ -39,7 +39,9 @@ export default new Vuex.Store({
   plugins: [updateLocalStorage],
   state: {
     ...loadState(),
-    drawer: false
+    drawer: false,
+    isSnackbar: false,
+    snackbarMessage: ''
   },
   getters: {
     DRAWER (state) {
@@ -95,8 +97,17 @@ export default new Vuex.Store({
     },
     PROGRESS_REMOVE (state, payload) {
       delete state.progress[payload]
+    },
+    SNACKBAR_SHOW (state, payload) {
+      state.snackbarMessage = payload
+      state.isSnackbar = true
+    },
+    SNACKBAR_HIDE (state) {
+      state.snackbarMessage = ''
+      state.isSnackbar = false
     }
   },
   actions: {
+
   }
 })

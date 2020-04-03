@@ -422,7 +422,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE', 'PROGRESS_REMOVE'
+      'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE', 'PROGRESS_REMOVE', 'SNACKBAR_SHOW'
     ]),
     convertIonName (ion) {
       return convertIonName(ion)
@@ -480,6 +480,7 @@ export default {
           completed: { ...this.completed }
         })
         this.resetComponent()
+        this.SNACKBAR_SHOW('Расписание добавлено')
       }
     },
     openRemoveDialog (index) {
@@ -492,6 +493,7 @@ export default {
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
       this.dialogRemove = false
       this.dialog = true
+      this.SNACKBAR_SHOW('Расписание удалено')
     }
   }
 }
