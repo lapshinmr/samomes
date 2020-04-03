@@ -23,6 +23,8 @@
             <div class="d-flex justify-space-between" style="width: 100%;">
               <span>
                 {{ recipe.name }}
+              </span>
+              <span>
                 <v-tooltip bottom max-width="400">
                   <template v-slot:activator="{ on }">
                     <a class="ml-3" @click="openShareDialog(index)" v-on="on">
@@ -32,25 +34,28 @@
                   Поделиться ссылкой на рецепт
                 </v-tooltip>
               </span>
-              <small class="font-weight-regular">
-                {{ recipe.type }}
-              </small>
             </div>
           </v-card-title>
           <v-card-subtitle>
-            {{ recipe.note }}
+            {{ recipe.type }}
           </v-card-subtitle>
           <v-card-text>
             <div v-if="recipe.volume" class="d-flex justify-space-between">
-              <span class="font-weight-medium">Объем удобрения</span>
-              <span>{{ recipe.volume }} мл</span>
+              <span class="font-weight-medium">
+                Объем удобрения
+              </span>
+              <span>
+                {{ recipe.volume }} мл
+              </span>
             </div>
             <v-divider v-if="recipe.type === 'Самомес'" class="my-3"/>
-            <div v-if="recipe.type === 'Самомес'" class="mb-2 font-weight-medium">Реагенты</div>
+            <div v-if="recipe.type === 'Самомес'" class="mb-2 font-weight-medium">
+              Реагенты
+            </div>
             <template v-for="reagent in recipe.reagents">
               <div v-if="recipe.mass[reagent]" class="d-flex justify-space-between" :key="reagent">
                 <span>
-                  {{ FORMULAS[reagent].name }} ({{ reagent }})
+                  {{ FORMULAS[reagent].name }}
                 </span>
                 <span>
                   {{ recipe.mass[reagent].toFixed(2) }} г
@@ -76,12 +81,18 @@
                 <div>
                   <div
                     v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
-                    class="mr-3"
                     :key="ion + 'unit'"
                   >
                     {{ (convertIonRatio(ion) * value).toFixed(1) }} г/л
                   </div>
                 </div>
+              </div>
+            </div>
+            <v-divider v-if="recipe.note" class="my-3"/>
+            <div v-if="recipe.note" class="d-flex justify-space-between">
+              <div class="font-weight-medium mr-3">Примечание</div>
+              <div class="text-right">
+                {{ recipe.note }}
               </div>
             </div>
           </v-card-text>
@@ -119,6 +130,15 @@
               <v-col cols="12" md="8" offset-md="2">
                 <v-form ref="recipeForm">
                   <v-row>
+                    <v-col v-if="isShared" cols="12">
+                      <p class="display-1">
+                        С вами поделились рецептом!
+                      </p>
+                      <p>
+                        Посмотрите рецепт, дайте ему
+                        название и напишите примечание. После этого можете сохранить его.
+                      </p>
+                    </v-col>
                     <v-col cols="12">
                       <v-select
                         :items="fertilizerTypes"
@@ -231,19 +251,25 @@
                                 >
                                 </v-text-field>
                               </v-col>
-                              <v-col cols="12">
+                              <v-col cols="12" class="mt-2 pb-0">
                                 <v-btn
                                   center
                                   text
                                   @click="isShowConcentration = !isShowConcentration"
                                   class="px-0"
                                 >
-                                  Концентрации
+                                  Показать концентрации
                                   <v-icon>{{ isShowConcentration ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                                 </v-btn>
                               </v-col>
                               <v-expand-transition>
-                                <v-col cols="12" v-if="isShowConcentration">
+                                <v-col cols="12" v-if="isShowConcentration" class="pt-0">
+                                  <v-switch
+                                    v-model="isConcentrationPercent"
+                                    label="Показать соотношение"
+                                    hide-details="auto"
+                                    class="mt-1"
+                                  ></v-switch>
                                   <v-simple-table>
                                     <template v-slot:default>
                                       <thead>
@@ -256,7 +282,7 @@
                                             :key="ion"
                                           >
                                             <template v-if="ion !== convertIonName(ion)">
-                                              {{ ion }}/{{ convertIonName(ion) }}, мг/л
+                                              {{ convertIonName(ion) }}, мг/л
                                             </template>
                                             <template v-else>
                                               {{ ion }}, мг/л
@@ -272,13 +298,13 @@
                                           <td v-for="(value, ion) in countTotalIonConcentration(concentration)" :key="reagent + ion">
                                             <template v-if="Object.keys(concentration[reagent]).includes(ion)">
                                               <template v-if="ion !== convertIonName(ion)" >
-                                                {{ concentration[reagent][ion].toFixed(2) }} / {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) }}
+                                                {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) }}
                                               </template>
                                               <template v-else>
                                                 {{ concentration[reagent][ion].toFixed(2) }}
                                               </template>
-                                              <template v-if="value">
-                                                ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
+                                              <template v-if="value && isConcentrationPercent">
+                                                {{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%
                                               </template>
                                             </template>
                                             <template v-else>
@@ -294,17 +320,7 @@
                                             <td v-if="ion !== convertIonName(ion)" :key="ion">
                                               <div class="d-flex flex-column">
                                                 <div>
-                                                  {{ value.toFixed(2) }} / {{ (convertIonRatio(ion) * value).toFixed(2) }}
-                                                </div>
-                                                <div v-if="countTotalConcentration(concentration)">
-                                                  {{ (value / countTotalConcentration(concentration) * 100).toFixed(1) }}% /
-                                                  {{ (value / countTotalConcentration(concentration) * 100 * convertIonRatio(ion)).toFixed(1) }}%
-                                                  <v-tooltip bottom max-width="400">
-                                                    <template v-slot:activator="{ on }">
-                                                      <v-icon v-on="on">mdi-help-circle-outline</v-icon>
-                                                    </template>
-                                                    Эти проценты показывают соотношение элементов в конечном удобрении.
-                                                  </v-tooltip>
+                                                  {{ (convertIonRatio(ion) * value).toFixed(2) }}
                                                 </div>
                                               </div>
                                             </td>
@@ -312,9 +328,6 @@
                                               <div class="d-flex flex-column">
                                                 <div>
                                                   {{ value.toFixed(2) }}
-                                                </div>
-                                                <div v-if="countTotalConcentration(concentration)">
-                                                  {{ (value / countTotalConcentration(concentration) * 100).toFixed(1) }}%
                                                 </div>
                                               </div>
                                             </td>
@@ -351,17 +364,15 @@
                                 <v-row>
                                   <template v-for="reagent in reagentsSelected">
                                     <v-col cols="12" :key="reagent" class="py-0">
-                                      <v-row>
-                                        <v-col cols="4">
-                                          {{ reagent }}, мг/л
-                                        </v-col>
+                                      <v-row class="mb-3">
                                         <template v-for="(data, ion) in FORMULAS[reagent].ions">
                                           <v-col v-if="data.isNeeded" :key="reagent + ion" class="py-0">
                                             <v-text-field
                                               :value="solute[reagent][ion]"
                                               @input="inputIon(reagent, ion)"
-                                              :label="convertIonName(ion)"
-                                              hide-details="auto"
+                                              :label="convertIonName(ion) + ', мг/л'"
+                                              :hint="'из ' + reagent"
+                                              persistent-hint
                                             ></v-text-field>
                                           </v-col>
                                         </template>
@@ -374,12 +385,17 @@
                                     </div>
                                     <div class="d-flex flex-column">
                                       <div
-                                        v-for="(value, name) in countTotalDose(solute)"
+                                        v-for="(value, name) in countTotalIonDose(solute)"
                                         class="d-flex justify-space-between"
                                         :key="name"
                                       >
                                         <div>{{ convertIonName(name) }}:</div>
-                                        <div class="ml-3">{{ value.toFixed(3) }}</div>
+                                        <div class="ml-3">
+                                          {{ value.toFixed(3) }}
+                                          <template v-if="countTotalDose(solute)">
+                                            ({{ (value / countTotalDose(solute) * 100).toFixed(1) }}%)
+                                          </template>
+                                        </div>
                                       </div>
                                     </div>
                                   </v-col>
@@ -401,12 +417,14 @@
                                 ></v-text-field>
                               </v-col>
                               <v-col cols="12">
-                                <v-text-field
+                                <v-textarea
                                   v-model="recipeNote"
                                   label="Примечание"
                                   hide-details="auto"
+                                  auto-grow
+                                  rows="1"
                                   hint="Вы можете добавить дополнительные сведения к рецепту"
-                                ></v-text-field>
+                                ></v-textarea>
                               </v-col>
                               <v-col class="text-right" cols="12">
                                 <v-btn
@@ -598,6 +616,7 @@ import {
   countTotalIonConcentration,
   countTotalConcentration,
   isConcentration,
+  countTotalIonDose,
   countTotalDose,
   countMass,
   convertIonName,
@@ -633,6 +652,8 @@ export default {
         'PO4': 'P'
       },
       isPercent: false,
+      isShared: false,
+      isConcentrationPercent: false,
       isShowConcentration: false,
       curRecipeIndex: null,
       dialog: this.$route.params.open,
@@ -669,6 +690,7 @@ export default {
     let query = this.$router.currentRoute.query
     if (query.share) {
       this.setComponent(JSON.parse(decodeURIComponent(query.share))[0])
+      this.isShared = true
     }
   },
   computed: {
@@ -740,7 +762,9 @@ export default {
       return this.curRecipeIndex !== null
     },
     encodedUrl () {
-      let encoded = encodeURIComponent(JSON.stringify([this.recipes[this.curRecipeIndex]]))
+      let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]])
+      jsonString = jsonString.replace(/%/g, '%25')
+      let encoded = encodeURIComponent(jsonString)
       return window.location.origin + window.location.pathname + '?share=' + encoded
     }
   },
@@ -798,6 +822,7 @@ export default {
       this.solute = {}
       this.dialog = false
       this.isPercent = false
+      this.isShared = false
       this.elements = {
         'N': null,
         'NO3': null,
@@ -909,6 +934,9 @@ export default {
     },
     countTotalIonConcentration (concentration) {
       return countTotalIonConcentration(concentration)
+    },
+    countTotalIonDose (solute) {
+      return countTotalIonDose(solute)
     },
     countTotalDose (solute) {
       return countTotalDose(solute)

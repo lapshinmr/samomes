@@ -232,15 +232,15 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn text @click="dialogRemove = false">
+            Отменить
+          </v-btn>
           <v-btn
             color="primary"
             text
             @click="removeSchedule"
           >
             Удалить
-          </v-btn>
-          <v-btn text @click="dialogRemove = false">
-            Отменить
           </v-btn>
         </v-card-actions>
       </v-card>

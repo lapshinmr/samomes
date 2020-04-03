@@ -7,8 +7,7 @@
         </p>
         <p>
           <a @click="dialog = true">Добавьте аквариум</a>,
-          чтобы вы могли создавать рецепты удобрений и составить расписание по внесению удобрений
-          для него.
+          чтобы вы могли создавать рецепты удобрений и составлять расписание по внесению удобрений.
         </p>
       </v-col>
       <v-col
@@ -97,8 +96,6 @@
                         :hint="nameHint"
                         :rules="nameRules"
                       ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
                       <v-text-field
                         v-model.number="volume"
                         label="Введите объем"
@@ -108,19 +105,24 @@
                         :rules="volumeRules"
                       ></v-text-field>
                     </v-col>
-                    <v-col cols="12">
+                    <v-col cols="12" class="text-center pb-0">
+                      <div class="d-flex align-center my-3">
+                        <v-divider />
+                        <div class="mx-2">или</div>
+                        <v-divider />
+                      </div>
                       <v-btn
                         center
                         text
                         @click="isTankVolumeCalc = !isTankVolumeCalc"
                         class="px-0"
                       >
-                        Калькулятор
+                        Введите размеры
                         <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                       </v-btn>
                     </v-col>
                     <v-expand-transition>
-                      <v-col cols="12" v-if="isTankVolumeCalc">
+                      <v-col cols="12" class="pt-0" v-if="isTankVolumeCalc">
                         <v-text-field
                           v-model.lazy="length"
                           label="Длина"

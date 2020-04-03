@@ -84,6 +84,9 @@
                     <span class="ml-2">Составить расписание</span>
                   </router-link>
                 </div>
+                <div>
+                  <router-link :to="links[4].path">Где я оказался?</router-link>
+                </div>
               </v-card-text>
             </v-card>
           </v-col>

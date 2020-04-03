@@ -34,7 +34,7 @@ export const isConcentration = (concentration) => {
   return result
 }
 
-export const countTotalDose = (solute) => {
+export const countTotalIonDose = (solute) => {
   let total = {}
   for (let reagent in solute) {
     for (let ion in solute[reagent]) {
@@ -43,6 +43,15 @@ export const countTotalDose = (solute) => {
       }
       total[ion] += solute[reagent][ion]
     }
+  }
+  return total
+}
+
+export const countTotalDose = (solute) => {
+  let total = 0
+  let totalIonSolute = countTotalIonDose(solute)
+  for (let ion in totalIonSolute) {
+    total += totalIonSolute[ion]
   }
   return total
 }
