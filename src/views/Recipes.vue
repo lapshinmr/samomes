@@ -139,7 +139,7 @@
                         название и напишите примечание. После этого можете сохранить его.
                       </p>
                     </v-col>
-                    <v-col cols="12">
+                    <v-col cols="12" class="pb-0">
                       <v-select
                         :items="fertilizerTypes"
                         v-model="fertilizerType"
@@ -152,7 +152,7 @@
                       ></v-select>
                     </v-col>
 
-                    <v-col v-if="fertilizerType === 'Самомес'" cols="12">
+                    <v-col v-if="fertilizerType === 'Самомес'" cols="12" class="pt-0">
                       <v-row>
                         <v-col cols="12">
                           <v-select
@@ -167,9 +167,27 @@
                             hide-details="auto"
                             :rules="rulesReagent"
                           ></v-select>
-                          <div
-                            class="mt-2"
-                          >
+                          <v-btn text @click="showExamples = !showExamples" class="px-0 mt-3">
+                            Выбрать готовый рецепт
+                            <v-icon>
+                              {{ showExamples ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                            </v-icon>
+                          </v-btn>
+                          <v-expand-transition>
+                            <div v-if="showExamples">
+                              <v-select
+                                :items="recipesExamples"
+                                item-text="text"
+                                item-value="value"
+                                v-model="recipeExampleChosen"
+                                label="Рецепт"
+                                hint="Нажмите, чтобы выбрать один из рецептов"
+                                persistent-hint
+                                hide-details="auto"
+                              ></v-select>
+                            </div>
+                          </v-expand-transition>
+                          <div class="mt-2">
                             <template v-for="(reagent, index) in reagents">
                               <div
                                 v-if="reagentsSelected.includes(reagent.value)"
@@ -270,6 +288,12 @@
                                     hide-details="auto"
                                     class="mt-1"
                                   ></v-switch>
+                                  <v-switch
+                                    v-model="isWithoutConvertion"
+                                    label="Показать N и P"
+                                    hide-details="auto"
+                                    class="mt-1"
+                                  ></v-switch>
                                   <v-simple-table>
                                     <template v-slot:default>
                                       <thead>
@@ -281,6 +305,9 @@
                                             v-for="ion in Object.keys(countTotalIonConcentration(concentration))"
                                             :key="ion"
                                           >
+                                            <template v-if="isWithoutConvertion && ion !== convertIonName(ion)">
+                                              {{ ion }} /
+                                            </template>
                                             <template v-if="ion !== convertIonName(ion)">
                                               {{ convertIonName(ion) }}, мг/л
                                             </template>
@@ -297,6 +324,9 @@
                                           </td>
                                           <td v-for="(value, ion) in countTotalIonConcentration(concentration)" :key="reagent + ion">
                                             <template v-if="Object.keys(concentration[reagent]).includes(ion)">
+                                              <template v-if="isWithoutConvertion && ion !== convertIonName(ion)">
+                                                {{ concentration[reagent][ion].toFixed(2) }} /
+                                              </template>
                                               <template v-if="ion !== convertIonName(ion)" >
                                                 {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) }}
                                               </template>
@@ -304,7 +334,7 @@
                                                 {{ concentration[reagent][ion].toFixed(2) }}
                                               </template>
                                               <template v-if="value && isConcentrationPercent">
-                                                {{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%
+                                                ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
                                               </template>
                                             </template>
                                             <template v-else>
@@ -318,18 +348,13 @@
                                           </td>
                                           <template v-for="(value, ion) in countTotalIonConcentration(concentration)">
                                             <td v-if="ion !== convertIonName(ion)" :key="ion">
-                                              <div class="d-flex flex-column">
-                                                <div>
-                                                  {{ (convertIonRatio(ion) * value).toFixed(2) }}
-                                                </div>
-                                              </div>
+                                              <template v-if="isWithoutConvertion && ion !== convertIonName(ion)">
+                                                {{ value.toFixed(2) }} /
+                                              </template>
+                                              {{ (convertIonRatio(ion) * value).toFixed(2) }}
                                             </td>
                                             <td v-else :key="ion">
-                                              <div class="d-flex flex-column">
-                                                <div>
-                                                  {{ value.toFixed(2) }}
-                                                </div>
-                                              </div>
+                                              {{ value.toFixed(2) }}
                                             </td>
                                           </template>
                                         </tr>
@@ -625,6 +650,8 @@ export default {
       fertilizerTypes: ['Самомес', 'Готовое'],
       fertilizerType: 'Самомес',
       reagentsSelected: [],
+      recipeExampleChosen: null,
+      showExamples: true,
       fertilizerVolume: null,
       tankVolume: null,
       fertilizerMass: {},
@@ -648,6 +675,7 @@ export default {
       isShared: false,
       isConcentrationPercent: false,
       isShowConcentration: false,
+      isWithoutConvertion: false,
       curRecipeIndex: null,
       dialog: this.$route.params.open,
       dialogShare: false,
@@ -698,6 +726,18 @@ export default {
         })
       }
       return result
+    },
+    recipesExamples () {
+      return [
+        {
+          'text': 'Prestige NPK самомес',
+          'value': 'prestige'
+        },
+        {
+          'text': 'Aquayer NPK самомес',
+          'value': 'aquayer'
+        }
+      ]
     },
     concentration () {
       let result = {}
@@ -786,6 +826,30 @@ export default {
       if (this.fertilizerVolume) {
         this.countDose()
       }
+    },
+    recipeExampleChosen () {
+      switch (this.recipeExampleChosen) {
+        case 'prestige':
+          this.reagentsSelected = ['KNO3', 'KH2PO4']
+          this.fertilizerMass['KNO3'] = 19.31
+          this.fertilizerMass['KH2PO4'] = 1.65
+          this.recipeName_ = 'Prestige NPK'
+          this.recipeNote = 'Это аналог удобрения, который приблизительно похож на заводское'
+          break
+        case 'aquayer':
+          this.reagentsSelected = ['KNO3', 'KH2PO4', 'N2H4CO', 'NH4NO3']
+          this.fertilizerMass['KNO3'] = 12.225
+          this.fertilizerMass['KH2PO4'] = 1.32
+          this.fertilizerMass['N2H4CO'] = 0.516
+          this.fertilizerMass['NH4NO3'] = 0.337
+          this.recipeName_ = 'Aquyer NPK'
+          this.recipeNote = 'Это аналог удобрения, который приблизительно похож на заводское'
+          break
+        default:
+          this.reagentSelected = []
+      }
+      this.fertilizerVolume = 250
+      this.tankVolume = 100
     },
     tankVolume () {
       if (this.fertilizerVolume) {
@@ -887,7 +951,7 @@ export default {
     },
     inputVolume () {
       this.fertilizerVolume = parseFloat(event.target.value)
-      if (this.tankVolume && !isNaN(this.fertilizerVolumeVolume)) {
+      if (this.tankVolume && !isNaN(this.fertilizerVolume)) {
         this.countDose()
       }
     },
