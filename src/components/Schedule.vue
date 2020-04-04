@@ -4,14 +4,6 @@
       <div class="no-break">
         {{ schedule.tank.name }}
       </div>
-      <v-btn
-        text
-        @click="$emit('remove', index)"
-        class="px-0 ml-2"
-        style="min-width: 0px;"
-      >
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
     </v-card-title>
     <v-card-subtitle>
       Объем: {{ schedule.tank.volume }} л
@@ -103,7 +95,7 @@
         text
         v-if="activeIndex < schedule.daysTotal"
         @click="nextStep()"
-        class="mr-auto"
+        class="ml-3"
         :class="{'ml-auto': activeIndex === 1}"
       >
         Далее
@@ -112,9 +104,16 @@
         v-else
         text
         @click="$emit('remove', index)"
-        class="mr-auto"
+        class="ml-3"
       >
         Завершить
+      </v-btn>
+      <v-btn
+        text
+        @click="$emit('edit', index)"
+        class="ml-3"
+      >
+        Открыть
       </v-btn>
     </v-card-actions>
     <v-progress-linear

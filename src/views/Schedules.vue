@@ -41,6 +41,7 @@
           :index="index"
           :key="schedule.tank.name"
           @remove="openRemoveDialog($event)"
+          @edit="openAddSchedule($event)"
         />
       </v-col>
     </v-row>
@@ -53,12 +54,15 @@
     >
       <v-card>
         <v-toolbar dark color="primary">
-          <v-btn icon dark @click="dialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>
+          <v-toolbar-title v-if="!isEditing">
             Новое расписание
           </v-toolbar-title>
+          <v-toolbar-title v-else>
+            Обзор расписания
+          </v-toolbar-title>
+          <v-btn icon dark @click="dialog = false" class="ml-auto">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
         </v-toolbar>
         <v-card-text class="px-2">
           <v-container>
@@ -77,6 +81,7 @@
                         hint="Выберите аквариум, для которого будет составлено расписание"
                         :return-object="true"
                         :rules="rulesTank"
+                        :disabled="isEditing"
                       ></v-select>
                     </v-col>
                     <v-expand-transition>
@@ -90,6 +95,7 @@
                           multiple
                           hint="Выберите рецепты, которые хотите использовать для данного аквариума"
                           :return-object="true"
+                          :disabled="isEditing"
                         ></v-select>
                       </v-col>
                     </v-expand-transition>
@@ -97,14 +103,31 @@
                       <div :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
                         Выбранные рецепты
                       </div>
-                      <div v-for="(recipeSelected, index) in recipesSelected" :key="index">
+                      <div
+                        v-for="(recipeSelected, index) in recipesSelected"
+                        :key="index"
+                        class="d-flex flex-column flex-sm-row justify-space-between align-center"
+                      >
                         <v-text-field
                           :value="recipeSelected.amount"
                           @input="inputRecipeAmount(index)"
                           :label="recipeSelected.name"
-                          hint="Введите объем"
+                          hint="Введите общий объем на весь период"
                           suffix="мл"
-                          hide-details="auto"
+                          persistent-hint
+                          :disabled="isEditing"
+                          class="w-100"
+                        ></v-text-field>
+                        <div class="mt-3 mt-sm-0 mb-1 mb-sm-0 mx-sm-3">или</div>
+                        <v-text-field
+                          :value="daysTotal && recipeSelected.amount ? (recipeSelected.amount / daysTotal).toFixed(2) : ''"
+                          @input="inputRecipeAmountDay(index)"
+                          :label="recipeSelected.name"
+                          hint="Введите объем в день"
+                          suffix="мл/день"
+                          persistent-hint
+                          :disabled="isEditing"
+                          class="w-100"
                         ></v-text-field>
                      </div>
                     </v-col>
@@ -116,7 +139,7 @@
                             <span>
                               {{ value !== undefined ? (convertIonRatio(name) * value).toFixed(2) : 0 }} мг/л
                               <template v-if="daysTotal">
-                                ({{ value !== undefined ? (convertIonRatio(name) * value / daysTotal).toFixed(2) : 0 }} в день)
+                                ({{ value !== undefined ? (convertIonRatio(name) * value / daysTotal).toFixed(2) : 0 }} мг/л в день)
                               </template>
                             </span>
                           </span>
@@ -142,6 +165,7 @@
                           first-day-of-week="1"
                           full-width
                           range
+                          :disabled="isEditing"
                         >
                           <template v-slot:default>
                             <v-text-field
@@ -182,6 +206,7 @@
                                     v-model="selected[recipeName][index]"
                                     hide-details="auto"
                                     class="mt-0"
+                                    :disabled="isEditing"
                                   >
                                      <template v-slot:label>
                                        <span class="mt-1">
@@ -199,7 +224,24 @@
                     </v-expand-transition>
                     <v-expand-transition>
                       <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal" class="text-right" cols="12">
-                        <v-btn color="primary" @click="addSchedule">
+                        <v-btn
+                          text
+                          @click="dialog = false"
+                        >
+                          Отменить
+                        </v-btn>
+                        <v-btn
+                          v-if="isEditing"
+                          text
+                          @click="openRemoveDialog(curScheduleIndex)"
+                        >
+                          Удалить
+                        </v-btn>
+                        <v-btn
+                          v-if="!isEditing"
+                          color="primary"
+                          @click="addSchedule"
+                        >
                           Сохранить
                         </v-btn>
                       </v-col>
@@ -252,7 +294,7 @@
           color="primary"
           dark
           fab
-          @click="openAddSchedule"
+          @click="openAddSchedule(null)"
           v-on="on"
           fixed
           bottom
@@ -309,6 +351,9 @@ export default {
         return
       }
       return names.findIndex(item => item === this.tank.name) !== -1
+    },
+    isEditing () {
+      return this.curScheduleIndex !== null
     },
     isSame () {
       let names = this.schedules.map(item => item.tank.name)
@@ -462,7 +507,20 @@ export default {
         amount: !isNaN(value) ? value : ''
       })
     },
-    openAddSchedule () {
+    inputRecipeAmountDay (index) {
+      let recipe = this.recipesSelected[index]
+      let value = parseFloat(event.target.value)
+      Vue.set(this.recipesSelected, index, {
+        ...recipe,
+        amount: !isNaN(value) ? value * this.daysTotal : ''
+      })
+    },
+    openAddSchedule (index = null) {
+      if (index !== null) {
+        console.log(index)
+        this.curScheduleIndex = index
+        this.setComponent(index)
+      }
       if (this.$refs.scheduleForm) {
         this.$refs.scheduleForm.resetValidation()
       }
@@ -487,7 +545,7 @@ export default {
       this.curScheduleIndex = index
       this.dialogRemove = true
     },
-    removeSchedule () {
+    removeSchedule (reopen = false) {
       this.setComponent(this.curScheduleIndex)
       this.PROGRESS_REMOVE(this.tank.name)
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
