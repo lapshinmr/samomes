@@ -106,28 +106,25 @@
                       <div
                         v-for="(recipeSelected, index) in recipesSelected"
                         :key="index"
-                        class="d-flex flex-column flex-sm-row justify-space-between align-center"
+                        class="d-flex justify-space-between align-center"
                       >
                         <v-text-field
                           :value="recipeSelected.amount"
                           @input="inputRecipeAmount(index)"
                           :label="recipeSelected.name"
-                          hint="Введите общий объем на весь период"
+                          hint="Введите весь объем"
                           suffix="мл"
                           persistent-hint
                           :disabled="isEditing"
-                          class="w-100"
+                          class="mr-3"
                         ></v-text-field>
-                        <div class="mt-3 mt-sm-0 mb-1 mb-sm-0 mx-sm-3">или</div>
                         <v-text-field
                           :value="daysTotal && recipeSelected.amount ? (recipeSelected.amount / daysTotal).toFixed(2) : ''"
                           @input="inputRecipeAmountDay(index)"
-                          :label="recipeSelected.name"
-                          hint="Введите объем в день"
+                          hint="или объем в день"
                           suffix="мл/день"
                           persistent-hint
                           :disabled="isEditing"
-                          class="w-100"
                         ></v-text-field>
                      </div>
                     </v-col>
@@ -225,14 +222,14 @@
                     <v-expand-transition>
                       <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal" class="text-right" cols="12">
                         <v-btn
-                          text
                           @click="dialog = false"
+                          class="mr-3"
                         >
                           Отменить
                         </v-btn>
                         <v-btn
                           v-if="isEditing"
-                          text
+                          color="primary"
                           @click="openRemoveDialog(curScheduleIndex)"
                         >
                           Удалить
@@ -517,7 +514,6 @@ export default {
     },
     openAddSchedule (index = null) {
       if (index !== null) {
-        console.log(index)
         this.curScheduleIndex = index
         this.setComponent(index)
       }

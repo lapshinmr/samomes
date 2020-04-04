@@ -114,15 +114,15 @@
     >
       <v-card>
         <v-toolbar dark color="primary">
-          <v-btn icon dark @click="dialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
           <v-toolbar-title v-if="!isEditing">
             Новый рецепт
           </v-toolbar-title>
           <v-toolbar-title v-else>
             Редактирование рецепта
           </v-toolbar-title>
+          <v-btn icon dark @click="dialog = false" class="ml-auto">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
         </v-toolbar>
         <v-card-text class="px-2">
           <v-container>

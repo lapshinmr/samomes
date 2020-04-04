@@ -35,27 +35,32 @@
                     :color="['primary', 'primary', 'grey'][schedule.completed[recipeName][index]]"
                     :outlined="[true, false, true][schedule.completed[recipeName][index]]"
                     @click="clickDay(recipeName, index)"
-                    class="mb-2"
+                    class="mb-2 px-3"
+                    style="max-width: 100%;"
                   >
-                    <div
-                      class="d-flex align-center w-100"
-                      :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'headline': $vuetify.breakpoint['smAndUp']}"
-                    >
-                      <v-icon v-if="schedule.completed[recipeName][index] === 0" color="primary">far fa-circle</v-icon>
-                      <v-icon v-if="schedule.completed[recipeName][index] === 1" color="white">far fa-check-circle</v-icon>
-                      <v-icon v-if="schedule.completed[recipeName][index] === 2" color="grey">far fa-times-circle</v-icon>
-                      <span class="ml-5">{{ recipeName }}</span>
+                    <template v-slot:default>
                       <div
-                        class="ml-auto d-flex flex-column align-end"
+                        class="d-flex justify-space-between align-center w-100"
+                        :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'headline': $vuetify.breakpoint['smAndUp']}"
                       >
-                        <div>
-                          {{ quotas[index].toFixed(2) }}
+                        <v-icon v-if="schedule.completed[recipeName][index] === 0" color="primary">far fa-circle</v-icon>
+                        <v-icon v-if="schedule.completed[recipeName][index] === 1" color="white">far fa-check-circle</v-icon>
+                        <v-icon v-if="schedule.completed[recipeName][index] === 2" color="grey">far fa-times-circle</v-icon>
+                        <div class="flex-shrink-1" style="white-space: nowrap; width: 60%;">
+                          <div style="overflow: hidden; text-overflow: ellipsis;">
+                            {{ recipeName }}
+                          </div>
                         </div>
-                        <div class="caption mt-n2">
-                          {{ totalSum[recipeName]['sum'].toFixed(1) }} / {{ totalSum[recipeName]['amount'] }}
+                        <div class="d-flex flex-column align-end flex-shrink-1">
+                          <div>
+                            {{ quotas[index].toFixed(2) }}
+                          </div>
+                          <div class="caption mt-n2">
+                            {{ totalSum[recipeName]['sum'].toFixed(1) }} / {{ totalSum[recipeName]['amount'] }}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </template>
                   </v-btn>
                 </v-col>
               </v-row>
@@ -267,4 +272,6 @@ export default {
   box-shadow: none!important
 .v-stepper__step__step .v-icon
   font-size: 1rem!important
+.v-btn__content
+  width: 100%
 </style>
