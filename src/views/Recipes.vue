@@ -176,9 +176,7 @@
                           <v-expand-transition>
                             <div v-if="showExamples">
                               <v-select
-                                :items="recipesExamples"
-                                item-text="text"
-                                item-value="value"
+                                :items="recipesExamples['самомес']"
                                 v-model="recipeExampleChosen"
                                 label="Рецепт"
                                 hint="Нажмите, чтобы выбрать один из рецептов"
@@ -478,6 +476,26 @@
                     <v-col v-else cols="12">
                       <v-row>
                         <v-col cols="12">
+                          <v-btn text @click="showExamples = !showExamples" class="px-0 mt-3">
+                            Выбрать готовый рецепт
+                            <v-icon>
+                              {{ showExamples ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                            </v-icon>
+                          </v-btn>
+                          <v-expand-transition>
+                            <div v-if="showExamples">
+                              <v-select
+                                :items="recipesExamples['готовое']"
+                                v-model="recipeExampleChosen"
+                                label="Рецепт"
+                                hint="Нажмите, чтобы выбрать один из рецептов"
+                                persistent-hint
+                                hide-details="auto"
+                              ></v-select>
+                            </div>
+                          </v-expand-transition>
+                        </v-col>
+                        <v-col cols="12">
                           Выберите единицы и введите концентрации элементов, которые указаны в составе удобрения.
                           Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
                         </v-col>
@@ -530,6 +548,7 @@
                               label="Примечание"
                               hide-details="auto"
                               auto-grow
+                              rows="1"
                               hint="Вы можете добавить дополнительные сведения к рецепту"
                             ></v-textarea>
                           </v-col>
@@ -629,7 +648,7 @@
 
 <script>
 import Vue from 'vue'
-import { FORMULAS } from '../constants.js'
+import { FORMULAS, RECIPE_EXAMPLES } from '../constants.js'
 import {
   countTotalIonConcentration,
   countTotalConcentration,
@@ -647,6 +666,7 @@ export default {
   data () {
     return {
       FORMULAS: FORMULAS,
+      RECIPE_EXAMPLES: RECIPE_EXAMPLES,
       fertilizerTypes: ['Самомес', 'Готовое'],
       fertilizerType: 'Самомес',
       reagentsSelected: [],
@@ -658,13 +678,7 @@ export default {
       solute: {},
       recipeName_: null,
       recipeNote: null,
-      elements: {
-        'N': null,
-        'NO3': null,
-        'P': null,
-        'PO4': null,
-        'K': null
-      },
+      elements: this.resetElements(),
       opposite: {
         'N': 'NO3',
         'NO3': 'N',
@@ -728,16 +742,14 @@ export default {
       return result
     },
     recipesExamples () {
-      return [
-        {
-          'text': 'Prestige NPK самомес',
-          'value': 'prestige'
-        },
-        {
-          'text': 'Aquayer NPK самомес',
-          'value': 'aquayer'
-        }
-      ]
+      let recipeExamples = {
+        'самомес': [],
+        'готовое': []
+      }
+      for (let item of this.RECIPE_EXAMPLES) {
+        recipeExamples[item.type].push(item.name)
+      }
+      return recipeExamples
     },
     concentration () {
       let result = {}
@@ -828,28 +840,26 @@ export default {
       }
     },
     recipeExampleChosen () {
-      switch (this.recipeExampleChosen) {
-        case 'prestige':
-          this.reagentsSelected = ['KNO3', 'KH2PO4']
-          this.fertilizerMass['KNO3'] = 19.31
-          this.fertilizerMass['KH2PO4'] = 1.65
-          this.recipeName_ = 'Prestige NPK'
-          this.recipeNote = 'Это аналог удобрения, который приблизительно похож на заводское'
+      for (let item of this.RECIPE_EXAMPLES) {
+        if (item.name === this.recipeExampleChosen && item.type === 'самомес') {
+          this.reagentsSelected = Object.keys(item.reagents)
+          this.recipeName_ = item.name
+          this.recipeNote = item.note
+          for (let reagent in item.reagents) {
+            this.fertilizerMass[reagent] = item.reagents[reagent]
+          }
+          this.fertilizerVolume = 250
+          this.tankVolume = 100
           break
-        case 'aquayer':
-          this.reagentsSelected = ['KNO3', 'KH2PO4', 'N2H4CO', 'NH4NO3']
-          this.fertilizerMass['KNO3'] = 12.225
-          this.fertilizerMass['KH2PO4'] = 1.32
-          this.fertilizerMass['N2H4CO'] = 0.516
-          this.fertilizerMass['NH4NO3'] = 0.337
-          this.recipeName_ = 'Aquyer NPK'
-          this.recipeNote = 'Это аналог удобрения, который приблизительно похож на заводское'
+        } else if (item.name === this.recipeExampleChosen && item.type === 'готовое') {
+          this.isPercent = item.isPercent
+          this.elements = Object.assign({}, this.resetElements())
+          this.elements = Object.assign(this.elements, item.elements)
+          this.recipeName_ = item.name
+          this.recipeNote = item.note
           break
-        default:
-          this.reagentSelected = []
+        }
       }
-      this.fertilizerVolume = 250
-      this.tankVolume = 100
     },
     tankVolume () {
       if (this.fertilizerVolume) {
@@ -904,6 +914,15 @@ export default {
         for (let ion in recipe.concentration[reagent]) {
           this.elements[ion] = recipe.concentration[reagent][ion] / convertRatio
         }
+      }
+    },
+    resetElements () {
+      return {
+        'N': null,
+        'NO3': null,
+        'P': null,
+        'PO4': null,
+        'K': null
       }
     },
     countMass (element) {
