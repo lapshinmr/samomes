@@ -185,14 +185,14 @@
                               ></v-select>
                             </div>
                           </v-expand-transition>
-                          <div class="mt-2">
+                          <div class="mt-3">
                             <template v-for="(reagent, index) in reagents">
                               <div
                                 v-if="reagentsSelected.includes(reagent.value)"
-                                class="d-flex justify-space-between"
+                                class="d-flex justify-space-between caption"
                                 :key="reagent.value"
                               >
-                                <div>{{ reagents[index].text }}</div>
+                                <div>{{ reagents[index].name }}</div>
                                 <div>{{ showComponents(countProcent(reagent.value)) }}</div>
                               </div>
                             </template>
@@ -671,7 +671,7 @@ export default {
       fertilizerType: 'Самомес',
       reagentsSelected: [],
       recipeExampleChosen: null,
-      showExamples: true,
+      showExamples: false,
       fertilizerVolume: null,
       tankVolume: null,
       fertilizerMass: {},
@@ -736,6 +736,7 @@ export default {
       for (let formula in this.FORMULAS) {
         result.push({
           text: `${this.FORMULAS[formula].name} - ${formula}`,
+          name: `${this.FORMULAS[formula].name}`,
           value: formula
         })
       }
@@ -845,11 +846,11 @@ export default {
           this.reagentsSelected = Object.keys(item.reagents)
           this.recipeName_ = item.name
           this.recipeNote = item.note
+          this.fertilizerVolume = item.fertilizerVolume
+          this.tankVolume = item.tankVolume
           for (let reagent in item.reagents) {
             this.fertilizerMass[reagent] = item.reagents[reagent]
           }
-          this.fertilizerVolume = 250
-          this.tankVolume = 100
           break
         } else if (item.name === this.recipeExampleChosen && item.type === 'готовое') {
           this.isPercent = item.isPercent

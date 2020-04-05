@@ -112,11 +112,55 @@ export const FORMULAS = {
 export const RECIPE_EXAMPLES = [
   {
     type: 'самомес',
+    name: 'Нитрат Aqua Botanic 1',
+    reagents: {
+      KNO3: 82.88
+    },
+    tankVolume: 100,
+    fertilizerVolume: 1000,
+    note: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru.'
+  },
+  {
+    type: 'самомес',
+    name: 'Нитрат Aqua Botanic 2',
+    reagents: {
+      KNO3: 49.71,
+      N2H4CO: 5.02,
+      NH4NO3: 6.71
+    },
+    tankVolume: 100,
+    fertilizerVolume: 1000,
+    note: 'Калиевая селитра, разбавленная мочевиной и натратом аммония. Рецепт взят с сайта aqua-botanic.ru.'
+  },
+  {
+    type: 'самомес',
+    name: 'Фосфат Aqua Botanic',
+    reagents: {
+      KH2PO4: 7.01
+    },
+    tankVolume: 100,
+    fertilizerVolume: 1000,
+    note: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru.'
+  },
+  {
+    type: 'самомес',
+    name: 'Калий Aqua Botanic',
+    reagents: {
+      K2SO4: 84.76
+    },
+    tankVolume: 100,
+    fertilizerVolume: 1000,
+    note: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru.'
+  },
+  {
+    type: 'самомес',
     name: 'Prestige NPK самомес',
     reagents: {
       KNO3: 19.31,
       KH2PO4: 1.65
     },
+    tankVolume: 100,
+    fertilizerVolume: 250,
     note: 'Это аналог удобрения, который был получен на основе состава элементов, заявленных производителем.'
   },
   {
@@ -128,7 +172,9 @@ export const RECIPE_EXAMPLES = [
       N2H4CO: 0.516,
       NH4NO3: 0.337
     },
-    note: 'Это аналог удобрения, который был получен на основе состава элементов, заявленных производителем.'
+    tankVolume: 100,
+    fertilizerVolume: 250,
+    note: 'Это аналог удобрения, который был получен на основе состава элементов, заявленных производителем. Соотношение мочевины к нитрату аммония взято с потолка.'
   },
   {
     type: 'самомес',
@@ -139,7 +185,9 @@ export const RECIPE_EXAMPLES = [
       N2H4CO: 2,
       NH4NO3: 1.6
     },
-    note: 'Это аналог удобрения, который был получен на основе состава элементов, заявленных производителем.'
+    tankVolume: 100,
+    fertilizerVolume: 250,
+    note: 'Это аналог удобрения, который был получен на основе состава элементов, заявленных производителем. Соотношение мочевины к нитрату аммония взято с потолка.'
   },
   {
     type: 'готовое',
