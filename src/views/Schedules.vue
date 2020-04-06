@@ -31,7 +31,7 @@
           У вас нет ни одного расписания
         </p>
         <p>
-          <a @click="dialog = true">Добавьте расписание</a> и вам будет проще
+          <a @click="openAddSchedule(null)">Добавьте расписание</a> и вам будет проще
           следить за внесенным количеством удобрений.
         </p>
       </v-col>
@@ -335,9 +335,6 @@ export default {
       ]
     }
   },
-  created () {
-    this.createDatesRange()
-  },
   computed: {
     ...mapState([
       'tanks', 'recipes', 'schedules', 'drawer'
@@ -494,7 +491,6 @@ export default {
       this.tank = schedule.tank
       this.recipesSelected = [ ...schedule.recipesSelected ]
       this.selected = { ...schedule.selected }
-      this.createDatesRange()
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
@@ -517,6 +513,7 @@ export default {
         this.curScheduleIndex = index
         this.setComponent(index)
       }
+      this.createDatesRange()
       if (this.$refs.scheduleForm) {
         this.$refs.scheduleForm.resetValidation()
       }
