@@ -234,9 +234,9 @@ export default {
         indexDay: index,
         recipeName: recipeName
       })
-      if (this.isCompletedDay[index]) {
-        setTimeout(() => this.nextStep(), 1000)
-      }
+      // if (this.isCompletedDay[index]) {
+      //   setTimeout(() => this.nextStep(), 1000)
+      // }
       this.PROGRESS_EDIT({
         tankName: this.schedule.tank.name,
         value: this.progressValue
