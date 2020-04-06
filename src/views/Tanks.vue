@@ -96,6 +96,8 @@
                         :hint="nameHint"
                         :rules="nameRules"
                       ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" class="pt-0">
                       <v-text-field
                         v-model.number="volume"
                         label="Введите объем"

@@ -115,7 +115,7 @@
                           hint="Введите весь объем"
                           suffix="мл"
                           persistent-hint
-                          :disabled="isEditing"
+                          :readonly="isEditing"
                           class="mr-3"
                         ></v-text-field>
                         <v-text-field
@@ -124,7 +124,7 @@
                           hint="или объем в день"
                           suffix="мл/день"
                           persistent-hint
-                          :disabled="isEditing"
+                          :readonly="isEditing"
                         ></v-text-field>
                      </div>
                     </v-col>

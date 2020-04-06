@@ -151,7 +151,6 @@
                         :disabled="isEditing"
                       ></v-select>
                     </v-col>
-
                     <v-col v-if="fertilizerType === 'Самомес'" cols="12" class="pt-0">
                       <v-row>
                         <v-col cols="12">
