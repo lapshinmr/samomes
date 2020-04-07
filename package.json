@@ -2,7 +2,7 @@
   "name": "samomes",
   "version": "1.0.0",
   "author": "Mikhail Lapshin <lapshinmr@gmail.com> (https://samomes.com)",
-  "license": "MIT",
+  "license": "GPL-v3.0",
   "repository": "https://github.com/lapshinmr/udo.git",
   "scripts": {
     "serve": "vue-cli-service serve",

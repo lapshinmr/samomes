@@ -205,8 +205,6 @@ a
 .fade-enter-active
   transition: opacity 0.3s
 
-.fade-leave
-
 .fade-leave-active
   opacity: 0
   transition: opacity 0.3s
