@@ -532,7 +532,7 @@
                           <v-row>
                             <v-col
                               v-for="(amount, el) in elements"
-                              :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6: 12"
+                              :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6 : 12"
                               class="py-0"
                               :key="el"
                             >
@@ -696,7 +696,7 @@ export default {
       solute: {},
       recipeName_: null,
       recipeNote: null,
-      elements: this.resetElements(),
+      elements: { ...this.resetElements() },
       opposite: {
         'N': 'NO3',
         'NO3': 'N',
@@ -908,13 +908,7 @@ export default {
       this.dialog = false
       this.isPercent = false
       this.isShared = false
-      this.elements = {
-        'N': null,
-        'NO3': null,
-        'P': null,
-        'PO4': null,
-        'K': null
-      }
+      this.elements = { ...this.resetElements() }
     },
     setComponent (recipe, index = null) {
       this.fertilizerType = recipe.type
@@ -941,7 +935,15 @@ export default {
         'NO3': null,
         'P': null,
         'PO4': null,
-        'K': null
+        'K': null,
+        'Ca': null,
+        'Mg': null,
+        'Fe': null,
+        'Mn': null,
+        'B': null,
+        'Zn': null,
+        'Cu': null,
+        'Mo': null
       }
     },
     countMass (element) {
