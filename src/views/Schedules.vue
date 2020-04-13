@@ -153,9 +153,9 @@
                           <span>{{ convertIonName(name) }}</span>
                           <span>
                             <span>
-                              {{ value !== undefined ? (convertIonRatio(name) * value).toFixed(2) : 0 }} мг/л
+                              {{ value !== undefined ? (convertIonRatio(name) * value).toFixed(3) : 0 }} мг/л
                               <template v-if="daysTotal">
-                                ({{ value !== undefined ? (convertIonRatio(name) * value / daysTotal).toFixed(2) : 0 }} мг/л в день)
+                                ({{ value !== undefined ? (convertIonRatio(name) * value / daysTotal).toFixed(3) : 0 }} мг/л в день)
                               </template>
                             </span>
                           </span>

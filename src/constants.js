@@ -240,5 +240,34 @@ export const RECIPE_EXAMPLES = [
       K: 1.45
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Aquabalance Micro (KH<4)',
+    isPercent: true,
+    elements: {
+      Fe: 0.2,
+      Mn: 0.08,
+      B: 0.008,
+      Zn: 0.005,
+      Cu: 0.01,
+      Mo: 0.006
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Prestige Micro',
+    isPercent: false,
+    elements: {
+      K: 12,
+      Fe: 1.5,
+      Mg: 0.8,
+      Mn: 0.5,
+      B: 0.06,
+      Mo: 0.036,
+      Zn: 0.0185
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
   }
 ]
