@@ -138,7 +138,7 @@
                           class="mr-3"
                         ></v-text-field>
                         <v-text-field
-                          :value="daysTotal && recipeSelected.amount ? (recipeSelected.amount / daysTotal).toFixed(2) : ''"
+                          :value="recipeSelected.amountDay"
                           @input="inputRecipeAmountDay(index)"
                           hint="или объем в день"
                           suffix="мл/день"
@@ -513,10 +513,13 @@ export default {
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
-      let value = parseFloat(event.target.value)
+      let amount = parseFloat(event.target.value)
+      let amountDay = amount / this.daysTotal
+      console.log(amountDay)
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(value) ? value : ''
+        amount: !isNaN(amount) ? amount : '',
+        amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(2)) : ''
       })
     },
     inputRecipeAmountDay (index) {

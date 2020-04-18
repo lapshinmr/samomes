@@ -243,7 +243,21 @@ export const RECIPE_EXAMPLES = [
   },
   {
     type: 'готовое',
-    name: 'Aquabalance Micro (KH<4)',
+    name: 'Aquabalance Micro',
+    isPercent: true,
+    elements: {
+      Fe: 0.2,
+      Mn: 0.05,
+      Zn: 0.01,
+      B: 0.009,
+      Cu: 0.003,
+      Mo: 0.003
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Aquabalance Micro Premium (KH<4)',
     isPercent: true,
     elements: {
       Fe: 0.2,
@@ -267,6 +281,23 @@ export const RECIPE_EXAMPLES = [
       B: 0.06,
       Mo: 0.036,
       Zn: 0.0185
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Aquayer Micro+',
+    isPercent: false,
+    elements: {
+      K: 6.930,
+      Fe: 1.2,
+      Mg: 0.8,
+      Mn: 0.4,
+      B: 0.072,
+      Mo: 0.03,
+      Cu: 0.045,
+      Zn: 0.015,
+      Co: 0.007
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.'
   }

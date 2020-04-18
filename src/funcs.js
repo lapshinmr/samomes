@@ -98,5 +98,5 @@ export const convertIonName = (ion) => {
 }
 
 export const convertIonRatio = (ion) => {
-  return countMass(convertIonName(ion)) / countMass(ion)
+  return convertIonName(ion) !== ion ? countMass(convertIonName(ion)) / countMass(ion) : 1
 }

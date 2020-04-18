@@ -101,8 +101,9 @@
                   <div
                     v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
                     :key="ion + 'unit'"
+                    class="text-right"
                   >
-                    {{ (convertIonRatio(ion) * value).toFixed(1) }} г/л
+                    {{ (convertIonRatio(ion) * value).toFixed(2) }} г/л
                   </div>
                 </div>
               </div>
