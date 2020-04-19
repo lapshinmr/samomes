@@ -515,7 +515,6 @@ export default {
       let recipe = this.recipesSelected[index]
       let amount = parseFloat(event.target.value)
       let amountDay = amount / this.daysTotal
-      console.log(amountDay)
       Vue.set(this.recipesSelected, index, {
         ...recipe,
         amount: !isNaN(amount) ? amount : '',

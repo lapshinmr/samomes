@@ -243,6 +243,28 @@ export const RECIPE_EXAMPLES = [
   },
   {
     type: 'готовое',
+    name: 'Aquabalance Нитрат',
+    isPercent: true,
+    elements: {
+      NO3: 4.65,
+      K: 1.45,
+      Ca: 0.14,
+      Mg: 0.17
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Aquabalance Фосфат',
+    isPercent: true,
+    elements: {
+      PO4: 0.45,
+      K: 0.095
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
     name: 'Aquabalance Micro',
     isPercent: true,
     elements: {
