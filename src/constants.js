@@ -18,13 +18,15 @@
 */
 
 export const COMPONENTS = {
-  'H': 1,
-  'C': 12,
-  'N': 14,
-  'O': 16,
-  'P': 31,
-  'S': 32.1,
-  'K': 39.1
+  'H': 1.00811,
+  'C': 12.0116,
+  'N': 14.00728,
+  'O': 15.99977,
+  'P': 30.973762,
+  'S': 32.076,
+  'K': 39.0983,
+  'Ca': 40.078,
+  'Mg': 24.307
 }
 
 export const FORMULAS = {
@@ -43,6 +45,7 @@ export const FORMULAS = {
         count: 3
       }
     },
+    mass: 101.10489,
     solubilityLimit: 242,
     name: 'Калиевая селитра'
   },
@@ -65,6 +68,7 @@ export const FORMULAS = {
         count: 2
       }
     },
+    mass: 136.0874,
     solubilityLimit: 226,
     name: 'Монофосфат калия'
   },
@@ -83,10 +87,11 @@ export const FORMULAS = {
         count: 4
       }
     },
+    mass: 174.27168,
     solubilityLimit: 111,
     name: 'Сернокислый калий'
   },
-  'N2H4CO': {
+  '(NH2)2CO': {
     ions: {
       'N': {
         isNeeded: true,
@@ -105,6 +110,7 @@ export const FORMULAS = {
         count: 1
       }
     },
+    mass: 60.05837,
     solubilityLimit: 108,
     name: 'Карбамид (мочевина)'
   },
@@ -123,8 +129,32 @@ export const FORMULAS = {
         count: 3
       }
     },
+    mass: 80.04631,
     solubilityLimit: 190,
     name: 'Нитрат аммония'
+  },
+  'MgSO4(H2O)7': {
+    ions: {
+      'Mg': {
+        isNeeded: true,
+        count: 1
+      },
+      'S': {
+        isNeeded: false,
+        count: 1
+      },
+      'H': {
+        isNeeded: false,
+        count: 14
+      },
+      'O': {
+        isNeeded: false,
+        count: 11
+      }
+    },
+    mass: 246.49401,
+    solubilityLimit: 355,
+    name: 'Магния Сульфат (магнезия)'
   }
 }
 
@@ -144,7 +174,7 @@ export const RECIPE_EXAMPLES = [
     name: 'Нитрат Aqua Botanic 2',
     reagents: {
       KNO3: 49.71,
-      N2H4CO: 5.02,
+      '(NH2)2CO': 5.02,
       NH4NO3: 6.71
     },
     tankVolume: 100,
@@ -188,7 +218,7 @@ export const RECIPE_EXAMPLES = [
     reagents: {
       KNO3: 12.225,
       KH2PO4: 1.32,
-      N2H4CO: 0.516,
+      '(NH2)2CO': 0.516,
       NH4NO3: 0.337
     },
     tankVolume: 100,
@@ -201,7 +231,7 @@ export const RECIPE_EXAMPLES = [
     reagents: {
       KNO3: 8.174,
       KH2PO4: 1.61,
-      N2H4CO: 2,
+      '(NH2)2CO': 2,
       NH4NO3: 1.6
     },
     tankVolume: 100,

@@ -667,14 +667,13 @@
 
 <script>
 import Vue from 'vue'
-import { FORMULAS, RECIPE_EXAMPLES } from '../constants.js'
+import { COMPONENTS, FORMULAS, RECIPE_EXAMPLES } from '../constants.js'
 import {
   countTotalIonConcentration,
   countTotalConcentration,
   isConcentration,
   countTotalIonDose,
   countTotalDose,
-  countMass,
   convertIonName,
   convertIonRatio
 } from '../funcs.js'
@@ -685,6 +684,7 @@ export default {
   data () {
     return {
       FORMULAS: FORMULAS,
+      COMPONENTS: COMPONENTS,
       RECIPE_EXAMPLES: RECIPE_EXAMPLES,
       fertilizerTypes: ['Самомес', 'Готовое'],
       fertilizerType: 'Самомес',
@@ -947,16 +947,13 @@ export default {
         'Mo': null
       }
     },
-    countMass (element) {
-      return countMass(element)
-    },
     countProcent (element) {
-      let massTotal = this.countMass(element)
+      let massTotal = this.FORMULAS[element].mass
       let result = {}
       let ions = FORMULAS[element].ions
       for (let ion in ions) {
         if (ions[ion].isNeeded) {
-          result[ion] = this.countMass(ion) * ions[ion].count / massTotal
+          result[ion] = this.COMPONENTS[ion] * ions[ion].count / massTotal
         }
       }
       return result
