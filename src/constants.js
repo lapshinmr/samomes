@@ -374,5 +374,22 @@ export const RECIPE_EXAMPLES = [
       Co: 0.007
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Aqua Botanic Micro',
+    isPercent: false,
+    elements: {
+      K: 4,
+      Fe: 2.67,
+      Mg: 1.1,
+      Mn: 0.3,
+      Zn: 0.17,
+      B: 0.1,
+      Cu: 0.05,
+      Mo: 0.02,
+      Co: 0.01204
+    },
+    note: 'Рецепт взят с сайта aqua-botanic.ru'
   }
 ]

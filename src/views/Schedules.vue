@@ -149,27 +149,8 @@
                     </v-col>
                     <v-expand-transition>
                       <v-col v-if="isAmount" cols="12" class="pt-0">
-                        <div v-for="[name, value] in totalElements" :key="name" class="d-flex justify-space-between">
-                          <span>
-                            {{ convertIonName(name) }}
-                            <template v-if="convertIonName(name) !== name">
-                              / {{ name }}
-                            </template>
-                          </span>
-                          <span>
-                            <span>
-                              {{ value !== undefined ? value.toFixed(3) : 0 }}
-                              <template v-if="convertIonName(name) !== name">
-                                / {{ (value / convertIonRatio(name)).toFixed(3) }}
-                              </template> мг/л
-                              <template v-if="daysTotal">
-                                ({{ value !== undefined ? (value / (convertIonRatio(name) * daysTotal)).toFixed(3) : 0 }} мг/л в день)
-                              </template>
-                            </span>
-                          </span>
-                        </div>
-                        <div :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}">
-                          * повышение концентрации в аквариуме
+                        <div class="mt-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
+                          Повышение концентрации в аквариуме
                           <v-tooltip bottom max-width="400">
                             <template v-slot:activator="{ on }">
                               <v-icon v-on="on">mdi-help-circle-outline</v-icon>
@@ -177,6 +158,42 @@
                             Подбирая объем выбранных рецептов, вы можете получить необходимую концентрацию элементов в аквариуме.
                             Таким образом вы можете подобрать ориентировочное значение, которое "съедают" растения за заданный период времени.
                           </v-tooltip>
+                        </div>
+                        <div v-for="[name, value] in totalElementsSorted" :key="name" class="d-flex justify-space-between"
+                          :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
+                        >
+                          <span>
+                            {{ name }}
+                            <template v-if="convertIonName(name) !== name">
+                              / {{ convertIonName(name) }}
+                            </template>
+                          </span>
+                          <span>
+                            <span>
+                              {{ value !== undefined ? value.toFixed(3) : 0 }}
+                              <template v-if="convertIonName(name) !== name">
+                                / {{ (value * convertIonRatio(name)).toFixed(3) }}
+                              </template> мг/л
+                              <template v-if="daysTotal">
+                                ({{ value !== undefined ? (value / daysTotal).toFixed(3) : 0 }} в день)
+                              </template>
+                            </span>
+                          </span>
+                        </div>
+                        <div class="mt-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
+                          Полезные соотношения
+                        </div>
+                        <div class="d-flex flex-column flex-sm-row justify-space-between">
+                          <div v-if="totalElements['P'] > 0 && totalElements['N'] > 0" class="mr-2">
+                            NO3 / PO4 = {{ (totalElements['N'] * convertIonRatio('N') / (totalElements['P'] * convertIonRatio('P'))).toFixed(2)  }}
+                            (N / P = {{ (totalElements['N'] / totalElements['P']).toFixed(2) }})
+                          </div>
+                          <div v-if="totalElements['P'] > 0 && totalElements['B'] > 0" class="mr-2">
+                            P / B = {{ (totalElements['P'] / totalElements['B']).toFixed(2)  }}
+                          </div>
+                          <div v-if="totalElements['Fe'] > 0 && totalElements['B'] > 0" class="mr-2">
+                            Fe / B = {{ (totalElements['Fe'] / totalElements['B']).toFixed(2)  }}
+                          </div>
                         </div>
                       </v-col>
                     </v-expand-transition>
@@ -388,18 +405,22 @@ export default {
       for (let recipe of this.recipesSelected) {
         for (let reagent in recipe.concentration) {
           for (let ion in recipe.concentration[reagent]) {
+            console.log(ion)
             if (!(ion in result)) {
               result[ion] = 0
             }
             if (recipe.amount) {
-              result[ion] += this.convertIonRatio(ion) * recipe.concentration[reagent][ion] / this.tank.volume * recipe.amount
+              result[ion] += recipe.concentration[reagent][ion] / this.tank.volume * recipe.amount
             }
           }
         }
       }
+      return result
+    },
+    totalElementsSorted () {
       var sortableResult = []
-      for (var ion in result) {
-        sortableResult.push([ion, result[ion]])
+      for (var ion in this.totalElements) {
+        sortableResult.push([this.convertIonName(ion), this.convertIonRatio(ion) * this.totalElements[ion]])
       }
       sortableResult.sort((a, b) => b[1] - a[1])
       return sortableResult
