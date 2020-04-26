@@ -74,6 +74,12 @@
           Статьи и сайты
         </p>
         <p class="d-flex flex-column body-2">
+          <a class="mb-2" href="http://www.amania.org/" target="_blank">
+            Amania - все о том КАК сделать аквариум с растениями
+          </a>
+          <a class="mb-2" href="https://aquascape-promotion.com" target="_blank">
+            Aquascape-promotion (сайт Сергея Ермолаева)
+          </a>
           <a class="mb-2" href="http://www.aqua-botanic.ru/" target="_blank">
             Aqua Botanic
           </a>

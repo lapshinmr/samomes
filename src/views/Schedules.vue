@@ -405,7 +405,6 @@ export default {
       for (let recipe of this.recipesSelected) {
         for (let reagent in recipe.concentration) {
           for (let ion in recipe.concentration[reagent]) {
-            console.log(ion)
             if (!(ion in result)) {
               result[ion] = 0
             }
