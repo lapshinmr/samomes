@@ -19,6 +19,7 @@
 
 export const COMPONENTS = {
   'H': 1.00811,
+  'B': 10.821,
   'C': 12.0116,
   'N': 14.00728,
   'O': 15.99977,
@@ -155,6 +156,25 @@ export const FORMULAS = {
     mass: 246.49401,
     solubilityLimit: 355,
     name: 'Магния Сульфат (магнезия)'
+  },
+  'H3BO3': {
+    ions: {
+      'H': {
+        isNeeded: false,
+        count: 3
+      },
+      'B': {
+        isNeeded: true,
+        count: 1
+      },
+      'O': {
+        isNeeded: false,
+        count: 3
+      }
+    },
+    mass: 61.83,
+    solubilityLimit: 47.2,
+    name: 'Борная кислота'
   }
 }
 
