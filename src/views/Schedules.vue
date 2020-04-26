@@ -149,13 +149,21 @@
                     </v-col>
                     <v-expand-transition>
                       <v-col v-if="isAmount" cols="12" class="pt-0">
-                        <div v-for="(value, name) in totalElements" :key="name" class="d-flex justify-space-between">
-                          <span>{{ convertIonName(name) }}</span>
+                        <div v-for="[name, value] in totalElements" :key="name" class="d-flex justify-space-between">
+                          <span>
+                            {{ convertIonName(name) }}
+                            <template v-if="convertIonName(name) !== name">
+                              / {{ name }}
+                            </template>
+                          </span>
                           <span>
                             <span>
-                              {{ value !== undefined ? (convertIonRatio(name) * value).toFixed(3) : 0 }} мг/л
+                              {{ value !== undefined ? value.toFixed(3) : 0 }}
+                              <template v-if="convertIonName(name) !== name">
+                                / {{ (value / convertIonRatio(name)).toFixed(3) }}
+                              </template> мг/л
                               <template v-if="daysTotal">
-                                ({{ value !== undefined ? (convertIonRatio(name) * value / daysTotal).toFixed(3) : 0 }} мг/л в день)
+                                ({{ value !== undefined ? (value / (convertIonRatio(name) * daysTotal)).toFixed(3) : 0 }} мг/л в день)
                               </template>
                             </span>
                           </span>
@@ -384,12 +392,17 @@ export default {
               result[ion] = 0
             }
             if (recipe.amount) {
-              result[ion] += recipe.concentration[reagent][ion] / this.tank.volume * recipe.amount
+              result[ion] += this.convertIonRatio(ion) * recipe.concentration[reagent][ion] / this.tank.volume * recipe.amount
             }
           }
         }
       }
-      return result
+      var sortableResult = []
+      for (var ion in result) {
+        sortableResult.push([ion, result[ion]])
+      }
+      sortableResult.sort((a, b) => b[1] - a[1])
+      return sortableResult
     },
     datesRangeSorted () {
       let datesRange = this.datesRange.slice()
