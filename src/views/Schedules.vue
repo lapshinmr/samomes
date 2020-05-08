@@ -79,7 +79,7 @@
           <v-toolbar-title v-else>
             Обзор расписания
           </v-toolbar-title>
-          <v-btn icon dark @click="dialog = false" class="ml-auto">
+          <v-btn icon dark @click="closeScheduleDialog" class="ml-auto">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
@@ -159,27 +159,54 @@
                             Таким образом вы можете подобрать ориентировочное значение, которое "съедают" растения за заданный период времени.
                           </v-tooltip>
                         </div>
-                        <div v-for="[name, value] in totalElementsSorted" :key="name" class="d-flex justify-space-between"
-                          :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
-                        >
-                          <span>
-                            {{ name }}
-                            <template v-if="convertIonName(name) !== name">
-                              / {{ convertIonName(name) }}
-                            </template>
-                          </span>
-                          <span>
-                            <span>
-                              {{ value !== undefined ? value.toFixed(3) : 0 }}
-                              <template v-if="convertIonName(name) !== name">
-                                / {{ (value * convertIonRatio(name)).toFixed(3) }}
-                              </template> мг/л
-                              <template v-if="daysTotal">
-                                ({{ value !== undefined ? (value / daysTotal).toFixed(3) : 0 }} в день)
-                              </template>
-                            </span>
-                          </span>
-                        </div>
+                        <v-simple-table dense>
+                          <template v-slot:default>
+                            <thead>
+                              <tr>
+                                <th>
+                                  Элемент
+                                </th>
+                                <th class="text-center">
+                                  dGh
+                                </th>
+                                <th class="text-center">
+                                  Доза, мг/л
+                                </th>
+                                <th class="text-center">
+                                  Суточная доза, мг/л
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="[name, value] in totalElementsSorted" :key="name"
+                                :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
+                              >
+                                <td>
+                                  {{ name }}
+                                  <template v-if="convertIonName(name) !== name">
+                                    / {{ convertIonName(name) }}
+                                  </template>
+                                </td>
+                                <td class="text-center">
+                                  <template v-if="name in HARDNESS">
+                                    +{{ (value / HARDNESS[name]).toFixed(2) }}
+                                  </template>
+                                </td>
+                                <td class="text-center">
+                                  +{{ value !== undefined ? value.toFixed(3) : 0 }}
+                                  <template v-if="convertIonName(name) !== name">
+                                    / {{ (value * convertIonRatio(name)).toFixed(3) }}
+                                  </template>
+                                </td>
+                                <td class="text-center">
+                                  <template v-if="daysTotal">
+                                    +{{ value !== undefined ? (value / daysTotal).toFixed(4) : 0 }}
+                                  </template>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </template>
+                        </v-simple-table>
                         <div class="mt-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
                           Полезные соотношения
                         </div>
@@ -353,15 +380,17 @@
 
 <script>
 import Vue from 'vue'
-import { mapState, mapMutations } from 'vuex'
 import Schedule from '@/components/Schedule.vue'
+import { mapState, mapMutations } from 'vuex'
 import { convertIonName, convertIonRatio } from '../funcs.js'
+import { HARDNESS } from '../constants.js'
 
 export default {
   name: 'schedules',
   components: { Schedule },
   data () {
     return {
+      HARDNESS: HARDNESS,
       tank: null,
       recipesSelected: [],
       datesRange: [],
@@ -587,6 +616,10 @@ export default {
         this.resetComponent()
         this.SNACKBAR_SHOW('Расписание добавлено')
       }
+    },
+    closeScheduleDialog () {
+      this.dialog = false
+      this.resetComponent()
     },
     openRemoveDialog (index) {
       this.curScheduleIndex = index

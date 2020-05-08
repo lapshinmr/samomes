@@ -23,11 +23,11 @@ export const COMPONENTS = {
   'C': 12.0116,
   'N': 14.00728,
   'O': 15.99977,
+  'Mg': 24.307,
   'P': 30.973762,
   'S': 32.076,
   'K': 39.0983,
-  'Ca': 40.078,
-  'Mg': 24.307
+  'Ca': 40.078
 }
 
 export const FORMULAS = {
@@ -134,6 +134,25 @@ export const FORMULAS = {
     solubilityLimit: 190,
     name: 'Нитрат аммония'
   },
+  'MgSO4': {
+    ions: {
+      'Mg': {
+        isNeeded: true,
+        count: 1
+      },
+      'S': {
+        isNeeded: false,
+        count: 1
+      },
+      'O': {
+        isNeeded: false,
+        count: 4
+      }
+    },
+    mass: 120.37,
+    solubilityLimit: 351,
+    name: 'Магния Сульфат'
+  },
   'MgSO4(H2O)7': {
     ions: {
       'Mg': {
@@ -154,8 +173,31 @@ export const FORMULAS = {
       }
     },
     mass: 246.49401,
-    solubilityLimit: 355,
+    solubilityLimit: 1130,
     name: 'Магния Сульфат (магнезия)'
+  },
+  'CaSO4(H2O)2': {
+    ions: {
+      'Ca': {
+        isNeeded: true,
+        count: 1
+      },
+      'S': {
+        isNeeded: false,
+        count: 1
+      },
+      'H': {
+        isNeeded: false,
+        count: 4
+      },
+      'O': {
+        isNeeded: false,
+        count: 6
+      }
+    },
+    mass: 172.17,
+    solubilityLimit: 200.036,
+    name: 'Кальция Сульфат (гипс)'
   },
   'H3BO3': {
     ions: {
@@ -393,3 +435,8 @@ export const RECIPE_EXAMPLES = [
     note: 'Рецепт взят с сайта aqua-botanic.ru'
   }
 ]
+
+export const HARDNESS = {
+  Mg: 4.346,
+  Ca: 7.144
+}
