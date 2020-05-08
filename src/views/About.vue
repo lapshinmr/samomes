@@ -63,6 +63,7 @@
           Видео
         </p>
         <p class="d-flex flex-column body-2">
+          <a class="mb-2" href="https://www.youtube.com/watch?v=GSLYotAT8Xs&t=27s" target="_blank">Промо видео проекта</a>
           <a class="mb-2" href="https://www.youtube.com/watch?v=CljFli5z9DM" target="_blank">Удобрения для аквариумных растений ч.1</a>
           <a class="mb-2" href="https://www.youtube.com/watch?v=E2kDFEIJ1zM&t=199s" target="_blank">Удобрения для аквариумных растений ч.2</a>
           <a class="mb-2" href="https://www.youtube.com/watch?v=Vyq-R0tv384" target="_blank">Удобрение для аквариумных растений своими руками. Фосфор, Азот,Калий и Микро.</a>
