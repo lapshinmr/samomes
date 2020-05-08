@@ -833,6 +833,9 @@ export default {
     }
   },
   watch: {
+    fertilizerType () {
+      this.showExamples = false
+    },
     reagentsSelected () {
       if (this.reagentsSelected.length === 0) { }
       let solute = {}
