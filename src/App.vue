@@ -138,6 +138,9 @@ export default {
       { path: '/about', icon: 'mdi-information-outline', text: 'О проекте' }
     ]
   }),
+  created () {
+    this.drawer = !this.$vuetify.breakpoint['xs']
+  },
   computed: {
     ...mapState([
       'tanks', 'recipes', 'schedules', 'isSnackbar', 'snackbarMessage'
