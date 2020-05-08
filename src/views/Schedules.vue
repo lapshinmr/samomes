@@ -159,21 +159,32 @@
                             Таким образом вы можете подобрать ориентировочное значение, которое "съедают" растения за заданный период времени.
                           </v-tooltip>
                         </div>
+                        <v-switch
+                          v-model="isHardness"
+                          label="Показать повышение Gh"
+                          hide-details="auto"
+                        ></v-switch>
+                        <v-switch
+                          v-model="isWithoutConvertion"
+                          label="Показать N и P"
+                          hide-details="auto"
+                          class="mt-1"
+                        ></v-switch>
                         <v-simple-table dense>
                           <template v-slot:default>
                             <thead>
                               <tr>
-                                <th>
+                                <th class="pl-0 text-center">
                                   Элемент
                                 </th>
-                                <th class="text-center">
+                                <th v-if="isHardness" class="text-center">
                                   dGh
                                 </th>
                                 <th class="text-center">
-                                  Доза, мг/л
+                                  Общая доза, <span>мг/л</span>
                                 </th>
-                                <th class="text-center">
-                                  Суточная доза, мг/л
+                                <th class="text-center pr-0">
+                                  В день, <span>мг/л</span>
                                 </th>
                               </tr>
                             </thead>
@@ -181,36 +192,36 @@
                               <tr v-for="[name, value] in totalElementsSorted" :key="name"
                                 :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
                               >
-                                <td>
+                                <td class="pl-0 text-center">
                                   {{ name }}
-                                  <template v-if="convertIonName(name) !== name">
+                                  <template v-if="convertIonName(name) !== name && isWithoutConvertion">
                                     / {{ convertIonName(name) }}
                                   </template>
                                 </td>
-                                <td class="text-center">
+                                <td v-if="isHardness" class="text-center">
                                   <template v-if="name in HARDNESS">
                                     +{{ (value / HARDNESS[name]).toFixed(2) }}
                                   </template>
                                 </td>
                                 <td class="text-center">
                                   +{{ value !== undefined ? value.toFixed(3) : 0 }}
-                                  <template v-if="convertIonName(name) !== name">
+                                  <template v-if="convertIonName(name) !== name && isWithoutConvertion">
                                     / {{ (value * convertIonRatio(name)).toFixed(3) }}
                                   </template>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center pr-0">
                                   <template v-if="daysTotal">
-                                    +{{ value !== undefined ? (value / daysTotal).toFixed(4) : 0 }}
+                                    +{{ value !== undefined ? (value / daysTotal).toFixed(3) : 0 }}
                                   </template>
                                 </td>
                               </tr>
                             </tbody>
                           </template>
                         </v-simple-table>
-                        <div class="mt-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
+                        <div v-if="isHelpful" class="mt-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
                           Полезные соотношения
                         </div>
-                        <div class="d-flex flex-column flex-sm-row justify-space-between">
+                        <div v-if="isHelpful" class="d-flex flex-column flex-sm-row justify-space-between">
                           <div v-if="totalElements['P'] > 0 && totalElements['N'] > 0" class="mr-2">
                             NO3 / PO4 = {{ (totalElements['N'] * convertIonRatio('N') / (totalElements['P'] * convertIonRatio('P'))).toFixed(2)  }}
                             (N / P = {{ (totalElements['N'] / totalElements['P']).toFixed(2) }})
@@ -405,7 +416,9 @@ export default {
       rulesTank: [
         v => !!v || 'Выберите аквариум',
         v => (!this.isExist || this.isSame) || 'Расписание для данного аквариума уже существует. Завершите цель или выберите другой аквариум.'
-      ]
+      ],
+      isWithoutConvertion: false,
+      isHardness: false
     }
   },
   computed: {
@@ -428,6 +441,13 @@ export default {
     },
     isAmount () {
       return this.recipesSelected.find(x => x.amount)
+    },
+    isHelpful () {
+      return (
+        (this.totalElements['P'] > 0 && this.totalElements['N'] > 0) ||
+        (this.totalElements['P'] > 0 && this.totalElements['B'] > 0) ||
+        (this.totalElements['Fe'] > 0 && this.totalElements['B'] > 0)
+      )
     },
     totalElements () {
       let result = {}
