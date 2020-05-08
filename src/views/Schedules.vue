@@ -559,7 +559,7 @@ export default {
       let value = parseFloat(event.target.value)
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(value) ? value * this.daysTotal : ''
+        amount: !isNaN(value) ? (value * this.daysTotal).toFixed(2) : ''
       })
     },
     openAddSchedule (index = null) {
