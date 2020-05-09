@@ -38,7 +38,7 @@
             <v-list-item-title>{{ item.text }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item href="https://github.com/lapshinmr/udo">
+        <v-list-item href="https://github.com/lapshinmr/samomes">
           <v-list-item-action>
             <v-icon>fab fa-github</v-icon>
           </v-list-item-action>
