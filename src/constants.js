@@ -433,6 +433,67 @@ export const RECIPE_EXAMPLES = [
       Co: 0.01204
     },
     note: 'Рецепт взят с сайта aqua-botanic.ru'
+  },
+  {
+    type: 'готовое',
+    name: 'Seachem Nitrogen',
+    isPercent: true,
+    elements: {
+      N: 1.5,
+      K: 2
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Seachem Phosphorus',
+    isPercent: true,
+    elements: {
+      PO4: 0.45,
+      K: 0.2
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Seachem Potassium',
+    isPercent: true,
+    elements: {
+      K: 5
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Seachem Flourish',
+    isPercent: true,
+    elements: {
+      N: 0.07,
+      PO4: 0.01,
+      K: 0.37,
+      Ca: 0.14,
+      Mg: 0.11,
+      S: 0.2773,
+      B: 0.009,
+      Cl: 1.15,
+      Co: 0.0004,
+      Cu: 0.0001,
+      Fe: 0.32,
+      Mn: 0.0118,
+      Mo: 0.0009,
+      Na: 0.13,
+      Zn: 0.0007
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
+    name: 'Seachem Fe',
+    isPercent: true,
+    elements: {
+      Fe: 1
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
   }
 ]
 
