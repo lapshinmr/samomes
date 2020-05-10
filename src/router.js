@@ -24,6 +24,7 @@ import Recipes from './views/Recipes.vue'
 import Schedules from './views/Schedules.vue'
 import About from './views/About.vue'
 import Settings from './views/Settings.vue'
+import { Trans } from '@/plugins/trans'
 
 Vue.use(Router)
 
@@ -32,30 +33,43 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      component: Tanks,
-      alias: ['/tanks'],
-      name: 'tanks'
+      path: '/:lang',
+      beforeEnter: Trans.routeMiddleware,
+      children: [
+        {
+          path: 'tanks',
+          component: Tanks,
+          alias: [''],
+          name: 'tanks'
+        },
+        {
+          path: 'recipes',
+          component: Recipes,
+          name: 'recipes'
+        },
+        {
+          path: 'schedules',
+          component: Schedules,
+          name: 'schedules'
+        },
+        {
+          path: 'about',
+          component: About,
+          name: 'about'
+        },
+        {
+          path: 'settings',
+          component: Settings,
+          name: 'settings'
+        }
+      ]
     },
     {
-      path: '/recipes',
-      component: Recipes,
-      name: 'recipes'
-    },
-    {
-      path: '/schedules',
-      component: Schedules,
-      name: 'schedules'
-    },
-    {
-      path: '/about',
-      component: About,
-      name: 'about'
-    },
-    {
-      path: '/settings',
-      component: Settings,
-      name: 'settings'
+      // Redirect user to default lang version.
+      path: '*',
+      redirect (_) {
+        return Trans.defaultLanguage
+      }
     }
   ]
 })
