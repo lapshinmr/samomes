@@ -19,42 +19,41 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import Tanks from './views/Tanks.vue'
-import Recipes from './views/Recipes.vue'
-import Schedules from './views/Schedules.vue'
-import About from './views/About.vue'
-import Settings from './views/Settings.vue'
 
 Vue.use(Router)
+
+function load (view) {
+  return () => import(`@/views/${view}.vue`)
+}
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      component: Tanks,
-      alias: ['/tanks'],
+      path: '/tanks',
+      component: load('Tanks'),
+      alias: [''],
       name: 'tanks'
     },
     {
       path: '/recipes',
-      component: Recipes,
+      component: load('Recipes'),
       name: 'recipes'
     },
     {
       path: '/schedules',
-      component: Schedules,
+      component: load('Schedules'),
       name: 'schedules'
     },
     {
       path: '/about',
-      component: About,
+      component: load('About'),
       name: 'about'
     },
     {
       path: '/settings',
-      component: Settings,
+      component: load('Settings'),
       name: 'settings'
     }
   ]

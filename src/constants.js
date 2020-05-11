@@ -501,3 +501,9 @@ export const HARDNESS = {
   Mg: 4.346,
   Ca: 7.144
 }
+
+export const DEFAULT_LANGUAGE = 'ru'
+export const LANGUAGES = {
+  'ru': 'Русский',
+  'en': 'English'
+}

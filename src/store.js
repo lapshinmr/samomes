@@ -19,12 +19,15 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { DEFAULT_LANGUAGE } from '@/constants'
+import { loadLanguageAsync } from '@/plugins/i18n'
 
 Vue.use(Vuex)
 
 const loadState = function () {
   let stateData = JSON.parse(localStorage.getItem('udata'))
   let defaultData = {
+    lang: DEFAULT_LANGUAGE,
     tanks: [],
     recipes: [],
     schedules: [],
@@ -70,6 +73,9 @@ export default new Vuex.Store({
   mutations: {
     DRAWER_SET (state, payload) {
       state.drawer = payload
+    },
+    LANG_SET (state, payload) {
+      state.lang = payload
     },
     TANK_ADD (state, payload) {
       state.tanks.push(payload)
@@ -127,6 +133,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    langSet ({ commit }, payload) {
+      loadLanguageAsync(payload).then(() => {
+        commit('LANG_SET', payload)
+      })
+    }
   }
 })
