@@ -30,12 +30,12 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-for="item in links" :to="item.path" :key="item.icon" link>
+        <v-list-item v-for="item in links" :to="$i18nRoute({name: item.name})" :key="item.icon" link>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
+            <v-list-item-title>{{ $t(item.text) }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item href="https://github.com/lapshinmr/samomes">
@@ -60,6 +60,9 @@
         </div>
       </v-toolbar-title>
       <v-spacer />
+      <div class="d-flex justify-end">
+        <LanguageSwitcher/>
+      </div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     </v-app-bar>
 
@@ -80,7 +83,7 @@
                   >
                     <v-icon v-if="tanks.length > 0" class="primary--text">fas fa-check-circle</v-icon>
                     <v-icon v-else>far fa-circle</v-icon>
-                    <span class="ml-2">Добавить аквариум</span>
+                    <span class="ml-2">{{$t('Добавить аквариум')}}</span>
                   </router-link>
                   <v-divider class="d-none d-sm-block"></v-divider>
                   <router-link
@@ -125,17 +128,18 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default {
   name: 'App',
   data: () => ({
     drawer: false,
     links: [
-      { path: '/', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
-      { path: '/recipes', icon: 'mdi-test-tube', text: 'Рецепты' },
-      { path: '/schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписание' },
-      { path: '/settings', icon: 'fas fa-cog', text: 'Настройки' },
-      { path: '/about', icon: 'mdi-information-outline', text: 'О проекте' }
+      { name: 'tanks', icon: 'mdi-fishbowl-outline', text: 'Аквариумы' },
+      { name: 'recipes', icon: 'mdi-test-tube', text: 'Рецепты' },
+      { name: 'schedules', icon: 'mdi-calendar-blank-multiple', text: 'Расписание' },
+      { name: 'settings', icon: 'fas fa-cog', text: 'Настройки' },
+      { name: 'about', icon: 'mdi-information-outline', text: 'О проекте' }
     ]
   }),
   created () {
@@ -179,6 +183,9 @@ export default {
     ...mapMutations([
       'DRAWER_SET', 'SNACKBAR_HIDE'
     ])
+  },
+  components: {
+    LanguageSwitcher
   }
 }
 </script>
