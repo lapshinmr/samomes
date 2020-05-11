@@ -24,10 +24,8 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import './registerServiceWorker'
 import { i18n } from '@/plugins/i18n'
-import { Trans } from '@/plugins/trans'
 
 Vue.config.productionTip = false
-Vue.prototype.$i18nRoute = Trans.i18nRoute.bind(Trans)
 
 new Vue({
   router,

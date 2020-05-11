@@ -19,7 +19,6 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import { Trans } from '@/plugins/trans'
 
 Vue.use(Router)
 
@@ -32,46 +31,30 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/:lang',
-      beforeEnter: Trans.routeMiddleware,
-      component: {
-        render (c) { return c('router-view') }
-      },
-      children: [
-        {
-          path: 'tanks',
-          component: load('Tanks'),
-          alias: [''],
-          name: 'tanks'
-        },
-        {
-          path: 'recipes',
-          component: load('Recipes'),
-          name: 'recipes'
-        },
-        {
-          path: 'schedules',
-          component: load('Schedules'),
-          name: 'schedules'
-        },
-        {
-          path: 'about',
-          component: load('About'),
-          name: 'about'
-        },
-        {
-          path: 'settings',
-          component: load('Settings'),
-          name: 'settings'
-        }
-      ]
+      path: '/tanks',
+      component: load('Tanks'),
+      alias: [''],
+      name: 'tanks'
     },
     {
-      // Redirect user to default lang version.
-      path: '*',
-      redirect (_) {
-        return Trans.defaultLanguage
-      }
+      path: '/recipes',
+      component: load('Recipes'),
+      name: 'recipes'
+    },
+    {
+      path: '/schedules',
+      component: load('Schedules'),
+      name: 'schedules'
+    },
+    {
+      path: '/about',
+      component: load('About'),
+      name: 'about'
+    },
+    {
+      path: '/settings',
+      component: load('Settings'),
+      name: 'settings'
     }
   ]
 })
