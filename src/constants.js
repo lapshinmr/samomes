@@ -504,6 +504,6 @@ export const HARDNESS = {
 
 export const DEFAULT_LANGUAGE = 'ru'
 export const LANGUAGES = {
-  'ru': 'Русский',
-  'en': 'English'
+  'ru': 'Ru',
+  'en': 'En'
 }

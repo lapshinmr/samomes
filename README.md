@@ -57,6 +57,8 @@ GPL-3.0 licensed.
 
 ### Видео
 
+[Промо видео проекта](https://www.youtube.com/watch?v=GSLYotAT8Xs&t=27s)
+
 [Удобрения для аквариумных растений ч.1](https://www.youtube.com/watch?v=CljFli5z9DM)
 
 [Удобрения для аквариумных растений ч.2](https://www.youtube.com/watch?v=E2kDFEIJ1zM&t=199s)
@@ -70,6 +72,10 @@ GPL-3.0 licensed.
 [Макро удобрения для аквариумных растений](https://www.youtube.com/watch?v=YToPYOHs37U)
 
 ### Статьи и сайты
+
+[Amania - все о том КАК сделать аквариум с растениями](http://www.amania.org)
+
+[Aquascape-promotion (сайт Сергея Ермолаева)](https://aquascape-promotion.com)
 
 [Aqua Botanic](http://www.aqua-botanic.ru)
 

@@ -148,10 +148,7 @@ export default {
     ]
   }),
   created () {
-    let lang = window.navigator.userLanguage || window.navigator.language
-    console.log(lang)
-    lang = lang === 'ru-RU' ? 'ru' : 'en'
-    this.langSet(this.lang || lang)
+    this.initLang()
     this.drawer = !this.$vuetify.breakpoint['xs']
   },
   computed: {
@@ -194,7 +191,12 @@ export default {
     ]),
     ...mapActions([
       'langSet'
-    ])
+    ]),
+    initLang () {
+      let lang = window.navigator.userLanguage || window.navigator.language
+      lang = lang === 'ru-RU' ? 'ru' : 'en'
+      this.langSet(this.lang || lang)
+    }
   }
 }
 </script>
