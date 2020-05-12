@@ -72,10 +72,10 @@
           <v-col cols="12" md="8" offset-md="2">
             <v-card>
               <v-card-title>
-                Начните с этого:
+                {{ $t('guid.start') }}
               </v-card-title>
               <v-card-text>
-                <div class="d-flex flex-column flex-sm-row pa-3 pa-sm-5 align-sm-center">
+                <div class="d-flex flex-column flex-sm-row pa-3 pa-sm-5 align-sm-center mb-4">
                   <router-link
                     :to="{ name: links[0].name }"
                     class="d-flex align-center mx-2 mb-2 mb-sm-0"

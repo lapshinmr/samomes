@@ -236,8 +236,8 @@ export default {
       let sum = 0
       let amount = 0
       for (let item in this.totalSum) {
-        amount += this.totalSum[item].amount
-        sum += this.totalSum[item].sum
+        amount += parseFloat(this.totalSum[item].amount)
+        sum += parseFloat(this.totalSum[item].sum)
       }
       return sum / amount * 100
     }

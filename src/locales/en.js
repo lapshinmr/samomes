@@ -9,6 +9,7 @@ export default {
       Github: 'Github'
     },
     guid: {
+      start: 'Lets get started',
       add_tank: 'Add fish tank',
       add_recipe: 'Add recipe',
       add_schedule: 'Add schedule',
