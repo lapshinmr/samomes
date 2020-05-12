@@ -26,6 +26,7 @@ export const COMPONENTS = {
   'Mg': 24.307,
   'P': 30.973762,
   'S': 32.076,
+  'Cl': 35.457,
   'K': 39.0983,
   'Ca': 40.078
 }
@@ -196,8 +197,23 @@ export const FORMULAS = {
       }
     },
     mass: 172.17,
-    solubilityLimit: 200.036,
+    solubilityLimit: 2.036,
     name: 'Кальция Сульфат (гипс)'
+  },
+  'CaCl2': {
+    ions: {
+      'Ca': {
+        isNeeded: true,
+        count: 1
+      },
+      'Cl': {
+        isNeeded: true,
+        count: 2
+      }
+    },
+    mass: 111.08,
+    solubilityLimit: 745,
+    name: 'Кальция Хлорид'
   },
   'H3BO3': {
     ions: {
