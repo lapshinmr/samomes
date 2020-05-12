@@ -21,7 +21,6 @@
   <v-container>
     <v-row>
       <v-col cols="12" sm="8" offset-sm="2">
-        <h1 class="display-1 mb-10">Страница в разработке!</h1>
         <v-combobox
           :items="tanks"
           v-model.number="tankVolume"
@@ -34,81 +33,127 @@
           suffix="л"
           :return-object="false"
         ></v-combobox>
+        <v-expand-transition>
+          <div v-if="tankVolume">
+            <v-subheader class="pl-0">
+              Объем подмены: {{ (tankVolume * waterChange / 100).toFixed(1) + ' л' }}
+            </v-subheader>
+            <v-slider
+              v-model="waterChange"
+              thumb-label="always"
+            ></v-slider>
+            <v-select
+              :items="recipes"
+              v-model="recipesSelected"
+              label="Выберите рецепты"
+              item-text="name"
+              multiple
+              :return-object="true"
+              hide-details="auto"
+            ></v-select>
+          </div>
+        </v-expand-transition>
         <v-text-field
-          v-model.number="waterChange"
-          label="Объем подмены"
+          v-for="(recipeSelected, index) in recipesSelected"
+          :value="recipeSelected.amountDay"
+          @input="inputRecipeAmountDay(index)"
+          :label="recipeSelected.name"
+          hint="Введите дневную дозу"
+          suffix="мл/день"
           hide-details="auto"
-          suffix="л"
-          :return-object="false"
+          :key="index"
         ></v-text-field>
-        <div class="my-10">
-          <v-select
-            :items="recipes"
-            v-model="recipesSelected"
-            label="Выберите рецепты"
-            item-text="name"
-            multiple
-            :return-object="true"
-            hide-details="auto"
-          ></v-select>
-          <v-text-field
-            v-for="(recipeSelected, index) in recipesSelected"
-            :value="recipeSelected.amountDay"
-            @input="inputRecipeAmountDay(index)"
-            :label="recipeSelected.name"
-            hint="Введите дневную дозу"
-            suffix="мл/день"
-            hide-details="auto"
-            :key="index"
-          ></v-text-field>
-        </div>
+        <v-card v-if="Object.keys(totalElements).length > 0" class="mt-5">
+          <v-card-text>
+            <v-simple-table dense>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="pl-0 text-center">
+                      Элемент
+                    </th>
+                    <th class="text-center">
+                      В неделю, <span>мг/л</span>
+                    </th>
+                    <th class="text-center pr-0">
+                      В день, <span>мг/л</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="[name, value] in totalElementsSorted" :key="name"
+                    :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
+                  >
+                    <td class="pl-0 text-center">
+                      {{ name }}
+                    </td>
+                    <td class="text-center">
+                      +{{ value !== undefined ? (value * 7).toFixed(3) : 0 }}
+                    </td>
+                    <td class="text-center pr-0">
+                      +{{ value !== undefined ? (value).toFixed(3) : 0 }}
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-card-text>
+        </v-card>
       </v-col>
-      <v-col cols="12">
-        <v-row>
-          <v-col cols="12" sm="6" v-for="(dinamics, ion) in ionDinamics" :key="ion">
-            <v-card>
-              <v-sheet
-                color="cyan"
-                elevation="12"
-              >
-                <div class="display-1" style="position: absolute; top: 5%; left: 3%;">
-                  {{ convertIonName(ion) }}
-                </div>
-                <v-sparkline
-                  :labels="dinamics.map(item => item.toFixed(1))"
-                  :value="dinamics"
-                  color="white"
-                  line-width="2"
-                  padding="16"
-                ></v-sparkline>
-              </v-sheet>
-              <v-card-text class="pt-0">
-                <v-text-field
-                  :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
-                  label="Поступает"
-                  :suffix="paramsUnits[ion]"
-                  hide-details="auto"
-                  readonly
-                >
-                </v-text-field>
-                <v-text-field
-                  v-model.number="params[ion]"
-                  label="В аквариуме сейчас"
-                  :suffix="paramsUnits[ion]"
-                  hide-details="auto"
-                >
-                </v-text-field>
-                <v-text-field
-                  v-model.number="paramsReduction[ion]"
-                  label="Потребление в день"
-                  :suffix="paramsUnits[ion]"
-                  hide-details="auto"
-                >
-                </v-text-field>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+      <v-col cols="12" sm="8" offset-sm="2" v-for="(dinamics, ion) in ionDinamics" :key="ion">
+        <v-card>
+          <v-sheet :color="ionsColors[convertIonName(ion)]">
+            <v-sheet color="white">
+              <div class="display-1" style="position: absolute; top: 5%; left: 3%;">
+                {{ convertIonName(ion) }}
+              </div>
+            </v-sheet>
+            <v-sparkline
+              :labels="dinamics.map((item, index) => (index % (parseInt(ionsPeriod[convertIonName(ion)] / 10) || 1)) === 0 ? item.toFixed(1) : ' ')"
+              :value="dinamics"
+              color="white"
+              line-width="2"
+              padding="8"
+              smooth="3"
+              auto-draw
+            ></v-sparkline>
+            <v-slider
+              v-model="ionsPeriod[convertIonName(ion)]"
+              min="2"
+              max="90"
+              color="white"
+              thumb-label
+              thumb-color="primary"
+              light
+              hide-details="auto"
+              class="px-5"
+            ></v-slider>
+          </v-sheet>
+          <v-card-text class="pt-0">
+            <v-text-field
+              :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
+              label="Поступает"
+              :suffix="ionsUnits[ion]"
+              hide-details="auto"
+              readonly
+            >
+            </v-text-field>
+            <v-text-field
+              v-model.number="ionsInit[convertIonName(ion)]"
+              label="В аквариуме сейчас"
+              :suffix="ionsUnits[convertIonName(ion)]"
+              hide-details="auto"
+            >
+            </v-text-field>
+            <v-text-field
+              v-model.number="ionsReduction[convertIonName(ion)]"
+              label="Потребление в день"
+              :suffix="ionsUnits[ion]"
+              hide-details="auto"
+            >
+            </v-text-field>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -120,52 +165,41 @@ import { COMPONENTS, FORMULAS } from '../constants.js'
 import { mapState } from 'vuex'
 import { convertIonName, convertIonRatio } from '../funcs.js'
 
-const GRADIENTS = [
-  ['#222'],
-  ['#42b3f4'],
-  ['red', 'orange', 'yellow'],
-  ['purple', 'violet'],
-  ['#00c6ff', '#F0F', '#FF0'],
-  ['#f72047', '#ffd200', '#1feaea']
-]
-
 export default {
   name: 'dinamics',
   data () {
     return {
       FORMULAS,
       COMPONENTS,
-      GRADIENTS,
       tankVolume: null,
       tank: null,
-      waterChange: null,
+      waterChange: 30,
       ionsInit: {
         NO3: null,
         PO4: null,
         K: null
       },
       ionsReduction: {
-        NO3: null,
-        PO4: null,
-        K: null
+        NO3: 0,
+        PO4: 0,
+        K: 0
       },
-      paramsUnits: {
+      ionsUnits: {
         NO3: 'мг/л',
         PO4: 'мг/л',
         K: 'мг/л'
       },
-      recipesSelected: [],
-      sparkline: {
-        width: 2,
-        radius: 10,
-        padding: 8,
-        lineCap: 'round',
-        gradient: GRADIENTS[5],
-        gradientDirection: 'top',
-        fill: false,
-        type: 'trend',
-        autoLineWidth: false
-      }
+      ionsColors: {
+        NO3: 'pink lighten-1',
+        PO4: 'blue lighten-2',
+        K: 'blue-grey lighten-1'
+      },
+      ionsPeriod: {
+        NO3: 28,
+        PO4: 28,
+        K: 28
+      },
+      recipesSelected: []
     }
   },
   computed: {
@@ -192,8 +226,8 @@ export default {
       return result
     },
     totalElementsSorted () {
-      const sortableResult = []
-      for (const ion in this.totalElements) {
+      var sortableResult = []
+      for (var ion in this.totalElements) {
         sortableResult.push([this.convertIonName(ion), this.convertIonRatio(ion) * this.totalElements[ion]])
       }
       sortableResult.sort((a, b) => b[1] - a[1])
@@ -223,21 +257,22 @@ export default {
       return convertIonRatio(ion)
     },
     countDinamics (ion) {
-      const duration = 28
+      const duration = this.ionsPeriod[this.convertIonName(ion)]
       const amount = this.convertIonRatio(ion) * this.totalElements[ion]
-      let sum = this.ionsInit[ion]
+      let sum = this.ionsInit[this.convertIonName(ion)]
       let dinamics = []
       if (amount) {
         for (const day in [...Array(duration)]) {
-          if (day % 7 === 0) {
+          if (day > 0 && day % 7 === 0) {
             sum = sum - sum * this.waterChange / this.tankVolume
           }
           sum += amount
-          sum -= this.ionsReduction[ion]
+          sum -= this.ionsReduction[this.convertIonName(ion)]
           if (sum < 0) {
             sum = 0
           }
           dinamics.push(sum)
+          console.log(sum)
         }
       } else {
         dinamics = Array(duration).fill(0)
