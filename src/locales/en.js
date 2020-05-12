@@ -4,6 +4,7 @@ export default {
       tanks: 'Fish tanks',
       recipes: 'Recipies',
       schedules: 'Schedule',
+      dinamics: 'Dinamics',
       about: 'About',
       settings: 'Settings',
       Github: 'Github'

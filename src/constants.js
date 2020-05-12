@@ -28,7 +28,8 @@ export const COMPONENTS = {
   'S': 32.076,
   'Cl': 35.457,
   'K': 39.0983,
-  'Ca': 40.078
+  'Ca': 40.078,
+  'J': 126.90447
 }
 
 export const FORMULAS = {
@@ -233,6 +234,21 @@ export const FORMULAS = {
     mass: 61.83,
     solubilityLimit: 47.2,
     name: 'Борная кислота'
+  },
+  'KI': {
+    ions: {
+      'K': {
+        isNeeded: true,
+        count: 1
+      },
+      'I': {
+        isNeeded: false,
+        count: 1
+      }
+    },
+    mass: 166.00277,
+    solubilityLimit: 144.5,
+    name: 'Йодид Калия'
   }
 }
 

@@ -56,7 +56,7 @@
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
-          <span>{{ breadcrumbs[this.$router.currentRoute.path] }}</span>
+          <span>{{ breadcrumbs[$router.currentRoute.name] }}</span>
         </div>
       </v-toolbar-title>
       <v-spacer />
@@ -143,6 +143,7 @@ export default {
       { name: 'tanks', icon: 'mdi-fishbowl-outline' },
       { name: 'recipes', icon: 'mdi-test-tube' },
       { name: 'schedules', icon: 'mdi-calendar-blank-multiple' },
+      { name: 'dinamics', icon: 'far fa-chart-bar' },
       { name: 'settings', icon: 'fas fa-cog' },
       { name: 'about', icon: 'mdi-information-outline' }
     ]
@@ -158,7 +159,7 @@ export default {
     breadcrumbs () {
       let result = {}
       for (let item of this.links) {
-        result[item.path] = item.text
+        result[item.name] = this.$t(`routes.${item.name}`)
       }
       return result
     },

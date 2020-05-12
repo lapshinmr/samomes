@@ -47,6 +47,11 @@ export default new Router({
       name: 'schedules'
     },
     {
+      path: '/dinamics',
+      component: load('Dinamics'),
+      name: 'dinamics'
+    },
+    {
       path: '/about',
       component: load('About'),
       name: 'about'
