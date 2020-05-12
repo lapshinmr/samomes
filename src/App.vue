@@ -69,7 +69,6 @@
     <v-content>
       <v-container v-if="!tanks.length || !recipes.length || !schedules.length">
         <v-row>
-          <!--
           <v-col cols="12" md="8" offset-md="2">
             <v-card>
               <v-card-title>
@@ -78,42 +77,43 @@
               <v-card-text>
                 <div class="d-flex flex-column flex-sm-row pa-3 pa-sm-5 align-sm-center">
                   <router-link
-                    :to="links[0].path"
+                    :to="{ name: links[0].name }"
                     class="d-flex align-center mx-2 mb-2 mb-sm-0"
                     :class="{'primary--text': tanks.length > 0}"
                   >
                     <v-icon v-if="tanks.length > 0" class="primary--text">fas fa-check-circle</v-icon>
                     <v-icon v-else>far fa-circle</v-icon>
-                    <span class="ml-2">{{$t()}}</span>
+                    <span class="ml-2">{{ $t(`guid.add_tank`) }}</span>
                   </router-link>
                   <v-divider class="d-none d-sm-block"></v-divider>
                   <router-link
-                    :to="links[1].path"
+                    :to="{ name: links[1].name }"
                     class="d-flex align-center mx-2 mb-2 mb-sm-0"
                     :class="{'primary--text': recipes.length > 0}"
                   >
                     <v-icon v-if="recipes.length > 0" class="primary--text">fas fa-check-circle</v-icon>
                     <v-icon v-else>far fa-circle</v-icon>
-                    <span class="ml-2">Создать рецепт</span>
+                    <span class="ml-2">{{ $t(`guid.add_recipe`) }}</span>
                   </router-link>
                   <v-divider class="d-none d-sm-block"></v-divider>
                   <router-link
-                    :to="links[2].path"
+                    :to="{ name: links[2].name }"
                     class="d-flex align-center mx-2"
                     :class="{'primary--text': schedules.length > 0}"
                   >
                     <v-icon v-if="schedules.length > 0" class="primary--text">fas fa-check-circle</v-icon>
                     <v-icon v-else>far fa-circle</v-icon>
-                    <span class="ml-2">Составить расписание</span>
+                    <span class="ml-2">{{ $t(`guid.add_schedule`) }}</span>
                   </router-link>
                 </div>
                 <div>
-                  <router-link :to="links[4].path">Где я оказался?</router-link>
+                  <router-link :to="{ name: links[4].name }">
+                    {{ $t(`guid.where_am_i`) }}
+                  </router-link>
                 </div>
               </v-card-text>
             </v-card>
           </v-col>
-          -->
         </v-row>
       </v-container>
       <transition name="fade" mode="out-in">

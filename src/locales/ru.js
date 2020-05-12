@@ -8,8 +8,11 @@ export default {
       settings: 'Настройки',
       Github: 'Github'
     },
-    buttons: {
-      add_tank: 'Добавить аквариум'
+    guid: {
+      add_tank: 'Добавить аквариум',
+      add_recipe: 'Создать рецепт',
+      add_schedule: 'Составить расписание',
+      where_am_i: 'Где я оказался?'
     }
   }
 }

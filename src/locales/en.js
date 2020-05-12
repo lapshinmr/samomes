@@ -8,8 +8,11 @@ export default {
       settings: 'Settings',
       Github: 'Github'
     },
-    buttons: {
-      add_tank: 'Add fish tank'
+    guid: {
+      add_tank: 'Add fish tank',
+      add_recipe: 'Add recipe',
+      add_schedule: 'Add schedule',
+      where_am_i: 'Where am I?'
     }
   }
 }
