@@ -81,7 +81,7 @@ export const FORMULAS = {
         count: 2
       },
       'S': {
-        isNeeded: false,
+        isNeeded: true,
         count: 1
       },
       'O': {
@@ -142,7 +142,7 @@ export const FORMULAS = {
         count: 1
       },
       'S': {
-        isNeeded: false,
+        isNeeded: true,
         count: 1
       },
       'O': {
@@ -161,7 +161,7 @@ export const FORMULAS = {
         count: 1
       },
       'S': {
-        isNeeded: false,
+        isNeeded: true,
         count: 1
       },
       'H': {
@@ -184,7 +184,7 @@ export const FORMULAS = {
         count: 1
       },
       'S': {
-        isNeeded: false,
+        isNeeded: true,
         count: 1
       },
       'H': {
