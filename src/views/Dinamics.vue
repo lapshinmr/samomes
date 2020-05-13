@@ -18,9 +18,19 @@
 -->
 
 <template>
-  <v-container>
+  <v-container class="mb-10">
     <v-row>
-      <v-col cols="12" sm="8" offset-sm="2">
+      <v-col v-if="recipes.length === 0" cols="12" md="8" offset-md="2">
+        <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
+          У вас еще нет рецептов
+        </p>
+        <p>
+          Необходимо
+          <router-link v-if="recipes.length === 0" :to="{ name: 'recipes', params: { open: true }}">добавить рецепт</router-link>
+          и после этого можно будет посмотреть динамику ионов.
+        </p>
+      </v-col>
+      <v-col v-if="recipes.length > 0" cols="12" sm="8" offset-sm="2">
         <v-combobox
           :items="tanks"
           v-model.number="tankVolume"
@@ -40,7 +50,7 @@
             </v-subheader>
             <v-slider
               v-model="waterChange"
-              thumb-label="always"
+              thumb-label
             ></v-slider>
             <v-select
               :items="recipes"
@@ -113,9 +123,12 @@
               :value="dinamics"
               color="white"
               line-width="2"
+              label-size="5"
               padding="8"
               smooth="3"
               auto-draw
+              :gradient="ionGradients[convertIonName(ion)]"
+              gradient-direction="bottom"
             ></v-sparkline>
             <v-slider
               v-model="ionsPeriod[convertIonName(ion)]"
@@ -124,7 +137,6 @@
               color="white"
               thumb-label
               thumb-color="primary"
-              light
               hide-details="auto"
               class="px-5"
             ></v-slider>
@@ -132,10 +144,17 @@
           <v-card-text class="pt-0">
             <v-text-field
               :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
-              label="Поступает"
+              label="Поступает из удобрений"
               :suffix="ionsUnits[ion]"
               hide-details="auto"
               readonly
+            >
+            </v-text-field>
+            <v-text-field
+              v-model.number="ionsWaterChange[convertIonName(ion)]"
+              label="Концентрация в подменной воде"
+              :suffix="ionsUnits[convertIonName(ion)]"
+              hide-details="auto"
             >
             </v-text-field>
             <v-text-field
@@ -184,6 +203,11 @@ export default {
         PO4: 0,
         K: 0
       },
+      ionsWaterChange: {
+        NO3: 0,
+        PO4: 0,
+        K: 0
+      },
       ionsUnits: {
         NO3: 'мг/л',
         PO4: 'мг/л',
@@ -198,6 +222,12 @@ export default {
         NO3: 28,
         PO4: 28,
         K: 28
+      },
+      gradient: [ '#00ff00', '#6bff00', '#afff00', '#f3ff00', '#f7b300', '#fb5700', '#fd2a00', '#ff0000' ],
+      ionRanges: {
+        NO3: [0, 5, 10, 15, 20, 25, 30, 40],
+        PO4: [0, 0.5, 1, 1.5, 2, 2.5, 3, 4],
+        K: [0, 5, 10, 15, 20, 25, 30, 40]
       },
       recipesSelected: []
     }
@@ -239,6 +269,15 @@ export default {
         dinamics[ion] = this.countDinamics(ion)
       }
       return dinamics
+    },
+    ionGradients () {
+      const gradients = {}
+      for (let ion in this.totalElements) {
+        let max = Math.max(...this.ionDinamics[ion])
+        let index = this.ionRanges[this.convertIonName(ion)].findIndex(item => item > max)
+        gradients[this.convertIonName(ion)] = this.gradient.slice(0, index)
+      }
+      return gradients
     }
   },
   methods: {
@@ -247,7 +286,7 @@ export default {
       let amount = parseFloat(event.target.value)
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(amount) ? amount : '',
+        amount: !isNaN(amount) ? amount : ''
       })
     },
     convertIonName (ion) {
@@ -264,7 +303,7 @@ export default {
       if (amount) {
         for (const day in [...Array(duration)]) {
           if (day > 0 && day % 7 === 0) {
-            sum = sum - sum * this.waterChange / this.tankVolume
+            sum = sum - sum * (this.waterChange / this.tankVolume) + this.ionsWaterChange[this.convertIonName(ion)] * (this.waterChange / this.tankVolume)
           }
           sum += amount
           sum -= this.ionsReduction[this.convertIonName(ion)]
@@ -272,7 +311,6 @@ export default {
             sum = 0
           }
           dinamics.push(sum)
-          console.log(sum)
         }
       } else {
         dinamics = Array(duration).fill(0)

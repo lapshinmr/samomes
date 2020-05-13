@@ -67,12 +67,26 @@
     </v-app-bar>
 
     <v-content>
-      <v-container v-if="!tanks.length || !recipes.length || !schedules.length">
+      <v-container v-if="(!tanks.length || !recipes.length || !schedules.length) && !guidIsClosed">
         <v-row>
           <v-col cols="12" md="8" offset-md="2">
             <v-card>
               <v-card-title>
-                {{ $t('guid.start') }}
+                <div class="d-flex justify-space-between" style="width: 100%;">
+                  <span class="no-break">
+                    {{ $t('guid.start') }}
+                  </span>
+                  <span>
+                    <v-tooltip bottom max-width="400">
+                      <template v-slot:activator="{ on }">
+                        <a class="ml-3 font-weight-light" @click="GUID_CLOSE" v-on="on">
+                          <v-icon>mdi-close</v-icon>
+                        </a>
+                      </template>
+                      Закрыть гид
+                    </v-tooltip>
+                  </span>
+                </div>
               </v-card-title>
               <v-card-text>
                 <div class="d-flex flex-column flex-sm-row pa-3 pa-sm-5 align-sm-center mb-4">
@@ -154,7 +168,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'schedules', 'isSnackbar', 'snackbarMessage', 'lang'
+      'tanks', 'recipes', 'schedules', 'isSnackbar', 'snackbarMessage', 'lang', 'guidIsClosed'
     ]),
     breadcrumbs () {
       let result = {}
@@ -188,7 +202,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'DRAWER_SET', 'SNACKBAR_HIDE'
+      'DRAWER_SET', 'SNACKBAR_HIDE', 'GUID_CLOSE'
     ]),
     ...mapActions([
       'langSet'

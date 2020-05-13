@@ -28,6 +28,7 @@ const loadState = function () {
   let stateData = JSON.parse(localStorage.getItem('udata'))
   let defaultData = {
     lang: DEFAULT_LANGUAGE,
+    guidIsClosed: false,
     tanks: [],
     recipes: [],
     schedules: [],
@@ -130,6 +131,9 @@ export default new Vuex.Store({
     SNACKBAR_HIDE (state) {
       state.snackbarMessage = ''
       state.isSnackbar = false
+    },
+    GUID_CLOSE (state) {
+      state.guidIsClosed = true
     }
   },
   actions: {
