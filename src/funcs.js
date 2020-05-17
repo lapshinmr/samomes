@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { COMPONENTS } from './constants.js'
+import { COMPONENTS, FORMULAS } from './constants.js'
 
 export const countTotalIonConcentration = (concentration) => {
   let total = {}
@@ -32,12 +32,30 @@ export const countTotalIonConcentration = (concentration) => {
   return total
 }
 
-export const countTotalConcentration = (concentration) => {
-  let total = 0
-  let totalIonConcentration = countTotalIonConcentration(concentration)
-  for (let ion in totalIonConcentration) {
-    total += convertIonRatio(ion) * totalIonConcentration[ion]
+export const countPercent = (element) => {
+  let massTotal = FORMULAS[element].mass
+  let result = {}
+  let ions = FORMULAS[element].ions
+  for (let ion in ions) {
+    if (ions[ion].isNeeded) {
+      result[ion] = COMPONENTS[ion] * ions[ion].count / massTotal
+    }
   }
+  return result
+}
+
+export const countTotalIonMass = (mass) => {
+  const total = {}
+  for (let reagent in mass) {
+    let percents = countPercent(reagent)
+    for (let ion in percents) {
+      if (total[ion] === undefined) {
+        total[ion] = 0
+      }
+      total[ion] += percents[ion] * mass[reagent]
+    }
+  }
+  console.log(total)
   return total
 }
 

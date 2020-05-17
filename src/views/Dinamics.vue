@@ -302,7 +302,7 @@ export default {
       let dinamics = []
       if (amount) {
         for (const day in [...Array(duration)]) {
-          if (day > 0 && day % 7 === 0) {
+          if (day > 0 && day % 3 === 0) {
             sum = sum - sum * (this.waterChange / this.tankVolume) + this.ionsWaterChange[this.convertIonName(ion)] * (this.waterChange / this.tankVolume)
           }
           sum += amount

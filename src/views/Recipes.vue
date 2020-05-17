@@ -204,7 +204,7 @@
                               ></v-select>
                             </div>
                           </v-expand-transition>
-                          <div class="mt-3">
+                          <div v-if="reagentsSelected.length > 0" class="mt-3">
                             <template v-for="(reagent, index) in reagents">
                               <div
                                 v-if="reagentsSelected.includes(reagent.value)"
@@ -212,7 +212,7 @@
                                 :key="reagent.value"
                               >
                                 <div>{{ reagents[index].name }}</div>
-                                <div>{{ showComponents(countProcent(reagent.value)) }}</div>
+                                <div>{{ showComponents(countPercent(reagent.value)) }}</div>
                               </div>
                             </template>
                           </div>
@@ -225,6 +225,14 @@
                         </v-col>
                         <v-expand-transition>
                           <v-col v-if="reagentsSelected.length > 0" cols="12">
+                            <v-radio-group v-model="isWater" row hide-details="auto">
+                              <v-radio label="Водный раствор" :value="true"></v-radio>
+                              <v-radio label="Безводная смесь" :value="false"></v-radio>
+                            </v-radio-group>
+                          </v-col>
+                        </v-expand-transition>
+                        <v-expand-transition>
+                          <v-col v-if="reagentsSelected.length > 0 && isWater" cols="12">
                             <v-combobox
                               :items="tanks"
                               v-model.number="tankVolume"
@@ -236,12 +244,12 @@
                               hint="Выберите аквариум или введите объем"
                               suffix="л"
                               :return-object="false"
-                              :rules="rulesTankVolume"
+                              :rules="[isWater ? rulesTankVolume.isExist() : true]"
                             ></v-combobox>
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0" cols="12">
+                          <v-col v-if="reagentsSelected.length > 0 && isWater" cols="12">
                             <v-text-field
                               :value="fertilizerVolume"
                               @input="inputVolume"
@@ -249,15 +257,15 @@
                               suffix="мл"
                               hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев. Обычно это 250-300 мл."
                               hide-details="auto"
-                              :rules="rulesVolume"
+                              :rules="[isWater ? rulesVolume.isExist() : true]"
                             >
                             </v-text-field>
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && fertilizerVolume && tankVolume" cols="12">
+                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater) && (tankVolume || !isWater)" cols="12">
                             <v-row>
-                              <v-col cols="12">
+                              <v-col v-if="isWater" cols="12">
                                 <div class="d-flex align-center">
                                   <v-divider />
                                   <span class="mx-3">
@@ -279,14 +287,14 @@
                                   @input="inputMass(reagent)"
                                   :label="reagent"
                                   suffix="г"
-                                  :hint="fertilizerMassHint(reagent)"
+                                  :hint="isWater ? fertilizerMassHint(reagent) : ''"
                                   hide-details="auto"
                                   :key="reagent"
-                                  :rules="[rulesMass.isExist(), rulesMass.solubility(reagent, fertilizerVolume, FORMULAS)]"
+                                  :rules="[rulesMass.isExist(), isWater ? rulesMass.solubility(reagent, fertilizerVolume, FORMULAS) : true]"
                                 >
                                 </v-text-field>
                               </v-col>
-                              <v-col cols="12" class="mt-2 pb-0">
+                              <v-col v-if="isWater" cols="12" class="mt-2 pb-0">
                                 <v-btn
                                   center
                                   text
@@ -298,7 +306,7 @@
                                 </v-btn>
                               </v-col>
                               <v-expand-transition>
-                                <v-col cols="12" v-if="isShowConcentration" class="pt-0">
+                                <v-col cols="12" v-if="isShowConcentration && isWater" class="pt-0">
                                   <v-switch
                                     v-model="isConcentrationPercent"
                                     label="Показать соотношение"
@@ -380,7 +388,57 @@
                                  </v-simple-table>
                                 </v-col>
                               </v-expand-transition>
-                              <v-col cols="12">
+                              <v-expand-transition>
+                                <v-simple-table>
+                                  <template v-slot:default>
+                                    <thead>
+                                      <tr>
+                                        <th>
+                                          Реагент
+                                        </th>
+                                        <th v-for="ion in Object.keys(countTotalIonMass(fertilizerMass))" :key="ion">
+                                          <template v-if="isWithoutConvertion && ion !== convertIonName(ion)">
+                                            {{ ion }} /
+                                          </template>
+                                          <template v-if="ion !== convertIonName(ion)">
+                                            {{ convertIonName(ion) }}, мг/л
+                                          </template>
+                                          <template v-else>
+                                            {{ ion }}, мг/л
+                                          </template>
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr v-for="reagent in Object.keys(fertilizerMass)" :key="reagent">
+                                        <td>
+                                          {{ reagent }}
+                                        </td>
+                                        <td v-for="(value, ion) in countTotalIonMass(fertilizerMass)" :key="reagent + ion">
+                                          <template v-if="Object.keys(fertilizerMass[reagent]).includes(ion)">
+                                            <template v-if="isWithoutConvertion && ion !== convertIonName(ion)">
+                                              {{ concentration[reagent][ion].toFixed(2) }} /
+                                            </template>
+                                            <template v-if="ion !== convertIonName(ion)" >
+                                              {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) }}
+                                            </template>
+                                            <template v-else>
+                                              {{ concentration[reagent][ion].toFixed(2) }}
+                                            </template>
+                                            <template v-if="value && isConcentrationPercent">
+                                              ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
+                                            </template>
+                                          </template>
+                                          <template v-else>
+                                            -
+                                          </template>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </template>
+                                </v-simple-table>
+                              </v-expand-transition>
+                              <v-col v-if="isWater" cols="12">
                                 <div class="d-flex align-center">
                                   <v-divider />
                                   <span class="mx-3">
@@ -402,7 +460,7 @@
                                   <v-divider />
                                 </div>
                               </v-col>
-                              <v-col cols="12" class="pb-0">
+                              <v-col v-if="isWater" cols="12" class="pb-0">
                                 <v-row>
                                   <template v-for="reagent in reagentsSelected">
                                     <v-col cols="12" :key="reagent" class="py-0">
@@ -447,7 +505,7 @@
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && fertilizerVolume && tankVolume" cols="12">
+                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)  && (tankVolume || !isWater)" cols="12">
                             <v-row>
                               <v-col cols="12">
                                 <v-text-field
@@ -670,7 +728,8 @@ import Vue from 'vue'
 import { COMPONENTS, FORMULAS, RECIPE_EXAMPLES } from '../constants.js'
 import {
   countTotalIonConcentration,
-  countTotalConcentration,
+  countTotalIonMass,
+  countPercent,
   isConcentration,
   countTotalIonDose,
   countTotalDose,
@@ -706,6 +765,7 @@ export default {
       },
       isPercent: false,
       isShared: false,
+      isWater: true,
       isConcentrationPercent: false,
       isShowConcentration: false,
       isWithoutConvertion: false,
@@ -727,12 +787,16 @@ export default {
           return v => !!v || 'Введите массу'
         }
       },
-      rulesVolume: [
-        v => !!v || 'Введите объем удобрения'
-      ],
-      rulesTankVolume: [
-        v => !!v || 'Введите обеъм аквариума'
-      ],
+      rulesVolume: {
+        isExist () {
+          return v => !!v || 'Введите объем удобрения'
+        }
+      },
+      rulesTankVolume: {
+        isExist () {
+          return v => !!v || 'Введите обеъм аквариума'
+        }
+      },
       rulesName: [
         v => !!v || 'Введите название',
         v => (!this.isExist || this.isSame) || 'Рецепт с таким названием уже существует'
@@ -780,7 +844,7 @@ export default {
           let ions = FORMULAS[reagent].ions
           for (let ion in ions) {
             if (ions[ion].isNeeded) {
-              result[reagent][ion] = this.fertilizerMass[reagent] * this.countProcent(reagent)[ion] / (this.fertilizerVolume / 1000)
+              result[reagent][ion] = this.fertilizerMass[reagent] * this.countPercent(reagent)[ion] / (this.fertilizerVolume / 1000)
             }
           }
         }
@@ -950,16 +1014,8 @@ export default {
         'Mo': null
       }
     },
-    countProcent (element) {
-      let massTotal = this.FORMULAS[element].mass
-      let result = {}
-      let ions = FORMULAS[element].ions
-      for (let ion in ions) {
-        if (ions[ion].isNeeded) {
-          result[ion] = this.COMPONENTS[ion] * ions[ion].count / massTotal
-        }
-      }
-      return result
+    countPercent (el) {
+      return countPercent(el)
     },
     convertIonName (el) {
       return convertIonName(el)
@@ -973,7 +1029,7 @@ export default {
         let result = {}
         for (let ion in ions) {
           if (ions[ion].isNeeded) {
-            let value = this.fertilizerMass[reagent] / (this.fertilizerVolume / 1000) / this.tankVolume * this.countProcent(reagent)[ion] * this.convertIonRatio(ion)
+            let value = this.fertilizerMass[reagent] / (this.fertilizerVolume / 1000) / this.tankVolume * this.countPercent(reagent)[ion] * this.convertIonRatio(ion)
             if (!isNaN(value)) {
               value = parseFloat(value.toFixed(3))
             }
@@ -1011,7 +1067,7 @@ export default {
           } else {
             value = value * ratio[ion]
           }
-          value = value * (this.countProcent(reagent)[ion] / this.countProcent(reagent)[curIon])
+          value = value * (this.countPercent(reagent)[ion] / this.countPercent(reagent)[curIon])
         }
         solute[ion] = !isNaN(parseFloat(value)) ? parseFloat(value.toFixed(3)) : 0
         Vue.set(this.solute, reagent, solute)
@@ -1021,16 +1077,16 @@ export default {
       if (!this.solute[reagent][curIon]) {
         mass = 0
       } else {
-        mass = this.solute[reagent][curIon] * this.tankVolume / this.countProcent(reagent)[curIon] * this.fertilizerVolume / 1000 / this.convertIonRatio(curIon)
+        mass = this.solute[reagent][curIon] * this.tankVolume / this.countPercent(reagent)[curIon] * this.fertilizerVolume / 1000 / this.convertIonRatio(curIon)
       }
       fertilizerMass[reagent] = parseFloat(mass.toFixed(3))
       this.fertilizerMass = { ...fertilizerMass }
     },
-    countTotalConcentration (concentration) {
-      return countTotalConcentration(concentration)
-    },
     countTotalIonConcentration (concentration) {
       return countTotalIonConcentration(concentration)
+    },
+    countTotalIonMass (mass) {
+      return countTotalIonMass(mass)
     },
     countTotalIonDose (solute) {
       return countTotalIonDose(solute)
