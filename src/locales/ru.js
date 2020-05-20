@@ -4,6 +4,7 @@ export default {
       tanks: 'Аквариумы',
       recipes: 'Рецепты',
       schedules: 'Расписания',
+      remineralization: 'Реминерализация',
       dinamics: 'Динамика',
       about: 'О проекте',
       settings: 'Настройки',

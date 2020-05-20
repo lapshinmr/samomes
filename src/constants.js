@@ -208,7 +208,7 @@ export const FORMULAS = {
         count: 1
       },
       'Cl': {
-        isNeeded: true,
+        isNeeded: false,
         count: 2
       }
     },

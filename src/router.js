@@ -47,6 +47,11 @@ export default new Router({
       name: 'schedules'
     },
     {
+      path: '/remineralization',
+      component: load('Remineralization'),
+      name: 'remineralization'
+    },
+    {
       path: '/dinamics',
       component: load('Dinamics'),
       name: 'dinamics'
