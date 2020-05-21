@@ -40,16 +40,17 @@
           hide-selected
           hide-details="auto"
           hint="Выберите аквариум или введите объем"
+          persistent-hint
           suffix="л"
           :return-object="false"
         ></v-combobox>
         <v-expand-transition>
           <div v-if="tankVolume">
             <v-subheader class="pl-0">
-              Объем подмены: {{ (tankVolume * waterChange / 100).toFixed(1) + ' л' }}
+              Объем подмены: {{ waterChangeVolume.toFixed(1) + ' л' }}
             </v-subheader>
             <v-slider
-              v-model="waterChange"
+              v-model.number="waterChange"
               thumb-label
             ></v-slider>
             <v-select
@@ -236,8 +237,8 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'drawer'
     ]),
-    waterChangePercent () {
-      return this.tankVolume / this.waterChange
+    waterChangeVolume () {
+      return this.tankVolume * this.waterChange / 100
     },
     totalElements () {
       let result = {}
@@ -303,7 +304,7 @@ export default {
       if (amount) {
         for (const day in [...Array(duration)]) {
           if (day > 0 && day % 3 === 0) {
-            sum = sum - sum * (this.waterChange / this.tankVolume) + this.ionsWaterChange[this.convertIonName(ion)] * (this.waterChange / this.tankVolume)
+            sum = sum - sum * (this.waterChange / 100) + this.ionsWaterChange[this.convertIonName(ion)] * (this.waterChange / 100)
           }
           sum += amount
           sum -= this.ionsReduction[this.convertIonName(ion)]

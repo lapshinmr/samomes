@@ -40,18 +40,32 @@
           hide-selected
           hide-details="auto"
           hint="Выберите аквариум или введите объем"
+          persistent-hint
           suffix="л"
           :return-object="false"
         ></v-combobox>
         <v-expand-transition>
           <div v-if="tankVolume">
             <v-subheader class="pl-0">
-              Объем подмены: {{ (tankVolume * waterChange / 100).toFixed(1) + ' л' }}
+              Объем подмены: {{ waterChangeVolume.toFixed(1) + ' л' }}
             </v-subheader>
             <v-slider
-              v-model="waterChange"
+              v-model.number="waterChange"
               thumb-label
-            ></v-slider>
+              hide-details="auto"
+              class="align-end"
+            >
+              <template v-slot:append>
+                <v-text-field
+                  v-model.number="waterChange"
+                  class="mt-0 pt-0"
+                  hide-details
+                  single-line
+                  type="number"
+                  style="width: 60px"
+                ></v-text-field>
+              </template>
+            </v-slider>
             <v-text-field
               v-model.number="ghInit"
               label="Gh в аквариуме"
@@ -86,12 +100,12 @@
           @input="inputRecipeAmountDay(index)"
           :label="recipeSelected.name"
           hint="Введите дневную дозу"
-          :suffix="recipeSelected.isWater === undefined || recipeSelected.isWater ? 'мл/день' : 'г'"
+          :suffix="recipeSelected.isWater === undefined || recipeSelected.isWater ? 'мл' : 'г'"
           hide-details="auto"
           :key="index"
         ></v-text-field>
         <div v-if="Object.keys(totalElements).length > 0" class="mt-5">
-          <v-simple-table dense>
+          <v-simple-table dense style="background-color: #fafafa;">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -102,10 +116,7 @@
                     dGh
                   </th>
                   <th class="text-center">
-                    В неделю, <span>мг/л</span>
-                  </th>
-                  <th class="text-center pr-0">
-                    В день, <span>мг/л</span>
+                    Доза удобрения, мг/л
                   </th>
                 </tr>
               </thead>
@@ -121,9 +132,6 @@
                       +{{ (value / HARDNESS[name]).toFixed(2) }}
                     </template>
                   </td>
-                  <td class="text-center">
-                    +{{ value !== undefined ? (value * 7).toFixed(3) : 0 }}
-                  </td>
                   <td class="text-center pr-0">
                     +{{ value !== undefined ? (value).toFixed(3) : 0 }}
                   </td>
@@ -132,6 +140,21 @@
             </template>
           </v-simple-table>
         </div>
+        <v-expand-transition>
+          <v-text-field
+            v-if="ghInit !== null"
+            :value="totalHardness"
+            label="Общая жесткость"
+            :hint="hardnessHint"
+            suffix="dGh"
+            hide-details="auto"
+            readonly
+            outlined
+            persistent-hint
+            class="mt-8"
+          >
+          </v-text-field>
+        </v-expand-transition>
       </v-col>
     </v-row>
   </v-container>
@@ -141,7 +164,7 @@
 import Vue from 'vue'
 import { COMPONENTS, FORMULAS, HARDNESS } from '../constants.js'
 import { mapState } from 'vuex'
-import { convertIonName, convertIonRatio, countPercent } from '../funcs.js'
+import { convertIonName, convertIonRatio, countPercent, countTotalIonMass } from '../funcs.js'
 
 export default {
   name: 'remineralization',
@@ -150,6 +173,7 @@ export default {
       FORMULAS,
       COMPONENTS,
       HARDNESS,
+      dialog: true,
       tankVolume: null,
       tank: null,
       waterChange: 30,
@@ -162,8 +186,8 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'drawer'
     ]),
-    waterChangePercent () {
-      return this.tankVolume / this.waterChange
+    waterChangeVolume () {
+      return this.tankVolume * this.waterChange / 100
     },
     totalElements () {
       let result = {}
@@ -180,17 +204,31 @@ export default {
             }
           }
         } else if (recipe.isWater === false) {
+          const totalFertilizerMass = Object.values(recipe.mass).reduce((sum, item) => sum + item)
           for (let [ion, mass] of Object.entries(this.countTotalIonMass(recipe.mass))) {
             if (!(ion in result)) {
               result[ion] = 0
             }
             if (recipe.amount) {
-              result[ion] += recipe.amount / this.tankVolume
+              result[ion] += recipe.amount * (mass / totalFertilizerMass) / this.tankVolume * 1000
             }
           }
         }
       }
       return result
+    },
+    totalHardness () {
+      let ca = this.totalElements['Ca']
+      let mg = this.totalElements['Mg']
+      let hardness = 0
+      if (ca) {
+        hardness += ca / this.HARDNESS['Ca']
+      }
+      if (mg) {
+        hardness += mg / this.HARDNESS['Mg']
+      }
+      hardness = this.ghInit * (1 - this.waterChange / 100) + (this.ghWaterChange * this.waterChange / 100) + hardness
+      return hardness.toFixed(2)
     },
     totalElementsSorted () {
       var sortableResult = []
@@ -199,6 +237,13 @@ export default {
       }
       sortableResult.sort((a, b) => b[1] - a[1])
       return sortableResult
+    },
+    hardnessHint () {
+      let text = 'Gh после подмены воды'
+      if (this.totalElements['Ca'] || this.totalElements['Mg']) {
+        text += ', внесения удобрений и реминирализатора'
+      }
+      return text
     }
   },
   methods: {

@@ -929,8 +929,6 @@ export default {
             }
           }
         }
-      } else if (this.isWater === false) {
-
       } else if (this.fertilizerType === 'Готовое') {
         result[this.recipeName] = {}
         for (let el in this.elements) {
