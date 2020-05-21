@@ -100,7 +100,7 @@
           @input="inputRecipeAmountDay(index)"
           :label="recipeSelected.name"
           hint="Введите дневную дозу"
-          :suffix="recipeSelected.isWater === undefined || recipeSelected.isWater ? 'мл' : 'г'"
+          :suffix="recipeSelected.fertilizerVolume ? 'мл' : 'г'"
           hide-details="auto"
           :key="index"
         ></v-text-field>
@@ -164,7 +164,7 @@
 import Vue from 'vue'
 import { COMPONENTS, FORMULAS, HARDNESS } from '../constants.js'
 import { mapState } from 'vuex'
-import { convertIonName, convertIonRatio, countPercent, countTotalIonMass } from '../funcs.js'
+import { convertIonName, convertIonRatio, countPercent, countTotalIonConcentration } from '../funcs.js'
 
 export default {
   name: 'remineralization',
@@ -192,26 +192,12 @@ export default {
     totalElements () {
       let result = {}
       for (let recipe of this.recipesSelected) {
-        if (recipe.isWater === undefined || recipe.isWater) {
-          for (let reagent in recipe.concentration) {
-            for (let ion in recipe.concentration[reagent]) {
-              if (!(ion in result)) {
-                result[ion] = 0
-              }
-              if (recipe.amount) {
-                result[ion] += recipe.concentration[reagent][ion] / this.tankVolume * recipe.amount
-              }
-            }
-          }
-        } else if (recipe.isWater === false) {
-          const totalFertilizerMass = Object.values(recipe.mass).reduce((sum, item) => sum + item)
-          for (let [ion, mass] of Object.entries(this.countTotalIonMass(recipe.mass))) {
-            if (!(ion in result)) {
-              result[ion] = 0
-            }
-            if (recipe.amount) {
-              result[ion] += recipe.amount * (mass / totalFertilizerMass) / this.tankVolume * 1000
-            }
+        let totalIonConcentration = this.countTotalIonConcentration(recipe.concentration)
+        for (let [key, value] of Object.entries(totalIonConcentration)) {
+          if (recipe.fertilizerVolume) {
+            result[key] = value * recipe.amount / this.tankVolume
+          } else if (!recipe.fertilizerVolume) {
+            result[key] = value * recipe.amount * this.tankVolume * 1000
           }
         }
       }
@@ -256,8 +242,8 @@ export default {
     countPercent (ion) {
       return countPercent(ion)
     },
-    countTotalIonMass (ion) {
-      return countTotalIonMass(ion)
+    countTotalIonConcentration (ion) {
+      return countTotalIonConcentration(ion)
     },
     inputRecipeAmountDay (index) {
       let recipe = this.recipesSelected[index]

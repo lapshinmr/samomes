@@ -52,9 +52,22 @@
             <v-slider
               v-model.number="waterChange"
               thumb-label
-            ></v-slider>
+              hide-details="auto"
+              class="align-end"
+            >
+              <template v-slot:append>
+                <v-text-field
+                  v-model.number="waterChange"
+                  class="mt-0 pt-0"
+                  hide-details
+                  single-line
+                  type="number"
+                  style="width: 60px"
+                ></v-text-field>
+              </template>
+            </v-slider>
             <v-select
-              :items="recipes"
+              :items="recipesWithWater"
               v-model="recipesSelected"
               label="Выберите рецепты"
               item-text="name"
@@ -74,42 +87,40 @@
           hide-details="auto"
           :key="index"
         ></v-text-field>
-        <v-card v-if="Object.keys(totalElements).length > 0" class="mt-5">
-          <v-card-text>
-            <v-simple-table dense>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="pl-0 text-center">
-                      Элемент
-                    </th>
-                    <th class="text-center">
-                      В неделю, <span>мг/л</span>
-                    </th>
-                    <th class="text-center pr-0">
-                      В день, <span>мг/л</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="[name, value] in totalElementsSorted" :key="name"
-                    :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
-                  >
-                    <td class="pl-0 text-center">
-                      {{ name }}
-                    </td>
-                    <td class="text-center">
-                      +{{ value !== undefined ? (value * 7).toFixed(3) : 0 }}
-                    </td>
-                    <td class="text-center pr-0">
-                      +{{ value !== undefined ? (value).toFixed(3) : 0 }}
-                    </td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
-          </v-card-text>
-        </v-card>
+        <div v-if="Object.keys(totalElements).length > 0" class="mt-5">
+          <v-simple-table dense style="background-color: #fafafa;">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="pl-0 text-center">
+                    Элемент
+                  </th>
+                  <th class="text-center">
+                    В неделю, <span>мг/л</span>
+                  </th>
+                  <th class="text-center pr-0">
+                    В день, <span>мг/л</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="[name, value] in totalElementsSorted" :key="name"
+                  :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
+                >
+                  <td class="pl-0 text-center">
+                    {{ name }}
+                  </td>
+                  <td class="text-center">
+                    +{{ value !== undefined ? (value * 7).toFixed(3) : 0 }}
+                  </td>
+                  <td class="text-center pr-0">
+                    +{{ value !== undefined ? (value).toFixed(3) : 0 }}
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </div>
       </v-col>
       <v-col cols="12" sm="8" offset-sm="2" v-for="(dinamics, ion) in ionDinamics" :key="ion">
         <v-card>
@@ -237,6 +248,9 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'drawer'
     ]),
+    recipesWithWater () {
+      return this.recipes.filter(item => item.isWater === undefined || item.isWater)
+    },
     waterChangeVolume () {
       return this.tankVolume * this.waterChange / 100
     },

@@ -106,7 +106,7 @@
                     <v-expand-transition>
                       <v-col v-if="tank" cols="12">
                         <v-select
-                          :items="recipes"
+                          :items="recipesWithWater"
                           v-model="recipesSelected"
                           label="Выберите рецепты"
                           item-text="name"
@@ -401,7 +401,7 @@ export default {
   components: { Schedule },
   data () {
     return {
-      HARDNESS: HARDNESS,
+      HARDNESS,
       tank: null,
       recipesSelected: [],
       datesRange: [],
@@ -425,6 +425,9 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'schedules', 'drawer'
     ]),
+    recipesWithWater () {
+      return this.recipes.filter(item => item.isWater === undefined || item.isWater)
+    },
     isExist () {
       let names = this.schedules.map(item => item.tank.name)
       if (!this.tank) {

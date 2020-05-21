@@ -44,20 +44,6 @@ export const countPercent = (reagent) => {
   return result
 }
 
-export const countTotalIonMass = (mass) => {
-  const total = {}
-  for (let reagent in mass) {
-    let percents = countPercent(reagent)
-    for (let ion in percents) {
-      if (total[ion] === undefined) {
-        total[ion] = 0
-      }
-      total[ion] += percents[ion] * mass[reagent]
-    }
-  }
-  return total
-}
-
 // export const countTotalUsefulMass = (mass) => {
 //   const totalIonMass = countTotalIonMass(mass)
 //   let usefulMass = 0
