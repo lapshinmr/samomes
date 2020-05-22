@@ -51,7 +51,6 @@
             </v-subheader>
             <v-slider
               v-model.number="waterChange"
-              thumb-label
               hide-details="auto"
               class="align-end"
             >
@@ -61,25 +60,49 @@
                   class="mt-0 pt-0"
                   hide-details
                   single-line
+                  suffix="%"
                   type="number"
                   style="width: 60px"
                 ></v-text-field>
               </template>
             </v-slider>
-            <v-text-field
-              v-model.number="ghInit"
-              label="Gh в аквариуме"
-              suffix="dGh"
+            <v-subheader class="pl-0">
+              Доля осмоса в подмене: {{ osmosisChangeVolume.toFixed(1) + ' л' }} (водопровода: {{ (waterChangeVolume - osmosisChangeVolume).toFixed(1) + ' л' }})
+            </v-subheader>
+            <v-slider
+              v-model.number="osmosisChange"
               hide-details="auto"
+              class="align-end"
             >
-            </v-text-field>
-            <v-text-field
-              v-model.number="ghWaterChange"
-              label="Gh в подменной воде"
-              suffix="dGh"
-              hide-details="auto"
-            >
-            </v-text-field>
+              <template v-slot:append>
+                <v-text-field
+                  v-model.number="osmosisChange"
+                  class="mt-0 pt-0"
+                  hide-details
+                  single-line
+                  suffix="%"
+                  type="number"
+                  style="width: 60px"
+                ></v-text-field>
+              </template>
+            </v-slider>
+            <div class="d-flex">
+              <v-text-field
+                v-model.number="ghInit"
+                label="Gh в аквариуме"
+                suffix="dGh"
+                hide-details="auto"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model.number="ghWaterChange"
+                label="Gh водопровода"
+                suffix="dGh"
+                hide-details="auto"
+                class="ml-3"
+              >
+              </v-text-field>
+            </div>
           </div>
         </v-expand-transition>
         <v-expand-transition>
@@ -100,7 +123,7 @@
           @input="inputRecipeAmountDay(index)"
           :label="recipeSelected.name"
           hint="Введите дневную дозу"
-          :suffix="recipeSelected.fertilizerVolume ? 'мл' : 'г'"
+          :suffix="recipeSelected.volume || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
           hide-details="auto"
           :key="index"
         ></v-text-field>
@@ -177,6 +200,7 @@ export default {
       tankVolume: null,
       tank: null,
       waterChange: 30,
+      osmosisChange: 0,
       ghInit: null,
       ghWaterChange: 0,
       recipesSelected: []
@@ -189,19 +213,35 @@ export default {
     waterChangeVolume () {
       return this.tankVolume * this.waterChange / 100
     },
+    osmosisChangeVolume () {
+      return this.tankVolume * this.waterChange * this.osmosisChange / 10000
+    },
     totalElements () {
       let result = {}
       for (let recipe of this.recipesSelected) {
-        let totalIonConcentration = this.countTotalIonConcentration(recipe.concentration)
-        for (let [key, value] of Object.entries(totalIonConcentration)) {
-          if (recipe.fertilizerVolume) {
-            result[key] = value * recipe.amount / this.tankVolume
-          } else if (!recipe.fertilizerVolume) {
-            result[key] = value * recipe.amount * this.tankVolume * 1000
+        for (let reagent in recipe.concentration) {
+          for (let ion in recipe.concentration[reagent]) {
+            if (!(ion in result)) {
+              result[ion] = 0
+            }
+            if (recipe.amount) {
+              result[ion] += recipe.amount * recipe.concentration[reagent][ion] / this.tankVolume
+              if (!recipe.volume && recipe.type === 'Самомес') {
+                result[ion] *= 1000
+              }
+            }
           }
         }
       }
       return result
+    },
+    totalElementsSorted () {
+      var sortableResult = []
+      for (var ion in this.totalElements) {
+        sortableResult.push([this.convertIonName(ion), this.convertIonRatio(ion) * this.totalElements[ion]])
+      }
+      sortableResult.sort((a, b) => b[1] - a[1])
+      return sortableResult
     },
     totalHardness () {
       let ca = this.totalElements['Ca']
@@ -213,16 +253,8 @@ export default {
       if (mg) {
         hardness += mg / this.HARDNESS['Mg']
       }
-      hardness = this.ghInit * (1 - this.waterChange / 100) + (this.ghWaterChange * this.waterChange / 100) + hardness
+      hardness = this.ghInit * (1 - this.waterChange / 100) + (this.ghWaterChange * (1 - this.osmosisChange / 100) * this.waterChange / 100) + hardness
       return hardness.toFixed(2)
-    },
-    totalElementsSorted () {
-      var sortableResult = []
-      for (var ion in this.totalElements) {
-        sortableResult.push([this.convertIonName(ion), this.convertIonRatio(ion) * this.totalElements[ion]])
-      }
-      sortableResult.sort((a, b) => b[1] - a[1])
-      return sortableResult
     },
     hardnessHint () {
       let text = 'Gh после подмены воды'

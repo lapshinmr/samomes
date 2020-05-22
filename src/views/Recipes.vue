@@ -103,7 +103,7 @@
                     :key="ion + 'unit'"
                     class="text-right"
                   >
-                    {{ (convertIonRatio(ion) * value * (recipe.volume ? 1 : 100)).toFixed(2) }} {{ recipe.volume ? 'г/л' : '%'}}
+                    {{ (convertIonRatio(ion) * value * (recipe.volume || recipe.type === 'Готовое' ? 1 : 1000)).toFixed(2) }} {{ recipe.volume ? 'г/л' : 'мг/г'}}
                   </div>
                 </div>
               </div>
@@ -328,10 +328,10 @@
                                             Реагент
                                           </th>
                                           <th
-                                            v-for="(ion, index) in Object.keys(countTotalIonConcentration(concentration))"
+                                            v-for="(ion, index) in Object.keys(totalIonConcentration)"
                                             :key="ion"
                                             class="text-center"
-                                            :class="{'pr-0': index === Object.keys(countTotalIonConcentration(concentration)).length - 1}"
+                                            :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
                                           >
                                             <template v-if="isConvertion && ion !== convertIonName(ion)">
                                               {{ ion }} /
@@ -351,7 +351,7 @@
                                             {{ reagent }}
                                           </td>
                                           <td
-                                            v-for="(value, ion, index) in countTotalIonConcentration(concentration)"
+                                            v-for="(value, ion, index) in totalIonConcentration"
                                             :key="reagent + ion"
                                             class="text-center"
                                             :class="{'pr-0': index === Object.keys(concentration).length - 1}"
@@ -380,13 +380,13 @@
                                             Сумма
                                           </td>
                                           <template
-                                            v-for="(value, ion, index) in countTotalIonConcentration(concentration)"
+                                            v-for="(value, ion, index) in totalIonConcentration"
                                           >
                                             <td
                                               v-if="ion !== convertIonName(ion)"
                                               :key="ion"
                                               class="text-center"
-                                              :class="{'pr-0': index === Object.keys(countTotalIonConcentration(concentration)).length - 1}"
+                                              :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
                                             >
                                               <template v-if="isConvertion && ion !== convertIonName(ion)">
                                                 {{ value.toFixed(2) }} /
@@ -395,7 +395,7 @@
                                             </td>
                                             <td v-else
                                               class="text-center"
-                                              :class="{'pr-0': index === Object.keys(countTotalIonConcentration(concentration)).length - 1}"
+                                              :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
                                               :key="ion"
                                             >
                                               {{ value.toFixed(2) }}
@@ -517,11 +517,9 @@
                                       </v-tooltip>:
                                     </div>
                                     <div>
-                                      <span v-for="(mass, ion) in countTotalIonConcentration(concentration)" class="mr-2" :key="ion">
+                                      <span v-for="(value, ion) in totalIonConcentration" class="mr-2" :key="ion">
                                         {{ convertIonName(ion) }}
-                                        {{mass ? '( ' + ((convertIonRatio(ion) * mass / Object.entries(countTotalIonConcentration(concentration))
-                                            .map(([ion, mass]) => convertIonRatio(ion) * mass)
-                                            .reduce((sum, mass) => sum + mass)) * 100).toFixed(2) + '%)' : '' }}
+                                        ({{ value ? (convertIonRatio(ion) * value / totalUsefulConcentration).toFixed(2) : '' }} %)
                                       </span>
                                     </div>
                                   </div>
@@ -967,6 +965,13 @@ export default {
     totalIonConcentration () {
       return this.countTotalIonConcentration(this.concentration)
     },
+    totalUsefulConcentration () {
+      let sum = 0
+      for (let [ion, value] of Object.entries(this.totalIonConcentration)) {
+        sum += this.convertIonRatio(ion) * value
+      }
+      return sum
+    },
     recipeName: {
       get () {
         if (this.recipeName_ === null && this.reagentsSelected.length === 1) {
@@ -1093,7 +1098,8 @@ export default {
       this.recipeNote = recipe.note
       this.curRecipeIndex = index
       this.dialog = true
-      this.isWater = recipe.fertilizerVolume > 0
+      console.log(recipe.volume)
+      this.isWater = recipe.volume > 0
       this.isPercent = recipe.isPercent
       if (recipe.type !== 'Самомес') {
         let reagent = Object.keys(recipe.concentration)[0]
