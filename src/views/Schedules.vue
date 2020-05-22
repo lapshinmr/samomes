@@ -106,7 +106,7 @@
                     <v-expand-transition>
                       <v-col v-if="tank" cols="12">
                         <v-select
-                          :items="recipesWithWater"
+                          :items="recipes"
                           v-model="recipesSelected"
                           label="Выберите рецепты"
                           item-text="name"
@@ -132,7 +132,7 @@
                           @input="inputRecipeAmount(index)"
                           :label="recipeSelected.name"
                           hint="Введите весь объем"
-                          suffix="мл"
+                          :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
                           persistent-hint
                           :readonly="isEditing"
                           class="mr-3"
@@ -141,7 +141,7 @@
                           :value="recipeSelected.amountDay"
                           @input="inputRecipeAmountDay(index)"
                           hint="или объем в день"
-                          suffix="мл/день"
+                          :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл/день' : 'г/день'"
                           persistent-hint
                           :readonly="isEditing"
                         ></v-text-field>
@@ -425,9 +425,6 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'schedules', 'drawer'
     ]),
-    recipesWithWater () {
-      return this.recipes.filter(item => item.volume > 0 || item.type === 'Готовое')
-    },
     isExist () {
       let names = this.schedules.map(item => item.tank.name)
       if (!this.tank) {
@@ -461,7 +458,11 @@ export default {
               result[ion] = 0
             }
             if (recipe.amount) {
-              result[ion] += recipe.concentration[reagent][ion] / this.tank.volume * recipe.amount
+              if (recipe.volume || recipe.type === 'Готовое') {
+                result[ion] += recipe.amount * recipe.concentration[reagent][ion] / this.tank.volume
+              } else if ((!recipe.volume) && recipe.type === 'Самомес') {
+                result[ion] += recipe.amount * recipe.concentration[reagent][ion] / this.tank.volume * 1000
+              }
             }
           }
         }

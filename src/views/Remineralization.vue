@@ -226,7 +226,7 @@ export default {
             }
             if (recipe.amount) {
               result[ion] += recipe.amount * recipe.concentration[reagent][ion] / this.tankVolume
-              if (!recipe.volume && recipe.type === 'Самомес') {
+              if ((!recipe.volume) && recipe.type === 'Самомес') {
                 result[ion] *= 1000
               }
             }

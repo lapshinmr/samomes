@@ -1075,6 +1075,8 @@ export default {
     resetComponent (type = 'Самомес', dialog = false) {
       this.fertilizerType = type
       this.reagentsSelected = []
+      this.recipeExampleChosen = null
+      this.showExamples = false
       this.fertilizerMass = {}
       this.fertilizerVolume = null
       this.recipeName_ = null
@@ -1098,7 +1100,6 @@ export default {
       this.recipeNote = recipe.note
       this.curRecipeIndex = index
       this.dialog = true
-      console.log(recipe.volume)
       this.isWater = recipe.volume > 0
       this.isPercent = recipe.isPercent
       if (recipe.type !== 'Самомес') {
