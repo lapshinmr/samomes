@@ -468,7 +468,7 @@
                                                 {{ (mass * countPercent(reagent)[ion]).toFixed(2) }}
                                               </template>
                                               <template v-if="value && isConcentrationPercent">
-                                                ({{ (mass * countPercent(reagent)[ion] / (value * totalFertilizerMass)).toFixed(1) }}%)
+                                                ({{ (mass * countPercent(reagent)[ion] / (value * totalFertilizerMass) * 100).toFixed(1) }}%)
                                               </template>
                                             </template>
                                             <template v-else>
@@ -480,25 +480,25 @@
                                           <td class="pl-0 text-center">
                                             Сумма
                                           </td>
-                                          <template v-for="(mass, ion, index) in countTotalIonConcentration(concentration)">
+                                          <template v-for="(value, ion, index) in totalIonConcentration">
                                             <td
                                               v-if="ion !== convertIonName(ion)"
                                               class="text-center"
-                                              :class="{'pr-0': index === countTotalIonConcentration(fertilizerMass).length - 1}"
+                                              :class="{'pr-0': index === totalIonConcentration.length - 1}"
                                               :key="ion"
                                             >
                                               <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ mass.toFixed(2) }} /
+                                                {{ (value * totalFertilizerMass).toFixed(2) }} /
                                               </template>
-                                              {{ (convertIonRatio(ion) * mass).toFixed(2) }}
+                                              {{ (convertIonRatio(ion) * value * totalFertilizerMass).toFixed(2) }}
                                             </td>
                                             <td
                                               v-else
                                               class="text-center"
-                                              :class="{'pr-0': index === countTotalIonConcentration(concentration).length - 1}"
+                                              :class="{'pr-0': index === totalIonConcentration.length - 1}"
                                               :key="ion"
                                             >
-                                              {{ mass.toFixed(2) }}
+                                              {{ (value * totalFertilizerMass).toFixed(2) }}
                                             </td>
                                           </template>
                                         </tr>

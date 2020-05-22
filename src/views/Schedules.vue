@@ -426,7 +426,7 @@ export default {
       'tanks', 'recipes', 'schedules', 'drawer'
     ]),
     recipesWithWater () {
-      return this.recipes.filter(item => item.isWater === undefined || item.isWater)
+      return this.recipes.filter(item => item.volume > 0)
     },
     isExist () {
       let names = this.schedules.map(item => item.tank.name)

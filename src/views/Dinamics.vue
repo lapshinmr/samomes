@@ -249,7 +249,7 @@ export default {
       'tanks', 'recipes', 'drawer'
     ]),
     recipesWithWater () {
-      return this.recipes.filter(item => item.isWater === undefined || item.isWater)
+      return this.recipes.filter(item => item.volume > 0)
     },
     waterChangeVolume () {
       return this.tankVolume * this.waterChange / 100
