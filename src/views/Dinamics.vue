@@ -61,6 +61,29 @@
                   class="mt-0 pt-0"
                   hide-details
                   single-line
+                  suffix="%"
+                  type="number"
+                  style="width: 60px"
+                ></v-text-field>
+              </template>
+            </v-slider>
+            <v-subheader class="pl-0">
+              Частота подмены воды
+            </v-subheader>
+            <v-slider
+              v-model.number="waterChangePeriod"
+              thumb-label
+              hide-details="auto"
+              class="align-end"
+              min="1"
+              max="14"
+            >
+              <template v-slot:append>
+                <v-text-field
+                  v-model.number="waterChangePeriod"
+                  class="mt-0 pt-0"
+                  hide-details
+                  single-line
                   type="number"
                   style="width: 60px"
                 ></v-text-field>
@@ -124,35 +147,18 @@
       </v-col>
       <v-col cols="12" sm="8" offset-sm="2" v-for="(dinamics, ion) in ionDinamics" :key="ion">
         <v-card>
-          <v-sheet :color="ionsColors[convertIonName(ion)]">
-            <v-sheet color="white">
-              <div class="display-1" style="position: absolute; top: 5%; left: 3%;">
-                {{ convertIonName(ion) }}
-              </div>
-            </v-sheet>
-            <v-sparkline
-              :labels="dinamics.map((item, index) => (index % (parseInt(ionsPeriod[convertIonName(ion)] / 10) || 1)) === 0 ? item.toFixed(1) : ' ')"
-              :value="dinamics"
-              color="white"
-              line-width="2"
-              label-size="5"
-              padding="8"
-              smooth="3"
-              auto-draw
-              :gradient="ionGradients[convertIonName(ion)]"
-              gradient-direction="bottom"
-            ></v-sparkline>
-            <v-slider
-              v-model="ionsPeriod[convertIonName(ion)]"
-              min="2"
-              max="90"
-              color="white"
-              thumb-label
-              thumb-color="primary"
-              hide-details="auto"
-              class="px-5"
-            ></v-slider>
-          </v-sheet>
+          <div class="small" style="height: 300px; width: 100%;">
+            <line-chart :chart-data="ionDinamics[ion]" :height="300"></line-chart>
+          </div>
+          <v-slider
+            v-model="ionsPeriod[convertIonName(ion)]"
+            min="2"
+            max="90"
+            thumb-label
+            thumb-color="primary"
+            hide-details="auto"
+            class="px-5"
+          ></v-slider>
           <v-card-text class="pt-0">
             <v-text-field
               :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
@@ -195,16 +201,22 @@ import Vue from 'vue'
 import { COMPONENTS, FORMULAS } from '../constants.js'
 import { mapState } from 'vuex'
 import { convertIonName, convertIonRatio } from '../funcs.js'
+import LineChart from './Chart'
 
 export default {
   name: 'dinamics',
+  components: {
+    LineChart
+  },
   data () {
     return {
+      datacollection: null,
       FORMULAS,
       COMPONENTS,
       tankVolume: null,
       tank: null,
       waterChange: 30,
+      waterChangePeriod: 7,
       ionsInit: {
         NO3: null,
         PO4: null,
@@ -226,20 +238,14 @@ export default {
         K: 'мг/л'
       },
       ionsColors: {
-        NO3: 'pink lighten-1',
-        PO4: 'blue lighten-2',
-        K: 'blue-grey lighten-1'
+        NO3: '#D81B60',
+        PO4: '#1E88E5',
+        K: '#78909C'
       },
       ionsPeriod: {
         NO3: 28,
         PO4: 28,
         K: 28
-      },
-      gradient: [ '#00ff00', '#6bff00', '#afff00', '#f3ff00', '#f7b300', '#fb5700', '#fd2a00', '#ff0000' ],
-      ionRanges: {
-        NO3: [0, 5, 10, 15, 20, 25, 30, 40],
-        PO4: [0, 0.5, 1, 1.5, 2, 2.5, 3, 4],
-        K: [0, 5, 10, 15, 20, 25, 30, 40]
       },
       recipesSelected: []
     }
@@ -281,18 +287,17 @@ export default {
     ionDinamics () {
       const dinamics = {}
       for (let ion in this.totalElements) {
-        dinamics[ion] = this.countDinamics(ion)
+        dinamics[ion] = {
+          labels: Object.keys([...Array(this.ionsPeriod[this.convertIonName(ion)])]),
+          datasets: [{
+            label: ion,
+            fill: false,
+            borderColor: this.ionsColors[ion],
+            data: this.countDinamics(ion)
+          }]
+        }
       }
       return dinamics
-    },
-    ionGradients () {
-      const gradients = {}
-      for (let ion in this.totalElements) {
-        let max = Math.max(...this.ionDinamics[ion])
-        let index = this.ionRanges[this.convertIonName(ion)].findIndex(item => item > max)
-        gradients[this.convertIonName(ion)] = this.gradient.slice(0, index)
-      }
-      return gradients
     }
   },
   methods: {
@@ -317,7 +322,7 @@ export default {
       let dinamics = []
       if (amount) {
         for (const day in [...Array(duration)]) {
-          if (day > 0 && day % 3 === 0) {
+          if (day > 0 && day % this.waterChangePeriod === 0) {
             sum = sum - sum * (this.waterChange / 100) + this.ionsWaterChange[this.convertIonName(ion)] * (this.waterChange / 100)
           }
           sum += amount
