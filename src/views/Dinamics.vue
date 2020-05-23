@@ -145,52 +145,73 @@
           </v-simple-table>
         </div>
       </v-col>
-      <v-col cols="12" sm="8" offset-sm="2" v-for="(dinamics, ion) in ionDinamics" :key="ion">
-        <v-card>
-          <div class="small" style="height: 300px; width: 100%;">
-            <line-chart :chart-data="ionDinamics[ion]" :height="300"></line-chart>
-          </div>
-          <v-slider
-            v-model="ionsPeriod[convertIonName(ion)]"
-            min="2"
-            max="90"
-            thumb-label
-            thumb-color="primary"
-            hide-details="auto"
-            class="px-5"
-          ></v-slider>
-          <v-card-text class="pt-0">
-            <v-text-field
-              :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
-              label="Поступает из удобрений"
-              :suffix="ionsUnits[ion]"
-              hide-details="auto"
-              readonly
+      <v-col v-if="Object.keys(ionDinamics).length > 0" cols="12" sm="8" offset-sm="2">
+        <v-stepper v-model="step">
+          <v-stepper-header>
+            <template v-for="(dinamics, ion, index) in ionDinamics">
+              <v-stepper-step
+                :key="ion"
+                :step="index + 1"
+                editable
+              >
+                {{ ion }}
+              </v-stepper-step>
+              <v-divider  v-if="index < Object.keys(ionDinamics).length - 1" :key="ion + 'divider'"></v-divider>
+            </template>
+          </v-stepper-header>
+          <v-stepper-items>
+            <v-stepper-content
+              v-for="(dinamics, ion, index) in ionDinamics" :key="ion"
+              :step="index + 1"
             >
-            </v-text-field>
-            <v-text-field
-              v-model.number="ionsWaterChange[convertIonName(ion)]"
-              label="Концентрация в подменной воде"
-              :suffix="ionsUnits[convertIonName(ion)]"
-              hide-details="auto"
-            >
-            </v-text-field>
-            <v-text-field
-              v-model.number="ionsInit[convertIonName(ion)]"
-              label="В аквариуме сейчас"
-              :suffix="ionsUnits[convertIonName(ion)]"
-              hide-details="auto"
-            >
-            </v-text-field>
-            <v-text-field
-              v-model.number="ionsReduction[convertIonName(ion)]"
-              label="Потребление в день"
-              :suffix="ionsUnits[ion]"
-              hide-details="auto"
-            >
-            </v-text-field>
-          </v-card-text>
-        </v-card>
+              <v-card>
+                <div style="height: 300px; width: 100%;">
+                  <line-chart :chart-data="ionDinamics[ion]" :height="300"></line-chart>
+                </div>
+                <v-slider
+                  v-model="ionsPeriod[convertIonName(ion)]"
+                  min="2"
+                  max="90"
+                  thumb-label
+                  thumb-color="primary"
+                  hide-details="auto"
+                  class="px-5"
+                ></v-slider>
+                <v-card-text class="pt-0">
+                  <v-text-field
+                    :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
+                    label="Поступает из удобрений"
+                    :suffix="ionsUnits[ion]"
+                    hide-details="auto"
+                    readonly
+                  >
+                  </v-text-field>
+                  <v-text-field
+                    v-model.number="ionsWaterChange[convertIonName(ion)]"
+                    label="Концентрация в подменной воде"
+                    :suffix="ionsUnits[convertIonName(ion)]"
+                    hide-details="auto"
+                  >
+                  </v-text-field>
+                  <v-text-field
+                    v-model.number="ionsInit[convertIonName(ion)]"
+                    label="В аквариуме сейчас"
+                    :suffix="ionsUnits[convertIonName(ion)]"
+                    hide-details="auto"
+                  >
+                  </v-text-field>
+                  <v-text-field
+                    v-model.number="ionsReduction[convertIonName(ion)]"
+                    label="Потребление в день"
+                    :suffix="ionsUnits[ion]"
+                    hide-details="auto"
+                  >
+                  </v-text-field>
+                </v-card-text>
+              </v-card>
+            </v-stepper-content>
+          </v-stepper-items>
+        </v-stepper>
       </v-col>
     </v-row>
   </v-container>
@@ -217,6 +238,7 @@ export default {
       tank: null,
       waterChange: 30,
       waterChangePeriod: 7,
+      step: 1,
       ionsInit: {
         NO3: null,
         PO4: null,
