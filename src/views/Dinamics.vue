@@ -43,19 +43,17 @@
           persistent-hint
           suffix="л"
           :return-object="false"
+          class="mb-5"
         ></v-combobox>
-        <v-expand-transition>
-          <div v-if="tankVolume">
-            <v-subheader class="pl-0">
-              Объем подмены: {{ waterChangeVolume.toFixed(1) + ' л' }}
-            </v-subheader>
-            <v-slider
-              v-model.number="waterChange"
-              thumb-label
-              hide-details="auto"
-              class="align-end"
-            >
-              <template v-slot:append>
+      </v-col>
+      <v-expand-transition>
+        <v-col v-if="tankVolume" cols="12" sm="8" offset-sm="2">
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-subheader class="px-0">
+                <div>
+                  Объем подмены: {{ waterChangeVolume.toFixed(1) }} л
+                </div>
                 <v-text-field
                   v-model.number="waterChange"
                   class="mt-0 pt-0"
@@ -65,20 +63,19 @@
                   type="number"
                   style="width: 60px"
                 ></v-text-field>
-              </template>
-            </v-slider>
-            <v-subheader class="pl-0">
-              Частота подмены воды
-            </v-subheader>
-            <v-slider
-              v-model.number="waterChangePeriod"
-              thumb-label
-              hide-details="auto"
-              class="align-end"
-              min="1"
-              max="14"
-            >
-              <template v-slot:append>
+              </v-subheader>
+              <v-slider
+                v-model.number="waterChange"
+                thumb-label
+                hide-details="auto"
+                class="align-end"
+              ></v-slider>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-subheader class="px-0">
+                <div>
+                  Частота подмены воды
+                </div>
                 <v-text-field
                   v-model.number="waterChangePeriod"
                   class="mt-0 pt-0"
@@ -87,30 +84,46 @@
                   type="number"
                   style="width: 60px"
                 ></v-text-field>
-              </template>
-            </v-slider>
-            <v-select
-              :items="recipesWithWater"
-              v-model="recipesSelected"
-              label="Выберите рецепты"
-              item-text="name"
-              multiple
-              :return-object="true"
-              hide-details="auto"
-            ></v-select>
-          </div>
-        </v-expand-transition>
-        <v-text-field
-          v-for="(recipeSelected, index) in recipesSelected"
-          :value="recipeSelected.amountDay"
-          @input="inputRecipeAmountDay(index)"
-          :label="recipeSelected.name"
-          hint="Введите дневную дозу"
-          suffix="мл/день"
-          hide-details="auto"
-          :key="index"
-        ></v-text-field>
-        <div v-if="Object.keys(totalElements).length > 0" class="mt-5">
+              </v-subheader>
+              <v-slider
+                v-model.number="waterChangePeriod"
+                thumb-label
+                hide-details="auto"
+                class="align-end"
+                min="1"
+                max="14"
+              ></v-slider>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-expand-transition>
+      <v-expand-transition>
+        <v-col v-if="tankVolume" cols="12" sm="8" offset-sm="2">
+          <v-select
+            :items="recipesWithWater"
+            v-model="recipesSelected"
+            label="Выберите рецепты"
+            item-text="name"
+            multiple
+            :return-object="true"
+            hide-details="auto"
+          ></v-select>
+          <v-row>
+            <v-col v-for="(recipeSelected, index) in recipesSelected" :key="index">
+              <v-text-field
+                :value="recipeSelected.amountDay"
+                @input="inputRecipeAmountDay(index)"
+                :label="recipeSelected.name"
+                hint="Введите дневную дозу"
+                suffix="мл/день"
+                hide-details="auto"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-expand-transition>
+      <v-expand-transition>
+        <v-col v-if="Object.keys(totalElements).length > 0" cols="12" sm="8" offset-sm="2">
           <v-simple-table dense style="background-color: #fafafa;">
             <template v-slot:default>
               <thead>
@@ -143,12 +156,62 @@
               </tbody>
             </template>
           </v-simple-table>
-        </div>
-      </v-col>
-      <v-col v-if="Object.keys(ionDinamics).length > 0" cols="12" sm="8" offset-sm="2">
+        </v-col>
+      </v-expand-transition>
+      <v-expand-transition>
+        <v-col v-if="recipesSelected.length > 0" cols="12" sm="8" offset-sm="2">
+          <line-chart :chart-data="ionDinamics" :styles="{height: '300px', position: 'relative'}"></line-chart>
+          <v-slider
+            v-model="duration"
+            min="2"
+            max="90"
+            thumb-label
+            thumb-color="primary"
+            hide-details="auto"
+            class="px-5"
+          ></v-slider>
+        </v-col>
+      </v-expand-transition>
+      <v-col v-if="Object.keys(ionDinamics.datasets).length > 0" cols="12" sm="8" offset-sm="2">
         <v-stepper v-model="step">
+          <v-stepper-items>
+            <v-stepper-content
+              v-for="({label: ion}, index) in ionDinamics.datasets" :key="ion"
+              :step="index + 1"
+            >
+              <v-text-field
+                :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
+                label="Поступает из удобрений"
+                :suffix="мг/л"
+                hide-details="auto"
+                readonly
+              >
+              </v-text-field>
+              <v-text-field
+                v-model.number="ionsWaterChange[convertIonName(ion)]"
+                label="Концентрация в подменной воде"
+                :suffix="мг/л"
+                hide-details="auto"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model.number="ionsInit[convertIonName(ion)]"
+                label="В аквариуме сейчас"
+                :suffix="мг/л"
+                hide-details="auto"
+              >
+              </v-text-field>
+              <v-text-field
+                v-model.number="ionsReduction[convertIonName(ion)]"
+                label="Потребление в день"
+                :suffix="мг/л"
+                hide-details="auto"
+              >
+              </v-text-field>
+            </v-stepper-content>
+          </v-stepper-items>
           <v-stepper-header>
-            <template v-for="(dinamics, ion, index) in ionDinamics">
+            <template v-for="({label: ion}, index) in ionDinamics.datasets">
               <v-stepper-step
                 :key="ion"
                 :step="index + 1"
@@ -156,61 +219,9 @@
               >
                 {{ ion }}
               </v-stepper-step>
-              <v-divider  v-if="index < Object.keys(ionDinamics).length - 1" :key="ion + 'divider'"></v-divider>
+              <v-divider  v-if="index < Object.keys(ionDinamics.datasets).length - 1" :key="ion + 'divider'"></v-divider>
             </template>
           </v-stepper-header>
-          <v-stepper-items>
-            <v-stepper-content
-              v-for="(dinamics, ion, index) in ionDinamics" :key="ion"
-              :step="index + 1"
-            >
-              <v-card>
-                <div style="height: 300px; width: 100%;">
-                  <line-chart :chart-data="ionDinamics[ion]" :height="300"></line-chart>
-                </div>
-                <v-slider
-                  v-model="ionsPeriod[convertIonName(ion)]"
-                  min="2"
-                  max="90"
-                  thumb-label
-                  thumb-color="primary"
-                  hide-details="auto"
-                  class="px-5"
-                ></v-slider>
-                <v-card-text class="pt-0">
-                  <v-text-field
-                    :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
-                    label="Поступает из удобрений"
-                    :suffix="ionsUnits[ion]"
-                    hide-details="auto"
-                    readonly
-                  >
-                  </v-text-field>
-                  <v-text-field
-                    v-model.number="ionsWaterChange[convertIonName(ion)]"
-                    label="Концентрация в подменной воде"
-                    :suffix="ionsUnits[convertIonName(ion)]"
-                    hide-details="auto"
-                  >
-                  </v-text-field>
-                  <v-text-field
-                    v-model.number="ionsInit[convertIonName(ion)]"
-                    label="В аквариуме сейчас"
-                    :suffix="ionsUnits[convertIonName(ion)]"
-                    hide-details="auto"
-                  >
-                  </v-text-field>
-                  <v-text-field
-                    v-model.number="ionsReduction[convertIonName(ion)]"
-                    label="Потребление в день"
-                    :suffix="ionsUnits[ion]"
-                    hide-details="auto"
-                  >
-                  </v-text-field>
-                </v-card-text>
-              </v-card>
-            </v-stepper-content>
-          </v-stepper-items>
         </v-stepper>
       </v-col>
     </v-row>
@@ -240,9 +251,9 @@ export default {
       waterChangePeriod: 7,
       step: 1,
       ionsInit: {
-        NO3: null,
-        PO4: null,
-        K: null
+        NO3: 0,
+        PO4: 0,
+        K: 0
       },
       ionsReduction: {
         NO3: 0,
@@ -254,21 +265,12 @@ export default {
         PO4: 0,
         K: 0
       },
-      ionsUnits: {
-        NO3: 'мг/л',
-        PO4: 'мг/л',
-        K: 'мг/л'
-      },
       ionsColors: {
         NO3: '#D81B60',
         PO4: '#1E88E5',
         K: '#78909C'
       },
-      ionsPeriod: {
-        NO3: 28,
-        PO4: 28,
-        K: 28
-      },
+      duration: 28,
       recipesSelected: []
     }
   },
@@ -277,7 +279,7 @@ export default {
       'tanks', 'recipes', 'drawer'
     ]),
     recipesWithWater () {
-      return this.recipes.filter(item => item.volume > 0)
+      return this.recipes.filter(item => item.volume > 0 || item.type === 'Готовое')
     },
     waterChangeVolume () {
       return this.tankVolume * this.waterChange / 100
@@ -307,17 +309,17 @@ export default {
       return sortableResult
     },
     ionDinamics () {
-      const dinamics = {}
+      const dinamics = {
+        labels: Object.keys([...Array(this.duration)]),
+        datasets: []
+      }
       for (let ion in this.totalElements) {
-        dinamics[ion] = {
-          labels: Object.keys([...Array(this.ionsPeriod[this.convertIonName(ion)])]),
-          datasets: [{
-            label: ion,
-            fill: false,
-            borderColor: this.ionsColors[ion],
-            data: this.countDinamics(ion)
-          }]
-        }
+        dinamics.datasets.push({
+          label: ion,
+          fill: false,
+          borderColor: this.ionsColors[ion],
+          data: this.countDinamics(ion)
+        })
       }
       return dinamics
     }
@@ -338,12 +340,11 @@ export default {
       return convertIonRatio(ion)
     },
     countDinamics (ion) {
-      const duration = this.ionsPeriod[this.convertIonName(ion)]
       const amount = this.convertIonRatio(ion) * this.totalElements[ion]
       let sum = this.ionsInit[this.convertIonName(ion)]
       let dinamics = []
       if (amount) {
-        for (const day in [...Array(duration)]) {
+        for (const day in [...Array(this.duration)]) {
           if (day > 0 && day % this.waterChangePeriod === 0) {
             sum = sum - sum * (this.waterChange / 100) + this.ionsWaterChange[this.convertIonName(ion)] * (this.waterChange / 100)
           }
@@ -355,7 +356,7 @@ export default {
           dinamics.push(sum)
         }
       } else {
-        dinamics = Array(duration).fill(0)
+        dinamics = Array(this.duration).fill(0)
       }
       return dinamics
     }
