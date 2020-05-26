@@ -122,7 +122,7 @@
           :value="recipeSelected.amountDay"
           @input="inputRecipeAmountDay(index)"
           :label="recipeSelected.name"
-          hint="Введите дневную дозу"
+          hint="Введите объем или массу удобрения"
           :suffix="recipeSelected.volume || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
           hide-details="auto"
           :key="index"
