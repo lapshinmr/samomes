@@ -72,7 +72,7 @@
       <v-expand-transition>
         <v-col v-if="tankVolume" cols="12" sm="8" offset-sm="2">
           <v-select
-            :items="recipesWithWater"
+            :items="recipes"
             v-model="recipesSelected"
             label="Выберите рецепты"
             item-text="name"
@@ -248,9 +248,6 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'drawer'
     ]),
-    recipesWithWater () {
-      return this.recipes.filter(item => item.volume > 0 || item.type === 'Готовое')
-    },
     waterChangeVolume () {
       return this.tankVolume * this.waterChange / 100
     },
@@ -264,6 +261,9 @@ export default {
             }
             if (recipe.amount) {
               result[ion] += recipe.concentration[reagent][ion] / this.tankVolume * recipe.amount
+              if ((!recipe.volume) && recipe.type === 'Самомес') {
+                result[ion] *= 1000
+              }
             }
           }
         }

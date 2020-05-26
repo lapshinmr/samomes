@@ -519,7 +519,7 @@
                                     <div>
                                       <span v-for="(value, ion) in totalIonConcentration" class="mr-2" :key="ion">
                                         {{ convertIonName(ion) }}
-                                        ({{ value ? (convertIonRatio(ion) * value / totalUsefulConcentration).toFixed(2) : '' }} %)
+                                        ({{ value ? (convertIonRatio(ion) * value / totalUsefulConcentration).toFixed(2) : '???' }} %)
                                       </span>
                                     </div>
                                   </div>
