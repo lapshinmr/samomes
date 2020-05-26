@@ -47,52 +47,24 @@
         ></v-combobox>
       </v-col>
       <v-expand-transition>
-        <v-col v-if="tankVolume" cols="12" sm="8" offset-sm="2">
+        <v-col v-if="tankVolume" cols="12" sm="8" offset-sm="2" class="py-0">
           <v-row>
-            <v-col cols="12" sm="6">
-              <v-subheader class="px-0">
-                <div>
-                  Объем подмены: {{ waterChangeVolume.toFixed(1) }} л
-                </div>
-                <v-text-field
-                  v-model.number="waterChange"
-                  class="mt-0 pt-0"
-                  hide-details
-                  single-line
-                  suffix="%"
-                  type="number"
-                  style="width: 60px"
-                ></v-text-field>
-              </v-subheader>
-              <v-slider
+            <v-col cols="12" sm="6" class="py-0">
+              <v-text-field
                 v-model.number="waterChange"
-                thumb-label
-                hide-details="auto"
-                class="align-end"
-              ></v-slider>
+                :label="'Объем подмены: ' + waterChangeVolume.toFixed(1) + ' л'"
+                hide-details
+                suffix="%"
+                type="number"
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6">
-              <v-subheader class="px-0">
-                <div>
-                  Частота подмены воды
-                </div>
-                <v-text-field
-                  v-model.number="waterChangePeriod"
-                  class="mt-0 pt-0"
-                  hide-details
-                  single-line
-                  type="number"
-                  style="width: 60px"
-                ></v-text-field>
-              </v-subheader>
-              <v-slider
+            <v-col cols="12" sm="6" class="py-0">
+              <v-text-field
                 v-model.number="waterChangePeriod"
-                thumb-label
-                hide-details="auto"
-                class="align-end"
-                min="1"
-                max="14"
-              ></v-slider>
+                label="Частота подмены воды"
+                hide-details
+                type="number"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-col>
@@ -109,10 +81,11 @@
             hide-details="auto"
           ></v-select>
           <v-row>
-            <v-col v-for="(recipeSelected, index) in recipesSelected" :key="index">
+            <v-col cols="12" sm="6" class="py-0" v-for="(recipeSelected, index) in recipesSelected" :key="index">
               <v-text-field
                 :value="recipeSelected.amountDay"
                 @input="inputRecipeAmountDay(index)"
+                type="number"
                 :label="recipeSelected.name"
                 hint="Введите дневную дозу"
                 suffix="мл/день"
@@ -173,56 +146,60 @@
         </v-col>
       </v-expand-transition>
       <v-col v-if="Object.keys(ionDinamics.datasets).length > 0" cols="12" sm="8" offset-sm="2">
-        <v-stepper v-model="step">
-          <v-stepper-items>
-            <v-stepper-content
-              v-for="({label: ion}, index) in ionDinamics.datasets" :key="ion"
-              :step="index + 1"
-            >
-              <v-text-field
-                :value="totalElements[ion] !== undefined ? (convertIonRatio(ion) * totalElements[ion]).toFixed(3) : 0"
-                label="Поступает из удобрений"
-                :suffix="мг/л"
-                hide-details="auto"
-                readonly
-              >
-              </v-text-field>
-              <v-text-field
-                v-model.number="ionsWaterChange[convertIonName(ion)]"
-                label="Концентрация в подменной воде"
-                :suffix="мг/л"
-                hide-details="auto"
-              >
-              </v-text-field>
-              <v-text-field
-                v-model.number="ionsInit[convertIonName(ion)]"
-                label="В аквариуме сейчас"
-                :suffix="мг/л"
-                hide-details="auto"
-              >
-              </v-text-field>
-              <v-text-field
-                v-model.number="ionsReduction[convertIonName(ion)]"
-                label="Потребление в день"
-                :suffix="мг/л"
-                hide-details="auto"
-              >
-              </v-text-field>
-            </v-stepper-content>
-          </v-stepper-items>
-          <v-stepper-header>
-            <template v-for="({label: ion}, index) in ionDinamics.datasets">
-              <v-stepper-step
-                :key="ion"
-                :step="index + 1"
-                editable
-              >
-                {{ ion }}
-              </v-stepper-step>
-              <v-divider  v-if="index < Object.keys(ionDinamics.datasets).length - 1" :key="ion + 'divider'"></v-divider>
-            </template>
-          </v-stepper-header>
-        </v-stepper>
+        <v-tabs v-model="tabs" background-color="#fafafa" class="mb-4">
+          <v-tab v-for="({label: ion}) in ionDinamics.datasets" :key="ion">
+            {{ ion }}
+          </v-tab>
+        </v-tabs>
+        <v-tabs-items v-model="tabs" style="background-color: #fafafa;">
+          <v-tab-item v-for="({label: ion}) in ionDinamics.datasets" :key="ion">
+            <v-row>
+              <v-col cols="12" sm="6" class="py-0">
+                <v-text-field
+                  :value="totalElements[convertIonName(ion)] !== undefined ? (convertIonRatio(convertIonName(ion)) * totalElements[convertIonName(ion)]).toFixed(3) : 0"
+                  label="Поступает из удобрений"
+                  suffix="мг/л"
+                  hide-details="auto"
+                  readonly
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" class="py-0">
+                <v-text-field
+                  :value="ionsWaterConcentration[convertIonName(ion)]"
+                  @input="inputIonsWaterConcentration(ion, $event)"
+                  type="Number"
+                  label="Концентрация в подменной воде"
+                  suffix="мг/л"
+                  hide-details="auto"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" class="py-0">
+                <v-text-field
+                  :value="ionsInit[convertIonName(ion)]"
+                  @input="inputIonsInit(ion, $event)"
+                  type="Number"
+                  label="В аквариуме сейчас"
+                  suffix="мг/л"
+                  hide-details="auto"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6" class="py-0">
+                <v-text-field
+                  :value="ionsReduction[convertIonName(ion)]"
+                  @input="inputIonsReduction(ion, $event)"
+                  type="Number"
+                  label="Потребление в день"
+                  suffix="мг/л"
+                  hide-details="auto"
+                >
+                </v-text-field>
+              </v-col>
+            </v-row>
+          </v-tab-item>
+        </v-tabs-items>
       </v-col>
     </v-row>
   </v-container>
@@ -249,22 +226,10 @@ export default {
       tank: null,
       waterChange: 30,
       waterChangePeriod: 7,
-      step: 1,
-      ionsInit: {
-        NO3: 0,
-        PO4: 0,
-        K: 0
-      },
-      ionsReduction: {
-        NO3: 0,
-        PO4: 0,
-        K: 0
-      },
-      ionsWaterChange: {
-        NO3: 0,
-        PO4: 0,
-        K: 0
-      },
+      tabs: 0,
+      ionsInit: {},
+      ionsReduction: {},
+      ionsWaterConcentration: {},
       ionsColors: {
         NO3: '#D81B60',
         PO4: '#1E88E5',
@@ -272,6 +237,11 @@ export default {
       },
       duration: 28,
       recipesSelected: []
+    }
+  },
+  watch: {
+    ionsWaterConcentration (value) {
+      console.log(value)
     }
   },
   computed: {
@@ -315,9 +285,9 @@ export default {
       }
       for (let ion in this.totalElements) {
         dinamics.datasets.push({
-          label: ion,
+          label: this.convertIonName(ion),
           fill: false,
-          borderColor: this.ionsColors[ion],
+          borderColor: this.ionsColors[this.convertIonName(ion)],
           data: this.countDinamics(ion)
         })
       }
@@ -333,6 +303,15 @@ export default {
         amount: !isNaN(amount) ? amount : ''
       })
     },
+    inputIonsWaterConcentration (ion, value) {
+      Vue.set(this.ionsWaterConcentration, ion, parseFloat(value))
+    },
+    inputIonsInit (ion, value) {
+      Vue.set(this.ionsInit, ion, parseFloat(value))
+    },
+    inputIonsReduction (ion, value) {
+      Vue.set(this.ionsReduction, ion, parseFloat(value))
+    },
     convertIonName (ion) {
       return convertIonName(ion)
     },
@@ -341,15 +320,16 @@ export default {
     },
     countDinamics (ion) {
       const amount = this.convertIonRatio(ion) * this.totalElements[ion]
-      let sum = this.ionsInit[this.convertIonName(ion)]
+      let sum = this.ionsInit[this.convertIonName(ion)] || 0
       let dinamics = []
       if (amount) {
         for (const day in [...Array(this.duration)]) {
           if (day > 0 && day % this.waterChangePeriod === 0) {
-            sum = sum - sum * (this.waterChange / 100) + this.ionsWaterChange[this.convertIonName(ion)] * (this.waterChange / 100)
+            let ionWaterConcentration = this.ionsWaterConcentration[this.convertIonName(ion)] || 0
+            sum = sum - sum * (this.waterChange / 100) + ionWaterConcentration * (this.waterChange / 100)
           }
           sum += amount
-          sum -= this.ionsReduction[this.convertIonName(ion)]
+          sum -= this.ionsReduction[this.convertIonName(ion)] || 0
           if (sum < 0) {
             sum = 0
           }
