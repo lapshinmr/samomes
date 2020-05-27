@@ -265,19 +265,24 @@
                           <template v-slot:default>
                             <thead>
                               <tr>
-                                <th class="text-left">Дни</th>
-                                <th class="text-left" v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
-                                  {{ recipeName }}, мл
+                                <th class="text-center pl-0">Дни</th>
+                                <th class="text-center" v-for="(quotas, recipeName) in daysQuotas" :key="recipeName">
+                                  {{ recipeName }}
                                 </th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr v-for="(day, index) in daysTotal" :key="day">
-                                <td>
+                                <td class="pl-0 text-center">
                                   <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
                                   <span class="text-secondary">{{ datesColumn[index].date }}</span>
                                 </td>
-                                <td v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + day">
+                                <td
+                                  v-for="(quotas, recipeName, index) in daysQuotas"
+                                  class="text-center"
+                                  :class="{'pr-0': index === Object.keys(daysQuotas).length - 1}"
+                                  :key="recipeName + day"
+                                >
                                   <v-checkbox
                                     v-if="!isNaN(quotas[index])"
                                     color="primary"
@@ -286,9 +291,10 @@
                                     hide-details="auto"
                                     class="mt-0"
                                     :disabled="isEditing"
+                                    style="display: inline-block;"
                                   >
                                      <template v-slot:label>
-                                       <span class="mt-1">
+                                       <span class="mt-0">
                                         {{ quotas[index].toFixed(2) }}
                                        </span>
                                      </template>
