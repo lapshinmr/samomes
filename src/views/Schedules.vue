@@ -280,9 +280,9 @@
                                   <span class="text-secondary">{{ datesColumn[index].date }}</span>
                                 </td>
                                 <td
-                                  v-for="(quotas, recipeName, index) in daysQuotas"
+                                  v-for="(quotas, recipeName, idx) in daysQuotas"
                                   class="text-center"
-                                  :class="{'pr-0': index === Object.keys(daysQuotas).length - 1}"
+                                  :class="{'pr-0': idx === Object.keys(daysQuotas).length - 1}"
                                   :key="recipeName + day"
                                 >
                                   <v-checkbox
