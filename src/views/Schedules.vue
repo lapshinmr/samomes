@@ -310,7 +310,7 @@
                     <v-expand-transition>
                       <v-col v-if="recipesSelected.length > 0 && isAmount && daysTotal" class="text-right" cols="12">
                         <v-btn
-                          @click="dialog = false"
+                          @click="closeScheduleDialog"
                           class="mr-3"
                         >
                           Отменить
@@ -615,10 +615,12 @@ export default {
     },
     inputRecipeAmountDay (index) {
       let recipe = this.recipesSelected[index]
-      let value = parseFloat(event.target.value)
+      let amountDay = parseFloat(event.target.value)
+      let amount = amountDay * this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(value) ? (value * this.daysTotal).toFixed(2) : ''
+        amount: !isNaN(amount) ? (amount).toFixed(2) : '',
+        amountDay: !isNaN(amountDay) ? amountDay : ''
       })
     },
     openAddSchedule (index = null) {
