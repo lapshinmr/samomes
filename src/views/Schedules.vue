@@ -199,14 +199,16 @@
                                   </template>
                                 </td>
                                 <td v-if="isHardness" class="text-center">
-                                  <template v-if="name in HARDNESS">
+                                  <template v-if="name in HARDNESS && daysTotal">
                                     +{{ (value / HARDNESS[name]).toFixed(2) }}
                                   </template>
                                 </td>
                                 <td class="text-center">
-                                  +{{ value !== undefined ? value.toFixed(3) : 0 }}
-                                  <template v-if="convertIonName(name) !== name && isWithoutConvertion">
-                                    / {{ (value * convertIonRatio(name)).toFixed(3) }}
+                                  <template v-if="daysTotal">
+                                    +{{ value !== undefined ? value.toFixed(3) : 0 }}
+                                    <template v-if="convertIonName(name) !== name && isWithoutConvertion">
+                                      / {{ (value * convertIonRatio(name)).toFixed(3) }}
+                                    </template>
                                   </template>
                                 </td>
                                 <td class="text-center pr-0">
@@ -542,7 +544,8 @@ export default {
   watch: {
     daysTotal () {
       if (!this.daysTotal) { return }
-      for (const recipe of this.recipesSelected) {
+      for (const index in this.recipesSelected) {
+        let recipe = this.recipesSelected[index]
         if (this.selected[recipe.name].length < this.daysTotal) {
           let delta = this.daysTotal - this.selected[recipe.name].length
           this.selected[recipe.name].push(...Array(delta).fill(true, 0, delta))
@@ -550,6 +553,13 @@ export default {
           this.selected[recipe.name] = [ ...this.selected[recipe.name].slice(0, this.daysTotal) ]
         }
         Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal))
+        let amountDay = recipe.amountDay
+        let amount = amountDay * this.daysTotal
+        Vue.set(this.recipesSelected, index, {
+          ...recipe,
+          amount: !isNaN(amount) ? parseFloat(amount) : '',
+          amountDay: !isNaN(amountDay) ? parseFloat(amountDay) : ''
+        })
       }
     },
     recipesSelected () {
@@ -581,7 +591,7 @@ export default {
       return convertIonRatio(ion)
     },
     createDatesRange () {
-      const duration = 6
+      let duration = 6
       let dateStart = new Date().toISOString().split('T')[0]
       let dateFinish = new Date()
       dateFinish = new Date(dateFinish.setDate(dateFinish.getDate() + duration))
@@ -602,6 +612,7 @@ export default {
       this.tank = schedule.tank
       this.recipesSelected = [ ...schedule.recipesSelected ]
       this.selected = { ...schedule.selected }
+      this.datesRange = schedule.datesRange
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
@@ -609,7 +620,7 @@ export default {
       let amountDay = amount / this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(amount) ? amount : '',
+        amount: !isNaN(amount) ? parseFloat(amount) : '',
         amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(2)) : ''
       })
     },
@@ -619,7 +630,7 @@ export default {
       let amount = amountDay * this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(amount) ? (amount).toFixed(2) : '',
+        amount: !isNaN(amount) ? parseFloat((amount).toFixed(2)) : '',
         amountDay: !isNaN(amountDay) ? amountDay : ''
       })
     },
@@ -627,8 +638,9 @@ export default {
       if (index !== null) {
         this.curScheduleIndex = index
         this.setComponent(index)
+      } else {
+        this.createDatesRange()
       }
-      this.createDatesRange()
       if (this.$refs.scheduleForm) {
         this.$refs.scheduleForm.resetValidation()
       }
