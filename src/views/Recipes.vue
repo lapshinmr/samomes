@@ -286,6 +286,7 @@
                                 <v-text-field
                                   :value="fertilizerMass[reagent]"
                                   @input="inputMass(reagent)"
+                                  type="Number"
                                   :label="reagent"
                                   suffix="г"
                                   :hint="isWater ? fertilizerMassHint(reagent) : ''"
@@ -1162,7 +1163,12 @@ export default {
       this.tankVolume = null
     },
     inputMass (reagent) {
-      let value = parseFloat(event.target.value)
+      let value = event.target.value
+      if (value.endsWith('.')) {
+        return
+      } else {
+        value = parseFloat(value)
+      }
       Vue.set(this.fertilizerMass, reagent, !isNaN(value) ? value : '')
       if (this.tankVolume && !isNaN(value)) {
         this.countDose()
