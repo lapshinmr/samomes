@@ -124,48 +124,37 @@
                     <v-col cols="12" class="text-center pb-0">
                       <div class="d-flex align-center my-3">
                         <v-divider />
-                        <div class="mx-2">или</div>
+                        <div class="mx-2">или используйте размеры</div>
                         <v-divider />
                       </div>
-                      <v-btn
-                        center
-                        text
-                        @click="isTankVolumeCalc = !isTankVolumeCalc"
-                        class="px-0"
-                      >
-                        Введите размеры
-                        <v-icon>{{ isTankVolumeCalc ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                      </v-btn>
                     </v-col>
-                    <v-expand-transition>
-                      <v-col cols="12" class="pt-0" v-if="isTankVolumeCalc">
-                        <v-text-field
-                          v-model.lazy="length"
-                          label="Длина"
-                          suffix="см"
-                          hide-details="auto"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model.lazy="width"
-                          label="Ширина"
-                          suffix="см"
-                          hide-details="auto"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model.lazy="height"
-                          label="Высота"
-                          suffix="см"
-                          hint="Введите высоту чистого столба воды"
-                          hide-details="auto"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model.lazy="glassThickness"
-                          label="Толщина стекла"
-                          suffix="мм"
-                          hide-details="auto"
-                        ></v-text-field>
-                      </v-col>
-                    </v-expand-transition>
+                    <v-col cols="12" class="pt-0">
+                      <v-text-field
+                        v-model.lazy="length"
+                        label="Длина"
+                        suffix="см"
+                        hide-details="auto"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model.lazy="width"
+                        label="Ширина"
+                        suffix="см"
+                        hide-details="auto"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model.lazy="height"
+                        label="Высота"
+                        suffix="см"
+                        hint="Введите высоту чистого столба воды"
+                        hide-details="auto"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model.lazy="glassThickness"
+                        label="Толщина стекла"
+                        suffix="мм"
+                        hide-details="auto"
+                      ></v-text-field>
+                    </v-col>
                     <v-expand-transition>
                       <v-col class="text-right" cols="12">
                         <v-btn
@@ -233,7 +222,6 @@ export default {
       width: null,
       glassThickness: null,
       curTankIndex: null,
-      isTankVolumeCalc: false,
       dialog: this.$route.params.open,
       nameRules: [
         v => !!v || 'Введите название',
