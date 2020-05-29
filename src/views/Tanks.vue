@@ -34,7 +34,7 @@
           multiple
         >
           <v-expansion-panel
-            v-for="tank in tanks"
+            v-for="(tank, index) in tanks"
             :key="tank.name"
           >
             <v-expansion-panel-header>
@@ -70,6 +70,16 @@
               </div>
               <div v-else class="body-2">
                 Нет дополнительной информации
+              </div>
+              <div class="d-flex justify-end mt-4">
+                <v-btn
+                  text
+                  right
+                  @click.stop="setComponent(index)"
+                  class="mr-n4"
+                >
+                  Изменить
+                </v-btn>
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -114,6 +124,7 @@
                     <v-col cols="12" class="pt-0">
                       <v-text-field
                         v-model.number="volume"
+                        type="Number"
                         label="Введите объем"
                         suffix="л"
                         hide-details="auto"
@@ -131,18 +142,21 @@
                     <v-col cols="12" class="pt-0">
                       <v-text-field
                         v-model.lazy="length"
+                        type="Number"
                         label="Длина"
                         suffix="см"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
                         v-model.lazy="width"
+                        type="Number"
                         label="Ширина"
                         suffix="см"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
                         v-model.lazy="height"
+                        type="Number"
                         label="Высота"
                         suffix="см"
                         hint="Введите высоту чистого столба воды"
@@ -150,6 +164,7 @@
                       ></v-text-field>
                       <v-text-field
                         v-model.lazy="glassThickness"
+                        type="Number"
                         label="Толщина стекла"
                         suffix="мм"
                         hide-details="auto"
