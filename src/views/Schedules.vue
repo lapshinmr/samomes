@@ -130,6 +130,7 @@
                         <v-text-field
                           :value="recipeSelected.amount"
                           @input="inputRecipeAmount(index)"
+                          type="Number"
                           :label="recipeSelected.name"
                           hint="Введите весь объем"
                           :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
@@ -140,6 +141,7 @@
                         <v-text-field
                           :value="recipeSelected.amountDay"
                           @input="inputRecipeAmountDay(index)"
+                          type="Number"
                           hint="или объем в день"
                           :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл/день' : 'г/день'"
                           persistent-hint
@@ -616,7 +618,11 @@ export default {
     },
     inputRecipeAmount (index) {
       let recipe = this.recipesSelected[index]
-      let amount = parseFloat(event.target.value)
+      let amount = event.target.value
+      if (amount.endsWith('.')) {
+        return
+      }
+      amount = parseFloat(amount)
       let amountDay = amount / this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
@@ -626,8 +632,11 @@ export default {
     },
     inputRecipeAmountDay (index) {
       let recipe = this.recipesSelected[index]
-      let amountDay = parseFloat(event.target.value)
-      let amount = amountDay * this.daysTotal
+      let amountDay = event.target.value
+      if (amountDay.endsWith('.')) {
+        return
+      }
+      let amount = parseFloat(amountDay) * this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
         amount: !isNaN(amount) ? parseFloat((amount).toFixed(2)) : '',
