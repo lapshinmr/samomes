@@ -109,7 +109,7 @@
                       :key="ion + 'unit'"
                       class="text-right"
                     >
-                      {{ (convertIonRatio(ion) * value * (recipe.volume || recipe.type === 'Готовое' ? 1 : 1000)).toFixed(2) }} {{ recipe.volume ? 'г/л' : 'мг/г'}}
+                      {{ (convertIonRatio(ion) * value * (recipe.volume || recipe.type === 'Готовое' ? 1 : 1000)).toFixed(2) }} {{ recipe.volume || recipe.type === 'Готовое' ? 'г/л' : 'мг/г'}}
                     </div>
                   </div>
                 </div>
