@@ -75,7 +75,7 @@
                             {{ quotas[index].toFixed(2) }}
                           </div>
                           <div class="caption mt-n2">
-                            {{ totalSum[recipeName]['sum'].toFixed(1) }} / {{ totalSum[recipeName]['amount'] }}
+                            {{ totalSum[recipeName]['sum'].toFixed(1) }} / {{ totalSum[recipeName]['amount'].toFixed(1) }}
                           </div>
                         </div>
                       </div>
