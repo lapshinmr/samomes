@@ -243,6 +243,7 @@
                             <v-combobox
                               :items="tanks"
                               v-model.number="tankVolume"
+                              type="Number"
                               item-text="name"
                               item-value="volume"
                               label="Объем аквариума"
@@ -260,6 +261,7 @@
                             <v-text-field
                               :value="fertilizerVolume"
                               @input="inputVolume"
+                              type="Number"
                               label="Введите объем удобрения"
                               suffix="мл"
                               hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев. Обычно это 250-300 мл."
@@ -564,6 +566,7 @@
                                             <v-text-field
                                               :value="solute[reagent][ion]"
                                               @input="inputIon(reagent, ion)"
+                                              type="Number"
                                               :label="convertIonName(ion) + ', мг/л'"
                                               :hint="'из ' + reagent"
                                               persistent-hint
@@ -1173,16 +1176,19 @@ export default {
       let value = event.target.value
       if (value.endsWith('.')) {
         return
-      } else {
-        value = parseFloat(value)
       }
+      value = parseFloat(value)
       Vue.set(this.fertilizerMass, reagent, !isNaN(value) ? value : '')
       if (this.tankVolume && !isNaN(value)) {
         this.countDose()
       }
     },
     inputVolume () {
-      this.fertilizerVolume = parseFloat(event.target.value)
+      let value = event.target.value
+      if (value.endsWith('.')) {
+        return
+      }
+      this.fertilizerVolume = parseFloat(value)
       if (this.tankVolume && !isNaN(this.fertilizerVolume)) {
         this.countDose()
       }
@@ -1195,7 +1201,11 @@ export default {
         ratio[ion] = this.convertIonRatio(ion)
       }
       for (let ion in this.solute[reagent]) {
-        value = parseFloat(event.target.value)
+        value = event.target.value
+        if (value.endsWith('.')) {
+          return
+        }
+        value = parseFloat(value)
         if (ion !== curIon) {
           if (ratio[curIon] > 1) {
             value = value / ratio[curIon]

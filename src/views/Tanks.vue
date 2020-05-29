@@ -34,7 +34,7 @@
           multiple
         >
           <v-expansion-panel
-            v-for="(tank, index) in tanks"
+            v-for="tank in tanks"
             :key="tank.name"
           >
             <v-expansion-panel-header>
