@@ -29,56 +29,51 @@
           чтобы вы могли создавать рецепты удобрений и составлять расписание по внесению удобрений.
         </p>
       </v-col>
-      <v-col
-        cols="12" md="8" offset-md="2"
-        v-for="(tank, index) in tanks"
-        :key="tank.name"
-      >
-        <v-card>
-          <v-card-title>
-            <span class="no-break">
-              {{ tank.name }}
-            </span>
-          </v-card-title>
-          <v-card-text>
-            <div class="d-flex justify-space-between">
-              <span>Объем</span>
-              <span>{{ tank.volume }} л</span>
-            </div>
-            <div v-if="tank.length">
-              <div class="d-flex justify-space-between">
-                <div>Длина</div>
-                <div>{{ tank.length }} см</div>
-              </div>
-              <div class="d-flex justify-space-between">
-                <div>Ширина</div>
-                <div>{{ tank.width }} см</div>
-              </div>
-              <div class="d-flex justify-space-between">
-                <div>Высота</div>
-                <div>{{ tank.height }} см</div>
-              </div>
-              <div class="d-flex justify-space-between">
-                <div>Толщина стекла</div>
-                <div>{{ tank.glassThickness }} мм</div>
-              </div>
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              text
-              right
-              @click.stop="setComponent(index)"
-            >
-              Изменить
-            </v-btn>
-          </v-card-actions>
-          <v-progress-linear
-            :value="progress[tank.name]"
+      <v-col cols="12" sm="8" offset-sm="2">
+        <v-expansion-panels
+          multiple
+        >
+          <v-expansion-panel
+            v-for="(tank, index) in tanks"
+            :key="tank.name"
           >
-          </v-progress-linear>
-        </v-card>
+            <v-expansion-panel-header>
+              <div class="d-flex justify-space-between align-center" style="width: 100%;">
+                <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
+                  :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                >
+                  {{ tank.name }}
+                </span>
+                <span class="mr-3">
+                  {{ tank.volume }} л
+                </span>
+              </div>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <div v-if="tank.length" class="body-2">
+                <div class="d-flex justify-space-between">
+                  <div>Длина</div>
+                  <div>{{ tank.length }} см</div>
+                </div>
+                <div class="d-flex justify-space-between">
+                  <div>Ширина</div>
+                  <div>{{ tank.width }} см</div>
+                </div>
+                <div class="d-flex justify-space-between">
+                  <div>Высота</div>
+                  <div>{{ tank.height }} см</div>
+                </div>
+                <div class="d-flex justify-space-between">
+                  <div>Толщина стекла</div>
+                  <div>{{ tank.glassThickness }} мм</div>
+                </div>
+              </div>
+              <div v-else class="body-2">
+                Нет дополнительной информации
+              </div>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
     </v-row>
 
@@ -251,7 +246,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'schedules', 'progress', 'drawer'
+      'tanks', 'schedules', 'drawer'
     ]),
     dimensions () {
       return `${this.length}|${this.height}|${this.width}|${this.glassThickness}`
