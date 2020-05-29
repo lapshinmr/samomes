@@ -128,7 +128,7 @@
                         class="d-flex justify-space-between align-center"
                       >
                         <v-text-field
-                          :value="recipeSelected.amount"
+                          :value="roundOrEmpty(recipeSelected.amount)"
                           @input="inputRecipeAmount(index)"
                           type="Number"
                           :label="recipeSelected.name"
@@ -139,7 +139,7 @@
                           class="mr-3"
                         ></v-text-field>
                         <v-text-field
-                          :value="recipeSelected.amountDay"
+                          :value="roundOrEmpty(recipeSelected.amountDay)"
                           @input="inputRecipeAmountDay(index)"
                           type="Number"
                           hint="или объем в день"
@@ -592,6 +592,9 @@ export default {
     convertIonRatio (ion) {
       return convertIonRatio(ion)
     },
+    roundOrEmpty (value, precision = 1000) {
+      return value ? Math.round((value + Number.EPSILON) * precision) / precision : 0
+    },
     createDatesRange () {
       let duration = 6
       let dateStart = new Date().toISOString().split('T')[0]
@@ -626,7 +629,7 @@ export default {
       let amountDay = amount / this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(amount) ? parseFloat(amount) : '',
+        amount: !isNaN(amount) ? parseFloat(amount.toFixed(2)) : '',
         amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(2)) : ''
       })
     },
@@ -636,11 +639,12 @@ export default {
       if (amountDay.endsWith('.')) {
         return
       }
-      let amount = parseFloat(amountDay) * this.daysTotal
+      amountDay = parseFloat(amountDay)
+      let amount = amountDay * this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
         amount: !isNaN(amount) ? parseFloat((amount).toFixed(2)) : '',
-        amountDay: !isNaN(amountDay) ? amountDay : ''
+        amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(2)) : ''
       })
     },
     openAddSchedule (index = null) {

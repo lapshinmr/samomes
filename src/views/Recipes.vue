@@ -1193,7 +1193,7 @@ export default {
           }
           value = value * (this.countPercent(reagent)[ion] / this.countPercent(reagent)[curIon])
         }
-        solute[ion] = !isNaN(parseFloat(value)) ? parseFloat(value.toFixed(3)) : 0
+        solute[ion] = !isNaN(parseFloat(value)) ? parseFloat(value.toFixed(4)) : 0
         Vue.set(this.solute, reagent, solute)
       }
       let fertilizerMass = { ...this.fertilizerMass }
