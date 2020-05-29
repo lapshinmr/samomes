@@ -180,7 +180,7 @@
                     </v-col>
                     <v-col v-if="fertilizerType === 'Самомес'" cols="12" class="pt-0">
                       <v-row>
-                        <v-col cols="12">
+                        <v-col cols="12" sm="6">
                           <v-select
                             :items="reagents"
                             item-text="text"
@@ -193,24 +193,18 @@
                             hide-details="auto"
                             :rules="rulesReagent"
                           ></v-select>
-                          <v-btn text @click="showExamples = !showExamples" class="px-0 mt-3">
-                            Выбрать готовый рецепт
-                            <v-icon>
-                              {{ showExamples ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
-                            </v-icon>
-                          </v-btn>
-                          <v-expand-transition>
-                            <div v-if="showExamples">
-                              <v-select
-                                :items="recipesExamples['самомес']"
-                                v-model="recipeExampleChosen"
-                                label="Рецепт"
-                                hint="Нажмите, чтобы выбрать один из рецептов"
-                                persistent-hint
-                                hide-details="auto"
-                              ></v-select>
-                            </div>
-                          </v-expand-transition>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-select
+                            :items="recipesExamples['самомес']"
+                            v-model="recipeExampleChosen"
+                            label="Рецепт"
+                            hint="или выбрать один из рецептов"
+                            persistent-hint
+                            hide-details="auto"
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12" class="pt-0">
                           <div v-if="reagentsSelected.length > 0" class="mt-3">
                             <template v-for="(reagent, index) in reagents">
                               <div
@@ -649,29 +643,19 @@
                     </v-col>
                     <v-col v-else cols="12">
                       <v-row>
-                        <v-col cols="12">
-                          <v-btn text @click="showExamples = !showExamples" class="px-0 mt-3">
-                            Выбрать готовый рецепт
-                            <v-icon>
-                              {{ showExamples ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
-                            </v-icon>
-                          </v-btn>
-                          <v-expand-transition>
-                            <div v-if="showExamples">
-                              <v-select
-                                :items="recipesExamples['готовое']"
-                                v-model="recipeExampleChosen"
-                                label="Рецепт"
-                                hint="Нажмите, чтобы выбрать один из рецептов"
-                                persistent-hint
-                                hide-details="auto"
-                              ></v-select>
-                            </div>
-                          </v-expand-transition>
-                        </v-col>
-                        <v-col cols="12">
+                        <v-col cols="12" sm="6">
                           Выберите единицы и введите концентрации элементов, которые указаны в составе удобрения.
                           Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-select
+                            :items="recipesExamples['готовое']"
+                            v-model="recipeExampleChosen"
+                            label="Удобрение"
+                            hint="или выберите удобрение из списка"
+                            persistent-hint
+                            hide-details="auto"
+                          ></v-select>
                         </v-col>
                         <v-col cols="12">
                           <v-radio-group
@@ -846,7 +830,6 @@ export default {
       fertilizerType: 'Самомес',
       reagentsSelected: [],
       recipeExampleChosen: null,
-      showExamples: false,
       fertilizerVolume: null,
       tankVolume: null,
       fertilizerMass: {},
@@ -1017,9 +1000,6 @@ export default {
     }
   },
   watch: {
-    fertilizerType () {
-      this.showExamples = false
-    },
     reagentsSelected () {
       if (this.reagentsSelected.length === 0) { }
       let solute = {}
@@ -1087,7 +1067,6 @@ export default {
       this.fertilizerType = type
       this.reagentsSelected = []
       this.recipeExampleChosen = null
-      this.showExamples = false
       this.fertilizerMass = {}
       this.fertilizerVolume = null
       this.recipeName_ = null
