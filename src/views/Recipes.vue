@@ -1114,7 +1114,8 @@ export default {
         'B': null,
         'Zn': null,
         'Cu': null,
-        'Mo': null
+        'Mo': null,
+        'Ni': null
       }
     },
     countPercent (reagent) {
