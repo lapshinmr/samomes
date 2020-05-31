@@ -903,6 +903,7 @@ export default {
           value: formula
         })
       }
+      result.sort((a, b) => a.text.localeCompare(b.text))
       return result
     },
     recipesExamples () {
@@ -912,6 +913,7 @@ export default {
       }
       for (let item of this.RECIPE_EXAMPLES) {
         recipeExamples[item.type].push(item.name)
+        recipeExamples[item.type].sort((a, b) => a.localeCompare(b))
       }
       return recipeExamples
     },
@@ -982,7 +984,6 @@ export default {
     },
     isExist () {
       let names = this.recipes.map(item => item.name)
-      console.log(names, this.recipeName_)
       return names.findIndex(item => item === this.recipeName_) !== -1
     },
     isSame () {
