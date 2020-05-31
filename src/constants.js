@@ -405,6 +405,16 @@ export const RECIPE_EXAMPLES = [
   },
   {
     type: 'готовое',
+    name: 'Aquabalance Ферро Баланс',
+    isPercent: true,
+    elements: {
+      Fe: 0.7,
+      Mn: 0.1
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.'
+  },
+  {
+    type: 'готовое',
     name: 'Prestige Micro',
     isPercent: false,
     elements: {
