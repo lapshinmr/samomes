@@ -327,11 +327,11 @@ export default {
       if (this.$refs.tankForm.validate()) {
         this.TANK_ADD({
           name: this.name,
-          volume: this.volume,
-          length: this.length,
-          height: this.height,
-          width: this.width,
-          glassThickness: this.glassThickness
+          volume: parseFloat(this.volume),
+          length: parseFloat(this.length),
+          height: parseFloat(this.height),
+          width: parseFloat(this.width),
+          glassThickness: parseFloat(this.glassThickness)
         })
         this.resetComponent()
         this.SNACKBAR_SHOW('Аквариум добавлен')
