@@ -33,56 +33,58 @@
         <v-expansion-panels
           multiple
         >
-          <v-expansion-panel
-            v-for="(tank, index) in tanks"
-            :key="tank.name"
-          >
-            <v-expansion-panel-header>
-              <div class="d-flex justify-space-between align-center" style="width: 100%;">
-                <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
-                  :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
-                >
-                  {{ tank.name }}
-                </span>
-                <span class="mr-3">
-                  {{ tank.volume }} л
-                </span>
-              </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div v-if="tank.length" class="body-2">
-                <div class="d-flex justify-space-between">
-                  <div>Длина</div>
-                  <div>{{ tank.length }} см</div>
+          <draggable v-model="tanks" @start="drag=true" @end="drag=false" style="width: 100%;">
+            <v-expansion-panel
+              v-for="(tank, index) in tanks"
+              :key="tank.name"
+            >
+              <v-expansion-panel-header>
+                <div class="d-flex justify-space-between align-center" style="width: 100%;">
+                  <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
+                    :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                  >
+                    {{ tank.name }}
+                  </span>
+                  <span class="mr-3">
+                    {{ tank.volume }} л
+                  </span>
                 </div>
-                <div class="d-flex justify-space-between">
-                  <div>Ширина</div>
-                  <div>{{ tank.width }} см</div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div v-if="tank.length" class="body-2">
+                  <div class="d-flex justify-space-between">
+                    <div>Длина</div>
+                    <div>{{ tank.length }} см</div>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <div>Ширина</div>
+                    <div>{{ tank.width }} см</div>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <div>Высота</div>
+                    <div>{{ tank.height }} см</div>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <div>Толщина стекла</div>
+                    <div>{{ tank.glassThickness }} мм</div>
+                  </div>
                 </div>
-                <div class="d-flex justify-space-between">
-                  <div>Высота</div>
-                  <div>{{ tank.height }} см</div>
+                <div v-else class="body-2">
+                  Нет дополнительной информации
                 </div>
-                <div class="d-flex justify-space-between">
-                  <div>Толщина стекла</div>
-                  <div>{{ tank.glassThickness }} мм</div>
+                <div class="d-flex justify-end mt-4">
+                  <v-btn
+                    text
+                    right
+                    @click.stop="setComponent(index)"
+                    class="mr-n4"
+                  >
+                    Изменить
+                  </v-btn>
                 </div>
-              </div>
-              <div v-else class="body-2">
-                Нет дополнительной информации
-              </div>
-              <div class="d-flex justify-end mt-4">
-                <v-btn
-                  text
-                  right
-                  @click.stop="setComponent(index)"
-                  class="mr-n4"
-                >
-                  Изменить
-                </v-btn>
-              </div>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </draggable>
         </v-expansion-panels>
       </v-col>
     </v-row>
@@ -225,9 +227,13 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'tank',
+  components: {
+    draggable
+  },
   data () {
     return {
       name: null,
@@ -251,6 +257,14 @@ export default {
     ...mapState([
       'tanks', 'schedules', 'drawer'
     ]),
+    tanks: {
+      get () {
+        return this.$store.state.tanks
+      },
+      set (value) {
+        this.TANK_MOVE(value)
+      }
+    },
     dimensions () {
       return `${this.length}|${this.height}|${this.width}|${this.glassThickness}`
     },
@@ -292,6 +306,7 @@ export default {
       'TANK_ADD',
       'TANK_REMOVE',
       'TANK_EDIT',
+      'TANK_MOVE',
       'SNACKBAR_SHOW'
     ]),
     resetComponent () {

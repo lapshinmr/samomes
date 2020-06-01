@@ -37,97 +37,99 @@
         <v-expansion-panels
           multiple
         >
-          <v-expansion-panel
-            v-for="(recipe, index) in recipes"
-            :key="recipe.name"
-          >
-            <v-expansion-panel-header>
-              <div class="d-flex justify-space-between align-center" style="width: 100%;">
-                <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
-                  :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+          <draggable v-model="recipes" @start="drag=true" @end="drag=false" style="width: 100%;">
+            <v-expansion-panel
+              v-for="(recipe, index) in recipes"
+              :key="recipe.name"
+            >
+              <v-expansion-panel-header>
+                <div class="d-flex justify-space-between align-center" style="width: 100%;">
+                  <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
+                    :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                  >
+                    <span>
+                      {{ recipe.name }}
+                    </span>
+                    <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">
+                      {{ recipe.type }}
+                    </span>
+                  </span>
+                  <span class="mr-3">
+                    <v-tooltip bottom max-width="400">
+                      <template v-slot:activator="{ on }">
+                        <a class="ml-3" @click="openShareDialog(index)" v-on="on">
+                          <v-icon>mdi mdi-share-variant</v-icon>
+                        </a>
+                      </template>
+                      Поделиться ссылкой на рецепт
+                    </v-tooltip>
+                  </span>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div v-if="recipe.type === 'Самомес'" class="mb-2">
+                  Рецепт
+                </div>
+                <div v-if="recipe.volume" class="d-flex justify-space-between body-2">
+                  <span class="">
+                    Объем удобрения
+                  </span>
+                  <span>
+                    {{ recipe.volume }} мл
+                  </span>
+                </div>
+                <template v-for="reagent in recipe.reagents">
+                  <div v-if="recipe.mass[reagent]" class="d-flex justify-space-between body-2" :key="reagent">
+                    <span>
+                      {{ FORMULAS[reagent].name }}
+                    </span>
+                    <span>
+                      {{ recipe.mass[reagent].toFixed(2) }} г
+                    </span>
+                  </div>
+                </template>
+                <v-divider v-if="recipe.type === 'Самомес'" class="my-3"/>
+                <div
+                  v-if="isConcentration(recipe.concentration)"
+                  class="d-flex justify-space-between"
                 >
-                  <span>
-                    {{ recipe.name }}
-                  </span>
-                  <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">
-                    {{ recipe.type }}
-                  </span>
-                </span>
-                <span class="mr-3">
-                  <v-tooltip bottom max-width="400">
-                    <template v-slot:activator="{ on }">
-                      <a class="ml-3" @click="openShareDialog(index)" v-on="on">
-                        <v-icon>mdi mdi-share-variant</v-icon>
-                      </a>
-                    </template>
-                    Поделиться ссылкой на рецепт
-                  </v-tooltip>
-                </span>
-              </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div v-if="recipe.type === 'Самомес'" class="mb-2">
-                Рецепт
-              </div>
-              <div v-if="recipe.volume" class="d-flex justify-space-between body-2">
-                <span class="">
-                  Объем удобрения
-                </span>
-                <span>
-                  {{ recipe.volume }} мл
-                </span>
-              </div>
-              <template v-for="reagent in recipe.reagents">
-                <div v-if="recipe.mass[reagent]" class="d-flex justify-space-between body-2" :key="reagent">
-                  <span>
-                    {{ FORMULAS[reagent].name }}
-                  </span>
-                  <span>
-                    {{ recipe.mass[reagent].toFixed(2) }} г
-                  </span>
-                </div>
-              </template>
-              <v-divider v-if="recipe.type === 'Самомес'" class="my-3"/>
-              <div
-                v-if="isConcentration(recipe.concentration)"
-                class="d-flex justify-space-between"
-              >
-                <div class="">Концентрация</div>
-                <div class="d-flex body-2">
-                  <div>
-                    <div
-                      v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
-                      class="mr-3"
-                      :key="ion + 'name'"
-                    >
-                      {{ convertIonName(ion) }}
+                  <div class="">Концентрация</div>
+                  <div class="d-flex body-2">
+                    <div>
+                      <div
+                        v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
+                        class="mr-3"
+                        :key="ion + 'name'"
+                      >
+                        {{ convertIonName(ion) }}
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <div
-                      v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
-                      :key="ion + 'unit'"
-                      class="text-right"
-                    >
-                      {{ (convertIonRatio(ion) * value * (recipe.volume || recipe.type === 'Готовое' ? 1 : 1000)).toFixed(2) }} {{ recipe.volume || recipe.type === 'Готовое' ? 'г/л' : 'мг/г'}}
+                    <div>
+                      <div
+                        v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
+                        :key="ion + 'unit'"
+                        class="text-right"
+                      >
+                        {{ (convertIonRatio(ion) * value * (recipe.volume || recipe.type === 'Готовое' ? 1 : 1000)).toFixed(2) }} {{ recipe.volume || recipe.type === 'Готовое' ? 'г/л' : 'мг/г'}}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <v-divider v-if="recipe.note" class="my-3"/>
-              <div v-if="recipe.note" class="d-flex justify-space-between">
-                <div class="mr-3">Примечание</div>
-                <div class="text-right body-2">
-                  {{ recipe.note }}
+                <v-divider v-if="recipe.note" class="my-3"/>
+                <div v-if="recipe.note" class="d-flex justify-space-between">
+                  <div class="mr-3">Примечание</div>
+                  <div class="text-right body-2">
+                    {{ recipe.note }}
+                  </div>
                 </div>
-              </div>
-              <div class="d-flex justify-end mt-4">
-                <v-btn text @click="openEditRecipe(index)" class="mr-n4">
-                  Изменить
-                </v-btn>
-              </div>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+                <div class="d-flex justify-end mt-4">
+                  <v-btn text @click="openEditRecipe(index)" class="mr-n4">
+                    Изменить
+                  </v-btn>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </draggable>
         </v-expansion-panels>
       </v-col>
     </v-row>
@@ -818,9 +820,13 @@ import {
   convertIonRatio
 } from '../funcs.js'
 import { mapState, mapMutations } from 'vuex'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'recipe',
+  components: {
+    draggable
+  },
   data () {
     return {
       FORMULAS,
@@ -894,6 +900,14 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'drawer'
     ]),
+    recipes: {
+      get () {
+        return this.$store.state.recipes
+      },
+      set (value) {
+        this.RECIPE_MOVE(value)
+      }
+    },
     reagents () {
       let result = []
       for (let formula in this.FORMULAS) {
@@ -1062,7 +1076,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'SNACKBAR_SHOW'
+      'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'RECIPE_MOVE', 'SNACKBAR_SHOW'
     ]),
     resetComponent (type = 'Самомес', dialog = false) {
       this.fertilizerType = type

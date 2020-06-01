@@ -86,6 +86,9 @@ export default new Vuex.Store({
     TANK_EDIT (state, payload) {
       Vue.set(state.tanks, payload.index, payload.tank)
     },
+    TANK_MOVE (state, payload) {
+      state.tanks = payload
+    },
     TANKS_REMOVE (state, payload) {
       state.tanks = []
     },
@@ -97,6 +100,9 @@ export default new Vuex.Store({
     },
     RECIPE_EDIT (state, payload) {
       Vue.set(state.recipes, payload.index, payload.recipe)
+    },
+    RECIPE_MOVE (state, payload) {
+      state.recipes = payload
     },
     RECIPES_REMOVE (state, payload) {
       state.recipes = []
