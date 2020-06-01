@@ -31,8 +31,7 @@ const loadState = function () {
     guidIsClosed: false,
     tanks: [],
     recipes: [],
-    schedules: [],
-    progress: {}
+    schedules: []
   }
   if (!stateData) {
     localStorage.setItem('udata', JSON.stringify(defaultData))
@@ -117,12 +116,6 @@ export default new Vuex.Store({
     SCHEDULES_REMOVE (state, payload) {
       state.schedules = []
       state.progress = {}
-    },
-    PROGRESS_EDIT (state, payload) {
-      state.progress[payload.tankName] = payload.value
-    },
-    PROGRESS_REMOVE (state, payload) {
-      delete state.progress[payload]
     },
     SNACKBAR_SHOW (state, payload) {
       state.snackbarMessage = payload

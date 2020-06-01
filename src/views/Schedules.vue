@@ -434,19 +434,8 @@ export default {
     ...mapState([
       'tanks', 'recipes', 'schedules', 'drawer'
     ]),
-    isExist () {
-      let names = this.schedules.map(item => item.tank.name)
-      if (!this.tank) {
-        return
-      }
-      return names.findIndex(item => item === this.tank.name) !== -1
-    },
     isOverview () {
       return this.curScheduleIndex !== null
-    },
-    isSame () {
-      let names = this.schedules.map(item => item.tank.name)
-      return names.findIndex(item => item === this.tank.name) === this.curScheduleIndex
     },
     isAmount () {
       return this.recipesSelected.find(x => x.amount)
@@ -578,7 +567,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE', 'PROGRESS_REMOVE', 'SNACKBAR_SHOW'
+      'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE', 'SNACKBAR_SHOW'
     ]),
     convertIonName (ion) {
       return convertIonName(ion)
@@ -678,7 +667,6 @@ export default {
     },
     removeSchedule (reopen = false) {
       this.setComponent(this.curScheduleIndex)
-      this.PROGRESS_REMOVE(this.tank.name)
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
       this.dialogRemove = false
       this.curScheduleIndex = null

@@ -140,10 +140,7 @@
         Открыть
       </v-btn>
     </v-card-actions>
-    <v-progress-linear
-      :value="progressValue"
-    >
-    </v-progress-linear>
+    <v-progress-linear :value="progressValue"></v-progress-linear>
   </v-card>
 </template>
 
@@ -244,21 +241,13 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_COMPLETE',
-      'PROGRESS_EDIT'
+      'SCHEDULE_COMPLETE'
     ]),
     clickDay (recipeName, index) {
       this.SCHEDULE_COMPLETE({
         indexSchedule: this.index,
         indexDay: index,
         recipeName: recipeName
-      })
-      // if (this.isCompletedDay[index]) {
-      //   setTimeout(() => this.nextStep(), 1000)
-      // }
-      this.PROGRESS_EDIT({
-        tankName: this.schedule.tank.name,
-        value: this.progressValue
       })
     },
     prevStep () {
