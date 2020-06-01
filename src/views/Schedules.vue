@@ -58,7 +58,7 @@
         <Schedule
           v-for="(schedule, index) in schedules"
           :index="index"
-          :key="schedule.tank.name"
+          :key="schedule.tank.name + index"
           @remove="openRemoveDialog($event)"
           @edit="openAddSchedule($event)"
         />
@@ -424,8 +424,7 @@ export default {
         v => v >= 2 || 'Период должен быть больше одного дня'
       ],
       rulesTank: [
-        v => !!v || 'Выберите аквариум',
-        v => (!this.isExist || this.isSame) || 'Расписание для данного аквариума уже существует. Завершите цель или выберите другой аквариум.'
+        v => !!v || 'Выберите аквариум'
       ],
       isWithoutConvertion: false,
       isHardness: false
