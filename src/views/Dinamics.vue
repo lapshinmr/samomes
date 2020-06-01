@@ -52,18 +52,18 @@
             <v-col cols="12" sm="6" class="py-0">
               <v-text-field
                 v-model.number="waterChange"
+                type="number"
                 :label="'Объем подмены: ' + waterChangeVolume.toFixed(1) + ' л'"
                 hide-details
                 suffix="%"
-                type="number"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" class="py-0">
               <v-text-field
                 v-model.number="waterChangePeriod"
+                type="number"
                 label="Частота подмены воды"
                 hide-details
-                type="number"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -168,7 +168,7 @@
                 <v-text-field
                   :value="ionsWaterConcentration[convertIonName(ion)]"
                   @input="inputIonsWaterConcentration(ion, $event)"
-                  type="Number"
+                  type="number"
                   label="Концентрация в подменной воде"
                   suffix="мг/л"
                   hide-details="auto"
@@ -179,7 +179,7 @@
                 <v-text-field
                   :value="ionsInit[convertIonName(ion)]"
                   @input="inputIonsInit(ion, $event)"
-                  type="Number"
+                  type="number"
                   label="В аквариуме сейчас"
                   suffix="мг/л"
                   hide-details="auto"
@@ -190,7 +190,7 @@
                 <v-text-field
                   :value="ionsReduction[convertIonName(ion)]"
                   @input="inputIonsReduction(ion, $event)"
-                  type="Number"
+                  type="number"
                   label="Потребление в день"
                   suffix="мг/л"
                   hide-details="auto"
@@ -237,11 +237,6 @@ export default {
       },
       duration: 28,
       recipesSelected: []
-    }
-  },
-  watch: {
-    ionsWaterConcentration (value) {
-      console.log(value)
     }
   },
   computed: {

@@ -77,7 +77,7 @@
                         </div>
                         <div class="d-flex flex-column align-end flex-shrink-1">
                           <div>
-                            {{ quotas[index].toFixed(2) }}
+                            {{ quotas[index].toFixed(1) }}
                           </div>
                           <div class="caption mt-n2">
                             {{ totalSum[recipeName]['sum'].toFixed(1) }} / {{ totalSum[recipeName]['amount'].toFixed(1) }}

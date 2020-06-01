@@ -46,7 +46,7 @@
                     {{ tank.name }}
                   </span>
                   <span class="mr-3">
-                    {{ tank.volume }} л
+                    {{ tank.volume.toFixed(1) }} л
                   </span>
                 </div>
               </v-expansion-panel-header>
@@ -143,30 +143,30 @@
                     </v-col>
                     <v-col cols="12" class="pt-0">
                       <v-text-field
-                        v-model.lazy="length"
-                        type="Number"
+                        v-model.number="length"
+                        type="number"
                         label="Длина"
                         suffix="см"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
-                        v-model.lazy="width"
-                        type="Number"
+                        v-model.number="width"
+                        type="number"
                         label="Ширина"
                         suffix="см"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
-                        v-model.lazy="height"
-                        type="Number"
+                        v-model.number="height"
+                        type="number"
                         label="Высота"
                         suffix="см"
                         hint="Введите высоту чистого столба воды"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
-                        v-model.lazy="glassThickness"
-                        type="Number"
+                        v-model.number="glassThickness"
+                        type="number"
                         label="Толщина стекла"
                         suffix="мм"
                         hide-details="auto"
@@ -342,11 +342,11 @@ export default {
       if (this.$refs.tankForm.validate()) {
         this.TANK_ADD({
           name: this.name,
-          volume: parseFloat(this.volume),
-          length: parseFloat(this.length),
-          height: parseFloat(this.height),
-          width: parseFloat(this.width),
-          glassThickness: parseFloat(this.glassThickness)
+          volume: this.volume,
+          length: this.length,
+          height: this.height,
+          width: this.width,
+          glassThickness: this.glassThickness
         })
         this.resetComponent()
         this.SNACKBAR_SHOW('Аквариум добавлен')

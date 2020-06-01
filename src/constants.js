@@ -50,7 +50,7 @@ export const FORMULAS = {
     },
     mass: 101.10489,
     solubilityLimit: 242,
-    name: 'Калиевая селитра'
+    name: 'Калия нитрат'
   },
   'KH2PO4': {
     ions: {
@@ -73,7 +73,7 @@ export const FORMULAS = {
     },
     mass: 136.0874,
     solubilityLimit: 226,
-    name: 'Монофосфат калия'
+    name: 'Калия монофосфат '
   },
   'K2SO4': {
     ions: {
@@ -92,7 +92,7 @@ export const FORMULAS = {
     },
     mass: 174.27168,
     solubilityLimit: 111,
-    name: 'Сернокислый калий'
+    name: 'Калия сульфат'
   },
   '(NH2)2CO': {
     ions: {

@@ -57,11 +57,11 @@
               <template v-slot:append>
                 <v-text-field
                   v-model.number="waterChange"
+                  type="number"
                   class="mt-0 pt-0"
                   hide-details
                   single-line
                   suffix="%"
-                  type="number"
                   style="width: 60px"
                 ></v-text-field>
               </template>
@@ -77,11 +77,11 @@
               <template v-slot:append>
                 <v-text-field
                   v-model.number="osmosisChange"
+                  type="number"
                   class="mt-0 pt-0"
                   hide-details
                   single-line
                   suffix="%"
-                  type="number"
                   style="width: 60px"
                 ></v-text-field>
               </template>
@@ -89,6 +89,7 @@
             <div class="d-flex">
               <v-text-field
                 v-model.number="ghInit"
+                type="number"
                 label="Gh в аквариуме"
                 suffix="dGh"
                 hide-details="auto"
@@ -96,6 +97,7 @@
               </v-text-field>
               <v-text-field
                 v-model.number="ghWaterChange"
+                type="number"
                 label="Gh водопровода"
                 suffix="dGh"
                 hide-details="auto"
@@ -118,12 +120,13 @@
           ></v-select>
         </v-expand-transition>
         <v-text-field
-          v-for="(recipeSelected, index) in recipesSelected"
-          :value="recipeSelected.amountDay"
+          v-for="(recipe, index) in recipesSelected"
+          :value="recipe.amount"
           @input="inputRecipeAmountDay(index)"
-          :label="recipeSelected.name"
+          type="number"
+          :label="recipe.name"
           hint="Введите объем или массу удобрения"
-          :suffix="recipeSelected.volume || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
+          :suffix="recipe.volume || recipe.type === 'Готовое' ? 'мл' : 'г'"
           hide-details="auto"
           :key="index"
         ></v-text-field>

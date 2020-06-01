@@ -257,7 +257,7 @@
                             <v-text-field
                               :value="fertilizerVolume"
                               @input="inputVolume"
-                              type="Number"
+                              type="number"
                               label="Введите объем удобрения"
                               suffix="мл"
                               hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев. Обычно это 250-300 мл."
@@ -290,7 +290,7 @@
                                 <v-text-field
                                   :value="fertilizerMass[reagent]"
                                   @input="inputMass(reagent)"
-                                  type="Number"
+                                  type="number"
                                   :label="reagent"
                                   suffix="г"
                                   :hint="isWater ? fertilizerMassHint(reagent) : ''"
@@ -562,7 +562,7 @@
                                             <v-text-field
                                               :value="solute[reagent][ion]"
                                               @input="inputIon(reagent, ion)"
-                                              type="Number"
+                                              type="number"
                                               :label="convertIonName(ion) + ', мг/л'"
                                               :hint="'из ' + reagent"
                                               persistent-hint
@@ -680,6 +680,7 @@
                             >
                               <v-text-field
                                 v-model.number="elements[el]"
+                                type="number"
                                 :label="el"
                                 :value="amount"
                                 :suffix="isPercent ? '%' : 'г/л'"
@@ -1109,11 +1110,6 @@ export default {
       this.isPercent = recipe.isPercent
       if (recipe.type !== 'Самомес') {
         this.elements = { ...recipe.elements }
-        // let reagent = Object.keys(recipe.concentration)[0]
-        // let convertRatio = recipe.isPercent ? 10 : 1
-        // for (let ion in recipe.concentration[reagent]) {
-        //   this.elements[ion] = recipe.concentration[reagent][ion] / convertRatio
-        // }
       }
     },
     resetElements () {
@@ -1169,22 +1165,14 @@ export default {
       this.tankVolume = null
     },
     inputMass (reagent) {
-      let value = event.target.value
-      if (value.endsWith('.')) {
-        return
-      }
-      value = parseFloat(value)
+      let value = parseFloat(event.target.value)
       Vue.set(this.fertilizerMass, reagent, !isNaN(value) ? value : '')
       if (this.tankVolume && !isNaN(value)) {
         this.countDose()
       }
     },
     inputVolume () {
-      let value = event.target.value
-      if (value.endsWith('.')) {
-        return
-      }
-      this.fertilizerVolume = parseFloat(value)
+      this.fertilizerVolume = parseFloat(event.target.value)
       if (this.tankVolume && !isNaN(this.fertilizerVolume)) {
         this.countDose()
       }
@@ -1197,11 +1185,7 @@ export default {
         ratio[ion] = this.convertIonRatio(ion)
       }
       for (let ion in this.solute[reagent]) {
-        value = event.target.value
-        if (value.endsWith('.')) {
-          return
-        }
-        value = parseFloat(value)
+        value = parseFloat(event.target.value)
         if (ion !== curIon) {
           if (ratio[curIon] > 1) {
             value = value / ratio[curIon]
@@ -1297,6 +1281,7 @@ export default {
             reagents: [...this.reagentsSelected],
             mass: { ...this.fertilizerMass },
             concentration: { ...this.concentration },
+            elements: { ...this.elements },
             isPercent: this.isPercent
           }
         })
