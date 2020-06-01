@@ -25,7 +25,7 @@
       </div>
     </v-card-title>
     <v-card-subtitle>
-      Объем: {{ schedule.tank.volume }} л
+      <span>Объем: {{ schedule.tank.volume }} л</span>
     </v-card-subtitle>
     <v-card-text>
       <v-stepper
@@ -39,9 +39,14 @@
             :step="n"
             class="pa-0"
           >
-            <div class="display-1 text-center mb-5">
-              <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>,
-              <span class="">{{ schedule.datesColumn[index].date }}</span>
+            <div class="d-flex flex-column display-1 text-center mb-2">
+              <div>
+                <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>,
+                <span class="">{{ schedule.datesColumn[index].date }}</span>
+              </div>
+              <div class="text-center body-1">
+                {{ schedule.datesRange[0].substr(5, 10).replace('-', '.') }} - {{ schedule.datesRange[1].substr(5, 10).replace('-', '.') }}
+              </div>
             </div>
             <div v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + n" class="headline">
               <v-row>
