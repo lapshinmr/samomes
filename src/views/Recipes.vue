@@ -122,7 +122,7 @@
                 </div>
               </div>
               <div class="d-flex justify-end mt-4">
-                <v-btn text @click="setComponent(recipes[index], index)" class="mr-n4">
+                <v-btn text @click="openEditRecipe(index)" class="mr-n4">
                   Изменить
                 </v-btn>
               </div>
@@ -1094,11 +1094,12 @@ export default {
       this.isWater = recipe.volume > 0
       this.isPercent = recipe.isPercent
       if (recipe.type !== 'Самомес') {
-        let reagent = Object.keys(recipe.concentration)[0]
-        let convertRatio = recipe.isPercent ? 10 : 1
-        for (let ion in recipe.concentration[reagent]) {
-          this.elements[ion] = recipe.concentration[reagent][ion] / convertRatio
-        }
+        this.elements = { ...recipe.elements }
+        // let reagent = Object.keys(recipe.concentration)[0]
+        // let convertRatio = recipe.isPercent ? 10 : 1
+        // for (let ion in recipe.concentration[reagent]) {
+        //   this.elements[ion] = recipe.concentration[reagent][ion] / convertRatio
+        // }
       }
     },
     resetElements () {
@@ -1239,7 +1240,7 @@ export default {
     },
     openAddRecipe () {
       this.resetComponent()
-      this.dialog = !this.dialog
+      this.dialog = true
       if (this.$refs.recipeForm) {
         this.$refs.recipeForm.resetValidation()
       }
@@ -1254,11 +1255,19 @@ export default {
           tankVolume: this.tankVolume,
           reagents: [ ...this.reagentsSelected ],
           mass: { ...this.fertilizerMass },
+          elements: { ...this.elements },
           concentration: { ...this.concentration },
           isPercent: this.isPercent
         })
         this.resetComponent()
         this.SNACKBAR_SHOW('Рецепт добавлен')
+      }
+    },
+    openEditRecipe (index) {
+      this.resetComponent()
+      this.setComponent(this.recipes[index], index)
+      if (this.$refs.recipeForm) {
+        this.$refs.recipeForm.resetValidation()
       }
     },
     editRecipe () {
