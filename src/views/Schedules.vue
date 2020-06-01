@@ -73,7 +73,7 @@
     >
       <v-card>
         <v-toolbar dark color="primary">
-          <v-toolbar-title v-if="!isEditing">
+          <v-toolbar-title v-if="!isOverview">
             Новое расписание
           </v-toolbar-title>
           <v-toolbar-title v-else>
@@ -100,7 +100,7 @@
                         hint="Выберите аквариум, для которого будет составлено расписание"
                         :return-object="true"
                         :rules="rulesTank"
-                        :disabled="isEditing"
+                        :disabled="isOverview"
                       ></v-select>
                     </v-col>
                     <v-expand-transition>
@@ -114,7 +114,7 @@
                           multiple
                           hint="Выберите рецепты, которые хотите использовать для данного аквариума"
                           :return-object="true"
-                          :disabled="isEditing"
+                          :disabled="isOverview"
                         ></v-select>
                       </v-col>
                     </v-expand-transition>
@@ -135,7 +135,7 @@
                           hint="Введите весь объем"
                           :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
                           persistent-hint
-                          :readonly="isEditing"
+                          :readonly="isOverview"
                           class="mr-3"
                         ></v-text-field>
                         <v-text-field
@@ -145,7 +145,7 @@
                           hint="или объем в день"
                           :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл/день' : 'г/день'"
                           persistent-hint
-                          :readonly="isEditing"
+                          :readonly="isOverview"
                         ></v-text-field>
                      </div>
                     </v-col>
@@ -248,7 +248,7 @@
                           first-day-of-week="1"
                           full-width
                           range
-                          :disabled="isEditing"
+                          :disabled="isOverview"
                         >
                           <template v-slot:default>
                             <v-text-field
@@ -294,7 +294,7 @@
                                     v-model="selected[recipeName][index]"
                                     hide-details="auto"
                                     class="mt-0"
-                                    :disabled="isEditing"
+                                    :disabled="isOverview"
                                     style="display: inline-block;"
                                   >
                                      <template v-slot:label>
@@ -320,14 +320,14 @@
                           Отменить
                         </v-btn>
                         <v-btn
-                          v-if="isEditing"
+                          v-if="isOverview"
                           color="primary"
                           @click="openRemoveDialog(curScheduleIndex)"
                         >
                           Удалить
                         </v-btn>
                         <v-btn
-                          v-if="!isEditing"
+                          v-if="!isOverview"
                           color="primary"
                           @click="addSchedule"
                         >
@@ -442,7 +442,7 @@ export default {
       }
       return names.findIndex(item => item === this.tank.name) !== -1
     },
-    isEditing () {
+    isOverview () {
       return this.curScheduleIndex !== null
     },
     isSame () {
@@ -575,11 +575,6 @@ export default {
         Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal))
       }
       this.selected = { ...selected }
-    },
-    dialogRemove () {
-      if (!this.dialogRemove) {
-        this.curScheduleIndex = null
-      }
     }
   },
   methods: {
@@ -687,6 +682,7 @@ export default {
       this.PROGRESS_REMOVE(this.tank.name)
       this.SCHEDULE_REMOVE(this.curScheduleIndex)
       this.dialogRemove = false
+      this.curScheduleIndex = null
       this.dialog = true
       this.SNACKBAR_SHOW('Расписание удалено')
     }
