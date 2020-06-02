@@ -30,60 +30,74 @@
         </p>
       </v-col>
       <v-col cols="12" sm="8" offset-sm="2">
-        <v-expansion-panels
-          multiple
-        >
-          <draggable v-model="tanks" @start="drag=true" @end="drag=false" style="width: 100%;">
-            <v-expansion-panel
-              v-for="(tank, index) in tanks"
-              :key="tank.name"
-            >
-              <v-expansion-panel-header>
-                <div class="d-flex justify-space-between align-center" style="width: 100%;">
-                  <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
-                    :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
-                  >
-                    {{ tank.name }}
-                  </span>
-                  <span class="mr-3">
-                    {{ tank.volume.toFixed(1) }} л
-                  </span>
-                </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <div v-if="tank.length" class="body-2">
-                  <div class="d-flex justify-space-between">
-                    <div>Длина</div>
-                    <div>{{ tank.length }} см</div>
+
+        <v-expansion-panels multiple>
+          <draggable
+            v-model="tanks"
+            v-bind="dragOptions"
+            @start="drag=true"
+            @end="drag=false"
+            style="width: 100%;"
+            handle=".handle"
+          >
+            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+              <v-expansion-panel
+                v-for="(tank, index) in tanks"
+                :key="tank.name"
+              >
+                <v-expansion-panel-header>
+                  <div class="d-flex justify-space-between align-center" style="width: 100%;">
+                    <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
+                      :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                    >
+                      {{ tank.name }}
+                    </span>
+                    <span class="mr-3">
+                      <span>{{ tank.volume.toFixed(1) }} л</span>
+                      <v-tooltip bottom max-width="400">
+                        <template v-slot:activator="{ on }">
+                          <v-icon class="handle ml-2" v-on="on">mdi mdi-drag</v-icon>
+                        </template>
+                        Потяните, чтобы отсортировать рецепты
+                      </v-tooltip>
+                    </span>
                   </div>
-                  <div class="d-flex justify-space-between">
-                    <div>Ширина</div>
-                    <div>{{ tank.width }} см</div>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <div v-if="tank.length" class="body-2">
+                    <div class="d-flex justify-space-between">
+                      <div>Длина</div>
+                      <div>{{ tank.length }} см</div>
+                    </div>
+                    <div class="d-flex justify-space-between">
+                      <div>Ширина</div>
+                      <div>{{ tank.width }} см</div>
+                    </div>
+                    <div class="d-flex justify-space-between">
+                      <div>Высота</div>
+                      <div>{{ tank.height }} см</div>
+                    </div>
+                    <div class="d-flex justify-space-between">
+                      <div>Толщина стекла</div>
+                      <div>{{ tank.glassThickness }} мм</div>
+                    </div>
                   </div>
-                  <div class="d-flex justify-space-between">
-                    <div>Высота</div>
-                    <div>{{ tank.height }} см</div>
+                  <div v-else class="body-2">
+                    Нет дополнительной информации
                   </div>
-                  <div class="d-flex justify-space-between">
-                    <div>Толщина стекла</div>
-                    <div>{{ tank.glassThickness }} мм</div>
+                  <div class="d-flex justify-end mt-4">
+                    <v-btn
+                      text
+                      right
+                      @click.stop="setComponent(index)"
+                      class="mr-n4"
+                    >
+                      Изменить
+                    </v-btn>
                   </div>
-                </div>
-                <div v-else class="body-2">
-                  Нет дополнительной информации
-                </div>
-                <div class="d-flex justify-end mt-4">
-                  <v-btn
-                    text
-                    right
-                    @click.stop="setComponent(index)"
-                    class="mr-n4"
-                  >
-                    Изменить
-                  </v-btn>
-                </div>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </transition-group>
           </draggable>
         </v-expansion-panels>
       </v-col>
@@ -236,6 +250,7 @@ export default {
   },
   data () {
     return {
+      drag: false,
       name: null,
       volume: null,
       length: null,
@@ -257,6 +272,14 @@ export default {
     ...mapState([
       'tanks', 'schedules', 'drawer'
     ]),
+    dragOptions () {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost'
+      }
+    },
     tanks: {
       get () {
         return this.$store.state.tanks
@@ -379,4 +402,9 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.flip-list-move
+  transition: transform 0.5s
+.ghost
+  opacity: 0.5
+  background: #c8ebfb
 </style>
