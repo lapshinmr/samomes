@@ -52,7 +52,7 @@
               <v-row>
                 <v-col cols="12" sm="10" offset-sm="1" class="py-0">
                   <v-btn
-                    v-if="schedule.selected[recipeName][index]"
+                    :disabled="!schedule.selected[recipeName][index]"
                     block
                     x-large
                     tile
@@ -95,11 +95,8 @@
           <template v-for="(n, index) in schedule.daysTotal">
             <v-stepper-step
               :key="`${n}-step`"
-              :complete="isCompletedDay[index]"
               :step="n"
-              editable
-              edit-icon="fas fa-check"
-              complete-icon="fas fa-check"
+              :complete="isCompletedDay[index]"
             >
               <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>
             </v-stepper-step>
@@ -223,13 +220,20 @@ export default {
       return result
     },
     isCompletedDay () {
-      let result = Array(this.schedule.daysTotal).fill(true)
+      let result = Array(this.schedule.daysTotal).fill(false)
       for (let day in result) {
+        let fertilizersWereClicked = 0
         for (let recipeName in this.schedule.selected) {
-          if (!this.schedule.selected[recipeName][day]) {
-            continue
+          let completed = this.schedule.completed[recipeName][day]
+          let selected = this.schedule.selected[recipeName][day]
+          if (!selected || completed === 1 || completed === 2) {
+            fertilizersWereClicked += 1
           }
-          result[day] = result[day] && (this.schedule.completed[recipeName][day] === 1 || this.schedule.completed[recipeName][day] === 2)
+        }
+        if (fertilizersWereClicked === Object.keys(this.schedule.completed).length) {
+          if (parseInt(day) === 0 || result[day - 1]) {
+            result[day] = true
+          }
         }
       }
       return result
