@@ -438,7 +438,7 @@ export default {
       return this.curScheduleIndex !== null
     },
     isAmount () {
-      return this.recipesSelected.find(x => x.amount)
+      return this.recipesSelected.length > 0 && this.recipesSelected.every(x => x.amount > 0)
     },
     isHelpful () {
       return (
@@ -576,7 +576,7 @@ export default {
       return convertIonRatio(ion)
     },
     roundOrEmpty (value, precision = 1000) {
-      return value ? Math.round((value + Number.EPSILON) * precision) / precision : 0
+      return value ? Math.round((value + Number.EPSILON) * precision) / precision : ''
     },
     createDatesRange () {
       let duration = 6
