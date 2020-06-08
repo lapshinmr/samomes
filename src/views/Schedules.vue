@@ -119,8 +119,15 @@
                       </v-col>
                     </v-expand-transition>
                     <v-col v-if="recipesSelected.length > 0" cols="12">
-                      <div :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
+                      <div class="mb-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
                         Выбранные рецепты
+                        <v-tooltip bottom max-width="400">
+                          <template v-slot:activator="{ on }">
+                            <v-icon v-on="on">mdi-help-circle-outline</v-icon>
+                          </template>
+                          Подбирая объем выбранных рецептов, вы можете получить необходимую концентрацию элементов в аквариуме.
+                          Таким образом вы можете подобрать ориентировочное значение, которое "съедают" растения за заданный период времени.
+                        </v-tooltip>
                       </div>
                       <div
                         v-for="(recipeSelected, index) in recipesSelected"
@@ -150,28 +157,21 @@
                      </div>
                     </v-col>
                     <v-expand-transition>
-                      <v-col v-if="isAmount" cols="12" class="pt-0">
-                        <div class="mt-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
-                          Повышение концентрации в аквариуме
-                          <v-tooltip bottom max-width="400">
-                            <template v-slot:activator="{ on }">
-                              <v-icon v-on="on">mdi-help-circle-outline</v-icon>
-                            </template>
-                            Подбирая объем выбранных рецептов, вы можете получить необходимую концентрацию элементов в аквариуме.
-                            Таким образом вы можете подобрать ориентировочное значение, которое "съедают" растения за заданный период времени.
-                          </v-tooltip>
+                      <v-col v-if="recipesSelected.length > 0" cols="12" class="pt-0">
+                        <div class="d-flex flex-column flex-sm-row align-sm-center mt-2 mb-2">
+                          <v-switch
+                            v-model="isHardness"
+                            label="dGh"
+                            hide-details="auto"
+                            class="mt-0 mb-2 mb-sm-0"
+                          ></v-switch>
+                          <v-switch
+                            v-model="isWithoutConvertion"
+                            label="N & P"
+                            hide-details="auto"
+                            class="mt-0 mb-2 mb-sm-0 ml-sm-4"
+                          ></v-switch>
                         </div>
-                        <v-switch
-                          v-model="isHardness"
-                          label="Показать повышение Gh"
-                          hide-details="auto"
-                        ></v-switch>
-                        <v-switch
-                          v-model="isWithoutConvertion"
-                          label="Показать N и P"
-                          hide-details="auto"
-                          class="mt-1"
-                        ></v-switch>
                         <v-simple-table dense>
                           <template v-slot:default>
                             <thead>
@@ -222,10 +222,7 @@
                             </tbody>
                           </template>
                         </v-simple-table>
-                        <div v-if="isHelpful" class="mt-2" :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}">
-                          Полезные соотношения
-                        </div>
-                        <div v-if="isHelpful" class="d-flex flex-column flex-sm-row justify-space-between">
+                        <div v-if="isHelpful" class="d-flex flex-column flex-sm-row justify-space-between caption mt-2">
                           <div v-if="totalElements['P'] > 0 && totalElements['N'] > 0" class="mr-2">
                             NO3 / PO4 = {{ (totalElements['N'] * convertIonRatio('N') / (totalElements['P'] * convertIonRatio('P'))).toFixed(2)  }}
                             (N / P = {{ (totalElements['N'] / totalElements['P']).toFixed(2) }})
