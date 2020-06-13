@@ -135,18 +135,17 @@
                         class="d-flex justify-space-between align-center"
                       >
                         <v-text-field
-                          :value="roundOrEmpty(recipeSelected.amount)"
+                          :value="recipeSelected.amount"
                           @input="inputRecipeAmount(index)"
                           type="number"
                           :label="recipeSelected.name"
                           hint="Введите весь объем"
                           :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
                           persistent-hint
-                          :readonly="isOverview"
                           class="mr-3"
                         ></v-text-field>
                         <v-text-field
-                          :value="roundOrEmpty(recipeSelected.amountDay)"
+                          :value="recipeSelected.amountDay"
                           @input="inputRecipeAmountDay(index)"
                           type="number"
                           hint="или объем в день"
@@ -572,9 +571,6 @@ export default {
     convertIonRatio (ion) {
       return convertIonRatio(ion)
     },
-    roundOrEmpty (value, precision = 1000) {
-      return value ? Math.round((value + Number.EPSILON) * precision) / precision : ''
-    },
     createDatesRange () {
       let duration = 6
       let dateStart = new Date().toISOString().split('T')[0]
@@ -594,6 +590,7 @@ export default {
     },
     setComponent (index) {
       let schedule = this.schedules[index]
+      console.log(schedule.recipesSelected)
       this.tank = schedule.tank
       this.recipesSelected = [ ...schedule.recipesSelected ]
       this.selected = { ...schedule.selected }
@@ -605,8 +602,8 @@ export default {
       let amountDay = amount / this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(amount) ? parseFloat(amount.toFixed(2)) : '',
-        amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(2)) : ''
+        amount: !isNaN(amount) ? parseFloat(amount.toFixed(3)) : '',
+        amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(3)) : ''
       })
     },
     inputRecipeAmountDay (index) {
@@ -615,8 +612,8 @@ export default {
       let amount = amountDay * this.daysTotal
       Vue.set(this.recipesSelected, index, {
         ...recipe,
-        amount: !isNaN(amount) ? parseFloat((amount).toFixed(2)) : '',
-        amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(2)) : ''
+        amount: !isNaN(amount) ? parseFloat((amount).toFixed(3)) : '',
+        amountDay: !isNaN(amountDay) ? parseFloat(amountDay.toFixed(3)) : ''
       })
     },
     openAddSchedule (index = null) {
