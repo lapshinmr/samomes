@@ -45,22 +45,24 @@
                 v-for="(tank, index) in tanks"
                 :key="tank.name"
               >
-                <v-expansion-panel-header>
-                  <div class="d-flex justify-space-between align-center" style="width: 100%;">
-                    <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
+                <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
+                  <div class="d-flex align-center" style="width: 100%;">
+                    <div class="no-break font-weight-regular mr-auto"
                       :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                     >
                       {{ tank.name }}
-                    </span>
-                    <span class="mr-3">
-                      <span>{{ tank.volume.toFixed(1) }} л</span>
+                    </div>
+                    <div class="mr-1 mx-sm-4" style="white-space: nowrap;">
+                      {{ tank.volume.toFixed(1) }} л
+                    </div>
+                    <div>
                       <v-tooltip bottom max-width="400">
                         <template v-slot:activator="{ on }">
-                          <v-icon class="handle ml-2" v-on="on">mdi mdi-drag</v-icon>
+                          <v-icon class="handle" v-on="on">mdi mdi-drag</v-icon>
                         </template>
                         Потяните, чтобы отсортировать рецепты
                       </v-tooltip>
-                    </span>
+                    </div>
                   </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
