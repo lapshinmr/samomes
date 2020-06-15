@@ -158,7 +158,7 @@ export default {
       { name: 'recipes', icon: 'mdi-test-tube' },
       { name: 'schedules', icon: 'mdi-calendar-blank-multiple' },
       { name: 'remineralization', icon: 'fas fa-cubes' },
-      { name: 'dinamics', icon: 'far fa-chart-bar' },
+      { name: 'dynamics', icon: 'far fa-chart-bar' },
       { name: 'settings', icon: 'fas fa-cog' },
       { name: 'about', icon: 'mdi-information-outline' }
     ]

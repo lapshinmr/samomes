@@ -213,7 +213,7 @@ import { convertIonName, convertIonRatio } from '../funcs.js'
 import LineChart from './Chart'
 
 export default {
-  name: 'dinamics',
+  name: 'dynamics',
   components: {
     LineChart
   },
@@ -274,19 +274,19 @@ export default {
       return sortableResult
     },
     ionDinamics () {
-      const dinamics = {
+      const dynamics = {
         labels: Object.keys([...Array(this.duration)]),
         datasets: []
       }
       for (let ion in this.totalElements) {
-        dinamics.datasets.push({
+        dynamics.datasets.push({
           label: this.convertIonName(ion),
           fill: false,
           borderColor: this.ionsColors[this.convertIonName(ion)],
           data: this.countDinamics(ion)
         })
       }
-      return dinamics
+      return dynamics
     }
   },
   methods: {
@@ -316,7 +316,7 @@ export default {
     countDinamics (ion) {
       const amount = this.convertIonRatio(ion) * this.totalElements[ion]
       let sum = this.ionsInit[this.convertIonName(ion)] || 0
-      let dinamics = []
+      let dynamics = []
       if (amount) {
         for (const day in [...Array(this.duration)]) {
           if (day > 0 && day % this.waterChangePeriod === 0) {
@@ -328,12 +328,12 @@ export default {
           if (sum < 0) {
             sum = 0
           }
-          dinamics.push(sum)
+          dynamics.push(sum)
         }
       } else {
-        dinamics = Array(this.duration).fill(0)
+        dynamics = Array(this.duration).fill(0)
       }
-      return dinamics
+      return dynamics
     }
   }
 }

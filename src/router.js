@@ -52,9 +52,9 @@ export default new Router({
       name: 'remineralization'
     },
     {
-      path: '/dinamics',
+      path: '/dynamics',
       component: load('Dinamics'),
-      name: 'dinamics'
+      name: 'dynamics'
     },
     {
       path: '/about',

@@ -22,11 +22,13 @@
     <v-row>
       <v-col v-if="tanks.length === 0" cols="12" md="8" offset-md="2">
         <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
-          У вас еще нет аквариума
+          {{ $t('tanks.alert.title') }}
         </p>
         <p>
-          <a @click="dialog = true">Добавьте аквариум</a>,
-          чтобы вы могли создавать рецепты удобрений и составлять расписание по внесению удобрений.
+          <a @click="dialog = true">
+            {{ $t('tanks.alert.todo.action') }}
+          </a>,
+          {{ $t('tanks.alert.todo.text') }}
         </p>
       </v-col>
       <v-col cols="12" sm="8" offset-sm="2">
@@ -53,14 +55,14 @@
                       {{ tank.name }}
                     </div>
                     <div class="mr-1 mx-sm-4" style="white-space: nowrap;">
-                      {{ tank.volume.toFixed(1) }} л
+                      {{ tank.volume.toFixed(1) }} {{ $t('units.l') }}
                     </div>
                     <div>
                       <v-tooltip bottom max-width="400">
                         <template v-slot:activator="{ on }">
                           <v-icon class="handle" v-on="on">mdi mdi-drag</v-icon>
                         </template>
-                        Потяните, чтобы отсортировать рецепты
+                        {{ $t('tanks.panels.header.pull') }}
                       </v-tooltip>
                     </div>
                   </div>
@@ -68,24 +70,24 @@
                 <v-expansion-panel-content>
                   <div v-if="tank.length" class="body-2">
                     <div class="d-flex justify-space-between">
-                      <div>Длина</div>
-                      <div>{{ tank.length }} см</div>
+                      <div>{{ $t('tanks.dialog.length') }}</div>
+                      <div>{{ tank.length }} {{ $t('units.cm') }}</div>
                     </div>
                     <div class="d-flex justify-space-between">
-                      <div>Ширина</div>
-                      <div>{{ tank.width }} см</div>
+                      <div>{{ $t('tanks.dialog.width') }}</div>
+                      <div>{{ tank.width }} {{ $t('units.cm') }}</div>
                     </div>
                     <div class="d-flex justify-space-between">
-                      <div>Высота</div>
-                      <div>{{ tank.height }} см</div>
+                      <div>{{ $t('tanks.dialog.height') }}</div>
+                      <div>{{ tank.height }} {{ $t('units.cm') }}</div>
                     </div>
                     <div class="d-flex justify-space-between">
-                      <div>Толщина стекла</div>
-                      <div>{{ tank.glassThickness }} мм</div>
+                      <div>{{ $t('tanks.dialog.glassThickness') }}</div>
+                      <div>{{ tank.glassThickness }} {{ $t('units.mm') }}</div>
                     </div>
                   </div>
                   <div v-else class="body-2">
-                    Нет дополнительной информации
+                    {{ $t('tanks.panels.body.noSizes') }}
                   </div>
                   <div class="d-flex justify-end mt-4">
                     <v-btn
@@ -94,7 +96,7 @@
                       @click.stop="setComponent(index)"
                       class="mr-n4"
                     >
-                      Изменить
+                      {{ $t('buttons.edit') }}
                     </v-btn>
                   </div>
                 </v-expansion-panel-content>
@@ -114,10 +116,10 @@
       <v-card>
         <v-toolbar dark color="primary">
           <v-toolbar-title v-if="!isEditing">
-            Новый аквариум
+            {{ $t('tanks.dialog.tankNew') }}
           </v-toolbar-title>
           <v-toolbar-title v-else>
-            Редактирование аквариума
+            {{ $t('tanks.dialog.tankEdit') }}
           </v-toolbar-title>
           <v-btn icon dark @click="dialog = false" class="ml-auto">
             <v-icon>mdi-close</v-icon>
@@ -132,10 +134,10 @@
                     <v-col cols="12">
                       <v-text-field
                         v-model.lazy="name"
-                        label="Название"
+                        :label="$t('tanks.dialog.name')"
                         hide-details="auto"
                         clearable
-                        :hint="nameHint"
+                        :hint="$t('tanks.dialog.nameHint')"
                         :rules="nameRules"
                       ></v-text-field>
                     </v-col>
@@ -143,17 +145,17 @@
                       <v-text-field
                         v-model.number="volume"
                         type="Number"
-                        label="Введите объем"
-                        suffix="л"
+                        :label="$t('tanks.dialog.volume')"
+                        :suffix="$t('units.l')"
                         hide-details="auto"
-                        :hint="volumeHint"
+                        :hint="$t('tanks.dialog.volumeHint')"
                         :rules="volumeRules"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" class="text-center pb-0">
                       <div class="d-flex align-center my-3">
                         <v-divider />
-                        <div class="mx-2">или используйте размеры</div>
+                        <div class="mx-2">{{ $t('tanks.dialog.orSizes') }}</div>
                         <v-divider />
                       </div>
                     </v-col>
@@ -161,30 +163,30 @@
                       <v-text-field
                         v-model.number="length"
                         type="number"
-                        label="Длина"
-                        suffix="см"
+                        :label="$t('tanks.dialog.length')"
+                        :suffix="$t('units.cm')"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
                         v-model.number="width"
                         type="number"
-                        label="Ширина"
-                        suffix="см"
+                        :label="$t('tanks.dialog.width')"
+                        :suffix="$t('units.cm')"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
                         v-model.number="height"
                         type="number"
-                        label="Высота"
-                        suffix="см"
-                        hint="Введите высоту чистого столба воды"
+                        :label="$t('tanks.dialog.height')"
+                        :suffix="$t('units.cm')"
+                        :hint="$t('tanks.dialog.heightHint')"
                         hide-details="auto"
                       ></v-text-field>
                       <v-text-field
                         v-model.number="glassThickness"
                         type="number"
-                        label="Толщина стекла"
-                        suffix="мм"
+                        :label="$t('tanks.dialog.glassThickness')"
+                        :suffix="$t('units.mm')"
                         hide-details="auto"
                       ></v-text-field>
                     </v-col>
@@ -193,19 +195,23 @@
                         <v-btn
                           v-if="isEditing"
                           @click="removeTank"
-                        >Удалить</v-btn>
+                        >
+                          {{ $t('buttons.remove') }}
+                        </v-btn>
                         <v-btn
                           v-if="isEditing"
                           @click="editTank"
                           color="primary"
                           class="ml-2"
-                        >Сохранить</v-btn>
+                        >
+                          {{ $t('buttons.save') }}
+                        </v-btn>
                         <v-btn
                           v-if="!isEditing"
                           @click="addTank"
                           color="primary"
                         >
-                          Сохранить
+                          {{ $t('buttons.add') }}
                         </v-btn>
                       </v-col>
                     </v-expand-transition>
@@ -235,7 +241,7 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <span>Добавить аквариум</span>
+      <span>{{ $t('tanks.addButton') }}</span>
     </v-tooltip>
 
   </v-container>
@@ -262,11 +268,11 @@ export default {
       curTankIndex: null,
       dialog: this.$route.params.open,
       nameRules: [
-        v => !!v || 'Введите название',
-        v => (!this.isExist || this.isSame) || 'Аквариум с таким названием уже существует'
+        v => !!v || this.$t('tanks.dialog.nameRules.require'),
+        v => (!this.isExist || this.isSame) || this.$t('tanks.dialog.nameRules.exists')
       ],
       volumeRules: [
-        v => !!v || 'Введите объем в литрах'
+        v => !!v || this.$t('tanks.dialog.volumeRules.require')
       ]
     }
   },
@@ -303,13 +309,6 @@ export default {
     },
     isEditing () {
       return this.curTankIndex !== null
-    },
-    nameHint () {
-      let counter = this.tanks.length + 1
-      return `Придумайте простое название, например "Аквариум ${counter}" или "Большой аквариум"`
-    },
-    volumeHint () {
-      return `Воспользуйтесь калькулятором, если не знаете точное значение`
     }
   },
   watch: {
@@ -374,7 +373,7 @@ export default {
           glassThickness: this.glassThickness
         })
         this.resetComponent()
-        this.SNACKBAR_SHOW('Аквариум добавлен')
+        this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankAdd'))
       }
     },
     editTank () {
@@ -391,13 +390,13 @@ export default {
           }
         })
         this.resetComponent()
-        this.SNACKBAR_SHOW('Аквариум изменен')
+        this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankEdit'))
       }
     },
     removeTank () {
       this.TANK_REMOVE(this.curTankIndex)
       this.resetComponent()
-      this.SNACKBAR_SHOW('Аквариум удален')
+      this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankRemove'))
     }
   }
 }
