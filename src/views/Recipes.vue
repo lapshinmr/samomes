@@ -50,12 +50,12 @@
                 v-for="(recipe, index) in recipes"
                 :key="recipe.name"
               >
-                <v-expansion-panel-header>
+                <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
                   <div class="d-flex justify-space-between align-center" style="width: 100%;">
                     <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
                       :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                     >
-                      <span>
+                      <span style="line-height: 1.25rem;">
                         {{ recipe.name }}
                       </span>
                       <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">
@@ -63,14 +63,6 @@
                       </span>
                     </span>
                     <span class="mr-3">
-                      <v-tooltip bottom max-width="400">
-                        <template v-slot:activator="{ on }">
-                          <a class="ml-3" @click="openShareDialog(index)" v-on="on">
-                            <v-icon>mdi mdi-share-variant</v-icon>
-                          </a>
-                        </template>
-                        Поделиться ссылкой на рецепт
-                      </v-tooltip>
                       <v-tooltip bottom max-width="400">
                         <template v-slot:activator="{ on }">
                           <v-icon class="handle ml-2" v-on="on">mdi mdi-drag</v-icon>
@@ -137,6 +129,9 @@
                     </div>
                   </div>
                   <div class="d-flex justify-end mt-4">
+                    <v-btn text @click="openShareDialog(index)">
+                      Поделиться
+                    </v-btn>
                     <v-btn text @click="openEditRecipe(index)" class="mr-n4">
                       Изменить
                     </v-btn>
