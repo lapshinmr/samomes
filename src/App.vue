@@ -165,7 +165,7 @@ export default {
   }),
   created () {
     this.initLang()
-    this.drawer = !this.$vuetify.breakpoint['xs']
+    this.DRAWER_SET(!this.$vuetify.breakpoint['xs'])
   },
   computed: {
     ...mapState([

@@ -70,6 +70,16 @@ export default {
           require: 'Enter volume'
         }
       }
+    },
+    recipes: {
+      alert: {
+        title: 'You don\'t have any recipe yet',
+        todo: {
+          action: 'Add recipes',
+          text: 'to have opportunity to create schedules.'
+        }
+      },
+      addButton: 'Добавить аквариум'
     }
   }
 }

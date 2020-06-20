@@ -22,15 +22,10 @@
     <v-row>
       <v-col v-if="recipes.length === 0" cols="12" md="8" offset-md="2">
         <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
-          У вас еще нет рецептов
+          {{ $t('recipes.alert.title') }}
         </p>
         <p>
-          <a @click="dialog = true">Добавьте рецепты</a>, чтобы вы могли
-          использовать их для составления расписания по внесению удобрений.
-        </p>
-        <p v-if="tanks.length === 0">
-          <router-link :to="{ name: 'tanks', params: { open: true }}">Добавьте аквариум</router-link>
-          и после этого можно будет составлять расписание.
+          <a @click="dialog = true">{{ $t('recipes.alert.todo.action') }}</a> {{ $t('recipes.alert.todo.text') }}
         </p>
       </v-col>
       <v-col cols="12" sm="8" offset-sm="2">

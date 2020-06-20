@@ -27,7 +27,7 @@
         <p>
           <a @click="dialog = true">
             {{ $t('tanks.alert.todo.action') }}
-          </a>,
+          </a>
           {{ $t('tanks.alert.todo.text') }}
         </p>
       </v-col>
