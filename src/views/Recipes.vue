@@ -62,7 +62,7 @@
                         <template v-slot:activator="{ on }">
                           <v-icon class="handle ml-2" v-on="on">mdi mdi-drag</v-icon>
                         </template>
-                        Потяните, чтобы отсортировать рецепты
+                        {{ $t('recipes.panel.header.pull') }}
                       </v-tooltip>
                     </span>
                   </div>
@@ -148,10 +148,10 @@
       <v-card>
         <v-toolbar dark color="primary">
           <v-toolbar-title v-if="!isEditing">
-            Новый рецепт
+            {{ $t('recipes.dialog.recipeEdit') }}
           </v-toolbar-title>
           <v-toolbar-title v-else>
-            Редактирование рецепта
+            {{ $t('recipes.dialog.recipeEdit') }}
           </v-toolbar-title>
           <v-btn icon dark @click="dialog = false" class="ml-auto">
             <v-icon>mdi-close</v-icon>
@@ -760,23 +760,23 @@
           Поделиться ссылкой
         </v-card-title>
         <v-card-text v-if="this.curRecipeIndex !== null">
-            <v-text-field
-              :value="encodedUrl"
-              label="Ваша ссылка для отправки"
-              hint="Скопируйте ссылку"
-              id="encodedUrl"
-            >
-              <template v-slot:append>
-                <v-tooltip bottom max-width="400">
-                  <template v-slot:activator="{ on }">
-                    <a @click="copyUrl()">
-                      <v-icon v-on="on">fas fa-clipboard</v-icon>
-                    </a>
-                  </template>
-                  Скопировать
-                </v-tooltip>
-              </template>
-            </v-text-field>
+          <v-text-field
+            :value="encodedUrl"
+            label="Ваша ссылка для отправки"
+            hint="Скопируйте ссылку"
+            id="encodedUrl"
+          >
+            <template v-slot:append>
+              <v-tooltip bottom max-width="400">
+                <template v-slot:activator="{ on }">
+                  <a @click="copyUrl()">
+                    <v-icon v-on="on">fas fa-clipboard</v-icon>
+                  </a>
+                </template>
+                Скопировать
+              </v-tooltip>
+            </template>
+          </v-text-field>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -805,7 +805,7 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <span>Добавить удобрение</span>
+      <span>{{ $t('recipes.addButton') }}</span>
     </v-tooltip>
 
   </v-container>

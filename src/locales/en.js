@@ -75,11 +75,53 @@ export default {
       alert: {
         title: 'You don\'t have any recipe yet',
         todo: {
-          action: 'Add recipes',
+          action: 'Add tank',
           text: 'to have opportunity to create schedules.'
         }
       },
-      addButton: 'Добавить аквариум'
+      addButton: 'Add recipe',
+      panels: {
+        header: {
+          pull: 'Pull to sort recipes'
+        },
+        body: {
+          noSizes: 'Размеры не указаны'
+        }
+      },
+      dialog: {
+        recipeNew: 'Новый рецепт',
+        recipeEdit: 'Редактирование рецепта',
+        name: 'Название',
+        nameHint: `Придумайте простое название, например "Аквариум 1" или "Большой аквариум"`,
+        volume: 'Объем',
+        volumeHint: 'Вы можете воспользоваться калькулятором объема ниже',
+        length: 'Длина',
+        width: 'Ширина',
+        height: 'Высота',
+        heightHint: 'Введите высоту чистого столба воды',
+        glassThickness: 'Толщина стекла',
+        orSizes: 'Или используйте размеры',
+        messageTankAdd: 'Аквариум добавлен',
+        messageTankEdit: 'Аквариум изменен',
+        messageTankRemove: 'Аквариум удален',
+        nameRules: {
+          require: 'Введите название',
+          exists: 'Аквариум с таким названием уже существует'
+        },
+        volumeRules: {
+          require: 'Введите объем в литрах'
+        }
+      }
+    },
+    schedules: {
+      alert: {
+        title: 'You don\'t have any redipes yet',
+        todo: {
+          action: 'Add schedule',
+          text: ', чтобы вы могли использовать их для составления расписания по внесению удобрений.'
+        }
+      },
+      addButton: 'Add schedule'
     }
   }
 }
