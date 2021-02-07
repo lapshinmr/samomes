@@ -216,6 +216,29 @@ export const FORMULAS = {
     solubilityLimit: 745,
     name: 'Кальция Хлорид'
   },
+  'CaCl2(H20)2': {
+    ions: {
+      'Ca': {
+        isNeeded: true,
+        count: 1
+      },
+      'Cl': {
+        isNeeded: false,
+        count: 2
+      },
+      'H': {
+        isNeeded: false,
+        count: 4
+      },
+      'O': {
+        isNeeded: false,
+        count: 2
+      }
+    },
+    mass: 147.02,
+    solubilityLimit: 745,
+    name: 'Кальция Хлорид 2-водный'
+  },
   'H3BO3': {
     ions: {
       'H': {
