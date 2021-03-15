@@ -347,10 +347,10 @@
                                               {{ ion }} /
                                             </template>
                                             <template v-if="ion !== convertIonName(ion)">
-                                              {{ convertIonName(ion) }}, мг/л
+                                              {{ convertIonName(ion) }}, г/л
                                             </template>
                                             <template v-else>
-                                              {{ ion }}, мг/л
+                                              {{ ion }}, г/л
                                             </template>
                                           </th>
                                         </tr>
