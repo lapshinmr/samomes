@@ -19,17 +19,23 @@
 
 export const COMPONENTS = {
   'H': 1.00811,
-  'B': 10.821,
-  'C': 12.0116,
-  'N': 14.00728,
+  'B': 10.811,
+  'C': 12.0107,
+  'N': 14.0067,
   'O': 15.99977,
-  'Mg': 24.307,
+  'Mg': 24.305,
   'P': 30.973762,
-  'S': 32.076,
-  'Cl': 35.457,
+  'S': 32.065,
+  'Cl': 35.453,
   'K': 39.0983,
   'Ca': 40.078,
-  'J': 126.90447
+  'J': 126.90447,
+  'Cu': 63.546,
+  'Zn': 65.38,
+  'Mo': 95.95,
+  'Mn': 54.938044,
+  'Fe': 55.845,
+  'Na': 22.989769
 }
 
 export const FORMULAS = {
@@ -260,6 +266,260 @@ export const FORMULAS = {
     },
     solubilityLimit: 144.5,
     name: 'Йодид Калия'
+  },
+  'CuSO4(H2O)5': {
+    ions: {
+      'Cu': {
+        isNeeded: true,
+        count: 1
+      },
+      'S': {
+        isNeeded: false,
+        count: 1
+      },
+      'H': {
+        isNeeded: false,
+        count: 10
+      },
+      'O': {
+        isNeeded: false,
+        count: 9
+      }
+    },
+    solubilityLimit: 356,
+    name: 'Меди Сульфат (Медный Купорос)'
+  },
+  'ZnSO4(H2O)7': {
+    ions: {
+      'Zn': {
+        isNeeded: true,
+        count: 1
+      },
+      'S': {
+        isNeeded: false,
+        count: 1
+      },
+      'H': {
+        isNeeded: false,
+        count: 14
+      },
+      'O': {
+        isNeeded: false,
+        count: 11
+      }
+    },
+    solubilityLimit: 540,
+    name: 'Цинка Сульфат (Цинковый Купорос)'
+  },
+  '(NH4)2MoO4': {
+    ions: {
+      'Mo': {
+        isNeeded: true,
+        count: 1
+      },
+      'N': {
+        isNeeded: false,
+        count: 2
+      },
+      'H': {
+        isNeeded: false,
+        count: 8
+      },
+      'O': {
+        isNeeded: false,
+        count: 4
+      }
+    },
+    solubilityLimit: 400,
+    name: 'Молибдат Аммония'
+  },
+  '(NH4)6Mo7O24(H2O)4': {
+    ions: {
+      'Mo': {
+        isNeeded: true,
+        count: 1
+      },
+      'N': {
+        isNeeded: false,
+        count: 2
+      },
+      'H': {
+        isNeeded: false,
+        count: 8
+      },
+      'O': {
+        isNeeded: false,
+        count: 4
+      }
+    },
+    solubilityLimit: 280,
+    name: 'Парамолибдат Аммония Тетрагидрат'
+  },
+  'MnSO4(H2O)5': {
+    ions: {
+      'Mn': {
+        isNeeded: true,
+        count: 1
+      },
+      'S': {
+        isNeeded: false,
+        count: 1
+      },
+      'H': {
+        isNeeded: false,
+        count: 10
+      },
+      'O': {
+        isNeeded: false,
+        count: 9
+      }
+    },
+    solubilityLimit: 600,
+    name: 'Марганца Сульфат'
+  },
+  'MnSO4H2O': {
+    ions: {
+      'Mn': {
+        isNeeded: true,
+        count: 1
+      },
+      'S': {
+        isNeeded: false,
+        count: 1
+      },
+      'H': {
+        isNeeded: false,
+        count: 2
+      },
+      'O': {
+        isNeeded: false,
+        count: 5
+      }
+    },
+    solubilityLimit: 762,
+    name: 'Марганца Сульфат Моногидрат'
+  },
+  'C14H18N3O10Na2Fe': {
+    ions: {
+      'Fe': {
+        isNeeded: true,
+        count: 1
+      },
+      'C': {
+        isNeeded: false,
+        count: 14
+      },
+      'H': {
+        isNeeded: false,
+        count: 18
+      },
+      'N': {
+        isNeeded: false,
+        count: 3
+      },
+      'O': {
+        isNeeded: false,
+        count: 10
+      },
+      'Na': {
+        isNeeded: false,
+        count: 2
+      }
+    },
+    solubilityLimit: 110,
+    name: 'Железа DTPA 11%'
+  },
+  'Fe2(SO4)3(H2O)9': {
+    ions: {
+      'Fe': {
+        isNeeded: true,
+        count: 2
+      },
+      'S': {
+        isNeeded: false,
+        count: 3
+      },
+      'H': {
+        isNeeded: false,
+        count: 18
+      },
+      'O': {
+        isNeeded: false,
+        count: 21
+      }
+    },
+    solubilityLimit: 263,
+    name: 'Железа Сульфат'
+  },
+  'C12H24FeO14': {
+    ions: {
+      'Fe': {
+        isNeeded: true,
+        count: 1
+      },
+      'C': {
+        isNeeded: false,
+        count: 12
+      },
+      'H': {
+        isNeeded: false,
+        count: 24
+      },
+      'O': {
+        isNeeded: false,
+        count: 14
+      }
+    },
+    solubilityLimit: 100,
+    name: 'Железа Глюконат'
+  },
+  'C12H26FeO15': {
+    ions: {
+      'Fe': {
+        isNeeded: true,
+        count: 1
+      },
+      'C': {
+        isNeeded: false,
+        count: 12
+      },
+      'H': {
+        isNeeded: false,
+        count: 26
+      },
+      'O': {
+        isNeeded: false,
+        count: 15
+      }
+    },
+    solubilityLimit: 100,
+    name: 'Железа Глюконат Гидрат'
+  },
+  'C10H14N2Na2O8(H2O)2': {
+    ions: {
+      'C': {
+        isNeeded: false,
+        count: 10
+      },
+      'H': {
+        isNeeded: false,
+        count: 18
+      },
+      'N': {
+        isNeeded: false,
+        count: 2
+      },
+      'Na': {
+        isNeeded: false,
+        count: 2
+      },
+      'O': {
+        isNeeded: false,
+        count: 10
+      }
+    },
+    solubilityLimit: 100,
+    name: 'Трилон Б (хелатор EDTA)'
   }
 }
 
@@ -328,6 +588,24 @@ export const RECIPE_EXAMPLES = [
     tankVolume: 100,
     fertilizerVolume: 1000,
     note: 'Макро в соотношении 1 к 15. Калиевая селитра в соотношении 50 на 50 с мочевиной. Рецепт взят с сайта amania.org'
+  },
+  {
+    type: 'самомес',
+    name: 'Удо Ермолаева. МИКРО',
+    reagents: {
+      'K2SO4': 7.45,
+      'MgSO4(H2O)7': 16.4,
+      'Fe2(SO4)3(H2O)9': 1.45,
+      'CuSO4(H2O)5': 0.1,
+      'ZnSO4(H2O)7': 0.04,
+      H3BO3: 0.1,
+      '(NH4)2MoO4': 0.04,
+      'MnSO4(H2O)5': 0.73,
+      'C10H14N2Na2O8(H2O)2': 2.5
+    },
+    tankVolume: 100,
+    fertilizerVolume: 500,
+    note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami'
   },
   {
     type: 'готовое',
