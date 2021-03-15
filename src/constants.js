@@ -48,7 +48,6 @@ export const FORMULAS = {
         count: 3
       }
     },
-    mass: 101.10489,
     solubilityLimit: 242,
     name: 'Калия нитрат'
   },
@@ -71,7 +70,6 @@ export const FORMULAS = {
         count: 2
       }
     },
-    mass: 136.0874,
     solubilityLimit: 226,
     name: 'Калия монофосфат '
   },
@@ -90,7 +88,6 @@ export const FORMULAS = {
         count: 4
       }
     },
-    mass: 174.27168,
     solubilityLimit: 111,
     name: 'Калия сульфат'
   },
@@ -113,7 +110,6 @@ export const FORMULAS = {
         count: 1
       }
     },
-    mass: 60.05837,
     solubilityLimit: 108,
     name: 'Карбамид (мочевина)'
   },
@@ -132,7 +128,6 @@ export const FORMULAS = {
         count: 3
       }
     },
-    mass: 80.04631,
     solubilityLimit: 190,
     name: 'Нитрат аммония'
   },
@@ -151,7 +146,6 @@ export const FORMULAS = {
         count: 4
       }
     },
-    mass: 120.37,
     solubilityLimit: 351,
     name: 'Магния Сульфат'
   },
@@ -174,7 +168,6 @@ export const FORMULAS = {
         count: 11
       }
     },
-    mass: 246.49401,
     solubilityLimit: 1130,
     name: 'Магния Сульфат (магнезия)'
   },
@@ -197,7 +190,6 @@ export const FORMULAS = {
         count: 6
       }
     },
-    mass: 172.17,
     solubilityLimit: 2.036,
     name: 'Кальция Сульфат (гипс)'
   },
@@ -212,7 +204,6 @@ export const FORMULAS = {
         count: 2
       }
     },
-    mass: 111.08,
     solubilityLimit: 745,
     name: 'Кальция Хлорид'
   },
@@ -235,7 +226,6 @@ export const FORMULAS = {
         count: 2
       }
     },
-    mass: 147.02,
     solubilityLimit: 745,
     name: 'Кальция Хлорид 2-водный'
   },
@@ -254,7 +244,6 @@ export const FORMULAS = {
         count: 3
       }
     },
-    mass: 61.83,
     solubilityLimit: 47.2,
     name: 'Борная кислота'
   },
@@ -269,7 +258,6 @@ export const FORMULAS = {
         count: 1
       }
     },
-    mass: 166.00277,
     solubilityLimit: 144.5,
     name: 'Йодид Калия'
   }

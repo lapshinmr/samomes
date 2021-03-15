@@ -33,7 +33,7 @@ export const countTotalIonConcentration = (concentration) => {
 }
 
 export const countPercent = (reagent) => {
-  let massTotal = FORMULAS[reagent].mass
+  let massTotal = countMassTotal(reagent)
   let result = {}
   let ions = FORMULAS[reagent].ions
   for (let ion in ions) {
@@ -42,6 +42,15 @@ export const countPercent = (reagent) => {
     }
   }
   return result
+}
+
+export const countMassTotal = (reagent) => {
+  let massTotal = 0.0
+  let ions = FORMULAS[reagent].ions
+  for (let ion in ions) {
+    massTotal = massTotal + COMPONENTS[ion] * ions[ion].count
+  }
+  return massTotal
 }
 
 export const isConcentration = (concentration) => {
