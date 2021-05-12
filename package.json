@@ -11,7 +11,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "core-js": "^3.3.2",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.10",
