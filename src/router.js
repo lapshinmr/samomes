@@ -42,6 +42,11 @@ export default new Router({
       name: 'recipes'
     },
     {
+      path: '/solutions',
+      component: load('Solutions'),
+      name: 'solutions'
+    },
+    {
       path: '/schedules',
       component: load('Schedules'),
       name: 'schedules'

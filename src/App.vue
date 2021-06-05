@@ -66,7 +66,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
     </v-app-bar>
 
-    <v-content>
+    <v-main>
       <v-container v-if="(!tanks.length || !recipes.length || !schedules.length) && !guidIsClosed">
         <v-row>
           <v-col cols="12" md="8" offset-md="2">
@@ -138,7 +138,7 @@
             {{ snackbarMessage }}
         </div>
       </v-snackbar>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -155,7 +155,8 @@ export default {
     drawer: false,
     links: [
       { name: 'tanks', icon: 'mdi-fishbowl-outline' },
-      { name: 'recipes', icon: 'mdi-test-tube' },
+      { name: 'recipes', icon: 'mdi-clipboard-text-multiple-outline' },
+      { name: 'solutions', icon: 'mdi-flask' },
       { name: 'schedules', icon: 'mdi-calendar-blank-multiple' },
       { name: 'remineralization', icon: 'fas fa-cubes' },
       { name: 'dynamics', icon: 'far fa-chart-bar' },
