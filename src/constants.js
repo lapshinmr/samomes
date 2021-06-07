@@ -519,7 +519,7 @@ export const FORMULAS = {
       }
     },
     solubilityLimit: 100,
-    name: 'Трилон Б (хелатор EDTA)'
+    name: 'Трилон Б (хелатор EDTA Na2)'
   }
 }
 
