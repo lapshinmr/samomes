@@ -90,15 +90,15 @@ GPL-3.0 licensed.
 
 ## Установка проекта
 ```
-npm install
+yarn install
 ```
 
 ### Запуск dev-версии
 ```
-npm run serve
+yarn serve
 ```
 
 ### Запуск prod-версии
 ```
-npm run build
+yarn build
 ```

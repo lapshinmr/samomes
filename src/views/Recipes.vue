@@ -172,20 +172,7 @@
                         название и напишите примечание. После этого можете сохранить его.
                       </p>
                     </v-col>
-                    <v-col cols="12" class="pb-0">
-                      <v-select
-                        :items="fertilizerTypes"
-                        :value="fertilizerType"
-                        @change="setFertilizerType"
-                        label="Выберите тип удобрения"
-                        hint="От типа зависит расчет удобрения"
-                        persistent-hint
-                        hide-details="auto"
-                        hide-selected
-                        :disabled="isEditing"
-                      ></v-select>
-                    </v-col>
-                    <v-col v-if="fertilizerType === 'Самомес'" cols="12" class="pt-0">
+                    <v-col cols="12" class="pt-0">
                       <v-row>
                         <v-col cols="12" sm="6">
                           <v-select
@@ -241,24 +228,6 @@
                         </v-expand-transition>
                         <v-expand-transition>
                           <v-col v-if="reagentsSelected.length > 0 && isWater" cols="12">
-                            <v-combobox
-                              :items="tanks"
-                              v-model.number="tankVolume"
-                              type="Number"
-                              item-text="name"
-                              item-value="volume"
-                              label="Объем аквариума"
-                              persistent-hint
-                              hide-selected
-                              hint="Выберите аквариум или введите объем"
-                              suffix="л"
-                              :return-object="false"
-                              :rules="[isWater ? rulesTankVolume.isExist() : true]"
-                            ></v-combobox>
-                          </v-col>
-                        </v-expand-transition>
-                        <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && isWater" cols="12">
                             <v-text-field
                               :value="fertilizerVolume"
                               @input="inputVolume"
@@ -273,7 +242,7 @@
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater) && (tankVolume || !isWater)" cols="12">
+                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)" cols="12">
                             <v-row>
                               <v-col v-if="isWater" cols="12">
                                 <div class="d-flex align-center">
@@ -557,7 +526,24 @@
                                   <v-divider />
                                 </div>
                               </v-col>
-                              <v-col v-if="isWater" cols="12" class="pb-0">
+                              <v-expand-transition>
+                                <v-col v-if="reagentsSelected.length > 0 && isWater" cols="12">
+                                  <v-combobox
+                                    :items="tanks"
+                                    v-model.number="tankVolume"
+                                    type="Number"
+                                    item-text="name"
+                                    item-value="volume"
+                                    label="Объем аквариума"
+                                    persistent-hint
+                                    hide-selected
+                                    hint="Выберите аквариум или введите объем"
+                                    suffix="л"
+                                    :return-object="false"
+                                  ></v-combobox>
+                                </v-col>
+                              </v-expand-transition>
+                              <v-col v-if="tankVolume && isWater" cols="12" class="pb-0">
                                 <v-row>
                                   <template v-for="reagent in reagentsSelected">
                                     <v-col cols="12" :key="reagent" class="py-0">
@@ -603,7 +589,7 @@
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)  && (tankVolume || !isWater)" cols="12">
+                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)" cols="12">
                             <v-row>
                               <v-col cols="12">
                                 <v-text-field
@@ -644,100 +630,6 @@
                                 </v-btn>
                               </v-col>
                             </v-row>
-                          </v-col>
-                        </v-expand-transition>
-                      </v-row>
-                    </v-col>
-                    <v-col v-else cols="12">
-                      <v-row>
-                        <v-col cols="12" sm="6">
-                          Выберите единицы и введите концентрации элементов, которые указаны в составе удобрения.
-                          Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                          <v-select
-                            :items="recipesExamples['готовое']"
-                            v-model="recipeExampleChosen"
-                            label="Удобрение"
-                            hint="или выберите удобрение из списка"
-                            persistent-hint
-                            hide-details="auto"
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-radio-group
-                            v-model="isPercent"
-                            row
-                            class="mt-0"
-                            hide-details="auto"
-                          >
-                            <v-radio label="г/л" :value="false"></v-radio>
-                            <v-radio label="%" :value="true"></v-radio>
-                          </v-radio-group>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-row>
-                            <v-col
-                              v-for="(amount, el) in elements"
-                              :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6 : 12"
-                              class="py-0"
-                              :key="el"
-                            >
-                              <v-text-field
-                                v-model.number="elements[el]"
-                                type="number"
-                                :label="el"
-                                :value="amount"
-                                :suffix="isPercent ? '%' : 'г/л'"
-                                persistent-hint
-                                hide-details="auto"
-                                :disabled="opposite[el] ? Boolean(elements[opposite[el]]) : false"
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                        <v-expand-transition>
-                          <v-col cols="12">
-                            <v-text-field
-                              v-model="recipeName"
-                              label="Имя рецепта"
-                              hide-details="auto"
-                              hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
-                              :rules="rulesName"
-                            ></v-text-field>
-                          </v-col>
-                        </v-expand-transition>
-                        <v-expand-transition>
-                          <v-col cols="12">
-                            <v-textarea
-                              v-model="recipeNote"
-                              label="Примечание"
-                              hide-details="auto"
-                              auto-grow
-                              rows="1"
-                              hint="Вы можете добавить дополнительные сведения к рецепту"
-                            ></v-textarea>
-                          </v-col>
-                        </v-expand-transition>
-                        <v-expand-transition>
-                          <v-col class="text-right" cols="12">
-                            <v-btn
-                              v-if="isEditing"
-                              @click="removeRecipe"
-                            >Удалить</v-btn>
-                            <v-btn
-                              v-if="isEditing"
-                              color="primary"
-                              @click="editRecipe"
-                              class="ml-2"
-                            >Сохранить</v-btn>
-                            <v-btn
-                              v-if="!isEditing"
-                              color="primary"
-                              @click="addRecipe"
-                            >
-                              Сохранить
-                            </v-btn>
                           </v-col>
                         </v-expand-transition>
                       </v-row>
@@ -838,7 +730,6 @@ export default {
       COMPONENTS,
       RECIPE_EXAMPLES,
       drag: false,
-      fertilizerTypes: ['Самомес', 'Готовое'],
       fertilizerType: 'Самомес',
       reagentsSelected: [],
       recipeExampleChosen: null,
@@ -848,7 +739,6 @@ export default {
       solute: {},
       recipeName_: null,
       recipeNote: null,
-      elements: { ...this.resetElements() },
       opposite: {
         'N': 'NO3',
         'NO3': 'N',
@@ -884,11 +774,6 @@ export default {
           return v => !!v || 'Введите объем удобрения'
         }
       },
-      rulesTankVolume: {
-        isExist () {
-          return v => !!v || 'Введите обеъм аквариума'
-        }
-      },
       rulesName: [
         v => !!v || 'Введите название',
         v => (!this.isExist || this.isSame) || 'Рецепт с таким названием уже существует'
@@ -916,7 +801,7 @@ export default {
     },
     recipes: {
       get () {
-        return this.$store.state.recipes
+        return this.$store.state.recipes.filter((item) => item.type === 'Самомес')
       },
       set (value) {
         this.RECIPE_MOVE(value)
@@ -951,7 +836,6 @@ export default {
     concentration () {
       let result = {}
       if (
-        this.fertilizerType === 'Самомес' &&
         this.reagentsSelected.length > 0 &&
         Object.keys(this.fertilizerMass).length > 0
       ) {
@@ -968,18 +852,6 @@ export default {
               }
               result[reagent][ion] = this.fertilizerMass[reagent] * this.countPercent(reagent)[ion] * factor
             }
-          }
-        }
-      } else if (this.fertilizerType === 'Готовое') {
-        result[this.recipeName] = {}
-        for (let el in this.elements) {
-          let convertRatio = this.isPercent ? 10 : 1
-          if (this.elements[el] && ['NO3', 'PO4'].includes(el)) {
-            result[this.recipeName][this.convertIonName(el)] = this.convertIonRatio(el) * this.elements[el] * convertRatio
-          } else if (this.elements[el]) {
-            result[this.recipeName][el] = this.elements[el] * convertRatio
-          } else {
-            continue
           }
         }
       }
@@ -1057,7 +929,7 @@ export default {
     },
     recipeExampleChosen () {
       for (let item of this.RECIPE_EXAMPLES) {
-        if (item.name === this.recipeExampleChosen && item.type === 'самомес') {
+        if (item.name === this.recipeExampleChosen) {
           this.reagentsSelected = Object.keys(item.reagents)
           this.recipeName_ = item.name
           this.recipeNote = item.note
@@ -1066,13 +938,6 @@ export default {
           for (let reagent in item.reagents) {
             this.fertilizerMass[reagent] = item.reagents[reagent]
           }
-          break
-        } else if (item.name === this.recipeExampleChosen && item.type === 'готовое') {
-          this.isPercent = item.isPercent
-          this.elements = Object.assign({}, this.resetElements())
-          this.elements = Object.assign(this.elements, item.elements)
-          this.recipeName_ = item.name
-          this.recipeNote = item.note
           break
         }
       }
@@ -1092,8 +957,7 @@ export default {
     ...mapMutations([
       'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'RECIPE_MOVE', 'SNACKBAR_SHOW'
     ]),
-    resetComponent (type = 'Самомес', dialog = false) {
-      this.fertilizerType = type
+    resetComponent (dialog = false) {
       this.reagentsSelected = []
       this.recipeExampleChosen = null
       this.fertilizerMass = {}
@@ -1107,7 +971,6 @@ export default {
       this.isPercent = false
       this.isWater = true
       this.isShared = false
-      this.elements = { ...this.resetElements() }
     },
     setComponent (recipe, index = null) {
       this.fertilizerType = recipe.type
@@ -1121,27 +984,6 @@ export default {
       this.dialog = true
       this.isWater = recipe.volume > 0
       this.isPercent = recipe.isPercent
-      if (recipe.type !== 'Самомес') {
-        this.elements = { ...recipe.elements }
-      }
-    },
-    resetElements () {
-      return {
-        'N': null,
-        'NO3': null,
-        'P': null,
-        'PO4': null,
-        'K': null,
-        'Ca': null,
-        'Mg': null,
-        'Fe': null,
-        'Mn': null,
-        'B': null,
-        'Zn': null,
-        'Cu': null,
-        'Mo': null,
-        'Ni': null
-      }
     },
     countPercent (reagent) {
       return countPercent(reagent)
@@ -1263,10 +1105,8 @@ export default {
           name: this.recipeName,
           note: this.recipeNote,
           volume: this.fertilizerVolume,
-          tankVolume: this.tankVolume,
           reagents: [ ...this.reagentsSelected ],
           mass: { ...this.fertilizerMass },
-          elements: { ...this.elements },
           concentration: { ...this.concentration },
           isPercent: this.isPercent
         })
@@ -1294,7 +1134,6 @@ export default {
             reagents: [...this.reagentsSelected],
             mass: { ...this.fertilizerMass },
             concentration: { ...this.concentration },
-            elements: { ...this.elements },
             isPercent: this.isPercent
           }
         })

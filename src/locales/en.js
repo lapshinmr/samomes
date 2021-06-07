@@ -3,6 +3,7 @@ export default {
     routes: {
       tanks: 'Fish tanks',
       recipes: 'Recipies',
+      solutions: 'Solutions',
       schedules: 'Schedule',
       remineralization: 'Remineralization',
       dynamics: 'Dynamics',

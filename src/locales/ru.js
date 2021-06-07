@@ -3,7 +3,8 @@ export default {
     routes: {
       tanks: 'Аквариумы',
       recipes: 'Рецепты',
-      schedules: 'Расписания',
+      solutions: 'Готовые растворы',
+      schedules: 'Расписание',
       remineralization: 'Реминерализация',
       dynamics: 'Динамика',
       about: 'О проекте',
