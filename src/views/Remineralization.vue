@@ -188,7 +188,7 @@
 
 <script>
 import Vue from 'vue'
-import { COMPONENTS, FORMULAS, HARDNESS } from '../constants.js'
+import { ELEMENTS, FORMULAS, HARDNESS } from '../constants.js'
 import { mapState } from 'vuex'
 import { convertIonName, convertIonRatio, countPercent, countTotalIonConcentration } from '../funcs.js'
 
@@ -197,7 +197,7 @@ export default {
   data () {
     return {
       FORMULAS,
-      COMPONENTS,
+      COMPONENTS: ELEMENTS,
       HARDNESS,
       dialog: true,
       tankVolume: null,

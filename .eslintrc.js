@@ -1,19 +1,35 @@
 module.exports = {
-  root: true,
   env: {
-    node: true
+    browser: true,
+    es2021: true,
+    node: true,
   },
-  'extends': [
+  extends: [
+    'eslint:recommended',
+    'airbnb-base',
     'plugin:vue/essential',
-    '@vue/standard'
+    'plugin:vue/strongly-recommended',
   ],
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    parser: 'babel-eslint'
+    ecmaVersion: 12,
+    sourceType: 'module',
   },
+  plugins: [
+    'vue',
+  ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    "template-curly-spacing" : "off",
-    indent : "off"
+    'max-len': ['warn', { code: 120 }],
+    'vue/max-len': ['warn', {
+      code: 120,
+      template: 120,
+    }],
   },
-}
+  settings: {
+    'import/resolver': {
+      vue: {
+        extensions: ['.js', '.vue'],
+      },
+    },
+  },
+};

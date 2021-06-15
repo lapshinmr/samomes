@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-export const COMPONENTS = {
+export const ELEMENTS = {
   'H': 1.00811,
   'B': 10.811,
   'C': 12.0107,

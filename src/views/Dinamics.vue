@@ -207,7 +207,7 @@
 
 <script>
 import Vue from 'vue'
-import { COMPONENTS, FORMULAS } from '../constants.js'
+import { ELEMENTS, FORMULAS } from '../constants.js'
 import { mapState } from 'vuex'
 import { convertIonName, convertIonRatio } from '../funcs.js'
 import LineChart from './Chart'
@@ -221,7 +221,7 @@ export default {
     return {
       datacollection: null,
       FORMULAS,
-      COMPONENTS,
+      COMPONENTS: ELEMENTS,
       tankVolume: null,
       tank: null,
       waterChange: 30,

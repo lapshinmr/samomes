@@ -336,38 +336,24 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { COMPONENTS, FORMULAS, RECIPE_EXAMPLES } from '../constants.js'
-import {
-  countTotalIonConcentration,
-  countTotalIonMass,
-  countPercent,
-  isConcentration,
-  countTotalIonDose,
-  countTotalDose,
-  convertIonName,
-  convertIonRatio
-} from '../funcs.js'
+import { FORMULAS, RECIPE_EXAMPLES } from '@/constants'
+import { convertIonName, convertIonRatio } from '@/funcs'
 import { mapState, mapMutations } from 'vuex'
 import draggable from 'vuedraggable'
 
 export default {
-  name: 'recipe',
+  name: 'Solutions',
   components: {
     draggable
   },
   data () {
     return {
       FORMULAS,
-      COMPONENTS,
       RECIPE_EXAMPLES,
       drag: false,
       fertilizerType: 'Готовое',
       reagentsSelected: [],
       recipeExampleChosen: null,
-      fertilizerVolume: null,
-      tankVolume: null,
-      fertilizerMass: {},
       solute: {},
       recipeName_: null,
       recipeNote: null,
@@ -380,33 +366,10 @@ export default {
       },
       isPercent: false,
       isShared: false,
-      isWater: true,
-      isConcentrationPercent: false,
-      isShowConcentration: false,
-      isConvertion: false,
       curRecipeIndex: null,
       dialog: this.$route.params.open,
       dialogShare: false,
       timeout: 2000,
-      rulesReagent: [
-        v => !!(v.length > 0) || 'Выберите реагент'
-      ],
-      rulesMass: {
-        solubility (reagent, volume, formulas) {
-          return v => (
-            (v / volume * 1000) < formulas[reagent].solubilityLimit ||
-            `Достигнута максимальная растворимость - ${formulas[reagent].solubilityLimit} г/л при 20°С!`
-          )
-        },
-        isExist () {
-          return v => !!v || 'Введите массу'
-        }
-      },
-      rulesVolume: {
-        isExist () {
-          return v => !!v || 'Введите объем удобрения'
-        }
-      },
       rulesName: [
         v => !!v || 'Введите название',
         v => (!this.isExist || this.isSame) || 'Рецепт с таким названием уже существует'
@@ -463,9 +426,6 @@ export default {
       }
       return recipeExamples
     },
-    totalFertilizerMass () {
-      return Object.values(this.fertilizerMass).reduce((sum, value) => sum + value)
-    },
     concentration () {
       let result = {}
       result[this.recipeName] = {}
@@ -481,22 +441,9 @@ export default {
       }
       return result
     },
-    totalIonConcentration () {
-      return this.countTotalIonConcentration(this.concentration)
-    },
-    totalUsefulConcentration () {
-      let sum = 0
-      for (let [ion, value] of Object.entries(this.totalIonConcentration)) {
-        sum += this.convertIonRatio(ion) * value
-      }
-      return sum
-    },
     recipeName: {
       get () {
-        if (this.recipeName_ === null && this.reagentsSelected.length === 1) {
-          let reagent = this.reagentsSelected[0]
-          return this.FORMULAS[reagent].name
-        } else if (this.recipeName_ === null) {
+        if (this.recipeName_ === null) {
           return this.fertilizerType
         } else {
           return this.recipeName_
@@ -525,32 +472,6 @@ export default {
     }
   },
   watch: {
-    reagentsSelected () {
-      if (this.reagentsSelected.length === 0) { }
-      let solute = {}
-      for (let reagent of this.reagentsSelected) {
-        let ions = this.FORMULAS[reagent].ions
-        solute[reagent] = {}
-        for (let ion in ions) {
-          if (ions[ion].isNeeded) {
-            solute[reagent][ion] = 0
-          }
-        }
-      }
-      this.solute = { ...solute }
-      let fertilizerMass = {}
-      for (let reagent of this.reagentsSelected) {
-        if (!(reagent in this.fertilizerMass)) {
-          fertilizerMass[reagent] = 0
-        } else {
-          fertilizerMass[reagent] = this.fertilizerMass[reagent]
-        }
-      }
-      this.fertilizerMass = { ...fertilizerMass }
-      if (this.fertilizerVolume) {
-        this.countDose()
-      }
-    },
     recipeExampleChosen () {
       for (let item of this.RECIPE_EXAMPLES) {
         if (item.name === this.recipeExampleChosen) {
@@ -561,11 +482,6 @@ export default {
           this.recipeNote = item.note
           break
         }
-      }
-    },
-    tankVolume () {
-      if (this.fertilizerVolume) {
-        this.countDose()
       }
     },
     dialogShare () {
@@ -579,32 +495,22 @@ export default {
       'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'RECIPE_MOVE', 'SNACKBAR_SHOW'
     ]),
     resetComponent (dialog = false) {
-      this.reagentsSelected = []
       this.recipeExampleChosen = null
-      this.fertilizerMass = {}
-      this.fertilizerVolume = null
       this.recipeName_ = null
       this.recipeNote = null
-      this.tankVolume = null
       this.curRecipeIndex = null
       this.solute = {}
       this.dialog = dialog
       this.isPercent = false
-      this.isWater = true
       this.isShared = false
       this.elements = { ...this.resetElements() }
     },
     setComponent (recipe, index = null) {
       this.fertilizerType = recipe.type
-      this.reagentsSelected = recipe.reagents
-      this.fertilizerMass = recipe.mass
-      this.fertilizerVolume = recipe.volume
-      this.tankVolume = recipe.tankVolume
       this.recipeName_ = recipe.name
       this.recipeNote = recipe.note
       this.curRecipeIndex = index
       this.dialog = true
-      this.isWater = recipe.volume > 0
       this.isPercent = recipe.isPercent
       this.elements = { ...recipe.elements }
     },
@@ -626,111 +532,11 @@ export default {
         'Ni': null
       }
     },
-    countPercent (reagent) {
-      return countPercent(reagent)
-    },
     convertIonName (el) {
       return convertIonName(el)
     },
     convertIonRatio (el) {
       return convertIonRatio(el)
-    },
-    countDose () {
-      for (let reagent of this.reagentsSelected) {
-        let ions = FORMULAS[reagent].ions
-        let result = {}
-        for (let ion in ions) {
-          if (ions[ion].isNeeded) {
-            let value = this.fertilizerMass[reagent] / (this.fertilizerVolume / 1000) / this.tankVolume * this.countPercent(reagent)[ion] * this.convertIonRatio(ion)
-            if (!isNaN(value)) {
-              value = parseFloat(value.toFixed(3))
-            }
-            result[ion] = value
-            Vue.set(this.solute, reagent, result)
-          }
-        }
-      }
-    },
-    setFertilizerType (value) {
-      this.fertilizerType = value
-      this.resetComponent(value, true)
-    },
-    setIsWater (value) {
-      this.isWater = value
-      this.fertilizerVolume = null
-      this.tankVolume = null
-    },
-    inputMass (reagent) {
-      let value = parseFloat(event.target.value)
-      Vue.set(this.fertilizerMass, reagent, !isNaN(value) ? value : '')
-      if (this.tankVolume && !isNaN(value)) {
-        this.countDose()
-      }
-    },
-    inputVolume () {
-      this.fertilizerVolume = parseFloat(event.target.value)
-      if (this.tankVolume && !isNaN(this.fertilizerVolume)) {
-        this.countDose()
-      }
-    },
-    inputIon (reagent, curIon) {
-      let value
-      let solute = {}
-      let ratio = {}
-      for (let ion in this.solute[reagent]) {
-        ratio[ion] = this.convertIonRatio(ion)
-      }
-      for (let ion in this.solute[reagent]) {
-        value = parseFloat(event.target.value)
-        if (ion !== curIon) {
-          if (ratio[curIon] > 1) {
-            value = value / ratio[curIon]
-          } else {
-            value = value * ratio[ion]
-          }
-          value = value * (this.countPercent(reagent)[ion] / this.countPercent(reagent)[curIon])
-        }
-        solute[ion] = !isNaN(parseFloat(value)) ? parseFloat(value.toFixed(4)) : 0
-        Vue.set(this.solute, reagent, solute)
-      }
-      let fertilizerMass = { ...this.fertilizerMass }
-      let mass
-      if (!this.solute[reagent][curIon]) {
-        mass = 0
-      } else {
-        mass = this.solute[reagent][curIon] * this.tankVolume / this.countPercent(reagent)[curIon] * this.fertilizerVolume / 1000 / this.convertIonRatio(curIon)
-      }
-      fertilizerMass[reagent] = parseFloat(mass.toFixed(3))
-      this.fertilizerMass = { ...fertilizerMass }
-    },
-    countTotalIonConcentration (concentration) {
-      return countTotalIonConcentration(concentration)
-    },
-    countTotalIonMass (mass) {
-      return countTotalIonMass(mass)
-    },
-    countTotalIonDose (solute) {
-      return countTotalIonDose(solute)
-    },
-    countTotalDose (solute) {
-      return countTotalDose(solute)
-    },
-    isConcentration (concentration) {
-      return isConcentration(concentration)
-    },
-    fertilizerMassHint (reagent) {
-      let hint = ''
-      for (let ion in this.FORMULAS[reagent].ions) {
-        let data = this.FORMULAS[reagent].ions[ion]
-        if (data.isNeeded) {
-          if (ion !== this.convertIonName(ion)) {
-            hint += ion + '/' + this.convertIonName(ion) + ':  ' + this.concentration[reagent][ion].toFixed(2) + '/' + (this.convertIonRatio(ion) * this.concentration[reagent][ion]).toFixed(2) + ' г/л '
-          } else {
-            hint += ion + ':  ' + this.concentration[reagent][ion].toFixed(2) + ' г/л '
-          }
-        }
-      }
-      return hint
     },
     openAddRecipe () {
       this.resetComponent()
@@ -745,9 +551,6 @@ export default {
           type: this.fertilizerType,
           name: this.recipeName,
           note: this.recipeNote,
-          volume: this.fertilizerVolume,
-          tankVolume: this.tankVolume,
-          reagents: [ ...this.reagentsSelected ],
           mass: { ...this.fertilizerMass },
           elements: { ...this.elements },
           concentration: { ...this.concentration },
@@ -789,13 +592,6 @@ export default {
       this.RECIPE_REMOVE(this.curRecipeIndex)
       this.resetComponent()
       this.SNACKBAR_SHOW('Рецепт удален')
-    },
-    showComponents (ions) {
-      let output = []
-      for (let key in ions) {
-        output.push(`${key}: ${(ions[key] * 100).toFixed(1)}%`)
-      }
-      return output.join(' ')
     },
     openShareDialog (index) {
       this.curRecipeIndex = index

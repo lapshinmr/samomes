@@ -68,67 +68,14 @@
                   </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <div v-if="recipe.type === 'Самомес'" class="mb-2">
-                    Рецепт
-                  </div>
-                  <div v-if="recipe.volume" class="d-flex justify-space-between body-2">
-                    <span class="">
-                      Объем удобрения
-                    </span>
-                    <span>
-                      {{ recipe.volume }} мл
-                    </span>
-                  </div>
-                  <template v-for="reagent in recipe.reagents">
-                    <div v-if="recipe.mass[reagent]" class="d-flex justify-space-between body-2" :key="reagent">
-                      <span>
-                        {{ FORMULAS[reagent].name }}
-                      </span>
-                      <span>
-                        {{ recipe.mass[reagent].toFixed(2) }} г
-                      </span>
-                    </div>
-                  </template>
-                  <v-divider v-if="recipe.type === 'Самомес'" class="my-3"/>
-                  <div
-                    v-if="isConcentration(recipe.concentration)"
-                    class="d-flex justify-space-between"
-                  >
-                    <div class="">Концентрация</div>
-                    <div class="d-flex body-2">
-                      <div>
-                        <div
-                          v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
-                          class="mr-3"
-                          :key="ion + 'name'"
-                        >
-                          {{ convertIonName(ion) }}
-                        </div>
-                      </div>
-                      <div>
-                        <div
-                          v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
-                          :key="ion + 'unit'"
-                          class="text-right"
-                        >
-                          {{ (convertIonRatio(ion) * value * (recipe.volume || recipe.type === 'Готовое' ? 1 : 1000)).toFixed(2) }} {{ recipe.volume || recipe.type === 'Готовое' ? 'г/л' : 'мг/г'}}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <v-divider v-if="recipe.note" class="my-3"/>
-                  <div v-if="recipe.note" class="d-flex justify-space-between">
-                    <div class="mr-3">Примечание</div>
-                    <div class="text-right body-2">
-                      {{ recipe.note }}
-                    </div>
-                  </div>
+                  <Recipe
+                  />
                   <div class="d-flex justify-end mt-4">
                     <v-btn text @click="openShareDialog(index)">
                       Поделиться
                     </v-btn>
                     <v-btn text @click="openEditRecipe(index)" class="mr-n4">
-                      Изменить
+                      Открыть
                     </v-btn>
                   </div>
                 </v-expansion-panel-content>
@@ -705,29 +652,29 @@
 
 <script>
 import Vue from 'vue'
-import { COMPONENTS, FORMULAS, RECIPE_EXAMPLES } from '../constants.js'
+import { FORMULAS, RECIPE_EXAMPLES } from '@/constants'
 import {
   countTotalIonConcentration,
-  countTotalIonMass,
   countPercent,
   isConcentration,
   countTotalIonDose,
   countTotalDose,
   convertIonName,
   convertIonRatio
-} from '../funcs.js'
+} from '@/funcs'
 import { mapState, mapMutations } from 'vuex'
 import draggable from 'vuedraggable'
+import Recipe from '@/components/Recipe.vue';
 
 export default {
-  name: 'recipe',
+  name: 'Recipes',
   components: {
-    draggable
+    draggable,
+    Recipe,
   },
   data () {
     return {
       FORMULAS,
-      COMPONENTS,
       RECIPE_EXAMPLES,
       drag: false,
       fertilizerType: 'Самомес',
@@ -1010,10 +957,6 @@ export default {
         }
       }
     },
-    setFertilizerType (value) {
-      this.fertilizerType = value
-      this.resetComponent(value, true)
-    },
     setIsWater (value) {
       this.isWater = value
       this.fertilizerVolume = null
@@ -1064,9 +1007,6 @@ export default {
     },
     countTotalIonConcentration (concentration) {
       return countTotalIonConcentration(concentration)
-    },
-    countTotalIonMass (mass) {
-      return countTotalIonMass(mass)
     },
     countTotalIonDose (solute) {
       return countTotalIonDose(solute)
