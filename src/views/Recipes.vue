@@ -316,10 +316,10 @@
                                               {{ ion }} /
                                             </template>
                                             <template v-if="ion !== convertIonName(ion)">
-                                              {{ convertIonName(ion) }}, мг/л
+                                              {{ convertIonName(ion) }}, г/л
                                             </template>
                                             <template v-else>
-                                              {{ ion }}, мг/л
+                                              {{ ion }}, г/л
                                             </template>
                                           </th>
                                         </tr>
@@ -337,13 +337,13 @@
                                           >
                                             <template v-if="Object.keys(concentration[reagent]).includes(ion)">
                                               <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ concentration[reagent][ion].toFixed(2) }} /
+                                                {{ concentration[reagent][ion].toFixed(3) }} /
                                               </template>
                                               <template v-if="ion !== convertIonName(ion)" >
-                                                {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(2) }}
+                                                {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(3) }}
                                               </template>
                                               <template v-else>
-                                                {{ concentration[reagent][ion].toFixed(2) }}
+                                                {{ concentration[reagent][ion].toFixed(3) }}
                                               </template>
                                               <template v-if="value && isConcentrationPercent">
                                                 ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
@@ -368,16 +368,16 @@
                                               :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
                                             >
                                               <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ value.toFixed(2) }} /
+                                                {{ value.toFixed(3) }} /
                                               </template>
-                                              {{ (convertIonRatio(ion) * value).toFixed(2) }}
+                                              {{ (convertIonRatio(ion) * value).toFixed(3) }}
                                             </td>
                                             <td v-else
                                               class="text-center"
                                               :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
                                               :key="ion"
                                             >
-                                              {{ value.toFixed(2) }}
+                                              {{ value.toFixed(3) }}
                                             </td>
                                           </template>
                                         </tr>
@@ -438,13 +438,13 @@
                                           >
                                             <template v-if="Object.keys(countPercent(reagent)).includes(ion)">
                                               <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ (mass * countPercent(reagent)[ion]).toFixed(2) }} /
+                                                {{ (mass * countPercent(reagent)[ion]).toFixed(3) }} /
                                               </template>
                                               <template v-if="ion !== convertIonName(ion)" >
-                                                {{ (convertIonRatio(ion) * mass * countPercent(reagent)[ion]).toFixed(2) }}
+                                                {{ (convertIonRatio(ion) * mass * countPercent(reagent)[ion]).toFixed(3) }}
                                               </template>
                                               <template v-else>
-                                                {{ (mass * countPercent(reagent)[ion]).toFixed(2) }}
+                                                {{ (mass * countPercent(reagent)[ion]).toFixed(3) }}
                                               </template>
                                               <template v-if="value && isConcentrationPercent">
                                                 ({{ (mass * countPercent(reagent)[ion] / (value * totalFertilizerMass) * 100).toFixed(1) }}%)
@@ -467,9 +467,9 @@
                                               :key="ion"
                                             >
                                               <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ (value * totalFertilizerMass).toFixed(2) }} /
+                                                {{ (value * totalFertilizerMass).toFixed(3) }} /
                                               </template>
-                                              {{ (convertIonRatio(ion) * value * totalFertilizerMass).toFixed(2) }}
+                                              {{ (convertIonRatio(ion) * value * totalFertilizerMass).toFixed(3) }}
                                             </td>
                                             <td
                                               v-else
@@ -477,7 +477,7 @@
                                               :class="{'pr-0': index === totalIonConcentration.length - 1}"
                                               :key="ion"
                                             >
-                                              {{ (value * totalFertilizerMass).toFixed(2) }}
+                                              {{ (value * totalFertilizerMass).toFixed(3) }}
                                             </td>
                                           </template>
                                         </tr>
@@ -498,7 +498,7 @@
                                     <div>
                                       <span v-for="(value, ion) in totalIonConcentration" class="mr-2" :key="ion">
                                         {{ convertIonName(ion) }}
-                                        ({{ value ? (convertIonRatio(ion) * value / totalUsefulConcentration).toFixed(2) : '???' }} %)
+                                        ({{ value ? (convertIonRatio(ion) * value / totalUsefulConcentration).toFixed(5) : '???' }} %)
                                       </span>
                                     </div>
                                   </div>
@@ -575,9 +575,9 @@
                                       >
                                         <div>{{ convertIonName(name) }}:</div>
                                         <div class="ml-3">
-                                          {{ value.toFixed(3) }}
+                                          {{ value.toFixed(5) }}
                                           <template v-if="countTotalDose(solute)">
-                                            ({{ (value / countTotalDose(solute) * 100).toFixed(1) }}%)
+                                            ({{ (value / countTotalDose(solute) * 100).toFixed(2) }}%)
                                           </template>
                                         </div>
                                       </div>
@@ -1002,7 +1002,7 @@ export default {
           if (ions[ion].isNeeded) {
             let value = this.fertilizerMass[reagent] / (this.fertilizerVolume / 1000) / this.tankVolume * this.countPercent(reagent)[ion] * this.convertIonRatio(ion)
             if (!isNaN(value)) {
-              value = parseFloat(value.toFixed(3))
+              value = parseFloat(value.toFixed(5))
             }
             result[ion] = value
             Vue.set(this.solute, reagent, result)
@@ -1083,9 +1083,9 @@ export default {
         let data = this.FORMULAS[reagent].ions[ion]
         if (data.isNeeded) {
           if (ion !== this.convertIonName(ion)) {
-            hint += ion + '/' + this.convertIonName(ion) + ':  ' + this.concentration[reagent][ion].toFixed(2) + '/' + (this.convertIonRatio(ion) * this.concentration[reagent][ion]).toFixed(2) + ' г/л '
+            hint += ion + '/' + this.convertIonName(ion) + ':  ' + this.concentration[reagent][ion].toFixed(3) + '/' + (this.convertIonRatio(ion) * this.concentration[reagent][ion]).toFixed(3) + ' г/л '
           } else {
-            hint += ion + ':  ' + this.concentration[reagent][ion].toFixed(2) + ' г/л '
+            hint += ion + ':  ' + this.concentration[reagent][ion].toFixed(3) + ' г/л '
           }
         }
       }
