@@ -45,12 +45,22 @@
                 <span class="">{{ schedule.datesColumn[index].date }}</span>
               </div>
               <div class="text-center body-1">
-                {{ schedule.datesRange[0].substr(5, 10).replace('-', '.') }} - {{ schedule.datesRange[1].substr(5, 10).replace('-', '.') }}
+                {{ schedule.datesRange[0].substr(5, 10).replace('-', '.') }} -
+                {{ schedule.datesRange[1].substr(5, 10).replace('-', '.') }}
               </div>
             </div>
-            <div v-for="(quotas, recipeName) in daysQuotas" :key="recipeName + n" class="headline">
+            <div
+              v-for="(quotas, recipeName) in daysQuotas"
+              :key="recipeName + n"
+              class="headline"
+            >
               <v-row>
-                <v-col cols="12" sm="10" offset-sm="1" class="py-0">
+                <v-col
+                  cols="12"
+                  sm="10"
+                  offset-sm="1"
+                  class="py-0"
+                >
                   <v-btn
                     :disabled="!schedule.selected[recipeName][index]"
                     block
@@ -67,10 +77,28 @@
                         class="d-flex justify-space-between align-center w-100"
                         :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'headline': $vuetify.breakpoint['smAndUp']}"
                       >
-                        <v-icon v-if="schedule.completed[recipeName][index] === 0" color="primary">far fa-circle</v-icon>
-                        <v-icon v-if="schedule.completed[recipeName][index] === 1" color="white">far fa-check-circle</v-icon>
-                        <v-icon v-if="schedule.completed[recipeName][index] === 2" color="grey">far fa-times-circle</v-icon>
-                        <div class="flex-shrink-1" style="white-space: nowrap; width: 60%;">
+                        <v-icon
+                          v-if="schedule.completed[recipeName][index] === 0"
+                          color="primary"
+                        >
+                          far fa-circle
+                        </v-icon>
+                        <v-icon
+                          v-if="schedule.completed[recipeName][index] === 1"
+                          color="white"
+                        >
+                          far fa-check-circle
+                        </v-icon>
+                        <v-icon
+                          v-if="schedule.completed[recipeName][index] === 2"
+                          color="grey"
+                        >
+                          far fa-times-circle
+                        </v-icon>
+                        <div
+                          class="flex-shrink-1"
+                          style="white-space: nowrap; width: 60%;"
+                        >
                           <div style="overflow: hidden; text-overflow: ellipsis;">
                             {{ recipeName }}
                           </div>
@@ -80,7 +108,8 @@
                             {{ quotas[index].toFixed(1) }}
                           </div>
                           <div class="caption mt-n2">
-                            {{ totalSum[recipeName]['sum'].toFixed(1) }} / {{ totalSum[recipeName]['amount'].toFixed(1) }}
+                            {{ totalSum[recipeName]['sum'].toFixed(1) }} /
+                            {{ totalSum[recipeName]['amount'].toFixed(1) }}
                           </div>
                         </div>
                       </div>
@@ -103,7 +132,7 @@
             <v-divider
               v-if="n !== schedule.daysTotal"
               :key="n"
-            ></v-divider>
+            />
           </template>
         </v-stepper-header>
       </v-stepper>
@@ -142,146 +171,151 @@
         Открыть
       </v-btn>
     </v-card-actions>
-    <v-progress-linear :value="progressValue"></v-progress-linear>
+    <v-progress-linear :value="progressValue" />
   </v-card>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex';
 
 export default {
-  name: 'schedule',
-  props: [ 'index' ],
-  data () {
-    return {
-      activeIndex: 1
-    }
+  name: 'Schedule',
+  props: {
+    scheduleIndex: {
+      type: [String, Number],
+      default: 0,
+    },
   },
-  created () {
-    this.activeIndex = this.findCurActiveDay()
+  data() {
+    return {
+      activeIndex: 1,
+    };
+  },
+  created() {
+    this.activeIndex = this.findCurActiveDay();
   },
   computed: {
     ...mapState([
-      'schedules'
+      'schedules',
     ]),
-    schedule () {
-      return this.schedules[this.index]
+    schedule() {
+      return this.schedules[this.index];
     },
-    daysQuotas () {
-      let quotas = {}
+    daysQuotas() {
       if (Object.keys(this.schedule.completed).length === 0) {
-        return
+        return null;
       }
-      for (const recipe of this.schedule.recipesSelected) {
-        let result = []
-        let selectedList = this.schedule.selected[recipe.name]
-        let completeList = this.schedule.completed[recipe.name]
-        let excludedTotal = selectedList.filter(x => x === false).length
-        let daysLeft = this.schedule.daysTotal - excludedTotal
-        let amount = parseFloat(recipe.amount)
-        let currentDay = amount / (this.schedule.daysTotal - excludedTotal)
-        for (const index in [...Array(this.schedule.daysTotal)]) {
+      const quotas = {};
+      this.schedule.recipesSelected.forEach((recipe) => {
+        const result = [];
+        const selectedList = this.schedule.selected[recipe.name];
+        const completeList = this.schedule.completed[recipe.name];
+        const excludedTotal = selectedList.filter((x) => x === false).length;
+        let daysLeft = this.schedule.daysTotal - excludedTotal;
+        let amount = parseFloat(recipe.amount);
+        let currentDay = amount / (this.schedule.daysTotal - excludedTotal);
+        [...Array(this.schedule.daysTotal)].forEach((index) => {
           switch (true) {
             case completeList[index] === 1:
-              currentDay = amount / daysLeft
-              amount -= currentDay
-              daysLeft -= 1
-              break
+              currentDay = amount / daysLeft;
+              amount -= currentDay;
+              daysLeft -= 1;
+              break;
             case !selectedList[index]:
-              currentDay = 0
-              break
+              currentDay = 0;
+              break;
             case completeList[index] === 2:
-              currentDay = 0
-              daysLeft -= 1
-              break
+              currentDay = 0;
+              daysLeft -= 1;
+              break;
             default:
-              currentDay = amount / daysLeft
+              currentDay = amount / daysLeft;
           }
-          result.push(currentDay)
-        }
-        quotas[recipe.name] = result
-      }
-      return quotas
+          result.push(currentDay);
+        });
+        quotas[recipe.name] = result;
+      });
+      return quotas;
     },
-    totalSum () {
-      let result = {}
-      for (const recipe of this.schedule.recipesSelected) {
-        let sum = 0
-        for (const index in this.daysQuotas[recipe.name]) {
+    totalSum() {
+      const result = {};
+      this.schedule.recipesSelected.forEach((recipe) => {
+        let sum = 0;
+        Object.keys(this.daysQuotas[recipe.name]).forEach((index) => {
           if (this.schedule.completed[recipe.name][index]) {
-            sum += this.daysQuotas[recipe.name][index]
+            sum += this.daysQuotas[recipe.name][index];
           }
-        }
+        });
         result[recipe.name] = {
-          'sum': sum,
-          'amount': recipe.amount
-        }
-      }
-      return result
+          sum,
+          amount: recipe.amount,
+        };
+      });
+      return result;
     },
-    isCompletedDay () {
-      let result = Array(this.schedule.daysTotal).fill(false)
-      for (let day in result) {
-        let fertilizersWereClicked = 0
-        for (let recipeName in this.schedule.selected) {
-          let completed = this.schedule.completed[recipeName][day]
-          let selected = this.schedule.selected[recipeName][day]
+    isCompletedDay() {
+      const result = Array(this.schedule.daysTotal).fill(false);
+      result.forEach((day) => {
+        let fertilizersWereClicked = 0;
+        Object.keys(this.schedule.selected).forEach((recipeName) => {
+          const completed = this.schedule.completed[recipeName][day];
+          const selected = this.schedule.selected[recipeName][day];
           if (!selected || completed === 1 || completed === 2) {
-            fertilizersWereClicked += 1
+            fertilizersWereClicked += 1;
           }
-        }
+        });
         if (fertilizersWereClicked === Object.keys(this.schedule.completed).length) {
-          if (parseInt(day) === 0 || result[day - 1]) {
-            result[day] = true
+          if (parseInt(day, 10) === 0 || result[day - 1]) {
+            result[day] = true;
           }
         }
-      }
-      return result
+      });
+      return result;
     },
-    progressValue () {
-      let sum = 0
-      let amount = 0
-      for (let item in this.totalSum) {
-        amount += parseFloat(this.totalSum[item].amount)
-        sum += parseFloat(this.totalSum[item].sum)
-      }
-      return sum / amount * 100
-    }
+    progressValue() {
+      let sum = 0;
+      let amount = 0;
+      Object.values(this.totalSum).forEach((item) => {
+        amount += parseFloat(this.totalSum[item].amount);
+        sum += parseFloat(this.totalSum[item].sum);
+      });
+      return (sum / amount) * 100;
+    },
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_COMPLETE'
+      'SCHEDULE_COMPLETE',
     ]),
-    clickDay (recipeName, index) {
+    clickDay(recipeName, index) {
       this.SCHEDULE_COMPLETE({
         indexSchedule: this.index,
         indexDay: index,
-        recipeName: recipeName
-      })
+        recipeName,
+      });
     },
-    prevStep () {
+    prevStep() {
       if (this.activeIndex > 1) {
-        this.activeIndex--
+        this.activeIndex -= 1;
       }
     },
-    nextStep () {
+    nextStep() {
       if (this.activeIndex < this.schedule.daysTotal) {
-        this.activeIndex++
+        this.activeIndex += 1;
       }
     },
-    findCurActiveDay () {
-      let completed = [ ...this.isCompletedDay ]
-      completed.reverse()
-      let found = completed.findIndex(item => item === true)
-      found = found === -1 ? completed.length : found
-      let curActiveDay = completed.length - found + 1
+    findCurActiveDay() {
+      const completed = [...this.isCompletedDay];
+      completed.reverse();
+      let found = completed.findIndex((item) => item === true);
+      found = found === -1 ? completed.length : found;
+      let curActiveDay = completed.length - found + 1;
       if (curActiveDay > completed.length) {
-        curActiveDay = completed.length
+        curActiveDay = completed.length;
       }
-      return curActiveDay
-    }
-  }
-}
+      return curActiveDay;
+    },
+  },
+};
 </script>
 
 <style lang="sass">

@@ -21,23 +21,29 @@
   <v-container class="mb-12">
     <v-row>
       <v-col
-        v-if="tanks.length === 0"
         cols="12"
         md="8"
         offset-md="2"
       >
-        <p
-          class="mb-8"
-          :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}"
-        >
-          {{ $t('tanks.alert.title') }}
-        </p>
-        <p>
-          <a @click="dialog = true">
-            {{ $t('tanks.alert.todo.action') }}
-          </a>
-          {{ $t('tanks.alert.todo.text') }}
-        </p>
+        <div v-if="!tankGuidIsClosed">
+          <span>
+            <v-tooltip
+              bottom
+              max-width="400"
+            >
+              <template v-slot:activator="{ on }">
+                <a
+                  class="ml-3 font-weight-light"
+                  @click="GUID_CLOSE"
+                  v-on="on"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </a>
+              </template>
+              Закрыть гид
+            </v-tooltip>
+          </span>
+        </div>
       </v-col>
       <v-col
         cols="12"
@@ -329,7 +335,7 @@ export default {
       dialog: this.$route.params.open,
       nameRules: [
         (v) => !!v || this.$t('tanks.dialog.nameRules.require'),
-        (v) => (!this.isExist || this.isSame) || this.$t('tanks.dialog.nameRules.exists'),
+        () => (!this.isExist || this.isSame) || this.$t('tanks.dialog.nameRules.exists'),
       ],
       volumeRules: [
         (v) => !!v || this.$t('tanks.dialog.volumeRules.require'),
@@ -356,9 +362,6 @@ export default {
         this.TANK_MOVE(value);
       },
     },
-    dimensions() {
-      return `${this.length}|${this.height}|${this.width}|${this.glassThickness}`;
-    },
     isExist() {
       const names = this.tanks.map((item) => item.name);
       return names.findIndex((item) => item === this.name) !== -1;
@@ -375,10 +378,8 @@ export default {
     dimensions() {
       if (this.length && this.height && this.width) {
         this.volume = Math.round(
-          (this.length - 2 * this.glassThickness / 10)
-          * this.height
-          * (this.width - 2 * this.glassThickness / 10) / 1000
-          * 100,
+          ((this.length - (2 * this.glassThickness) / 10) * this.height * (this.width - (2 * this.glassThickness) / 10))
+          / (1000 * 100),
         ) / 100;
       } else {
         this.volume = 0;
@@ -392,6 +393,7 @@ export default {
       'TANK_EDIT',
       'TANK_MOVE',
       'SNACKBAR_SHOW',
+      'GUID_CLOSE',
     ]),
     resetComponent() {
       this.name = null;

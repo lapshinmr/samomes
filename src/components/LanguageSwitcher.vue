@@ -18,7 +18,10 @@
 -->
 
 <template>
-  <v-menu offset-y transition="slide-y-transition">
+  <v-menu
+    offset-y
+    transition="slide-y-transition"
+  >
     <template v-slot:activator="{ on }">
       <v-btn
         text
@@ -40,28 +43,28 @@
 </template>
 
 <script>
-import { LANGUAGES } from '@/constants'
-import { mapState, mapActions } from 'vuex'
+import { LANGUAGES } from '@/constants/lang';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'language-switcher',
-  data () {
+  name: 'LanguageSwitcher',
+  data() {
     return {
-      LANGUAGES: LANGUAGES
-    }
+      LANGUAGES,
+    };
   },
   computed: {
     ...mapState([
-      'lang'
+      'lang',
     ]),
-    curLang () {
-      return this.LANGUAGES[this.lang]
-    }
+    curLang() {
+      return this.LANGUAGES[this.lang];
+    },
   },
   methods: {
     ...mapActions([
-      'langSet'
-    ])
-  }
-}
+      'langSet',
+    ]),
+  },
+};
 </script>

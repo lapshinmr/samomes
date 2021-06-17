@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 
-function load (view) {
-  return () => import(`@/views/${view}.vue`)
+function load(view) {
+  return () => import(`@/views/${view}.vue`);
 }
 
 export default new Router({
@@ -34,42 +34,42 @@ export default new Router({
       path: '/tanks',
       component: load('Tanks'),
       alias: [''],
-      name: 'tanks'
+      name: 'tanks',
     },
     {
       path: '/recipes',
       component: load('Recipes'),
-      name: 'recipes'
+      name: 'recipes',
     },
     {
       path: '/solutions',
       component: load('Solutions'),
-      name: 'solutions'
+      name: 'solutions',
     },
     {
       path: '/schedules',
       component: load('Schedules'),
-      name: 'schedules'
+      name: 'schedules',
     },
     {
       path: '/remineralization',
       component: load('Remineralization'),
-      name: 'remineralization'
+      name: 'remineralization',
     },
     {
       path: '/dynamics',
       component: load('Dinamics'),
-      name: 'dynamics'
+      name: 'dynamics',
     },
     {
       path: '/about',
       component: load('About'),
-      name: 'about'
+      name: 'about',
     },
     {
       path: '/settings',
       component: load('Settings'),
-      name: 'settings'
-    }
-  ]
-})
+      name: 'settings',
+    },
+  ],
+});

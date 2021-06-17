@@ -17,20 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import Vue from 'vue';
-import { i18n } from '@/plugins/i18n';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import vuetify from './plugins/vuetify';
-import './registerServiceWorker';
-
-Vue.config.productionTip = false;
-
-new Vue({
-  router,
-  store,
-  vuetify,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
+export default {
+  H: 1.00811,
+  B: 10.811,
+  C: 12.0107,
+  N: 14.0067,
+  O: 15.99977,
+  Mg: 24.305,
+  P: 30.973762,
+  S: 32.065,
+  Cl: 35.453,
+  K: 39.0983,
+  Ca: 40.078,
+  J: 126.90447,
+  Cu: 63.546,
+  Zn: 65.38,
+  Mo: 95.95,
+  Mn: 54.938044,
+  Fe: 55.845,
+  Na: 22.989769,
+};

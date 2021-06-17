@@ -82,32 +82,32 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'reload',
-  data () {
+  data() {
     return {
-    }
+    };
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'schedules'
-    ])
+      'tanks', 'recipes', 'schedules',
+    ]),
   },
   methods: {
     ...mapMutations([
       'TANKS_REMOVE',
       'RECIPES_REMOVE',
-      'SCHEDULES_REMOVE'
+      'SCHEDULES_REMOVE',
     ]),
-    removeAll () {
-      this.TANKS_REMOVE()
-      this.RECIPES_REMOVE()
-      this.SCHEDULES_REMOVE()
-    }
-  }
-}
+    removeAll() {
+      this.TANKS_REMOVE();
+      this.RECIPES_REMOVE();
+      this.SCHEDULES_REMOVE();
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>

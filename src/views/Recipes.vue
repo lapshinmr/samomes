@@ -20,15 +20,27 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <v-col v-if="recipes.length === 0" cols="12" md="8" offset-md="2">
-        <p class="mb-8" :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}">
+      <v-col
+        v-if="recipes.length === 0"
+        cols="12"
+        md="8"
+        offset-md="2"
+      >
+        <p
+          class="mb-8"
+          :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}"
+        >
           {{ $t('recipes.alert.title') }}
         </p>
         <p>
           <a @click="dialog = true">{{ $t('recipes.alert.todo.action') }}</a> {{ $t('recipes.alert.todo.text') }}
         </p>
       </v-col>
-      <v-col cols="12" sm="8" offset-sm="2">
+      <v-col
+        cols="12"
+        sm="8"
+        offset-sm="2"
+      >
         <v-expansion-panels
           multiple
         >
@@ -40,14 +52,21 @@
             handle=".handle"
             style="width: 100%;"
           >
-            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+            <transition-group
+              type="transition"
+              :name="!drag ? 'flip-list' : null"
+            >
               <v-expansion-panel
                 v-for="(recipe, index) in recipes"
                 :key="recipe.name"
               >
                 <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
-                  <div class="d-flex justify-space-between align-center" style="width: 100%;">
-                    <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
+                  <div
+                    class="d-flex justify-space-between align-center"
+                    style="width: 100%;"
+                  >
+                    <span
+                      class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
                       :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                     >
                       <span style="line-height: 1.25rem;">
@@ -58,9 +77,15 @@
                       </span>
                     </span>
                     <span class="mr-3">
-                      <v-tooltip bottom max-width="400">
+                      <v-tooltip
+                        bottom
+                        max-width="400"
+                      >
                         <template v-slot:activator="{ on }">
-                          <v-icon class="handle ml-2" v-on="on">mdi mdi-drag</v-icon>
+                          <v-icon
+                            class="handle ml-2"
+                            v-on="on"
+                          >mdi mdi-drag</v-icon>
                         </template>
                         {{ $t('recipes.panel.header.pull') }}
                       </v-tooltip>
@@ -68,13 +93,19 @@
                   </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Recipe
-                  />
+                  <Recipe :recipe="recipe" />
                   <div class="d-flex justify-end mt-4">
-                    <v-btn text @click="openShareDialog(index)">
+                    <v-btn
+                      text
+                      @click="openShareDialog(index)"
+                    >
                       Поделиться
                     </v-btn>
-                    <v-btn text @click="openEditRecipe(index)" class="mr-n4">
+                    <v-btn
+                      text
+                      @click="openEditRecipe(index)"
+                      class="mr-n4"
+                    >
                       Открыть
                     </v-btn>
                   </div>
@@ -93,24 +124,39 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark color="primary">
+        <v-toolbar
+          dark
+          color="primary"
+        >
           <v-toolbar-title v-if="!isEditing">
             {{ $t('recipes.dialog.recipeEdit') }}
           </v-toolbar-title>
           <v-toolbar-title v-else>
             {{ $t('recipes.dialog.recipeEdit') }}
           </v-toolbar-title>
-          <v-btn icon dark @click="dialog = false" class="ml-auto">
+          <v-btn
+            icon
+            dark
+            @click="dialog = false"
+            class="ml-auto"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
         <v-card-text class="px-2">
           <v-container>
             <v-row>
-              <v-col cols="12" md="8" offset-md="2">
+              <v-col
+                cols="12"
+                md="8"
+                offset-md="2"
+              >
                 <v-form ref="recipeForm">
                   <v-row>
-                    <v-col v-if="isShared" cols="12">
+                    <v-col
+                      v-if="isShared"
+                      cols="12"
+                    >
                       <p class="display-1">
                         С вами поделились рецептом!
                       </p>
@@ -119,9 +165,15 @@
                         название и напишите примечание. После этого можете сохранить его.
                       </p>
                     </v-col>
-                    <v-col cols="12" class="pt-0">
+                    <v-col
+                      cols="12"
+                      class="pt-0 mt-8"
+                    >
                       <v-row>
-                        <v-col cols="12" sm="6">
+                        <v-col
+                          cols="12"
+                          sm="6"
+                        >
                           <v-select
                             :items="reagents"
                             item-text="text"
@@ -133,20 +185,29 @@
                             persistent-hint
                             hide-details="auto"
                             :rules="rulesReagent"
-                          ></v-select>
+                          />
                         </v-col>
-                        <v-col cols="12" sm="6">
+                        <v-col
+                          cols="12"
+                          sm="6"
+                        >
                           <v-select
-                            :items="recipesExamples['самомес']"
+                            :items="recipesExamples"
                             v-model="recipeExampleChosen"
                             label="Рецепт"
                             hint="или выбрать один из рецептов"
                             persistent-hint
                             hide-details="auto"
-                          ></v-select>
+                          />
                         </v-col>
-                        <v-col cols="12" class="pt-0">
-                          <div v-if="reagentsSelected.length > 0" class="mt-3">
+                        <v-col
+                          cols="12"
+                          class="pt-0"
+                        >
+                          <div
+                            v-if="reagentsSelected.length > 0"
+                            class="mt-3"
+                          >
                             <template v-for="(reagent, index) in reagents">
                               <div
                                 v-if="reagentsSelected.includes(reagent.value)"
@@ -158,7 +219,10 @@
                               </div>
                             </template>
                           </div>
-                          <div v-if="reagentsSelected.length > 0" class="mt-3">
+                          <div
+                            v-if="reagentsSelected.length > 0"
+                            class="mt-3"
+                          >
                             <small>
                               *Так как аквариумисту удобнее работать с нитратом (NO3), а не с азотом (N), далее
                               азот будет приведен к нитрату.
@@ -166,37 +230,63 @@
                           </div>
                         </v-col>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0" cols="12">
-                            <v-radio-group :value="isWater" @change="setIsWater" row hide-details="auto">
-                              <v-radio label="Водный раствор" :value="true"></v-radio>
-                              <v-radio label="Безводная смесь" :value="false"></v-radio>
+                          <v-col
+                            v-if="reagentsSelected.length > 0"
+                            cols="12"
+                          >
+                            <v-radio-group
+                              :value="isWater"
+                              @change="setIsWater"
+                              row
+                              hide-details="auto"
+                            >
+                              <v-radio
+                                label="Водный раствор"
+                                :value="true"
+                              />
+                              <v-radio
+                                label="Безводная смесь"
+                                :value="false"
+                              />
                             </v-radio-group>
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && isWater" cols="12">
+                          <v-col
+                            v-if="reagentsSelected.length > 0 && isWater"
+                            cols="12"
+                          >
                             <v-text-field
                               :value="fertilizerVolume"
                               @input="inputVolume"
                               type="number"
                               label="Введите объем удобрения"
                               suffix="мл"
-                              hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев. Обычно это 250-300 мл."
+                              hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев.
+                              Обычно это 250-300 мл."
                               hide-details="auto"
                               :rules="[isWater ? rulesVolume.isExist() : true]"
-                            >
-                            </v-text-field>
+                            />
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)" cols="12">
+                          <v-col
+                            v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)"
+                            cols="12"
+                          >
                             <v-row>
-                              <v-col v-if="isWater" cols="12">
+                              <v-col
+                                v-if="isWater"
+                                cols="12"
+                              >
                                 <div class="d-flex align-center">
                                   <v-divider />
                                   <span class="mx-3">
                                     Введите массу реагента
-                                    <v-tooltip bottom max-width="400">
+                                    <v-tooltip
+                                      bottom
+                                      max-width="400"
+                                    >
                                       <template v-slot:activator="{ on }">
                                         <v-icon v-on="on">mdi-help-circle-outline</v-icon>
                                       </template>
@@ -207,21 +297,32 @@
                                   <v-divider />
                                 </div>
                               </v-col>
-                              <v-col v-for="reagent in reagentsSelected" cols="12" :key="reagent" class="py-0">
+                              <v-col
+                                v-for="reagent in reagentsSelected"
+                                cols="12"
+                                :key="reagent"
+                                class="py-0"
+                              >
                                 <v-text-field
                                   :value="fertilizerMass[reagent]"
-                                  @input="inputMass(reagent)"
+                                  @input="inputMass($event, reagent)"
                                   type="number"
                                   :label="reagent"
                                   suffix="г"
                                   :hint="isWater ? fertilizerMassHint(reagent) : ''"
                                   hide-details="auto"
                                   :key="reagent"
-                                  :rules="[rulesMass.isExist(), isWater ? rulesMass.solubility(reagent, fertilizerVolume, FORMULAS) : true]"
-                                >
-                                </v-text-field>
+                                  :rules="[
+                                    rulesMass.isExist(),
+                                    isWater ? rulesMass.solubility(reagent, fertilizerVolume, FORMULAS) : true
+                                  ]"
+                                />
                               </v-col>
-                              <v-col v-if="isWater" cols="12" class="mt-2 pb-0">
+                              <v-col
+                                v-if="isWater"
+                                cols="12"
+                                class="mt-2 pb-0"
+                              >
                                 <v-btn
                                   center
                                   text
@@ -233,230 +334,43 @@
                                 </v-btn>
                               </v-col>
                               <v-expand-transition>
-                                <v-col cols="12" v-if="isShowConcentration && isWater" class="pt-0">
-                                  <v-switch
-                                    v-model="isConcentrationPercent"
-                                    label="Показать соотношение"
-                                    hide-details="auto"
-                                    class="mt-1"
-                                  ></v-switch>
-                                  <v-switch
-                                    v-model="isConvertion"
-                                    label="Показать N и P"
-                                    hide-details="auto"
-                                    class="mt-1"
-                                  ></v-switch>
-                                  <v-simple-table>
-                                    <template v-slot:default>
-                                      <thead>
-                                        <tr>
-                                          <th class="pl-0 text-center">
-                                            Реагент
-                                          </th>
-                                          <th
-                                            v-for="(ion, index) in Object.keys(totalIonConcentration)"
-                                            :key="ion"
-                                            class="text-center"
-                                            :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
-                                          >
-                                            <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                              {{ ion }} /
-                                            </template>
-                                            <template v-if="ion !== convertIonName(ion)">
-                                              {{ convertIonName(ion) }}, г/л
-                                            </template>
-                                            <template v-else>
-                                              {{ ion }}, г/л
-                                            </template>
-                                          </th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr v-for="reagent in Object.keys(concentration)" :key="reagent">
-                                          <td class="pl-0 text-center">
-                                            {{ reagent }}
-                                          </td>
-                                          <td
-                                            v-for="(value, ion, index) in totalIonConcentration"
-                                            :key="reagent + ion"
-                                            class="text-center"
-                                            :class="{'pr-0': index === Object.keys(concentration).length - 1}"
-                                          >
-                                            <template v-if="Object.keys(concentration[reagent]).includes(ion)">
-                                              <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ concentration[reagent][ion].toFixed(3) }} /
-                                              </template>
-                                              <template v-if="ion !== convertIonName(ion)" >
-                                                {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(3) }}
-                                              </template>
-                                              <template v-else>
-                                                {{ concentration[reagent][ion].toFixed(3) }}
-                                              </template>
-                                              <template v-if="value && isConcentrationPercent">
-                                                ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
-                                              </template>
-                                            </template>
-                                            <template v-else>
-                                              -
-                                            </template>
-                                          </td>
-                                        </tr>
-                                        <tr class="font-weight-bold">
-                                          <td class="pl-0 text-center">
-                                            Сумма
-                                          </td>
-                                          <template
-                                            v-for="(value, ion, index) in totalIonConcentration"
-                                          >
-                                            <td
-                                              v-if="ion !== convertIonName(ion)"
-                                              :key="ion"
-                                              class="text-center"
-                                              :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
-                                            >
-                                              <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ value.toFixed(3) }} /
-                                              </template>
-                                              {{ (convertIonRatio(ion) * value).toFixed(3) }}
-                                            </td>
-                                            <td v-else
-                                              class="text-center"
-                                              :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
-                                              :key="ion"
-                                            >
-                                              {{ value.toFixed(3) }}
-                                            </td>
-                                          </template>
-                                        </tr>
-                                      </tbody>
-                                    </template>
-                                 </v-simple-table>
+                                <v-col
+                                  cols="12"
+                                  v-if="isShowConcentration && isWater"
+                                  class="pt-0"
+                                >
+                                  <elements-table
+                                    :total-ion-concentration="totalIonConcentration"
+                                    :fertilizer-mass="fertilizerMass"
+                                    :concentration="concentration"
+                                  />
                                 </v-col>
                               </v-expand-transition>
                               <v-expand-transition>
-                                <v-col cols="12" v-if="!isWater" class="pt-0">
-                                  <v-switch
-                                    v-model="isConcentrationPercent"
-                                    label="Показать соотношение"
-                                    hide-details="auto"
-                                    class="mt-1"
-                                  ></v-switch>
-                                  <v-switch
-                                    v-model="isConvertion"
-                                    label="Показать N и P"
-                                    hide-details="auto"
-                                    class="mt-1"
-                                  ></v-switch>
-                                  <v-simple-table>
-                                    <template v-slot:default>
-                                      <thead>
-                                        <tr>
-                                          <th class="pl-0 text-center">
-                                            Реагент
-                                          </th>
-                                          <th
-                                            v-for="(value, ion, index) in totalIonConcentration"
-                                            class="text-center"
-                                            :class="{'pr-0': index === totalIonConcentration.length - 1}"
-                                            :key="ion"
-                                          >
-                                            <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                              {{ ion }} /
-                                            </template>
-                                            <template v-if="ion !== convertIonName(ion)">
-                                              {{ convertIonName(ion) }}, г
-                                            </template>
-                                            <template v-else>
-                                              {{ ion }}, г
-                                            </template>
-                                          </th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr v-for="(mass, reagent) in fertilizerMass" :key="reagent">
-                                          <td class="pl-0 text-center">
-                                            {{ reagent }}
-                                          </td>
-                                          <td
-                                            v-for="(value, ion, index) in totalIonConcentration"
-                                            class="text-center"
-                                            :class="{'pr-0': index === totalIonConcentration.length - 1}"
-                                            :key="reagent + ion"
-                                          >
-                                            <template v-if="Object.keys(countPercent(reagent)).includes(ion)">
-                                              <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ (mass * countPercent(reagent)[ion]).toFixed(3) }} /
-                                              </template>
-                                              <template v-if="ion !== convertIonName(ion)" >
-                                                {{ (convertIonRatio(ion) * mass * countPercent(reagent)[ion]).toFixed(3) }}
-                                              </template>
-                                              <template v-else>
-                                                {{ (mass * countPercent(reagent)[ion]).toFixed(3) }}
-                                              </template>
-                                              <template v-if="value && isConcentrationPercent">
-                                                ({{ (mass * countPercent(reagent)[ion] / (value * totalFertilizerMass) * 100).toFixed(1) }}%)
-                                              </template>
-                                            </template>
-                                            <template v-else>
-                                              -
-                                            </template>
-                                          </td>
-                                        </tr>
-                                        <tr class="font-weight-bold">
-                                          <td class="pl-0 text-center">
-                                            Сумма
-                                          </td>
-                                          <template v-for="(value, ion, index) in totalIonConcentration">
-                                            <td
-                                              v-if="ion !== convertIonName(ion)"
-                                              class="text-center"
-                                              :class="{'pr-0': index === totalIonConcentration.length - 1}"
-                                              :key="ion"
-                                            >
-                                              <template v-if="isConvertion && ion !== convertIonName(ion)">
-                                                {{ (value * totalFertilizerMass).toFixed(3) }} /
-                                              </template>
-                                              {{ (convertIonRatio(ion) * value * totalFertilizerMass).toFixed(3) }}
-                                            </td>
-                                            <td
-                                              v-else
-                                              class="text-center"
-                                              :class="{'pr-0': index === totalIonConcentration.length - 1}"
-                                              :key="ion"
-                                            >
-                                              {{ (value * totalFertilizerMass).toFixed(3) }}
-                                            </td>
-                                          </template>
-                                        </tr>
-                                      </tbody>
-                                    </template>
-                                  </v-simple-table>
-                                  <div>
-                                    <div class="subtitle-2">
-                                      Соотношение элементов
-                                      <v-tooltip bottom max-width="400">
-                                        <template v-slot:activator="{ on }">
-                                          <v-icon v-on="on">mdi-help-circle-outline</v-icon>
-                                        </template>
-                                        Учитывает соотношение только между интересующими аквариумиста элементами.
-                                        Такие элементы как сера, хлор, водород, кислород и т.д. в данном соотношении не участвуют.
-                                      </v-tooltip>:
-                                    </div>
-                                    <div>
-                                      <span v-for="(value, ion) in totalIonConcentration" class="mr-2" :key="ion">
-                                        {{ convertIonName(ion) }}
-                                        ({{ value ? (convertIonRatio(ion) * value / totalUsefulConcentration).toFixed(5) : '???' }} %)
-                                      </span>
-                                    </div>
-                                  </div>
+                                <v-col
+                                  cols="12"
+                                  v-if="!isWater"
+                                  class="pt-0"
+                                >
+                                  <elements-dry-table
+                                    :total-ion-concentration="totalIonConcentration"
+                                    :fertilizer-mass="fertilizerMass"
+                                    :total-fertilizer-mass="totalFertilizerMass"
+                                  />
                                 </v-col>
                               </v-expand-transition>
-                              <v-col v-if="isWater" cols="12">
+                              <v-col
+                                v-if="isWater"
+                                cols="12"
+                              >
                                 <div class="d-flex align-center">
                                   <v-divider />
                                   <span class="mx-3">
                                     Или введите дозу элемента
-                                    <v-tooltip bottom max-width="400">
+                                    <v-tooltip
+                                      bottom
+                                      max-width="400"
+                                    >
                                       <template v-slot:activator="{ on }">
                                         <v-icon v-on="on">mdi-help-circle-outline</v-icon>
                                       </template>
@@ -474,7 +388,10 @@
                                 </div>
                               </v-col>
                               <v-expand-transition>
-                                <v-col v-if="reagentsSelected.length > 0 && isWater" cols="12">
+                                <v-col
+                                  v-if="reagentsSelected.length > 0 && isWater"
+                                  cols="12"
+                                >
                                   <v-combobox
                                     :items="tanks"
                                     v-model.number="tankVolume"
@@ -487,30 +404,46 @@
                                     hint="Выберите аквариум или введите объем"
                                     suffix="л"
                                     :return-object="false"
-                                  ></v-combobox>
+                                  />
                                 </v-col>
                               </v-expand-transition>
-                              <v-col v-if="tankVolume && isWater" cols="12" class="pb-0">
+                              <v-col
+                                v-if="tankVolume && isWater"
+                                cols="12"
+                                class="pb-0"
+                              >
                                 <v-row>
                                   <template v-for="reagent in reagentsSelected">
-                                    <v-col cols="12" :key="reagent" class="py-0">
+                                    <v-col
+                                      cols="12"
+                                      :key="reagent"
+                                      class="py-0"
+                                    >
                                       <v-row class="mb-3">
                                         <template v-for="(data, ion) in FORMULAS[reagent].ions">
-                                          <v-col v-if="data.isNeeded" :key="reagent + ion" class="py-0">
+                                          <v-col
+                                            v-if="data.isNeeded"
+                                            :key="reagent + ion"
+                                            class="py-0"
+                                          >
                                             <v-text-field
                                               :value="solute[reagent][ion]"
-                                              @input="inputIon(reagent, ion)"
+                                              @input="inputIonDose($event, reagent, ion)"
                                               type="number"
                                               :label="convertIonName(ion) + ', мг/л'"
                                               :hint="'из ' + reagent"
                                               persistent-hint
-                                            ></v-text-field>
+                                            />
                                           </v-col>
                                         </template>
                                       </v-row>
                                     </v-col>
                                   </template>
-                                  <v-col v-if="reagentsSelected.length > 1" cols="12" class="d-flex justify-space-between pb-0">
+                                  <v-col
+                                    v-if="reagentsSelected.length > 1"
+                                    cols="12"
+                                    class="d-flex justify-space-between pb-0"
+                                  >
                                     <div>
                                       Общая доза, мг/л
                                     </div>
@@ -536,7 +469,10 @@
                           </v-col>
                         </v-expand-transition>
                         <v-expand-transition>
-                          <v-col v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)" cols="12">
+                          <v-col
+                            v-if="reagentsSelected.length > 0 && (fertilizerVolume || !isWater)"
+                            cols="12"
+                          >
                             <v-row>
                               <v-col cols="12">
                                 <v-text-field
@@ -545,7 +481,7 @@
                                   hide-details="auto"
                                   hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
                                   :rules="rulesName"
-                                ></v-text-field>
+                                />
                               </v-col>
                               <v-col cols="12">
                                 <v-textarea
@@ -555,19 +491,26 @@
                                   auto-grow
                                   rows="1"
                                   hint="Вы можете добавить дополнительные сведения к рецепту"
-                                ></v-textarea>
+                                />
                               </v-col>
-                              <v-col class="text-right" cols="12">
+                              <v-col
+                                class="text-right"
+                                cols="12"
+                              >
                                 <v-btn
                                   v-if="isEditing"
                                   @click="removeRecipe"
-                                >Удалить</v-btn>
+                                >
+                                  Удалить
+                                </v-btn>
                                 <v-btn
                                   v-if="isEditing"
                                   color="primary"
                                   @click="editRecipe"
                                   class="ml-2"
-                                >Сохранить</v-btn>
+                                >
+                                  Сохранить
+                                </v-btn>
                                 <v-btn
                                   v-if="!isEditing"
                                   color="primary"
@@ -606,7 +549,10 @@
             id="encodedUrl"
           >
             <template v-slot:append>
-              <v-tooltip bottom max-width="400">
+              <v-tooltip
+                bottom
+                max-width="400"
+              >
                 <template v-slot:activator="{ on }">
                   <a @click="copyUrl()">
                     <v-icon v-on="on">fas fa-clipboard</v-icon>
@@ -617,10 +563,13 @@
             </template>
           </v-text-field>
         </v-card-text>
-        <v-divider></v-divider>
+        <v-divider />
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="dialogShare = false">
+          <v-spacer />
+          <v-btn
+            text
+            @click="dialogShare = false"
+          >
             Закрыть
           </v-btn>
         </v-card-actions>
@@ -646,13 +595,13 @@
       </template>
       <span>{{ $t('recipes.addButton') }}</span>
     </v-tooltip>
-
   </v-container>
 </template>
 
 <script>
-import Vue from 'vue'
-import { FORMULAS, RECIPE_EXAMPLES } from '@/constants'
+import Vue from 'vue';
+import FORMULAS from '@/constants/formulas';
+import RECIPE_EXAMPLES from '@/constants/recipes';
 import {
   countTotalIonConcentration,
   countPercent,
@@ -660,22 +609,28 @@ import {
   countTotalIonDose,
   countTotalDose,
   convertIonName,
-  convertIonRatio
-} from '@/funcs'
-import { mapState, mapMutations } from 'vuex'
-import draggable from 'vuedraggable'
-import Recipe from '@/components/Recipe.vue';
+  convertIonRatio,
+  OPPOSITE,
+} from '@/helpers/funcs';
+import { mapState, mapMutations } from 'vuex';
+import draggable from 'vuedraggable';
+import Recipe from '@/components/recipes/Recipe.vue';
+import ElementsTable from '@/components/recipes/ElementsTable.vue';
+import ElementsDryTable from '@/components/recipes/ElementsDryTable.vue';
 
 export default {
   name: 'Recipes',
   components: {
+    ElementsTable,
+    ElementsDryTable,
     draggable,
     Recipe,
   },
-  data () {
+  data() {
     return {
       FORMULAS,
       RECIPE_EXAMPLES,
+      OPPOSITE,
       drag: false,
       fertilizerType: 'Самомес',
       reagentsSelected: [],
@@ -684,384 +639,346 @@ export default {
       tankVolume: null,
       fertilizerMass: {},
       solute: {},
-      recipeName_: null,
+      recipeName: '',
       recipeNote: null,
-      opposite: {
-        'N': 'NO3',
-        'NO3': 'N',
-        'P': 'PO4',
-        'PO4': 'P'
-      },
       isPercent: false,
       isShared: false,
       isWater: true,
-      isConcentrationPercent: false,
       isShowConcentration: false,
-      isConvertion: false,
       curRecipeIndex: null,
       dialog: this.$route.params.open,
       dialogShare: false,
       timeout: 2000,
       rulesReagent: [
-        v => !!(v.length > 0) || 'Выберите реагент'
+        (v) => v.length > 0 || 'Выберите реагент',
       ],
       rulesMass: {
-        solubility (reagent, volume, formulas) {
-          return v => (
-            (v / volume * 1000) < formulas[reagent].solubilityLimit ||
-            `Достигнута максимальная растворимость - ${formulas[reagent].solubilityLimit} г/л при 20°С!`
-          )
+        solubility(reagent, volume, formulas) {
+          return (v) => (
+            (v / volume) * 1000 < formulas[reagent].solubilityLimit
+            || `Достигнута максимальная растворимость - ${formulas[reagent].solubilityLimit} г/л при 20°С!`
+          );
         },
-        isExist () {
-          return v => !!v || 'Введите массу'
-        }
+        isExist() {
+          return (v) => !!v || 'Введите массу';
+        },
       },
       rulesVolume: {
-        isExist () {
-          return v => !!v || 'Введите объем удобрения'
-        }
+        isExist() {
+          return (v) => !!v || 'Введите объем удобрения';
+        },
       },
       rulesName: [
-        v => !!v || 'Введите название',
-        v => (!this.isExist || this.isSame) || 'Рецепт с таким названием уже существует'
-      ]
-    }
+        (v) => !!v || 'Введите название',
+        () => (!this.isExist || this.isSame) || 'Рецепт с таким названием уже существует',
+      ],
+    };
   },
-  mounted () {
-    let query = this.$router.currentRoute.query
-    if (query.share) {
-      this.setComponent(JSON.parse(decodeURIComponent(query.share))[0])
-      this.isShared = true
+  mounted() {
+    const { share } = this.$router.currentRoute.query;
+    if (share) {
+      this.setComponent(JSON.parse(decodeURIComponent(share))[0]);
+      this.isShared = true;
+    }
+    if (!this.recipeName) {
+      this.recipeName = this.fertilizerType;
     }
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'drawer'
+      'tanks', 'recipes', 'drawer',
     ]),
-    dragOptions () {
+    dragOptions() {
       return {
         animation: 200,
         group: 'description',
         disabled: false,
-        ghostClass: 'ghost'
-      }
+        ghostClass: 'ghost',
+      };
     },
     recipes: {
-      get () {
-        return this.$store.state.recipes.filter((item) => item.type === 'Самомес')
+      get() {
+        return this.$store.state.recipes.filter((item) => item.type === 'Самомес');
       },
-      set (value) {
-        this.RECIPE_MOVE(value)
-      }
+      set(value) {
+        this.RECIPE_MOVE(value);
+      },
     },
-    reagents () {
-      let result = []
-      for (let formula in this.FORMULAS) {
+    reagents() {
+      const result = [];
+      Object.entries(this.FORMULAS).forEach(([formula, data]) => {
         result.push({
-          text: `${this.FORMULAS[formula].name} - ${formula}`,
-          name: `${this.FORMULAS[formula].name}`,
-          value: formula
-        })
-      }
-      result.sort((a, b) => a.text.localeCompare(b.text))
-      return result
+          text: `${data.name} - ${formula}`,
+          name: `${data.name}`,
+          value: formula,
+        });
+      });
+      result.sort((a, b) => a.text.localeCompare(b.text));
+      return result;
     },
-    recipesExamples () {
-      let recipeExamples = {
-        'самомес': [],
-        'готовое': []
-      }
-      for (let item of this.RECIPE_EXAMPLES) {
-        recipeExamples[item.type].push(item.name)
-        recipeExamples[item.type].sort((a, b) => a.localeCompare(b))
-      }
-      return recipeExamples
+    recipesExamples() {
+      const recipeExamples = [];
+      this.RECIPE_EXAMPLES.forEach((item) => {
+        if (item.type === 'самомес') {
+          recipeExamples.push(item.name);
+          recipeExamples.sort((a, b) => a.localeCompare(b));
+        }
+      });
+      return recipeExamples;
     },
-    totalFertilizerMass () {
-      return Object.values(this.fertilizerMass).reduce((sum, value) => sum + value)
+    totalFertilizerMass() {
+      return Object.values(this.fertilizerMass).reduce((sum, value) => sum + value);
     },
-    concentration () {
-      let result = {}
-      if (
-        this.reagentsSelected.length > 0 &&
-        Object.keys(this.fertilizerMass).length > 0
-      ) {
-        for (let reagent of this.reagentsSelected) {
-          result[reagent] = {}
-          let ions = FORMULAS[reagent].ions
-          for (let ion in ions) {
-            if (ions[ion].isNeeded) {
-              let factor = 1
+    concentration() {
+      const result = {};
+      if (this.reagentsSelected.length > 0 && Object.keys(this.fertilizerMass).length > 0) {
+        this.reagentsSelected.forEach((reagent) => {
+          result[reagent] = {};
+          const { ions } = FORMULAS[reagent];
+          Object.entries(ions).forEach(([ion, data]) => {
+            if (data.isNeeded) {
+              let factor = 1;
               if (this.fertilizerVolume) {
-                factor = 1 / (this.fertilizerVolume / 1000)
+                factor = 1 / (this.fertilizerVolume / 1000);
               } else if (!this.fertilizerVolume) {
-                factor = 1 / this.totalFertilizerMass
+                factor = 1 / this.totalFertilizerMass;
               }
-              result[reagent][ion] = this.fertilizerMass[reagent] * this.countPercent(reagent)[ion] * factor
+              result[reagent][ion] = this.fertilizerMass[reagent] * this.countPercent(reagent)[ion] * factor;
             }
-          }
-        }
+          });
+        });
       }
-      return result
+      return result;
     },
-    totalIonConcentration () {
-      return this.countTotalIonConcentration(this.concentration)
+    totalIonConcentration() {
+      return this.countTotalIonConcentration(this.concentration);
     },
-    totalUsefulConcentration () {
-      let sum = 0
-      for (let [ion, value] of Object.entries(this.totalIonConcentration)) {
-        sum += this.convertIonRatio(ion) * value
-      }
-      return sum
+    isExist() {
+      const names = this.recipes.map((item) => item.name);
+      return names.findIndex((item) => item === this.recipeName) !== -1;
     },
-    recipeName: {
-      get () {
-        if (this.recipeName_ === null && this.reagentsSelected.length === 1) {
-          let reagent = this.reagentsSelected[0]
-          return this.FORMULAS[reagent].name
-        } else if (this.recipeName_ === null) {
-          return this.fertilizerType
-        } else {
-          return this.recipeName_
-        }
-      },
-      set (value) {
-        this.recipeName_ = value
-      }
+    isSame() {
+      const names = this.recipes.map((item) => item.name);
+      return names.findIndex((item) => item === this.recipeName) === this.curRecipeIndex;
     },
-    isExist () {
-      let names = this.recipes.map(item => item.name)
-      return names.findIndex(item => item === this.recipeName_) !== -1
+    isEditing() {
+      return this.curRecipeIndex !== null;
     },
-    isSame () {
-      let names = this.recipes.map(item => item.name)
-      return names.findIndex(item => item === this.recipeName_) === this.curRecipeIndex
+    encodedUrl() {
+      let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]]);
+      jsonString = jsonString.replace(/%/g, '%25');
+      const encoded = encodeURIComponent(jsonString);
+      return `${window.location.origin + window.location.pathname}?share=${encoded}`;
     },
-    isEditing () {
-      return this.curRecipeIndex !== null
-    },
-    encodedUrl () {
-      let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]])
-      jsonString = jsonString.replace(/%/g, '%25')
-      let encoded = encodeURIComponent(jsonString)
-      return window.location.origin + window.location.pathname + '?share=' + encoded
-    }
   },
   watch: {
-    reagentsSelected () {
-      if (this.reagentsSelected.length === 0) { }
-      let solute = {}
-      for (let reagent of this.reagentsSelected) {
-        let ions = this.FORMULAS[reagent].ions
-        solute[reagent] = {}
-        for (let ion in ions) {
-          if (ions[ion].isNeeded) {
-            solute[reagent][ion] = 0
-          }
-        }
+    reagentsSelected() {
+      if (!this.recipeName && this.reagentsSelected.length === 1) {
+        const reagent = this.reagentsSelected[0];
+        this.recipeName = this.FORMULAS[reagent].name;
       }
-      this.solute = { ...solute }
-      let fertilizerMass = {}
-      for (let reagent of this.reagentsSelected) {
+      const solute = {};
+      this.reagentsSelected.forEach((reagent) => {
+        const { ions } = this.FORMULAS[reagent];
+        solute[reagent] = {};
+        Object.entries(ions).forEach(([ion, data]) => {
+          if (data.isNeeded) {
+            solute[reagent][ion] = 0;
+          }
+        });
+      });
+      this.solute = { ...solute };
+      const fertilizerMass = {};
+      this.reagentsSelected.forEach((reagent) => {
         if (!(reagent in this.fertilizerMass)) {
-          fertilizerMass[reagent] = 0
+          fertilizerMass[reagent] = 0;
         } else {
-          fertilizerMass[reagent] = this.fertilizerMass[reagent]
+          fertilizerMass[reagent] = this.fertilizerMass[reagent];
         }
-      }
-      this.fertilizerMass = { ...fertilizerMass }
+      });
+      this.fertilizerMass = { ...fertilizerMass };
       if (this.fertilizerVolume) {
-        this.countDose()
+        this.countDose();
       }
     },
-    recipeExampleChosen () {
-      for (let item of this.RECIPE_EXAMPLES) {
-        if (item.name === this.recipeExampleChosen) {
-          this.reagentsSelected = Object.keys(item.reagents)
-          this.recipeName_ = item.name
-          this.recipeNote = item.note
-          this.fertilizerVolume = item.fertilizerVolume
-          this.tankVolume = item.tankVolume
-          for (let reagent in item.reagents) {
-            this.fertilizerMass[reagent] = item.reagents[reagent]
-          }
-          break
-        }
+    recipeExampleChosen() {
+      const recipe = this.RECIPE_EXAMPLES.find((item) => item.name === this.recipeExampleChosen);
+      if (recipe) {
+        this.reagentsSelected = Object.keys(recipe.reagents);
+        this.recipeName = recipe.name;
+        this.recipeNote = recipe.note;
+        this.fertilizerVolume = recipe.fertilizerVolume;
+        this.tankVolume = recipe.tankVolume;
+        Object.keys(recipe.reagents).forEach((reagent) => {
+          this.fertilizerMass[reagent] = recipe.reagents[reagent];
+        });
       }
     },
-    tankVolume () {
+    tankVolume() {
       if (this.fertilizerVolume) {
-        this.countDose()
+        this.countDose();
       }
     },
-    dialogShare () {
+    dialogShare() {
       if (!this.dialogShare) {
-        this.curRecipeIndex = null
+        this.curRecipeIndex = null;
       }
-    }
+    },
   },
   methods: {
     ...mapMutations([
-      'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'RECIPE_MOVE', 'SNACKBAR_SHOW'
+      'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'RECIPE_MOVE', 'SNACKBAR_SHOW',
     ]),
-    resetComponent (dialog = false) {
-      this.reagentsSelected = []
-      this.recipeExampleChosen = null
-      this.fertilizerMass = {}
-      this.fertilizerVolume = null
-      this.recipeName_ = null
-      this.recipeNote = null
-      this.tankVolume = null
-      this.curRecipeIndex = null
-      this.solute = {}
-      this.dialog = dialog
-      this.isPercent = false
-      this.isWater = true
-      this.isShared = false
+    countTotalIonConcentration,
+    countTotalIonDose,
+    countTotalDose,
+    isConcentration,
+    countPercent,
+    convertIonName,
+    convertIonRatio,
+    resetComponent(dialog = false) {
+      this.reagentsSelected = [];
+      this.recipeExampleChosen = null;
+      this.fertilizerMass = {};
+      this.fertilizerVolume = null;
+      this.recipeName = '';
+      this.recipeNote = null;
+      this.tankVolume = null;
+      this.curRecipeIndex = null;
+      this.solute = {};
+      this.dialog = dialog;
+      this.isPercent = false;
+      this.isWater = true;
+      this.isShared = false;
     },
-    setComponent (recipe, index = null) {
-      this.fertilizerType = recipe.type
-      this.reagentsSelected = recipe.reagents
-      this.fertilizerMass = recipe.mass
-      this.fertilizerVolume = recipe.volume
-      this.tankVolume = recipe.tankVolume
-      this.recipeName_ = recipe.name
-      this.recipeNote = recipe.note
-      this.curRecipeIndex = index
-      this.dialog = true
-      this.isWater = recipe.volume > 0
-      this.isPercent = recipe.isPercent
+    setComponent(recipe, index = null) {
+      this.fertilizerType = recipe.type;
+      this.reagentsSelected = recipe.reagents;
+      this.fertilizerMass = recipe.mass;
+      this.fertilizerVolume = recipe.volume;
+      this.tankVolume = recipe.tankVolume;
+      this.recipeName = recipe.name;
+      this.recipeNote = recipe.note;
+      this.curRecipeIndex = index;
+      this.dialog = true;
+      this.isWater = recipe.volume > 0;
+      this.isPercent = recipe.isPercent;
     },
-    countPercent (reagent) {
-      return countPercent(reagent)
-    },
-    convertIonName (el) {
-      return convertIonName(el)
-    },
-    convertIonRatio (el) {
-      return convertIonRatio(el)
-    },
-    countDose () {
-      for (let reagent of this.reagentsSelected) {
-        let ions = FORMULAS[reagent].ions
-        let result = {}
-        for (let ion in ions) {
-          if (ions[ion].isNeeded) {
-            let value = this.fertilizerMass[reagent] / (this.fertilizerVolume / 1000) / this.tankVolume * this.countPercent(reagent)[ion] * this.convertIonRatio(ion)
-            if (!isNaN(value)) {
-              value = parseFloat(value.toFixed(5))
-            }
-            result[ion] = value
-            Vue.set(this.solute, reagent, result)
+    countDose() {
+      this.reagentsSelected.forEach((reagent) => {
+        const { ions } = FORMULAS[reagent];
+        const result = {};
+        Object.entries(ions).forEach(([ion, data]) => {
+          if (data.isNeeded) {
+            let value = (
+              (this.fertilizerMass[reagent] / this.fertilizerVolume / this.tankVolume)
+              * (this.countPercent(reagent)[ion] * this.convertIonRatio(ion) * 1000)
+            );
+            value = parseFloat(value.toFixed(5));
+            result[ion] = value;
+            Vue.set(this.solute, reagent, result);
           }
-        }
+        });
+      });
+    },
+    setIsWater(value) {
+      this.isWater = value;
+      this.fertilizerVolume = null;
+      this.tankVolume = null;
+    },
+    inputMass(value, reagent) {
+      const mass = parseFloat(value);
+      Vue.set(this.fertilizerMass, reagent, +mass ? mass : '');
+      if (this.tankVolume && +mass) {
+        this.countDose();
       }
     },
-    setIsWater (value) {
-      this.isWater = value
-      this.fertilizerVolume = null
-      this.tankVolume = null
-    },
-    inputMass (reagent) {
-      let value = parseFloat(event.target.value)
-      Vue.set(this.fertilizerMass, reagent, !isNaN(value) ? value : '')
-      if (this.tankVolume && !isNaN(value)) {
-        this.countDose()
+    inputVolume(value) {
+      this.fertilizerVolume = parseFloat(value);
+      if (this.tankVolume && +this.fertilizerVolume) {
+        this.countDose();
       }
     },
-    inputVolume () {
-      this.fertilizerVolume = parseFloat(event.target.value)
-      if (this.tankVolume && !isNaN(this.fertilizerVolume)) {
-        this.countDose()
-      }
-    },
-    inputIon (reagent, curIon) {
-      let value
-      let solute = {}
-      let ratio = {}
-      for (let ion in this.solute[reagent]) {
-        ratio[ion] = this.convertIonRatio(ion)
-      }
-      for (let ion in this.solute[reagent]) {
-        value = parseFloat(event.target.value)
+    inputIonDose(value, reagent, curIon) {
+      const solute = {};
+      const ratio = {};
+      Object.keys(this.solute[reagent]).forEach((ion) => {
+        ratio[ion] = this.convertIonRatio(ion);
+      });
+      Object.keys(this.solute[reagent]).forEach((ion) => {
+        let ionDose = parseFloat(value);
         if (ion !== curIon) {
           if (ratio[curIon] > 1) {
-            value = value / ratio[curIon]
+            ionDose /= ratio[curIon];
           } else {
-            value = value * ratio[ion]
+            ionDose *= ratio[ion];
           }
-          value = value * (this.countPercent(reagent)[ion] / this.countPercent(reagent)[curIon])
+          ionDose *= (this.countPercent(reagent)[ion] / this.countPercent(reagent)[curIon]);
         }
-        solute[ion] = !isNaN(parseFloat(value)) ? parseFloat(value.toFixed(4)) : 0
-        Vue.set(this.solute, reagent, solute)
-      }
-      let fertilizerMass = { ...this.fertilizerMass }
-      let mass
+        solute[ion] = parseFloat(ionDose) ? parseFloat(ionDose.toFixed(4)) : 0;
+        Vue.set(this.solute, reagent, solute);
+      });
+      const fertilizerMass = { ...this.fertilizerMass };
+      let mass;
       if (!this.solute[reagent][curIon]) {
-        mass = 0
+        mass = 0;
       } else {
-        mass = this.solute[reagent][curIon] * this.tankVolume / this.countPercent(reagent)[curIon] * this.fertilizerVolume / 1000 / this.convertIonRatio(curIon)
+        mass = (this.solute[reagent][curIon] * this.tankVolume * this.fertilizerVolume)
+          / 1000 / this.countPercent(reagent)[curIon] / this.convertIonRatio(curIon);
       }
-      fertilizerMass[reagent] = parseFloat(mass.toFixed(3))
-      this.fertilizerMass = { ...fertilizerMass }
+      fertilizerMass[reagent] = parseFloat(mass.toFixed(3));
+      this.fertilizerMass = { ...fertilizerMass };
     },
-    countTotalIonConcentration (concentration) {
-      return countTotalIonConcentration(concentration)
-    },
-    countTotalIonDose (solute) {
-      return countTotalIonDose(solute)
-    },
-    countTotalDose (solute) {
-      return countTotalDose(solute)
-    },
-    isConcentration (concentration) {
-      return isConcentration(concentration)
-    },
-    fertilizerMassHint (reagent) {
-      let hint = ''
-      for (let ion in this.FORMULAS[reagent].ions) {
-        let data = this.FORMULAS[reagent].ions[ion]
+    fertilizerMassHint(reagent) {
+      let hint = '';
+      Object.keys(this.FORMULAS[reagent].ions).forEach((ion) => {
+        const data = this.FORMULAS[reagent].ions[ion];
         if (data.isNeeded) {
           if (ion !== this.convertIonName(ion)) {
-            hint += ion + '/' + this.convertIonName(ion) + ':  ' + this.concentration[reagent][ion].toFixed(3) + '/' + (this.convertIonRatio(ion) * this.concentration[reagent][ion]).toFixed(3) + ' г/л '
+            hint += `${ion}/${this.convertIonName(ion)}:
+            ${
+              this.concentration[reagent][ion].toFixed(2)
+            }/${
+              (this.convertIonRatio(ion) * this.concentration[reagent][ion]).toFixed(2)
+            } г/л`;
           } else {
-            hint += ion + ':  ' + this.concentration[reagent][ion].toFixed(3) + ' г/л '
+            hint += `${ion}:  ${this.concentration[reagent][ion].toFixed(3)} г/л `;
           }
         }
-      }
-      return hint
+      });
+      return hint;
     },
-    openAddRecipe () {
-      this.resetComponent()
-      this.dialog = true
+    openAddRecipe() {
+      this.resetComponent();
+      this.dialog = true;
       if (this.$refs.recipeForm) {
-        this.$refs.recipeForm.resetValidation()
+        this.$refs.recipeForm.resetValidation();
       }
     },
-    addRecipe () {
+    addRecipe() {
       if (this.$refs.recipeForm.validate()) {
         this.RECIPE_ADD({
           type: this.fertilizerType,
           name: this.recipeName,
           note: this.recipeNote,
           volume: this.fertilizerVolume,
-          reagents: [ ...this.reagentsSelected ],
+          reagents: [...this.reagentsSelected],
           mass: { ...this.fertilizerMass },
           concentration: { ...this.concentration },
-          isPercent: this.isPercent
-        })
-        this.resetComponent()
-        this.SNACKBAR_SHOW('Рецепт добавлен')
+          isPercent: this.isPercent,
+        });
+        this.resetComponent();
+        this.SNACKBAR_SHOW('Рецепт добавлен');
       }
     },
-    openEditRecipe (index) {
-      this.resetComponent()
-      this.setComponent(this.recipes[index], index)
+    openEditRecipe(index) {
+      this.resetComponent();
+      this.setComponent(this.recipes[index], index);
       if (this.$refs.recipeForm) {
-        this.$refs.recipeForm.resetValidation()
+        this.$refs.recipeForm.resetValidation();
       }
     },
-    editRecipe () {
+    editRecipe() {
       if (this.$refs.recipeForm.validate()) {
         this.RECIPE_EDIT({
           index: this.curRecipeIndex,
@@ -1074,38 +991,38 @@ export default {
             reagents: [...this.reagentsSelected],
             mass: { ...this.fertilizerMass },
             concentration: { ...this.concentration },
-            isPercent: this.isPercent
-          }
-        })
-        this.resetComponent()
-        this.SNACKBAR_SHOW('Рецепт изменен')
+            isPercent: this.isPercent,
+          },
+        });
+        this.resetComponent();
+        this.SNACKBAR_SHOW('Рецепт изменен');
       }
     },
-    removeRecipe () {
-      this.RECIPE_REMOVE(this.curRecipeIndex)
-      this.resetComponent()
-      this.SNACKBAR_SHOW('Рецепт удален')
+    removeRecipe() {
+      this.RECIPE_REMOVE(this.curRecipeIndex);
+      this.resetComponent();
+      this.SNACKBAR_SHOW('Рецепт удален');
     },
-    showComponents (ions) {
-      let output = []
-      for (let key in ions) {
-        output.push(`${key}: ${(ions[key] * 100).toFixed(1)}%`)
-      }
-      return output.join(' ')
+    showComponents(ions) {
+      const output = [];
+      Object.entries(ions).forEach(([ion, value]) => {
+        output.push(`${ion}: ${(value * 100).toFixed(1)}%`);
+      });
+      return output.join(' ');
     },
-    openShareDialog (index) {
-      this.curRecipeIndex = index
-      this.dialogShare = true
+    openShareDialog(index) {
+      this.curRecipeIndex = index;
+      this.dialogShare = true;
     },
-    copyUrl () {
-      var encodedUrl = document.getElementById('encodedUrl')
-      encodedUrl.select()
-      encodedUrl.setSelectionRange(0, 99999)
-      document.execCommand('copy')
-      this.SNACKBAR_SHOW('Ссылка скопирована')
-    }
-  }
-}
+    copyUrl() {
+      const encodedUrl = document.getElementById('encodedUrl');
+      encodedUrl.select();
+      encodedUrl.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      this.SNACKBAR_SHOW('Ссылка скопирована');
+    },
+  },
+};
 </script>
 
 <style lang="sass">

@@ -45,7 +45,7 @@
       <div class="d-flex body-2">
         <div>
           <div
-            v-for="ion in countTotalIonConcentration(recipe.concentration)"
+            v-for="ion in Object.keys(concentrations)"
             class="mr-3"
             :key="ion + 'name'"
           >
@@ -54,7 +54,7 @@
         </div>
         <div>
           <div
-            v-for="(value, ion) in countTotalIonConcentration(recipe.concentration)"
+            v-for="(value, ion) in concentrations"
             :key="ion + 'unit'"
             class="text-right"
           >
@@ -83,8 +83,13 @@
 </template>
 
 <script>
-import { FORMULAS } from '@/constants.js';
-import { convertIonName, convertIonRatio, countTotalIonConcentration } from '@/funcs.js';
+import FORMULAS from '@/constants/formulas';
+import {
+  convertIonName,
+  convertIonRatio,
+  countTotalIonConcentration,
+  isConcentration,
+} from '@/helpers/funcs';
 
 export default {
   name: 'Recipe',
@@ -99,9 +104,16 @@ export default {
       FORMULAS,
     };
   },
+  computed: {
+    concentrations() {
+      return countTotalIonConcentration(this.recipe.concentration);
+    },
+  },
   methods: {
     convertIonName,
     convertIonRatio,
+    countTotalIonConcentration,
+    isConcentration,
   },
 };
 </script>
