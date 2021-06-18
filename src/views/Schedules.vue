@@ -20,65 +20,23 @@
 <template>
   <v-container class="mb-12">
     <v-row>
+      <page-title>
+        Расписание
+      </page-title>
+      <guide>
+        На этой странице можно составить расписание для аквариума.
+      </guide>
       <v-col
-        v-if="tanks.length === 0 || recipes.length === 0"
+        v-if="schedules.length === 0"
         cols="12"
         md="8"
         offset-md="2"
       >
         <p
           class="mb-8"
-          :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}"
-        >
-          <template>
-            У вас еще нет
-          </template>
-          <template v-if="tanks.length === 0">
-            аквариума
-          </template>
-          <template v-if="tanks.length === 0 && recipes.length === 0">
-            и
-          </template>
-          <template v-if="recipes.length === 0">
-            рецептов
-          </template>
-        </p>
-        <p>
-          Необходимо
-          <router-link
-            v-if="tanks.length === 0"
-            :to="{ name: 'tanks', params: { open: true }}"
-          >
-            добавить аквариум
-          </router-link>
-          <template v-if="tanks.length === 0 && recipes.length === 0">
-            и
-          </template>
-          <router-link
-            v-if="recipes.length === 0"
-            :to="{ name: 'recipes', params: { open: true }}"
-          >
-            добавить рецепт
-          </router-link>
-          и после этого можно будет составлять расписание.
-        </p>
-      </v-col>
-      <v-col
-        v-if="schedules.length === 0 && tanks.length > 0 && recipes.length > 0"
-        cols="12"
-        md="8"
-        offset-md="2"
-      >
-        <p
-          v-if="schedules.length === 0"
-          class="mb-8"
-          :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}"
+          :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
         >
           У вас нет ни одного расписания
-        </p>
-        <p>
-          <a @click="openAddSchedule(null)">Добавьте расписание</a> и вам будет проще
-          следить за внесенным количеством удобрений.
         </p>
       </v-col>
       <v-col
@@ -486,29 +444,9 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <v-tooltip
-      v-if="tanks.length > 0 && recipes.length > 0"
-      left
-    >
-      <template v-slot:activator="{ on }">
-        <v-btn
-          color="primary"
-          dark
-          fab
-          @click="openAddSchedule(null)"
-          v-on="on"
-          fixed
-          bottom
-          right
-          :class="{'drawer': drawer && $vuetify.breakpoint['smAndUp']}"
-          style="transition: all 0.2s;"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <span>Добавить расписание</span>
-    </v-tooltip>
+    <add-button :action="openAddSchedule">
+      Добавить расписание
+    </add-button>
   </v-container>
 </template>
 
@@ -521,7 +459,9 @@ import HARDNESS from '@/constants/hardness';
 
 export default {
   name: 'Schedules',
-  components: { Schedule },
+  components: {
+    Schedule,
+  },
   data() {
     return {
       HARDNESS,

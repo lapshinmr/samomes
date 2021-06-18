@@ -42,9 +42,9 @@ export default new Router({
       name: 'recipes',
     },
     {
-      path: '/solutions',
-      component: load('Solutions'),
-      name: 'solutions',
+      path: '/fertilizers',
+      component: load('Fertilizers'),
+      name: 'fertilizers',
     },
     {
       path: '/schedules',

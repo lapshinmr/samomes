@@ -5,11 +5,14 @@ export default {
   drawer: false,
   isSnackbar: false,
   snackbarMessage: '',
-  tanksGuidIsClosed: false,
-  recipesGuidIsClosed: false,
-  solutionsGuidIsClosed: false,
-  scheduleGuidIsClosed: false,
+  guideIsClosed: {
+    tanks: false,
+    recipes: false,
+    fertilizers: false,
+    schedules: false,
+  },
   tanks: [],
   recipes: [],
+  fertilizers: [],
   schedules: [],
 };

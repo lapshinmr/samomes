@@ -3,7 +3,7 @@ export default {
     routes: {
       tanks: 'Fish tanks',
       recipes: 'Recipies',
-      solutions: 'Solutions',
+      fertilizers: 'Fertilizers',
       schedules: 'Schedule',
       remineralization: 'Remineralization',
       dynamics: 'Dynamics',
@@ -18,6 +18,7 @@ export default {
       ml: 'ml',
     },
     buttons: {
+      open: 'Open',
       save: 'Save',
       edit: 'Edit',
       add: 'Add',
@@ -90,9 +91,44 @@ export default {
         },
       },
       dialog: {
-        recipeNew: 'Новый рецепт',
-        recipeEdit: 'Редактирование рецепта',
+        recipeNew: 'New recipe',
+        recipeEdit: 'Recipe editing',
         name: 'Название',
+        nameHint: 'Придумайте простое название, например "Аквариум 1" или "Большой аквариум"',
+        volume: 'Объем',
+        volumeHint: 'Вы можете воспользоваться калькулятором объема ниже',
+        length: 'Длина',
+        width: 'Ширина',
+        height: 'Высота',
+        heightHint: 'Введите высоту чистого столба воды',
+        glassThickness: 'Толщина стекла',
+        orSizes: 'Или используйте размеры',
+        messageTankAdd: 'Аквариум добавлен',
+        messageTankEdit: 'Аквариум изменен',
+        messageTankRemove: 'Аквариум удален',
+        nameRules: {
+          require: 'Введите название',
+          exists: 'Аквариум с таким названием уже существует',
+        },
+        volumeRules: {
+          require: 'Введите объем в литрах',
+        },
+      },
+    },
+    fertilizers: {
+      addButton: 'Add solution',
+      panels: {
+        header: {
+          pull: 'Pull to sort recipes',
+        },
+        body: {
+          noSizes: 'Размеры не указаны',
+        },
+      },
+      dialog: {
+        fertilizerNew: 'New fertilizer',
+        fertilizerEdit: 'Fertilizer editing',
+        name: 'Name',
         nameHint: 'Придумайте простое название, например "Аквариум 1" или "Большой аквариум"',
         volume: 'Объем',
         volumeHint: 'Вы можете воспользоваться калькулятором объема ниже',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="recipe.type === 'Самомес'"
+      v-if="isRecipe"
       class="mb-2"
     >
       Рецепт
@@ -32,7 +32,7 @@
       </div>
     </template>
     <v-divider
-      v-if="recipe.type === 'Самомес'"
+      v-if="isRecipe"
       class="my-3"
     />
     <div
@@ -58,8 +58,8 @@
             :key="ion + 'unit'"
             class="text-right"
           >
-            {{ (convertIonRatio(ion) * value * (recipe.volume || recipe.type === 'Готовое' ? 1 : 1000)).toFixed(2) }}
-            {{ recipe.volume || recipe.type === 'Готовое' ? 'г/л' : 'мг/г' }}
+            {{ (convertIonRatio(ion) * value * (!recipe.volume && isRecipe ? 1000 : 1)).toFixed(2) }}
+            {{ !recipe.volume && isRecipe ? 'мг/г' : 'г/л' }}
           </div>
         </div>
       </div>
@@ -107,6 +107,9 @@ export default {
   computed: {
     concentrations() {
       return countTotalIonConcentration(this.recipe.concentration);
+    },
+    isRecipe() {
+      return this.recipe.reagents && this.recipe.reagents.length > 0;
     },
   },
   methods: {

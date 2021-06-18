@@ -104,11 +104,10 @@ export default {
     LanguageSwitcher,
   },
   data: () => ({
-    drawer: false,
     links: [
       { name: 'tanks', icon: 'mdi-fishbowl-outline' },
       { name: 'recipes', icon: 'mdi-clipboard-text-multiple-outline' },
-      { name: 'solutions', icon: 'mdi-flask' },
+      { name: 'fertilizers', icon: 'mdi-flask' },
       { name: 'schedules', icon: 'mdi-calendar-blank-multiple' },
       { name: 'remineralization', icon: 'fas fa-cubes' },
       { name: 'dynamics', icon: 'far fa-chart-bar' },
@@ -118,13 +117,14 @@ export default {
   }),
   created() {
     this.initLang();
-    this.DRAWER_SET(!this.$vuetify.breakpoint.xs);
   },
   computed: {
     ...mapState([
       'isSnackbar',
       'snackbarMessage',
       'lang',
+      'recipes',
+      'guideIsClosed',
     ]),
     breadcrumbs() {
       const result = {};
@@ -141,13 +141,25 @@ export default {
         this.SNACKBAR_HIDE();
       },
     },
-  },
-  watch: {
-    drawer() {
-      this.DRAWER_SET(this.drawer);
+    drawer: {
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(value) {
+        this.DRAWER_SET(value);
+      },
     },
   },
   mounted() {
+    this.recipes.forEach((recipe, index) => {
+      if (recipe.type === 'Готовое') {
+        this.FERTILIZER_ADD(recipe);
+        this.RECIPE_REMOVE(index);
+      }
+    });
+    if (typeof this.guideIsClosed === 'boolean') {
+      this.GUIDE_RESET();
+    }
     if (!this.$router.currentRoute.query.share) {
       const path = localStorage.getItem('path');
       if (path) {
@@ -160,6 +172,9 @@ export default {
     ...mapMutations([
       'DRAWER_SET',
       'SNACKBAR_HIDE',
+      'FERTILIZER_ADD',
+      'RECIPE_REMOVE',
+      'GUIDE_RESET',
     ]),
     ...mapActions([
       'langSet',

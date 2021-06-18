@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2020 Mikhail Lapshin
+  Copyright (C) 2021 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,30 +20,24 @@
 <template>
   <v-container class="mb-12">
     <v-row>
+      <page-title>
+        Аквариумы
+      </page-title>
+      <guide>
+        На этой странице можно добавить аквариумы.
+      </guide>
       <v-col
+        v-if="tanks.length === 0"
         cols="12"
         md="8"
         offset-md="2"
       >
-        <div v-if="!tankGuidIsClosed">
-          <span>
-            <v-tooltip
-              bottom
-              max-width="400"
-            >
-              <template v-slot:activator="{ on }">
-                <a
-                  class="ml-3 font-weight-light"
-                  @click="GUID_CLOSE"
-                  v-on="on"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </a>
-              </template>
-              Закрыть гид
-            </v-tooltip>
-          </span>
-        </div>
+        <p
+          class="mb-8"
+          :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
+        >
+          У вас нет ни одного аквариума
+        </p>
       </v-col>
       <v-col
         cols="12"
@@ -290,26 +284,9 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-
-    <v-tooltip left>
-      <template #activator="{ on }">
-        <v-btn
-          color="primary"
-          dark
-          fab
-          @click="openAddTank"
-          v-on="on"
-          fixed
-          bottom
-          right
-          :class="{'drawer': drawer && $vuetify.breakpoint['smAndUp']}"
-          style="transition: all 0.2s;"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <span>{{ $t('tanks.addButton') }}</span>
-    </v-tooltip>
+    <add-button :action="openAddTank">
+      {{ $t('tanks.addButton') }}
+    </add-button>
   </v-container>
 </template>
 
@@ -344,7 +321,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'schedules', 'drawer',
+      'tanks',
     ]),
     dragOptions() {
       return {
@@ -393,7 +370,6 @@ export default {
       'TANK_EDIT',
       'TANK_MOVE',
       'SNACKBAR_SHOW',
-      'GUID_CLOSE',
     ]),
     resetComponent() {
       this.name = null;

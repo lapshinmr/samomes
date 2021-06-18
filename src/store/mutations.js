@@ -4,6 +4,17 @@ export default {
   DRAWER_SET(state, payload) {
     state.drawer = payload;
   },
+  GUIDE_CLOSE(state, dst) {
+    state.guideIsClosed[dst] = true;
+  },
+  GUIDE_RESET(state) {
+    state.guideIsClosed = {
+      tanks: false,
+      recipes: false,
+      fertilizers: false,
+      schedules: false,
+    };
+  },
   LANG_SET(state, payload) {
     state.lang = payload;
   },
@@ -37,6 +48,21 @@ export default {
   RECIPES_REMOVE(state) {
     state.recipes = [];
   },
+  FERTILIZER_ADD(state, payload) {
+    state.fertilizers.push(payload);
+  },
+  FERTILIZER_REMOVE(state, payload) {
+    state.fertilizers.splice(payload, 1);
+  },
+  FERTILIZER_EDIT(state, payload) {
+    Vue.set(state.fertilizers, payload.index, payload.recipe);
+  },
+  FERTILIZER_MOVE(state, payload) {
+    state.fertilizers = payload;
+  },
+  FERTILIZERS_REMOVE(state) {
+    state.fertilizers = [];
+  },
   SCHEDULE_ADD(state, payload) {
     state.schedules.push(payload);
   },
@@ -60,8 +86,5 @@ export default {
   SNACKBAR_HIDE(state) {
     state.snackbarMessage = '';
     state.isSnackbar = false;
-  },
-  GUID_CLOSE(state) {
-    state.guidIsClosed = true;
   },
 };

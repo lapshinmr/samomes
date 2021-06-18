@@ -20,6 +20,12 @@
 <template>
   <v-container class="mb-12">
     <v-row>
+      <page-title>
+        Рецепты
+      </page-title>
+      <guide>
+        На этой странице можно добавить рецепты.
+      </guide>
       <v-col
         v-if="recipes.length === 0"
         cols="12"
@@ -28,12 +34,9 @@
       >
         <p
           class="mb-8"
-          :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}"
+          :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
         >
-          {{ $t('recipes.alert.title') }}
-        </p>
-        <p>
-          <a @click="dialog = true">{{ $t('recipes.alert.todo.action') }}</a> {{ $t('recipes.alert.todo.text') }}
+          У вас нет ни одного рецепта
         </p>
       </v-col>
       <v-col
@@ -72,9 +75,9 @@
                       <span style="line-height: 1.25rem;">
                         {{ recipe.name }}
                       </span>
-                      <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">
-                        {{ recipe.type }}
-                      </span>
+<!--                      <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">-->
+<!--                        {{ recipe.type }}-->
+<!--                      </span>-->
                     </span>
                     <span class="mr-3">
                       <v-tooltip
@@ -153,18 +156,7 @@
               >
                 <v-form ref="recipeForm">
                   <v-row>
-                    <v-col
-                      v-if="isShared"
-                      cols="12"
-                    >
-                      <p class="display-1">
-                        С вами поделились рецептом!
-                      </p>
-                      <p>
-                        Посмотрите рецепт, дайте ему
-                        название и напишите примечание. После этого можете сохранить его.
-                      </p>
-                    </v-col>
+                    <shared v-if="isShared" />
                     <v-col
                       cols="12"
                       class="pt-0 mt-8"
@@ -374,7 +366,7 @@
                                       <template v-slot:activator="{ on }">
                                         <v-icon v-on="on">mdi-help-circle-outline</v-icon>
                                       </template>
-                                      Введите дозу элемента. Калькулятор автоматически рассчитает
+                                      Калькулятор автоматически рассчитает
                                       необходимую массу реагента.
                                       Доза - это количество элемента, на которую повысится концентрация
                                       элемента в заданном объеме аквариума при внесении 1 мл удобрения.
@@ -575,33 +567,16 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <v-tooltip left>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          color="primary"
-          dark
-          fab
-          @click="openAddRecipe"
-          v-on="on"
-          fixed
-          bottom
-          right
-          :class="{'drawer': drawer && $vuetify.breakpoint['smAndUp']}"
-          style="transition: all 0.2s;"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <span>{{ $t('recipes.addButton') }}</span>
-    </v-tooltip>
+    <add-button :action="openAddRecipe">
+      {{ $t('recipes.addButton') }}
+    </add-button>
   </v-container>
 </template>
 
 <script>
 import Vue from 'vue';
 import FORMULAS from '@/constants/formulas';
-import RECIPE_EXAMPLES from '@/constants/recipes';
+import RECIPES from '@/constants/recipes';
 import {
   countTotalIonConcentration,
   countPercent,
@@ -617,6 +592,7 @@ import draggable from 'vuedraggable';
 import Recipe from '@/components/recipes/Recipe.vue';
 import ElementsTable from '@/components/recipes/ElementsTable.vue';
 import ElementsDryTable from '@/components/recipes/ElementsDryTable.vue';
+import Shared from '@/components/Shared.vue';
 
 export default {
   name: 'Recipes',
@@ -625,14 +601,14 @@ export default {
     ElementsDryTable,
     draggable,
     Recipe,
+    Shared,
   },
   data() {
     return {
       FORMULAS,
-      RECIPE_EXAMPLES,
+      RECIPES,
       OPPOSITE,
       drag: false,
-      fertilizerType: 'Самомес',
       reagentsSelected: [],
       recipeExampleChosen: null,
       fertilizerVolume: null,
@@ -641,7 +617,6 @@ export default {
       solute: {},
       recipeName: '',
       recipeNote: null,
-      isPercent: false,
       isShared: false,
       isWater: true,
       isShowConcentration: false,
@@ -686,7 +661,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'drawer',
+      'tanks',
     ]),
     dragOptions() {
       return {
@@ -698,7 +673,7 @@ export default {
     },
     recipes: {
       get() {
-        return this.$store.state.recipes.filter((item) => item.type === 'Самомес');
+        return this.$store.state.recipes;
       },
       set(value) {
         this.RECIPE_MOVE(value);
@@ -718,12 +693,10 @@ export default {
     },
     recipesExamples() {
       const recipeExamples = [];
-      this.RECIPE_EXAMPLES.forEach((item) => {
-        if (item.type === 'самомес') {
-          recipeExamples.push(item.name);
-          recipeExamples.sort((a, b) => a.localeCompare(b));
-        }
+      this.RECIPES.forEach((item) => {
+        recipeExamples.push(item.name);
       });
+      recipeExamples.sort((a, b) => a.localeCompare(b));
       return recipeExamples;
     },
     totalFertilizerMass() {
@@ -802,7 +775,7 @@ export default {
       }
     },
     recipeExampleChosen() {
-      const recipe = this.RECIPE_EXAMPLES.find((item) => item.name === this.recipeExampleChosen);
+      const recipe = this.RECIPES.find((item) => item.name === this.recipeExampleChosen);
       if (recipe) {
         this.reagentsSelected = Object.keys(recipe.reagents);
         this.recipeName = recipe.name;
@@ -827,7 +800,12 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'RECIPE_ADD', 'RECIPE_REMOVE', 'RECIPE_EDIT', 'RECIPE_MOVE', 'SNACKBAR_SHOW',
+      'RECIPE_ADD',
+      'RECIPE_REMOVE',
+      'RECIPE_EDIT',
+      'RECIPE_MOVE',
+      'SNACKBAR_SHOW',
+      'GUIDE_CLOSE',
     ]),
     countTotalIonConcentration,
     countTotalIonDose,
@@ -847,7 +825,6 @@ export default {
       this.curRecipeIndex = null;
       this.solute = {};
       this.dialog = dialog;
-      this.isPercent = false;
       this.isWater = true;
       this.isShared = false;
     },
@@ -862,7 +839,6 @@ export default {
       this.curRecipeIndex = index;
       this.dialog = true;
       this.isWater = recipe.volume > 0;
-      this.isPercent = recipe.isPercent;
     },
     countDose() {
       this.reagentsSelected.forEach((reagent) => {
@@ -965,7 +941,7 @@ export default {
           reagents: [...this.reagentsSelected],
           mass: { ...this.fertilizerMass },
           concentration: { ...this.concentration },
-          isPercent: this.isPercent,
+          tankVolume: this.tankVolume,
         });
         this.resetComponent();
         this.SNACKBAR_SHOW('Рецепт добавлен');
@@ -991,7 +967,6 @@ export default {
             reagents: [...this.reagentsSelected],
             mass: { ...this.fertilizerMass },
             concentration: { ...this.concentration },
-            isPercent: this.isPercent,
           },
         });
         this.resetComponent();

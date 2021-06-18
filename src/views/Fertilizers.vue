@@ -20,20 +20,26 @@
 <template>
   <v-container class="mb-12">
     <v-row>
+      <page-title>
+        Удобрения
+      </page-title>
+      <guide>
+        На этой странице можно добавить готовые растворы (самодельные или фирменные удобрения с известным составом).
+        <br>
+        <br>
+        А так же можно добавить удобрение с неизвестным составом, чтобы была возможность учесть его в расписании.
+      </guide>
       <v-col
-        v-if="recipes.length === 0"
+        v-if="fertilizers.length === 0"
         cols="12"
         md="8"
         offset-md="2"
       >
         <p
           class="mb-8"
-          :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}"
+          :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
         >
-          {{ $t('recipes.alert.title') }}
-        </p>
-        <p>
-          <a @click="dialog = true">{{ $t('recipes.alert.todo.action') }}</a> {{ $t('recipes.alert.todo.text') }}
+          У вас нет ни одного удобрения
         </p>
       </v-col>
       <v-col
@@ -45,7 +51,7 @@
           multiple
         >
           <draggable
-            v-model="recipes"
+            v-model="fertilizers"
             v-bind="dragOptions"
             @start="drag=true"
             @end="drag=false"
@@ -57,8 +63,8 @@
               :name="!drag ? 'flip-list' : null"
             >
               <v-expansion-panel
-                v-for="(recipe, index) in recipes"
-                :key="recipe.name"
+                v-for="(item, index) in fertilizers"
+                :key="item.name"
               >
                 <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
                   <div
@@ -70,11 +76,11 @@
                       :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                     >
                       <span style="line-height: 1.25rem;">
-                        {{ recipe.name }}
+                        {{ item.name }}
                       </span>
-                      <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">
-                        {{ recipe.type }}
-                      </span>
+                      <!--                      <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">-->
+                      <!--                        {{ item.type }}-->
+                      <!--                      </span>-->
                     </span>
                     <span class="mr-3">
                       <v-tooltip
@@ -87,26 +93,20 @@
                             v-on="on"
                           >mdi mdi-drag</v-icon>
                         </template>
-                        {{ $t('recipes.panel.header.pull') }}
+                        {{ $t('fertilizers.panel.header.pull') }}
                       </v-tooltip>
                     </span>
                   </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <recipe :recipe="recipe" />
+                  <recipe :recipe="item" />
                   <div class="d-flex justify-end mt-4">
                     <v-btn
                       text
-                      @click="openShareDialog(index)"
-                    >
-                      Поделиться
-                    </v-btn>
-                    <v-btn
-                      text
-                      @click="openEditRecipe(index)"
+                      @click="openEditFertilizer(index)"
                       class="mr-n4"
                     >
-                      Изменить
+                      {{ $t('buttons.open') }}
                     </v-btn>
                   </div>
                 </v-expansion-panel-content>
@@ -129,10 +129,10 @@
           color="primary"
         >
           <v-toolbar-title v-if="!isEditing">
-            {{ $t('recipes.dialog.recipeEdit') }}
+            {{ $t('fertilizers.dialog.fertilizerEdit') }}
           </v-toolbar-title>
           <v-toolbar-title v-else>
-            {{ $t('recipes.dialog.recipeEdit') }}
+            {{ $t('fertilizers.dialog.fertilizerEdit') }}
           </v-toolbar-title>
           <v-btn
             icon
@@ -151,20 +151,8 @@
                 md="8"
                 offset-md="2"
               >
-                <v-form ref="recipeForm">
+                <v-form ref="fertilizerForm">
                   <v-row>
-                    <v-col
-                      v-if="isShared"
-                      cols="12"
-                    >
-                      <p class="display-1">
-                        С вами поделились рецептом!
-                      </p>
-                      <p>
-                        Посмотрите рецепт, дайте ему
-                        название и напишите примечание. После этого можете сохранить его.
-                      </p>
-                    </v-col>
                     <v-col cols="12">
                       <v-row>
                         <v-col
@@ -179,8 +167,8 @@
                           sm="6"
                         >
                           <v-select
-                            :items="recipesExamples"
-                            v-model="recipeExampleChosen"
+                            :items="fertilizerExamples"
+                            v-model="fertilizerExampleChosen"
                             label="Удобрение"
                             hint="или выберите удобрение из списка"
                             persistent-hint
@@ -228,7 +216,7 @@
                         <v-expand-transition>
                           <v-col cols="12">
                             <v-text-field
-                              v-model="recipeName"
+                              v-model="fertilizerName"
                               label="Имя рецепта"
                               hide-details="auto"
                               hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
@@ -239,7 +227,7 @@
                         <v-expand-transition>
                           <v-col cols="12">
                             <v-textarea
-                              v-model="recipeNote"
+                              v-model="fertilizerNote"
                               label="Примечание"
                               hide-details="auto"
                               auto-grow
@@ -255,14 +243,14 @@
                           >
                             <v-btn
                               v-if="isEditing"
-                              @click="removeRecipe"
+                              @click="removeFertilizer"
                             >
                               Удалить
                             </v-btn>
                             <v-btn
                               v-if="isEditing"
                               color="primary"
-                              @click="editRecipe"
+                              @click="editFertilizer"
                               class="ml-2"
                             >
                               Сохранить
@@ -270,7 +258,7 @@
                             <v-btn
                               v-if="!isEditing"
                               color="primary"
-                              @click="addRecipe"
+                              @click="addFertilizer"
                             >
                               Сохранить
                             </v-btn>
@@ -286,82 +274,22 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-
-    <v-dialog
-      v-model="dialogShare"
-      width="500"
-    >
-      <v-card>
-        <v-card-title>
-          Поделиться ссылкой
-        </v-card-title>
-        <v-card-text v-if="this.curRecipeIndex !== null">
-          <v-text-field
-            :value="encodedUrl"
-            label="Ваша ссылка для отправки"
-            hint="Скопируйте ссылку"
-            id="encodedUrl"
-          >
-            <template v-slot:append>
-              <v-tooltip
-                bottom
-                max-width="400"
-              >
-                <template v-slot:activator="{ on }">
-                  <a @click="copyUrl()">
-                    <v-icon v-on="on">fas fa-clipboard</v-icon>
-                  </a>
-                </template>
-                Скопировать
-              </v-tooltip>
-            </template>
-          </v-text-field>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            text
-            @click="dialogShare = false"
-          >
-            Закрыть
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-tooltip left>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          color="primary"
-          dark
-          fab
-          @click="openAddRecipe"
-          v-on="on"
-          fixed
-          bottom
-          right
-          :class="{'drawer': drawer && $vuetify.breakpoint['smAndUp']}"
-          style="transition: all 0.2s;"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <span>{{ $t('recipes.addButton') }}</span>
-    </v-tooltip>
+    <add-button :action="openAddSolution">
+      {{ $t('fertilizers.addButton') }}
+    </add-button>
   </v-container>
 </template>
 
 <script>
 import FORMULAS from '@/constants/formulas';
-import RECIPE_EXAMPLES from '@/constants/recipes';
+import FERTILIZERS from '@/constants/fertilizers';
 import { convertIonName, convertIonRatio, OPPOSITE } from '@/helpers/funcs';
-import { mapState, mapMutations } from 'vuex';
+import { mapMutations } from 'vuex';
 import draggable from 'vuedraggable';
 import Recipe from '@/components/recipes/Recipe.vue';
 
 export default {
-  name: 'Solutions',
+  name: 'Fertilizers',
   components: {
     draggable,
     Recipe,
@@ -369,19 +297,16 @@ export default {
   data() {
     return {
       FORMULAS,
-      RECIPE_EXAMPLES,
+      FERTILIZERS,
       OPPOSITE,
       drag: false,
-      fertilizerType: 'Готовое',
-      reagentsSelected: [],
-      recipeExampleChosen: null,
+      fertilizerExampleChosen: null,
       solute: {},
-      recipeName: this.fertilizerType,
-      recipeNote: null,
+      fertilizerName: 'Удобрение',
+      fertilizerNote: '',
       elements: { ...this.resetElements() },
       isPercent: false,
-      isShared: false,
-      curRecipeIndex: null,
+      curFertilizerIndex: null,
       dialog: this.$route.params.open,
       dialogShare: false,
       timeout: 2000,
@@ -391,17 +316,7 @@ export default {
       ],
     };
   },
-  mounted() {
-    const { query } = this.$router.currentRoute;
-    if (query.share) {
-      this.setComponent(JSON.parse(decodeURIComponent(query.share))[0]);
-      this.isShared = true;
-    }
-  },
   computed: {
-    ...mapState([
-      'tanks', 'recipes', 'drawer',
-    ]),
     dragOptions() {
       return {
         animation: 200,
@@ -410,102 +325,92 @@ export default {
         ghostClass: 'ghost',
       };
     },
-    recipes: {
+    fertilizers: {
       get() {
-        return this.$store.state.recipes.filter((item) => item.type === 'Готовое');
+        return this.$store.state.fertilizers;
       },
       set(value) {
-        this.RECIPE_MOVE(value);
+        this.FERTILIZER_MOVE(value);
       },
     },
-    recipesExamples() {
-      const recipeExamples = [];
-      this.RECIPE_EXAMPLES.forEach((item) => {
-        if (item.type === 'готовое') {
-          recipeExamples.push(item.name);
-          recipeExamples.sort((a, b) => a.localeCompare(b));
-        }
+    fertilizerExamples() {
+      const fertilizerExamples = [];
+      this.FERTILIZERS.forEach((item) => {
+        fertilizerExamples.push(item.name);
       });
-      return recipeExamples;
+      fertilizerExamples.sort((a, b) => a.localeCompare(b));
+      return fertilizerExamples;
     },
     concentration() {
       const result = {};
-      result[this.recipeName] = {};
-      Object.entries(this.elements).forEach((el, value) => {
+      result[this.fertilizerName] = {};
+      Object.entries(this.elements).forEach(([el, value]) => {
         const convertRatio = this.isPercent ? 10 : 1;
         if (value && ['NO3', 'PO4'].includes(el)) {
-          result[this.recipeName][this.convertIonName(el)] = this.convertIonRatio(el) * value * convertRatio;
-        } else if (this.elements[el]) {
-          result[this.recipeName][el] = value * convertRatio;
+          result[this.fertilizerName][this.convertIonName(el)] = this.convertIonRatio(el) * value * convertRatio;
+        } else if (value) {
+          result[this.fertilizerName][el] = value * convertRatio;
         }
       });
       return result;
     },
     isExist() {
-      const names = this.recipes.map((item) => item.name);
-      return names.findIndex((item) => item === this.recipeName) !== -1;
+      const names = this.fertilizers.map((item) => item.name);
+      return names.findIndex((item) => item === this.fertilizerName) !== -1;
     },
     isSame() {
-      const names = this.recipes.map((item) => item.name);
-      return names.findIndex((item) => item === this.recipeName) === this.curRecipeIndex;
+      const names = this.fertilizers.map((item) => item.name);
+      return names.findIndex((item) => item === this.fertilizerName) === this.curFertilizerIndex;
     },
     isEditing() {
-      return this.curRecipeIndex !== null;
-    },
-    encodedUrl() {
-      let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]]);
-      jsonString = jsonString.replace(/%/g, '%25');
-      const encoded = encodeURIComponent(jsonString);
-      return `${window.location.origin + window.location.pathname}?share=${encoded}`;
+      return this.curFertilizerIndex !== null;
     },
   },
   watch: {
-    recipeExampleChosen() {
-      this.RECIPE_EXAMPLES.forEach((item) => {
-        if (item.name === this.recipeExampleChosen) {
+    fertilizerExampleChosen() {
+      this.FERTILIZERS.forEach((item) => {
+        if (item.name === this.fertilizerExampleChosen) {
           this.isPercent = item.isPercent;
           this.elements = { ...this.resetElements() };
           this.elements = Object.assign(this.elements, item.elements);
-          this.recipeName = item.name;
-          this.recipeNote = item.note;
+          this.fertilizerName = item.name;
+          this.fertilizerNote = item.note;
         }
       });
     },
     dialogShare() {
       if (!this.dialogShare) {
-        this.curRecipeIndex = null;
+        this.curFertilizerIndex = null;
       }
     },
   },
   methods: {
     ...mapMutations([
-      'RECIPE_ADD',
-      'RECIPE_REMOVE',
-      'RECIPE_EDIT',
-      'RECIPE_MOVE',
+      'FERTILIZER_ADD',
+      'FERTILIZER_REMOVE',
+      'FERTILIZER_EDIT',
+      'FERTILIZER_MOVE',
       'SNACKBAR_SHOW',
     ]),
     convertIonName,
     convertIonRatio,
     resetComponent(dialog = false) {
-      this.recipeExampleChosen = null;
-      this.recipeName = '';
-      this.recipeNote = null;
-      this.curRecipeIndex = null;
+      this.fertilizerExampleChosen = null;
+      this.fertilizerName = '';
+      this.fertilizerNote = null;
+      this.curFertilizerIndex = null;
       this.solute = {};
       this.dialog = dialog;
       this.isPercent = false;
-      this.isShared = false;
       this.elements = { ...this.resetElements() };
     },
-    setComponent(recipe, index = null) {
-      this.fertilizerType = recipe.type;
-      this.recipeName = recipe.name;
-      this.recipeNote = recipe.note;
-      this.curRecipeIndex = index;
+    setComponent(fertilizer, index = null) {
+      this.fertilizerName = fertilizer.name;
+      this.fertilizerNote = fertilizer.note;
+      this.curFertilizerIndex = index;
       this.dialog = true;
-      this.isPercent = recipe.isPercent;
-      this.elements = { ...recipe.elements };
+      this.isPercent = fertilizer.isPercent;
+      this.elements = { ...fertilizer.elements };
     },
     resetElements() {
       return {
@@ -525,19 +430,18 @@ export default {
         Ni: null,
       };
     },
-    openAddRecipe() {
+    openAddSolution() {
       this.resetComponent();
       this.dialog = true;
-      if (this.$refs.recipeForm) {
-        this.$refs.recipeForm.resetValidation();
+      if (this.$refs.fertilizerForm) {
+        this.$refs.fertilizerForm.resetValidation();
       }
     },
-    addRecipe() {
-      if (this.$refs.recipeForm.validate()) {
-        this.RECIPE_ADD({
-          type: this.fertilizerType,
-          name: this.recipeName,
-          note: this.recipeNote,
+    addFertilizer() {
+      if (this.$refs.fertilizerForm.validate()) {
+        this.FERTILIZER_ADD({
+          name: this.fertilizerName,
+          note: this.fertilizerNote,
           mass: { ...this.fertilizerMass },
           elements: { ...this.elements },
           concentration: { ...this.concentration },
@@ -547,23 +451,21 @@ export default {
         this.SNACKBAR_SHOW('Рецепт добавлен');
       }
     },
-    openEditRecipe(index) {
+    openEditFertilizer(index) {
       this.resetComponent();
-      this.setComponent(this.recipes[index], index);
-      if (this.$refs.recipeForm) {
-        this.$refs.recipeForm.resetValidation();
+      this.setComponent(this.fertilizers[index], index);
+      if (this.$refs.fertilizerForm) {
+        this.$refs.fertilizerForm.resetValidation();
       }
     },
-    editRecipe() {
-      if (this.$refs.recipeForm.validate()) {
-        this.RECIPE_EDIT({
-          index: this.curRecipeIndex,
-          recipe: {
-            type: this.fertilizerType,
-            name: this.recipeName,
-            note: this.recipeNote,
+    editFertilizer() {
+      if (this.$refs.fertilizerForm.validate()) {
+        this.FERTILIZER_EDIT({
+          index: this.curFertilizerIndex,
+          fertilizer: {
+            name: this.fertilizerName,
+            note: this.fertilizerNote,
             volume: this.fertilizerVolume,
-            tankVolume: this.tankVolume,
             mass: { ...this.fertilizerMass },
             concentration: { ...this.concentration },
             elements: { ...this.elements },
@@ -574,21 +476,10 @@ export default {
         this.SNACKBAR_SHOW('Рецепт изменен');
       }
     },
-    removeRecipe() {
-      this.RECIPE_REMOVE(this.curRecipeIndex);
+    removeFertilizer() {
+      this.FERTILIZER_REMOVE(this.curFertilizerIndex);
       this.resetComponent();
       this.SNACKBAR_SHOW('Рецепт удален');
-    },
-    openShareDialog(index) {
-      this.curRecipeIndex = index;
-      this.dialogShare = true;
-    },
-    copyUrl() {
-      const encodedUrl = document.getElementById('encodedUrl');
-      encodedUrl.select();
-      encodedUrl.setSelectionRange(0, 99999);
-      document.execCommand('copy');
-      this.SNACKBAR_SHOW('Ссылка скопирована');
     },
   },
 };
