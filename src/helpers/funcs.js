@@ -110,3 +110,6 @@ export const convertIonName = (ion) => OPPOSITE[ion] || ion;
 export const convertIonRatio = (ion) => (
   convertIonName(ion) !== ion ? countMass(convertIonName(ion)) / countMass(ion) : 1
 );
+
+export const isRecipe = (recipe) => recipe.reagents && recipe.reagents.length > 0;
+export const isFertilizer = (recipe) => recipe.elements && Object.keys(recipe.elements).length > 0;

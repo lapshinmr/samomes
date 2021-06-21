@@ -10,6 +10,8 @@ export default {
     recipes: false,
     fertilizers: false,
     schedules: false,
+    dynamics: false,
+    remineralization: false,
   },
   tanks: [],
   recipes: [],

@@ -32,34 +32,33 @@
         v-model="activeIndex"
         alt-labels
       >
-        <v-stepper-items class="mb-4">
+        <v-stepper-items>
           <v-stepper-content
             v-for="(n, index) in schedule.daysTotal"
             :key="`${n}-content`"
             :step="n"
-            class="pa-0"
+            class="pa-0 pb-8"
           >
-            <div class="d-flex flex-column display-1 text-center mb-2">
+            <div class="d-flex flex-column text-h4 text-center mb-4">
               <div>
                 <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>,
-                <span class="">{{ schedule.datesColumn[index].date }}</span>
+                <span>{{ schedule.datesColumn[index].date }}</span>
               </div>
-              <div class="text-center body-1">
-                {{ schedule.datesRange[0].substr(5, 10).replace('-', '.') }} -
-                {{ schedule.datesRange[1].substr(5, 10).replace('-', '.') }}
+              <div class="text-center text-body-1">
+                {{ schedule.datesRange[0] | format("DD MMMM") }} -
+                {{ schedule.datesRange[1] | format("DD MMMM") }}
               </div>
             </div>
             <div
               v-for="(quotas, recipeName) in daysQuotas"
               :key="recipeName + n"
-              class="headline"
             >
               <v-row>
                 <v-col
                   cols="12"
                   sm="10"
                   offset-sm="1"
-                  class="py-0"
+                  class="py-1"
                 >
                   <v-btn
                     :disabled="!schedule.selected[recipeName][index]"
@@ -158,14 +157,14 @@
       <v-btn
         v-else
         text
-        @click="$emit('remove', index)"
+        @click="$emit('remove', indexSchedule)"
         class="ml-3"
       >
         Завершить
       </v-btn>
       <v-btn
         text
-        @click="$emit('edit', index)"
+        @click="$emit('edit', indexSchedule)"
         class="ml-3"
       >
         Открыть
@@ -181,7 +180,7 @@ import { mapState, mapMutations } from 'vuex';
 export default {
   name: 'Schedule',
   props: {
-    scheduleIndex: {
+    indexSchedule: {
       type: [String, Number],
       default: 0,
     },
@@ -199,7 +198,7 @@ export default {
       'schedules',
     ]),
     schedule() {
-      return this.schedules[this.index];
+      return this.schedules[this.indexSchedule];
     },
     daysQuotas() {
       if (Object.keys(this.schedule.completed).length === 0) {
@@ -214,7 +213,7 @@ export default {
         let daysLeft = this.schedule.daysTotal - excludedTotal;
         let amount = parseFloat(recipe.amount);
         let currentDay = amount / (this.schedule.daysTotal - excludedTotal);
-        [...Array(this.schedule.daysTotal)].forEach((index) => {
+        Object.keys([...Array(this.schedule.daysTotal)]).forEach((index) => {
           switch (true) {
             case completeList[index] === 1:
               currentDay = amount / daysLeft;
@@ -275,7 +274,7 @@ export default {
     progressValue() {
       let sum = 0;
       let amount = 0;
-      Object.values(this.totalSum).forEach((item) => {
+      Object.keys(this.totalSum).forEach((item) => {
         amount += parseFloat(this.totalSum[item].amount);
         sum += parseFloat(this.totalSum[item].sum);
       });
@@ -288,7 +287,7 @@ export default {
     ]),
     clickDay(recipeName, index) {
       this.SCHEDULE_COMPLETE({
-        indexSchedule: this.index,
+        indexSchedule: this.indexSchedule,
         indexDay: index,
         recipeName,
       });

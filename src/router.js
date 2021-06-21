@@ -32,43 +32,43 @@ export default new Router({
   routes: [
     {
       path: '/tanks',
-      component: load('Tanks'),
+      component: load('tanks'),
       alias: [''],
       name: 'tanks',
     },
     {
       path: '/recipes',
-      component: load('Recipes'),
+      component: load('recipes'),
       name: 'recipes',
     },
     {
       path: '/fertilizers',
-      component: load('Fertilizers'),
+      component: load('fertilizers'),
       name: 'fertilizers',
     },
     {
       path: '/schedules',
-      component: load('Schedules'),
+      component: load('schedules'),
       name: 'schedules',
     },
     {
       path: '/remineralization',
-      component: load('Remineralization'),
+      component: load('remineralization'),
       name: 'remineralization',
     },
     {
       path: '/dynamics',
-      component: load('Dinamics'),
+      component: load('dynamics'),
       name: 'dynamics',
     },
     {
       path: '/about',
-      component: load('About'),
+      component: load('about'),
       name: 'about',
     },
     {
       path: '/settings',
-      component: load('Settings'),
+      component: load('settings'),
       name: 'settings',
     },
   ],

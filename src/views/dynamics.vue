@@ -20,6 +20,16 @@
 <template>
   <v-container class="mb-10">
     <v-row>
+      <page-title>
+        Динамика элементов
+      </page-title>
+      <guide>
+        На данной странице можно найти равновесные концентрации элементов в зависимости от объема и частоты подмены,
+        а так же дозировок вносимых удобрений.
+        <br>
+        <br>
+        Страница находится на доработке!
+      </guide>
       <v-col
         v-if="recipes.length === 0"
         cols="12"
@@ -94,7 +104,7 @@
               <v-text-field
                 v-model.number="waterChangePeriod"
                 type="number"
-                label="Частота подмены воды"
+                label="Количество дней между подменами"
                 hide-details
               />
             </v-col>
@@ -107,9 +117,10 @@
           cols="12"
           sm="8"
           offset-sm="2"
+          class="mt-4"
         >
           <v-select
-            :items="recipes"
+            :items="items"
             v-model="recipesSelected"
             label="Выберите рецепты"
             item-text="name"
@@ -117,25 +128,11 @@
             :return-object="true"
             hide-details="auto"
           />
-          <v-row>
-            <v-col
-              cols="12"
-              sm="6"
-              class="py-0"
-              v-for="(recipeSelected, index) in recipesSelected"
-              :key="index"
-            >
-              <v-text-field
-                :value="recipeSelected.amountDay"
-                @input="inputRecipeAmountDay(index)"
-                type="number"
-                :label="recipeSelected.name"
-                hint="Введите дневную дозу"
-                suffix="мл/день"
-                hide-details="auto"
-              />
-            </v-col>
-          </v-row>
+          <fertilizers-dose-table
+            :recipes-selected="recipesSelected"
+            :days="waterChangePeriod"
+            @input="inputDose"
+          />
         </v-col>
       </v-expand-transition>
       <v-expand-transition>
@@ -145,43 +142,11 @@
           sm="8"
           offset-sm="2"
         >
-          <v-simple-table
-            dense
-            style="background-color: #fafafa;"
-          >
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="pl-0 text-center">
-                    Элемент
-                  </th>
-                  <th class="text-center">
-                    В неделю, <span>мг/л</span>
-                  </th>
-                  <th class="text-center pr-0">
-                    В день, <span>мг/л</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="[name, value] in totalElementsSorted"
-                  :key="name"
-                  :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
-                >
-                  <td class="pl-0 text-center">
-                    {{ name }}
-                  </td>
-                  <td class="text-center">
-                    +{{ value !== undefined ? (value * 7).toFixed(3) : 0 }}
-                  </td>
-                  <td class="text-center pr-0">
-                    +{{ value !== undefined ? (value).toFixed(3) : 0 }}
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <elements-table
+            :recipes-selected="recipesSelected"
+            :days-total="waterChangePeriod"
+            :volume="tankVolume"
+          />
         </v-col>
       </v-expand-transition>
       <v-expand-transition>
@@ -192,7 +157,7 @@
           offset-sm="2"
         >
           <line-chart
-            :chart-data="ionDinamics"
+            :chart-data="ionDynamics"
             :styles="{height: '300px', position: 'relative'}"
           />
           <v-slider
@@ -207,18 +172,17 @@
         </v-col>
       </v-expand-transition>
       <v-col
-        v-if="Object.keys(ionDinamics.datasets).length > 0"
+        v-if="Object.keys(ionDynamics.datasets).length > 0"
         cols="12"
         sm="8"
         offset-sm="2"
       >
         <v-tabs
           v-model="tabs"
-          background-color="#fafafa"
           class="mb-4"
         >
           <v-tab
-            v-for="({label: ion}) in ionDinamics.datasets"
+            v-for="({label: ion}) in ionDynamics.datasets"
             :key="ion"
           >
             {{ ion }}
@@ -226,73 +190,75 @@
         </v-tabs>
         <v-tabs-items
           v-model="tabs"
-          style="background-color: #fafafa;"
         >
           <v-tab-item
-            v-for="({label: ion}) in ionDinamics.datasets"
+            v-for="({label: ion}) in ionDynamics.datasets"
             :key="ion"
+            class="py-2"
           >
-            <v-row>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
-                <v-text-field
-                  :value="
-                    totalElements[convertIonName(ion)] !== undefined
-                      ? (convertIonRatio(convertIonName(ion)) * totalElements[convertIonName(ion)]).toFixed(3)
-                      : 0
-                  "
-                  label="Поступает из удобрений"
-                  suffix="мг/л"
-                  hide-details="auto"
-                  readonly
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
-                <v-text-field
-                  :value="ionsWaterConcentration[convertIonName(ion)]"
-                  @input="inputIonsWaterConcentration(ion, $event)"
-                  type="number"
-                  label="Концентрация в подменной воде"
-                  suffix="мг/л"
-                  hide-details="auto"
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
-                <v-text-field
-                  :value="ionsInit[convertIonName(ion)]"
-                  @input="inputIonsInit(ion, $event)"
-                  type="number"
-                  label="В аквариуме сейчас"
-                  suffix="мг/л"
-                  hide-details="auto"
-                />
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
-                <v-text-field
-                  :value="ionsReduction[convertIonName(ion)]"
-                  @input="inputIonsReduction(ion, $event)"
-                  type="number"
-                  label="Потребление в день"
-                  suffix="мг/л"
-                  hide-details="auto"
-                />
-              </v-col>
-            </v-row>
+            <v-container>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="py-0"
+                >
+                  <v-text-field
+                    :value="
+                      totalElements[convertIonName(ion)] !== undefined
+                        ? (convertIonRatio(convertIonName(ion)) * totalElements[convertIonName(ion)]).toFixed(3)
+                        : 0
+                    "
+                    label="Поступает из удобрений"
+                    suffix="мг/л"
+                    hide-details="auto"
+                    readonly
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="py-0"
+                >
+                  <v-text-field
+                    :value="ionsWaterConcentration[convertIonName(ion)]"
+                    @input="inputIonsWaterConcentration(ion, $event)"
+                    type="number"
+                    label="Концентрация в подменной воде"
+                    suffix="мг/л"
+                    hide-details="auto"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="py-0"
+                >
+                  <v-text-field
+                    :value="ionsInit[convertIonName(ion)]"
+                    @input="inputIonsInit(ion, $event)"
+                    type="number"
+                    label="В аквариуме сейчас"
+                    suffix="мг/л"
+                    hide-details="auto"
+                  />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  class="py-0"
+                >
+                  <v-text-field
+                    :value="ionsReduction[convertIonName(ion)]"
+                    @input="inputIonsReduction(ion, $event)"
+                    type="number"
+                    label="Потребление в день"
+                    suffix="мг/л"
+                    hide-details="auto"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
           </v-tab-item>
         </v-tabs-items>
       </v-col>
@@ -305,21 +271,24 @@ import Vue from 'vue';
 import ELEMENTS from '@/constants/elements';
 import FORMULAS from '@/constants/formulas';
 import { mapState } from 'vuex';
-import { convertIonName, convertIonRatio } from '@/helpers/funcs';
-import LineChart from './Chart.vue';
+import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
+import ElementsTable from '@/components/ElementsTable.vue';
+import FertilizersDoseTable from '@/components/FertilizersDoseTable.vue';
+import LineChart from './chart.vue';
 
 export default {
   name: 'Dynamics',
   components: {
     LineChart,
+    ElementsTable,
+    FertilizersDoseTable,
   },
   data() {
     return {
-      datacollection: null,
       FORMULAS,
-      COMPONENTS: ELEMENTS,
-      tankVolume: null,
+      ELEMENTS,
       tank: null,
+      tankVolume: null,
       waterChange: 30,
       waterChangePeriod: 7,
       tabs: 0,
@@ -337,8 +306,13 @@ export default {
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'drawer',
+      'tanks',
+      'recipes',
+      'fertilizers',
     ]),
+    items() {
+      return [...this.recipes, ...this.fertilizers];
+    },
     waterChangeVolume() {
       return (this.tankVolume * this.waterChange) / 100;
     },
@@ -350,9 +324,9 @@ export default {
             if (!(ion in result)) {
               result[ion] = 0;
             }
-            if (recipe.amount) {
-              result[ion] += (recipe.concentration[reagent][ion] / this.tankVolume) * recipe.amount;
-              if ((!recipe.volume) && recipe.type === 'Самомес') {
+            if (recipe.amountDay) {
+              result[ion] += (recipe.concentration[reagent][ion] / this.tankVolume) * recipe.amountDay;
+              if ((!recipe.volume) && isRecipe(recipe)) {
                 result[ion] *= 1000;
               }
             }
@@ -369,7 +343,7 @@ export default {
       sortableResult.sort((a, b) => b[1] - a[1]);
       return sortableResult;
     },
-    ionDinamics() {
+    ionDynamics() {
       const dynamics = {
         labels: Object.keys([...Array(this.duration)]),
         datasets: [],
@@ -379,21 +353,36 @@ export default {
           label: this.convertIonName(ion),
           fill: false,
           borderColor: this.ionsColors[this.convertIonName(ion)],
-          data: this.countDinamics(ion),
+          data: this.countDynamics(ion),
         });
       });
       return dynamics;
     },
   },
-  methods: {
-    inputRecipeAmountDay(event, index) {
-      const recipe = this.recipesSelected[index];
-      const amount = parseFloat(event.target.value);
-      Vue.set(this.recipesSelected, index, {
-        ...recipe,
-        amount: !Number.isNaN(amount) ? amount : '',
+  watch: {
+    recipesSelected() {
+      this.recipesSelected.forEach((recipe) => {
+        if (!recipe.amount) {
+          recipe.amount = '';
+        }
+        if (!recipe.amountDay) {
+          recipe.amountDay = '';
+        }
       });
     },
+  },
+  methods: {
+    inputDose(index, value) {
+      Vue.set(this.recipesSelected, index, value);
+    },
+    // inputRecipeAmountDay(event, index) {
+    //   const recipe = this.recipesSelected[index];
+    //   const amount = parseFloat(event.target.value);
+    //   Vue.set(this.recipesSelected, index, {
+    //     ...recipe,
+    //     amount: !Number.isNaN(amount) ? amount : '',
+    //   });
+    // },
     inputIonsWaterConcentration(ion, value) {
       Vue.set(this.ionsWaterConcentration, ion, parseFloat(value));
     },
@@ -409,12 +398,12 @@ export default {
     convertIonRatio(ion) {
       return convertIonRatio(ion);
     },
-    countDinamics(ion) {
+    countDynamics(ion) {
       const amount = this.convertIonRatio(ion) * this.totalElements[ion];
       let sum = this.ionsInit[this.convertIonName(ion)] || 0;
       let dynamics = [];
       if (amount) {
-        [...Array(this.duration)].forEach((day) => {
+        Object.keys([...Array(this.duration)]).forEach((day) => {
           if (day > 0 && day % this.waterChangePeriod === 0) {
             const ionWaterConcentration = this.ionsWaterConcentration[this.convertIonName(ion)] || 0;
             sum = sum - sum * (this.waterChange / 100) + ionWaterConcentration * (this.waterChange / 100);

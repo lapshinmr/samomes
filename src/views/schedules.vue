@@ -24,7 +24,11 @@
         Расписание
       </page-title>
       <guide>
-        На этой странице можно составить расписание для аквариума.
+        На этой странице можно составить расписание внесения удобрений в аквариум.
+        <br>
+        <br>
+        Калькулятор сам рассчитает концентрации элементов, по которым можно прикинуть дозировки вносимых
+        удобрений. А так же предложит составить расписание.
       </guide>
       <v-col
         v-if="schedules.length === 0"
@@ -46,10 +50,10 @@
       >
         <Schedule
           v-for="(schedule, index) in schedules"
-          :shedule-index="index"
-          :key="schedule.tank.name + index"
-          @remove="openRemoveDialog($event)"
-          @edit="openAddSchedule($event)"
+          :index-schedule="index"
+          :key="`${schedule.tank.name} + ${index}`"
+          @remove="openRemoveDialog"
+          @edit="openSchedule"
         />
       </v-col>
     </v-row>
@@ -91,14 +95,16 @@
                 <v-form ref="scheduleForm">
                   <v-row>
                     <v-col cols="12">
-                      <v-select
+                      <v-combobox
                         :items="tanks"
-                        v-model="tank"
+                        :value="tank.name"
+                        @input="chooseTank"
                         item-text="name"
-                        label="Выберите аквариум"
+                        item-value="volume"
+                        label="Выберите аквариум или введите объем"
                         persistent-hint
                         hide-selected
-                        hint="Выберите аквариум, для которого будет составлено расписание"
+                        hint="Объем необходим для расчета дозировок"
                         :return-object="true"
                         :rules="rulesTank"
                         :disabled="isOverview"
@@ -106,13 +112,13 @@
                     </v-col>
                     <v-expand-transition>
                       <v-col
-                        v-if="tank"
+                        v-if="tank.volume"
                         cols="12"
                       >
                         <v-select
-                          :items="recipes"
+                          :items="items"
                           v-model="recipesSelected"
-                          label="Выберите рецепты"
+                          label="Выберите удобрения"
                           item-text="name"
                           persistent-hint
                           multiple
@@ -145,34 +151,12 @@
                           растения за заданный период времени.
                         </v-tooltip>
                       </div>
-                      <div
-                        v-for="(recipeSelected, index) in recipesSelected"
-                        :key="index"
-                        class="d-flex justify-space-between align-center"
-                      >
-                        <v-text-field
-                          :value="recipeSelected.amount"
-                          @input="inputRecipeAmount(index)"
-                          type="number"
-                          :label="recipeSelected.name"
-                          hint="Введите весь объем"
-                          :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое' ? 'мл' : 'г'"
-                          persistent-hint
-                          class="mr-3"
-                        />
-                        <v-text-field
-                          :value="recipeSelected.amountDay"
-                          @input="inputRecipeAmountDay(index)"
-                          type="number"
-                          hint="или объем в день"
-                          :suffix="recipeSelected.volume > 0 || recipeSelected.type === 'Готовое'
-                            ? 'мл/день'
-                            : 'г/день'
-                          "
-                          persistent-hint
-                          :readonly="isOverview"
-                        />
-                      </div>
+                      <elements-dose-table
+                        :recipes-selected="recipesSelected"
+                        :is-overview="isOverview"
+                        :days="daysTotal"
+                        @input="inputDose"
+                      />
                     </v-col>
                     <v-expand-transition>
                       <v-col
@@ -180,113 +164,37 @@
                         cols="12"
                         class="pt-0"
                       >
-                        <div class="d-flex flex-column flex-sm-row align-sm-center mt-2 mb-2">
-                          <v-switch
-                            v-model="isHardness"
-                            label="dGh"
-                            hide-details="auto"
-                            class="mt-0 mb-2 mb-sm-0"
-                          />
-                          <v-switch
-                            v-model="isWithoutConvertion"
-                            label="N & P"
-                            hide-details="auto"
-                            class="mt-0 mb-2 mb-sm-0 ml-sm-4"
-                          />
-                        </div>
-                        <v-simple-table dense>
-                          <template v-slot:default>
-                            <thead>
-                              <tr>
-                                <th class="pl-0 text-center">
-                                  Элемент
-                                </th>
-                                <th
-                                  v-if="isHardness"
-                                  class="text-center"
-                                >
-                                  dGh
-                                </th>
-                                <th class="text-center">
-                                  Общая доза, <span>мг/л</span>
-                                </th>
-                                <th class="text-center pr-0">
-                                  В день, <span>мг/л</span>
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr
-                                v-for="[name, value] in totalElementsSorted"
-                                :key="name"
-                                :class="{
-                                  'caption': $vuetify.breakpoint['xs'],
-                                  'regular': $vuetify.breakpoint['smAndUp']
-                                }"
-                              >
-                                <td class="pl-0 text-center">
-                                  {{ name }}
-                                  <template v-if="convertIonName(name) !== name && isWithoutConvertion">
-                                    / {{ convertIonName(name) }}
-                                  </template>
-                                </td>
-                                <td
-                                  v-if="isHardness"
-                                  class="text-center"
-                                >
-                                  <template v-if="name in HARDNESS && daysTotal">
-                                    +{{ (value / HARDNESS[name]).toFixed(2) }}
-                                  </template>
-                                </td>
-                                <td class="text-center">
-                                  <template v-if="daysTotal">
-                                    +{{ value !== undefined ? value.toFixed(3) : 0 }}
-                                    <template v-if="convertIonName(name) !== name && isWithoutConvertion">
-                                      / {{ (value * convertIonRatio(name)).toFixed(3) }}
-                                    </template>
-                                  </template>
-                                </td>
-                                <td class="text-center pr-0">
-                                  <template v-if="daysTotal">
-                                    +{{ value !== undefined ? (value / daysTotal).toFixed(3) : 0 }}
-                                  </template>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </template>
-                        </v-simple-table>
-                        <div
-                          v-if="isHelpful"
-                          class="d-flex flex-column flex-sm-row justify-space-between caption mt-2"
-                        >
-                          <div
-                            v-if="totalElements['P'] > 0 && totalElements['N'] > 0"
-                            class="mr-2"
-                          >
-                            NO3 / PO4 =
-                            {{ (
-                              totalElements['N'] * convertIonRatio('N') / (totalElements['P'] * convertIonRatio('P'))
-                            ).toFixed(2) }}
-                            (N / P = {{ (totalElements['N'] / totalElements['P']).toFixed(2) }})
-                          </div>
-                          <div
-                            v-if="totalElements['P'] > 0 && totalElements['B'] > 0"
-                            class="mr-2"
-                          >
-                            P / B = {{ (totalElements['P'] / totalElements['B']).toFixed(2) }}
-                          </div>
-                          <div
-                            v-if="totalElements['Fe'] > 0 && totalElements['B'] > 0"
-                            class="mr-2"
-                          >
-                            Fe / B = {{ (totalElements['Fe'] / totalElements['B']).toFixed(2) }}
-                          </div>
-                        </div>
+                        <elements-table
+                          is-helpful-info
+                          is-switchers
+                          :recipes-selected="recipesSelected"
+                          :days-total="daysTotal"
+                          :volume="tank.volume"
+                        />
                       </v-col>
                     </v-expand-transition>
+                    <v-col
+                      v-if="isAmount"
+                      cols="12"
+                      class="mt-2 pb-0"
+                    >
+                      <div class="d-flex align-center my-3">
+                        <v-divider />
+                        <v-btn
+                          center
+                          text
+                          @click="isSchedule = !isSchedule"
+                          class="px-4"
+                        >
+                          Составить расписание
+                          <v-icon>{{ isSchedule ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                        </v-btn>
+                        <v-divider />
+                      </div>
+                    </v-col>
                     <v-expand-transition>
                       <v-col
-                        v-if="isAmount"
+                        v-if="isSchedule && isAmount"
                         cols="12"
                       >
                         <v-date-picker
@@ -313,67 +221,21 @@
                     </v-expand-transition>
                     <v-expand-transition>
                       <v-col
-                        v-if="recipesSelected.length > 0 && isAmount && daysTotal"
+                        v-if="isSchedule && recipesSelected.length > 0 && isAmount && daysTotal"
                         cols="12"
                       >
-                        <v-simple-table>
-                          <template v-slot:default>
-                            <thead>
-                              <tr>
-                                <th class="text-center pl-0">
-                                  Дни
-                                </th>
-                                <th
-                                  class="text-center"
-                                  v-for="recipeName in Object.keys(daysQuotas)"
-                                  :key="recipeName"
-                                >
-                                  {{ recipeName }}
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr
-                                v-for="(day, index) in daysTotal"
-                                :key="day"
-                              >
-                                <td class="pl-0 text-center">
-                                  <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
-                                  <span class="text-secondary">{{ datesColumn[index].date }}</span>
-                                </td>
-                                <td
-                                  v-for="(quotas, recipeName, idx) in daysQuotas"
-                                  class="text-center"
-                                  :class="{'pr-0': idx === Object.keys(daysQuotas).length - 1}"
-                                  :key="recipeName + day"
-                                >
-                                  <v-checkbox
-                                    v-if="!isNaN(quotas[index])"
-                                    color="primary"
-                                    dense
-                                    v-model="selected[recipeName][index]"
-                                    hide-details="auto"
-                                    class="mt-0"
-                                    :disabled="isOverview"
-                                    style="display: inline-block;"
-                                  >
-                                    <template v-slot:label>
-                                      <span class="mt-0">
-                                        {{ quotas[index].toFixed(2) }}
-                                      </span>
-                                    </template>
-                                  </v-checkbox>
-                                  <span v-else> - </span>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </template>
-                        </v-simple-table>
+                        <fertilizers-doze-table
+                          :is-overview="isOverview"
+                          :dates-column="datesColumn"
+                          :days-total="daysTotal"
+                          :recipes-selected="recipesSelected"
+                          :selected="selected"
+                        />
                       </v-col>
                     </v-expand-transition>
                     <v-expand-transition>
                       <v-col
-                        v-if="recipesSelected.length > 0 && isAmount && daysTotal"
+                        v-if="isSchedule && recipesSelected.length > 0 && isAmount && daysTotal"
                         class="text-right"
                         cols="12"
                       >
@@ -453,24 +315,32 @@
 <script>
 import Vue from 'vue';
 import Schedule from '@/components/Schedule.vue';
+import ElementsDoseTable from '@/components/FertilizersDoseTable.vue';
+import ElementsTable from '@/components/ElementsTable.vue';
+import FertilizersDozeTable from '@/components/schedules/ScheduleDozeTable.vue';
 import { mapState, mapMutations } from 'vuex';
-import { convertIonName, convertIonRatio } from '@/helpers/funcs';
-import HARDNESS from '@/constants/hardness';
+import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
 
 export default {
   name: 'Schedules',
   components: {
     Schedule,
+    ElementsDoseTable,
+    ElementsTable,
+    FertilizersDozeTable,
   },
   data() {
     return {
-      HARDNESS,
-      tank: null,
+      tank: {
+        name: '',
+        volume: '',
+      },
       recipesSelected: [],
       datesRange: [],
       selected: {},
       completed: {},
       curScheduleIndex: null,
+      isSchedule: false,
       dialog: false,
       dialogRemove: false,
       rulesDays: [
@@ -479,54 +349,24 @@ export default {
       rulesTank: [
         (v) => !!v || 'Выберите аквариум',
       ],
-      isWithoutConvertion: false,
-      isHardness: false,
     };
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'schedules', 'drawer',
+      'tanks',
+      'recipes',
+      'fertilizers',
+      'schedules',
+      'drawer',
     ]),
+    items() {
+      return [...this.recipes, ...this.fertilizers];
+    },
     isOverview() {
       return this.curScheduleIndex !== null;
     },
     isAmount() {
       return this.recipesSelected.length > 0 && this.recipesSelected.every((x) => x.amount > 0);
-    },
-    isHelpful() {
-      return (
-        (this.totalElements.P > 0 && this.totalElements.N > 0)
-        || (this.totalElements.P > 0 && this.totalElements.B > 0)
-        || (this.totalElements.Fe > 0 && this.totalElements.B > 0)
-      );
-    },
-    totalElements() {
-      const result = {};
-      this.recipesSelected.forEach((recipe) => {
-        Object.keys(recipe.concentration).forEach((reagent) => {
-          Object.keys(recipe.concentration[reagent]).forEach((ion) => {
-            if (!(ion in result)) {
-              result[ion] = 0;
-            }
-            if (recipe.amount) {
-              if (recipe.volume || recipe.type === 'Готовое') {
-                result[ion] += (recipe.amount * recipe.concentration[reagent][ion]) / this.tank.volume;
-              } else if ((!recipe.volume) && recipe.type === 'Самомес') {
-                result[ion] += (recipe.amount * recipe.concentration[reagent][ion] * 1000) / this.tank.volume;
-              }
-            }
-          });
-        });
-      });
-      return result;
-    },
-    totalElementsSorted() {
-      const sortableResult = [];
-      Object.keys(this.totalElements).forEach((ion) => {
-        sortableResult.push([this.convertIonName(ion), this.convertIonRatio(ion) * this.totalElements[ion]]);
-      });
-      sortableResult.sort((a, b) => b[1] - a[1]);
-      return sortableResult;
     },
     datesRangeSorted() {
       const datesRange = this.datesRange.slice();
@@ -560,29 +400,6 @@ export default {
       }
       return word;
     },
-    daysQuotas() {
-      const quotas = {};
-      this.recipesSelected.forEach((recipe) => {
-        const result = [];
-        const selectedList = this.selected[recipe.name];
-        const excludedTotal = selectedList.filter((x) => x === false).length;
-        const daysLeft = this.daysTotal - excludedTotal;
-        const { amount } = recipe;
-        let currentDay = amount / (this.daysTotal - excludedTotal);
-        [...Array(this.daysTotal)].forEach((index) => {
-          switch (true) {
-            case !selectedList[index]:
-              currentDay = 0;
-              break;
-            default:
-              currentDay = amount / daysLeft;
-          }
-          result.push(currentDay);
-        });
-        quotas[recipe.name] = result;
-      });
-      return quotas;
-    },
   },
   watch: {
     daysTotal() {
@@ -614,19 +431,38 @@ export default {
           selected[recipe.name] = Array(this.daysTotal).fill(true, 0, this.daysTotal);
         }
         Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+        if (!recipe.amount) {
+          recipe.amount = '';
+        }
+        if (!recipe.amountDay) {
+          recipe.amountDay = '';
+        }
       });
       this.selected = { ...selected };
     },
   },
   methods: {
     ...mapMutations([
-      'SCHEDULE_ADD', 'SCHEDULE_EDIT', 'SCHEDULE_REMOVE', 'SNACKBAR_SHOW',
+      'SCHEDULE_ADD',
+      'SCHEDULE_REMOVE',
+      'SNACKBAR_SHOW',
     ]),
-    convertIonName(ion) {
-      return convertIonName(ion);
+    convertIonName,
+    convertIonRatio,
+    isRecipe,
+    chooseTank(value) {
+      if (typeof value === 'object') {
+        this.tank = {
+          name: value.name,
+          volume: +value.volume,
+        };
+      } else {
+        this.tank.name = value;
+        this.tank.volume = +value;
+      }
     },
-    convertIonRatio(ion) {
-      return convertIonRatio(ion);
+    inputDose(index, value) {
+      Vue.set(this.recipesSelected, index, value);
     },
     createDatesRange() {
       const duration = 6;
@@ -637,7 +473,7 @@ export default {
       this.datesRange = [dateStart, dateFinish];
     },
     resetComponent() {
-      this.tank = null;
+      this.tank = {};
       this.recipesSelected = [];
       this.curScheduleIndex = null;
       this.dialog = false;
@@ -647,39 +483,22 @@ export default {
     },
     setComponent(index) {
       const schedule = this.schedules[index];
-      console.log(schedule.recipesSelected);
       this.tank = schedule.tank;
       this.recipesSelected = [...schedule.recipesSelected];
       this.selected = { ...schedule.selected };
       this.datesRange = schedule.datesRange;
     },
-    inputRecipeAmount(event, index) {
-      const recipe = this.recipesSelected[index];
-      const amount = parseFloat(event.target.value);
-      const amountDay = amount / this.daysTotal;
-      Vue.set(this.recipesSelected, index, {
-        ...recipe,
-        amount: !Number.isNaN(amount) ? parseFloat(amount.toFixed(3)) : '',
-        amountDay: !Number.isNaN(amountDay) ? parseFloat(amountDay.toFixed(3)) : '',
-      });
-    },
-    inputRecipeAmountDay(event, index) {
-      const recipe = this.recipesSelected[index];
-      const amountDay = parseFloat(event.target.value);
-      const amount = amountDay * this.daysTotal;
-      Vue.set(this.recipesSelected, index, {
-        ...recipe,
-        amount: !Number.isNaN(amount) ? parseFloat((amount).toFixed(3)) : '',
-        amountDay: !Number.isNaN(amountDay) ? parseFloat(amountDay.toFixed(3)) : '',
-      });
-    },
-    openAddSchedule(index = null) {
-      if (index !== null) {
-        this.curScheduleIndex = index;
-        this.setComponent(index);
-      } else {
-        this.createDatesRange();
+    openAddSchedule() {
+      this.createDatesRange();
+      if (this.$refs.scheduleForm) {
+        this.$refs.scheduleForm.resetValidation();
       }
+      this.dialog = true;
+    },
+    openSchedule(index) {
+      this.isSchedule = true;
+      this.curScheduleIndex = index;
+      this.setComponent(index);
       if (this.$refs.scheduleForm) {
         this.$refs.scheduleForm.resetValidation();
       }
