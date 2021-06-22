@@ -313,8 +313,17 @@
                                   :key="reagent"
                                   :rules="[
                                     rulesMass.isExist(),
-                                    isWater ? rulesMass.solubility(reagent, fertilizerVolume, FORMULAS) : true
+                                    // isWater ? rulesMass.solubility(reagent, fertilizerVolume, FORMULAS) : true
                                   ]"
+                                  :error="(fertilizerMass[reagent] / fertilizerVolume) * 1000
+                                    > FORMULAS[reagent].solubilityLimit"
+                                  :error-messages="
+                                    (fertilizerMass[reagent] / fertilizerVolume) * 1000
+                                      > FORMULAS[reagent].solubilityLimit
+                                      ? `Достигнута максимальная растворимость -
+                                      ${FORMULAS[reagent].solubilityLimit} г/л при 20°С!`
+                                      : ''
+                                  "
                                 />
                               </v-col>
                               <v-col
