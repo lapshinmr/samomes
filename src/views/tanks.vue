@@ -142,7 +142,7 @@
                       @click.stop="setComponent(index)"
                       class="mr-n4"
                     >
-                      {{ $t('buttons.edit') }}
+                      {{ $t('buttons.open') }}
                     </v-btn>
                   </div>
                 </v-expansion-panel-content>

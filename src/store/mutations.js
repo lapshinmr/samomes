@@ -30,6 +30,9 @@ export default {
   TANK_MOVE(state, payload) {
     state.tanks = payload;
   },
+  TANKS_SET(state, payload) {
+    state.tanks = payload;
+  },
   TANKS_REMOVE(state) {
     state.tanks = [];
   },
@@ -43,6 +46,9 @@ export default {
     Vue.set(state.recipes, payload.index, payload.recipe);
   },
   RECIPE_MOVE(state, payload) {
+    state.recipes = payload;
+  },
+  RECIPES_SET(state, payload) {
     state.recipes = payload;
   },
   RECIPES_REMOVE(state) {
@@ -60,6 +66,9 @@ export default {
   FERTILIZER_MOVE(state, payload) {
     state.fertilizers = payload;
   },
+  FERTILIZERS_SET(state, payload) {
+    state.fertilizers = payload;
+  },
   FERTILIZERS_REMOVE(state) {
     state.fertilizers = [];
   },
@@ -75,9 +84,11 @@ export default {
     schedule.completed[payload.recipeName][payload.indexDay] = (status + 1) % 3;
     Vue.set(state.schedules, payload.indexSchedule, schedule);
   },
+  SCHEDULES_SET(state, payload) {
+    state.schedules = payload;
+  },
   SCHEDULES_REMOVE(state) {
     state.schedules = [];
-    state.progress = {};
   },
   SNACKBAR_SHOW(state, payload) {
     state.snackbarMessage = payload;

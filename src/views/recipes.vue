@@ -85,9 +85,6 @@
                       <span style="line-height: 1.25rem;">
                         {{ recipe.name }}
                       </span>
-<!--                      <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">-->
-<!--                        {{ recipe.type }}-->
-<!--                      </span>-->
                     </span>
                     <span class="mr-3">
                       <v-tooltip
@@ -100,7 +97,7 @@
                             v-on="on"
                           >mdi mdi-drag</v-icon>
                         </template>
-                        {{ $t('recipes.panel.header.pull') }}
+                        {{ $t('recipes.panels.header.pull') }}
                       </v-tooltip>
                     </span>
                   </div>
