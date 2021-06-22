@@ -19,18 +19,29 @@
 
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer app right v-model="drawer">
+    <v-navigation-drawer
+      app
+      right
+      v-model="drawer"
+    >
       <v-list class="pt-0">
-        <v-list-item v-if="$vuetify.breakpoint['xs']" @click.stop="drawer = false">
-          <v-list-item-action>
-          </v-list-item-action>
+        <v-list-item
+          v-if="$vuetify.breakpoint['xs']"
+          @click.stop="drawer = false"
+        >
+          <v-list-item-action />
           <v-list-item-content>
             <v-list-item-title class="d-flex justify-end">
               <v-icon>mdi-close</v-icon>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-for="item in links" :to="{ name: item.name }" :key="item.icon" link>
+        <v-list-item
+          v-for="item in links"
+          :to="{ name: item.name }"
+          :key="item.icon"
+          link
+        >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -49,7 +60,8 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app
+    <v-app-bar
+      app
       color="primary"
       dark
       dense
@@ -67,75 +79,15 @@
     </v-app-bar>
 
     <v-main>
-      <v-container v-if="(!tanks.length || !recipes.length || !schedules.length) && !guidIsClosed">
-        <v-row>
-          <v-col cols="12" md="8" offset-md="2">
-            <v-card>
-              <v-card-title>
-                <div class="d-flex justify-space-between" style="width: 100%;">
-                  <span class="no-break">
-                    {{ $t('guid.start') }}
-                  </span>
-                  <span>
-                    <v-tooltip bottom max-width="400">
-                      <template v-slot:activator="{ on }">
-                        <a class="ml-3 font-weight-light" @click="GUID_CLOSE" v-on="on">
-                          <v-icon>mdi-close</v-icon>
-                        </a>
-                      </template>
-                      Закрыть гид
-                    </v-tooltip>
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text>
-                <div class="d-flex flex-column flex-sm-row pa-3 pa-sm-5 align-sm-center mb-4">
-                  <router-link
-                    :to="{ name: links[0].name }"
-                    class="d-flex align-center mx-2 mb-2 mb-sm-0"
-                    :class="{'primary--text': tanks.length > 0}"
-                  >
-                    <v-icon v-if="tanks.length > 0" class="primary--text">fas fa-check-circle</v-icon>
-                    <v-icon v-else>far fa-circle</v-icon>
-                    <span class="ml-2">{{ $t(`guid.add_tank`) }}</span>
-                  </router-link>
-                  <v-divider class="d-none d-sm-block"></v-divider>
-                  <router-link
-                    :to="{ name: links[1].name }"
-                    class="d-flex align-center mx-2 mb-2 mb-sm-0"
-                    :class="{'primary--text': recipes.length > 0}"
-                  >
-                    <v-icon v-if="recipes.length > 0" class="primary--text">fas fa-check-circle</v-icon>
-                    <v-icon v-else>far fa-circle</v-icon>
-                    <span class="ml-2">{{ $t(`guid.add_recipe`) }}</span>
-                  </router-link>
-                  <v-divider class="d-none d-sm-block"></v-divider>
-                  <router-link
-                    :to="{ name: links[2].name }"
-                    class="d-flex align-center mx-2"
-                    :class="{'primary--text': schedules.length > 0}"
-                  >
-                    <v-icon v-if="schedules.length > 0" class="primary--text">fas fa-check-circle</v-icon>
-                    <v-icon v-else>far fa-circle</v-icon>
-                    <span class="ml-2">{{ $t(`guid.add_schedule`) }}</span>
-                  </router-link>
-                </div>
-                <div>
-                  <router-link :to="{ name: links[4].name }">
-                    {{ $t(`guid.where_am_i`) }}
-                  </router-link>
-                </div>
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-      <transition name="fade" mode="out-in">
+      <transition
+        name="fade"
+        mode="out-in"
+      >
         <router-view />
       </transition>
       <v-snackbar v-model="isSnackbar">
         <div>
-            {{ snackbarMessage }}
+          {{ snackbarMessage }}
         </div>
       </v-snackbar>
     </v-main>
@@ -143,79 +95,97 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { mapState, mapMutations, mapActions } from 'vuex';
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 
 export default {
   name: 'App',
   components: {
-    LanguageSwitcher
+    LanguageSwitcher,
   },
   data: () => ({
-    drawer: false,
     links: [
       { name: 'tanks', icon: 'mdi-fishbowl-outline' },
       { name: 'recipes', icon: 'mdi-clipboard-text-multiple-outline' },
-      { name: 'solutions', icon: 'mdi-flask' },
+      { name: 'fertilizers', icon: 'mdi-flask' },
       { name: 'schedules', icon: 'mdi-calendar-blank-multiple' },
       { name: 'remineralization', icon: 'fas fa-cubes' },
       { name: 'dynamics', icon: 'far fa-chart-bar' },
       { name: 'settings', icon: 'fas fa-cog' },
-      { name: 'about', icon: 'mdi-information-outline' }
-    ]
+      { name: 'about', icon: 'mdi-information-outline' },
+    ],
   }),
-  created () {
-    this.initLang()
-    this.DRAWER_SET(!this.$vuetify.breakpoint['xs'])
+  created() {
+    this.initLang();
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'schedules', 'isSnackbar', 'snackbarMessage', 'lang', 'guidIsClosed'
+      'isSnackbar',
+      'snackbarMessage',
+      'lang',
+      'recipes',
+      'guideIsClosed',
     ]),
-    breadcrumbs () {
-      let result = {}
-      for (let item of this.links) {
-        result[item.name] = this.$t(`routes.${item.name}`)
-      }
-      return result
+    breadcrumbs() {
+      const result = {};
+      this.links.forEach((item) => {
+        result[item.name] = this.$t(`routes.${item.name}`);
+      });
+      return result;
     },
     isSnackbar: {
-      get () {
-        return this.$store.state.isSnackbar
+      get() {
+        return this.$store.state.isSnackbar;
       },
-      set (value) {
-        this.SNACKBAR_HIDE()
+      set() {
+        this.SNACKBAR_HIDE();
+      },
+    },
+    drawer: {
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(value) {
+        this.DRAWER_SET(value);
+      },
+    },
+  },
+  mounted() {
+    this.recipes.forEach((recipe, index) => {
+      if (recipe.type === 'Готовое') {
+        this.FERTILIZER_ADD(recipe);
+        this.RECIPE_REMOVE(index);
       }
+    });
+    if (typeof this.guideIsClosed === 'boolean') {
+      this.GUIDE_RESET();
     }
-  },
-  watch: {
-    drawer () {
-      this.DRAWER_SET(this.drawer)
-    }
-  },
-  mounted () {
     if (!this.$router.currentRoute.query.share) {
-      let path = localStorage.getItem('path')
+      const path = localStorage.getItem('path');
       if (path) {
-        localStorage.removeItem('path')
-        this.$router.push(path)
+        localStorage.removeItem('path');
+        this.$router.push(path);
       }
     }
   },
   methods: {
     ...mapMutations([
-      'DRAWER_SET', 'SNACKBAR_HIDE', 'GUID_CLOSE'
+      'DRAWER_SET',
+      'SNACKBAR_HIDE',
+      'FERTILIZER_ADD',
+      'RECIPE_REMOVE',
+      'GUIDE_RESET',
     ]),
     ...mapActions([
-      'langSet'
+      'langSet',
     ]),
-    initLang () {
-      let lang = window.navigator.userLanguage || window.navigator.language
-      lang = lang === 'ru-RU' ? 'ru' : 'en'
-      this.langSet(this.lang || lang)
-    }
-  }
-}
+    initLang() {
+      let lang = window.navigator.userLanguage || window.navigator.language;
+      lang = lang === 'ru-RU' ? 'ru' : 'en';
+      this.langSet(this.lang || lang);
+    },
+  },
+};
 </script>
 
 <style lang="sass">

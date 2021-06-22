@@ -13,6 +13,7 @@
   "dependencies": {
     "chart.js": "^2.9.4",
     "core-js": "^3.14.0",
+    "moment": "^2.29.1",
     "register-service-worker": "^1.7.2",
     "vue": "^2.6.13",
     "vue-chartjs": "^3.5.1",
@@ -20,17 +21,19 @@
     "vue-router": "^3.5.1",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.5.3",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.13",
-    "@vue/cli-plugin-eslint": "^4.5.13",
+    "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "^4.5.13",
     "@vue/cli-service": "^4.5.13",
-    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/eslint-config-airbnb": "^5.0.2",
     "babel-eslint": "^10.1.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-vue": "^6.2.2",
     "gh-pages": "^2.2.0",
     "minimist": "^1.2.5",
     "node-sass": "^4.14.1",
@@ -41,6 +44,6 @@
     "vuetify-loader": "^1.7.2"
   },
   "resolutions": {
-    "@nuxtjs/vuetify/**/sass": "1.32.12"
+    "vuetify/**/sass": "1.32.12"
   }
 }

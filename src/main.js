@@ -17,20 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import vuetify from './plugins/vuetify'
-import './registerServiceWorker'
-import { i18n } from '@/plugins/i18n'
+import Vue from 'vue';
+import { i18n } from '@/plugins/i18n';
+import base from '@/plugins/base';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import vuetify from './plugins/vuetify';
+import './registerServiceWorker';
+import '@/filters/dateFormatFilters';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
   vuetify,
+  base,
   i18n,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount('#app');

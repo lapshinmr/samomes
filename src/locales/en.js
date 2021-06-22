@@ -3,55 +3,56 @@ export default {
     routes: {
       tanks: 'Fish tanks',
       recipes: 'Recipies',
-      solutions: 'Solutions',
+      fertilizers: 'Fertilizers',
       schedules: 'Schedule',
       remineralization: 'Remineralization',
       dynamics: 'Dynamics',
       about: 'About',
       settings: 'Settings',
-      Github: 'Github'
+      Github: 'Github',
     },
     units: {
       mm: 'mm',
       cm: 'cm',
       l: 'l',
-      ml: 'ml'
+      ml: 'ml',
     },
     buttons: {
+      open: 'Open',
       save: 'Save',
       edit: 'Edit',
       add: 'Add',
-      remove: 'Remove'
+      remove: 'Remove',
     },
     guid: {
       start: 'Lets get started',
       add_tank: 'Add fish tank',
       add_recipe: 'Add recipe',
       add_schedule: 'Add schedule',
-      where_am_i: 'Where am I?'
+      where_am_i: 'Where am I?',
     },
     tanks: {
       alert: {
         title: 'You don\'t have any tank yet',
         todo: {
           action: 'Add tank',
-          text: 'to have opportunity to create recipes and schedules.'
-        }
+          text: 'to have opportunity to create recipes and schedules.',
+        },
       },
       addButton: 'Add tank',
       panels: {
         header: {
-          pull: 'Pull to sort recipes'
+          pull: 'Pull to sort recipes',
         },
         body: {
-          noSizes: 'No sizes'
-        }
+          noSizes: 'No sizes',
+        },
       },
       dialog: {
         tankNew: 'New tank',
         tankEdit: 'Tank edition',
         name: 'Name',
-        nameHint: `Use simple name, i.e. "Tank 1" or "My large tank"`,
+        nameHint: 'Use simple name, i.e. "Tank 1" or "My large tank"',
         volume: 'Volume',
         volumeHint: 'You can use volume calculator below',
         length: 'Length',
@@ -65,35 +66,35 @@ export default {
         messageTankRemove: 'Tank was removed',
         nameRules: {
           require: 'Enter name',
-          exists: 'Tank with such name already exists'
+          exists: 'Tank with such name already exists',
         },
         volumeRules: {
-          require: 'Enter volume'
-        }
-      }
+          require: 'Enter volume',
+        },
+      },
     },
     recipes: {
       alert: {
         title: 'You don\'t have any recipe yet',
         todo: {
           action: 'Add tank',
-          text: 'to have opportunity to create schedules.'
-        }
+          text: 'to have opportunity to create schedules.',
+        },
       },
       addButton: 'Add recipe',
       panels: {
         header: {
-          pull: 'Pull to sort recipes'
+          pull: 'Pull to sort recipes',
         },
         body: {
-          noSizes: 'Размеры не указаны'
-        }
+          noSizes: 'Размеры не указаны',
+        },
       },
       dialog: {
-        recipeNew: 'Новый рецепт',
-        recipeEdit: 'Редактирование рецепта',
+        recipeNew: 'New recipe',
+        recipeEdit: 'Recipe editing',
         name: 'Название',
-        nameHint: `Придумайте простое название, например "Аквариум 1" или "Большой аквариум"`,
+        nameHint: 'Придумайте простое название, например "Аквариум 1" или "Большой аквариум"',
         volume: 'Объем',
         volumeHint: 'Вы можете воспользоваться калькулятором объема ниже',
         length: 'Длина',
@@ -107,22 +108,57 @@ export default {
         messageTankRemove: 'Аквариум удален',
         nameRules: {
           require: 'Введите название',
-          exists: 'Аквариум с таким названием уже существует'
+          exists: 'Аквариум с таким названием уже существует',
         },
         volumeRules: {
-          require: 'Введите объем в литрах'
-        }
-      }
+          require: 'Введите объем в литрах',
+        },
+      },
+    },
+    fertilizers: {
+      addButton: 'Add solution',
+      panels: {
+        header: {
+          pull: 'Pull to sort recipes',
+        },
+        body: {
+          noSizes: 'Размеры не указаны',
+        },
+      },
+      dialog: {
+        fertilizerNew: 'New fertilizer',
+        fertilizerEdit: 'Fertilizer editing',
+        name: 'Name',
+        nameHint: 'Придумайте простое название, например "Аквариум 1" или "Большой аквариум"',
+        volume: 'Объем',
+        volumeHint: 'Вы можете воспользоваться калькулятором объема ниже',
+        length: 'Длина',
+        width: 'Ширина',
+        height: 'Высота',
+        heightHint: 'Введите высоту чистого столба воды',
+        glassThickness: 'Толщина стекла',
+        orSizes: 'Или используйте размеры',
+        messageTankAdd: 'Аквариум добавлен',
+        messageTankEdit: 'Аквариум изменен',
+        messageTankRemove: 'Аквариум удален',
+        nameRules: {
+          require: 'Введите название',
+          exists: 'Аквариум с таким названием уже существует',
+        },
+        volumeRules: {
+          require: 'Введите объем в литрах',
+        },
+      },
     },
     schedules: {
       alert: {
         title: 'You don\'t have any redipes yet',
         todo: {
           action: 'Add schedule',
-          text: ', чтобы вы могли использовать их для составления расписания по внесению удобрений.'
-        }
+          text: ', чтобы вы могли использовать их для составления расписания по внесению удобрений.',
+        },
       },
-      addButton: 'Add schedule'
-    }
-  }
-}
+      addButton: 'Add schedule',
+    },
+  },
+};

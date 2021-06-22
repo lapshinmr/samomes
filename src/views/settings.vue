@@ -20,7 +20,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" md="8" offset-md="2">
+      <v-col
+        cols="12"
+        md="8"
+        offset-md="2"
+      >
         <p class="mb-10">
           Эта страница предназначена для удаления данных в ситуации
           когда сайт не реагирует на какие-либо ваши действия и т.д.
@@ -33,7 +37,7 @@
             </div>
             <v-btn
               color="red"
-              @click="TANKS_REMOVE()"
+              @click="TANKS_REMOVE"
               :disabled="!tanks.length"
             >
               Удалить
@@ -45,8 +49,20 @@
             </div>
             <v-btn
               color="red"
-              @click="RECIPES_REMOVE()"
+              @click="RECIPES_REMOVE"
               :disabled="!recipes.length"
+            >
+              Удалить
+            </v-btn>
+          </div>
+          <div class="d-flex justify-space-between mb-3">
+            <div>
+              Удобрения ({{ fertilizers.length }})
+            </div>
+            <v-btn
+              color="red"
+              @click="FERTILIZERS_REMOVE"
+              :disabled="!fertilizers.length"
             >
               Удалить
             </v-btn>
@@ -57,7 +73,7 @@
             </div>
             <v-btn
               color="red"
-              @click="SCHEDULES_REMOVE()"
+              @click="SCHEDULES_REMOVE"
               :disabled="!schedules.length"
             >
               Удалить
@@ -69,7 +85,7 @@
             </div>
             <v-btn
               color="red"
-              @click="removeAll()"
+              @click="removeAll"
               :disabled="!tanks.length && !recipes.length && !schedules.length"
             >
               Удалить
@@ -82,32 +98,37 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex';
 
 export default {
-  name: 'reload',
-  data () {
+  name: 'Settings',
+  data() {
     return {
-    }
+    };
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'schedules'
-    ])
+      'tanks',
+      'recipes',
+      'fertilizers',
+      'schedules',
+    ]),
   },
   methods: {
     ...mapMutations([
       'TANKS_REMOVE',
       'RECIPES_REMOVE',
-      'SCHEDULES_REMOVE'
+      'FERTILIZERS_REMOVE',
+      'SCHEDULES_REMOVE',
     ]),
-    removeAll () {
-      this.TANKS_REMOVE()
-      this.RECIPES_REMOVE()
-      this.SCHEDULES_REMOVE()
-    }
-  }
-}
+    removeAll() {
+      this.TANKS_REMOVE();
+      this.RECIPES_REMOVE();
+      this.FERTILIZERS_REMOVE();
+      this.SCHEDULES_REMOVE();
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>

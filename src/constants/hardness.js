@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2021 Mikhail Lapshin
+ * Copyright (C) 2020 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,9 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
-
-Vue.use(Vuetify);
-
-export default new Vuetify({});
+export default {
+  Mg: 4.346,
+  Ca: 7.144,
+};
