@@ -49,6 +49,14 @@
             <v-list-item-title>{{ $t(`routes.${item.name}`) }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item href="https://vk.com/samomes">
+          <v-list-item-action>
+            <v-icon>fab fa-vk</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Вконтакте</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item href="https://github.com/lapshinmr/samomes">
           <v-list-item-action>
             <v-icon>fab fa-github</v-icon>

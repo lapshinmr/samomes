@@ -83,9 +83,6 @@
                       <span style="line-height: 1.25rem;">
                         {{ item.name }}
                       </span>
-                      <!--                      <span class="font-weight-light caption text-lowercase ml-0 ml-sm-1">-->
-                      <!--                        {{ item.type }}-->
-                      <!--                      </span>-->
                     </span>
                     <span class="mr-3">
                       <v-tooltip
@@ -98,7 +95,7 @@
                             v-on="on"
                           >mdi mdi-drag</v-icon>
                         </template>
-                        {{ $t('fertilizers.panel.header.pull') }}
+                        {{ $t('fertilizers.panels.header.pull') }}
                       </v-tooltip>
                     </span>
                   </div>

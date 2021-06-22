@@ -6,3 +6,5 @@ import AddButton from '@/components/AddButton.vue';
 Vue.component(PageTitle.name, PageTitle);
 Vue.component(Guide.name, Guide);
 Vue.component(AddButton.name, AddButton);
+
+export default {};

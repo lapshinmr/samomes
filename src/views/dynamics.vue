@@ -31,29 +31,6 @@
         Страница находится на доработке!
       </guide>
       <v-col
-        v-if="recipes.length === 0"
-        cols="12"
-        md="8"
-        offset-md="2"
-      >
-        <p
-          class="mb-8"
-          :class="{'headline': $vuetify.breakpoint['xs'], 'display-2': $vuetify.breakpoint['smAndUp']}"
-        >
-          У вас еще нет рецептов
-        </p>
-        <p>
-          Необходимо
-          <router-link
-            v-if="recipes.length === 0"
-            :to="{ name: 'recipes', params: { open: true }}"
-          >
-            добавить рецепт
-          </router-link>
-          и после этого можно будет посмотреть динамику ионов.
-        </p>
-      </v-col>
-      <v-col
         v-if="recipes.length > 0"
         cols="12"
         sm="8"

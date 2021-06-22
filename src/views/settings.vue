@@ -20,17 +20,67 @@
 <template>
   <v-container>
     <v-row>
+      <page-title>
+        Настройки
+      </page-title>
       <v-col
         cols="12"
         md="8"
         offset-md="2"
       >
-        <p class="mb-10">
-          Эта страница предназначена для удаления данных в ситуации
-          когда сайт не реагирует на какие-либо ваши действия и т.д.
-        </p>
         <v-divider class="my-5" />
         <div>
+          <div class="text-h5 mb-8">
+            Копирование данных
+          </div>
+          <div class="mb-3">
+            <div class="mb-4">
+              Данный раздел помогает перенести все данные из одного браузера в другой или с одного устройства на
+              другое.
+              <br>
+              <br>
+              Нажмите кнопку "копировать" или выделите все данные комбинацией клавиш "ctrl + A" и "ctrl + C".
+              Все ваши аквариумы, рецепты и расписания будут скопированы в буфер.
+              Затем вставьте данные в поле ниже в другом браузере или на другом устройстве. Так же таким образом можно
+              сделать резервную копию данных, сохранив данные в текстовый файл.
+            </div>
+            <div class="d-flex align-items-center mb-8">
+              <v-text-field
+                v-model="storageData"
+                label="Это все ваши данные с сайта"
+                id="storageData"
+              />
+              <v-btn
+                color="primary"
+                @click="copyAll"
+                class="ml-8"
+              >
+                Копировать
+              </v-btn>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="mb-4">
+              Вставьте сюда данные, которые были скопированы из другого браузера или устройства.
+            </div>
+            <div class="d-flex align-items-center">
+              <v-text-field
+                v-model="newStorageData"
+                label="Вставьте сюда ваши данные из буфера"
+              />
+              <v-btn
+                color="primary"
+                @click="saveAll"
+                class="ml-4"
+              >
+                Сохранить
+              </v-btn>
+            </div>
+          </div>
+          <v-divider class="my-5" />
+          <div class="text-h5 mb-8">
+            Сброс данных
+          </div>
           <div class="d-flex justify-space-between mb-3">
             <div>
               Аквариумы ({{ tanks.length }})
@@ -104,7 +154,12 @@ export default {
   name: 'Settings',
   data() {
     return {
+      storageData: '',
+      newStorageData: '',
     };
+  },
+  mounted() {
+    this.storageData = localStorage.getItem('udata');
   },
   computed: {
     ...mapState([
@@ -116,11 +171,58 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'TANKS_SET',
       'TANKS_REMOVE',
+      'RECIPES_SET',
       'RECIPES_REMOVE',
+      'FERTILIZERS_SET',
       'FERTILIZERS_REMOVE',
+      'SCHEDULES_SET',
       'SCHEDULES_REMOVE',
+      'SNACKBAR_SHOW',
     ]),
+    copyAll() {
+      const storageData = document.getElementById('storageData');
+      storageData.select();
+      storageData.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      this.SNACKBAR_SHOW('Данные скопированы');
+    },
+    handleField(newData, field) {
+      const oldData = [...this[field]];
+      newData[field].forEach((newItem) => {
+        if (oldData.find((oldItem) => oldItem.name === newItem.name)) {
+          newItem.name = `${newItem.name}_1`;
+        }
+        oldData.push(newItem);
+      });
+      switch (true) {
+        case (field === 'tanks'):
+          this.TANKS_SET(oldData);
+          break;
+        case (field === 'recipes'):
+          this.RECIPES_SET(oldData);
+          break;
+        case (field === 'fertilizers'):
+          this.FERTILIZERS_SET(oldData);
+          break;
+        case (field === 'schedules'):
+          this.SCHEDULES_SET(oldData);
+          break;
+        default:
+          console.log('unknown case');
+      }
+    },
+    saveAll() {
+      if (this.newStorageData) {
+        const newStorageData = JSON.parse(this.newStorageData);
+        this.handleField(newStorageData, 'tanks');
+        this.handleField(newStorageData, 'recipes');
+        this.handleField(newStorageData, 'fertilizers');
+        this.handleField(newStorageData, 'schedules');
+        this.SNACKBAR_SHOW('Данные сохранены');
+      }
+    },
     removeAll() {
       this.TANKS_REMOVE();
       this.RECIPES_REMOVE();
