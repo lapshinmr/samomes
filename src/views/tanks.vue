@@ -112,6 +112,9 @@
                     v-if="tank.length"
                     class="body-2"
                   >
+                    <div class="body-1 mb-2">
+                      Линейные размеры
+                    </div>
                     <div class="d-flex justify-space-between">
                       <div>{{ $t('tanks.dialog.length') }}</div>
                       <div>{{ tank.length }} {{ $t('units.cm') }}</div>
@@ -127,6 +130,23 @@
                     <div class="d-flex justify-space-between">
                       <div>{{ $t('tanks.dialog.glassThickness') }}</div>
                       <div>{{ tank.glassThickness }} {{ $t('units.mm') }}</div>
+                    </div>
+                    <div class="body-1 my-2">
+                      Дополнительные объемы
+                    </div>
+                    <div
+                      v-if="tank.filter"
+                      class="d-flex justify-space-between"
+                    >
+                      <div>{{ $t('tanks.dialog.filter') }}</div>
+                      <div>{{ tank.filter }} {{ $t('units.l') }}</div>
+                    </div>
+                    <div
+                      v-if="tank.soil"
+                      class="d-flex justify-space-between"
+                    >
+                      <div>{{ $t('tanks.dialog.soil') }}</div>
+                      <div>{{ tank.soil }} {{ $t('units.l') }}</div>
                     </div>
                   </div>
                   <div
@@ -259,6 +279,39 @@
                         hide-details="auto"
                       />
                     </v-col>
+                    <v-col
+                      cols="12"
+                      class="text-center pb-0"
+                    >
+                      <div class="d-flex align-center my-3">
+                        <v-divider />
+                        <div class="mx-2">
+                          Дополнительные объемы
+                        </div>
+                        <v-divider />
+                      </div>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      class="pt-0"
+                    >
+                      <v-text-field
+                        v-model.number="filter"
+                        type="number"
+                        :label="$t('tanks.dialog.filter')"
+                        :suffix="$t('units.l')"
+                        :hint="$t('tanks.dialog.filterHint')"
+                        hide-details="auto"
+                      />
+                      <v-text-field
+                        v-model.number="soil"
+                        type="number"
+                        :label="$t('tanks.dialog.soil')"
+                        :suffix="$t('units.l')"
+                        :hint="$t('tanks.dialog.soilHint')"
+                        hide-details="auto"
+                      />
+                    </v-col>
                     <v-expand-transition>
                       <v-col
                         class="text-right"
@@ -319,6 +372,8 @@ export default {
       height: null,
       width: null,
       glassThickness: null,
+      filter: 0,
+      soil: 0,
       curTankIndex: null,
       dialog: this.$route.params.open,
       nameRules: [
@@ -342,6 +397,9 @@ export default {
         ghostClass: 'ghost',
       };
     },
+    dimensions() {
+      return `${this.length}${this.height}${this.width}${this.glassThickness}${this.filter}${this.soil}`;
+    },
     tanks: {
       get() {
         return this.$store.state.tanks;
@@ -364,13 +422,23 @@ export default {
   },
   watch: {
     dimensions() {
+      let volume = 0;
       if (this.length && this.height && this.width) {
-        this.volume = Math.round(
-          ((this.length - (2 * this.glassThickness) / 10) * this.height * (this.width - (2 * this.glassThickness) / 10))
-          / (1000 * 100),
+        volume += Math.round(
+          (this.length - (2 * this.glassThickness) / 10)
+          * this.height
+          * (this.width - (2 * this.glassThickness) / 10)
+          / 1000 * 100,
         ) / 100;
-      } else {
-        this.volume = 0;
+      }
+      if (this.soil) {
+        volume += this.soil;
+      }
+      if (this.filter) {
+        volume += this.filter;
+      }
+      if (volume) {
+        this.volume = volume;
       }
     },
   },
@@ -389,8 +457,9 @@ export default {
       this.height = null;
       this.width = null;
       this.glassThickness = null;
+      this.filter = null;
+      this.soil = null;
       this.curTankIndex = null;
-      this.isTankVolumeCalc = false;
       this.dialog = false;
     },
     setComponent(index) {
@@ -401,6 +470,8 @@ export default {
       this.height = tank.height;
       this.width = tank.width;
       this.glassThickness = tank.glassThickness;
+      this.filter = tank.filter;
+      this.soil = tank.soil;
       this.curTankIndex = index;
       this.dialog = true;
     },
@@ -419,6 +490,8 @@ export default {
           length: this.length,
           height: this.height,
           width: this.width,
+          filter: this.filter,
+          soil: this.soil,
           glassThickness: this.glassThickness,
         });
         this.resetComponent();
@@ -436,6 +509,8 @@ export default {
             height: this.height,
             width: this.width,
             glassThickness: this.glassThickness,
+            filter: this.filter,
+            soil: this.soil,
           },
         });
         this.resetComponent();

@@ -77,24 +77,19 @@
           >Промо видео проекта</a>
           <a
             class="mb-2"
-            href="https://www.youtube.com/watch?v=CljFli5z9DM"
-            target="_blank"
-          >Удобрения для аквариумных растений ч.1</a>
-          <a
-            class="mb-2"
-            href="https://www.youtube.com/watch?v=E2kDFEIJ1zM&t=199s"
-            target="_blank"
-          >Удобрения для аквариумных растений ч.2</a>
-          <a
-            class="mb-2"
             href="https://www.youtube.com/watch?v=Vyq-R0tv384"
             target="_blank"
-          >Удобрение для аквариумных растений своими руками. Фосфор, Азот,Калий и Микро.</a>
+          >Удобрение для аквариумных растений своими руками. Фосфор, Азот, Калий и Микро.</a>
           <a
             class="mb-2"
             href="https://www.youtube.com/watch?v=wslFKci51uo"
             target="_blank"
           >Как мы корректируем дозировку своих удобрений для аквариумных растений.</a>
+          <a
+            class="mb-2"
+            href="https://www.youtube.com/watch?v=niAYM8DRv_w&t=338s"
+            target="_blank"
+          >Удобрения в аквариуме! Как мы подаём и чего придерживаемся в своих аквариумах!</a>
           <a
             class="mb-2"
             href="https://www.youtube.com/watch?v=UlbCnqntrww&t=143s"
@@ -129,13 +124,6 @@
           </a>
           <a
             class="mb-2"
-            href="http://www.aqua-botanic.ru/"
-            target="_blank"
-          >
-            Aqua Botanic
-          </a>
-          <a
-            class="mb-2"
             href="https://fanfishka.ru/akvariumnye-stati/akvaskeyp/2033-vse-o-makro-udobreniyah-dlya-akvariuma.html"
             target="_blank"
           >
@@ -146,13 +134,12 @@
           Это не полный список материалов, но достаточный, чтобы понять что и для чего нужно.
         </p>
         <v-divider class="my-5" />
-        <p class="body-2">
-          По всем возникающим вопросам и пожеланиям вы можете найти меня ВКонтакте
-          (<a
-            href="https://vk.com/lapshinmr"
+        <p class="body-1">
+          По всем возникающим вопросам и пожеланиям вы можете писать в группу ВКонтакте
+          <a
+            href="https://vk.com/samomes"
             target="_blank"
-          >Михаил Лапшин</a>)
-          или написать на почту lapshinmr@gmail.com.
+          >Аквариум Самомес</a>.
         </p>
         <p>
           Буду рад помочь.
