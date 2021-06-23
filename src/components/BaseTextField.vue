@@ -13,6 +13,12 @@
 export default {
   name: 'BaseTextField',
   inheritAttrs: false,
+  props: {
+    precision: {
+      type: Number,
+      default: 2,
+    },
+  },
   data() {
     return {
       isFocused: false,
@@ -26,7 +32,7 @@ export default {
       if (typeof value === 'string') {
         return '';
       }
-      return this.isFocused ? value : value.toFixed(2);
+      return this.isFocused ? value : value.toFixed(this.precision);
     },
   },
 };

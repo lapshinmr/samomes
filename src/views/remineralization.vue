@@ -51,47 +51,52 @@
         />
         <v-expand-transition>
           <div v-if="tankVolume">
-            <v-subheader class="pl-0">
-              Объем подмены: {{ waterChangeVolume.toFixed(1) + ' л' }}
-            </v-subheader>
-            <v-slider
-              v-model.number="waterChange"
-              hide-details="auto"
-              class="align-end"
-            >
-              <template v-slot:append>
-                <v-text-field
-                  v-model.number="waterChange"
-                  type="number"
-                  class="mt-0 pt-0"
-                  hide-details
-                  single-line
-                  suffix="%"
-                  style="width: 60px"
-                />
-              </template>
-            </v-slider>
-            <v-subheader class="pl-0">
-              Доля осмоса в подмене: {{ osmosisChangeVolume.toFixed(1) + ' л' }}
-              (водопровода: {{ (waterChangeVolume - osmosisChangeVolume).toFixed(1) + ' л' }})
-            </v-subheader>
-            <v-slider
-              v-model.number="osmosisChange"
-              hide-details="auto"
-              class="align-end"
-            >
-              <template v-slot:append>
-                <v-text-field
-                  v-model.number="osmosisChange"
-                  type="number"
-                  class="mt-0 pt-0"
-                  hide-details
-                  single-line
-                  suffix="%"
-                  style="width: 60px"
-                />
-              </template>
-            </v-slider>
+            <div class="text-subtitle-1 mt-4 mt-sm-8">
+              Подмена
+            </div>
+            <div class="d-flex flex-column flex-sm-row align-sm-center">
+              <base-text-field
+                :value="waterChangeVolume"
+                @input="inputWaterChangeVolume"
+                type="number"
+                label="Объем"
+                hint="Введите объем подмены"
+                persistent-hint
+                single-line
+                suffix="л"
+                class="pt-0 mt-0"
+                :precision="1"
+              />
+              <base-text-field
+                :value="waterChange"
+                @input="inputWaterChange"
+                type="number"
+                label="Процент"
+                hint="или процент подмены от общего объема"
+                persistent-hint
+                single-line
+                suffix="%"
+                class="pt-0 mt-0 ml-sm-3"
+                :precision="1"
+              />
+              <base-text-field
+                v-model.number="osmosisChange"
+                type="number"
+                label="Процент"
+                :hint="`
+                  Осмос: ${osmosisChangeVolume.toFixed(1)} л.
+                  Водопровод: ${(waterChangeVolume - osmosisChangeVolume).toFixed(1)} л.
+                `"
+                persistent-hint
+                class="mt-0 pt-0 ml-sm-3"
+                single-line
+                suffix="%"
+                :precision="0"
+              />
+            </div>
+            <div class="text-headline mt-8">
+              Значения жесткости
+            </div>
             <div class="d-flex">
               <v-text-field
                 v-model.number="ghInit"
@@ -109,88 +114,172 @@
                 class="ml-3"
               />
             </div>
+            <div class="d-flex">
+              <v-text-field
+                v-model.number="khInit"
+                type="number"
+                label="Kh в аквариуме"
+                suffix="dKh"
+                hide-details="auto"
+              />
+              <v-text-field
+                v-model.number="khWaterChange"
+                type="number"
+                label="Kh водопровода"
+                suffix="dKh"
+                hide-details="auto"
+                class="ml-3"
+              />
+            </div>
           </div>
         </v-expand-transition>
         <v-expand-transition>
-          <v-select
-            v-if="ghInit !== null"
-            :items="recipes"
-            v-model="recipesSelected"
-            label="Выберите рецепты"
-            item-text="name"
-            multiple
-            :return-object="true"
-            hide-details="auto"
-          />
+          <div v-if="ghInit !== null">
+            <div class="text-subtitle-1 mt-8">
+              Реминерализатор и удобрения
+            </div>
+            <div class="d-flex flex-column flex-sm-row mb-8">
+              <v-combobox
+                :items="REMINERALS"
+                v-model="remineralsSelected"
+                label="Реминерализатор"
+                hint="Выберите готовый реминерализатор"
+                item-text="name"
+                :return-object="true"
+                persistent-hint
+                multiple
+              />
+              <v-combobox
+                :items="items"
+                v-model="recipesSelected"
+                label="Удобрение"
+                hint="и/или удобрение из списка"
+                item-text="name"
+                :return-object="true"
+                persistent-hint
+                multiple
+                class="ml-sm-3"
+              />
+            </div>
+            <div class="mb-8">
+              <div class="d-flex align-center mb-2">
+                <v-divider />
+                <v-btn
+                  center
+                  text
+                  @click="isOwnRemineral = !isOwnRemineral"
+                  class="px-4"
+                >
+                  Свой состав
+                  <v-icon>{{ isOwnRemineral ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+                <v-divider />
+              </div>
+              <v-expand-transition>
+                <div v-if="isOwnRemineral">
+                  <div class="d-flex flex-wrap mb-2">
+                    <v-text-field
+                      v-model.number="ownRemineral.gh"
+                      label="Gh"
+                      suffix="dGh"
+                      hide-details="auto"
+                      style="min-width: 40%;"
+                    />
+                    <v-text-field
+                      v-model.number="ownRemineral.kh"
+                      label="Kh"
+                      suffix="dKh"
+                      hide-details="auto"
+                      style="min-width: 40%;"
+                      class="ml-sm-3"
+                    />
+                    <v-text-field
+                      v-model.number="ownRemineral.mass"
+                      label="Масса"
+                      hint="Масса, которая повышает Gh и Кh в n объеме на m градусов"
+                      suffix="г"
+                      hide-details="auto"
+                      style="min-width: 40%;"
+                    />
+                    <v-text-field
+                      v-model.number="ownRemineral.volume"
+                      label="Объем"
+                      hint="Объем, на который рассчитан состав"
+                      suffix="л"
+                      hide-details="auto"
+                      style="min-width: 40%;"
+                      class="ml-sm-3"
+                    />
+                  </div>
+                  <div class="d-flex justify-end">
+                    <v-btn
+                      color="primary"
+                      @click="addOwnRemineral"
+                    >
+                      Добавить
+                    </v-btn>
+                  </div>
+                </div>
+              </v-expand-transition>
+            </div>
+          </div>
         </v-expand-transition>
         <v-text-field
-          v-for="(recipe, index) in recipesSelected"
-          :value="recipe.amount"
-          @input="inputRecipeAmountDay(index)"
+          v-for="(remineral, index) in remineralsSelected"
+          v-model.number="remineral.amount"
           type="number"
-          :label="recipe.name"
-          hint="Введите объем или массу удобрения"
-          :suffix="recipe.volume || recipe.type === 'Готовое' ? 'мл' : 'г'"
+          :label="remineral.name"
+          hint="Введите массу реминерализатора"
+          suffix="г"
           hide-details="auto"
-          :key="index"
+          :key="`rem_${index}`"
+        />
+        <fertilizers-dose-table
+          :recipes-selected="recipesSelected"
+          :days="7"
+          @input="inputDose"
         />
         <div
           v-if="Object.keys(totalElements).length > 0"
           class="mt-5"
         >
-          <v-simple-table
-            dense
-            style="background-color: #fafafa;"
-          >
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="pl-0 text-center">
-                    Элемент
-                  </th>
-                  <th class="text-center">
-                    dGh
-                  </th>
-                  <th class="text-center">
-                    Доза удобрения, мг/л
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="[name, value] in totalElementsSorted"
-                  :key="name"
-                  :class="{'caption': $vuetify.breakpoint['xs'], 'regular': $vuetify.breakpoint['smAndUp']}"
-                >
-                  <td class="pl-0 text-center">
-                    {{ name }}
-                  </td>
-                  <td class="text-center">
-                    <template v-if="name in HARDNESS">
-                      +{{ (value / HARDNESS[name]).toFixed(2) }}
-                    </template>
-                  </td>
-                  <td class="text-center pr-0">
-                    +{{ value !== undefined ? (value).toFixed(3) : 0 }}
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <elements-table
+            :recipes-selected="recipesSelected"
+            :days-total="7"
+            :volume="tankVolume"
+            is-switchers
+          />
         </div>
         <v-expand-transition>
-          <v-text-field
-            v-if="ghInit !== null"
-            :value="totalHardness"
-            label="Общая жесткость"
-            :hint="hardnessHint"
-            suffix="dGh"
-            hide-details="auto"
-            readonly
-            outlined
-            persistent-hint
-            class="mt-8"
-          />
+          <div class="mt-8">
+            <div class="text-subtitle-1 mb-2">
+              {{ hardnessHint('Kh') }}
+            </div>
+            <div
+              v-if="ghInit !== null"
+              class="d-flex"
+            >
+              <v-text-field
+                :value="totalGh.toFixed(2)"
+                label="Общая жесткость"
+                suffix="dGh"
+                hide-details="auto"
+                readonly
+                outlined
+                persistent-hint
+              />
+              <v-text-field
+                :value="totalKh.toFixed(2)"
+                label="Карбонатная жесткость"
+                suffix="dKh"
+                hide-details="auto"
+                readonly
+                outlined
+                persistent-hint
+                class="ml-3"
+              />
+            </div>
+          </div>
         </v-expand-transition>
       </v-col>
     </v-row>
@@ -203,36 +292,65 @@ import { mapState } from 'vuex';
 import ELEMENTS from '@/constants/elements';
 import FORMULAS from '@/constants/formulas';
 import HARDNESS from '@/constants/hardness';
+import REMINERALS from '@/constants/remineral';
 import {
- convertIonName, convertIonRatio, countPercent, countTotalIonConcentration,
+  convertIonName,
+  convertIonRatio,
+  countPercent,
+  countTotalIonConcentration,
+  isRecipe,
+  isFertilizer,
 } from '@/helpers/funcs';
+import ElementsTable from '@/components/ElementsTable.vue';
+import FertilizersDoseTable from '@/components/FertilizersDoseTable.vue';
 
 export default {
   name: 'Remineralization',
+  components: {
+    ElementsTable,
+    FertilizersDoseTable,
+  },
   data() {
     return {
       FORMULAS,
-      COMPONENTS: ELEMENTS,
+      ELEMENTS,
       HARDNESS,
+      REMINERALS,
       dialog: true,
-      tankVolume: null,
+      tankVolume: 155,
       tank: null,
       waterChange: 30,
+      waterChangeVolume: 0,
       osmosisChange: 0,
-      ghInit: null,
+      ghInit: 8,
+      khInit: 3,
       ghWaterChange: 0,
+      khWaterChange: 0,
       recipesSelected: [],
+      remineralsSelected: [],
+      isOwnRemineral: false,
+      ownRemineral: {
+        kh: 0,
+        gh: 0,
+        mass: 0,
+        volume: 0,
+      },
     };
+  },
+  mounted() {
+    this.inputWaterChange(this.waterChange);
   },
   computed: {
     ...mapState([
-      'tanks', 'recipes', 'drawer',
+      'tanks',
+      'recipes',
+      'fertilizers',
     ]),
-    waterChangeVolume() {
-      return (this.tankVolume * this.waterChange) / 100;
+    items() {
+      return [...this.recipes, ...this.fertilizers];
     },
     osmosisChangeVolume() {
-      return (this.tankVolume * this.waterChange * this.osmosisChange) / 10000;
+      return (this.tankVolume * this.waterChange * this.osmosisChange) / (100 * 100);
     },
     totalElements() {
       const result = {};
@@ -244,7 +362,7 @@ export default {
             }
             if (recipe.amount) {
               result[ion] += (recipe.amount * recipe.concentration[reagent][ion]) / this.tankVolume;
-              if ((!recipe.volume) && recipe.type === 'Самомес') {
+              if ((!recipe.volume) && isRecipe(recipe)) {
                 result[ion] *= 1000;
               }
             }
@@ -253,48 +371,87 @@ export default {
       });
       return result;
     },
-    totalElementsSorted() {
-      const sortableResult = [];
-      Object.keys(this.totalElements).forEach((ion) => {
-        sortableResult.push([this.convertIonName(ion), this.convertIonRatio(ion) * this.totalElements[ion]]);
-      });
-      sortableResult.sort((a, b) => b[1] - a[1]);
-      return sortableResult;
-    },
-    totalHardness() {
+    totalGh() {
       const ca = this.totalElements.Ca;
       const mg = this.totalElements.Mg;
-      let hardness = 0;
+      const ghLeft = this.ghInit * (1 - this.waterChange / 100);
+      let ghRem = 0;
       if (ca) {
-        hardness += ca / this.HARDNESS.Ca;
+        ghRem += ca / this.HARDNESS.Ca;
       }
       if (mg) {
-        hardness += mg / this.HARDNESS.Mg;
+        ghRem += mg / this.HARDNESS.Mg;
       }
-      hardness = this.ghInit * (1 - this.waterChange / 100)
-        + ((this.ghWaterChange * (1 - this.osmosisChange / 100) * this.waterChange) / 100) + hardness;
-      return hardness.toFixed(2);
+      this.remineralsSelected.forEach((rem) => {
+        if (rem.amount) {
+          ghRem += rem.gh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tankVolume * rem.mass)
+            * (this.waterChange / 100);
+        }
+      });
+      const ghFromChangeWater = (this.ghWaterChange * (1 - this.osmosisChange / 100) * this.waterChange) / 100;
+      return ghLeft + ghFromChangeWater + ghRem;
     },
-    hardnessHint() {
-      let text = 'Gh после подмены воды';
-      if (this.totalElements.Ca || this.totalElements.Mg) {
-        text += ', внесения удобрений и реминирализатора';
-      }
-      return text;
+    totalKh() {
+      const khLeft = this.khInit * (1 - this.waterChange / 100);
+      let khRem = 0;
+      this.remineralsSelected.forEach((rem) => {
+        if (rem.amount) {
+          khRem += rem.kh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tankVolume * rem.mass)
+            * (this.waterChange / 100);
+        }
+      });
+      const khFromChangeWater = (this.khWaterChange * (1 - this.osmosisChange / 100) * this.waterChange) / 100;
+      return khLeft + khFromChangeWater + khRem;
+    },
+  },
+  watch: {
+    recipesSelected() {
+      this.recipesSelected.forEach((recipe) => {
+        if (!recipe.amount) {
+          recipe.amount = '';
+        }
+        if (!recipe.amountDay) {
+          recipe.amountDay = '';
+        }
+      });
     },
   },
   methods: {
+    isRecipe,
+    isFertilizer,
     convertIonName,
     convertIonRatio,
     countPercent,
     countTotalIonConcentration,
-    inputRecipeAmountDay(event, index) {
-      const recipe = this.recipesSelected[index];
-      const amount = parseFloat(event.target.value);
-      Vue.set(this.recipesSelected, index, {
-        ...recipe,
-        amount: !Number.isNaN(amount) ? amount : '',
+    inputDose(index, value) {
+      Vue.set(this.recipesSelected, index, value);
+    },
+    inputWaterChange(value) {
+      this.waterChange = +value;
+      this.waterChangeVolume = (this.tankVolume * value) / 100;
+    },
+    inputWaterChangeVolume(value) {
+      this.waterChangeVolume = +value;
+      this.waterChange = (value / this.tankVolume) * 100;
+    },
+    hardnessHint() {
+      let text = 'Жесткость после подмены воды';
+      if (this.totalElements.Ca || this.totalElements.Mg || this.remineralsSelected.length > 0) {
+        text += ', внесения удобрений и реминерализатора';
+      }
+      return text;
+    },
+    addOwnRemineral() {
+      this.remineralsSelected.push({
+        name: 'Свой',
+        ...this.ownRemineral,
       });
+      this.ownRemineral = {
+        kh: 0,
+        gh: 0,
+        mass: 0,
+        volume: 0,
+      };
     },
   },
 };

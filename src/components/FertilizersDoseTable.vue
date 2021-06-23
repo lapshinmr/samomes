@@ -31,13 +31,8 @@
 <script>
 import { isFertilizer } from '@/helpers/funcs';
 
-import BaseTextField from '@/components/BaseTextField.vue';
-
 export default {
   name: 'FertilizersDoseTable',
-  components: {
-    BaseTextField,
-  },
   props: {
     recipesSelected: {
       type: Array,

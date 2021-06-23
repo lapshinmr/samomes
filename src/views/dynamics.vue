@@ -352,14 +352,6 @@ export default {
     inputDose(index, value) {
       Vue.set(this.recipesSelected, index, value);
     },
-    // inputRecipeAmountDay(event, index) {
-    //   const recipe = this.recipesSelected[index];
-    //   const amount = parseFloat(event.target.value);
-    //   Vue.set(this.recipesSelected, index, {
-    //     ...recipe,
-    //     amount: !Number.isNaN(amount) ? amount : '',
-    //   });
-    // },
     inputIonsWaterConcentration(ion, value) {
       Vue.set(this.ionsWaterConcentration, ion, parseFloat(value));
     },
