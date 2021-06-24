@@ -135,7 +135,7 @@
         >
           <line-chart
             :chart-data="ionDynamics"
-            :styles="{height: '300px', position: 'relative'}"
+            class="line-chart"
           />
           <v-slider
             v-model="duration"
@@ -251,7 +251,7 @@ import { mapState } from 'vuex';
 import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
 import ElementsTable from '@/components/ElementsTable.vue';
 import FertilizersDoseTable from '@/components/FertilizersDoseTable.vue';
-import LineChart from './chart.vue';
+import LineChart from '../components/Chart.vue';
 
 export default {
   name: 'Dynamics',
@@ -394,4 +394,7 @@ export default {
 </script>
 
 <style lang="sass">
+.line-chart
+  height: 300px
+  position: relative
 </style>

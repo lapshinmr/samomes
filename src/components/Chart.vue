@@ -23,9 +23,23 @@ import { Line, mixins } from 'vue-chartjs';
 const { reactiveProp } = mixins;
 
 export default {
+  name: 'Chart',
   extends: Line,
   mixins: [reactiveProp],
-  props: ['chartData', 'options', 'styles'],
+  props: {
+    chartData: {
+      type: Object,
+      default: () => {},
+    },
+    options: {
+      type: Object,
+      default: () => {},
+    },
+    styles: {
+      type: Object,
+      default: () => {},
+    },
+  },
   mounted() {
     this.renderChart(this.chartData, {
       maintainAspectRatio: false,
@@ -38,6 +52,22 @@ export default {
         maintainAspectRatio: false,
         responsive: true,
         animation: false,
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Дни',
+            },
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Концентрация, мг/л',
+            },
+          }],
+        },
       });
     },
   },
