@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2020 Mikhail Lapshin
+  Copyright (C) 2021 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,11 +24,8 @@
         Реминерализация
       </page-title>
       <guide>
-        На этой странице можно рассчитать Gh в аквариуме в зависимости от исходной воды, разбавления осмосом и
-        дозировок удобрений.
-        <br>
-        <br>
-        Страница находится на доработке!
+        На этой странице можно рассчитать Gh/Kh в аквариуме в зависимости от исходной воды, разбавления осмосом,
+        реминерализатора и дозировок удобрений.
       </guide>
       <v-col
         v-if="recipes.length > 0"
@@ -38,13 +35,14 @@
       >
         <v-combobox
           :items="tanks"
-          v-model.number="tankVolume"
+          :value="tankVolume"
+          @input="inputTankVolume"
           item-text="name"
           item-value="volume"
           label="Объем аквариума"
           hide-selected
           hide-details="auto"
-          hint="Выберите аквариум или введите объем"
+          hint="Выберите аквариум или введите объем (это может быть объем подмены)"
           persistent-hint
           suffix="л"
           :return-object="false"
@@ -66,6 +64,8 @@
                 suffix="л"
                 class="pt-0 mt-0"
                 :precision="1"
+                append-icon="mdi-filter"
+                @click:append="inputWaterChangeVolume(tankVolume)"
               />
               <base-text-field
                 :value="waterChange"
@@ -78,9 +78,12 @@
                 suffix="%"
                 class="pt-0 mt-0 ml-sm-3"
                 :precision="1"
+                append-icon="mdi-filter"
+                @click:append="inputWaterChange(100)"
               />
               <base-text-field
-                v-model.number="osmosisChange"
+                :value="osmosisChange"
+                @input="inputOsmosisChange"
                 type="number"
                 label="Процент"
                 :hint="`
@@ -92,6 +95,8 @@
                 single-line
                 suffix="%"
                 :precision="0"
+                append-icon="mdi-filter"
+                @click:append="inputOsmosisChange(100)"
               />
             </div>
             <div class="text-headline mt-8">
@@ -251,14 +256,14 @@
           />
         </div>
         <v-expand-transition>
-          <div class="mt-8">
+          <div
+            v-if="ghInit !== null"
+            class="mt-8"
+          >
             <div class="text-subtitle-1 mb-2">
               {{ hardnessHint('Kh') }}
             </div>
-            <div
-              v-if="ghInit !== null"
-              class="d-flex"
-            >
+            <div class="d-flex">
               <v-text-field
                 :value="totalGh.toFixed(2)"
                 label="Общая жесткость"
@@ -322,8 +327,8 @@ export default {
       waterChange: 30,
       waterChangeVolume: 0,
       osmosisChange: 0,
-      ghInit: 8,
-      khInit: 3,
+      ghInit: null,
+      khInit: null,
       ghWaterChange: 0,
       khWaterChange: 0,
       recipesSelected: [],
@@ -426,13 +431,29 @@ export default {
     inputDose(index, value) {
       Vue.set(this.recipesSelected, index, value);
     },
+    inputTankVolume(value) {
+      this.tankVolume = +value;
+      if (this.waterChangeVolume > +value) {
+        this.waterChangeVolume = +value;
+      }
+      this.waterChange = (this.waterChangeVolume / value) * 100;
+    },
     inputWaterChange(value) {
-      this.waterChange = +value;
-      this.waterChangeVolume = (this.tankVolume * value) / 100;
+      if (value <= 100) {
+        this.waterChange = +value;
+        this.waterChangeVolume = (this.tankVolume * value) / 100;
+      }
     },
     inputWaterChangeVolume(value) {
-      this.waterChangeVolume = +value;
-      this.waterChange = (value / this.tankVolume) * 100;
+      if (value <= this.tankVolume) {
+        this.waterChangeVolume = +value;
+        this.waterChange = (value / this.tankVolume) * 100;
+      }
+    },
+    inputOsmosisChange(value) {
+      if (value <= 100) {
+        this.osmosisChange = +value;
+      }
     },
     hardnessHint() {
       let text = 'Жесткость после подмены воды';
