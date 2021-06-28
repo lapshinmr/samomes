@@ -159,7 +159,7 @@
                     <v-btn
                       text
                       right
-                      @click.stop="setComponent(index)"
+                      :to="`/tanks/${index}`"
                       class="mr-n4"
                     >
                       {{ $t('buttons.open') }}
@@ -173,189 +173,14 @@
       </v-col>
     </v-row>
 
-    <v-dialog
-      v-model="dialog"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
-      <v-card>
-        <v-toolbar
-          dark
-          color="primary"
-        >
-          <v-toolbar-title v-if="!isEditing">
-            {{ $t('tanks.dialog.tankNew') }}
-          </v-toolbar-title>
-          <v-toolbar-title v-else>
-            {{ $t('tanks.dialog.tankEdit') }}
-          </v-toolbar-title>
-          <v-btn
-            icon
-            dark
-            @click="dialog = false"
-            class="ml-auto"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-card-text class="px-2">
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12"
-                md="8"
-                offset-md="2"
-              >
-                <v-form ref="tankForm">
-                  <v-row>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model.lazy="name"
-                        :label="$t('tanks.dialog.name')"
-                        hide-details="auto"
-                        clearable
-                        :hint="$t('tanks.dialog.nameHint')"
-                        :rules="nameRules"
-                      />
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      class="pt-0"
-                    >
-                      <v-text-field
-                        v-model.number="volume"
-                        type="Number"
-                        :label="$t('tanks.dialog.volume')"
-                        :suffix="$t('units.l')"
-                        hide-details="auto"
-                        :hint="$t('tanks.dialog.volumeHint')"
-                        :rules="volumeRules"
-                      />
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      class="text-center pb-0"
-                    >
-                      <div class="d-flex align-center my-3">
-                        <v-divider />
-                        <div class="mx-2">
-                          {{ $t('tanks.dialog.orSizes') }}
-                        </div>
-                        <v-divider />
-                      </div>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      class="pt-0"
-                    >
-                      <v-text-field
-                        v-model.number="length"
-                        type="number"
-                        :label="$t('tanks.dialog.length')"
-                        :suffix="$t('units.cm')"
-                        hide-details="auto"
-                      />
-                      <v-text-field
-                        v-model.number="width"
-                        type="number"
-                        :label="$t('tanks.dialog.width')"
-                        :suffix="$t('units.cm')"
-                        hide-details="auto"
-                      />
-                      <v-text-field
-                        v-model.number="height"
-                        type="number"
-                        :label="$t('tanks.dialog.height')"
-                        :suffix="$t('units.cm')"
-                        :hint="$t('tanks.dialog.heightHint')"
-                        hide-details="auto"
-                      />
-                      <v-text-field
-                        v-model.number="glassThickness"
-                        type="number"
-                        :label="$t('tanks.dialog.glassThickness')"
-                        :suffix="$t('units.mm')"
-                        hide-details="auto"
-                      />
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      class="text-center pb-0"
-                    >
-                      <div class="d-flex align-center my-3">
-                        <v-divider />
-                        <div class="mx-2">
-                          Дополнительные объемы
-                        </div>
-                        <v-divider />
-                      </div>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      class="pt-0"
-                    >
-                      <v-text-field
-                        v-model.number="filter"
-                        type="number"
-                        :label="$t('tanks.dialog.filter')"
-                        :suffix="$t('units.l')"
-                        :hint="$t('tanks.dialog.filterHint')"
-                        hide-details="auto"
-                      />
-                      <v-text-field
-                        v-model.number="soil"
-                        type="number"
-                        :label="$t('tanks.dialog.soil')"
-                        :suffix="$t('units.l')"
-                        :hint="$t('tanks.dialog.soilHint')"
-                        hide-details="auto"
-                      />
-                    </v-col>
-                    <v-expand-transition>
-                      <v-col
-                        class="text-right"
-                        cols="12"
-                      >
-                        <v-btn
-                          v-if="isEditing"
-                          @click="removeTank"
-                        >
-                          {{ $t('buttons.remove') }}
-                        </v-btn>
-                        <v-btn
-                          v-if="isEditing"
-                          @click="editTank"
-                          color="primary"
-                          class="ml-2"
-                        >
-                          {{ $t('buttons.save') }}
-                        </v-btn>
-                        <v-btn
-                          v-if="!isEditing"
-                          @click="addTank"
-                          color="primary"
-                        >
-                          {{ $t('buttons.add') }}
-                        </v-btn>
-                      </v-col>
-                    </v-expand-transition>
-                  </v-row>
-                </v-form>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <add-button :action="openAddTank">
+    <add-button :action="addTank">
       {{ $t('tanks.addButton') }}
     </add-button>
   </v-container>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapMutations } from 'vuex';
 import draggable from 'vuedraggable';
 
 export default {
@@ -366,29 +191,9 @@ export default {
   data() {
     return {
       drag: false,
-      name: null,
-      volume: null,
-      length: null,
-      height: null,
-      width: null,
-      glassThickness: null,
-      filter: 0,
-      soil: 0,
-      curTankIndex: null,
-      dialog: this.$route.params.open,
-      nameRules: [
-        (v) => !!v || this.$t('tanks.dialog.nameRules.require'),
-        () => (!this.isExist || this.isSame) || this.$t('tanks.dialog.nameRules.exists'),
-      ],
-      volumeRules: [
-        (v) => !!v || this.$t('tanks.dialog.volumeRules.require'),
-      ],
     };
   },
   computed: {
-    ...mapState([
-      'tanks',
-    ]),
     dragOptions() {
       return {
         animation: 200,
@@ -396,9 +201,6 @@ export default {
         disabled: false,
         ghostClass: 'ghost',
       };
-    },
-    dimensions() {
-      return `${this.length}${this.height}${this.width}${this.glassThickness}${this.filter}${this.soil}`;
     },
     tanks: {
       get() {
@@ -408,119 +210,14 @@ export default {
         this.TANK_MOVE(value);
       },
     },
-    isExist() {
-      const names = this.tanks.map((item) => item.name);
-      return names.findIndex((item) => item === this.name) !== -1;
-    },
-    isSame() {
-      const names = this.tanks.map((item) => item.name);
-      return names.findIndex((item) => item === this.name) === this.curTankIndex;
-    },
-    isEditing() {
-      return this.curTankIndex !== null;
-    },
-  },
-  watch: {
-    dimensions() {
-      let volume = 0;
-      if (this.length && this.height && this.width) {
-        volume += Math.round(
-          (this.length - (2 * this.glassThickness) / 10)
-          * this.height
-          * (this.width - (2 * this.glassThickness) / 10)
-          / 1000 * 100,
-        ) / 100;
-      }
-      if (this.soil) {
-        volume += this.soil;
-      }
-      if (this.filter) {
-        volume += this.filter;
-      }
-      if (volume) {
-        this.volume = volume;
-      }
-    },
   },
   methods: {
     ...mapMutations([
-      'TANK_ADD',
-      'TANK_REMOVE',
-      'TANK_EDIT',
       'TANK_MOVE',
       'SNACKBAR_SHOW',
     ]),
-    resetComponent() {
-      this.name = null;
-      this.volume = null;
-      this.length = null;
-      this.height = null;
-      this.width = null;
-      this.glassThickness = null;
-      this.filter = null;
-      this.soil = null;
-      this.curTankIndex = null;
-      this.dialog = false;
-    },
-    setComponent(index) {
-      const tank = this.tanks[index];
-      this.name = tank.name;
-      this.volume = tank.volume;
-      this.length = tank.length;
-      this.height = tank.height;
-      this.width = tank.width;
-      this.glassThickness = tank.glassThickness;
-      this.filter = tank.filter;
-      this.soil = tank.soil;
-      this.curTankIndex = index;
-      this.dialog = true;
-    },
-    openAddTank() {
-      this.resetComponent();
-      this.dialog = !this.dialog;
-      if (this.$refs.tankForm) {
-        this.$refs.tankForm.resetValidation();
-      }
-    },
     addTank() {
-      if (this.$refs.tankForm.validate()) {
-        this.TANK_ADD({
-          name: this.name,
-          volume: this.volume,
-          length: this.length,
-          height: this.height,
-          width: this.width,
-          filter: this.filter,
-          soil: this.soil,
-          glassThickness: this.glassThickness,
-        });
-        this.resetComponent();
-        this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankAdd'));
-      }
-    },
-    editTank() {
-      if (this.$refs.tankForm.validate()) {
-        this.TANK_EDIT({
-          index: this.curTankIndex,
-          tank: {
-            name: this.name,
-            volume: this.volume,
-            length: this.length,
-            height: this.height,
-            width: this.width,
-            glassThickness: this.glassThickness,
-            filter: this.filter,
-            soil: this.soil,
-          },
-        });
-        this.resetComponent();
-        this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankEdit'));
-      }
-    },
-    removeTank() {
-      this.TANK_REMOVE(this.curTankIndex);
-      this.resetComponent();
-      this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankRemove'));
+      return this.$router.push('/tanks/create');
     },
   },
 };
