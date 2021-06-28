@@ -338,19 +338,19 @@ export default {
     ions: {
       Mo: {
         isNeeded: true,
-        count: 1,
+        count: 7,
       },
       N: {
         isNeeded: false,
-        count: 2,
+        count: 6,
       },
       H: {
         isNeeded: false,
-        count: 8,
+        count: 32,
       },
       O: {
         isNeeded: false,
-        count: 4,
+        count: 28,
       },
     },
     solubilityLimit: 280,
@@ -376,7 +376,7 @@ export default {
       },
     },
     solubilityLimit: 600,
-    name: 'Марганца Сульфат',
+    name: 'Марганца Сульфат Кристаллогидрат',
   },
   MnSO4H2O: {
     ions: {
@@ -399,6 +399,142 @@ export default {
     },
     solubilityLimit: 762,
     name: 'Марганца Сульфат Моногидрат',
+  },
+  'Fe2(SO4)3(H2O)9': {
+    ions: {
+      Fe: {
+        isNeeded: true,
+        count: 2,
+      },
+      S: {
+        isNeeded: false,
+        count: 3,
+      },
+      H: {
+        isNeeded: false,
+        count: 18,
+      },
+      O: {
+        isNeeded: false,
+        count: 21,
+      },
+    },
+    solubilityLimit: 263,
+    name: 'Железа Сульфат',
+  },
+  'FeSO4(H2O)7': {
+    ions: {
+      Fe: {
+        isNeeded: true,
+        count: 2,
+      },
+      S: {
+        isNeeded: false,
+        count: 3,
+      },
+      H: {
+        isNeeded: false,
+        count: 18,
+      },
+      O: {
+        isNeeded: false,
+        count: 21,
+      },
+    },
+    solubilityLimit: 263,
+    name: 'Железный купорос',
+  },
+  C12H22FeO14: {
+    ions: {
+      Fe: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 12,
+      },
+      H: {
+        isNeeded: false,
+        count: 22,
+      },
+      O: {
+        isNeeded: false,
+        count: 14,
+      },
+    },
+    solubilityLimit: 100,
+    name: 'Железа Глюконат',
+  },
+  'C12H22FeO14(H2O)': {
+    ions: {
+      Fe: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 12,
+      },
+      H: {
+        isNeeded: false,
+        count: 24,
+      },
+      O: {
+        isNeeded: false,
+        count: 15,
+      },
+    },
+    solubilityLimit: 100,
+    name: 'Железа Глюконат Гидрат',
+  },
+  'C12H22FeO14(H2O)2': {
+    ions: {
+      Fe: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 12,
+      },
+      H: {
+        isNeeded: false,
+        count: 26,
+      },
+      O: {
+        isNeeded: false,
+        count: 16,
+      },
+    },
+    solubilityLimit: 100,
+    name: 'Железа Глюконат Дигидрат',
+  },
+  C10H14N2Na2O8: {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 14,
+      },
+      N: {
+        isNeeded: false,
+        count: 2,
+      },
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 8,
+      },
+    },
+    solubilityLimit: 100,
+    name: 'Трилон Б (хелатор EDTA-Na2)',
   },
   C14H18N3O10Na2Fe: {
     ions: {
@@ -423,103 +559,32 @@ export default {
         count: 10,
       },
       Na: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
     },
     solubilityLimit: 110,
     name: 'Железа DTPA 11%',
   },
-  'Fe2(SO4)3(H2O)9': {
+  C6H7KO2: {
     ions: {
-      Fe: {
-        isNeeded: true,
-        count: 2,
-      },
-      S: {
-        isNeeded: false,
-        count: 3,
-      },
-      H: {
-        isNeeded: false,
-        count: 18,
-      },
-      O: {
-        isNeeded: false,
-        count: 21,
-      },
-    },
-    solubilityLimit: 263,
-    name: 'Железа Сульфат',
-  },
-  C12H24FeO14: {
-    ions: {
-      Fe: {
+      K: {
         isNeeded: true,
         count: 1,
       },
       C: {
         isNeeded: false,
-        count: 12,
+        count: 6,
       },
       H: {
         isNeeded: false,
-        count: 24,
+        count: 7,
       },
       O: {
-        isNeeded: false,
-        count: 14,
-      },
-    },
-    solubilityLimit: 100,
-    name: 'Железа Глюконат',
-  },
-  C12H26FeO15: {
-    ions: {
-      Fe: {
-        isNeeded: true,
-        count: 1,
-      },
-      C: {
-        isNeeded: false,
-        count: 12,
-      },
-      H: {
-        isNeeded: false,
-        count: 26,
-      },
-      O: {
-        isNeeded: false,
-        count: 15,
-      },
-    },
-    solubilityLimit: 100,
-    name: 'Железа Глюконат Гидрат',
-  },
-  'C10H14N2Na2O8(H2O)2': {
-    ions: {
-      C: {
-        isNeeded: false,
-        count: 10,
-      },
-      H: {
-        isNeeded: false,
-        count: 18,
-      },
-      N: {
         isNeeded: false,
         count: 2,
       },
-      Na: {
-        isNeeded: false,
-        count: 2,
-      },
-      O: {
-        isNeeded: false,
-        count: 10,
-      },
     },
-    solubilityLimit: 100,
-    name: 'Трилон Б (хелатор EDTA Na2)',
+    name: 'Сорбат калия (консервант E202)',
   },
 };

@@ -463,7 +463,7 @@
                                       >
                                         <div>{{ convertIonName(name) }}:</div>
                                         <div class="ml-3">
-                                          {{ value.toFixed(5) }}
+                                          {{ value.toFixed(3) }}
                                           <template v-if="countTotalDose(solute)">
                                             ({{ (value / countTotalDose(solute) * 100).toFixed(2) }}%)
                                           </template>

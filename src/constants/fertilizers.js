@@ -29,6 +29,20 @@ export default [
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    name: 'Prestige Micro',
+    isPercent: false,
+    elements: {
+      K: 12,
+      Fe: 1.5,
+      Mg: 0.8,
+      Mn: 0.5,
+      B: 0.06,
+      Mo: 0.036,
+      Zn: 0.0185,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
     name: 'Aquabalance NPK',
     isPercent: true,
     elements: {
@@ -92,20 +106,6 @@ export default [
     elements: {
       Fe: 0.7,
       Mn: 0.1,
-    },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  },
-  {
-    name: 'Prestige Micro',
-    isPercent: false,
-    elements: {
-      K: 12,
-      Fe: 1.5,
-      Mg: 0.8,
-      Mn: 0.5,
-      B: 0.06,
-      Mo: 0.036,
-      Zn: 0.0185,
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
@@ -184,7 +184,8 @@ export default [
       Mo: 0.02,
       Co: 0.01204,
     },
-    note: 'Рецепт взят с сайта aqua-botanic.ru',
+    note: 'Рецепт взят с сайта aqua-botanic.ru'
+    + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Seachem Nitrogen',
