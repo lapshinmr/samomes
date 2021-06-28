@@ -94,7 +94,7 @@
             class="mb-2"
             href="https://www.youtube.com/watch?v=UlbCnqntrww&t=143s"
             target="_blank"
-          >Самомес.Удобрения NPK в аквариум.</a>
+          >Самомес. Удобрения NPK в аквариум.</a>
           <a
             class="mb-2"
             href="https://www.youtube.com/watch?v=YToPYOHs37U"

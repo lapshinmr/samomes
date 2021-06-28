@@ -463,7 +463,7 @@
                                       >
                                         <div>{{ convertIonName(name) }}:</div>
                                         <div class="ml-3">
-                                          {{ value.toFixed(5) }}
+                                          {{ value.toFixed(3) }}
                                           <template v-if="countTotalDose(solute)">
                                             ({{ (value / countTotalDose(solute) * 100).toFixed(2) }}%)
                                           </template>
@@ -801,6 +801,7 @@ export default {
         Object.keys(recipe.reagents).forEach((reagent) => {
           this.fertilizerMass[reagent] = recipe.reagents[reagent];
         });
+        this.isWater = recipe.volume > 0;
       }
     },
     tankVolume() {

@@ -37,6 +37,12 @@ export default new Router({
       name: 'tanks',
     },
     {
+      path: '/tanks/:id',
+      component: load('tank'),
+      alias: [''],
+      name: 'tank',
+    },
+    {
       path: '/recipes',
       component: load('recipes'),
       name: 'recipes',

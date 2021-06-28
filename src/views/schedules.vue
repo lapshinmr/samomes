@@ -97,7 +97,7 @@
                     <v-col cols="12">
                       <v-combobox
                         :items="tanks"
-                        :value="tank.name"
+                        :value="tank.volume"
                         @input="chooseTank"
                         item-text="name"
                         item-value="volume"
