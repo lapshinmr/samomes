@@ -128,7 +128,9 @@
 </template>
 
 <script>
-import { convertIonName, convertIonRatio, isFertilizer } from '@/helpers/funcs';
+import {
+ convertIonName, convertIonRatio, isFertilizer, isRecipe,
+} from '@/helpers/funcs';
 import HARDNESS from '@/constants/hardness';
 
 export default {
@@ -203,6 +205,7 @@ export default {
     convertIonName,
     convertIonRatio,
     isFertilizer,
+    isRecipe,
   },
 };
 </script>

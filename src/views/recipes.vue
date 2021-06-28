@@ -801,6 +801,7 @@ export default {
         Object.keys(recipe.reagents).forEach((reagent) => {
           this.fertilizerMass[reagent] = recipe.reagents[reagent];
         });
+        this.isWater = recipe.volume > 0;
       }
     },
     tankVolume() {

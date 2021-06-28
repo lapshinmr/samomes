@@ -51,6 +51,14 @@ export default [
     note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
+    name: 'Kuban Aquariums Реминерализатор',
+    reagents: {
+      'CaSO4(H2O)2': 1.88,
+      'MgSO4(H2O)7': 1.28,
+    },
+    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+  },
+  {
     name: 'Aqua Botanic Нитрат',
     reagents: {
       KNO3: 82.88,
