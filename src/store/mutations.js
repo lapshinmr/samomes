@@ -94,6 +94,9 @@ export default {
   SCHEDULE_ADD(state, payload) {
     state.schedules.push(payload);
   },
+  SCHEDULE_EDIT(state, payload) {
+    Vue.set(state.schedules, payload.index, payload.schedule);
+  },
   SCHEDULE_REMOVE(state, payload) {
     state.schedules.splice(payload, 1);
   },

@@ -72,10 +72,7 @@
                     style="max-width: 100%;"
                   >
                     <template v-slot:default>
-                      <div
-                        class="d-flex justify-space-between align-center w-100"
-                        :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'headline': $vuetify.breakpoint['smAndUp']}"
-                      >
+                      <div class="d-flex align-center w-100">
                         <v-icon
                           v-if="schedule.completed[recipeName][index] === 0"
                           color="primary"
@@ -95,18 +92,18 @@
                           far fa-times-circle
                         </v-icon>
                         <div
-                          class="flex-shrink-1"
-                          style="white-space: nowrap; width: 60%;"
+                          class="d-flex justify-start justify-sm-center text-truncate flex-grow-1 text-subtitle-2
+                          text-sm-h6 font-weight-regular mx-2"
                         >
                           <div style="overflow: hidden; text-overflow: ellipsis;">
                             {{ recipeName }}
                           </div>
                         </div>
-                        <div class="d-flex flex-column align-end flex-shrink-1">
-                          <div>
+                        <div class="d-flex flex-column align-end flex-shrink-1 ml-auto">
+                          <div class="text-h6 text-sm-h5">
                             {{ quotas[index].toFixed(1) }}
                           </div>
-                          <div class="caption mt-n2">
+                          <div class="d-none d-sm-block caption mt-n2">
                             {{ totalSum[recipeName]['sum'].toFixed(1) }} /
                             {{ totalSum[recipeName]['amount'].toFixed(1) }}
                           </div>
@@ -125,6 +122,7 @@
               :key="`${n}-step`"
               :step="n"
               :complete="isCompletedDay[index]"
+              editable
             >
               <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>
             </v-stepper-step>
@@ -139,33 +137,24 @@
     <v-card-actions>
       <v-btn
         text
-        v-if="activeIndex > 1"
-        @click="prevStep()"
+        :disabled="activeIndex <= 1"
+        @click="prevStep"
         class="ml-auto"
       >
         Назад
       </v-btn>
       <v-btn
         text
-        v-if="activeIndex < schedule.daysTotal"
-        @click="nextStep()"
-        class="ml-3"
-        :class="{'ml-auto': activeIndex === 1}"
+        :disabled="activeIndex === schedule.daysTotal"
+        @click="nextStep"
+        class="ml-0 ml-sm-3"
       >
         Далее
       </v-btn>
       <v-btn
-        v-else
         text
-        @click="$emit('remove', indexSchedule)"
-        class="ml-3"
-      >
-        Завершить
-      </v-btn>
-      <v-btn
-        text
-        @click="$emit('edit', indexSchedule)"
-        class="ml-3"
+        @click="$router.push(`/schedules/${scheduleIndex}`)"
+        class="ml-0 ml-sm-3"
       >
         Открыть
       </v-btn>
@@ -180,7 +169,7 @@ import { mapState, mapMutations } from 'vuex';
 export default {
   name: 'Schedule',
   props: {
-    indexSchedule: {
+    scheduleIndex: {
       type: [String, Number],
       default: 0,
     },
@@ -198,7 +187,7 @@ export default {
       'schedules',
     ]),
     schedule() {
-      return this.schedules[this.indexSchedule];
+      return this.schedules[this.scheduleIndex];
     },
     daysQuotas() {
       if (Object.keys(this.schedule.completed).length === 0) {
@@ -287,7 +276,7 @@ export default {
     ]),
     clickDay(recipeName, index) {
       this.SCHEDULE_COMPLETE({
-        indexSchedule: this.indexSchedule,
+        indexSchedule: this.scheduleIndex,
         indexDay: index,
         recipeName,
       });

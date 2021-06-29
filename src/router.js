@@ -58,6 +58,11 @@ export default new Router({
       name: 'schedules',
     },
     {
+      path: '/schedules/:id',
+      component: load('schedule'),
+      name: 'schedule',
+    },
+    {
       path: '/remineralization',
       component: load('remineralization'),
       name: 'remineralization',

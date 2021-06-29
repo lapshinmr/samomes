@@ -56,7 +56,6 @@
               v-model="selected[recipeName][index]"
               hide-details="auto"
               class="mt-0"
-              :disabled="isOverview"
               style="display: inline-block;"
             >
               <template v-slot:label>
@@ -77,10 +76,6 @@
 export default {
   name: 'ScheduleDoseTable',
   props: {
-    isOverview: {
-      type: Boolean,
-      default: false,
-    },
     daysTotal: {
       type: Number,
       default: 1,

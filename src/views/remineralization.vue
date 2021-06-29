@@ -64,7 +64,7 @@
                 suffix="л"
                 class="pt-0 mt-0"
                 :precision="1"
-                append-icon="mdi-filter"
+                append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputWaterChangeVolume(tankVolume)"
               />
               <base-text-field
@@ -78,7 +78,7 @@
                 suffix="%"
                 class="pt-0 mt-0 ml-sm-3"
                 :precision="1"
-                append-icon="mdi-filter"
+                append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputWaterChange(100)"
               />
               <base-text-field
@@ -95,7 +95,7 @@
                 single-line
                 suffix="%"
                 :precision="0"
-                append-icon="mdi-filter"
+                append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputOsmosisChange(100)"
               />
             </div>
@@ -322,7 +322,7 @@ export default {
       HARDNESS,
       REMINERALS,
       dialog: true,
-      tankVolume: 155,
+      tankVolume: null,
       tank: null,
       waterChange: 30,
       waterChangeVolume: 0,

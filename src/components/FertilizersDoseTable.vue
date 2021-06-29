@@ -32,7 +32,6 @@
         :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
         persistent-hint
         class="mr-3"
-        :readonly="isOverview"
       />
       <base-text-field
         :value="recipe.amountDay"
@@ -41,7 +40,6 @@
         hint="или объем в день"
         :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл/день' : 'г/день'"
         persistent-hint
-        :readonly="isOverview"
       />
     </div>
   </div>
@@ -56,10 +54,6 @@ export default {
     recipesSelected: {
       type: Array,
       default: () => [],
-    },
-    isOverview: {
-      type: Boolean,
-      default: false,
     },
     days: {
       type: Number,
