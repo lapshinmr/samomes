@@ -27,6 +27,7 @@
       <base-text-field
         :value="recipe.amount"
         @input="inputRecipeAmount($event, index)"
+        type="number"
         :label="recipe.name"
         hint="Введите весь объем"
         :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
