@@ -80,7 +80,7 @@ export default {
     state.fertilizers.splice(payload, 1);
   },
   FERTILIZER_EDIT(state, payload) {
-    Vue.set(state.fertilizers, payload.index, payload.recipe);
+    Vue.set(state.fertilizers, payload.index, payload.fertilizer);
   },
   FERTILIZER_MOVE(state, payload) {
     state.fertilizers = payload;
@@ -93,6 +93,9 @@ export default {
   },
   SCHEDULE_ADD(state, payload) {
     state.schedules.push(payload);
+  },
+  SCHEDULE_EDIT(state, payload) {
+    Vue.set(state.schedules, payload.index, payload.schedule);
   },
   SCHEDULE_REMOVE(state, payload) {
     state.schedules.splice(payload, 1);

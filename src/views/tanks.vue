@@ -214,7 +214,6 @@ export default {
   methods: {
     ...mapMutations([
       'TANK_MOVE',
-      'SNACKBAR_SHOW',
     ]),
     addTank() {
       return this.$router.push('/tanks/create');

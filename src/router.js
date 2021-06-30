@@ -48,14 +48,29 @@ export default new Router({
       name: 'recipes',
     },
     {
+      path: '/recipes/:id',
+      component: load('recipe'),
+      name: 'recipe',
+    },
+    {
       path: '/fertilizers',
       component: load('fertilizers'),
       name: 'fertilizers',
     },
     {
+      path: '/fertilizers/:id',
+      component: load('fertilizer'),
+      name: 'fertilizer',
+    },
+    {
       path: '/schedules',
       component: load('schedules'),
       name: 'schedules',
+    },
+    {
+      path: '/schedules/:id',
+      component: load('schedule'),
+      name: 'schedule',
     },
     {
       path: '/remineralization',

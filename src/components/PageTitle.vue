@@ -23,9 +23,9 @@
     sm="8"
     offset-sm="2"
   >
-    <h1 :class="{'d-none': $vuetify.breakpoint['xs'], 'text-h4': $vuetify.breakpoint['smAndUp']}">
+    <div class="d-none d-sm-block text-h4">
       <slot />
-    </h1>
+    </div>
   </v-col>
 </template>
 

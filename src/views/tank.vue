@@ -239,9 +239,9 @@ export default {
     },
     isExist() {
       const names = this.tanks.map((item) => item.name);
-      const tankIndex = names.findIndex((item) => item === this.name);
-      const isExist = tankIndex !== -1;
-      const isEdit = tankIndex === +this.tankIndex;
+      const index = names.findIndex((item) => item === this.name);
+      const isExist = index !== -1;
+      const isEdit = index === +this.tankIndex;
       return isExist && !isEdit;
     },
   },

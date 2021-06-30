@@ -27,7 +27,7 @@ export default [
       C6H7KO2: 0.5,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
@@ -37,7 +37,7 @@ export default [
       C6H7KO2: 0.5,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
@@ -47,7 +47,7 @@ export default [
       C6H7KO2: 0.5,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
@@ -64,7 +64,7 @@ export default [
       KNO3: 82.88,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru'
     + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -76,7 +76,7 @@ export default [
       NH4NO3: 6.71,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Калиевая селитра, разбавленная мочевиной и нитратом аммония. Рецепт взят с сайта aqua-botanic.ru'
     + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -86,7 +86,7 @@ export default [
       KH2PO4: 7.01,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru'
     + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -96,7 +96,7 @@ export default [
       K2SO4: 84.76,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru'
     + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -107,7 +107,7 @@ export default [
       KH2PO4: 5.77,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Макро в соотношении 1 к 15. Рецепт взят с сайта amania.org',
   },
   {
@@ -118,7 +118,7 @@ export default [
       KH2PO4: 5.77,
     },
     tankVolume: 100,
-    fertilizerVolume: 1000,
+    volume: 1000,
     note: 'Макро в соотношении 1 к 15. Калиевая селитра в соотношении 50 на 50 с мочевиной.'
       + ' Рецепт взят с сайта amania.org',
   },
@@ -136,7 +136,7 @@ export default [
       C10H14N2Na2O8: 2.5,
     },
     tankVolume: 100,
-    fertilizerVolume: 500,
+    volume: 500,
     note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
@@ -153,7 +153,7 @@ export default [
       C10H14N2Na2O8: 1.75,
     },
     tankVolume: 100,
-    fertilizerVolume: 500,
+    volume: 500,
     note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
@@ -171,7 +171,7 @@ export default [
       C14H18N3O10Na2Fe: 1,
     },
     tankVolume: 100,
-    fertilizerVolume: 500,
+    volume: 500,
     note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
 ];
