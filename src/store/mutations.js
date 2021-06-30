@@ -80,7 +80,7 @@ export default {
     state.fertilizers.splice(payload, 1);
   },
   FERTILIZER_EDIT(state, payload) {
-    Vue.set(state.fertilizers, payload.index, payload.recipe);
+    Vue.set(state.fertilizers, payload.index, payload.fertilizer);
   },
   FERTILIZER_MOVE(state, payload) {
     state.fertilizers = payload;

@@ -258,12 +258,13 @@ export default {
   },
   created() {
     if (!this.isCreate) {
-      const schedule = { ...this.schedules[this.scheduleIndex] };
-      this.tank = { ...schedule.tank };
-      this.recipesSelected = [...schedule.recipesSelected];
-      this.datesRange = [...schedule.datesRange];
-      this.selected = { ...schedule.selected };
-      this.completed = { ...schedule.completed };
+      // const schedule = { ...this.schedules[this.scheduleIndex] };
+      Object.assign(this.$data, { ...this.schedules[this.scheduleIndex] });
+      // this.tank = { ...schedule.tank };
+      // this.recipesSelected = [...schedule.recipesSelected];
+      // this.datesRange = [...schedule.datesRange];
+      // this.selected = { ...schedule.selected };
+      // this.completed = { ...schedule.completed };
       this.isSchedule = true;
     } else {
       const dateStart = moment().format('YYYY-MM-DD');

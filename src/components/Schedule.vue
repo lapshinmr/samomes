@@ -95,7 +95,7 @@
                           class="d-flex justify-start justify-sm-center text-truncate flex-grow-1 text-subtitle-2
                           text-sm-h6 font-weight-regular mx-2"
                         >
-                          <div style="overflow: hidden; text-overflow: ellipsis;">
+                          <div style="overflow: hidden; text-overflow: ellipsis; position: relative; top: 1px;">
                             {{ recipeName }}
                           </div>
                         </div>
