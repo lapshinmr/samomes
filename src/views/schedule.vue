@@ -86,11 +86,8 @@
               v-if="recipesSelected.length > 0"
               cols="12"
             >
-              <div
-                class="mb-2"
-                :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
-              >
-                Выбранные рецепты
+              <div class="subtitle-1 text-sm-h6 my-4">
+                Подбор дозировок
                 <v-tooltip
                   bottom
                   max-width="400"
@@ -106,9 +103,13 @@
                 </v-tooltip>
               </div>
               <elements-dose-table
+                :fertilization-type="fertilizationType"
                 :recipes-selected="recipesSelected"
                 :days="daysTotal"
+                :water-change="tank.waterChange"
                 @input="inputDose"
+                @change="fertilizationType = $event"
+                @water-change="tank.waterChange = $event"
               />
             </v-col>
             <v-expand-transition>
@@ -120,9 +121,12 @@
                 <elements-table
                   is-helpful-info
                   is-switchers
+                  :fertilization-type="fertilizationType"
                   :recipes-selected="recipesSelected"
                   :days-total="daysTotal"
                   :volume="tank.volume"
+                  :water-change="tank.waterChange"
+                  @water-change="tank.waterChange = $event"
                 />
               </v-col>
             </v-expand-transition>
@@ -162,7 +166,7 @@
                     <v-text-field
                       :value="daysTotal"
                       label="Длительность периода"
-                      :suffix="daysSuffix"
+                      :suffix="[2, 3, 4].includes(daysTotal) ? 'дня' : 'дней'"
                       :rules="rulesDays"
                       hide-details="auto"
                       readonly
@@ -177,6 +181,7 @@
                 cols="12"
               >
                 <fertilizers-doze-table
+                  :fertilization-type="fertilizationType"
                   :dates-column="datesColumn"
                   :days-total="daysTotal"
                   :recipes-selected="recipesSelected"
@@ -224,7 +229,10 @@
 <script>
 import Vue from 'vue';
 import moment from 'moment';
-import ElementsDoseTable from '@/components/FertilizersDoseTable.vue';
+import ElementsDoseTable, {
+  FERTILIZATION_IN_TAP_WATER,
+  FERTILIZATION_EVERY_DAY,
+} from '@/components/FertilizersDoseTable.vue';
 import ElementsTable from '@/components/ElementsTable.vue';
 import FertilizersDozeTable from '@/components/schedules/ScheduleDozeTable.vue';
 import { mapState, mapMutations } from 'vuex';
@@ -239,9 +247,11 @@ export default {
   },
   data() {
     return {
+      fertilizationType: FERTILIZATION_EVERY_DAY,
       tank: {
-        name: '',
-        volume: '',
+        name: '155',
+        volume: 155,
+        waterChange: 0,
       },
       recipesSelected: [],
       datesRange: [],
@@ -258,13 +268,7 @@ export default {
   },
   created() {
     if (!this.isCreate) {
-      // const schedule = { ...this.schedules[this.scheduleIndex] };
       Object.assign(this.$data, { ...this.schedules[this.scheduleIndex] });
-      // this.tank = { ...schedule.tank };
-      // this.recipesSelected = [...schedule.recipesSelected];
-      // this.datesRange = [...schedule.datesRange];
-      // this.selected = { ...schedule.selected };
-      // this.completed = { ...schedule.completed };
       this.isSchedule = true;
     } else {
       const dateStart = moment().format('YYYY-MM-DD');
@@ -289,7 +293,7 @@ export default {
       return [...this.recipes, ...this.fertilizers];
     },
     isAmount() {
-      return this.recipesSelected.length > 0 && this.recipesSelected.every((x) => x.amount > 0);
+      return this.recipesSelected.length > 0 && this.recipesSelected.every((x) => x.amount > 0 || x.amountDay > 0);
     },
     datesRangeSorted() {
       if (!this.datesRange) {
@@ -322,52 +326,39 @@ export default {
       }
       return 0;
     },
-    daysSuffix() {
-      let word = 'дней';
-      if ([2, 3, 4].includes(this.daysTotal)) {
-        word = 'дня';
-      }
-      return word;
-    },
   },
   watch: {
-    daysTotal() {
-      if (!this.daysTotal) { return; }
-      Object.keys(this.recipesSelected).forEach((index) => {
-        const recipe = this.recipesSelected[index];
-        if (this.selected[recipe.name].length < this.daysTotal) {
-          const delta = this.daysTotal - this.selected[recipe.name].length;
-          this.selected[recipe.name].push(...Array(delta).fill(true, 0, delta));
-        } else {
-          this.selected[recipe.name] = [...this.selected[recipe.name].slice(0, this.daysTotal)];
+    fertilizationType() {
+      if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+        this.recipesSelected.forEach((recipe) => {
+          Vue.delete(this.selected, recipe.name);
+        });
+      } else {
+        this.recipesSelected.forEach((recipe) => {
+          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
+        });
+      }
+    },
+    datesRange(newValue, oldValue) {
+      if (oldValue.length === 0) { return; }
+      this.recipesSelected.forEach((recipe) => {
+        if (this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
+          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
         }
         Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
-        const { amountDay } = recipe;
-        const amount = amountDay * this.daysTotal;
-        Vue.set(this.recipesSelected, index, {
-          ...recipe,
-          amount: !Number.isNaN(amount) ? parseFloat(amount) : '',
-          amountDay: !Number.isNaN(amountDay) ? parseFloat(amountDay) : '',
-        });
       });
     },
     recipesSelected() {
-      const selected = {};
       this.recipesSelected.forEach((recipe) => {
-        if (recipe.name in this.selected) {
-          selected[recipe.name] = [...this.selected[recipe.name]];
-        } else {
-          selected[recipe.name] = Array(this.daysTotal).fill(true, 0, this.daysTotal);
-        }
-        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
-        if (!recipe.amount) {
+        if (!(recipe.name in this.selected)) {
           recipe.amount = '';
-        }
-        if (!recipe.amountDay) {
           recipe.amountDay = '';
+          if (this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
+            Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
+          }
+          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
         }
       });
-      this.selected = { ...selected };
     },
   },
   methods: {
@@ -385,6 +376,7 @@ export default {
         this.tank = {
           name: value.name,
           volume: +value.volume,
+          waterChange: +value.waterChange,
         };
       } else {
         this.tank.name = value;
@@ -397,6 +389,7 @@ export default {
     addSchedule() {
       if (this.$refs.scheduleForm.validate()) {
         this.SCHEDULE_ADD({
+          fertilizationType: this.fertilizationType,
           tank: this.tank,
           recipesSelected: this.recipesSelected,
           datesRange: this.datesRange,
@@ -411,9 +404,13 @@ export default {
     },
     editSchedule() {
       if (this.$refs.scheduleForm.validate()) {
+        this.recipesSelected.forEach((recipe) => {
+          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+        });
         this.SCHEDULE_EDIT({
           index: this.scheduleIndex,
           schedule: {
+            fertilizationType: this.fertilizationType,
             tank: this.tank,
             recipesSelected: this.recipesSelected,
             datesRange: this.datesRange,

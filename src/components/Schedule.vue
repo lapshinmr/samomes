@@ -50,6 +50,41 @@
               </div>
             </div>
             <div
+              v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(schedule.fertilizationType)
+                && index === 0"
+            >
+              <div class="mb-4 text-subtitle-1 text-center">
+                Подмена
+              </div>
+              <div
+                v-for="(quota, recipeName) in waterChangeQuotas"
+                :key="`water_change_${recipeName}`"
+              >
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="10"
+                    offset-sm="1"
+                    class="py-1"
+                  >
+                    <schedule-button
+                      :disabled="!schedule.selected[recipeName][index] || quota === null"
+                      :status="0"
+                      :value="quota"
+                      :sum="totalSum[recipeName]['sum']"
+                      :amount="totalSum[recipeName]['amount']"
+                    >
+                      {{ recipeName }}
+                    </schedule-button>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+            <v-divider
+              v-if="Object.keys(waterChangeQuotas).length > 0 && index === 0"
+              class="mt-4 mb-6"
+            />
+            <div
               v-for="(quotas, recipeName) in daysQuotas"
               :key="recipeName + n"
             >
@@ -60,57 +95,17 @@
                   offset-sm="1"
                   class="py-1"
                 >
-                  <v-btn
-                    :disabled="!schedule.selected[recipeName][index]"
-                    block
-                    x-large
-                    tile
-                    :color="['primary', 'primary', 'grey'][schedule.completed[recipeName][index]]"
-                    :outlined="[true, false, true][schedule.completed[recipeName][index]]"
-                    @click="clickDay(recipeName, index)"
-                    class="mb-2 px-3"
-                    style="max-width: 100%;"
-                  >
-                    <template v-slot:default>
-                      <div class="d-flex align-center w-100">
-                        <v-icon
-                          v-if="schedule.completed[recipeName][index] === 0"
-                          color="primary"
-                        >
-                          far fa-circle
-                        </v-icon>
-                        <v-icon
-                          v-if="schedule.completed[recipeName][index] === 1"
-                          color="white"
-                        >
-                          far fa-check-circle
-                        </v-icon>
-                        <v-icon
-                          v-if="schedule.completed[recipeName][index] === 2"
-                          color="grey"
-                        >
-                          far fa-times-circle
-                        </v-icon>
-                        <div
-                          class="d-flex justify-start justify-sm-center text-truncate flex-grow-1 text-subtitle-2
-                          text-sm-h6 font-weight-regular mx-2"
-                        >
-                          <div style="overflow: hidden; text-overflow: ellipsis; position: relative; top: 1px;">
-                            {{ recipeName }}
-                          </div>
-                        </div>
-                        <div class="d-flex flex-column align-end flex-shrink-1 ml-auto">
-                          <div class="text-h6 text-sm-h5">
-                            {{ quotas[index].toFixed(1) }}
-                          </div>
-                          <div class="d-none d-sm-block caption mt-n2">
-                            {{ totalSum[recipeName]['sum'].toFixed(1) }} /
-                            {{ totalSum[recipeName]['amount'].toFixed(1) }}
-                          </div>
-                        </div>
-                      </div>
-                    </template>
-                  </v-btn>
+                  {{ schedule.completed[recipeName][index] }}
+                  <schedule-button
+                    :disabled="!schedule.selected[recipeName][index] || quotas[index] === null"
+                    :status="schedule.completed[recipeName][index]"
+                    :value="quotas[index]"
+                    :sum="totalSum[recipeName]['sum']"
+                    :amount="totalSum[recipeName]['amount']"
+                    :recipe-name="recipeName"
+                    :day-index="index"
+                    :schedule-index="scheduleIndex"
+                  />
                 </v-col>
               </v-row>
             </div>
@@ -164,11 +159,23 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import {
+  FERTILIZATION_IN_TAP_WATER,
+  FERTILIZATION_EVERY_DAY,
+  FERTILIZATION_MIX,
+} from '@/components/FertilizersDoseTable.vue';
+import ScheduleButton from '@/components/ScheduleButton.vue';
 
 export default {
   name: 'Schedule',
+  components: {
+    ScheduleButton,
+  },
   props: {
+    schedule: {
+      type: Object,
+      default: () => {},
+    },
     scheduleIndex: {
       type: [String, Number],
       default: 0,
@@ -177,17 +184,21 @@ export default {
   data() {
     return {
       activeIndex: 1,
+      FERTILIZATION_IN_TAP_WATER,
+      FERTILIZATION_EVERY_DAY,
+      FERTILIZATION_MIX,
     };
   },
   created() {
     this.activeIndex = this.findCurActiveDay();
   },
   computed: {
-    ...mapState([
-      'schedules',
-    ]),
-    schedule() {
-      return this.schedules[this.scheduleIndex];
+    waterChangeQuotas() {
+      const quotas = {};
+      this.schedule.recipesSelected.forEach((recipe) => {
+        quotas[recipe.name] = recipe.amount;
+      });
+      return quotas;
     },
     daysQuotas() {
       if (Object.keys(this.schedule.completed).length === 0) {
@@ -200,26 +211,30 @@ export default {
         const completeList = this.schedule.completed[recipe.name];
         const excludedTotal = selectedList.filter((x) => x === false).length;
         let daysLeft = this.schedule.daysTotal - excludedTotal;
-        let amount = parseFloat(recipe.amount);
+        let amount = recipe.amountDay * this.schedule.daysTotal;
         let currentDay = amount / (this.schedule.daysTotal - excludedTotal);
         Object.keys([...Array(this.schedule.daysTotal)]).forEach((index) => {
-          switch (true) {
-            case completeList[index] === 1:
-              currentDay = amount / daysLeft;
-              amount -= currentDay;
-              daysLeft -= 1;
-              break;
-            case !selectedList[index]:
-              currentDay = 0;
-              break;
-            case completeList[index] === 2:
-              currentDay = 0;
-              daysLeft -= 1;
-              break;
-            default:
-              currentDay = amount / daysLeft;
+          if (!amount) {
+            result.push(null);
+          } else {
+            switch (true) {
+              case completeList[index] === 1:
+                currentDay = amount / daysLeft;
+                amount -= currentDay;
+                daysLeft -= 1;
+                break;
+              case !selectedList[index]:
+                currentDay = 0;
+                break;
+              case completeList[index] === 2:
+                currentDay = 0;
+                daysLeft -= 1;
+                break;
+              default:
+                currentDay = amount / daysLeft;
+            }
+            result.push(currentDay);
           }
-          result.push(currentDay);
         });
         quotas[recipe.name] = result;
       });
@@ -271,16 +286,6 @@ export default {
     },
   },
   methods: {
-    ...mapMutations([
-      'SCHEDULE_COMPLETE',
-    ]),
-    clickDay(recipeName, index) {
-      this.SCHEDULE_COMPLETE({
-        indexSchedule: this.scheduleIndex,
-        indexDay: index,
-        recipeName,
-      });
-    },
     prevStep() {
       if (this.activeIndex > 1) {
         this.activeIndex -= 1;
