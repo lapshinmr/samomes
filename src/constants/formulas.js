@@ -56,7 +56,7 @@ export default {
       },
     },
     solubilityLimit: 226,
-    name: 'Калия монофосфат ',
+    name: 'Калия монофосфат',
   },
   K2HPO4: {
     ions: {
@@ -78,7 +78,47 @@ export default {
       },
     },
     solubilityLimit: 159.8,
-    name: 'Калия гидроортофосфат ',
+    name: 'Калия гидроортофосфат',
+  },
+  K4P2O7: {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 4,
+      },
+      P: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 7,
+      },
+    },
+    solubilityLimit: 1870,
+    name: 'Калия пирофосфат',
+  },
+  'K4P2O7(H20)3': {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 4,
+      },
+      P: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    solubilityLimit: 1870,
+    name: 'Калия пирофосфат кристалогидрат',
   },
   K2SO4: {
     ions: {
