@@ -257,6 +257,7 @@ export default {
       datesRange: [],
       selected: {},
       completed: {},
+      completedWaterChange: {},
       isSchedule: false,
       rulesDays: [
         (v) => v >= 2 || 'Период должен быть больше одного дня',
@@ -346,6 +347,7 @@ export default {
           Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
         }
         Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+        Vue.set(this.completedWaterChange, recipe.name, 0);
       });
     },
     recipesSelected() {
@@ -357,6 +359,7 @@ export default {
             Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
           }
           Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+          Vue.set(this.completedWaterChange, recipe.name, 0);
         }
       });
     },
@@ -395,6 +398,7 @@ export default {
           datesRange: this.datesRange,
           selected: this.selected,
           completed: this.completed,
+          completedWaterChange: this.completedWaterChange,
           daysTotal: this.daysTotal,
           datesColumn: this.datesColumn,
         });
@@ -406,6 +410,7 @@ export default {
       if (this.$refs.scheduleForm.validate()) {
         this.recipesSelected.forEach((recipe) => {
           Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+          Vue.set(this.completedWaterChange, recipe.name, 0);
         });
         this.SCHEDULE_EDIT({
           index: this.scheduleIndex,
@@ -416,6 +421,7 @@ export default {
             datesRange: this.datesRange,
             selected: this.selected,
             completed: this.completed,
+            completedWaterChange: this.completedWaterChange,
             daysTotal: this.daysTotal,
             datesColumn: this.datesColumn,
           },

@@ -27,12 +27,12 @@
       hide-details="auto"
     >
       <v-radio
-        label="В подменную воду"
-        :value="0"
-      />
-      <v-radio
         label="Каждый день"
         :value="1"
+      />
+      <v-radio
+        label="В подменную воду"
+        :value="0"
       />
       <v-radio
         label="Комбинированная подача"
@@ -52,6 +52,7 @@
       <div
         v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType)"
         class="text-subtitle-1 font-weight-medium w-50 pr-2"
+        :class="{ 'w-100': fertilizationType === FERTILIZATION_IN_TAP_WATER}"
       >
         <template v-if="FERTILIZATION_IN_TAP_WATER === fertilizationType">
           Весь объем удобрений
@@ -64,6 +65,7 @@
       <div
         v-if="[FERTILIZATION_EVERY_DAY, FERTILIZATION_MIX].includes(fertilizationType)"
         class="text-subtitle-1 w-50 font-weight-medium pr-2"
+        :class="{ 'w-100': fertilizationType === FERTILIZATION_EVERY_DAY}"
       >
         Ежедневная доза
         <v-divider />
@@ -136,9 +138,9 @@ export default {
     isFertilizer,
     inputRecipeAmount(value, index) {
       const recipe = this.recipesSelected[index];
-      const amount = parseFloat(value);
-      const amountDay = amount / this.days;
+      const amount = value !== '' ? +value : '';
       if (this.fertilizationType === this.FERTILIZATION_IN_TAP_WATER) {
+        const amountDay = amount / this.days;
         this.$emit('input', index, {
           ...recipe,
           amount,
@@ -153,9 +155,9 @@ export default {
     },
     inputRecipeAmountDay(value, index) {
       const recipe = this.recipesSelected[index];
-      const amountDay = parseFloat(value);
-      const amount = amountDay * this.days;
+      const amountDay = value !== '' ? +value : '';
       if (this.fertilizationType === this.FERTILIZATION_EVERY_DAY) {
+        const amount = amountDay * this.days;
         this.$emit('input', index, {
           ...recipe,
           amount,

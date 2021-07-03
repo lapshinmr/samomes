@@ -50,9 +50,8 @@
       >
         <Schedule
           v-for="(schedule, index) in schedules"
-          :schedule="schedule"
           :schedule-index="index"
-          :key="`${schedule.tank.name} + ${index}`"
+          :key="index"
         />
       </v-col>
     </v-row>

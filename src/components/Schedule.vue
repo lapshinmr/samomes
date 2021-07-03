@@ -68,11 +68,13 @@
                     class="py-1"
                   >
                     <schedule-button
-                      :disabled="!schedule.selected[recipeName][index] || quota === null"
-                      :status="0"
+                      :disabled="quota === 0"
+                      :status="schedule.completedWaterChange[recipeName]"
                       :value="quota"
                       :sum="totalSum[recipeName]['sum']"
                       :amount="totalSum[recipeName]['amount']"
+                      :recipe-name="recipeName"
+                      @click="clickWaterChangeDay(recipeName)"
                     >
                       {{ recipeName }}
                     </schedule-button>
@@ -95,16 +97,14 @@
                   offset-sm="1"
                   class="py-1"
                 >
-                  {{ schedule.completed[recipeName][index] }}
                   <schedule-button
-                    :disabled="!schedule.selected[recipeName][index] || quotas[index] === null"
+                    :disabled="!schedule.selected[recipeName][index] || quotas[index] === 0"
                     :status="schedule.completed[recipeName][index]"
                     :value="quotas[index]"
                     :sum="totalSum[recipeName]['sum']"
                     :amount="totalSum[recipeName]['amount']"
                     :recipe-name="recipeName"
-                    :day-index="index"
-                    :schedule-index="scheduleIndex"
+                    @click="clickDay(index, recipeName)"
                   />
                 </v-col>
               </v-row>
@@ -165,6 +165,7 @@ import {
   FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
 import ScheduleButton from '@/components/ScheduleButton.vue';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Schedule',
@@ -172,10 +173,6 @@ export default {
     ScheduleButton,
   },
   props: {
-    schedule: {
-      type: Object,
-      default: () => {},
-    },
     scheduleIndex: {
       type: [String, Number],
       default: 0,
@@ -193,10 +190,16 @@ export default {
     this.activeIndex = this.findCurActiveDay();
   },
   computed: {
+    ...mapState([
+      'schedules',
+    ]),
+    schedule() {
+      return this.schedules[this.scheduleIndex];
+    },
     waterChangeQuotas() {
       const quotas = {};
       this.schedule.recipesSelected.forEach((recipe) => {
-        quotas[recipe.name] = recipe.amount;
+        quotas[recipe.name] = recipe.amount || 0;
       });
       return quotas;
     },
@@ -215,7 +218,7 @@ export default {
         let currentDay = amount / (this.schedule.daysTotal - excludedTotal);
         Object.keys([...Array(this.schedule.daysTotal)]).forEach((index) => {
           if (!amount) {
-            result.push(null);
+            result.push(0);
           } else {
             switch (true) {
               case completeList[index] === 1:
@@ -249,9 +252,12 @@ export default {
             sum += this.daysQuotas[recipe.name][index];
           }
         });
+        if (this.schedule.completedWaterChange[recipe.name]) {
+          sum += this.waterChangeQuotas[recipe.name];
+        }
         result[recipe.name] = {
           sum,
-          amount: recipe.amount,
+          amount: recipe.amount + recipe.amountDay * this.schedule.daysTotal,
         };
       });
       return result;
@@ -286,6 +292,23 @@ export default {
     },
   },
   methods: {
+    ...mapMutations([
+      'SCHEDULE_COMPLETE',
+      'SCHEDULE_COMPLETE_WATER_CHANGE',
+    ]),
+    clickDay(dayIndex, recipeName) {
+      this.SCHEDULE_COMPLETE({
+        scheduleIndex: this.scheduleIndex,
+        dayIndex,
+        recipeName,
+      });
+    },
+    clickWaterChangeDay(recipeName) {
+      this.SCHEDULE_COMPLETE_WATER_CHANGE({
+        scheduleIndex: this.scheduleIndex,
+        recipeName,
+      });
+    },
     prevStep() {
       if (this.activeIndex > 1) {
         this.activeIndex -= 1;

@@ -8,7 +8,7 @@
     :outlined="[true, false, true][status]"
     class="mb-2 px-3"
     style="max-width: 100%;"
-    @click="clickDay"
+    v-on="$listeners"
   >
     <template v-slot:default>
       <div class="d-flex align-center w-100">
@@ -27,10 +27,10 @@
         </div>
         <div class="d-flex flex-column align-end flex-shrink-1 ml-auto">
           <div
-            v-if="value !== null"
+            v-if="value !== ''"
             class="text-h6 text-sm-h5"
           >
-            {{ value.toFixed(1) }}
+            {{ value ? value.toFixed(1) : '' }}
           </div>
           <div
             v-else
@@ -39,8 +39,8 @@
             -
           </div>
           <div class="d-none d-sm-block caption mt-n2">
-            {{ sum.toFixed(1) }} /
-            {{ amount.toFixed(1) }}
+            {{ sum }} /
+            {{ amount }}
           </div>
         </div>
       </div>
@@ -49,22 +49,12 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-
 export default {
   name: 'ScheduleButton',
   props: {
     recipeName: {
       type: String,
       default: '',
-    },
-    dayIndex: {
-      type: Number,
-      default: 0,
-    },
-    scheduleIndex: {
-      type: Number,
-      default: 0,
     },
     disabled: {
       type: Boolean,
@@ -75,7 +65,7 @@ export default {
       default: 0,
     },
     value: {
-      type: Number,
+      type: [String, Number],
       default: 0,
     },
     sum: {
@@ -83,20 +73,8 @@ export default {
       default: 0,
     },
     amount: {
-      type: Number,
+      type: [String, Number],
       default: 0,
-    },
-  },
-  methods: {
-    ...mapMutations([
-      'SCHEDULE_COMPLETE',
-    ]),
-    clickDay() {
-      this.SCHEDULE_COMPLETE({
-        scheduleIndex: this.scheduleIndex,
-        indexDay: this.dayIndex,
-        recipeName: this.recipeName,
-      });
     },
   },
 };
