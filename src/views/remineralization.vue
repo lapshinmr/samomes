@@ -240,21 +240,14 @@
           :key="`rem_${index}`"
         />
         <fertilizers-dose-table
+          v-if="recipesSelected.length > 0"
+          :fertilization-type="FERTILIZATION_IN_TAP_WATER"
+          :is-fertilization-types="false"
+          :is-water-change="false"
           :recipes-selected="recipesSelected"
           :days="7"
           @input="inputDose"
         />
-        <div
-          v-if="Object.keys(totalElements).length > 0"
-          class="mt-5"
-        >
-          <elements-table
-            :recipes-selected="recipesSelected"
-            :days-total="7"
-            :volume="tankVolume"
-            is-switchers
-          />
-        </div>
         <v-expand-transition>
           <div
             v-if="ghInit !== null"
@@ -306,13 +299,11 @@ import {
   isRecipe,
   isFertilizer,
 } from '@/helpers/funcs';
-import ElementsTable from '@/components/ElementsTable.vue';
-import FertilizersDoseTable from '@/components/FertilizersDoseTable.vue';
+import FertilizersDoseTable, { FERTILIZATION_IN_TAP_WATER } from '@/components/FertilizersDoseTable.vue';
 
 export default {
   name: 'Remineralization',
   components: {
-    ElementsTable,
     FertilizersDoseTable,
   },
   data() {
@@ -321,10 +312,11 @@ export default {
       ELEMENTS,
       HARDNESS,
       REMINERALS,
+      FERTILIZATION_IN_TAP_WATER,
       dialog: true,
       tankVolume: null,
       tank: null,
-      waterChange: 30,
+      waterChange: 0,
       waterChangeVolume: 0,
       osmosisChange: 0,
       ghInit: null,
@@ -341,9 +333,6 @@ export default {
         volume: 0,
       },
     };
-  },
-  mounted() {
-    this.inputWaterChange(this.waterChange);
   },
   computed: {
     ...mapState([

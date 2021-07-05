@@ -27,7 +27,7 @@
           </th>
           <th
             class="text-center"
-            v-for="recipeName in Object.keys(daysQuotas)"
+            v-for="recipeName in headers"
             :key="recipeName"
           >
             {{ recipeName }}
@@ -35,47 +35,77 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="(day, index) in daysTotal"
-          :key="day"
-        >
+        <tr v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType)">
           <td class="pl-0 text-center">
-            <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
-            <span class="text-secondary">{{ datesColumn[index].date }}</span>
+            Подмена
           </td>
           <td
-            v-for="(quotas, recipeName, idx) in daysQuotas"
+            v-for="(quota, recipeName, idx) in waterChangeQuotas"
             class="text-center"
-            :class="{'pr-0': idx === Object.keys(daysQuotas).length - 1}"
-            :key="recipeName + day"
+            :class="{'pr-0': idx === Object.keys(waterChangeQuotas).length - 1}"
+            :key="`water_change_${recipeName}`"
           >
-            <v-checkbox
-              v-if="!isNaN(quotas[index])"
-              color="primary"
-              dense
-              v-model="selected[recipeName][index]"
-              hide-details="auto"
-              class="mt-0"
-              style="display: inline-block;"
-            >
-              <template v-slot:label>
-                <span class="mt-0">
-                  {{ quotas[index].toFixed(2) }}
-                </span>
-              </template>
-            </v-checkbox>
-            <span v-else> - </span>
+            <template v-if="quota">
+              {{ quota.toFixed(2) }}
+            </template>
+            <template v-else>
+              -
+            </template>
           </td>
         </tr>
+        <template v-if="Object.keys(daysQuotas).length > 0">
+          <tr
+            v-for="(day, index) in daysTotal"
+            :key="day"
+          >
+            <td class="pl-0 text-center">
+              <span style="text-transform: capitalize;">{{ datesColumn[index].weekday }}</span>,
+              <span class="text-secondary">{{ datesColumn[index].date }}</span>
+            </td>
+            <td
+              v-for="(quotas, recipeName, idx) in daysQuotas"
+              class="text-center"
+              :class="{'pr-0': idx === Object.keys(daysQuotas).length - 1}"
+              :key="recipeName + day"
+            >
+              <span v-if="quotas[index] === null"> - </span>
+              <v-checkbox
+                v-if="quotas[index] !== null"
+                color="primary"
+                dense
+                v-model="selected[recipeName][index]"
+                hide-details="auto"
+                class="mt-0"
+                style="display: inline-block;"
+              >
+                <template v-slot:label>
+                  <span class="mt-0">
+                    {{ quotas[index].toFixed(2) }}
+                  </span>
+                </template>
+              </v-checkbox>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </template>
   </v-simple-table>
 </template>
 
 <script>
+import {
+  FERTILIZATION_IN_TAP_WATER,
+  FERTILIZATION_EVERY_DAY,
+  FERTILIZATION_MIX,
+} from '@/components/FertilizersDoseTable.vue';
+
 export default {
   name: 'ScheduleDoseTable',
   props: {
+    fertilizationType: {
+      type: Number,
+      default: FERTILIZATION_EVERY_DAY,
+    },
     daysTotal: {
       type: Number,
       default: 1,
@@ -93,27 +123,54 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      FERTILIZATION_IN_TAP_WATER,
+      FERTILIZATION_EVERY_DAY,
+      FERTILIZATION_MIX,
+    };
+  },
   computed: {
+    waterChangeQuotas() {
+      const quotas = {};
+      this.recipesSelected.forEach((recipe) => {
+        quotas[recipe.name] = recipe.amount;
+      });
+      return quotas;
+    },
     daysQuotas() {
       const quotas = {};
+      if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+        return {};
+      }
       this.recipesSelected.forEach((recipe) => {
         const result = [];
         const selectedList = this.selected[recipe.name];
         const excludedTotal = selectedList.filter((x) => x === false).length;
         const daysLeft = this.daysTotal - excludedTotal;
-        const { amount } = recipe;
+        const amount = recipe.amountDay * this.daysTotal;
         let currentDay = amount / (this.daysTotal - excludedTotal);
         Object.keys([...Array(this.daysTotal)]).forEach((index) => {
-          if (!selectedList[index]) {
-            currentDay = 0;
+          if (!amount) {
+            result.push(null);
           } else {
-            currentDay = amount / daysLeft;
+            if (!selectedList[index]) {
+              currentDay = 0;
+            } else {
+              currentDay = amount / daysLeft;
+            }
+            result.push(currentDay);
           }
-          result.push(currentDay);
         });
         quotas[recipe.name] = result;
       });
       return quotas;
+    },
+    headers() {
+      if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+        return Object.keys(this.waterChangeQuotas);
+      }
+      return Object.keys(this.daysQuotas);
     },
   },
 };

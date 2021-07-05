@@ -101,10 +101,16 @@ export default {
     state.schedules.splice(payload, 1);
   },
   SCHEDULE_COMPLETE(state, payload) {
-    const schedule = state.schedules[payload.indexSchedule];
-    const status = schedule.completed[payload.recipeName][payload.indexDay];
-    schedule.completed[payload.recipeName][payload.indexDay] = (status + 1) % 3;
-    Vue.set(state.schedules, payload.indexSchedule, schedule);
+    const schedule = state.schedules[payload.scheduleIndex];
+    const status = schedule.completed[payload.recipeName][payload.dayIndex];
+    schedule.completed[payload.recipeName][payload.dayIndex] = (status + 1) % 3;
+    Vue.set(state.schedules, payload.scheduleIndex, schedule);
+  },
+  SCHEDULE_COMPLETE_WATER_CHANGE(state, payload) {
+    const schedule = state.schedules[payload.scheduleIndex];
+    const status = schedule.completedWaterChange[payload.recipeName];
+    schedule.completedWaterChange[payload.recipeName] = (status + 1) % 2;
+    Vue.set(state.schedules, payload.scheduleIndex, schedule);
   },
   SCHEDULES_SET(state, payload) {
     state.schedules = payload;

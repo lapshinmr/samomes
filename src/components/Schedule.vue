@@ -34,104 +34,90 @@
       >
         <v-stepper-items>
           <v-stepper-content
-            v-for="(n, index) in schedule.daysTotal"
-            :key="`${n}-content`"
-            :step="n"
+            v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType)"
+            :step="1"
             class="pa-0 pb-8"
           >
             <div class="d-flex flex-column text-h4 text-center mb-4">
               <div>
-                <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>,
-                <span>{{ schedule.datesColumn[index].date }}</span>
+                <span style="text-transform: capitalize;">{{ schedule.datesColumn[0].weekday }}</span>,
+                <span>{{ schedule.datesColumn[0].date }}</span>
               </div>
               <div class="text-center text-body-1">
-                {{ schedule.datesRange[0] | format("DD MMMM") }} -
-                {{ schedule.datesRange[1] | format("DD MMMM") }}
+                Подмена
               </div>
             </div>
-            <div
-              v-for="(quotas, recipeName) in daysQuotas"
-              :key="recipeName + n"
-            >
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="10"
-                  offset-sm="1"
-                  class="py-1"
-                >
-                  <v-btn
-                    :disabled="!schedule.selected[recipeName][index]"
-                    block
-                    x-large
-                    tile
-                    :color="['primary', 'primary', 'grey'][schedule.completed[recipeName][index]]"
-                    :outlined="[true, false, true][schedule.completed[recipeName][index]]"
-                    @click="clickDay(recipeName, index)"
-                    class="mb-2 px-3"
-                    style="max-width: 100%;"
+            <div v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(schedule.fertilizationType)">
+              <div
+                v-for="(quota, recipeName) in waterChangeQuotas"
+                :key="`water_change_${recipeName}`"
+              >
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="10"
+                    offset-sm="1"
+                    class="py-1"
                   >
-                    <template v-slot:default>
-                      <div class="d-flex align-center w-100">
-                        <v-icon
-                          v-if="schedule.completed[recipeName][index] === 0"
-                          color="primary"
-                        >
-                          far fa-circle
-                        </v-icon>
-                        <v-icon
-                          v-if="schedule.completed[recipeName][index] === 1"
-                          color="white"
-                        >
-                          far fa-check-circle
-                        </v-icon>
-                        <v-icon
-                          v-if="schedule.completed[recipeName][index] === 2"
-                          color="grey"
-                        >
-                          far fa-times-circle
-                        </v-icon>
-                        <div
-                          class="d-flex justify-start justify-sm-center text-truncate flex-grow-1 text-subtitle-2
-                          text-sm-h6 font-weight-regular mx-2"
-                        >
-                          <div style="overflow: hidden; text-overflow: ellipsis; position: relative; top: 1px;">
-                            {{ recipeName }}
-                          </div>
-                        </div>
-                        <div class="d-flex flex-column align-end flex-shrink-1 ml-auto">
-                          <div class="text-h6 text-sm-h5">
-                            {{ quotas[index].toFixed(1) }}
-                          </div>
-                          <div class="d-none d-sm-block caption mt-n2">
-                            {{ totalSum[recipeName]['sum'].toFixed(1) }} /
-                            {{ totalSum[recipeName]['amount'].toFixed(1) }}
-                          </div>
-                        </div>
-                      </div>
-                    </template>
-                  </v-btn>
-                </v-col>
-              </v-row>
+                    <schedule-button
+                      :disabled="quota === 0"
+                      :status="schedule.completedWaterChange[recipeName]"
+                      :value="quota"
+                      :sum="totalSum[recipeName]['sum']"
+                      :amount="totalSum[recipeName]['amount']"
+                      :recipe-name="recipeName"
+                      @click="clickWaterChangeDay(recipeName)"
+                    >
+                      {{ recipeName }}
+                    </schedule-button>
+                  </v-col>
+                </v-row>
+              </div>
             </div>
           </v-stepper-content>
-        </v-stepper-items>
-        <v-stepper-header v-if="$vuetify.breakpoint['smAndUp']">
-          <template v-for="(n, index) in schedule.daysTotal">
-            <v-stepper-step
-              :key="`${n}-step`"
+          <template v-if="fertilizationType !== FERTILIZATION_IN_TAP_WATER">
+            <v-stepper-content
+              v-for="(n, index) in slidesNumbers"
+              :key="`${n}-content`"
               :step="n"
-              :complete="isCompletedDay[index]"
-              editable
+              class="pa-0 pb-8"
             >
-              <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>
-            </v-stepper-step>
-            <v-divider
-              v-if="n !== schedule.daysTotal"
-              :key="n"
-            />
+              <div class="d-flex flex-column text-h4 text-center mb-4">
+                <div>
+                  <span style="text-transform: capitalize;">{{ schedule.datesColumn[index].weekday }}</span>,
+                  <span>{{ schedule.datesColumn[index].date }}</span>
+                </div>
+                <div class="text-center text-body-1">
+                  {{ schedule.datesRange[0] | format("DD MMMM") }} -
+                  {{ schedule.datesRange[1] | format("DD MMMM") }}
+                </div>
+              </div>
+              <div
+                v-for="(quotas, recipeName) in daysQuotas"
+                :key="recipeName + n"
+              >
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="10"
+                    offset-sm="1"
+                    class="py-1"
+                  >
+                    <schedule-button
+                      :disabled="!schedule.selected[recipeName][index] || daysQuotas[recipeName][index] === null"
+                      :status="schedule.completed[recipeName][index]"
+                      :value="quotas[index]"
+                      :sum="totalSum[recipeName]['sum']"
+                      :amount="totalSum[recipeName]['amount']"
+                      :recipe-name="recipeName"
+                      @click="clickDay(index, recipeName)"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+            </v-stepper-content>
           </template>
-        </v-stepper-header>
+        </v-stepper-items>
       </v-stepper>
     </v-card-text>
     <v-card-actions>
@@ -145,7 +131,7 @@
       </v-btn>
       <v-btn
         text
-        :disabled="activeIndex === schedule.daysTotal"
+        :disabled="activeIndex === slidesTotal"
         @click="nextStep"
         class="ml-0 ml-sm-3"
       >
@@ -164,10 +150,19 @@
 </template>
 
 <script>
+import {
+  FERTILIZATION_IN_TAP_WATER,
+  FERTILIZATION_EVERY_DAY,
+  FERTILIZATION_MIX,
+} from '@/components/FertilizersDoseTable.vue';
+import ScheduleButton from '@/components/ScheduleButton.vue';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Schedule',
+  components: {
+    ScheduleButton,
+  },
   props: {
     scheduleIndex: {
       type: [String, Number],
@@ -177,6 +172,9 @@ export default {
   data() {
     return {
       activeIndex: 1,
+      FERTILIZATION_IN_TAP_WATER,
+      FERTILIZATION_EVERY_DAY,
+      FERTILIZATION_MIX,
     };
   },
   created() {
@@ -189,9 +187,36 @@ export default {
     schedule() {
       return this.schedules[this.scheduleIndex];
     },
+    fertilizationType() {
+      return this.schedule.fertilizationType || FERTILIZATION_EVERY_DAY;
+    },
+    slidesTotal() {
+      let total = this.schedule.daysTotal;
+      if (this.fertilizationType === FERTILIZATION_MIX) {
+        total += 1;
+      }
+      return total;
+    },
+    slidesNumbers() {
+      let numbers;
+      const total = this.schedule.daysTotal;
+      if (this.fertilizationType === FERTILIZATION_MIX) {
+        numbers = Object.keys([...Array(total + 2)]).slice(2);
+      } else {
+        numbers = Object.keys([...Array(total + 1)]).slice(1);
+      }
+      return numbers;
+    },
+    waterChangeQuotas() {
+      const quotas = {};
+      this.schedule.recipesSelected.forEach((recipe) => {
+        quotas[recipe.name] = recipe.amount || 0;
+      });
+      return quotas;
+    },
     daysQuotas() {
-      if (Object.keys(this.schedule.completed).length === 0) {
-        return null;
+      if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+        return {};
       }
       const quotas = {};
       this.schedule.recipesSelected.forEach((recipe) => {
@@ -200,26 +225,30 @@ export default {
         const completeList = this.schedule.completed[recipe.name];
         const excludedTotal = selectedList.filter((x) => x === false).length;
         let daysLeft = this.schedule.daysTotal - excludedTotal;
-        let amount = parseFloat(recipe.amount);
+        let amount = recipe.amountDay * this.schedule.daysTotal;
         let currentDay = amount / (this.schedule.daysTotal - excludedTotal);
         Object.keys([...Array(this.schedule.daysTotal)]).forEach((index) => {
-          switch (true) {
-            case completeList[index] === 1:
-              currentDay = amount / daysLeft;
-              amount -= currentDay;
-              daysLeft -= 1;
-              break;
-            case !selectedList[index]:
-              currentDay = 0;
-              break;
-            case completeList[index] === 2:
-              currentDay = 0;
-              daysLeft -= 1;
-              break;
-            default:
-              currentDay = amount / daysLeft;
+          if (!amount) {
+            result.push(null);
+          } else {
+            switch (true) {
+              case completeList[index] === 1:
+                currentDay = amount / daysLeft;
+                amount -= currentDay;
+                daysLeft -= 1;
+                break;
+              case !selectedList[index]:
+                currentDay = 0;
+                break;
+              case completeList[index] === 2:
+                currentDay = 0;
+                daysLeft -= 1;
+                break;
+              default:
+                currentDay = amount / daysLeft;
+            }
+            result.push(currentDay);
           }
-          result.push(currentDay);
         });
         quotas[recipe.name] = result;
       });
@@ -229,15 +258,33 @@ export default {
       const result = {};
       this.schedule.recipesSelected.forEach((recipe) => {
         let sum = 0;
-        Object.keys(this.daysQuotas[recipe.name]).forEach((index) => {
-          if (this.schedule.completed[recipe.name][index]) {
-            sum += this.daysQuotas[recipe.name][index];
+        let amount;
+        if (this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
+          Object.keys(this.daysQuotas[recipe.name]).forEach((index) => {
+            if (this.schedule.completed[recipe.name][index]) {
+              const quota = this.daysQuotas[recipe.name][index];
+              if (quota !== null) {
+                sum += quota;
+              }
+            }
+          });
+        }
+        if (this.fertilizationType !== FERTILIZATION_EVERY_DAY) {
+          if (this.schedule.completedWaterChange[recipe.name]) {
+            sum += this.waterChangeQuotas[recipe.name];
           }
-        });
-        result[recipe.name] = {
-          sum,
-          amount: recipe.amount,
-        };
+        }
+        switch (true) {
+          case this.fertilizationType === FERTILIZATION_MIX:
+            amount = recipe.amount + recipe.amountDay * this.schedule.daysTotal;
+            break;
+          case this.fertilizationType === FERTILIZATION_IN_TAP_WATER:
+            amount = recipe.amount;
+            break;
+          default:
+            amount = recipe.amountDay * this.schedule.daysTotal;
+        }
+        result[recipe.name] = { sum, amount };
       });
       return result;
     },
@@ -273,11 +320,18 @@ export default {
   methods: {
     ...mapMutations([
       'SCHEDULE_COMPLETE',
+      'SCHEDULE_COMPLETE_WATER_CHANGE',
     ]),
-    clickDay(recipeName, index) {
+    clickDay(dayIndex, recipeName) {
       this.SCHEDULE_COMPLETE({
-        indexSchedule: this.scheduleIndex,
-        indexDay: index,
+        scheduleIndex: this.scheduleIndex,
+        dayIndex,
+        recipeName,
+      });
+    },
+    clickWaterChangeDay(recipeName) {
+      this.SCHEDULE_COMPLETE_WATER_CHANGE({
+        scheduleIndex: this.scheduleIndex,
         recipeName,
       });
     },
@@ -287,7 +341,7 @@ export default {
       }
     },
     nextStep() {
-      if (this.activeIndex < this.schedule.daysTotal) {
+      if (this.activeIndex < this.slidesTotal) {
         this.activeIndex += 1;
       }
     },
@@ -311,6 +365,9 @@ export default {
   box-shadow: none!important
 .v-stepper__step__step .v-icon
   font-size: 1rem!important
+.v-stepper__step
+  padding-left: 12px
+  padding-right: 12px
 .v-btn__content
   width: 100%
 </style>
