@@ -106,9 +106,15 @@
             hide-details="auto"
           />
           <fertilizers-dose-table
+            v-if="recipesSelected.length > 0"
+            :fertilization-type="fertilizationType"
             :recipes-selected="recipesSelected"
             :days="waterChangePeriod"
+            :water-change="waterChangeVolume"
+            :is-water-change="false"
             @input="inputDose"
+            @change="fertilizationType = $event"
+            class="mt-4"
           />
         </v-col>
       </v-expand-transition>
@@ -120,9 +126,11 @@
           offset-sm="2"
         >
           <elements-table
+            :fertilization-type="fertilizationType"
             :recipes-selected="recipesSelected"
             :days-total="waterChangePeriod"
             :volume="tankVolume"
+            :water-change="waterChangeVolume"
           />
         </v-col>
       </v-expand-transition>
@@ -182,8 +190,8 @@
                 >
                   <v-text-field
                     :value="
-                      totalElements[convertIonName(ion)] !== undefined
-                        ? (convertIonRatio(convertIonName(ion)) * totalElements[convertIonName(ion)]).toFixed(3)
+                      totalElements[convertIonName(ion)].amountDay !== undefined
+                        ? (convertIonRatio(convertIonName(ion)) * totalElements[convertIonName(ion)].amountDay).toFixed(3)
                         : 0
                     "
                     label="Поступает из удобрений"
@@ -250,7 +258,11 @@ import FORMULAS from '@/constants/formulas';
 import { mapState } from 'vuex';
 import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
 import ElementsTable from '@/components/ElementsTable.vue';
-import FertilizersDoseTable from '@/components/FertilizersDoseTable.vue';
+import FertilizersDoseTable, {
+  FERTILIZATION_EVERY_DAY,
+  FERTILIZATION_IN_TAP_WATER,
+  FERTILIZATION_MIX,
+} from '@/components/FertilizersDoseTable.vue';
 import LineChart from '../components/Chart.vue';
 
 export default {
@@ -264,6 +276,10 @@ export default {
     return {
       FORMULAS,
       ELEMENTS,
+      FERTILIZATION_EVERY_DAY,
+      FERTILIZATION_IN_TAP_WATER,
+      FERTILIZATION_MIX,
+      fertilizationType: FERTILIZATION_EVERY_DAY,
       tank: null,
       tankVolume: null,
       waterChange: 30,
@@ -296,15 +312,38 @@ export default {
     totalElements() {
       const result = {};
       this.recipesSelected.forEach((recipe) => {
-        Object.keys(recipe.concentration).forEach((reagent) => {
-          Object.keys(recipe.concentration[reagent]).forEach((ion) => {
+        Object.values(recipe.concentration).forEach((value) => {
+          Object.keys(value).forEach((ion) => {
             if (!(ion in result)) {
-              result[ion] = 0;
+              result[ion] = {
+                amount: 0,
+                amountDay: 0,
+              };
             }
-            if (recipe.amountDay) {
-              result[ion] += (recipe.concentration[reagent][ion] / this.tankVolume) * recipe.amountDay;
-              if ((!recipe.volume) && isRecipe(recipe)) {
-                result[ion] *= 1000;
+            if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
+              const amountDay = (recipe.amountDay * value[ion]) / this.tankVolume;
+              result[ion].amount += amountDay * this.waterChangePeriod;
+              result[ion].amountDay += amountDay;
+              if ((!recipe.volume) && this.isRecipe(recipe)) {
+                result[ion].amount *= 1000;
+                result[ion].amountDay *= 1000;
+              }
+            } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+              const amount = (recipe.amount * value[ion]) / this.tankVolume;
+              result[ion].amount += amount;
+              result[ion].amountDay += amount / this.waterChangePeriod;
+              if ((!recipe.volume) && this.isRecipe(recipe)) {
+                result[ion].amount *= 1000;
+                result[ion].amountDay *= 1000;
+              }
+            } else if (this.fertilizationType === FERTILIZATION_MIX) {
+              const amount = (recipe.amount * value[ion]) / this.tankVolume;
+              const amountDay = (recipe.amountDay * value[ion]) / this.tankVolume;
+              result[ion].amount += amount;
+              result[ion].amountDay += amountDay;
+              if ((!recipe.volume) && this.isRecipe(recipe)) {
+                result[ion].amount *= 1000;
+                result[ion].amountDay *= 1000;
               }
             }
           });
@@ -349,6 +388,9 @@ export default {
     },
   },
   methods: {
+    isRecipe,
+    convertIonName,
+    convertIonRatio,
     inputDose(index, value) {
       Vue.set(this.recipesSelected, index, value);
     },
@@ -361,26 +403,42 @@ export default {
     inputIonsReduction(ion, value) {
       Vue.set(this.ionsReduction, ion, parseFloat(value));
     },
-    convertIonName(ion) {
-      return convertIonName(ion);
-    },
-    convertIonRatio(ion) {
-      return convertIonRatio(ion);
-    },
     countDynamics(ion) {
-      const amount = this.convertIonRatio(ion) * this.totalElements[ion];
       let sum = this.ionsInit[this.convertIonName(ion)] || 0;
       let dynamics = [];
-      if (amount) {
+      if (this.totalElements[ion].amount || this.totalElements[ion].amountDay) {
         Object.keys([...Array(this.duration)]).forEach((day) => {
           if (day > 0 && day % this.waterChangePeriod === 0) {
             const ionWaterConcentration = this.ionsWaterConcentration[this.convertIonName(ion)] || 0;
             sum = sum - sum * (this.waterChange / 100) + ionWaterConcentration * (this.waterChange / 100);
           }
-          sum += amount;
-          sum -= this.ionsReduction[this.convertIonName(ion)] || 0;
-          if (sum < 0) {
-            sum = 0;
+          if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
+            const amountDay = this.convertIonRatio(ion) * this.totalElements[ion].amountDay;
+            sum += amountDay;
+            sum -= this.ionsReduction[this.convertIonName(ion)] || 0;
+            if (sum < 0) {
+              sum = 0;
+            }
+          } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+            const amount = this.convertIonRatio(ion) * this.totalElements[ion].amount;
+            if (day % this.waterChangePeriod === 0) {
+              sum += amount;
+            }
+            sum -= this.ionsReduction[this.convertIonName(ion)] || 0;
+            if (sum < 0) {
+              sum = 0;
+            }
+          } else if (this.fertilizationType === FERTILIZATION_MIX) {
+            const amount = this.convertIonRatio(ion) * this.totalElements[ion].amount;
+            const amountDay = this.convertIonRatio(ion) * this.totalElements[ion].amountDay;
+            if (day % this.waterChangePeriod === 0) {
+              sum += amount;
+            }
+            sum += amountDay;
+            sum -= this.ionsReduction[this.convertIonName(ion)] || 0;
+            if (sum < 0) {
+              sum = 0;
+            }
           }
           dynamics.push(sum);
         });

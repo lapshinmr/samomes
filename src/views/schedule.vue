@@ -126,7 +126,6 @@
                   :days-total="daysTotal"
                   :volume="tank.volume"
                   :water-change="tank.waterChange"
-                  @water-change="tank.waterChange = $event"
                 />
               </v-col>
             </v-expand-transition>
