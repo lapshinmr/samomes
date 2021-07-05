@@ -29,12 +29,12 @@
         hide-details="auto"
         class="mt-0 mb-2 mb-sm-0"
       />
-      <v-switch
-        v-model="isWithoutConversion"
-        label="N & P"
-        hide-details="auto"
-        class="mt-0 mb-2 mb-sm-0 ml-4"
-      />
+<!--      <v-switch-->
+<!--        v-model="isWithoutConversion"-->
+<!--        label="N & P"-->
+<!--        hide-details="auto"-->
+<!--        class="mt-0 mb-2 mb-sm-0 ml-4"-->
+<!--      />-->
     </div>
     <v-simple-table dense>
       <template v-slot:default>
@@ -139,9 +139,9 @@
                 </td>
                 <td class="text-center text-no-wrap">
                   {{ value.total.toFixed(3) }}
-                  <template v-if="convertIonName(name) !== name && isWithoutConversion">
-                    / {{ (value.total * convertIonRatio(name)).toFixed(3) }}
-                  </template>
+<!--                  <template v-if="convertIonName(name) !== name && isWithoutConversion">-->
+<!--                    / {{ (value.total * convertIonRatio(name)).toFixed(3) }}-->
+<!--                  </template>-->
                 </td>
               </template>
             </template>

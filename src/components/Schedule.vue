@@ -323,7 +323,6 @@ export default {
       'SCHEDULE_COMPLETE_WATER_CHANGE',
     ]),
     clickDay(dayIndex, recipeName) {
-      console.log(dayIndex, recipeName);
       this.SCHEDULE_COMPLETE({
         scheduleIndex: this.scheduleIndex,
         dayIndex,

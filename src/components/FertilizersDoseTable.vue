@@ -20,6 +20,7 @@
 <template>
   <div>
     <v-radio-group
+      v-if="isFertilizationTypes"
       :value="fertilizationType"
       @change="$emit('change', $event)"
       row
@@ -40,8 +41,8 @@
       />
     </v-radio-group>
     <v-text-field
-      v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType)"
-      :value="waterChange"
+      v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType) && isWaterChange"
+      :value="waterChangeVolume"
       @input="$emit('water-change', +$event)"
       type="Number"
       label="Введите объем подмены"
@@ -50,7 +51,7 @@
     />
     <div class="d-flex mt-4">
       <div
-        v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType)"
+        v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType) && isFertilizationTypes"
         class="text-subtitle-1 font-weight-medium w-50 pr-2"
         :class="{ 'w-100': fertilizationType === FERTILIZATION_IN_TAP_WATER}"
       >
@@ -122,9 +123,17 @@ export default {
       type: Number,
       default: 1,
     },
-    waterChange: {
+    waterChangeVolume: {
       type: Number,
       default: 0,
+    },
+    isFertilizationTypes: {
+      type: Boolean,
+      default: true,
+    },
+    isWaterChange: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
