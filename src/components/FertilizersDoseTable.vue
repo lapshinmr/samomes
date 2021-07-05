@@ -28,11 +28,11 @@
     >
       <v-radio
         label="Каждый день"
-        :value="1"
+        :value="0"
       />
       <v-radio
         label="В подменную воду"
-        :value="0"
+        :value="1"
       />
       <v-radio
         label="Комбинированная подача"
@@ -40,7 +40,7 @@
       />
     </v-radio-group>
     <v-text-field
-      v-if="FERTILIZATION_MIX === fertilizationType"
+      v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType)"
       :value="waterChange"
       @input="$emit('water-change', +$event)"
       type="Number"
@@ -103,8 +103,8 @@
 <script>
 import { isFertilizer } from '@/helpers/funcs';
 
-export const FERTILIZATION_IN_TAP_WATER = 0;
-export const FERTILIZATION_EVERY_DAY = 1;
+export const FERTILIZATION_EVERY_DAY = 0;
+export const FERTILIZATION_IN_TAP_WATER = 1;
 export const FERTILIZATION_MIX = 2;
 
 export default {
@@ -139,14 +139,14 @@ export default {
     inputRecipeAmount(value, index) {
       const recipe = this.recipesSelected[index];
       const amount = value !== '' ? +value : '';
-      if (this.fertilizationType === this.FERTILIZATION_IN_TAP_WATER) {
+      if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
         const amountDay = amount / this.days;
         this.$emit('input', index, {
           ...recipe,
           amount,
           amountDay,
         });
-      } else if (this.fertilizationType === this.FERTILIZATION_MIX) {
+      } else if (this.fertilizationType === FERTILIZATION_MIX) {
         this.$emit('input', index, {
           ...recipe,
           amount,
@@ -156,14 +156,14 @@ export default {
     inputRecipeAmountDay(value, index) {
       const recipe = this.recipesSelected[index];
       const amountDay = value !== '' ? +value : '';
-      if (this.fertilizationType === this.FERTILIZATION_EVERY_DAY) {
+      if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
         const amount = amountDay * this.days;
         this.$emit('input', index, {
           ...recipe,
           amount,
           amountDay,
         });
-      } else if (this.fertilizationType === this.FERTILIZATION_MIX) {
+      } else if (this.fertilizationType === FERTILIZATION_MIX) {
         this.$emit('input', index, {
           ...recipe,
           amountDay,

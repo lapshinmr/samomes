@@ -49,28 +49,36 @@
             >
               dGh
             </th>
-            <th class="text-center">
-              <template
-                v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_EVERY_DAY].includes(fertilizationType)"
-              >
+            <template v-if="fertilizationType === FERTILIZATION_EVERY_DAY">
+              <th class="text-center">
                 Общая доза, <span>мг/л</span>
-              </template>
-              <template v-else>
+              </th>
+              <th class="text-center">
+                В день
+              </th>
+            </template>
+            <template v-if="fertilizationType === FERTILIZATION_IN_TAP_WATER">
+              <th class="text-center">
+                В подмене, <span>мг/л</span>
+              </th>
+              <th class="text-center">
+                В аквариуме, <span>мг/л</span>
+              </th>
+              <th class="text-center">
+                В день, <span>мг/л</span>
+              </th>
+            </template>
+            <template v-if="fertilizationType === FERTILIZATION_MIX">
+              <th class="text-center">
                 В подмене/аквариуме, <span>мг/л</span>
-              </template>
-            </th>
-            <th class="text-center">
-              В день
-              <template v-if="fertilizationType === FERTILIZATION_MIX">
-                /неделю
-              </template>, <span>мг/л</span>
-            </th>
-            <th
-              v-if="fertilizationType === FERTILIZATION_MIX"
-              class="text-center"
-            >
-              Общая доза, <span>мг/л</span>
-            </th>
+              </th>
+              <th class="text-center">
+                В день/неделю
+              </th>
+              <th class="text-center">
+                Общая доза, <span>мг/л</span>
+              </th>
+            </template>
           </tr>
         </thead>
         <tbody>
@@ -102,27 +110,40 @@
                   </template>
                 </template>
               </td>
-              <td class="text-center text-no-wrap">
-                <template v-if="fertilizationType === FERTILIZATION_MIX">
+              <template v-if="fertilizationType === FERTILIZATION_EVERY_DAY">
+                <td class="text-center text-no-wrap">
+                  {{ value.amount.toFixed(3) }}
+                </td>
+                <td class="text-center text-no-wrap">
+                  {{ value.amountDay.toFixed(3) }}
+                </td>
+              </template>
+              <template v-if="fertilizationType === FERTILIZATION_IN_TAP_WATER">
+                <td class="text-center text-no-wrap">
+                  {{ (value.waterChange ? value.waterChange : 0).toFixed(3) }}
+                </td>
+                <td class="text-center text-no-wrap">
+                  {{ value.amount.toFixed(3) }}
+                </td>
+                <td class="text-center text-no-wrap">
+                  {{ value.amountDay.toFixed(3) }}
+                </td>
+              </template>
+              <template v-if="fertilizationType === FERTILIZATION_MIX">
+                <td class="text-center text-no-wrap">
                   {{ (value.waterChange ? value.waterChange : 0).toFixed(3) }} /
-                </template>
-                {{ value.amount.toFixed(3) }}
-              </td>
-              <td class="text-center text-no-wrap">
-                {{ value.amountDay.toFixed(3) }}
-                <template v-if="fertilizationType === FERTILIZATION_MIX">
-                  / {{ (value.amountDay * daysTotal).toFixed(3) }}
-                </template>
-              </td>
-              <td
-                v-if="fertilizationType === FERTILIZATION_MIX"
-                class="text-center text-no-wrap"
-              >
-                {{ value.total.toFixed(3) }}
-                <template v-if="convertIonName(name) !== name && isWithoutConversion">
-                  / {{ (value.total * convertIonRatio(name)).toFixed(3) }}
-                </template>
-              </td>
+                  {{ value.amount.toFixed(3) }}
+                </td>
+                <td class="text-center text-no-wrap">
+                  {{ value.amountDay.toFixed(3) }} / {{ (value.amountDay * daysTotal).toFixed(3) }}
+                </td>
+                <td class="text-center text-no-wrap">
+                  {{ value.total.toFixed(3) }}
+                  <template v-if="convertIonName(name) !== name && isWithoutConversion">
+                    / {{ (value.total * convertIonRatio(name)).toFixed(3) }}
+                  </template>
+                </td>
+              </template>
             </template>
           </tr>
         </tbody>
@@ -232,13 +253,24 @@ export default {
                 total: 0,
               };
             }
-            if ([FERTILIZATION_IN_TAP_WATER, FERTILIZATION_EVERY_DAY].includes(this.fertilizationType)) {
+            if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
               const amount = (recipe.amount * value[ion]) / this.volume;
               result[ion].amount += amount;
               result[ion].amountDay += amount / this.daysTotal;
               if ((!recipe.volume) && this.isRecipe(recipe)) {
                 result[ion].amount *= 1000;
                 result[ion].amountDay *= 1000;
+              }
+            } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+              const amount = (recipe.amount * value[ion]) / this.volume;
+              const waterChange = this.waterChange ? (recipe.amount * value[ion]) / this.waterChange : 0;
+              result[ion].amount += amount;
+              result[ion].amountDay += amount / this.daysTotal;
+              result[ion].waterChange += waterChange;
+              if ((!recipe.volume) && this.isRecipe(recipe)) {
+                result[ion].amount *= 1000;
+                result[ion].amountDay *= 1000;
+                result[ion].waterChange *= 1000;
               }
             } else if (this.fertilizationType === FERTILIZATION_MIX) {
               const amount = (recipe.amount * value[ion]) / this.volume;

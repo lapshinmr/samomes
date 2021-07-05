@@ -30,7 +30,7 @@
             v-if="value !== ''"
             class="text-h6 text-sm-h5"
           >
-            {{ value ? value.toFixed(1) : '' }}
+            {{ +value ? value.toFixed(1) : '' }}
           </div>
           <div
             v-else

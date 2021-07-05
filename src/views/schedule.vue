@@ -102,7 +102,7 @@
                   растения за заданный период времени.
                 </v-tooltip>
               </div>
-              <elements-dose-table
+              <fertilizer-dose-table
                 :fertilization-type="fertilizationType"
                 :recipes-selected="recipesSelected"
                 :days="daysTotal"
@@ -229,9 +229,10 @@
 <script>
 import Vue from 'vue';
 import moment from 'moment';
-import ElementsDoseTable, {
-  FERTILIZATION_IN_TAP_WATER,
+import FertilizerDoseTable, {
   FERTILIZATION_EVERY_DAY,
+  FERTILIZATION_IN_TAP_WATER,
+  FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
 import ElementsTable from '@/components/ElementsTable.vue';
 import FertilizersDozeTable from '@/components/schedules/ScheduleDozeTable.vue';
@@ -241,7 +242,7 @@ import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
 export default {
   name: 'Schedules',
   components: {
-    ElementsDoseTable,
+    FertilizerDoseTable,
     ElementsTable,
     FertilizersDozeTable,
   },
@@ -333,6 +334,7 @@ export default {
       if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
         this.recipesSelected.forEach((recipe) => {
           Vue.delete(this.selected, recipe.name);
+          Vue.delete(this.completed, recipe.name);
         });
       } else {
         this.recipesSelected.forEach((recipe) => {
@@ -343,22 +345,32 @@ export default {
     datesRange(newValue, oldValue) {
       if (oldValue.length === 0) { return; }
       this.recipesSelected.forEach((recipe) => {
-        if (this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
+        if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
           Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
+          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+        } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+          Vue.set(this.completedWaterChange, recipe.name, 0);
+        } else if (this.fertilizationType === FERTILIZATION_MIX) {
+          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
+          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+          Vue.set(this.completedWaterChange, recipe.name, 0);
         }
-        Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
-        Vue.set(this.completedWaterChange, recipe.name, 0);
       });
     },
     recipesSelected() {
       this.recipesSelected.forEach((recipe) => {
-        if (!(recipe.name in this.selected)) {
+        if (!(recipe.name in this.selected) && this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
           recipe.amount = '';
           recipe.amountDay = '';
-          if (this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
-            Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
-          }
+          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
           Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+          Vue.set(this.completedWaterChange, recipe.name, 0);
+        } else if (
+          !(recipe.name in this.completedWaterChange)
+          && this.fertilizationType === FERTILIZATION_IN_TAP_WATER
+        ) {
+          recipe.amount = '';
+          recipe.amountDay = '';
           Vue.set(this.completedWaterChange, recipe.name, 0);
         }
       });
