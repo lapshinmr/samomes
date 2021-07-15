@@ -29,6 +29,13 @@
         hide-details="auto"
         class="mt-0 mb-2 mb-sm-0"
       />
+      <v-switch
+        v-if="tank.length && tank.width"
+        v-model="isSpecificArea"
+        label="dm/dS"
+        hide-details="auto"
+        class="mt-0 mb-2 mb-sm-0 ml-3"
+      />
       <!--      <v-switch-->
       <!--        v-model="isWithoutConversion"-->
       <!--        label="N & P"-->
@@ -79,6 +86,12 @@
                 Общая доза, <span>мг/л</span>
               </th>
             </template>
+            <th
+              v-if="isSpecificArea && tank.length && tank.width"
+              class="text-center"
+            >
+              dm/dS, мг/дм2
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -144,6 +157,19 @@
                   <!--                  </template>-->
                 </td>
               </template>
+              <td
+                v-if="isSpecificArea && tank.length && tank.width"
+                class="text-center"
+              >
+                {{ (
+                  value.total * tank.volume / Math.round(
+                    (tank.length - (2 * tank.glassThickness) / 10)
+                      * (tank.width - (2 * tank.glassThickness) / 10)
+                      * 100,
+                  ) * 100 * 100
+                ).toFixed(3)
+                }}
+              </td>
             </template>
           </tr>
         </tbody>
@@ -161,7 +187,7 @@
         {{ (
           totalElements.N.total * convertIonRatio('N') / (totalElements.P.total * convertIonRatio('P'))
         ).toFixed(2) }}
-<!--        (N / P = {{ (totalElements.N.total / totalElements.P.total).toFixed(2) }})-->
+        <!--        (N / P = {{ (totalElements.N.total / totalElements.P.total).toFixed(2) }})-->
       </div>
       <div
         v-if="totalElements.P.total > 0 && totalElements.B.total > 0"
@@ -213,6 +239,10 @@ export default {
       type: Number,
       default: 0,
     },
+    tank: {
+      type: Object,
+      default: null,
+    },
     isHelpfulInfo: {
       type: Boolean,
       default: false,
@@ -230,15 +260,36 @@ export default {
       FERTILIZATION_MIX,
       isWithoutConversion: false,
       isHardness: false,
+      isSpecificArea: false,
     };
   },
   computed: {
     isHelpful() {
-      return (
-        (this.totalElements.P.total > 0 && this.totalElements.N.total > 0)
-        || (this.totalElements.P.total > 0 && this.totalElements.B.total > 0)
-        || (this.totalElements.Fe.total > 0 && this.totalElements.B.total > 0)
-      );
+      if (
+        this.totalElements.P
+        && this.totalElements.P.total > 0
+        && this.totalElements.N
+        && this.totalElements.N.total > 0
+      ) {
+        return true;
+      }
+      if (
+        this.totalElements.P
+        && this.totalElements.P.total > 0
+        && this.totalElements.B
+        && this.totalElements.B.total > 0
+      ) {
+        return true;
+      }
+      if (
+        this.totalElements.Fe
+        && this.totalElements.Fe.total > 0
+        && this.totalElements.B
+        && this.totalElements.B.total > 0
+      ) {
+        return true;
+      }
+      return false;
     },
     totalElements() {
       const result = {};

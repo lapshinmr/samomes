@@ -126,6 +126,7 @@
                   :days-total="daysTotal"
                   :volume="tank.volume"
                   :water-change-volume="tank.waterChangeVolume"
+                  :tank="tank"
                 />
               </v-col>
             </v-expand-transition>
@@ -387,11 +388,7 @@ export default {
     isRecipe,
     chooseTank(value) {
       if (typeof value === 'object') {
-        this.tank = {
-          name: value.name,
-          volume: +value.volume,
-          waterChangeVolume: +value.waterChangeVolume,
-        };
+        this.tank = { ...value };
       } else {
         this.tank.name = value;
         this.tank.volume = +value;
