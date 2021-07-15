@@ -112,9 +112,6 @@
                     v-if="tank.length"
                     class="body-2"
                   >
-                    <div class="body-1 mb-2">
-                      Линейные размеры
-                    </div>
                     <div class="d-flex justify-space-between">
                       <div>{{ $t('tanks.dialog.length') }}</div>
                       <div>{{ tank.length }} {{ $t('units.cm') }}</div>
@@ -131,9 +128,6 @@
                       <div>{{ $t('tanks.dialog.glassThickness') }}</div>
                       <div>{{ tank.glassThickness }} {{ $t('units.mm') }}</div>
                     </div>
-                    <div class="body-1 my-2">
-                      Дополнительные объемы
-                    </div>
                     <div
                       v-if="tank.filter"
                       class="d-flex justify-space-between"
@@ -147,6 +141,13 @@
                     >
                       <div>{{ $t('tanks.dialog.soil') }}</div>
                       <div>{{ tank.soil }} {{ $t('units.l') }}</div>
+                    </div>
+                    <div
+                      v-if="tank.waterChangeVolume"
+                      class="d-flex justify-space-between"
+                    >
+                      <div>{{ $t('tanks.dialog.waterChange') }}</div>
+                      <div>{{ tank.waterChangeVolume }} {{ $t('units.l') }}</div>
                     </div>
                   </div>
                   <div

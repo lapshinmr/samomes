@@ -59,7 +59,7 @@
           Весь объем удобрений
         </template>
         <template v-else>
-          Доза после подмены
+          Подмена
         </template>
         <v-divider />
       </div>
@@ -68,7 +68,17 @@
         class="text-subtitle-1 w-50 font-weight-medium pr-2"
         :class="{ 'w-100': fertilizationType === FERTILIZATION_EVERY_DAY}"
       >
-        Ежедневная доза
+        <div class="d-flex justify-space-between align-center">
+          <div>
+            Ежедневно
+          </div>
+          <v-switch
+            v-model="isTotal"
+            label="Всего"
+            hide-details="auto"
+            class="mt-0 mb-2 mb-sm-0"
+          />
+        </div>
         <v-divider />
       </div>
     </div>
@@ -85,18 +95,36 @@
         :label="recipe.name"
         :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
         hide-details="auto"
-        class="w-50 pr-2"
+        class="pr-2"
+        :class="{'w-50': fertilizationType === FERTILIZATION_MIX}"
       />
-      <base-text-field
+      <div
         v-if="[FERTILIZATION_EVERY_DAY, FERTILIZATION_MIX].includes(fertilizationType)"
-        :value="recipe.amountDay"
-        @input="inputRecipeAmountDay($event, index)"
-        type="number"
-        :label="recipe.name"
-        :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл/день' : 'г/день'"
-        hide-details="auto"
-        class="w-50 pr-2"
-      />
+        class="d-flex"
+        :class="{
+          'w-100': fertilizationType === FERTILIZATION_EVERY_DAY,
+          'w-50': FERTILIZATION_MIX || isTotal
+        }"
+      >
+        <base-text-field
+          :value="recipe.amountDay"
+          @input="inputRecipeAmountDay($event, index)"
+          type="number"
+          :label="fertilizationType === FERTILIZATION_EVERY_DAY || !isTotal ? recipe.name : ''"
+          :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл/день' : 'г/день'"
+          hide-details="auto"
+          class="pr-2"
+        />
+        <base-text-field
+          v-if="isTotal"
+          :value="amountDayTotal[index]"
+          @input="inputRecipeAmountDayTotal($event, index)"
+          type="number"
+          :suffix=" recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
+          hide-details="auto"
+          class="pr-2"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -141,6 +169,8 @@ export default {
       FERTILIZATION_IN_TAP_WATER,
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,
+      isTotal: false,
+      amountDayTotal: [],
     };
   },
   methods: {
@@ -167,6 +197,24 @@ export default {
       const amountDay = value !== '' ? +value : '';
       if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
         const amount = amountDay * this.days;
+        this.$emit('input', index, {
+          ...recipe,
+          amount,
+          amountDay,
+        });
+      } else if (this.fertilizationType === FERTILIZATION_MIX) {
+        this.$emit('input', index, {
+          ...recipe,
+          amountDay,
+        });
+      }
+    },
+    inputRecipeAmountDayTotal(value, index) {
+      const recipe = this.recipesSelected[index];
+      const amountDayTotal = value !== '' ? +value : '';
+      const amountDay = amountDayTotal / this.days;
+      if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
+        const amount = amountDayTotal;
         this.$emit('input', index, {
           ...recipe,
           amount,

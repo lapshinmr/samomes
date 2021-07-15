@@ -35,16 +35,18 @@
       </v-col>
       <page-title>
         <template v-if="isCreate && !isShared">
-          Новый рецепт
-        </template>
-        <template v-if="isCreate && isShared">
-          <p class="text-h4">
-            С вами поделились рецептом!
-          </p>
-          <p class="text-h6 font-weight-regular">
-            Посмотрите рецепт, дайте ему
-            название и напишите примечание. После этого можете сохранить его.
-          </p>
+          <template v-if="!isShared">
+            Новый рецепт
+          </template>
+          <template v-if="isShared">
+            <p class="text-h4">
+              С вами поделились рецептом!
+            </p>
+            <p class="text-h6 font-weight-regular">
+              Посмотрите рецепт, дайте ему
+              название и напишите примечание. После этого можете сохранить его.
+            </p>
+          </template>
         </template>
         <template v-else>
           Рецепт {{ name }}
