@@ -150,6 +150,13 @@
                 :hint="$t('tanks.dialog.soilHint')"
                 hide-details="auto"
               />
+              <v-text-field
+                v-model.number="tank.waterChangeVolume"
+                type="Number"
+                :label="$t('tanks.dialog.waterChange')"
+                :suffix="$t('units.l')"
+                hide-details="auto"
+              />
             </v-col>
             <v-expand-transition>
               <v-col
@@ -196,12 +203,13 @@ export default {
       tank: {
         name: null,
         volume: null,
+        waterChangeVolume: null,
         length: null,
         height: null,
         width: null,
         glassThickness: null,
-        filter: 0,
-        soil: 0,
+        filter: null,
+        soil: null,
       },
       nameRules: [
         (v) => !!v || this.$t('tanks.dialog.nameRules.require'),

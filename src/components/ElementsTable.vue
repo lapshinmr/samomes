@@ -29,12 +29,19 @@
         hide-details="auto"
         class="mt-0 mb-2 mb-sm-0"
       />
-<!--      <v-switch-->
-<!--        v-model="isWithoutConversion"-->
-<!--        label="N & P"-->
-<!--        hide-details="auto"-->
-<!--        class="mt-0 mb-2 mb-sm-0 ml-4"-->
-<!--      />-->
+      <v-switch
+        v-if="tank.length && tank.width"
+        v-model="isSpecificArea"
+        label="dm/dS"
+        hide-details="auto"
+        class="mt-0 mb-2 mb-sm-0 ml-3"
+      />
+      <!--      <v-switch-->
+      <!--        v-model="isWithoutConversion"-->
+      <!--        label="N & P"-->
+      <!--        hide-details="auto"-->
+      <!--        class="mt-0 mb-2 mb-sm-0 ml-4"-->
+      <!--      />-->
     </div>
     <v-simple-table dense>
       <template v-slot:default>
@@ -79,6 +86,12 @@
                 Общая доза, <span>мг/л</span>
               </th>
             </template>
+            <th
+              v-if="isSpecificArea && tank.length && tank.width"
+              class="text-center"
+            >
+              dm/dS, мг/дм2
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -120,7 +133,7 @@
               </template>
               <template v-if="fertilizationType === FERTILIZATION_IN_TAP_WATER">
                 <td class="text-center text-no-wrap">
-                  {{ (value.waterChange ? value.waterChange : 0).toFixed(3) }}
+                  {{ (value.waterChangeVolume ? value.waterChangeVolume : 0).toFixed(3) }}
                 </td>
                 <td class="text-center text-no-wrap">
                   {{ value.amount.toFixed(3) }}
@@ -131,7 +144,7 @@
               </template>
               <template v-if="fertilizationType === FERTILIZATION_MIX">
                 <td class="text-center text-no-wrap">
-                  {{ (value.waterChange ? value.waterChange : 0).toFixed(3) }} /
+                  {{ (value.waterChangeVolume ? value.waterChangeVolume : 0).toFixed(3) }} /
                   {{ value.amount.toFixed(3) }}
                 </td>
                 <td class="text-center text-no-wrap">
@@ -139,11 +152,24 @@
                 </td>
                 <td class="text-center text-no-wrap">
                   {{ value.total.toFixed(3) }}
-<!--                  <template v-if="convertIonName(name) !== name && isWithoutConversion">-->
-<!--                    / {{ (value.total * convertIonRatio(name)).toFixed(3) }}-->
-<!--                  </template>-->
+                  <!--                  <template v-if="convertIonName(name) !== name && isWithoutConversion">-->
+                  <!--                    / {{ (value.total * convertIonRatio(name)).toFixed(3) }}-->
+                  <!--                  </template>-->
                 </td>
               </template>
+              <td
+                v-if="isSpecificArea && tank.length && tank.width"
+                class="text-center"
+              >
+                {{ (
+                  value.total * tank.volume / Math.round(
+                    (tank.length - (2 * tank.glassThickness) / 10)
+                      * (tank.width - (2 * tank.glassThickness) / 10)
+                      * 100,
+                  ) * 100 * 100
+                ).toFixed(3)
+                }}
+              </td>
             </template>
           </tr>
         </tbody>
@@ -151,29 +177,29 @@
     </v-simple-table>
     <div
       v-if="isHelpful && isHelpfulInfo"
-      class="d-flex flex-column flex-sm-row justify-space-between caption mt-2"
+      class="d-flex flex-column flex-sm-row justify-space-between caption mt-4"
     >
       <div
-        v-if="totalElements['P'] > 0 && totalElements['N'] > 0"
+        v-if="totalElements.P.total > 0 && totalElements.N.total > 0"
         class="mr-2"
       >
         NO3 / PO4 =
         {{ (
-          totalElements['N'] * convertIonRatio('N') / (totalElements['P'] * convertIonRatio('P'))
+          totalElements.N.total * convertIonRatio('N') / (totalElements.P.total * convertIonRatio('P'))
         ).toFixed(2) }}
-        (N / P = {{ (totalElements['N'] / totalElements['P']).toFixed(2) }})
+        <!--        (N / P = {{ (totalElements.N.total / totalElements.P.total).toFixed(2) }})-->
       </div>
       <div
-        v-if="totalElements['P'] > 0 && totalElements['B'] > 0"
+        v-if="totalElements.P.total > 0 && totalElements.B.total > 0"
         class="mr-2"
       >
-        P / B = {{ (totalElements['P'] / totalElements['B']).toFixed(2) }}
+        P / B = {{ (totalElements.P.total / totalElements.B.total).toFixed(2) }}
       </div>
       <div
-        v-if="totalElements['Fe'] > 0 && totalElements['B'] > 0"
+        v-if="totalElements.Fe.total > 0 && totalElements.B.total > 0"
         class="mr-2"
       >
-        Fe / B = {{ (totalElements['Fe'] / totalElements['B']).toFixed(2) }}
+        Fe / B = {{ (totalElements.Fe.total / totalElements.B.total).toFixed(2) }}
       </div>
     </div>
   </div>
@@ -209,9 +235,13 @@ export default {
       type: Number,
       default: null,
     },
-    waterChange: {
+    waterChangeVolume: {
       type: Number,
       default: 0,
+    },
+    tank: {
+      type: Object,
+      default: null,
     },
     isHelpfulInfo: {
       type: Boolean,
@@ -230,15 +260,36 @@ export default {
       FERTILIZATION_MIX,
       isWithoutConversion: false,
       isHardness: false,
+      isSpecificArea: false,
     };
   },
   computed: {
     isHelpful() {
-      return (
-        (this.totalElements.P > 0 && this.totalElements.N > 0)
-        || (this.totalElements.P > 0 && this.totalElements.B > 0)
-        || (this.totalElements.Fe > 0 && this.totalElements.B > 0)
-      );
+      if (
+        this.totalElements.P
+        && this.totalElements.P.total > 0
+        && this.totalElements.N
+        && this.totalElements.N.total > 0
+      ) {
+        return true;
+      }
+      if (
+        this.totalElements.P
+        && this.totalElements.P.total > 0
+        && this.totalElements.B
+        && this.totalElements.B.total > 0
+      ) {
+        return true;
+      }
+      if (
+        this.totalElements.Fe
+        && this.totalElements.Fe.total > 0
+        && this.totalElements.B
+        && this.totalElements.B.total > 0
+      ) {
+        return true;
+      }
+      return false;
     },
     totalElements() {
       const result = {};
@@ -249,41 +300,49 @@ export default {
               result[ion] = {
                 amount: 0,
                 amountDay: 0,
-                waterChange: 0,
+                waterChangeVolume: 0,
                 total: 0,
               };
             }
             if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
               const amount = (recipe.amount * value[ion]) / this.volume;
               result[ion].amount += amount;
+              result[ion].total += amount;
               result[ion].amountDay += amount / this.daysTotal;
               if ((!recipe.volume) && this.isRecipe(recipe)) {
                 result[ion].amount *= 1000;
                 result[ion].amountDay *= 1000;
+                result[ion].total *= 1000;
               }
             } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
               const amount = (recipe.amount * value[ion]) / this.volume;
-              const waterChange = this.waterChange ? (recipe.amount * value[ion]) / this.waterChange : 0;
+              const waterChangeVolume = this.waterChangeVolume
+                ? (recipe.amount * value[ion]) / this.waterChangeVolume
+                : 0;
               result[ion].amount += amount;
+              result[ion].total += amount;
               result[ion].amountDay += amount / this.daysTotal;
-              result[ion].waterChange += waterChange;
+              result[ion].waterChangeVolume += waterChangeVolume;
               if ((!recipe.volume) && this.isRecipe(recipe)) {
                 result[ion].amount *= 1000;
                 result[ion].amountDay *= 1000;
-                result[ion].waterChange *= 1000;
+                result[ion].waterChangeVolume *= 1000;
+                result[ion].total *= 1000;
               }
             } else if (this.fertilizationType === FERTILIZATION_MIX) {
               const amount = (recipe.amount * value[ion]) / this.volume;
-              const waterChange = this.waterChange ? (recipe.amount * value[ion]) / this.waterChange : 0;
+              const waterChangeVolume = this.waterChangeVolume
+                ? (recipe.amount * value[ion]) / this.waterChangeVolume
+                : 0;
               const amountDay = (recipe.amountDay * value[ion]) / this.volume;
               const total = amount + amountDay * this.daysTotal;
               result[ion].amount += amount;
-              result[ion].waterChange += waterChange;
+              result[ion].waterChangeVolume += waterChangeVolume;
               result[ion].amountDay += amountDay;
               result[ion].total += total;
               if ((!recipe.volume) && this.isRecipe(recipe)) {
                 result[ion].amount *= 1000;
-                result[ion].waterChange *= 1000;
+                result[ion].waterChangeVolume *= 1000;
                 result[ion].amountDay *= 1000;
                 result[ion].total *= 1000;
               }
@@ -301,7 +360,7 @@ export default {
           {
             amount: this.convertIonRatio(ion) * this.totalElements[ion].amount,
             amountDay: this.convertIonRatio(ion) * this.totalElements[ion].amountDay,
-            waterChange: this.convertIonRatio(ion) * this.totalElements[ion].waterChange,
+            waterChangeVolume: this.convertIonRatio(ion) * this.totalElements[ion].waterChangeVolume,
             total: this.convertIonRatio(ion) * this.totalElements[ion].total,
           },
         ]);

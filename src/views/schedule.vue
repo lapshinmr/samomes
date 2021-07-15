@@ -106,10 +106,10 @@
                 :fertilization-type="fertilizationType"
                 :recipes-selected="recipesSelected"
                 :days="daysTotal"
-                :water-change="tank.waterChange"
+                :water-change-volume="tank.waterChangeVolume"
                 @input="inputDose"
                 @change="fertilizationType = $event"
-                @water-change="tank.waterChange = $event"
+                @water-change="tank.waterChangeVolume = $event"
               />
             </v-col>
             <v-expand-transition>
@@ -125,7 +125,8 @@
                   :recipes-selected="recipesSelected"
                   :days-total="daysTotal"
                   :volume="tank.volume"
-                  :water-change="tank.waterChange"
+                  :water-change-volume="tank.waterChangeVolume"
+                  :tank="tank"
                 />
               </v-col>
             </v-expand-transition>
@@ -239,7 +240,7 @@ import { mapState, mapMutations } from 'vuex';
 import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
 
 export default {
-  name: 'Schedules',
+  name: 'Schedule',
   components: {
     FertilizerDoseTable,
     ElementsTable,
@@ -249,9 +250,9 @@ export default {
     return {
       fertilizationType: FERTILIZATION_EVERY_DAY,
       tank: {
-        name: '155',
-        volume: 155,
-        waterChange: 0,
+        name: null,
+        volume: null,
+        waterChangeVolume: null,
       },
       recipesSelected: [],
       datesRange: [],
@@ -387,11 +388,7 @@ export default {
     isRecipe,
     chooseTank(value) {
       if (typeof value === 'object') {
-        this.tank = {
-          name: value.name,
-          volume: +value.volume,
-          waterChange: +value.waterChange,
-        };
+        this.tank = { ...value };
       } else {
         this.tank.name = value;
         this.tank.volume = +value;

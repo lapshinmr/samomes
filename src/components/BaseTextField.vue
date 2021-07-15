@@ -51,6 +51,9 @@ export default {
       if (typeof value === 'string') {
         return '';
       }
+      if (value === undefined || value === null) {
+        return '';
+      }
       return this.isFocused ? value : value.toFixed(this.precision);
     },
   },
