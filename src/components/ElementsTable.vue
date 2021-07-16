@@ -180,7 +180,7 @@
       class="d-flex flex-column flex-sm-row justify-space-between caption mt-4"
     >
       <div
-        v-if="totalElements.P.total > 0 && totalElements.N.total > 0"
+        v-if="totalElements.P && totalElements.P.total > 0 && totalElements.N && totalElements.N.total > 0"
         class="mr-2"
       >
         NO3 / PO4 =
@@ -190,13 +190,13 @@
         <!--        (N / P = {{ (totalElements.N.total / totalElements.P.total).toFixed(2) }})-->
       </div>
       <div
-        v-if="totalElements.P.total > 0 && totalElements.B.total > 0"
+        v-if="totalElements.P && totalElements.P.total > 0 && totalElements.B && totalElements.B.total > 0"
         class="mr-2"
       >
         P / B = {{ (totalElements.P.total / totalElements.B.total).toFixed(2) }}
       </div>
       <div
-        v-if="totalElements.Fe.total > 0 && totalElements.B.total > 0"
+        v-if="totalElements.Fe && totalElements.Fe.total > 0 && totalElements.B && totalElements.B.total > 0"
         class="mr-2"
       >
         Fe / B = {{ (totalElements.Fe.total / totalElements.B.total).toFixed(2) }}

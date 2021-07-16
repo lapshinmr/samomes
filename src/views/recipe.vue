@@ -497,7 +497,7 @@ export default {
       Object.assign(this.$data, JSON.parse(decodeURIComponent(share))[0]);
       this.isShared = true;
     } else if (!this.isCreate) {
-      const recipe = { ...this.recipes[this.recipeIndex] };
+      const recipe = JSON.parse(JSON.stringify({ ...this.recipes[this.recipeIndex] }));
       Object.assign(this.$data, recipe);
       this.isWater = recipe.volume > 0;
     }

@@ -60,7 +60,7 @@
                     class="py-1"
                   >
                     <schedule-button
-                      :disabled="quota === 0"
+                      :disabled="quota === null"
                       :status="schedule.completedWaterChange[recipeName]"
                       :value="quota"
                       :sum="totalSum[recipeName]['sum']"
@@ -122,6 +122,7 @@
     </v-card-text>
     <v-card-actions>
       <v-btn
+        v-if="fertilizationType !== FERTILIZATION_IN_TAP_WATER"
         text
         :disabled="activeIndex <= 1"
         @click="prevStep"
@@ -130,6 +131,7 @@
         Назад
       </v-btn>
       <v-btn
+        v-if="fertilizationType !== FERTILIZATION_IN_TAP_WATER"
         text
         :disabled="activeIndex === slidesTotal"
         @click="nextStep"
@@ -140,7 +142,10 @@
       <v-btn
         text
         @click="$router.push(`/schedules/${scheduleIndex}`)"
-        class="ml-0 ml-sm-3"
+        :class="{
+          'ml-auto': fertilizationType === FERTILIZATION_IN_TAP_WATER,
+          'ml-0 ml-sm-3': fertilizationType !== FERTILIZATION_IN_TAP_WATER,
+        }"
       >
         Открыть
       </v-btn>
@@ -178,7 +183,9 @@ export default {
     };
   },
   created() {
-    this.activeIndex = this.findCurActiveDay();
+    if (this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
+      this.activeIndex = this.findCurActiveDay();
+    }
   },
   computed: {
     ...mapState([
@@ -210,7 +217,7 @@ export default {
     waterChangeQuotas() {
       const quotas = {};
       this.schedule.recipesSelected.forEach((recipe) => {
-        quotas[recipe.name] = recipe.amount || 0;
+        quotas[recipe.name] = recipe.amount || null;
       });
       return quotas;
     },
@@ -271,7 +278,10 @@ export default {
         }
         if (this.fertilizationType !== FERTILIZATION_EVERY_DAY) {
           if (this.schedule.completedWaterChange[recipe.name]) {
-            sum += this.waterChangeQuotas[recipe.name];
+            const quota = this.waterChangeQuotas[recipe.name];
+            if (quota !== null) {
+              sum += quota;
+            }
           }
         }
         switch (true) {
@@ -290,21 +300,22 @@ export default {
     },
     isCompletedDay() {
       const result = Array(this.schedule.daysTotal).fill(false);
-      result.forEach((day) => {
+      result.forEach((_, index) => {
         let fertilizersWereClicked = 0;
         Object.keys(this.schedule.selected).forEach((recipeName) => {
-          const completed = this.schedule.completed[recipeName][day];
-          const selected = this.schedule.selected[recipeName][day];
-          if (!selected || completed === 1 || completed === 2) {
+          const completed = this.schedule.completed[recipeName][index];
+          const selected = this.schedule.selected[recipeName][index];
+          if (!selected || completed === 1 || completed === 2 || this.daysQuotas[recipeName][index] === null) {
             fertilizersWereClicked += 1;
           }
         });
         if (fertilizersWereClicked === Object.keys(this.schedule.completed).length) {
-          if (parseInt(day, 10) === 0 || result[day - 1]) {
-            result[day] = true;
-          }
+          result[index] = true;
         }
       });
+      if (this.fertilizationType === FERTILIZATION_MIX) {
+        result.unshift(Object.values(this.schedule.completedWaterChange).every((item) => item === 1));
+      }
       return result;
     },
     progressValue() {

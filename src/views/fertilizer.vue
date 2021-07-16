@@ -211,7 +211,7 @@ export default {
   },
   mounted() {
     if (!this.isCreate) {
-      Object.assign(this.$data, { ...this.fertilizers[this.fertilizerIndex] });
+      Object.assign(this.$data, JSON.parse(JSON.stringify({ ...this.fertilizers[this.fertilizerIndex] })));
     }
   },
   computed: {
