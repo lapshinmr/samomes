@@ -222,7 +222,7 @@ export default {
   },
   mounted() {
     if (!this.isCreate) {
-      this.tank = { ...this.tanks[this.tankIndex] };
+      this.tank = JSON.parse(JSON.stringify({ ...this.tanks[this.tankIndex] }));
     }
   },
   computed: {

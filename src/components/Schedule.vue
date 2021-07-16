@@ -290,18 +290,18 @@ export default {
     },
     isCompletedDay() {
       const result = Array(this.schedule.daysTotal).fill(false);
-      result.forEach((day) => {
+      result.forEach((_, index) => {
         let fertilizersWereClicked = 0;
         Object.keys(this.schedule.selected).forEach((recipeName) => {
-          const completed = this.schedule.completed[recipeName][day];
-          const selected = this.schedule.selected[recipeName][day];
+          const completed = this.schedule.completed[recipeName][index];
+          const selected = this.schedule.selected[recipeName][index];
           if (!selected || completed === 1 || completed === 2) {
             fertilizersWereClicked += 1;
           }
         });
         if (fertilizersWereClicked === Object.keys(this.schedule.completed).length) {
-          if (parseInt(day, 10) === 0 || result[day - 1]) {
-            result[day] = true;
+          if (parseInt(index, 10) === 0 || result[index - 1]) {
+            result[index] = true;
           }
         }
       });

@@ -108,7 +108,7 @@
                 :days="daysTotal"
                 :water-change-volume="tank.waterChangeVolume"
                 @input="inputDose"
-                @change="fertilizationType = $event"
+                @change="onChangeFertilizationType"
                 @water-change="tank.waterChangeVolume = $event"
               />
             </v-col>
@@ -155,7 +155,8 @@
                 cols="12"
               >
                 <v-date-picker
-                  v-model="datesRange"
+                  :value="datesRange"
+                  @input="onChangeDatesRange"
                   locale="ru"
                   no-title
                   first-day-of-week="1"
@@ -270,7 +271,7 @@ export default {
   },
   created() {
     if (!this.isCreate) {
-      Object.assign(this.$data, { ...this.schedules[this.scheduleIndex] });
+      Object.assign(this.$data, JSON.parse(JSON.stringify({ ...this.schedules[this.scheduleIndex] })));
       this.isSchedule = true;
     } else {
       const dateStart = moment().format('YYYY-MM-DD');
@@ -330,40 +331,16 @@ export default {
     },
   },
   watch: {
-    fertilizationType() {
-      if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
-        this.recipesSelected.forEach((recipe) => {
-          Vue.delete(this.selected, recipe.name);
-          Vue.delete(this.completed, recipe.name);
-        });
-      } else {
-        this.recipesSelected.forEach((recipe) => {
-          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
-        });
-      }
-    },
-    datesRange(newValue, oldValue) {
-      if (oldValue.length === 0) { return; }
-      this.recipesSelected.forEach((recipe) => {
-        if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
-          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
-          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
-        } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
-          Vue.set(this.completedWaterChange, recipe.name, 0);
-        } else if (this.fertilizationType === FERTILIZATION_MIX) {
-          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
-          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
-          Vue.set(this.completedWaterChange, recipe.name, 0);
-        }
-      });
-    },
     recipesSelected() {
       this.recipesSelected.forEach((recipe) => {
-        if (!(recipe.name in this.selected) && this.fertilizationType !== FERTILIZATION_IN_TAP_WATER) {
+        if (
+          !(recipe.name in this.selected)
+          && this.fertilizationType !== FERTILIZATION_IN_TAP_WATER
+        ) {
           recipe.amount = '';
           recipe.amountDay = '';
-          Vue.set(this.selected, recipe.name, Array(this.daysTotal).fill(true, 0, this.daysTotal));
-          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
           Vue.set(this.completedWaterChange, recipe.name, 0);
         } else if (
           !(recipe.name in this.completedWaterChange)
@@ -394,6 +371,44 @@ export default {
         this.tank.volume = +value;
       }
     },
+    onChangeFertilizationType(value) {
+      this.fertilizationType = value;
+      if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+        this.recipesSelected.forEach((recipe) => {
+          Vue.delete(this.selected, recipe.name);
+          Vue.delete(this.completed, recipe.name);
+          Vue.set(this.completedWaterChange, recipe.name, 0);
+        });
+      } else if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
+        this.recipesSelected.forEach((recipe) => {
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
+          Vue.delete(this.completedWaterChange, recipe.name);
+        });
+      } else if (this.fertilizationType === FERTILIZATION_MIX) {
+        this.recipesSelected.forEach((recipe) => {
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
+          Vue.set(this.completedWaterChange, recipe.name, 0);
+        });
+      }
+    },
+    onChangeDatesRange(value) {
+      this.datesRange = value;
+      if (value.length === 0) { return; }
+      this.recipesSelected.forEach((recipe) => {
+        if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
+        } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+          Vue.set(this.completedWaterChange, recipe.name, 0);
+        } else if (this.fertilizationType === FERTILIZATION_MIX) {
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
+          Vue.set(this.completedWaterChange, recipe.name, 0);
+        }
+      });
+    },
     inputDose(index, value) {
       Vue.set(this.recipesSelected, index, value);
     },
@@ -416,10 +431,6 @@ export default {
     },
     editSchedule() {
       if (this.$refs.scheduleForm.validate()) {
-        this.recipesSelected.forEach((recipe) => {
-          Vue.set(this.completed, recipe.name, Array(this.daysTotal).fill(0, 0, this.daysTotal));
-          Vue.set(this.completedWaterChange, recipe.name, 0);
-        });
         this.SCHEDULE_EDIT({
           index: this.scheduleIndex,
           schedule: {
