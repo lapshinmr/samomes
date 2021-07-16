@@ -431,6 +431,16 @@ export default {
     },
     editSchedule() {
       if (this.$refs.scheduleForm.validate()) {
+        this.recipesSelected.forEach((recipe) => {
+          if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
+            Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
+          } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
+            Vue.set(this.completedWaterChange, recipe.name, 0);
+          } else if (this.fertilizationType === FERTILIZATION_MIX) {
+            Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
+            Vue.set(this.completedWaterChange, recipe.name, 0);
+          }
+        });
         this.SCHEDULE_EDIT({
           index: this.scheduleIndex,
           schedule: {
