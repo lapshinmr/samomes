@@ -69,14 +69,11 @@
         :class="{ 'w-100': fertilizationType === FERTILIZATION_EVERY_DAY}"
       >
         <div class="d-flex justify-space-between align-center">
-          <div>
-            Ежедневно
-          </div>
           <v-switch
             v-model="isTotal"
-            label="Всего"
+            :label="!isTotal ? 'Ежедневно' : 'Всего'"
             hide-details="auto"
-            class="mt-0 mb-2 mb-sm-0"
+            class="mt-0 mb-0 mb-sm-0"
           />
         </div>
         <v-divider />
@@ -107,10 +104,11 @@
         }"
       >
         <base-text-field
+          v-if="!isTotal"
           :value="recipe.amountDay"
           @input="inputRecipeAmountDay($event, index)"
           type="number"
-          :label="fertilizationType === FERTILIZATION_EVERY_DAY || !isTotal ? recipe.name : ''"
+          :label="recipe.name"
           :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл/день' : 'г/день'"
           hide-details="auto"
           class="pr-2"
@@ -120,6 +118,7 @@
           :value="amountDayTotal[index]"
           @input="inputRecipeAmountDayTotal($event, index)"
           type="number"
+          :label="recipe.name"
           :suffix=" recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
           hide-details="auto"
           class="pr-2"
@@ -173,6 +172,17 @@ export default {
       amountDayTotal: [],
     };
   },
+  watch: {
+    isTotal(value) {
+      if (value) {
+        this.recipesSelected.forEach((recipe, index) => {
+          if (recipe.amountDay) {
+            this.amountDayTotal[index] = recipe.amountDay * this.days;
+          }
+        });
+      }
+    },
+  },
   methods: {
     isFertilizer,
     inputRecipeAmount(value, index) {
@@ -212,6 +222,7 @@ export default {
     inputRecipeAmountDayTotal(value, index) {
       const recipe = this.recipesSelected[index];
       const amountDayTotal = value !== '' ? +value : '';
+      this.amountDayTotal[index] = amountDayTotal;
       const amountDay = amountDayTotal / this.days;
       if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
         const amount = amountDayTotal;

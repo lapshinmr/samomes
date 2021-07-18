@@ -300,21 +300,26 @@ export default {
     },
     isCompletedDay() {
       const result = Array(this.schedule.daysTotal).fill(false);
+      let isClickedWaterChange = true;
+      if (this.fertilizationType === FERTILIZATION_MIX) {
+        isClickedWaterChange = Object.values(this.schedule.completedWaterChange).some((item) => item === 1);
+      }
       result.forEach((_, index) => {
-        let fertilizersWereClicked = 0;
+        let allNotSelected = true;
         Object.keys(this.schedule.selected).forEach((recipeName) => {
           const completed = this.schedule.completed[recipeName][index];
           const selected = this.schedule.selected[recipeName][index];
-          if (!selected || completed === 1 || completed === 2 || this.daysQuotas[recipeName][index] === null) {
-            fertilizersWereClicked += 1;
+          if (completed === 1 || completed === 2) {
+            result[index] = true;
           }
+          allNotSelected = allNotSelected && !selected;
         });
-        if (fertilizersWereClicked === Object.keys(this.schedule.completed).length) {
+        if ((allNotSelected && index === 0 && isClickedWaterChange) || (allNotSelected && result[index - 1])) {
           result[index] = true;
         }
       });
       if (this.fertilizationType === FERTILIZATION_MIX) {
-        result.unshift(Object.values(this.schedule.completedWaterChange).every((item) => item === 1));
+        result.unshift(isClickedWaterChange);
       }
       return result;
     },
