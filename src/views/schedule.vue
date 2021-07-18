@@ -339,7 +339,9 @@ export default {
         ) {
           recipe.amount = '';
           recipe.amountDay = '';
-          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(
+            !!recipe.amountDay, 0, this.daysTotal,
+          )]);
           Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
           Vue.set(this.completedWaterChange, recipe.name, 0);
         } else if (
@@ -381,13 +383,17 @@ export default {
         });
       } else if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
         this.recipesSelected.forEach((recipe) => {
-          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(
+            !!recipe.amountDay, 0, this.daysTotal,
+          )]);
           Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
           Vue.delete(this.completedWaterChange, recipe.name);
         });
       } else if (this.fertilizationType === FERTILIZATION_MIX) {
         this.recipesSelected.forEach((recipe) => {
-          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(
+            !!recipe.amountDay, 0, this.daysTotal,
+          )]);
           Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
           Vue.set(this.completedWaterChange, recipe.name, 0);
         });
@@ -398,12 +404,16 @@ export default {
       if (value.length === 0) { return; }
       this.recipesSelected.forEach((recipe) => {
         if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
-          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(
+            !!recipe.amountDay, 0, this.daysTotal,
+          )]);
           Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
         } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
           Vue.set(this.completedWaterChange, recipe.name, 0);
         } else if (this.fertilizationType === FERTILIZATION_MIX) {
-          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(true, 0, this.daysTotal)]);
+          Vue.set(this.selected, recipe.name, [...Array(this.daysTotal).fill(
+            !!recipe.amountDay, 0, this.daysTotal,
+          )]);
           Vue.set(this.completed, recipe.name, [...Array(this.daysTotal).fill(0, 0, this.daysTotal)]);
           Vue.set(this.completedWaterChange, recipe.name, 0);
         }
@@ -411,6 +421,9 @@ export default {
     },
     inputDose(index, value) {
       Vue.set(this.recipesSelected, index, value);
+      Vue.set(this.selected, value.name, [...Array(this.daysTotal).fill(
+        !!value.amountDay, 0, this.daysTotal,
+      )]);
     },
     addSchedule() {
       if (this.$refs.scheduleForm.validate()) {
