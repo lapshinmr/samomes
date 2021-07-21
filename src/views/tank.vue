@@ -150,13 +150,25 @@
                 :hint="$t('tanks.dialog.soilHint')"
                 hide-details="auto"
               />
-              <v-text-field
-                v-model.number="tank.waterChangeVolume"
-                type="Number"
-                :label="$t('tanks.dialog.waterChange')"
-                :suffix="$t('units.l')"
-                hide-details="auto"
-              />
+              <div class="d-flex">
+                <base-text-field
+                  :value="tank.waterChange"
+                  @input="onInputWaterChange"
+                  type="Number"
+                  :label="$t('tanks.dialog.waterChange')"
+                  suffix="%"
+                  hide-details="auto"
+                />
+                <base-text-field
+                  :value="tank.waterChangeVolume"
+                  @input="onInputWaterChangeVolume"
+                  type="Number"
+                  :label="$t('tanks.dialog.waterChangeVolume')"
+                  :suffix="$t('units.l')"
+                  hide-details="auto"
+                  class="ml-2"
+                />
+              </div>
             </v-col>
             <v-expand-transition>
               <v-col
@@ -203,6 +215,7 @@ export default {
       tank: {
         name: null,
         volume: null,
+        waterChange: null,
         waterChangeVolume: null,
         length: null,
         height: null,
@@ -282,6 +295,24 @@ export default {
       'TANK_EDIT',
       'SNACKBAR_SHOW',
     ]),
+    onInputWaterChange(value) {
+      if (value < 0) {
+        return;
+      }
+      if (value <= 100) {
+        this.tank.waterChange = +value;
+        this.tank.waterChangeVolume = (this.tank.volume * value) / 100;
+      }
+    },
+    onInputWaterChangeVolume(value) {
+      if (value < 0) {
+        return;
+      }
+      if (value <= this.tank.volume) {
+        this.tank.waterChangeVolume = +value;
+        this.tank.waterChange = (value / this.tank.volume) * 100;
+      }
+    },
     addTank() {
       if (this.$refs.tankForm.validate()) {
         this.TANK_ADD({ ...this.tank });

@@ -147,7 +147,10 @@
                       class="d-flex justify-space-between"
                     >
                       <div>{{ $t('tanks.dialog.waterChange') }}</div>
-                      <div>{{ tank.waterChangeVolume }} {{ $t('units.l') }}</div>
+                      <div>
+                        {{ tank.waterChangeVolume }} {{ $t('units.l') }} —
+                        {{ (tank.waterChangeVolume / tank.volume * 100).toFixed(1) }}%
+                      </div>
                     </div>
                   </div>
                   <div
