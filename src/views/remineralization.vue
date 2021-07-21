@@ -421,6 +421,9 @@ export default {
       Vue.set(this.recipesSelected, index, value);
     },
     inputTankVolume(value) {
+      if (value < 0) {
+        return;
+      }
       this.tankVolume = +value;
       if (this.waterChangeVolume > +value) {
         this.waterChangeVolume = +value;
@@ -428,18 +431,27 @@ export default {
       this.waterChange = (this.waterChangeVolume / value) * 100;
     },
     inputWaterChange(value) {
+      if (value < 0) {
+        return;
+      }
       if (value <= 100) {
         this.waterChange = +value;
         this.waterChangeVolume = (this.tankVolume * value) / 100;
       }
     },
     inputWaterChangeVolume(value) {
+      if (value < 0) {
+        return;
+      }
       if (value <= this.tankVolume) {
         this.waterChangeVolume = +value;
         this.waterChange = (value / this.tankVolume) * 100;
       }
     },
     inputOsmosisChange(value) {
+      if (value < 0) {
+        return;
+      }
       if (value <= 100) {
         this.osmosisChange = +value;
       }
