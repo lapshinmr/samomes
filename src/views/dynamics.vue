@@ -61,21 +61,36 @@
         >
           <v-row>
             <v-col
-              cols="12"
-              sm="6"
+              cols="6"
+              sm="4"
               class="py-0"
             >
-              <v-text-field
-                v-model.number="waterChange"
+              <base-text-field
+                :value="waterChange"
+                @input="onInputWaterChange"
                 type="number"
-                :label="'Объем подмены: ' + waterChangeVolume.toFixed(1) + ' л'"
+                label="Процент подмены"
+                hide-details
+                suffix="%"
+              />
+            </v-col>
+            <v-col
+              cols="6"
+              sm="4"
+              class="py-0"
+            >
+              <base-text-field
+                :value="waterChangeVolume"
+                @input="onInputWaterChangeVolume"
+                type="number"
+                label="Объем подмены"
                 hide-details
                 suffix="%"
               />
             </v-col>
             <v-col
               cols="12"
-              sm="6"
+              sm="4"
               class="py-0"
             >
               <v-text-field
@@ -110,7 +125,7 @@
             :fertilization-type="fertilizationType"
             :recipes-selected="recipesSelected"
             :days="waterChangePeriod"
-            :water-change="waterChangeVolume"
+            :water-change-volume="waterChangeVolume"
             :is-water-change="false"
             @input="inputDose"
             @change="fertilizationType = $event"
@@ -130,7 +145,7 @@
             :recipes-selected="recipesSelected"
             :days-total="waterChangePeriod"
             :volume="tankVolume"
-            :water-change="waterChangeVolume"
+            :water-change-volume="waterChangeVolume"
           />
         </v-col>
       </v-expand-transition>
@@ -282,7 +297,8 @@ export default {
       fertilizationType: FERTILIZATION_EVERY_DAY,
       tank: null,
       tankVolume: null,
-      waterChange: 30,
+      waterChange: null,
+      waterChangeVolume: null,
       waterChangePeriod: 7,
       tabs: 0,
       ionsInit: {},
@@ -305,9 +321,6 @@ export default {
     ]),
     items() {
       return [...this.recipes, ...this.fertilizers];
-    },
-    waterChangeVolume() {
-      return (this.tankVolume * this.waterChange) / 100;
     },
     totalElements() {
       const result = {};
@@ -391,6 +404,24 @@ export default {
     isRecipe,
     convertIonName,
     convertIonRatio,
+    onInputWaterChange(value) {
+      if (value < 0) {
+        return;
+      }
+      if (value <= 100) {
+        this.waterChange = +value;
+        this.waterChangeVolume = (this.tankVolume * value) / 100;
+      }
+    },
+    onInputWaterChangeVolume(value) {
+      if (value < 0) {
+        return;
+      }
+      if (value <= this.tankVolume) {
+        this.waterChangeVolume = +value;
+        this.waterChange = (value / this.tankVolume) * 100;
+      }
+    },
     inputDose(index, value) {
       Vue.set(this.recipesSelected, index, value);
     },
