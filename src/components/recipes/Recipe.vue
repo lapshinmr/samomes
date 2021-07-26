@@ -50,6 +50,20 @@
         </span>
       </div>
     </template>
+    <template v-for="compound in recipe.compounds">
+      <div
+        v-if="recipe.mass[compound]"
+        class="d-flex justify-space-between body-2"
+        :key="compound"
+      >
+        <span>
+          {{ COMPOUNDS[compound].name }}
+        </span>
+        <span>
+          {{ recipe.mass[compound].toFixed(2) }} г
+        </span>
+      </div>
+    </template>
     <v-divider
       v-if="isRecipe"
       class="my-3"
@@ -103,6 +117,7 @@
 
 <script>
 import FORMULAS from '@/constants/formulas';
+import COMPOUNDS from '@/constants/compounds';
 import {
   convertIonName,
   convertIonRatio,
@@ -121,6 +136,7 @@ export default {
   data() {
     return {
       FORMULAS,
+      COMPOUNDS,
     };
   },
   computed: {

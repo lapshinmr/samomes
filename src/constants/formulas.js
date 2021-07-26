@@ -924,4 +924,21 @@ export default {
     },
     name: 'Глутаровый альдегид',
   },
+  C6H8O6: {
+    ions: {
+      C: {
+        isNeeded: true,
+        count: 6,
+      },
+      H: {
+        isNeeded: false,
+        count: 8,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    name: 'Аскорбиновая кислота',
+  },
 };

@@ -71,14 +71,14 @@
                   <v-select
                     :items="formulas"
                     item-text="text"
-                    item-value="value"
                     v-model="reagents"
                     multiple
-                    label="Реагент"
+                    label="Формула"
                     hint="Вы можете выбрать несколько реагентов"
                     persistent-hint
                     hide-details="auto"
                     :rules="rulesReagent"
+                    :return-object="true"
                   />
                 </v-col>
                 <v-col
@@ -96,10 +96,27 @@
                 </v-col>
                 <v-col
                   cols="12"
+                  sm="6"
+                >
+                  <v-select
+                    :items="compoundsList"
+                    item-text="text"
+                    v-model="compounds"
+                    multiple
+                    label="Готовая смесь"
+                    hint="Вы можете выбрать несколько смесей"
+                    persistent-hint
+                    hide-details="auto"
+                    :rules="rulesReagent"
+                    :return-object="true"
+                  />
+                </v-col>
+                <v-col
+                  v-if="isReagents"
+                  cols="12"
                   class="pt-0"
                 >
                   <div
-                    v-if="reagents.length > 0"
                     class="mt-3"
                   >
                     <template v-for="reagent in reagents">
@@ -107,15 +124,21 @@
                         class="d-flex justify-space-between caption"
                         :key="reagent.value"
                       >
-                        <div>{{ reagent }}</div>
-                        <div>{{ showComponents(countPercent(reagent)) }}</div>
+                        <div>{{ reagent.key }}</div>
+                        <div>{{ showComponents(countPercent(reagent.key)) }}</div>
+                      </div>
+                    </template>
+                    <template v-for="compound in compounds">
+                      <div
+                        class="d-flex justify-space-between caption"
+                        :key="compound.name"
+                      >
+                        <div>{{ compound.name }}</div>
+                        <div>{{ showComponents(compound.ions) }}</div>
                       </div>
                     </template>
                   </div>
-                  <div
-                    v-if="reagents.length > 0"
-                    class="mt-3"
-                  >
+                  <div class="mt-3">
                     <small>
                       *Так как аквариумисту удобнее работать с нитратом (NO3), а не с азотом (N), далее
                       азот в любой форме будет приведен к нитрату.
@@ -124,7 +147,7 @@
                 </v-col>
                 <v-expand-transition>
                   <v-col
-                    v-if="reagents.length > 0"
+                    v-if="isReagents"
                     cols="12"
                   >
                     <v-radio-group
@@ -146,7 +169,7 @@
                 </v-expand-transition>
                 <v-expand-transition>
                   <v-col
-                    v-if="reagents.length > 0 && isWater"
+                    v-if="isReagents && isWater"
                     cols="12"
                   >
                     <v-text-field
@@ -164,7 +187,7 @@
                 </v-expand-transition>
                 <v-expand-transition>
                   <v-col
-                    v-if="reagents.length > 0 && (volume || !isWater)"
+                    v-if="isReagents && (volume || !isWater)"
                     cols="12"
                   >
                     <v-row>
@@ -193,30 +216,48 @@
                       <v-col
                         v-for="reagent in reagents"
                         cols="12"
-                        :key="reagent"
+                        :key="reagent.key"
                         class="py-0"
                       >
                         <v-text-field
-                          :value="mass[reagent]"
-                          @input="inputMass($event, reagent)"
+                          :value="mass[reagent.key]"
+                          @input="inputMass($event, reagent.key)"
+                          :label="reagent.text"
+                          :key="reagent.key"
                           type="number"
-                          :label="reagent"
                           suffix="г"
-                          :hint="isWater ? fertilizerMassHint(reagent) : ''"
                           hide-details="auto"
-                          :key="reagent"
                           :rules="[
                             rulesMass.isExist(),
                           ]"
-                          :error="(mass[reagent] / volume) * 1000
-                            > FORMULAS[reagent].solubilityLimit"
+                          :error="(mass[reagent.key] / volume) * 1000
+                            > FORMULAS[reagent.key].solubilityLimit"
                           :error-messages="
-                            (mass[reagent] / volume) * 1000
-                              > FORMULAS[reagent].solubilityLimit
+                            (mass[reagent.key] / volume) * 1000
+                              > FORMULAS[reagent.key].solubilityLimit
                               ? `Достигнута максимальная растворимость -
-                                      ${FORMULAS[reagent].solubilityLimit} г/л при 20°С!`
+                                      ${FORMULAS[reagent.key].solubilityLimit} г/л при 20°С!`
                               : ''
                           "
+                        />
+                      </v-col>
+                      <v-col
+                        v-for="compound in compounds"
+                        cols="12"
+                        :key="compound.key"
+                        class="py-0"
+                      >
+                        <v-text-field
+                          :value="mass[compound.key]"
+                          @input="inputMass($event, compound.key)"
+                          :label="compound.text"
+                          :key="compound.key"
+                          suffix="г"
+                          type="number"
+                          hide-details="auto"
+                          :rules="[
+                            rulesMass.isExist(),
+                          ]"
                         />
                       </v-col>
                       <v-col
@@ -290,7 +331,7 @@
                       </v-col>
                       <v-expand-transition>
                         <v-col
-                          v-if="reagents.length > 0 && isWater"
+                          v-if="isReagents && isWater"
                           cols="12"
                         >
                           <v-combobox
@@ -317,22 +358,47 @@
                           <template v-for="reagent in reagents">
                             <v-col
                               cols="12"
-                              :key="reagent"
+                              :key="reagent.key"
                               class="py-0"
                             >
                               <v-row class="mb-3">
-                                <template v-for="(data, ion) in FORMULAS[reagent].ions">
+                                <template v-for="(data, ion) in FORMULAS[reagent.key].ions">
                                   <v-col
                                     v-if="data.isNeeded"
-                                    :key="reagent + ion"
+                                    :key="reagent.key + ion"
                                     class="py-0"
                                   >
                                     <v-text-field
-                                      :value="solute[reagent][ion]"
-                                      @input="inputIonDose($event, reagent, ion)"
+                                      :value="solute[reagent.key][ion]"
+                                      @input="inputIonDose($event, reagent.key, ion)"
                                       type="number"
                                       :label="convertIonName(ion) + ', мг/л'"
-                                      :hint="'из ' + reagent"
+                                      :hint="'из ' + reagent.key"
+                                      persistent-hint
+                                    />
+                                  </v-col>
+                                </template>
+                              </v-row>
+                            </v-col>
+                          </template>
+                          <template v-for="compound in compounds">
+                            <v-col
+                              cols="12"
+                              :key="compound.key"
+                              class="py-0"
+                            >
+                              <v-row class="mb-3">
+                                <template v-for="ion in Object.keys(compound.ions)">
+                                  <v-col
+                                    :key="compound.key + ion"
+                                    class="py-0"
+                                  >
+                                    <v-text-field
+                                      :value="solute[compound.key][ion]"
+                                      @input="inputIonDose($event, compound.key, ion)"
+                                      :label="convertIonName(ion) + ', мг/л'"
+                                      :hint="'из ' + compound.key"
+                                      type="number"
                                       persistent-hint
                                     />
                                   </v-col>
@@ -341,7 +407,7 @@
                             </v-col>
                           </template>
                           <v-col
-                            v-if="reagents.length > 1"
+                            v-if="isReagents"
                             cols="12"
                             class="d-flex justify-space-between pb-0"
                           >
@@ -371,7 +437,7 @@
                 </v-expand-transition>
                 <v-expand-transition>
                   <v-col
-                    v-if="reagents.length > 0 && (volume || !isWater)"
+                    v-if="isReagents && (volume || !isWater)"
                     cols="12"
                   >
                     <v-row>
@@ -435,6 +501,7 @@
 <script>
 import Vue from 'vue';
 import FORMULAS from '@/constants/formulas';
+import COMPOUNDS from '@/constants/compounds';
 import RECIPES from '@/constants/recipes';
 import {
   countTotalIonConcentration,
@@ -459,9 +526,11 @@ export default {
   data() {
     return {
       FORMULAS,
+      COMPOUNDS,
       RECIPES,
       OPPOSITE,
       reagents: [],
+      compounds: [],
       recipeExampleChosen: null,
       volume: null,
       tankVolume: null,
@@ -473,7 +542,7 @@ export default {
       isWater: true,
       isShowConcentration: false,
       rulesReagent: [
-        (v) => v.length > 0 || 'Выберите реагент',
+        () => (this.reagents.length > 0 || this.compounds.length > 0) || 'Выберите реагент',
       ],
       rulesMass: {
         isExist() {
@@ -493,14 +562,34 @@ export default {
   },
   mounted() {
     const { share } = this.$router.currentRoute.query;
-    if (share) {
-      Object.assign(this.$data, JSON.parse(decodeURIComponent(share))[0]);
-      this.isShared = true;
-    } else if (!this.isCreate) {
-      const recipe = JSON.parse(JSON.stringify({ ...this.recipes[this.recipeIndex] }));
-      Object.assign(this.$data, recipe);
-      this.isWater = recipe.volume > 0;
+    if (this.isCreate) {
+      return;
     }
+    let recipe;
+    if (share) {
+      this.isShared = true;
+      [recipe] = JSON.parse(decodeURIComponent(share));
+    } else if (!this.isCreate) {
+      recipe = JSON.parse(JSON.stringify({ ...this.recipes[this.recipeIndex] }));
+    }
+    const reagents = [];
+    const compounds = [];
+    this.formulas.forEach((formula) => {
+      if (recipe.reagents && recipe.reagents.includes(formula.key)) {
+        reagents.push(formula);
+      }
+    });
+    this.compoundsList.forEach((compound) => {
+      if (recipe.compounds && recipe.compounds.includes(compound.key)) {
+        compounds.push(compound);
+      }
+    });
+    delete recipe.reagents;
+    delete recipe.compounds;
+    Object.assign(this.$data, recipe);
+    this.reagents = reagents;
+    this.compounds = compounds;
+    this.isWater = recipe.volume > 0;
   },
   computed: {
     ...mapState([
@@ -515,33 +604,48 @@ export default {
     },
     formulas() {
       const result = [];
-      Object.entries(this.FORMULAS).forEach(([formula, data]) => {
+      Object.entries(FORMULAS).forEach(([formula, data]) => {
         result.push({
+          key: formula,
           text: `${data.name} - ${formula}`,
-          name: `${data.name}`,
-          value: formula,
+          ...data,
         });
       });
       result.sort((a, b) => a.text.localeCompare(b.text));
       return result;
     },
+    compoundsList() {
+      const result = [];
+      Object.entries(COMPOUNDS).forEach(([name, data]) => {
+        result.push({
+          key: name,
+          text: data.name,
+          ...data,
+        });
+      });
+      result.sort((a, b) => a.text.localeCompare(b.name));
+      return result;
+    },
     recipesExamples() {
       const recipeExamples = [];
-      this.RECIPES.forEach((item) => {
+      RECIPES.forEach((item) => {
         recipeExamples.push(item.name);
       });
       recipeExamples.sort((a, b) => a.localeCompare(b));
       return recipeExamples;
+    },
+    isReagents() {
+      return this.reagents.length > 0 || this.compounds.length > 0;
     },
     totalFertilizerMass() {
       return Object.values(this.mass).reduce((sum, value) => sum + value);
     },
     concentration() {
       const result = {};
-      if (this.reagents.length > 0 && Object.keys(this.mass).length > 0) {
+      if (this.isReagents && Object.keys(this.mass).length > 0) {
         this.reagents.forEach((reagent) => {
-          result[reagent] = {};
-          const { ions } = FORMULAS[reagent];
+          result[reagent.key] = {};
+          const { ions } = reagent;
           Object.entries(ions).forEach(([ion, data]) => {
             if (data.isNeeded) {
               let factor = 1;
@@ -550,8 +654,21 @@ export default {
               } else if (!this.volume) {
                 factor = 1 / this.totalFertilizerMass;
               }
-              result[reagent][ion] = this.mass[reagent] * this.countPercent(reagent)[ion] * factor;
+              result[reagent.key][ion] = this.mass[reagent.key] * this.countPercent(reagent.key)[ion] * factor;
             }
+          });
+        });
+        this.compounds.forEach((compound) => {
+          result[compound.key] = {};
+          const { ions } = compound;
+          Object.entries(ions).forEach(([ion, value]) => {
+            let factor = 1;
+            if (this.volume) {
+              factor = 1 / (this.volume / 1000);
+            } else if (!this.volume) {
+              factor = 1 / this.totalFertilizerMass;
+            }
+            result[compound.key][ion] = this.mass[compound.key] * value * factor;
           });
         });
       }
@@ -572,25 +689,47 @@ export default {
     reagents() {
       if (!this.name && this.reagents.length === 1) {
         const reagent = this.reagents[0];
-        this.name = this.FORMULAS[reagent].name;
+        this.name = reagent.key;
       }
       const solute = {};
       this.reagents.forEach((reagent) => {
-        const { ions } = this.FORMULAS[reagent];
-        solute[reagent] = {};
+        const { ions } = reagent;
+        solute[reagent.key] = {};
         Object.entries(ions).forEach(([ion, data]) => {
           if (data.isNeeded) {
-            solute[reagent][ion] = 0;
+            solute[reagent.key][ion] = 0;
           }
         });
       });
       this.solute = { ...solute };
-      const mass = {};
+      const mass = { ...this.mass };
       this.reagents.forEach((reagent) => {
-        if (!(reagent in this.mass)) {
-          mass[reagent] = 0;
-        } else {
-          mass[reagent] = this.mass[reagent];
+        if (!(reagent.key in mass)) {
+          mass[reagent.key] = 0;
+        }
+      });
+      this.mass = { ...mass };
+      if (this.volume) {
+        this.countDose();
+      }
+    },
+    compounds() {
+      if (!this.name && this.compounds.length === 1) {
+        this.name = this.compounds[0].key;
+      }
+      const solute = {};
+      this.compounds.forEach((compound) => {
+        const { ions } = compound;
+        solute[compound.key] = {};
+        Object.keys(ions).forEach((ion) => {
+          solute[compound.key][ion] = 0;
+        });
+      });
+      this.solute = { ...solute };
+      const mass = { ...this.mass };
+      this.compounds.forEach((compound) => {
+        if (!(compound.key in mass)) {
+          mass[compound.key] = 0;
         }
       });
       this.mass = { ...mass };
@@ -601,13 +740,29 @@ export default {
     recipeExampleChosen() {
       const recipe = this.RECIPES.find((item) => item.name === this.recipeExampleChosen);
       if (recipe) {
-        this.reagents = Object.keys(recipe.reagents);
+        const reagents = [];
+        this.formulas.forEach((formula) => {
+          if (formula.key in recipe.reagents) {
+            reagents.push(formula);
+          }
+        });
+        const compounds = [];
+        this.compoundsList.forEach((compound) => {
+          if (compound.key in recipe.compounds) {
+            compounds.push(compound);
+          }
+        });
+        this.reagents = reagents;
+        this.compounds = compounds;
         this.name = recipe.name;
         this.note = recipe.note;
         this.volume = recipe.volume;
         this.tankVolume = recipe.tankVolume;
         Object.entries(recipe.reagents).forEach(([reagent, mass]) => {
           this.mass[reagent] = mass;
+        });
+        Object.entries(recipe.compounds).forEach(([compound, mass]) => {
+          this.mass[compound] = mass;
         });
         this.isWater = recipe.volume > 0;
       }
@@ -634,18 +789,30 @@ export default {
     convertIonRatio,
     countDose() {
       this.reagents.forEach((reagent) => {
-        const { ions } = FORMULAS[reagent];
+        const { ions } = reagent;
         const result = {};
         Object.entries(ions).forEach(([ion, data]) => {
           if (data.isNeeded) {
-            let value = (
-              (this.mass[reagent] / this.volume / this.tankVolume)
-              * (this.countPercent(reagent)[ion] * this.convertIonRatio(ion) * 1000)
+            let dose = (
+              (this.mass[reagent.key] / this.volume / this.tankVolume)
+              * (this.countPercent(reagent.key)[ion] * this.convertIonRatio(ion) * 1000)
             );
-            value = parseFloat(value.toFixed(5));
-            result[ion] = value;
-            Vue.set(this.solute, reagent, result);
+            dose = parseFloat(dose.toFixed(5));
+            result[ion] = dose;
+            Vue.set(this.solute, reagent.key, result);
           }
+        });
+      });
+      this.compounds.forEach((compound) => {
+        const { ions } = compound;
+        const result = {};
+        Object.entries(ions).forEach(([ion, value]) => {
+          let dose = (
+            (this.mass[compound.key] / this.volume / this.tankVolume) * (value * this.convertIonRatio(ion) * 1000)
+          );
+          dose = parseFloat(dose.toFixed(5));
+          result[ion] = dose;
+          Vue.set(this.solute, compound.key, result);
         });
       });
     },
@@ -657,13 +824,13 @@ export default {
     showComponents(ions) {
       const output = [];
       Object.entries(ions).forEach(([ion, value]) => {
-        output.push(`${ion}: ${(value * 100).toFixed(1)}%`);
+        output.push(`${ion}: ${(value * 100).toFixed(2)}%`);
       });
       return output.join(' ');
     },
-    inputMass(value, reagent) {
+    inputMass(value, key) {
       const mass = parseFloat(value);
-      Vue.set(this.mass, reagent, +mass ? mass : '');
+      Vue.set(this.mass, key, +mass ? mass : '');
       if (this.tankVolume && +mass) {
         this.countDose();
       }
@@ -674,13 +841,16 @@ export default {
         this.countDose();
       }
     },
-    inputIonDose(value, reagent, curIon) {
+    isFormula(name) {
+      return name in FORMULAS;
+    },
+    inputIonDose(value, key, curIon) {
       const solute = {};
       const ratio = {};
-      Object.keys(this.solute[reagent]).forEach((ion) => {
+      Object.keys(this.solute[key]).forEach((ion) => {
         ratio[ion] = this.convertIonRatio(ion);
       });
-      Object.keys(this.solute[reagent]).forEach((ion) => {
+      Object.keys(this.solute[key]).forEach((ion) => {
         let ionDose = parseFloat(value);
         if (ion !== curIon) {
           if (ratio[curIon] > 1) {
@@ -688,40 +858,28 @@ export default {
           } else {
             ionDose *= ratio[ion];
           }
-          ionDose *= (this.countPercent(reagent)[ion] / this.countPercent(reagent)[curIon]);
-        }
-        solute[ion] = parseFloat(ionDose) ? parseFloat(ionDose.toFixed(4)) : 0;
-        Vue.set(this.solute, reagent, solute);
-      });
-      const fertilizerMass = { ...this.mass };
-      let mass;
-      if (!this.solute[reagent][curIon]) {
-        mass = 0;
-      } else {
-        mass = (this.solute[reagent][curIon] * this.tankVolume * this.volume)
-          / 1000 / this.countPercent(reagent)[curIon] / this.convertIonRatio(curIon);
-      }
-      fertilizerMass[reagent] = parseFloat(mass.toFixed(3));
-      this.mass = { ...fertilizerMass };
-    },
-    fertilizerMassHint(reagent) {
-      let hint = '';
-      Object.keys(this.FORMULAS[reagent].ions).forEach((ion) => {
-        const data = this.FORMULAS[reagent].ions[ion];
-        if (data.isNeeded) {
-          if (ion !== this.convertIonName(ion)) {
-            hint += `${ion}/${this.convertIonName(ion)}:
-            ${
-              this.concentration[reagent][ion].toFixed(2)
-            }/${
-              (this.convertIonRatio(ion) * this.concentration[reagent][ion]).toFixed(2)
-            } г/л`;
+          if (this.isFormula(key)) {
+            ionDose *= (this.countPercent(key)[ion] / this.countPercent(key)[curIon]);
           } else {
-            hint += `${ion}:  ${this.concentration[reagent][ion].toFixed(3)} г/л `;
+            ionDose *= (COMPOUNDS[key].ions[ion] / COMPOUNDS[key].ions[curIon]);
           }
         }
+        solute[ion] = parseFloat(ionDose) ? parseFloat(ionDose.toFixed(4)) : 0;
+        Vue.set(this.solute, key, solute);
       });
-      return hint;
+      const fertilizerMass = { ...this.mass };
+      let mass = 0;
+      if (!this.solute[key][curIon]) {
+        mass = 0;
+      } else if (this.isFormula(key)) {
+        mass = (this.solute[key][curIon] * this.tankVolume * this.volume)
+          / 1000 / this.countPercent(key)[curIon] / this.convertIonRatio(curIon);
+      } else {
+        mass = (this.solute[key][curIon] * this.tankVolume * this.volume)
+          / 1000 / COMPOUNDS[key].ions[curIon] / this.convertIonRatio(curIon);
+      }
+      fertilizerMass[key] = parseFloat(mass.toFixed(3));
+      this.mass = { ...fertilizerMass };
     },
     addRecipe() {
       if (this.$refs.recipeForm.validate()) {
@@ -729,7 +887,8 @@ export default {
           name: this.name,
           note: this.note,
           volume: this.volume,
-          reagents: [...this.reagents],
+          reagents: [...this.reagents.map((reagent) => reagent.key)],
+          compounds: [...this.compounds.map((compound) => compound.key)],
           mass: { ...this.mass },
           concentration: { ...this.concentration },
           tankVolume: this.tankVolume,
@@ -747,7 +906,8 @@ export default {
             note: this.note,
             volume: this.volume,
             tankVolume: this.tankVolume,
-            reagents: [...this.reagents],
+            reagents: [...this.reagents.map((reagent) => reagent.key)],
+            compounds: [...this.compounds.map((compound) => compound.key)],
             mass: { ...this.mass },
             concentration: { ...this.concentration },
           },
