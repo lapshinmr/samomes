@@ -218,6 +218,86 @@ export default {
     solubilityLimit: 1130,
     name: 'Магния Сульфат (магнезия)',
   },
+  'Mg(NO3)2(H2O)6': {
+    ions: {
+      Mg: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      H: {
+        isNeeded: false,
+        count: 12,
+      },
+      O: {
+        isNeeded: false,
+        count: 12,
+      },
+    },
+    name: 'Магния Нитрат 6-водный',
+  },
+  'Ca(NO3)2(H2O)2': {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      H: {
+        isNeeded: false,
+        count: 4,
+      },
+      O: {
+        isNeeded: false,
+        count: 8,
+      },
+    },
+    name: 'Кальция Нитрат 2-водный',
+  },
+  'Ca(NO3)2(H2O)4': {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      H: {
+        isNeeded: false,
+        count: 8,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+    },
+    name: 'Кальция Нитрат 4-водный',
+  },
+  CaCO3: {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 3,
+      },
+    },
+    name: 'Кальция Карбонат',
+  },
   'CaSO4(H2O)2': {
     ions: {
       Ca: {
@@ -550,7 +630,8 @@ export default {
     solubilityLimit: 100,
     name: 'Железа Глюконат Дигидрат',
   },
-  C10H14N2Na2O8: {
+  // EDTA
+  'C10H14N2Na2O8(H2O)2': {
     ions: {
       C: {
         isNeeded: false,
@@ -558,10 +639,10 @@ export default {
       },
       H: {
         isNeeded: false,
-        count: 14,
+        count: 18,
       },
       N: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
       Na: {
@@ -570,12 +651,193 @@ export default {
       },
       O: {
         isNeeded: false,
-        count: 8,
+        count: 10,
       },
     },
     solubilityLimit: 100,
     name: 'Трилон Б (хелатор EDTA-Na2)',
   },
+  'C10H12N2Na2O8Ca(H2O)2': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 16,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    solubilityLimit: 700,
+    name: 'ЭДТА Кальций 10%',
+  },
+  'C10H12N2Na2O8Mg(H2O)2': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 16,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+      Mg: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    solubilityLimit: 800,
+    name: 'ЭДТА Магний 6%',
+  },
+  'C10H12N2Na2O8Mn(H2O)2': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 16,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+      Mn: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    solubilityLimit: 700,
+    name: 'ЭДТА Марганец 13%',
+  },
+  'C10H12N2Na2O8Zn(H2O)2': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 16,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+      Zn: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    solubilityLimit: 900,
+    name: 'ЭДТА Цинк 15%',
+  },
+  'C10H12N2Na2O8Cu(H2O)2': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 16,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+      Cu: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    solubilityLimit: 900,
+    name: 'ЭДТА Медь 15%',
+  },
+  'C10H12N2NaO8Fe(H20)3': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 10,
+      },
+      H: {
+        isNeeded: false,
+        count: 18,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      Na: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 11,
+      },
+      Fe: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    solubilityLimit: 250,
+    name: 'Железо ЭДТА 13%',
+  },
+  // DTPA
   C14H18N3O10Na2Fe: {
     ions: {
       Fe: {
@@ -626,5 +888,40 @@ export default {
       },
     },
     name: 'Сорбат калия (консервант E202)',
+  },
+  C6H8O7: {
+    ions: {
+      C: {
+        isNeeded: true,
+        count: 6,
+      },
+      H: {
+        isNeeded: false,
+        count: 8,
+      },
+      O: {
+        isNeeded: false,
+        count: 7,
+      },
+    },
+    solubilityLimit: 1330,
+    name: 'Лимонная кислота',
+  },
+  C5H8O2: {
+    ions: {
+      C: {
+        isNeeded: true,
+        count: 5,
+      },
+      H: {
+        isNeeded: false,
+        count: 8,
+      },
+      O: {
+        isNeeded: false,
+        count: 2,
+      },
+    },
+    name: 'Глутаровый альдегид',
   },
 };
