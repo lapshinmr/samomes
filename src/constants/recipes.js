@@ -59,6 +59,23 @@ export default [
     note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
+    name: 'Kuban Aquariums Микро',
+    reagents: {
+      H3BO3: 0.7,
+      'C10H14N2Na2O8(H2O)2': 3,
+      'MgSO4(H2O)7': 30,
+      K2SO4: 20,
+      C6H8O6: 3,
+      C6H7KO2: 0.5,
+    },
+    compounds: {
+      AgroMicsT: 11,
+      'Fe-EDTA13': 5.6,
+    },
+    volume: 1000,
+    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+  },
+  {
     name: 'Aqua Botanic Нитрат',
     reagents: {
       KNO3: 82.88,
