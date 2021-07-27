@@ -691,7 +691,13 @@ export default {
     },
   },
   watch: {
-    reagents() {
+    reagents(newValue, oldValue) {
+      if (newValue.length < oldValue.length) {
+        const reagentsToRemove = oldValue.filter((item) => !newValue.includes(item));
+        reagentsToRemove.forEach((item) => {
+          delete this.mass[item.key];
+        });
+      }
       if (!this.name && this.reagents.length === 1) {
         const reagent = this.reagents[0];
         this.name = reagent.key;
@@ -718,7 +724,13 @@ export default {
         this.countDose();
       }
     },
-    compounds() {
+    compounds(newValue, oldValue) {
+      if (newValue.length < oldValue.length) {
+        const compoundsToRemove = oldValue.filter((item) => !newValue.includes(item));
+        compoundsToRemove.forEach((item) => {
+          delete this.mass[item.key];
+        });
+      }
       if (!this.name && this.compounds.length === 1) {
         this.name = this.compounds[0].key;
       }
@@ -744,16 +756,17 @@ export default {
     },
     recipeExampleChosen() {
       const recipe = this.RECIPES.find((item) => item.name === this.recipeExampleChosen);
+      this.mass = {};
       if (recipe) {
         const reagents = [];
         this.formulas.forEach((formula) => {
-          if (formula.key in recipe.reagents) {
+          if (recipe.reagents && formula.key in recipe.reagents) {
             reagents.push(formula);
           }
         });
         const compounds = [];
         this.compoundsList.forEach((compound) => {
-          if (compound.key in recipe.compounds) {
+          if (recipe.compounds && compound.key in recipe.compounds) {
             compounds.push(compound);
           }
         });
@@ -763,12 +776,16 @@ export default {
         this.note = recipe.note;
         this.volume = recipe.volume;
         this.tankVolume = recipe.tankVolume;
-        Object.entries(recipe.reagents).forEach(([reagent, mass]) => {
-          this.mass[reagent] = mass;
-        });
-        Object.entries(recipe.compounds).forEach(([compound, mass]) => {
-          this.mass[compound] = mass;
-        });
+        if (recipe.reagents) {
+          Object.entries(recipe.reagents).forEach(([reagent, mass]) => {
+            this.mass[reagent] = mass;
+          });
+        }
+        if (recipe.compounds) {
+          Object.entries(recipe.compounds).forEach(([compound, mass]) => {
+            this.mass[compound] = mass;
+          });
+        }
         this.isWater = recipe.volume > 0;
       }
     },
