@@ -78,7 +78,7 @@
       <div class="d-flex body-2">
         <div>
           <div
-            v-for="ion in Object.keys(concentrations)"
+            v-for="[ion] in concentrations"
             class="mr-3"
             :key="ion + 'name'"
           >
@@ -87,7 +87,7 @@
         </div>
         <div>
           <div
-            v-for="(value, ion) in concentrations"
+            v-for="[ion, value] in concentrations"
             :key="ion + 'unit'"
             class="text-right"
           >
@@ -141,7 +141,9 @@ export default {
   },
   computed: {
     concentrations() {
-      return countTotalIonConcentration(this.recipe.concentration);
+      const result = Object.entries(countTotalIonConcentration(this.recipe.concentration));
+      result.sort((a, b) => b[1] - a[1]);
+      return result;
     },
     isRecipe() {
       return this.recipe.reagents && this.recipe.reagents.length > 0;

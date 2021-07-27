@@ -416,11 +416,11 @@
                             </div>
                             <div class="d-flex flex-column">
                               <div
-                                v-for="(value, ionName) in countTotalIonDose(solute)"
+                                v-for="[ion, value] in ionTotalDoseSorted"
                                 class="d-flex justify-space-between"
-                                :key="ionName"
+                                :key="ion"
                               >
-                                <div>{{ convertIonName(ionName) }}:</div>
+                                <div>{{ convertIonName(ion) }}:</div>
                                 <div class="ml-3">
                                   {{ value.toFixed(3) }}
                                   <template v-if="countTotalDose(solute)">
@@ -683,6 +683,11 @@ export default {
       const isExist = index !== -1;
       const isEdit = index === +this.recipeIndex;
       return isExist && !isEdit;
+    },
+    ionTotalDoseSorted() {
+      const result = Object.entries(countTotalIonDose(this.solute));
+      result.sort((a, b) => b[1] - a[1]);
+      return result;
     },
   },
   watch: {
