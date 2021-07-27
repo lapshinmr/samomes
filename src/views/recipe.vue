@@ -124,7 +124,7 @@
                         class="d-flex justify-space-between caption"
                         :key="reagent.value"
                       >
-                        <div>{{ reagent.key }}</div>
+                        <div>{{ reagent.text }}</div>
                         <div>{{ showComponents(countPercent(reagent.key)) }}</div>
                       </div>
                     </template>
@@ -225,7 +225,7 @@
                           :label="reagent.text"
                           :key="reagent.key"
                           type="number"
-                          suffix="г"
+                          :suffix="reagent.density ? 'мл' : 'г'"
                           hide-details="auto"
                           :rules="[
                             rulesMass.isExist(),
@@ -252,7 +252,7 @@
                           @input="inputMass($event, compound.key)"
                           :label="compound.text"
                           :key="compound.key"
-                          suffix="г"
+                          :suffix="compound.isLiquid ? 'мл' : 'г'"
                           type="number"
                           hide-details="auto"
                           :rules="[

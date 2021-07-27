@@ -82,16 +82,51 @@ export default {
     },
     name: 'ЭДТА Кобальт 13%',
   },
-  'Zn-EDTA13': {
+  'Zn-EDTA15': {
     ions: {
       Zn: 0.15,
     },
     name: 'ЭДТА Цинк 15%',
   },
-  'Cu-EDTA13': {
+  'Cu-EDTA15': {
     ions: {
       Cu: 0.15,
     },
     name: 'ЭДТА Медь 15%',
+  },
+  'B12-liquid': {
+    ions: {},
+    isLiquid: true,
+    name: 'Цианокобаламин B12 (жидкий)',
+  },
+  'B12-solid': {
+    ions: {},
+    name: 'Цианокобаламин B12 (порошок)',
+  },
+  Ferovit: {
+    ions: {
+      Fe: 0.075,
+      N: 0.04,
+    },
+    isLiquid: true,
+    name: 'Феровит',
+  },
+  Citovit: {
+    ions: {
+      N: 0.03,
+      P: 0.005,
+      K: 0.025,
+      Mg: 0.01,
+      S: 0.04,
+      Fe: 0.035,
+      Mn: 0.03,
+      B: 0.008,
+      Zn: 0.006,
+      Cu: 0.006,
+      Mo: 0.004,
+      Co: 0.002,
+    },
+    isLiquid: true,
+    name: 'Цитовит',
   },
 };

@@ -922,6 +922,7 @@ export default {
         count: 2,
       },
     },
+    density: 1.1,
     name: 'Глутаровый альдегид',
   },
   C6H8O6: {
@@ -940,5 +941,51 @@ export default {
       },
     },
     name: 'Аскорбиновая кислота',
+  },
+  C63H88CoN14O14P: {
+    ions: {
+      C: {
+        isNeeded: true,
+        count: 63,
+      },
+      H: {
+        isNeeded: false,
+        count: 88,
+      },
+      O: {
+        isNeeded: false,
+        count: 14,
+      },
+      N: {
+        isNeeded: true,
+        count: 14,
+      },
+      P: {
+        isNeeded: true,
+        count: 1,
+      },
+      Co: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    name: 'Цианокобаламин B12',
+  },
+  C4H6O4: {
+    ions: {
+      C: {
+        isNeeded: true,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 6,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    name: 'Янтарная кислота',
   },
 };
