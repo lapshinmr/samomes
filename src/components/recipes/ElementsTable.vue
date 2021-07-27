@@ -47,20 +47,22 @@
               Реагент
             </th>
             <th
-              v-for="(ion, index) in Object.keys(totalIonConcentration)"
+              v-for="([ion], index) in totalIonConcentrationSorted"
               :key="ion"
               class="text-center"
-              :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
+              :class="{'pr-0': index === totalIonConcentrationSorted.length - 1}"
             >
-              <template v-if="isConvertion && ion !== convertIonName(ion)">
-                {{ ion }} /
-              </template>
-              <template v-if="ion !== convertIonName(ion)">
-                {{ convertIonName(ion) }}, г/л
-              </template>
-              <template v-else>
-                {{ ion }}, г/л
-              </template>
+              <div style="white-space: nowrap;">
+                <template v-if="isConvertion && ion !== convertIonName(ion)">
+                  {{ ion }} /
+                </template>
+                <template v-if="ion !== convertIonName(ion)">
+                  {{ convertIonName(ion) }}, г/л
+                </template>
+                <template v-else>
+                  {{ ion }}, г/л
+                </template>
+              </div>
             </th>
           </tr>
         </thead>
@@ -73,7 +75,7 @@
               {{ reagent }}
             </td>
             <td
-              v-for="(value, ion, index) in totalIonConcentration"
+              v-for="([ion, value], index) in totalIonConcentrationSorted"
               :key="reagent + ion"
               class="text-center"
               :class="{'pr-0': index === Object.keys(concentration).length - 1}"
@@ -102,13 +104,13 @@
               Сумма
             </td>
             <template
-              v-for="(value, ion, index) in totalIonConcentration"
+              v-for="([ion, value], index) in totalIonConcentrationSorted"
             >
               <td
                 v-if="ion !== convertIonName(ion)"
                 :key="ion"
                 class="text-center"
-                :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
+                :class="{'pr-0': index === totalIonConcentrationSorted.length - 1}"
               >
                 <template v-if="isConvertion && ion !== convertIonName(ion)">
                   {{ value.toFixed(3) }} /
@@ -118,7 +120,7 @@
               <td
                 v-else
                 class="text-center"
-                :class="{'pr-0': index === Object.keys(totalIonConcentration).length - 1}"
+                :class="{'pr-0': index === totalIonConcentration.length - 1}"
                 :key="ion"
               >
                 {{ value.toFixed(3) }}
@@ -155,6 +157,13 @@ export default {
       isConcentrationPercent: false,
       isConvertion: false,
     };
+  },
+  computed: {
+    totalIonConcentrationSorted() {
+      const result = Object.entries(this.totalIonConcentration);
+      result.sort((a, b) => b[1] - a[1]);
+      return result;
+    },
   },
   methods: {
     convertIonRatio,

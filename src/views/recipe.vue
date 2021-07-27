@@ -124,7 +124,7 @@
                         class="d-flex justify-space-between caption"
                         :key="reagent.value"
                       >
-                        <div>{{ reagent.key }}</div>
+                        <div>{{ reagent.text }}</div>
                         <div>{{ showComponents(countPercent(reagent.key)) }}</div>
                       </div>
                     </template>
@@ -225,7 +225,7 @@
                           :label="reagent.text"
                           :key="reagent.key"
                           type="number"
-                          suffix="г"
+                          :suffix="reagent.density ? 'мл' : 'г'"
                           hide-details="auto"
                           :rules="[
                             rulesMass.isExist(),
@@ -252,7 +252,7 @@
                           @input="inputMass($event, compound.key)"
                           :label="compound.text"
                           :key="compound.key"
-                          suffix="г"
+                          :suffix="compound.isLiquid ? 'мл' : 'г'"
                           type="number"
                           hide-details="auto"
                           :rules="[
@@ -416,11 +416,11 @@
                             </div>
                             <div class="d-flex flex-column">
                               <div
-                                v-for="(value, ionName) in countTotalIonDose(solute)"
+                                v-for="[ion, value] in ionTotalDoseSorted"
                                 class="d-flex justify-space-between"
-                                :key="ionName"
+                                :key="ion"
                               >
-                                <div>{{ convertIonName(ionName) }}:</div>
+                                <div>{{ convertIonName(ion) }}:</div>
                                 <div class="ml-3">
                                   {{ value.toFixed(3) }}
                                   <template v-if="countTotalDose(solute)">
@@ -683,6 +683,11 @@ export default {
       const isExist = index !== -1;
       const isEdit = index === +this.recipeIndex;
       return isExist && !isEdit;
+    },
+    ionTotalDoseSorted() {
+      const result = Object.entries(countTotalIonDose(this.solute));
+      result.sort((a, b) => b[1] - a[1]);
+      return result;
     },
   },
   watch: {
