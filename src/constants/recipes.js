@@ -129,6 +129,7 @@ export default [
       H3BO3: 0.3,
       K2SO4: 8.6,
       C63H88CoN14O14P: 0.001,
+      // H2SO4: 20,
     },
     compounds: {
       Citovit: 6,

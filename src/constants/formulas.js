@@ -374,6 +374,24 @@ export default {
     solubilityLimit: 47.2,
     name: 'Борная кислота',
   },
+  H2SO4: {
+    ions: {
+      H: {
+        isNeeded: false,
+        count: 2,
+      },
+      S: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    density: 1.8356,
+    name: 'Серная кислота',
+  },
   KI: {
     ions: {
       K: {

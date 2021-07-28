@@ -31,15 +31,18 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      component: load('home'),
+      name: 'home',
+    },
+    {
       path: '/tanks',
       component: load('tanks'),
-      alias: [''],
       name: 'tanks',
     },
     {
       path: '/tanks/:id',
       component: load('tank'),
-      alias: [''],
       name: 'tank',
     },
     {
