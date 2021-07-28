@@ -113,6 +113,7 @@ export default {
   },
   data: () => ({
     links: [
+      { name: 'home', icon: 'mdi-home' },
       { name: 'tanks', icon: 'mdi-fishbowl-outline' },
       { name: 'recipes', icon: 'mdi-clipboard-text-multiple-outline' },
       { name: 'fertilizers', icon: 'mdi-flask' },

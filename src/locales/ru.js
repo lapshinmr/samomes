@@ -20,6 +20,7 @@
 export default {
   ru: {
     routes: {
+      home: 'Самомес',
       tanks: 'Аквариумы',
       recipes: 'Рецепты',
       fertilizers: 'Удобрения',
