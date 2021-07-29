@@ -18,7 +18,7 @@
 */
 
 export default {
-  Plantex: {
+  PlantexCSM: {
     ions: {
       Fe: 0.07,
       Mn: 0.02,
@@ -28,6 +28,17 @@ export default {
       Mo: 0.0006,
     },
     name: 'Plantex® C.S.M.',
+  },
+  PlantexCMM: {
+    ions: {
+      Fe: 0.07,
+      Mn: 0.02,
+      B: 0.013,
+      Zn: 0.004,
+      Cu: 0.001,
+      Mo: 0.0006,
+    },
+    name: 'Plantex® C.M.M.',
   },
   AgroMicsT: {
     ions: {
