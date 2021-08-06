@@ -31,7 +31,6 @@
         Страница находится на доработке!
       </guide>
       <v-col
-        v-if="recipes.length > 0"
         cols="12"
         sm="8"
         offset-sm="2"
