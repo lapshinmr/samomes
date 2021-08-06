@@ -245,6 +245,7 @@ export default [
       H3BO3: 0.3,
       C4H6O4: 0.05,
       C63H88CoN14O14P: 0.0005,
+      '(NH4)2MoO4': 0.1,
     },
     compounds: {
       'Fe-EDTA13': 5,
@@ -266,11 +267,58 @@ export default [
         0.03 г хелат меди,
         0.6 г хелат цинка,
         5 г хелат магния,
+        0.1 молибдат аммония
         0.3 г борная кислота,
         0.05 г янтарная кислота;
 
       * остудить;
       * добавить 1 мл (500 мкг) цианокобаламин.
     `,
+  },
+  {
+    name: 'Pps-pro Macro',
+    reagents: {
+      K2SO4: 29.3,
+      KNO3: 32.6,
+      KH2PO4: 2.9,
+      'MgSO4(H2O)7': 20.2,
+    },
+    volume: 500,
+    note: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
+  },
+  {
+    name: 'Pps-pro Micro',
+    compounds: {
+      PlantexCMM: 28.6,
+    },
+    volume: 500,
+    note: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
+  },
+  {
+    name: 'PMDD CMM',
+    reagents: {
+      K2SO4: 33,
+      KNO3: 15,
+      'MgSO4(H2O)7': 15,
+    },
+    compounds: {
+      PlantexCMM: 9.93,
+    },
+    volume: 500,
+    note: 'http://www.amania.org/Tech/liqfert-mikom.html',
+  },
+  {
+    name: 'PMDD CSM + B',
+    reagents: {
+      K2SO4: 33,
+      KNO3: 15,
+      'MgSO4(H2O)7': 15,
+      H3BO3: 0.714,
+    },
+    compounds: {
+      PlantexCSM: 9.93,
+    },
+    volume: 500,
+    note: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
 ];

@@ -28,7 +28,6 @@
         реминерализатора и дозировок удобрений.
       </guide>
       <v-col
-        v-if="recipes.length > 0"
         cols="12"
         sm="8"
         offset-sm="2"
@@ -103,43 +102,51 @@
               Значения жесткости
             </div>
             <div class="d-flex">
-              <v-text-field
-                v-model.number="ghInit"
+              <base-text-field
+                :value="ghInit"
+                @input="inputGhInit"
                 type="number"
                 label="Gh в аквариуме"
                 suffix="dGh"
                 hide-details="auto"
+                :precision="1"
               />
-              <v-text-field
-                v-model.number="ghWaterChange"
+              <base-text-field
+                :value="ghWaterChange"
+                @input="inputGhWaterChange"
                 type="number"
                 label="Gh водопровода"
                 suffix="dGh"
                 hide-details="auto"
                 class="ml-3"
+                :precision="1"
               />
             </div>
             <div class="d-flex">
-              <v-text-field
-                v-model.number="khInit"
+              <base-text-field
+                :value="khInit"
+                @input="inputKhInit"
                 type="number"
                 label="Kh в аквариуме"
                 suffix="dKh"
                 hide-details="auto"
+                :precision="1"
               />
-              <v-text-field
-                v-model.number="khWaterChange"
+              <base-text-field
+                :value="khWaterChange"
+                @input="inputKhWaterChange"
                 type="number"
                 label="Kh водопровода"
                 suffix="dKh"
                 hide-details="auto"
                 class="ml-3"
+                :precision="1"
               />
             </div>
           </div>
         </v-expand-transition>
         <v-expand-transition>
-          <div v-if="ghInit !== null">
+          <div v-if="tankVolume">
             <div class="text-subtitle-1 mt-8">
               Реминерализатор и удобрения
             </div>
@@ -250,32 +257,62 @@
         />
         <v-expand-transition>
           <div
-            v-if="ghInit !== null"
+            v-if="tankVolume"
             class="mt-8"
           >
-            <div class="text-subtitle-1 mb-2">
-              {{ hardnessHint('Kh') }}
-            </div>
-            <div class="d-flex">
-              <v-text-field
-                :value="totalGh.toFixed(2)"
-                label="Общая жесткость"
-                suffix="dGh"
-                hide-details="auto"
-                readonly
-                outlined
-                persistent-hint
-              />
-              <v-text-field
-                :value="totalKh.toFixed(2)"
-                label="Карбонатная жесткость"
-                suffix="dKh"
-                hide-details="auto"
-                readonly
-                outlined
-                persistent-hint
-                class="ml-3"
-              />
+            <div class="d-flex flex-column flex-sm-row">
+              <div class="flex-grow-1">
+                <div class="text-subtitle-1 mb-2">
+                  Жесткость в подмене
+                </div>
+                <v-text-field
+                  :value="waterChangeGh.toFixed(2)"
+                  label="Общая жесткость"
+                  suffix="dGh"
+                  hide-details="auto"
+                  readonly
+                  outlined
+                  persistent-hint
+                  class="mb-2"
+                  :rules="rulesCalculation"
+                />
+                <v-text-field
+                  :value="waterChangeKh.toFixed(2)"
+                  label="Карбонатная жесткость"
+                  suffix="dKh"
+                  hide-details="auto"
+                  readonly
+                  outlined
+                  persistent-hint
+                  :rules="rulesCalculation"
+                />
+              </div>
+              <div class="flex-grow-1 ml-sm-2">
+                <div class="text-subtitle-1 mb-2">
+                  Жесткость в аквариуме
+                </div>
+                <v-text-field
+                  :value="totalGh.toFixed(2)"
+                  label="Общая жесткость"
+                  suffix="dGh"
+                  hide-details="auto"
+                  readonly
+                  outlined
+                  persistent-hint
+                  class="mb-2"
+                  :rules="rulesCalculation"
+                />
+                <v-text-field
+                  :value="totalKh.toFixed(2)"
+                  label="Карбонатная жесткость"
+                  suffix="dKh"
+                  hide-details="auto"
+                  readonly
+                  outlined
+                  persistent-hint
+                  :rules="rulesCalculation"
+                />
+              </div>
             </div>
           </div>
         </v-expand-transition>
@@ -319,8 +356,8 @@ export default {
       waterChange: 0,
       waterChangeVolume: 0,
       osmosisChange: 0,
-      ghInit: null,
-      khInit: null,
+      ghInit: 0,
+      khInit: 0,
       ghWaterChange: 0,
       khWaterChange: 0,
       recipesSelected: [],
@@ -332,6 +369,9 @@ export default {
         mass: 0,
         volume: 0,
       },
+      rulesCalculation: [
+        (v) => (!Number.isNaN(+v) && +v !== Infinity) || 'Проверьте вводимые параметры',
+      ],
     };
   },
   computed: {
@@ -365,10 +405,35 @@ export default {
       });
       return result;
     },
+    waterChangeGh() {
+      const ca = this.totalElements.Ca;
+      const mg = this.totalElements.Mg;
+      let ghRem = 0;
+      if (ca) {
+        ghRem += ca / this.HARDNESS.Ca;
+      }
+      if (mg) {
+        ghRem += mg / this.HARDNESS.Mg;
+      }
+      this.remineralsSelected.forEach((rem) => {
+        if (rem.amount) {
+          ghRem += rem.gh * rem.amount * rem.volume / (this.waterChangeVolume * rem.mass);
+        }
+      });
+      return this.ghWaterChange + ghRem;
+    },
+    waterChangeKh() {
+      let khRem = 0;
+      this.remineralsSelected.forEach((rem) => {
+        if (rem.amount) {
+          khRem += rem.kh * rem.amount * rem.volume / (this.waterChangeVolume * rem.mass);
+        }
+      });
+      return this.khWaterChange + khRem;
+    },
     totalGh() {
       const ca = this.totalElements.Ca;
       const mg = this.totalElements.Mg;
-      const ghLeft = this.ghInit * (1 - this.waterChange / 100);
       let ghRem = 0;
       if (ca) {
         ghRem += ca / this.HARDNESS.Ca;
@@ -383,10 +448,10 @@ export default {
         }
       });
       const ghFromChangeWater = (this.ghWaterChange * (1 - this.osmosisChange / 100) * this.waterChange) / 100;
+      const ghLeft = this.ghInit * (1 - this.waterChange / 100);
       return ghLeft + ghFromChangeWater + ghRem;
     },
     totalKh() {
-      const khLeft = this.khInit * (1 - this.waterChange / 100);
       let khRem = 0;
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
@@ -395,6 +460,7 @@ export default {
         }
       });
       const khFromChangeWater = (this.khWaterChange * (1 - this.osmosisChange / 100) * this.waterChange) / 100;
+      const khLeft = this.khInit * (1 - this.waterChange / 100);
       return khLeft + khFromChangeWater + khRem;
     },
   },
@@ -420,8 +486,33 @@ export default {
     inputDose(index, value) {
       Vue.set(this.recipesSelected, index, value);
     },
+    inputGhInit(value) {
+      if (value < 0) {
+        return;
+      }
+      this.ghInit = +value;
+    },
+    inputKhInit(value) {
+      if (value < 0) {
+        return;
+      }
+      this.khInit = +value;
+    },
+    inputGhWaterChange(value) {
+      if (value < 0) {
+        return;
+      }
+      this.ghWaterChange = +value;
+    },
+    inputKhWaterChange(value) {
+      if (value < 0) {
+        return;
+      }
+      this.khWaterChange = +value;
+    },
     inputTankVolume(value) {
       if (value < 0) {
+        console.log('+');
         return;
       }
       this.tankVolume = +value;
@@ -455,13 +546,6 @@ export default {
       if (value <= 100) {
         this.osmosisChange = +value;
       }
-    },
-    hardnessHint() {
-      let text = 'Жесткость после подмены воды';
-      if (this.totalElements.Ca || this.totalElements.Mg || this.remineralsSelected.length > 0) {
-        text += ', внесения удобрений и реминерализатора';
-      }
-      return text;
     },
     addOwnRemineral() {
       this.remineralsSelected.push({
