@@ -183,9 +183,14 @@ export default {
     };
   },
   computed: {
+    totalIonConcentrationSorted() {
+      const result = Object.entries(this.totalIonConcentration);
+      result.sort((a, b) => b[1] - a[1]);
+      return result;
+    },
     totalUsefulConcentration() {
       let sum = 0;
-      Object.entries(this.totalIonConcentration).forEach(([ion, value]) => {
+      this.totalIonConcentrationSorted.forEach(([ion, value]) => {
         sum += this.convertIonRatio(ion) * value;
       });
       return sum;

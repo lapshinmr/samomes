@@ -289,7 +289,7 @@ export default {
         count: 1,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
     },
@@ -303,7 +303,7 @@ export default {
         count: 1,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
     },
@@ -317,7 +317,7 @@ export default {
         count: 2,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
     },
@@ -331,7 +331,7 @@ export default {
         count: 2,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
     },
@@ -345,7 +345,7 @@ export default {
         count: 2,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -367,7 +367,7 @@ export default {
         count: 2,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -389,7 +389,7 @@ export default {
         count: 2,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -415,7 +415,7 @@ export default {
         count: 1,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
     },
@@ -433,7 +433,7 @@ export default {
         count: 1,
       },
       CO3: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
     },

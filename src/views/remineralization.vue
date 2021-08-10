@@ -326,7 +326,7 @@ import Vue from 'vue';
 import { mapState } from 'vuex';
 import ELEMENTS from '@/constants/elements';
 import FORMULAS from '@/constants/formulas';
-import HARDNESS from '@/constants/hardness';
+import { GH } from '@/constants/hardness';
 import REMINERALS from '@/constants/remineral';
 import {
   convertIonName,
@@ -347,7 +347,7 @@ export default {
     return {
       FORMULAS,
       ELEMENTS,
-      HARDNESS,
+      GH,
       REMINERALS,
       FERTILIZATION_IN_TAP_WATER,
       dialog: true,
@@ -410,10 +410,10 @@ export default {
       const mg = this.totalElements.Mg;
       let ghRem = 0;
       if (ca) {
-        ghRem += ca / this.HARDNESS.Ca;
+        ghRem += ca * this.waterChange / this.GH.Ca;
       }
       if (mg) {
-        ghRem += mg / this.HARDNESS.Mg;
+        ghRem += mg * this.waterChange / this.GH.Mg;
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
@@ -436,10 +436,10 @@ export default {
       const mg = this.totalElements.Mg;
       let ghRem = 0;
       if (ca) {
-        ghRem += ca / this.HARDNESS.Ca;
+        ghRem += ca / this.GH.Ca;
       }
       if (mg) {
-        ghRem += mg / this.HARDNESS.Mg;
+        ghRem += mg / this.GH.Mg;
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
