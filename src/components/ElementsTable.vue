@@ -114,12 +114,12 @@
                 v-if="isHardness"
                 class="text-center"
               >
-                <template v-if="name in HARDNESS">
+                <template v-if="name in GH">
                   <template v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_EVERY_DAY].includes(fertilizationType)">
-                    +{{ (value.amount / HARDNESS[name]).toFixed(2) }}
+                    +{{ (value.amount / GH[name]).toFixed(2) }}
                   </template>
                   <template v-if="FERTILIZATION_MIX === fertilizationType">
-                    +{{ (value.total / HARDNESS[name]).toFixed(2) }}
+                    +{{ (value.total / GH[name]).toFixed(2) }}
                   </template>
                 </template>
               </td>
@@ -209,7 +209,7 @@
 import {
  convertIonName, convertIonRatio, isFertilizer, isRecipe,
 } from '@/helpers/funcs';
-import HARDNESS from '@/constants/hardness';
+import { GH } from '@/constants/hardness';
 import {
   FERTILIZATION_IN_TAP_WATER,
   FERTILIZATION_EVERY_DAY,
@@ -254,7 +254,7 @@ export default {
   },
   data() {
     return {
-      HARDNESS,
+      GH,
       FERTILIZATION_IN_TAP_WATER,
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,

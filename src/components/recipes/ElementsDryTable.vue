@@ -126,22 +126,6 @@
         </tbody>
       </template>
     </v-simple-table>
-    <div class="subtitle-2 mt-2">
-      Соотношение элементов
-      <v-tooltip
-        bottom
-        max-width="400"
-      >
-        <template v-slot:activator="{ on }">
-          <v-icon v-on="on">
-            mdi-help-circle-outline
-          </v-icon>
-        </template>
-        Учитывает соотношение только между интересующими аквариумиста элементами.
-        Такие элементы как сера, хлор, водород, кислород и т.д. в данном соотношении
-        не участвуют.
-      </v-tooltip>:
-    </div>
     <div>
       <span
         v-for="(value, ion) in totalIonConcentration"

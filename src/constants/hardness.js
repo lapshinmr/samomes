@@ -29,4 +29,4 @@ export const GH = {
 
 const KH_RATIO = 2.804;
 
-export const countKh = (mass, volume) => mass / (volume * KH.HCO3) * KH_RATIO;
+export const countKh = (mass, volume) => mass / (volume * KH.HCO3) * (KH.HCO3 / KH.CO3) * KH_RATIO;

@@ -294,8 +294,8 @@
                         >
                           <hardness-table
                             :total-ion-concentration="totalIonConcentration"
-                            :fertilizer-mass="mass"
-                            :total-fertilizer-mass="totalFertilizerMass"
+                            :is-volume="!!volume"
+                            class="mt-4"
                           />
                         </v-col>
                       </v-expand-transition>
@@ -638,14 +638,14 @@ export default {
       return this.reagents.length > 0 || this.compounds.length > 0;
     },
     totalFertilizerMass() {
-      return Object.values(this.mass).reduce((sum, value) => sum + value);
+      return Object.values(this.mass).reduce((sum, value) => sum + +value);
     },
     concentration() {
       const result = {};
       if (this.isReagents && Object.keys(this.mass).length > 0) {
         this.reagents.forEach((reagent) => {
           result[reagent.key] = {};
-          const { ions } = reagent;
+          const { ions, HCO3 } = reagent;
           Object.entries(ions).forEach(([ion, data]) => {
             if (data.isNeeded) {
               let factor = 1;
@@ -653,6 +653,9 @@ export default {
                 factor = 1 / (this.volume / 1000);
               } else if (!this.volume) {
                 factor = 1 / this.totalFertilizerMass;
+              }
+              if (ion === 'CO3' && HCO3) {
+                factor *= HCO3;
               }
               result[reagent.key][ion] = this.mass[reagent.key] * this.countPercent(reagent.key)[ion] * factor;
             }
@@ -692,7 +695,9 @@ export default {
     isHardness() {
       let result = false;
       Object.keys(this.totalIonConcentration).forEach((ion) => {
-        result = [...Object.keys(GH), ...Object.keys(KH)].includes(ion);
+        if ([...Object.keys(GH), ...Object.keys(KH)].includes(ion)) {
+          result = true;
+        }
       });
       return result;
     },
