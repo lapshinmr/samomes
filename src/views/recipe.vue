@@ -850,29 +850,6 @@ export default {
         });
       });
     },
-    // BufferAdd_cleardata() {
-    //   document.BufferAddForm.BufferAddResult.value = "";
-    // },
-    // Buffer_add_calc() {
-    //   BufferAdd_cleardata();
-    //   var KHKoeff;
-    //   var CurrentBufferValue = parseFloat(document.BufferAddForm.CurrentBufferValue.value.replace(',', '.'));
-    //   var NeedBufferValue = parseFloat(document.BufferAddForm.NeedBufferValue.value.replace(',', '.'));
-    //   if (document.BufferAddForm.BufferAdd_form[0].checked) {
-    //     KHKoeff = 3;
-    //   }
-    //   if (document.BufferAddForm.BufferAdd_form[1].checked) {
-    //     KHKoeff = 1.8841;
-    //   }
-    //   if (CurrentBufferValue > NeedBufferValue) {
-    //     alert("Ошибка ввода! Текущее значение выше требуемого! Введите правильные данные!");
-    //     return;
-    //   }
-    //   document.BufferAddForm.BufferAddResult.value = (
-    //     (NeedBufferValue - CurrentBufferValue)
-    //     * parseFloat(document.BufferAddForm.AquariumV.value.replace(',', '.'))
-    //     / 100 * KHKoeff).toFixed(1); }
-    // },
     setIsWater(value) {
       this.isWater = value;
       this.volume = null;

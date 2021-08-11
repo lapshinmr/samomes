@@ -279,47 +279,51 @@ export default {
               };
             }
             if (this.fertilizationType === FERTILIZATION_EVERY_DAY) {
-              const amount = (recipe.amount * value[ion]) / this.volume;
-              result[ion].amount += amount;
-              result[ion].total += amount;
-              result[ion].amountDay += amount / this.daysTotal;
+              let amount = (recipe.amount * value[ion]) / this.volume;
+              let amountDay = amount / this.daysTotal;
+              let total = amount;
               if ((!recipe.volume) && this.isRecipe(recipe)) {
-                result[ion].amount *= 1000;
-                result[ion].amountDay *= 1000;
-                result[ion].total *= 1000;
+                amount *= 1000;
+                amountDay *= 1000;
+                total *= 1000;
               }
+              result[ion].amount += amount;
+              result[ion].amountDay += amountDay;
+              result[ion].total += total;
             } else if (this.fertilizationType === FERTILIZATION_IN_TAP_WATER) {
-              const amount = (recipe.amount * value[ion]) / this.volume;
-              const waterChangeVolume = this.waterChangeVolume
+              let amount = (recipe.amount * value[ion]) / this.volume;
+              let amountDay = amount / this.daysTotal;
+              let total = amount;
+              let waterChangeVolume = this.waterChangeVolume
                 ? (recipe.amount * value[ion]) / this.waterChangeVolume
                 : 0;
-              result[ion].amount += amount;
-              result[ion].total += amount;
-              result[ion].amountDay += amount / this.daysTotal;
-              result[ion].waterChangeVolume += waterChangeVolume;
               if ((!recipe.volume) && this.isRecipe(recipe)) {
-                result[ion].amount *= 1000;
-                result[ion].amountDay *= 1000;
-                result[ion].waterChangeVolume *= 1000;
-                result[ion].total *= 1000;
+                amount *= 1000;
+                amountDay *= 1000;
+                waterChangeVolume *= 1000;
+                total *= 1000;
               }
+              result[ion].amount += amount;
+              result[ion].total += total;
+              result[ion].amountDay += amountDay;
+              result[ion].waterChangeVolume += waterChangeVolume;
             } else if (this.fertilizationType === FERTILIZATION_MIX) {
-              const amount = (recipe.amount * value[ion]) / this.volume;
-              const waterChangeVolume = this.waterChangeVolume
+              let amount = (recipe.amount * value[ion]) / this.volume;
+              let waterChangeVolume = this.waterChangeVolume
                 ? (recipe.amount * value[ion]) / this.waterChangeVolume
                 : 0;
-              const amountDay = (recipe.amountDay * value[ion]) / this.volume;
-              const total = amount + amountDay * this.daysTotal;
+              let amountDay = (recipe.amountDay * value[ion]) / this.volume;
+              let total = amount + amountDay * this.daysTotal;
+              if ((!recipe.volume) && this.isRecipe(recipe)) {
+                amount *= 1000;
+                waterChangeVolume *= 1000;
+                amountDay *= 1000;
+                total *= 1000;
+              }
               result[ion].amount += amount;
               result[ion].waterChangeVolume += waterChangeVolume;
               result[ion].amountDay += amountDay;
               result[ion].total += total;
-              if ((!recipe.volume) && this.isRecipe(recipe)) {
-                result[ion].amount *= 1000;
-                result[ion].waterChangeVolume *= 1000;
-                result[ion].amountDay *= 1000;
-                result[ion].total *= 1000;
-              }
             }
           });
         });
