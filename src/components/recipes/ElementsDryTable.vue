@@ -134,7 +134,7 @@
       >
         {{ convertIonName(ion) }}
         ({{ value
-          ? (convertIonRatio(ion) * value / totalUsefulConcentration).toFixed(5)
+          ? (convertIonRatio(ion) * value / totalUsefulConcentration * 100).toFixed(3)
           : '???' }} %)
       </span>
     </div>

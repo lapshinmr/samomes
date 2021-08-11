@@ -118,7 +118,7 @@ export default {
       },
     },
     solubilityLimit: 1870,
-    name: 'Калия пирофосфат кристалогидрат',
+    name: 'Калия пирофосфат 3-водный',
   },
   K2SO4: {
     ions: {
@@ -216,7 +216,7 @@ export default {
       },
     },
     solubilityLimit: 1130,
-    name: 'Магния сульфат (магнезия)',
+    name: 'Магния сульфат 7-водный (магнезия)',
   },
   'Mg(NO3)2(H2O)6': {
     ions: {
@@ -294,6 +294,7 @@ export default {
       },
     },
     HCO3: 2,
+    solubilityLimit: 0.014,
     name: 'Кальция карбонат',
   },
   MgCO3: {
@@ -308,6 +309,7 @@ export default {
       },
     },
     HCO3: 2,
+    solubilityLimit: 0.012,
     name: 'Магния карбонат',
   },
   K2CO3: {
@@ -322,6 +324,7 @@ export default {
       },
     },
     HCO3: 2,
+    solubilityLimit: 1105,
     name: 'Калия карбонат',
   },
   Na2CO3: {
@@ -336,6 +339,7 @@ export default {
       },
     },
     HCO3: 2,
+    solubilityLimit: 218,
     name: 'Натрия карбонат (бельевая сода)',
   },
   'Na2CO3(H2O)': {
@@ -358,6 +362,7 @@ export default {
       },
     },
     HCO3: 2,
+    solubilityLimit: 218,
     name: 'Натрия карбонат 1-водный (стиральная сода)',
   },
   'Na2CO3(H2O)7': {
@@ -380,6 +385,7 @@ export default {
       },
     },
     HCO3: 2,
+    solubilityLimit: 218,
     name: 'Натрия карбонат 7-водный (стиральная сода)',
   },
   'Na2CO3(H2O)10': {
@@ -402,6 +408,7 @@ export default {
       },
     },
     HCO3: 2,
+    solubilityLimit: 218,
     name: 'Натрия карбонат 10-водный (стиральная сода)',
   },
   KHCO3: {
@@ -420,6 +427,7 @@ export default {
       },
     },
     HCO3: 1,
+    solubilityLimit: 333,
     name: 'Калия гидрокарбонат',
   },
   NaHCO3: {
@@ -438,6 +446,7 @@ export default {
       },
     },
     HCO3: 1,
+    solubilityLimit: 95.9,
     name: 'Натрия гидрокарбонат (пищевая сода)',
   },
   // GH
@@ -461,7 +470,7 @@ export default {
       },
     },
     solubilityLimit: 2.036,
-    name: 'Кальция сульфат (гипс)',
+    name: 'Кальция сульфат 2-водный (гипс)',
   },
   CaCl2: {
     ions: {
@@ -569,7 +578,7 @@ export default {
       },
     },
     solubilityLimit: 356,
-    name: 'Меди сульфат (медный купорос)',
+    name: 'Меди сульфат 5-водный (медный купорос)',
   },
   'ZnSO4(H2O)7': {
     ions: {
@@ -591,7 +600,7 @@ export default {
       },
     },
     solubilityLimit: 540,
-    name: 'Цинка сульфат (цинковый купорос)',
+    name: 'Цинка сульфат 7-водный (цинковый купорос)',
   },
   '(NH4)2MoO4': {
     ions: {
@@ -635,7 +644,7 @@ export default {
       },
     },
     solubilityLimit: 280,
-    name: 'Парамолибдат аммония тетрагидрат',
+    name: 'Парамолибдат аммония 4-водный',
   },
   'MnSO4(H2O)5': {
     ions: {
@@ -657,7 +666,7 @@ export default {
       },
     },
     solubilityLimit: 600,
-    name: 'Марганца сульфат кристаллогидрат',
+    name: 'Марганца сульфат 5-водный',
   },
   MnSO4H2O: {
     ions: {
@@ -679,7 +688,7 @@ export default {
       },
     },
     solubilityLimit: 762,
-    name: 'Марганца сульфат моногидрат',
+    name: 'Марганца сульфат 1-водный',
   },
   'Fe2(SO4)3(H2O)9': {
     ions: {
@@ -701,7 +710,7 @@ export default {
       },
     },
     solubilityLimit: 263,
-    name: 'Железа сульфат',
+    name: 'Железа сульфат 9-водный',
   },
   'FeSO4(H2O)7': {
     ions: {
@@ -723,7 +732,7 @@ export default {
       },
     },
     solubilityLimit: 263,
-    name: 'Железный купорос',
+    name: 'Железный купорос 7-водный',
   },
   C12H22FeO14: {
     ions: {
@@ -767,7 +776,7 @@ export default {
       },
     },
     solubilityLimit: 100,
-    name: 'Железа глюконат гидрат',
+    name: 'Железа глюконат 1-водный',
   },
   'C12H22FeO14(H2O)2': {
     ions: {
@@ -789,7 +798,7 @@ export default {
       },
     },
     solubilityLimit: 100,
-    name: 'Железа глюконат дигидрат',
+    name: 'Железа глюконат 2-водный',
   },
   // EDTA
   'C10H14N2Na2O8(H2O)2': {
@@ -846,7 +855,7 @@ export default {
       },
     },
     solubilityLimit: 700,
-    name: 'ЭДТА Кальций 10%',
+    name: 'ЭДТА Кальций 10% 2-водный',
   },
   'C10H12N2Na2O8Mg(H2O)2': {
     ions: {
@@ -876,7 +885,7 @@ export default {
       },
     },
     solubilityLimit: 800,
-    name: 'ЭДТА Магний 6%',
+    name: 'ЭДТА Магний 6% 2-водный',
   },
   'C10H12N2Na2O8Mn(H2O)2': {
     ions: {
@@ -906,7 +915,7 @@ export default {
       },
     },
     solubilityLimit: 700,
-    name: 'ЭДТА Марганец 13%',
+    name: 'ЭДТА Марганец 13% 2-водный',
   },
   'C10H12N2Na2O8Zn(H2O)2': {
     ions: {
@@ -936,7 +945,7 @@ export default {
       },
     },
     solubilityLimit: 900,
-    name: 'ЭДТА Цинк 15%',
+    name: 'ЭДТА Цинк 15% 2-водный',
   },
   'C10H12N2Na2O8Cu(H2O)2': {
     ions: {
@@ -966,7 +975,7 @@ export default {
       },
     },
     solubilityLimit: 900,
-    name: 'ЭДТА Медь 15%',
+    name: 'ЭДТА Медь 15% 2-водный',
   },
   'C10H12N2NaO8Fe(H20)3': {
     ions: {
@@ -996,7 +1005,7 @@ export default {
       },
     },
     solubilityLimit: 250,
-    name: 'Железо ЭДТА 13%',
+    name: 'Железо ЭДТА 13% 3-водный',
   },
   // DTPA
   C14H18N3O10Na2Fe: {
