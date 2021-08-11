@@ -230,10 +230,10 @@
                           :rules="[
                             rulesMass.isExist(),
                           ]"
-                          :error="(mass[reagent.key] / volume) * 1000
+                          :error="isWater && (mass[reagent.key] / volume) * 1000
                             > FORMULAS[reagent.key].solubilityLimit"
                           :error-messages="
-                            (mass[reagent.key] / volume) * 1000
+                            isWater && (mass[reagent.key] / volume) * 1000
                               > FORMULAS[reagent.key].solubilityLimit
                               ? `Достигнута максимальная растворимость -
                                       ${FORMULAS[reagent.key].solubilityLimit} г/л при 20°С!`
@@ -260,25 +260,10 @@
                           ]"
                         />
                       </v-col>
-                      <v-col
-                        v-if="isWater"
-                        cols="12"
-                        class="mt-2 pb-0"
-                      >
-                        <v-btn
-                          center
-                          text
-                          @click="isShowConcentration = !isShowConcentration"
-                          class="px-0"
-                        >
-                          Показать концентрации
-                          <v-icon>{{ isShowConcentration ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                        </v-btn>
-                      </v-col>
                       <v-expand-transition>
                         <v-col
                           cols="12"
-                          v-if="isShowConcentration && isWater"
+                          v-if="isWater"
                           class="pt-0"
                         >
                           <elements-table
@@ -298,6 +283,19 @@
                             :total-ion-concentration="totalIonConcentration"
                             :fertilizer-mass="mass"
                             :total-fertilizer-mass="totalFertilizerMass"
+                          />
+                        </v-col>
+                      </v-expand-transition>
+                      <v-expand-transition>
+                        <v-col
+                          v-if="isHardness"
+                          cols="12"
+                          class="pt-0"
+                        >
+                          <hardness-table
+                            :total-ion-concentration="totalIonConcentration"
+                            :is-volume="!!volume"
+                            class="mt-4"
                           />
                         </v-col>
                       </v-expand-transition>
@@ -513,15 +511,18 @@ import {
   convertIonRatio,
   OPPOSITE,
 } from '@/helpers/funcs';
+import { KH, GH } from '@/constants/hardness';
 import { mapState, mapMutations } from 'vuex';
 import ElementsTable from '@/components/recipes/ElementsTable.vue';
 import ElementsDryTable from '@/components/recipes/ElementsDryTable.vue';
+import HardnessTable from '@/components/recipes/HardnessTable.vue';
 
 export default {
   name: 'Recipe',
   components: {
     ElementsTable,
     ElementsDryTable,
+    HardnessTable,
   },
   data() {
     return {
@@ -540,7 +541,6 @@ export default {
       note: null,
       isShared: false,
       isWater: true,
-      isShowConcentration: false,
       rulesReagent: [
         () => (this.reagents.length > 0 || this.compounds.length > 0) || 'Выберите реагент',
       ],
@@ -638,14 +638,14 @@ export default {
       return this.reagents.length > 0 || this.compounds.length > 0;
     },
     totalFertilizerMass() {
-      return Object.values(this.mass).reduce((sum, value) => sum + value);
+      return Object.values(this.mass).reduce((sum, value) => sum + +value);
     },
     concentration() {
       const result = {};
       if (this.isReagents && Object.keys(this.mass).length > 0) {
         this.reagents.forEach((reagent) => {
           result[reagent.key] = {};
-          const { ions } = reagent;
+          const { ions, HCO3 } = reagent;
           Object.entries(ions).forEach(([ion, data]) => {
             if (data.isNeeded) {
               let factor = 1;
@@ -653,6 +653,9 @@ export default {
                 factor = 1 / (this.volume / 1000);
               } else if (!this.volume) {
                 factor = 1 / this.totalFertilizerMass;
+              }
+              if (ion === 'CO3' && HCO3) {
+                factor *= HCO3;
               }
               result[reagent.key][ion] = this.mass[reagent.key] * this.countPercent(reagent.key)[ion] * factor;
             }
@@ -687,6 +690,15 @@ export default {
     ionTotalDoseSorted() {
       const result = Object.entries(countTotalIonDose(this.solute));
       result.sort((a, b) => b[1] - a[1]);
+      return result;
+    },
+    isHardness() {
+      let result = false;
+      Object.keys(this.totalIonConcentration).forEach((ion) => {
+        if ([...Object.keys(GH), ...Object.keys(KH)].includes(ion)) {
+          result = true;
+        }
+      });
       return result;
     },
   },

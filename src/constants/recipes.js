@@ -321,4 +321,15 @@ export default [
     volume: 500,
     note: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
+  {
+    name: 'Реминерализатор от Романа Че',
+    reagents: {
+      'CaSO4(H2O)2': 5,
+      'MgSO4(H2O)7': 7,
+      CaCl2: 3,
+      K2CO3: 0.5,
+      NaHCO3: 1,
+    },
+    note: 'Рецепт Романа Че',
+  },
 ];

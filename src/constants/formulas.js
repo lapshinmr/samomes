@@ -194,7 +194,7 @@ export default {
       },
     },
     solubilityLimit: 351,
-    name: 'Магния Сульфат',
+    name: 'Магния сульфат',
   },
   'MgSO4(H2O)7': {
     ions: {
@@ -216,7 +216,7 @@ export default {
       },
     },
     solubilityLimit: 1130,
-    name: 'Магния Сульфат (магнезия)',
+    name: 'Магния сульфат (магнезия)',
   },
   'Mg(NO3)2(H2O)6': {
     ions: {
@@ -237,7 +237,7 @@ export default {
         count: 12,
       },
     },
-    name: 'Магния Нитрат 6-водный',
+    name: 'Магния нитрат 6-водный',
   },
   'Ca(NO3)2(H2O)2': {
     ions: {
@@ -258,7 +258,7 @@ export default {
         count: 8,
       },
     },
-    name: 'Кальция Нитрат 2-водный',
+    name: 'Кальция нитрат 2-водный',
   },
   'Ca(NO3)2(H2O)4': {
     ions: {
@@ -279,25 +279,168 @@ export default {
         count: 10,
       },
     },
-    name: 'Кальция Нитрат 4-водный',
+    name: 'Кальция нитрат 4-водный',
   },
+  // KH
   CaCO3: {
     ions: {
       Ca: {
         isNeeded: true,
         count: 1,
       },
-      C: {
+      CO3: {
         isNeeded: true,
         count: 1,
       },
-      O: {
-        isNeeded: false,
-        count: 3,
+    },
+    HCO3: 2,
+    name: 'Кальция карбонат',
+  },
+  MgCO3: {
+    ions: {
+      Mg: {
+        isNeeded: true,
+        count: 1,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
       },
     },
-    name: 'Кальция Карбонат',
+    HCO3: 2,
+    name: 'Магния карбонат',
   },
+  K2CO3: {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 2,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    HCO3: 2,
+    name: 'Калия карбонат',
+  },
+  Na2CO3: {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    HCO3: 2,
+    name: 'Натрия карбонат (бельевая сода)',
+  },
+  'Na2CO3(H2O)': {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
+      },
+      H: {
+        isNeeded: false,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 1,
+      },
+    },
+    HCO3: 2,
+    name: 'Натрия карбонат 1-водный (стиральная сода)',
+  },
+  'Na2CO3(H2O)7': {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
+      },
+      H: {
+        isNeeded: false,
+        count: 14,
+      },
+      O: {
+        isNeeded: false,
+        count: 7,
+      },
+    },
+    HCO3: 2,
+    name: 'Натрия карбонат 7-водный (стиральная сода)',
+  },
+  'Na2CO3(H2O)10': {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
+      },
+      H: {
+        isNeeded: false,
+        count: 20,
+      },
+      O: {
+        isNeeded: false,
+        count: 10,
+      },
+    },
+    HCO3: 2,
+    name: 'Натрия карбонат 10-водный (стиральная сода)',
+  },
+  KHCO3: {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 1,
+      },
+      H: {
+        isNeeded: false,
+        count: 1,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    HCO3: 1,
+    name: 'Калия гидрокарбонат',
+  },
+  NaHCO3: {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 1,
+      },
+      H: {
+        isNeeded: false,
+        count: 1,
+      },
+      CO3: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    HCO3: 1,
+    name: 'Натрия гидрокарбонат (пищевая сода)',
+  },
+  // GH
   'CaSO4(H2O)2': {
     ions: {
       Ca: {
@@ -318,7 +461,7 @@ export default {
       },
     },
     solubilityLimit: 2.036,
-    name: 'Кальция Сульфат (гипс)',
+    name: 'Кальция сульфат (гипс)',
   },
   CaCl2: {
     ions: {
@@ -332,7 +475,7 @@ export default {
       },
     },
     solubilityLimit: 745,
-    name: 'Кальция Хлорид',
+    name: 'Кальция хлорид',
   },
   'CaCl2(H20)2': {
     ions: {
@@ -354,7 +497,7 @@ export default {
       },
     },
     solubilityLimit: 745,
-    name: 'Кальция Хлорид 2-водный',
+    name: 'Кальция хлорид 2-водный',
   },
   H3BO3: {
     ions: {
@@ -404,7 +547,7 @@ export default {
       },
     },
     solubilityLimit: 144.5,
-    name: 'Йодид Калия',
+    name: 'Калия йодид',
   },
   'CuSO4(H2O)5': {
     ions: {
@@ -426,7 +569,7 @@ export default {
       },
     },
     solubilityLimit: 356,
-    name: 'Меди Сульфат (Медный Купорос)',
+    name: 'Меди сульфат (медный купорос)',
   },
   'ZnSO4(H2O)7': {
     ions: {
@@ -448,7 +591,7 @@ export default {
       },
     },
     solubilityLimit: 540,
-    name: 'Цинка Сульфат (Цинковый Купорос)',
+    name: 'Цинка сульфат (цинковый купорос)',
   },
   '(NH4)2MoO4': {
     ions: {
@@ -470,7 +613,7 @@ export default {
       },
     },
     solubilityLimit: 400,
-    name: 'Молибдат Аммония',
+    name: 'Молибдат аммония',
   },
   '(NH4)6Mo7O24(H2O)4': {
     ions: {
@@ -492,7 +635,7 @@ export default {
       },
     },
     solubilityLimit: 280,
-    name: 'Парамолибдат Аммония Тетрагидрат',
+    name: 'Парамолибдат аммония тетрагидрат',
   },
   'MnSO4(H2O)5': {
     ions: {
@@ -514,7 +657,7 @@ export default {
       },
     },
     solubilityLimit: 600,
-    name: 'Марганца Сульфат Кристаллогидрат',
+    name: 'Марганца сульфат кристаллогидрат',
   },
   MnSO4H2O: {
     ions: {
@@ -536,7 +679,7 @@ export default {
       },
     },
     solubilityLimit: 762,
-    name: 'Марганца Сульфат Моногидрат',
+    name: 'Марганца сульфат моногидрат',
   },
   'Fe2(SO4)3(H2O)9': {
     ions: {
@@ -558,7 +701,7 @@ export default {
       },
     },
     solubilityLimit: 263,
-    name: 'Железа Сульфат',
+    name: 'Железа сульфат',
   },
   'FeSO4(H2O)7': {
     ions: {
@@ -602,7 +745,7 @@ export default {
       },
     },
     solubilityLimit: 100,
-    name: 'Железа Глюконат',
+    name: 'Железа глюконат',
   },
   'C12H22FeO14(H2O)': {
     ions: {
@@ -624,7 +767,7 @@ export default {
       },
     },
     solubilityLimit: 100,
-    name: 'Железа Глюконат Гидрат',
+    name: 'Железа глюконат гидрат',
   },
   'C12H22FeO14(H2O)2': {
     ions: {
@@ -646,7 +789,7 @@ export default {
       },
     },
     solubilityLimit: 100,
-    name: 'Железа Глюконат Дигидрат',
+    name: 'Железа глюконат дигидрат',
   },
   // EDTA
   'C10H14N2Na2O8(H2O)2': {

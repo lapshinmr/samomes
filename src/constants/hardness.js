@@ -17,7 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-export default {
+export const KH = {
+  CO3: 60.01001,
+  HCO3: 61.01812,
+};
+
+export const GH = {
   Mg: 4.346,
   Ca: 7.144,
 };
+
+const KH_RATIO = 2.804;
+
+export const countKh = (mass, volume) => mass / (volume * KH.HCO3) * (KH.HCO3 / KH.CO3) * KH_RATIO;

@@ -326,7 +326,7 @@ import Vue from 'vue';
 import { mapState } from 'vuex';
 import ELEMENTS from '@/constants/elements';
 import FORMULAS from '@/constants/formulas';
-import HARDNESS from '@/constants/hardness';
+import { countKh, GH } from '@/constants/hardness';
 import REMINERALS from '@/constants/remineral';
 import {
   convertIonName,
@@ -347,7 +347,7 @@ export default {
     return {
       FORMULAS,
       ELEMENTS,
-      HARDNESS,
+      GH,
       REMINERALS,
       FERTILIZATION_IN_TAP_WATER,
       dialog: true,
@@ -395,10 +395,11 @@ export default {
               result[ion] = 0;
             }
             if (recipe.amount) {
-              result[ion] += (recipe.amount * recipe.concentration[reagent][ion]) / this.tankVolume;
+              let total = (recipe.amount * recipe.concentration[reagent][ion]);
               if ((!recipe.volume) && isRecipe(recipe)) {
-                result[ion] *= 1000;
+                total *= 1000;
               }
+              result[ion] += total;
             }
           });
         });
@@ -410,10 +411,10 @@ export default {
       const mg = this.totalElements.Mg;
       let ghRem = 0;
       if (ca) {
-        ghRem += ca / this.HARDNESS.Ca;
+        ghRem += ca / (this.GH.Ca * this.waterChangeVolume);
       }
       if (mg) {
-        ghRem += mg / this.HARDNESS.Mg;
+        ghRem += mg / (this.GH.Mg * this.waterChangeVolume);
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
@@ -424,6 +425,10 @@ export default {
     },
     waterChangeKh() {
       let khRem = 0;
+      const co3 = this.totalElements.CO3;
+      if (co3) {
+        khRem += countKh(co3, this.waterChangeVolume);
+      }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
           khRem += rem.kh * rem.amount * rem.volume / (this.waterChangeVolume * rem.mass);
@@ -436,10 +441,10 @@ export default {
       const mg = this.totalElements.Mg;
       let ghRem = 0;
       if (ca) {
-        ghRem += ca / this.HARDNESS.Ca;
+        ghRem += ca / (this.GH.Ca * this.tankVolume);
       }
       if (mg) {
-        ghRem += mg / this.HARDNESS.Mg;
+        ghRem += mg / (this.GH.Mg * this.tankVolume);
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
@@ -453,6 +458,10 @@ export default {
     },
     totalKh() {
       let khRem = 0;
+      const co3 = this.totalElements.CO3;
+      if (co3) {
+        khRem += countKh(co3, this.tankVolume);
+      }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
           khRem += rem.kh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tankVolume * rem.mass)
