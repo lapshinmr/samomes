@@ -112,7 +112,6 @@ export default {
       if ('CO3' in this.totalIonConcentration) {
         result += countKh(this.totalIonConcentration.CO3, this.volume) * this.amount;
         if (!this.isVolume) {
-          console.log('+');
           result *= 1000;
         }
       }

@@ -24,12 +24,6 @@
       class="d-flex align-center mt-2 mb-2"
     >
       <v-switch
-        v-model="isHardness"
-        label="dGh"
-        hide-details="auto"
-        class="mt-0 mb-2 mb-sm-0"
-      />
-      <v-switch
         v-if="tank.length && tank.width"
         v-model="isSpecificArea"
         label="dm/dS"
@@ -49,12 +43,6 @@
           <tr>
             <th class="pl-0 text-center">
               Элемент
-            </th>
-            <th
-              v-if="isHardness"
-              class="text-center"
-            >
-              dGh
             </th>
             <template v-if="fertilizationType === FERTILIZATION_EVERY_DAY">
               <th class="text-center">
@@ -108,19 +96,6 @@
                 {{ name }}
                 <template v-if="convertIonName(name) !== name && isWithoutConversion">
                   / {{ convertIonName(name) }}
-                </template>
-              </td>
-              <td
-                v-if="isHardness"
-                class="text-center"
-              >
-                <template v-if="name in GH">
-                  <template v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_EVERY_DAY].includes(fertilizationType)">
-                    +{{ (value.amount / GH[name]).toFixed(2) }}
-                  </template>
-                  <template v-if="FERTILIZATION_MIX === fertilizationType">
-                    +{{ (value.total / GH[name]).toFixed(2) }}
-                  </template>
                 </template>
               </td>
               <template v-if="fertilizationType === FERTILIZATION_EVERY_DAY">
@@ -259,7 +234,6 @@ export default {
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,
       isWithoutConversion: false,
-      isHardness: false,
       isSpecificArea: false,
     };
   },
