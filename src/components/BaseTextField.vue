@@ -22,7 +22,7 @@
     v-bind="$attrs"
     v-on="$listeners"
     :value="countValue($attrs.value)"
-    @input="$emit('input', $event)"
+    @input="onInput"
     @focus="toggleFocus(true)"
     @blur="toggleFocus(false)"
   />
@@ -33,9 +33,13 @@ export default {
   name: 'BaseTextField',
   inheritAttrs: false,
   props: {
-    precision: {
+    precisionShow: {
       type: Number,
       default: 2,
+    },
+    precisionValue: {
+      type: Number,
+      default: undefined,
     },
   },
   data() {
@@ -48,16 +52,17 @@ export default {
       this.isFocused = value;
     },
     countValue(value) {
-      if (typeof value === 'string') {
-        return '';
-      }
-      if (value === undefined || value === null) {
+      if (value === undefined || value === null || Number.isNaN(+value)) {
         return '';
       }
       if (this.isFocused) {
-        return value;
+        let result = value;
+        if (this.precisionValue !== undefined && !Number.isNaN(+value)) {
+          result = Math.round(+value * 10 ** this.precisionValue) / 10 ** this.precisionValue;
+        }
+        return result;
       }
-      let [result, right] = value.toFixed(this.precision).split('.');
+      let [result, right] = (+value).toFixed(this.precisionShow).split('.');
       if (right) {
         right = right.split('');
         right.reverse();
@@ -76,6 +81,9 @@ export default {
         }
       }
       return result;
+    },
+    onInput(value) {
+      return this.$emit('input', value);
     },
   },
 };

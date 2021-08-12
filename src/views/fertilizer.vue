@@ -97,8 +97,9 @@
                       :key="el"
                     >
                       <base-text-field
-                        v-model.number="elements[el]"
-                        :precision="7"
+                        v-model="elements[el]"
+                        :precision-show="5"
+                        :precision-value="7"
                         type="number"
                         :label="el"
                         :suffix="isPercent ? '%' : 'г/л'"

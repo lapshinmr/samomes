@@ -181,7 +181,7 @@
                 v-if="isSchedule && recipesSelected.length > 0 && isAmount && daysTotal"
                 cols="12"
               >
-                <fertilizers-doze-table
+                <schedule-doze-table
                   :fertilization-type="fertilizationType"
                   :dates-column="datesColumn"
                   :days-total="daysTotal"
@@ -236,7 +236,7 @@ import FertilizerDoseTable, {
   FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
 import ElementsTable from '@/components/ElementsTable.vue';
-import FertilizersDozeTable from '@/components/schedules/ScheduleDozeTable.vue';
+import ScheduleDozeTable from '@/components/schedules/ScheduleDozeTable.vue';
 import { mapState, mapMutations } from 'vuex';
 import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
 
@@ -245,7 +245,7 @@ export default {
   components: {
     FertilizerDoseTable,
     ElementsTable,
-    FertilizersDozeTable,
+    ScheduleDozeTable,
   },
   data() {
     return {

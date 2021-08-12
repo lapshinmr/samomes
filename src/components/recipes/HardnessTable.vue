@@ -24,20 +24,19 @@
     </div>
     <div class="d-flex align-center mb-2">
       <base-text-field
-        v-model.number="amount"
+        v-model="amount"
         type="number"
         label="Введите количество"
         hint="То количество, которое будет внесено на объем подмены или весь объем аквариума"
         :suffix="isVolume ? 'мл' : 'г'"
-        class="flex-shrink-0"
       />
       <base-text-field
-        v-model.number="volume"
+        v-model="volume"
         type="number"
         label="Введите объем"
         hint="Объем подмены или весь объем аквариума"
         suffix="л"
-        class="ml-2 flex-shrink-0"
+        class="ml-2"
       />
     </div>
     <div class="d-flex">

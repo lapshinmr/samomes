@@ -62,9 +62,11 @@
               cols="12"
               class="pt-0"
             >
-              <v-text-field
-                v-model.number="tank.volume"
+              <base-text-field
+                v-model="tank.volume"
                 type="Number"
+                :precision-show="2"
+                :precision-value="3"
                 :label="$t('tanks.dialog.volume')"
                 :suffix="$t('units.l')"
                 hide-details="auto"
