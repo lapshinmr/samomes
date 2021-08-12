@@ -57,19 +57,25 @@ export default {
       if (this.isFocused) {
         return value;
       }
-      const result = value.toFixed(this.precision).split('');
-      result.reverse();
-      let valueEdited = '';
-      let found = false;
-      result.forEach((item) => {
-        if (item !== '0' && item !== '.') {
-          found = true;
+      let [result, right] = value.toFixed(this.precision).split('.');
+      if (right) {
+        right = right.split('');
+        right.reverse();
+        let valueEdited = '';
+        let found = false;
+        right.forEach((item) => {
+          if (item !== '0') {
+            found = true;
+          }
+          if (found) {
+            valueEdited = item + valueEdited;
+          }
+        });
+        if (valueEdited) {
+          result = `${result}.${valueEdited}`;
         }
-        if (found) {
-          valueEdited = item + valueEdited;
-        }
-      });
-      return valueEdited;
+      }
+      return result;
     },
   },
 };
