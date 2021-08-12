@@ -40,7 +40,7 @@
           v-for="item in links"
           :to="{ name: item.name }"
           :key="item.icon"
-          link
+          exact-path
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
