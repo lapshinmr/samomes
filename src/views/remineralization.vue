@@ -421,7 +421,8 @@ export default {
           ghRem += rem.gh * rem.amount * rem.volume / (this.waterChangeVolume * rem.mass);
         }
       });
-      return this.ghWaterChange + ghRem;
+      const ghFromChangeWater = (this.ghWaterChange * (1 - this.osmosisChange / 100));
+      return ghFromChangeWater + ghRem;
     },
     waterChangeKh() {
       let khRem = 0;
@@ -434,7 +435,8 @@ export default {
           khRem += rem.kh * rem.amount * rem.volume / (this.waterChangeVolume * rem.mass);
         }
       });
-      return this.khWaterChange + khRem;
+      const khFromChangeWater = (this.khWaterChange * (1 - this.osmosisChange / 100));
+      return khFromChangeWater + khRem;
     },
     totalGh() {
       const ca = this.totalElements.Ca;

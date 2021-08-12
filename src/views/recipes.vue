@@ -215,7 +215,7 @@ export default {
       let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]]);
       jsonString = jsonString.replace(/%/g, '%25');
       const encoded = encodeURIComponent(jsonString);
-      return `${window.location.origin + window.location.pathname}/create?share=${encoded}`;
+      return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
     },
   },
   watch: {

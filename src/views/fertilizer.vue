@@ -91,16 +91,16 @@
                 <v-col cols="12">
                   <v-row>
                     <v-col
-                      v-for="(amount, el) in elements"
+                      v-for="el in Object.keys(elements)"
                       :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6 : 12"
                       class="py-0"
                       :key="el"
                     >
-                      <v-text-field
+                      <base-text-field
                         v-model.number="elements[el]"
+                        :precision="7"
                         type="number"
                         :label="el"
-                        :value="amount"
                         :suffix="isPercent ? '%' : 'г/л'"
                         persistent-hint
                         hide-details="auto"

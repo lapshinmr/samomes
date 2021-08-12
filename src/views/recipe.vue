@@ -34,19 +34,17 @@
         </v-btn>
       </v-col>
       <page-title>
-        <template v-if="isCreate && !isShared">
-          <template v-if="!isShared">
-            Новый рецепт
-          </template>
-          <template v-if="isShared">
-            <p class="text-h4">
-              С вами поделились рецептом!
-            </p>
-            <p class="text-h6 font-weight-regular">
-              Посмотрите рецепт, дайте ему
-              название и напишите примечание. После этого можете сохранить его.
-            </p>
-          </template>
+        <template v-if="isCreate">
+          Новый рецепт
+        </template>
+        <template v-if="isShared">
+          <p class="text-h4">
+            С вами поделились рецептом!
+          </p>
+          <p class="text-h6 font-weight-regular">
+            Посмотрите рецепт, дайте ему
+            название и напишите примечание. После этого можете сохранить его.
+          </p>
         </template>
         <template v-else>
           Рецепт {{ name }}
@@ -148,7 +146,7 @@
                 <v-expand-transition>
                   <v-col
                     v-if="isReagents"
-                    cols="12"
+                    :cols="isWater ? 12 : 9"
                   >
                     <v-radio-group
                       :value="isWater"
@@ -165,6 +163,19 @@
                         :value="false"
                       />
                     </v-radio-group>
+                  </v-col>
+                </v-expand-transition>
+                <v-expand-transition>
+                  <v-col
+                    v-if="isReagents && !isWater"
+                    cols="3"
+                  >
+                    <v-text-field
+                      v-model="massKg"
+                      suffix="кг"
+                      :hint="`Массы реагентов в пересчете на ${massKg} кг смеси`"
+                      persistent-hint
+                    />
                   </v-col>
                 </v-expand-transition>
                 <v-expand-transition>
@@ -213,34 +224,45 @@
                           <v-divider />
                         </div>
                       </v-col>
-                      <v-col
+                      <template
                         v-for="reagent in reagents"
-                        cols="12"
-                        :key="reagent.key"
-                        class="py-0"
                       >
-                        <v-text-field
-                          :value="mass[reagent.key]"
-                          @input="inputMass($event, reagent.key)"
-                          :label="reagent.text"
+                        <v-col
+                          :cols="isWater ? 12 : 9"
                           :key="reagent.key"
-                          type="number"
-                          :suffix="reagent.density ? 'мл' : 'г'"
-                          hide-details="auto"
-                          :rules="[
-                            rulesMass.isExist(),
-                          ]"
-                          :error="isWater && (mass[reagent.key] / volume) * 1000
-                            > FORMULAS[reagent.key].solubilityLimit"
-                          :error-messages="
-                            isWater && (mass[reagent.key] / volume) * 1000
-                              > FORMULAS[reagent.key].solubilityLimit
-                              ? `Достигнута максимальная растворимость -
-                                      ${FORMULAS[reagent.key].solubilityLimit} г/л при 20°С!`
-                              : ''
-                          "
-                        />
-                      </v-col>
+                          class="d-flex py-0"
+                        >
+                          <v-text-field
+                            :value="mass[reagent.key]"
+                            @input="inputMass($event, reagent.key)"
+                            :label="reagent.text"
+                            :key="reagent.key"
+                            type="number"
+                            :suffix="reagent.density ? 'мл' : 'г'"
+                            hide-details="auto"
+                            :rules="[
+                              rulesMass.isExist(),
+                            ]"
+                            :error="isWater && (mass[reagent.key] / volume) * 1000
+                              > FORMULAS[reagent.key].solubilityLimit"
+                            :error-messages="
+                              isWater && (mass[reagent.key] / volume) * 1000
+                                > FORMULAS[reagent.key].solubilityLimit
+                                ? `Достигнута максимальная растворимость -
+                                        ${FORMULAS[reagent.key].solubilityLimit} г/л при 20°С!`
+                                : ''
+                            "
+                          />
+                        </v-col>
+                        <v-col
+                          v-if="!isWater"
+                          :key="reagent.key + 'kg'"
+                          cols="3"
+                          class="text-end"
+                        >
+                          {{ (mass[reagent.key] / totalFertilizerMass * massKg * 1000).toFixed(2) }} г
+                        </v-col>
+                      </template>
                       <v-col
                         v-for="compound in compounds"
                         cols="12"
@@ -541,6 +563,7 @@ export default {
       note: null,
       isShared: false,
       isWater: true,
+      massKg: 1,
       rulesReagent: [
         () => (this.reagents.length > 0 || this.compounds.length > 0) || 'Выберите реагент',
       ],
