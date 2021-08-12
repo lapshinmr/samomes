@@ -54,7 +54,22 @@ export default {
       if (value === undefined || value === null) {
         return '';
       }
-      return this.isFocused ? value : value.toFixed(this.precision);
+      if (this.isFocused) {
+        return value;
+      }
+      const result = value.toFixed(this.precision).split('');
+      result.reverse();
+      let valueEdited = '';
+      let found = false;
+      result.forEach((item) => {
+        if (item !== '0' && item !== '.') {
+          found = true;
+        }
+        if (found) {
+          valueEdited = item + valueEdited;
+        }
+      });
+      return valueEdited;
     },
   },
 };
