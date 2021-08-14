@@ -30,7 +30,7 @@
             v-if="value !== ''"
             class="text-h6 text-sm-h5"
           >
-            {{ +value ? value.toFixed(2) : '' }}
+            {{ value | precision(2) }}
           </div>
           <div
             v-else
@@ -39,8 +39,7 @@
             -
           </div>
           <div class="d-none d-sm-block caption mt-n2">
-            {{ sum }} /
-            {{ amount }}
+            {{ sum }} / {{ amount }}
           </div>
         </div>
       </div>

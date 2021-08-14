@@ -99,7 +99,6 @@
                       <number-field
                         v-model="elements[el]"
                         :precision-show="5"
-                        :precision-value="5"
                         :label="el"
                         :suffix="isPercent ? '%' : 'г/л'"
                         persistent-hint

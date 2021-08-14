@@ -46,7 +46,7 @@
           {{ FORMULAS[reagent].name }}
         </span>
         <span>
-          {{ recipe.mass[reagent].toFixed(2) }} г
+          {{ recipe.mass[reagent] | precision(2) }} г
         </span>
       </div>
     </template>
@@ -60,7 +60,7 @@
           {{ COMPOUNDS[compound].name }}
         </span>
         <span>
-          {{ recipe.mass[compound].toFixed(2) }} г
+          {{ recipe.mass[compound] | precision(2) }} г
         </span>
       </div>
     </template>
@@ -91,7 +91,7 @@
             :key="ion + 'unit'"
             class="text-right"
           >
-            {{ (convertIonRatio(ion) * value * (!recipe.volume && isRecipe ? 1000 : 1)).toFixed(3) }}
+            {{ (convertIonRatio(ion) * value * (!recipe.volume && isRecipe ? 1000 : 1)) | precision(3) }}
             {{ !recipe.volume && isRecipe ? 'мг/г' : 'г/л' }}
           </div>
         </div>

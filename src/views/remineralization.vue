@@ -78,9 +78,10 @@
                 append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputWaterChange(100)"
               />
-              <v-text-field
+              <number-field
                 :value="osmosisChange"
                 @input="inputOsmosisChange"
+                :precision-show="0"
                 type="number"
                 label="Процент"
                 :hint="`
@@ -91,7 +92,6 @@
                 class="mt-0 pt-0 ml-sm-3"
                 single-line
                 suffix="%"
-                :precision-show="0"
                 append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputOsmosisChange(100)"
               />
@@ -100,18 +100,16 @@
               Значения жесткости
             </div>
             <div class="d-flex">
-              <v-text-field
+              <number-field
                 :value="ghInit"
                 @input="inputGhInit"
-                type="number"
                 label="Gh в аквариуме"
                 suffix="dGh"
                 hide-details="auto"
               />
-              <v-text-field
+              <number-field
                 :value="ghWaterChange"
                 @input="inputGhWaterChange"
-                type="number"
                 label="Gh водопровода"
                 suffix="dGh"
                 hide-details="auto"
@@ -119,18 +117,16 @@
               />
             </div>
             <div class="d-flex">
-              <v-text-field
+              <number-field
                 :value="khInit"
                 @input="inputKhInit"
-                type="number"
                 label="Kh в аквариуме"
                 suffix="dKh"
                 hide-details="auto"
               />
-              <v-text-field
+              <number-field
                 :value="khWaterChange"
                 @input="inputKhWaterChange"
-                type="number"
                 label="Kh водопровода"
                 suffix="dKh"
                 hide-details="auto"
@@ -184,35 +180,31 @@
               <v-expand-transition>
                 <div v-if="isOwnRemineral">
                   <div class="d-flex flex-wrap mb-2">
-                    <v-text-field
+                    <number-field
                       v-model="ownRemineral.gh"
-                      type="number"
                       label="Gh"
                       suffix="dGh"
                       hide-details="auto"
                       style="min-width: 40%;"
                     />
-                    <v-text-field
+                    <number-field
                       v-model="ownRemineral.kh"
-                      type="number"
                       label="Kh"
                       suffix="dKh"
                       hide-details="auto"
                       style="min-width: 40%;"
                       class="ml-sm-3"
                     />
-                    <v-text-field
+                    <number-field
                       v-model="ownRemineral.mass"
-                      type="number"
                       label="Масса"
                       hint="Масса, которая повышает Gh и Кh в n объеме на m градусов"
                       suffix="г"
                       hide-details="auto"
                       style="min-width: 40%;"
                     />
-                    <v-text-field
+                    <number-field
                       v-model="ownRemineral.volume"
-                      type="number"
                       label="Объем"
                       hint="Объем, на который рассчитан состав"
                       suffix="л"
@@ -234,10 +226,9 @@
             </div>
           </div>
         </v-expand-transition>
-        <v-text-field
+        <number-field
           v-for="(remineral, index) in remineralsSelected"
           v-model="remineral.amount"
-          type="number"
           :label="remineral.name"
           hint="Введите массу реминерализатора"
           suffix="г"

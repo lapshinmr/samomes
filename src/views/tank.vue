@@ -64,8 +64,6 @@
             >
               <number-field
                 v-model="tank.volume"
-                :precision-show="2"
-                :precision-value="3"
                 :label="$t('tanks.dialog.volume')"
                 :suffix="$t('units.l')"
                 hide-details="auto"
@@ -89,31 +87,31 @@
               cols="12"
               class="pt-0"
             >
-              <v-text-field
-                v-model.number="tank.length"
-                type="number"
+              <number-field
+                v-model="tank.length"
+                :precision-show="1"
                 :label="$t('tanks.dialog.length')"
                 :suffix="$t('units.cm')"
                 hide-details="auto"
               />
-              <v-text-field
-                v-model.number="tank.width"
-                type="number"
+              <number-field
+                v-model="tank.width"
+                :precision-show="1"
                 :label="$t('tanks.dialog.width')"
                 :suffix="$t('units.cm')"
                 hide-details="auto"
               />
-              <v-text-field
-                v-model.number="tank.height"
-                type="number"
+              <number-field
+                v-model="tank.height"
+                :precision-show="1"
                 :label="$t('tanks.dialog.height')"
                 :suffix="$t('units.cm')"
                 :hint="$t('tanks.dialog.heightHint')"
                 hide-details="auto"
               />
-              <v-text-field
-                v-model.number="tank.glassThickness"
-                type="number"
+              <number-field
+                v-model="tank.glassThickness"
+                :precision-show="1"
                 :label="$t('tanks.dialog.glassThickness')"
                 :suffix="$t('units.mm')"
                 hide-details="auto"
@@ -135,17 +133,17 @@
               cols="12"
               class="pt-0"
             >
-              <v-text-field
-                v-model.number="tank.filter"
-                type="number"
+              <number-field
+                v-model="tank.filter"
+                :precision-show="1"
                 :label="$t('tanks.dialog.filter')"
                 :suffix="$t('units.l')"
                 :hint="$t('tanks.dialog.filterHint')"
                 hide-details="auto"
               />
-              <v-text-field
-                v-model.number="tank.soil"
-                type="number"
+              <number-field
+                v-model="tank.soil"
+                :precision-show="1"
                 :label="$t('tanks.dialog.soil')"
                 :suffix="$t('units.l')"
                 :hint="$t('tanks.dialog.soilHint')"
@@ -155,6 +153,7 @@
                 <number-field
                   :value="tank.waterChange"
                   @input="onInputWaterChange"
+                  :precision-show="1"
                   :label="$t('tanks.dialog.waterChange')"
                   suffix="%"
                   hide-details="auto"
@@ -162,6 +161,7 @@
                 <number-field
                   :value="tank.waterChangeVolume"
                   @input="onInputWaterChangeVolume"
+                  :precision-show="1"
                   :label="$t('tanks.dialog.waterChangeVolume')"
                   :suffix="$t('units.l')"
                   hide-details="auto"

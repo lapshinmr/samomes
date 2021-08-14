@@ -170,7 +170,7 @@
                     v-if="isReagents && !isWater"
                     cols="3"
                   >
-                    <v-text-field
+                    <number-field
                       v-model="massKg"
                       type="number"
                       suffix="кг"
@@ -184,10 +184,10 @@
                     v-if="isReagents && isWater"
                     cols="12"
                   >
-                    <v-text-field
+                    <number-field
                       :value="volume"
                       @input="inputVolume"
-                      type="number"
+                      :precision-show="0"
                       label="Введите объем удобрения"
                       suffix="мл"
                       hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев.
@@ -238,7 +238,6 @@
                             @input="inputMass($event, reagent.key)"
                             :label="reagent.text"
                             :precision-show="3"
-                            :precision-value="5"
                             :key="reagent.key"
                             :suffix="reagent.density ? 'мл' : 'г'"
                             hide-details="auto"
@@ -262,7 +261,7 @@
                           cols="3"
                           class="text-end"
                         >
-                          {{ (mass[reagent.key] / totalFertilizerMass * massKg * 1000).toFixed(2) }} г
+                          {{ (mass[reagent.key] / totalFertilizerMass * massKg * 1000) | precision(2) }} г
                         </v-col>
                       </template>
                       <v-col
@@ -275,7 +274,6 @@
                           :value="mass[compound.key]"
                           @input="inputMass($event, compound.key)"
                           :precision-show="3"
-                          :precision-value="5"
                           :label="compound.text"
                           :key="compound.key"
                           :suffix="compound.isLiquid ? 'мл' : 'г'"
@@ -360,7 +358,7 @@
                           <v-combobox
                             :items="tanks"
                             v-model.number="tankVolume"
-                            type="Number"
+                            type="number"
                             item-text="name"
                             item-value="volume"
                             label="Объем аквариума"
@@ -394,8 +392,8 @@
                                     <number-field
                                       :value="solute[reagent.key][ion]"
                                       @input="inputIonDose($event, reagent.key, ion)"
-                                      :precision-show="4"
-                                      :precision-value="7"
+                                      :precision-show="3"
+                                      :precision-value="5"
                                       :label="convertIonName(ion) + ', мг/л'"
                                       :hint="'из ' + reagent.key"
                                       persistent-hint
@@ -420,8 +418,8 @@
                                     <number-field
                                       :value="solute[compound.key][ion]"
                                       @input="inputIonDose($event, compound.key, ion)"
-                                      :precision-show="5"
-                                      :precision-value="7"
+                                      :precision-show="3"
+                                      :precision-value="5"
                                       :label="convertIonName(ion) + ', мг/л'"
                                       :hint="'из ' + compound.key"
                                       persistent-hint
@@ -447,9 +445,9 @@
                               >
                                 <div>{{ convertIonName(ion) }}:</div>
                                 <div class="ml-3">
-                                  {{ value.toFixed(3) }}
+                                  {{ value | precision(3) }}
                                   <template v-if="countTotalDose(solute)">
-                                    ({{ (value / countTotalDose(solute) * 100).toFixed(2) }}%)
+                                    ({{ (value / countTotalDose(solute) * 100) | precision(2) }}%)
                                   </template>
                                 </div>
                               </div>

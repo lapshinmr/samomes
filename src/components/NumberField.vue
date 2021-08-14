@@ -16,14 +16,13 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
 <template>
   <v-text-field
     v-bind="$attrs"
     :value="prepareValue($attrs.value)"
     @input="onInput"
-    @focus="isFocused = true"
-    @blur="isFocused = false"
+    @focus="toggleFocus(true)"
+    @blur="toggleFocus(false)"
   />
 </template>
 
@@ -31,15 +30,7 @@
 export default {
   name: 'NumberField',
   inheritAttrs: false,
-  // model: {
-  //   prop: 'value',
-  //   event: 'input',
-  // },
   props: {
-    // value: {
-    //   type: [String, Number],
-    //   default: '',
-    // },
     precisionShow: {
       type: Number,
       default: 2,
@@ -55,25 +46,11 @@ export default {
     };
   },
   methods: {
-    prepareValue(value) {
-      if (value === undefined || value === null) {
-        return '';
-      }
-      let result = value;
-      if (this.isFocused) {
-        result = value.toString();
-        if (this.precisionValue !== undefined && !Number.isNaN(value)) {
-          const [left, right] = result.split('.');
-          if (right) {
-            result = `${left}${right ? '.' : ''}${right.substring(0, this.precisionValue)}`;
-          }
-          // value = Math.round(value * 10 ** this.precisionValue) / 10 ** this.precisionValue;
-          // value = value.toString();
-        }
-      } else {
-        result = value.toFixed(this.precisionShow);
-      }
-      let [left, right] = result.split('.');
+    toggleFocus(value) {
+      this.isFocused = value;
+    },
+    trimZeros(value) {
+      let [left, right] = (+value).toFixed(this.precisionShow).split('.');
       if (right) {
         right = right.split('');
         right.reverse();
@@ -90,9 +67,23 @@ export default {
         if (valueEdited) {
           left = `${left}.${valueEdited}`;
         }
-        result = left;
       }
-      console.log('result', result);
+      return left;
+    },
+    prepareValue(value) {
+      if (value === undefined || value === null || value === '') {
+        return '';
+      }
+      let result = value;
+      if (this.isFocused) {
+        // result = value.toString();
+        if (!Number.isNaN(value)) {
+          result = value.toFixed(this.precisionValue || this.precisionShow);
+          return +result;
+        }
+      }
+      result = value.toFixed(this.precisionShow);
+      result = this.trimZeros(result);
       return result;
     },
     onInput(value) {

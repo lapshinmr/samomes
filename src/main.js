@@ -25,7 +25,7 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 import './registerServiceWorker';
-import '@/filters/dateFormatFilters';
+import '@/filters/filters';
 
 Vue.config.productionTip = false;
 
