@@ -96,10 +96,9 @@
                       class="py-0"
                       :key="el"
                     >
-                      <base-text-field
-                        v-model.number="elements[el]"
-                        :precision="7"
-                        type="number"
+                      <number-field
+                        v-model="elements[el]"
+                        :precision-show="5"
                         :label="el"
                         :suffix="isPercent ? '%' : 'г/л'"
                         persistent-hint

@@ -40,11 +40,10 @@
         :value="2"
       />
     </v-radio-group>
-    <v-text-field
+    <number-field
       v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType) && isWaterChange"
       :value="waterChangeVolume"
       @input="$emit('water-change', +$event)"
-      type="Number"
       label="Введите объем подмены"
       hint="Это нужно для подсчета дозы на подмену"
       class="mt-4"
@@ -84,11 +83,12 @@
       :key="index"
       class="d-flex justify-space-between align-center"
     >
-      <base-text-field
+      <number-field
         v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType)"
         :value="recipe.amount"
         @input="inputRecipeAmount($event, index)"
-        type="number"
+        :precision-show="2"
+        :precision-value="4"
         :label="recipe.name"
         :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
         hide-details="auto"
@@ -103,21 +103,23 @@
           'w-50': FERTILIZATION_MIX || isTotal
         }"
       >
-        <base-text-field
+        <number-field
           v-if="!isTotal"
           :value="recipe.amountDay"
           @input="inputRecipeAmountDay($event, index)"
-          type="number"
+          :precision-show="2"
+          :precision-value="4"
           :label="recipe.name"
           :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл/день' : 'г/день'"
           hide-details="auto"
           class="pr-2"
         />
-        <base-text-field
+        <number-field
           v-if="isTotal"
           :value="amountDayTotal[index]"
           @input="inputRecipeAmountDayTotal($event, index)"
-          type="number"
+          :precision-show="2"
+          :precision-value="4"
           :label="recipe.name"
           :suffix=" recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
           hide-details="auto"

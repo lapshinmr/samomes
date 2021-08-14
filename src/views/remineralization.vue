@@ -34,8 +34,8 @@
       >
         <v-combobox
           :items="tanks"
-          :value="tankVolume"
-          @input="inputTankVolume"
+          :value="tank.volume"
+          @input="chooseTank"
           item-text="name"
           item-value="volume"
           label="Объем аквариума"
@@ -44,56 +44,54 @@
           hint="Выберите аквариум или введите объем (это может быть объем подмены)"
           persistent-hint
           suffix="л"
-          :return-object="false"
+          :return-object="true"
         />
         <v-expand-transition>
-          <div v-if="tankVolume">
+          <div v-if="tank.volume">
             <div class="text-subtitle-1 mt-4 mt-sm-8">
               Подмена
             </div>
             <div class="d-flex flex-column flex-sm-row align-sm-center">
-              <base-text-field
-                :value="waterChangeVolume"
+              <number-field
+                :value="tank.waterChangeVolume"
                 @input="inputWaterChangeVolume"
-                type="number"
                 label="Объем"
                 hint="Введите объем подмены"
                 persistent-hint
                 single-line
                 suffix="л"
                 class="pt-0 mt-0"
-                :precision="1"
+                :precision-show="1"
                 append-icon="mdi-arrow-up-bold-circle-outline"
-                @click:append="inputWaterChangeVolume(tankVolume)"
+                @click:append="inputWaterChangeVolume(tank.volume)"
               />
-              <base-text-field
+              <number-field
                 :value="waterChange"
                 @input="inputWaterChange"
-                type="number"
                 label="Процент"
                 hint="или процент подмены от общего объема"
                 persistent-hint
                 single-line
                 suffix="%"
                 class="pt-0 mt-0 ml-sm-3"
-                :precision="1"
+                :precision-show="1"
                 append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputWaterChange(100)"
               />
-              <base-text-field
+              <number-field
                 :value="osmosisChange"
                 @input="inputOsmosisChange"
+                :precision-show="0"
                 type="number"
                 label="Процент"
                 :hint="`
                   Осмос: ${osmosisChangeVolume.toFixed(1)} л.
-                  Водопровод: ${(waterChangeVolume - osmosisChangeVolume).toFixed(1)} л.
+                  Водопровод: ${(tank.waterChangeVolume - osmosisChangeVolume).toFixed(1)} л.
                 `"
                 persistent-hint
                 class="mt-0 pt-0 ml-sm-3"
                 single-line
                 suffix="%"
-                :precision="0"
                 append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputOsmosisChange(100)"
               />
@@ -102,51 +100,43 @@
               Значения жесткости
             </div>
             <div class="d-flex">
-              <base-text-field
+              <number-field
                 :value="ghInit"
                 @input="inputGhInit"
-                type="number"
                 label="Gh в аквариуме"
                 suffix="dGh"
                 hide-details="auto"
-                :precision="1"
               />
-              <base-text-field
+              <number-field
                 :value="ghWaterChange"
                 @input="inputGhWaterChange"
-                type="number"
                 label="Gh водопровода"
                 suffix="dGh"
                 hide-details="auto"
                 class="ml-3"
-                :precision="1"
               />
             </div>
             <div class="d-flex">
-              <base-text-field
+              <number-field
                 :value="khInit"
                 @input="inputKhInit"
-                type="number"
                 label="Kh в аквариуме"
                 suffix="dKh"
                 hide-details="auto"
-                :precision="1"
               />
-              <base-text-field
+              <number-field
                 :value="khWaterChange"
                 @input="inputKhWaterChange"
-                type="number"
                 label="Kh водопровода"
                 suffix="dKh"
                 hide-details="auto"
                 class="ml-3"
-                :precision="1"
               />
             </div>
           </div>
         </v-expand-transition>
         <v-expand-transition>
-          <div v-if="tankVolume">
+          <div v-if="tank.volume">
             <div class="text-subtitle-1 mt-8">
               Реминерализатор и удобрения
             </div>
@@ -190,31 +180,31 @@
               <v-expand-transition>
                 <div v-if="isOwnRemineral">
                   <div class="d-flex flex-wrap mb-2">
-                    <v-text-field
-                      v-model.number="ownRemineral.gh"
+                    <number-field
+                      v-model="ownRemineral.gh"
                       label="Gh"
                       suffix="dGh"
                       hide-details="auto"
                       style="min-width: 40%;"
                     />
-                    <v-text-field
-                      v-model.number="ownRemineral.kh"
+                    <number-field
+                      v-model="ownRemineral.kh"
                       label="Kh"
                       suffix="dKh"
                       hide-details="auto"
                       style="min-width: 40%;"
                       class="ml-sm-3"
                     />
-                    <v-text-field
-                      v-model.number="ownRemineral.mass"
+                    <number-field
+                      v-model="ownRemineral.mass"
                       label="Масса"
                       hint="Масса, которая повышает Gh и Кh в n объеме на m градусов"
                       suffix="г"
                       hide-details="auto"
                       style="min-width: 40%;"
                     />
-                    <v-text-field
-                      v-model.number="ownRemineral.volume"
+                    <number-field
+                      v-model="ownRemineral.volume"
                       label="Объем"
                       hint="Объем, на который рассчитан состав"
                       suffix="л"
@@ -236,10 +226,9 @@
             </div>
           </div>
         </v-expand-transition>
-        <v-text-field
+        <number-field
           v-for="(remineral, index) in remineralsSelected"
-          v-model.number="remineral.amount"
-          type="number"
+          v-model="remineral.amount"
           :label="remineral.name"
           hint="Введите массу реминерализатора"
           suffix="г"
@@ -257,7 +246,7 @@
         />
         <v-expand-transition>
           <div
-            v-if="tankVolume"
+            v-if="tank.volume"
             class="mt-8"
           >
             <div class="d-flex flex-column flex-sm-row">
@@ -351,10 +340,12 @@ export default {
       REMINERALS,
       FERTILIZATION_IN_TAP_WATER,
       dialog: true,
-      tankVolume: null,
-      tank: null,
+      tank: {
+        name: null,
+        volume: null,
+        waterChangeVolume: 0,
+      },
       waterChange: 0,
-      waterChangeVolume: 0,
       osmosisChange: 0,
       ghInit: 0,
       khInit: 0,
@@ -384,7 +375,7 @@ export default {
       return [...this.recipes, ...this.fertilizers];
     },
     osmosisChangeVolume() {
-      return (this.tankVolume * this.waterChange * this.osmosisChange) / (100 * 100);
+      return (this.tank.volume * this.waterChange * this.osmosisChange) / (100 * 100);
     },
     totalElements() {
       const result = {};
@@ -411,14 +402,14 @@ export default {
       const mg = this.totalElements.Mg;
       let ghRem = 0;
       if (ca) {
-        ghRem += ca / (this.GH.Ca * this.waterChangeVolume);
+        ghRem += ca / (this.GH.Ca * this.tank.waterChangeVolume);
       }
       if (mg) {
-        ghRem += mg / (this.GH.Mg * this.waterChangeVolume);
+        ghRem += mg / (this.GH.Mg * this.tank.waterChangeVolume);
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          ghRem += rem.gh * rem.amount * rem.volume / (this.waterChangeVolume * rem.mass);
+          ghRem += rem.gh * rem.amount * rem.volume / (this.tank.waterChangeVolume * rem.mass);
         }
       });
       const ghFromChangeWater = (this.ghWaterChange * (1 - this.osmosisChange / 100));
@@ -428,11 +419,11 @@ export default {
       let khRem = 0;
       const co3 = this.totalElements.CO3;
       if (co3) {
-        khRem += countKh(co3, this.waterChangeVolume);
+        khRem += countKh(co3, this.tank.waterChangeVolume);
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          khRem += rem.kh * rem.amount * rem.volume / (this.waterChangeVolume * rem.mass);
+          khRem += rem.kh * rem.amount * rem.volume / (this.tank.waterChangeVolume * rem.mass);
         }
       });
       const khFromChangeWater = (this.khWaterChange * (1 - this.osmosisChange / 100));
@@ -443,14 +434,14 @@ export default {
       const mg = this.totalElements.Mg;
       let ghRem = 0;
       if (ca) {
-        ghRem += ca / (this.GH.Ca * this.tankVolume);
+        ghRem += ca / (this.GH.Ca * this.tank.volume);
       }
       if (mg) {
-        ghRem += mg / (this.GH.Mg * this.tankVolume);
+        ghRem += mg / (this.GH.Mg * this.tank.volume);
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          ghRem += rem.gh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tankVolume * rem.mass)
+          ghRem += rem.gh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tank.volume * rem.mass)
             * (this.waterChange / 100);
         }
       });
@@ -462,11 +453,11 @@ export default {
       let khRem = 0;
       const co3 = this.totalElements.CO3;
       if (co3) {
-        khRem += countKh(co3, this.tankVolume);
+        khRem += countKh(co3, this.tank.volume);
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          khRem += rem.kh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tankVolume * rem.mass)
+          khRem += rem.kh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tank.volume * rem.mass)
             * (this.waterChange / 100);
         }
       });
@@ -521,16 +512,21 @@ export default {
       }
       this.khWaterChange = +value;
     },
-    inputTankVolume(value) {
-      if (value < 0) {
-        console.log('+');
+    chooseTank(value) {
+      if (typeof value === 'object') {
+        this.tank = { ...value };
+      } else {
+        this.tank.name = value;
+        this.tank.volume = +value;
+      }
+      if (this.tank.volume < 0) {
         return;
       }
-      this.tankVolume = +value;
-      if (this.waterChangeVolume > +value) {
-        this.waterChangeVolume = +value;
+      this.tank.waterChangeVolume = this.tank.waterChangeVolume || 0;
+      if (this.tank.waterChangeVolume > this.tank.volume) {
+        this.tank.waterChangeVolume = this.tank.volume;
       }
-      this.waterChange = (this.waterChangeVolume / value) * 100;
+      this.waterChange = (this.tank.waterChangeVolume / this.tank.volume) * 100;
     },
     inputWaterChange(value) {
       if (value < 0) {
@@ -538,16 +534,16 @@ export default {
       }
       if (value <= 100) {
         this.waterChange = +value;
-        this.waterChangeVolume = (this.tankVolume * value) / 100;
+        this.tank.waterChangeVolume = (this.tank.volume * value) / 100;
       }
     },
     inputWaterChangeVolume(value) {
       if (value < 0) {
         return;
       }
-      if (value <= this.tankVolume) {
-        this.waterChangeVolume = +value;
-        this.waterChange = (value / this.tankVolume) * 100;
+      if (value <= this.tank.volume) {
+        this.tank.waterChangeVolume = +value;
+        this.waterChange = (value / this.tank.volume) * 100;
       }
     },
     inputOsmosisChange(value) {

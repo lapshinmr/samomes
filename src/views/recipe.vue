@@ -170,8 +170,9 @@
                     v-if="isReagents && !isWater"
                     cols="3"
                   >
-                    <v-text-field
+                    <number-field
                       v-model="massKg"
+                      type="number"
                       suffix="кг"
                       :hint="`Массы реагентов в пересчете на ${massKg} кг смеси`"
                       persistent-hint
@@ -183,10 +184,10 @@
                     v-if="isReagents && isWater"
                     cols="12"
                   >
-                    <v-text-field
+                    <number-field
                       :value="volume"
                       @input="inputVolume"
-                      type="number"
+                      :precision-show="0"
                       label="Введите объем удобрения"
                       suffix="мл"
                       hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев.
@@ -232,12 +233,12 @@
                           :key="reagent.key"
                           class="d-flex py-0"
                         >
-                          <v-text-field
+                          <number-field
                             :value="mass[reagent.key]"
                             @input="inputMass($event, reagent.key)"
                             :label="reagent.text"
+                            :precision-show="3"
                             :key="reagent.key"
-                            type="number"
                             :suffix="reagent.density ? 'мл' : 'г'"
                             hide-details="auto"
                             :rules="[
@@ -260,7 +261,7 @@
                           cols="3"
                           class="text-end"
                         >
-                          {{ (mass[reagent.key] / totalFertilizerMass * massKg * 1000).toFixed(2) }} г
+                          {{ (mass[reagent.key] / totalFertilizerMass * massKg * 1000) | precision(2) }} г
                         </v-col>
                       </template>
                       <v-col
@@ -269,13 +270,13 @@
                         :key="compound.key"
                         class="py-0"
                       >
-                        <v-text-field
+                        <number-field
                           :value="mass[compound.key]"
                           @input="inputMass($event, compound.key)"
+                          :precision-show="3"
                           :label="compound.text"
                           :key="compound.key"
                           :suffix="compound.isLiquid ? 'мл' : 'г'"
-                          type="number"
                           hide-details="auto"
                           :rules="[
                             rulesMass.isExist(),
@@ -357,7 +358,7 @@
                           <v-combobox
                             :items="tanks"
                             v-model.number="tankVolume"
-                            type="Number"
+                            type="number"
                             item-text="name"
                             item-value="volume"
                             label="Объем аквариума"
@@ -388,10 +389,11 @@
                                     :key="reagent.key + ion"
                                     class="py-0"
                                   >
-                                    <v-text-field
+                                    <number-field
                                       :value="solute[reagent.key][ion]"
                                       @input="inputIonDose($event, reagent.key, ion)"
-                                      type="number"
+                                      :precision-show="3"
+                                      :precision-value="5"
                                       :label="convertIonName(ion) + ', мг/л'"
                                       :hint="'из ' + reagent.key"
                                       persistent-hint
@@ -413,12 +415,13 @@
                                     :key="compound.key + ion"
                                     class="py-0"
                                   >
-                                    <v-text-field
+                                    <number-field
                                       :value="solute[compound.key][ion]"
                                       @input="inputIonDose($event, compound.key, ion)"
+                                      :precision-show="3"
+                                      :precision-value="5"
                                       :label="convertIonName(ion) + ', мг/л'"
                                       :hint="'из ' + compound.key"
-                                      type="number"
                                       persistent-hint
                                     />
                                   </v-col>
@@ -442,9 +445,9 @@
                               >
                                 <div>{{ convertIonName(ion) }}:</div>
                                 <div class="ml-3">
-                                  {{ value.toFixed(3) }}
+                                  {{ value | precision(3) }}
                                   <template v-if="countTotalDose(solute)">
-                                    ({{ (value / countTotalDose(solute) * 100).toFixed(2) }}%)
+                                    ({{ (value / countTotalDose(solute) * 100) | precision(2) }}%)
                                   </template>
                                 </div>
                               </div>
@@ -850,12 +853,10 @@ export default {
         const result = {};
         Object.entries(ions).forEach(([ion, data]) => {
           if (data.isNeeded) {
-            let dose = (
+            result[ion] = (
               (this.mass[reagent.key] / this.volume / this.tankVolume)
               * (this.countPercent(reagent.key)[ion] * this.convertIonRatio(ion) * 1000)
             );
-            dose = parseFloat(dose.toFixed(5));
-            result[ion] = dose;
             Vue.set(this.solute, reagent.key, result);
           }
         });
@@ -864,11 +865,9 @@ export default {
         const { ions } = compound;
         const result = {};
         Object.entries(ions).forEach(([ion, value]) => {
-          let dose = (
+          result[ion] = (
             (this.mass[compound.key] / this.volume / this.tankVolume) * (value * this.convertIonRatio(ion) * 1000)
           );
-          dose = parseFloat(dose.toFixed(5));
-          result[ion] = dose;
           Vue.set(this.solute, compound.key, result);
         });
       });
@@ -886,15 +885,15 @@ export default {
       return output.join(' ');
     },
     inputMass(value, key) {
-      const mass = parseFloat(value);
-      Vue.set(this.mass, key, +mass ? mass : '');
+      const mass = +value;
+      Vue.set(this.mass, key, mass || '');
       if (this.tankVolume && +mass) {
         this.countDose();
       }
     },
     inputVolume(value) {
-      this.volume = parseFloat(value);
-      if (this.tankVolume && +this.volume) {
+      this.volume = +value;
+      if (this.tankVolume && +value) {
         this.countDose();
       }
     },
@@ -921,7 +920,7 @@ export default {
             ionDose *= (COMPOUNDS[key].ions[ion] / COMPOUNDS[key].ions[curIon]);
           }
         }
-        solute[ion] = parseFloat(ionDose) ? parseFloat(ionDose.toFixed(4)) : 0;
+        solute[ion] = +ionDose || 0;
         Vue.set(this.solute, key, solute);
       });
       const fertilizerMass = { ...this.mass };
@@ -935,7 +934,7 @@ export default {
         mass = (this.solute[key][curIon] * this.tankVolume * this.volume)
           / 1000 / COMPOUNDS[key].ions[curIon] / this.convertIonRatio(curIon);
       }
-      fertilizerMass[key] = parseFloat(mass.toFixed(3));
+      fertilizerMass[key] = mass;
       this.mass = { ...fertilizerMass };
     },
     addRecipe() {

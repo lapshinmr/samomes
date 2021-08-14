@@ -16,13 +16,11 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
 <template>
   <v-text-field
     v-bind="$attrs"
-    v-on="$listeners"
-    :value="countValue($attrs.value)"
-    @input="$emit('input', $event)"
+    :value="prepareValue($attrs.value)"
+    @input="onInput"
     @focus="toggleFocus(true)"
     @blur="toggleFocus(false)"
   />
@@ -30,12 +28,16 @@
 
 <script>
 export default {
-  name: 'BaseTextField',
+  name: 'NumberField',
   inheritAttrs: false,
   props: {
-    precision: {
+    precisionShow: {
       type: Number,
       default: 2,
+    },
+    precisionValue: {
+      type: Number,
+      default: undefined,
     },
   },
   data() {
@@ -47,17 +49,8 @@ export default {
     toggleFocus(value) {
       this.isFocused = value;
     },
-    countValue(value) {
-      if (typeof value === 'string') {
-        return '';
-      }
-      if (value === undefined || value === null) {
-        return '';
-      }
-      if (this.isFocused) {
-        return value;
-      }
-      let [result, right] = value.toFixed(this.precision).split('.');
+    trimZeros(value) {
+      let [left, right] = (+value).toFixed(this.precisionShow).split('.');
       if (right) {
         right = right.split('');
         right.reverse();
@@ -72,10 +65,29 @@ export default {
           }
         });
         if (valueEdited) {
-          result = `${result}.${valueEdited}`;
+          left = `${left}.${valueEdited}`;
         }
       }
+      return left;
+    },
+    prepareValue(value) {
+      if (value === undefined || value === null || value === '') {
+        return '';
+      }
+      let result = value;
+      if (this.isFocused) {
+        if (!Number.isNaN(value)) {
+          result = value.toFixed(this.precisionValue || this.precisionShow);
+          return +result;
+        }
+      }
+      result = value.toFixed(this.precisionShow);
+      result = this.trimZeros(result);
       return result;
+    },
+    onInput(value) {
+      value = +(value.replace(',', '.').replace(/[^0-9,.]/g, ''));
+      return this.$emit('input', value);
     },
   },
 };

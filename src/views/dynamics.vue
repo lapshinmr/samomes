@@ -64,10 +64,9 @@
               sm="4"
               class="py-0"
             >
-              <base-text-field
+              <number-field
                 :value="waterChange"
                 @input="onInputWaterChange"
-                type="number"
                 label="Процент подмены"
                 hide-details
                 suffix="%"
@@ -78,10 +77,9 @@
               sm="4"
               class="py-0"
             >
-              <base-text-field
+              <number-field
                 :value="waterChangeVolume"
                 @input="onInputWaterChangeVolume"
-                type="number"
                 label="Объем подмены"
                 hide-details
                 suffix="%"
