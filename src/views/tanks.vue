@@ -188,7 +188,7 @@ import { mapMutations } from 'vuex';
 import draggable from 'vuedraggable';
 
 export default {
-  name: 'Tank',
+  name: 'Tanks',
   components: {
     draggable,
   },

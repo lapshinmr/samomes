@@ -76,7 +76,6 @@ export default {
       }
       let result = value;
       if (this.isFocused) {
-        // result = value.toString();
         if (!Number.isNaN(value)) {
           result = value.toFixed(this.precisionValue || this.precisionShow);
           return +result;
