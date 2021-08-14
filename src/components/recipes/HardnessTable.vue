@@ -23,16 +23,14 @@
       Данный рецепт повышает жесткость
     </div>
     <div class="d-flex align-center mb-2">
-      <base-text-field
+      <number-field
         v-model="amount"
-        type="number"
         label="Введите количество"
         hint="То количество, которое будет внесено на объем подмены или весь объем аквариума"
         :suffix="isVolume ? 'мл' : 'г'"
       />
-      <base-text-field
+      <number-field
         v-model="volume"
-        type="number"
         label="Введите объем"
         hint="Объем подмены или весь объем аквариума"
         suffix="л"

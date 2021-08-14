@@ -20,19 +20,26 @@
 <template>
   <v-text-field
     v-bind="$attrs"
-    v-on="$listeners"
-    :value="countValue($attrs.value)"
+    :value="prepareValue($attrs.value)"
     @input="onInput"
-    @focus="toggleFocus(true)"
-    @blur="toggleFocus(false)"
+    @focus="isFocused = true"
+    @blur="isFocused = false"
   />
 </template>
 
 <script>
 export default {
-  name: 'BaseTextField',
+  name: 'NumberField',
   inheritAttrs: false,
+  // model: {
+  //   prop: 'value',
+  //   event: 'input',
+  // },
   props: {
+    // value: {
+    //   type: [String, Number],
+    //   default: '',
+    // },
     precisionShow: {
       type: Number,
       default: 2,
@@ -48,21 +55,25 @@ export default {
     };
   },
   methods: {
-    toggleFocus(value) {
-      this.isFocused = value;
-    },
-    countValue(value) {
-      if (value === undefined || value === null || Number.isNaN(+value)) {
+    prepareValue(value) {
+      if (value === undefined || value === null) {
         return '';
       }
+      let result = value;
       if (this.isFocused) {
-        let result = value;
-        if (this.precisionValue !== undefined && !Number.isNaN(+value)) {
-          result = Math.round(+value * 10 ** this.precisionValue) / 10 ** this.precisionValue;
+        result = value.toString();
+        if (this.precisionValue !== undefined && !Number.isNaN(value)) {
+          const [left, right] = result.split('.');
+          if (right) {
+            result = `${left}${right ? '.' : ''}${right.substring(0, this.precisionValue)}`;
+          }
+          // value = Math.round(value * 10 ** this.precisionValue) / 10 ** this.precisionValue;
+          // value = value.toString();
         }
-        return result;
+      } else {
+        result = value.toFixed(this.precisionShow);
       }
-      let [result, right] = (+value).toFixed(this.precisionShow).split('.');
+      let [left, right] = result.split('.');
       if (right) {
         right = right.split('');
         right.reverse();
@@ -77,12 +88,15 @@ export default {
           }
         });
         if (valueEdited) {
-          result = `${result}.${valueEdited}`;
+          left = `${left}.${valueEdited}`;
         }
+        result = left;
       }
+      console.log('result', result);
       return result;
     },
     onInput(value) {
+      value = +(value.replace(',', '.').replace(/[^0-9,.]/g, ''));
       return this.$emit('input', value);
     },
   },

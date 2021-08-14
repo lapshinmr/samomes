@@ -52,10 +52,9 @@
               Подмена
             </div>
             <div class="d-flex flex-column flex-sm-row align-sm-center">
-              <base-text-field
+              <number-field
                 :value="waterChangeVolume"
                 @input="inputWaterChangeVolume"
-                type="number"
                 label="Объем"
                 hint="Введите объем подмены"
                 persistent-hint
@@ -66,10 +65,9 @@
                 append-icon="mdi-arrow-up-bold-circle-outline"
                 @click:append="inputWaterChangeVolume(tankVolume)"
               />
-              <base-text-field
+              <number-field
                 :value="waterChange"
                 @input="inputWaterChange"
-                type="number"
                 label="Процент"
                 hint="или процент подмены от общего объема"
                 persistent-hint

@@ -62,9 +62,8 @@
               cols="12"
               class="pt-0"
             >
-              <base-text-field
+              <number-field
                 v-model="tank.volume"
-                type="Number"
                 :precision-show="2"
                 :precision-value="3"
                 :label="$t('tanks.dialog.volume')"
@@ -153,18 +152,16 @@
                 hide-details="auto"
               />
               <div class="d-flex">
-                <base-text-field
+                <number-field
                   :value="tank.waterChange"
                   @input="onInputWaterChange"
-                  type="Number"
                   :label="$t('tanks.dialog.waterChange')"
                   suffix="%"
                   hide-details="auto"
                 />
-                <base-text-field
+                <number-field
                   :value="tank.waterChangeVolume"
                   @input="onInputWaterChangeVolume"
-                  type="Number"
                   :label="$t('tanks.dialog.waterChangeVolume')"
                   :suffix="$t('units.l')"
                   hide-details="auto"

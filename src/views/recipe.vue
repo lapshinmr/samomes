@@ -172,6 +172,7 @@
                   >
                     <v-text-field
                       v-model="massKg"
+                      type="number"
                       suffix="кг"
                       :hint="`Массы реагентов в пересчете на ${massKg} кг смеси`"
                       persistent-hint
@@ -232,14 +233,13 @@
                           :key="reagent.key"
                           class="d-flex py-0"
                         >
-                          <base-text-field
+                          <number-field
                             :value="mass[reagent.key]"
                             @input="inputMass($event, reagent.key)"
                             :label="reagent.text"
                             :precision-show="3"
                             :precision-value="5"
                             :key="reagent.key"
-                            type="number"
                             :suffix="reagent.density ? 'мл' : 'г'"
                             hide-details="auto"
                             :rules="[
@@ -271,7 +271,7 @@
                         :key="compound.key"
                         class="py-0"
                       >
-                        <base-text-field
+                        <number-field
                           :value="mass[compound.key]"
                           @input="inputMass($event, compound.key)"
                           :precision-show="3"
@@ -279,7 +279,6 @@
                           :label="compound.text"
                           :key="compound.key"
                           :suffix="compound.isLiquid ? 'мл' : 'г'"
-                          type="number"
                           hide-details="auto"
                           :rules="[
                             rulesMass.isExist(),
@@ -392,12 +391,11 @@
                                     :key="reagent.key + ion"
                                     class="py-0"
                                   >
-                                    <base-text-field
+                                    <number-field
                                       :value="solute[reagent.key][ion]"
                                       @input="inputIonDose($event, reagent.key, ion)"
                                       :precision-show="4"
                                       :precision-value="7"
-                                      type="number"
                                       :label="convertIonName(ion) + ', мг/л'"
                                       :hint="'из ' + reagent.key"
                                       persistent-hint
@@ -419,14 +417,13 @@
                                     :key="compound.key + ion"
                                     class="py-0"
                                   >
-                                    <base-text-field
+                                    <number-field
                                       :value="solute[compound.key][ion]"
                                       @input="inputIonDose($event, compound.key, ion)"
                                       :precision-show="5"
                                       :precision-value="7"
                                       :label="convertIonName(ion) + ', мг/л'"
                                       :hint="'из ' + compound.key"
-                                      type="number"
                                       persistent-hint
                                     />
                                   </v-col>
