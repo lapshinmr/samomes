@@ -3,17 +3,17 @@ module.exports = {
   env: {
     node: true,
   },
-  'extends': [
+  extends: [
     'plugin:vue/essential',
     'plugin:vue/strongly-recommended',
-    '@vue/airbnb'
+    '@vue/airbnb',
   ],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
   rules: {
-    'template-curly-spacing' : 'off',
-    'indent' : 'off',
+    'template-curly-spacing': 'off',
+    indent: 'off',
     'max-len': ['warn', { code: 120 }],
     'vue/max-len': ['warn', {
       code: 120,
@@ -22,6 +22,6 @@ module.exports = {
     'no-param-reassign': 0,
     'no-mixed-operators': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
-  }
-}
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+  },
+};
