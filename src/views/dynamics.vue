@@ -203,7 +203,9 @@
                   <v-text-field
                     :value="
                       totalElements[convertIonName(ion)].amountDay !== undefined
-                        ? (convertIonRatio(convertIonName(ion)) * totalElements[convertIonName(ion)].amountDay).toFixed(3)
+                        ? (
+                          convertIonRatio(convertIonName(ion)) * totalElements[convertIonName(ion)].amountDay
+                        ).toFixed(3)
                         : 0
                     "
                     label="Поступает из удобрений"

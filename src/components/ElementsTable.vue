@@ -150,33 +150,43 @@
         </tbody>
       </template>
     </v-simple-table>
-    <div
+    <v-row
       v-if="isHelpful && isHelpfulInfo"
-      class="d-flex flex-column flex-sm-row justify-space-between caption mt-4"
+      class="mt-4"
     >
-      <div
+      <v-col
+        cols="6"
+        sm="3"
         v-if="totalElements.P && totalElements.P.total > 0 && totalElements.N && totalElements.N.total > 0"
-        class="mr-2"
       >
         NO3 / PO4 =
         {{ (
           totalElements.N.total * convertIonRatio('N') / (totalElements.P.total * convertIonRatio('P'))
         ).toFixed(2) }}
         <!--        (N / P = {{ (totalElements.N.total / totalElements.P.total).toFixed(2) }})-->
-      </div>
-      <div
+      </v-col>
+      <v-col
+        cols="6"
+        sm="3"
+        v-if="totalElements.P && totalElements.P.total > 0 && totalElements.Fe && totalElements.Fe.total > 0"
+      >
+        PO4 / Fe = {{ (totalElements.P.total * convertIonRatio('P') / totalElements.Fe.total).toFixed(2) }}
+      </v-col>
+      <v-col
+        cols="6"
+        sm="3"
         v-if="totalElements.P && totalElements.P.total > 0 && totalElements.B && totalElements.B.total > 0"
-        class="mr-2"
       >
         P / B = {{ (totalElements.P.total / totalElements.B.total).toFixed(2) }}
-      </div>
-      <div
+      </v-col>
+      <v-col
+        cols="6"
+        sm="3"
         v-if="totalElements.Fe && totalElements.Fe.total > 0 && totalElements.B && totalElements.B.total > 0"
-        class="mr-2"
       >
         Fe / B = {{ (totalElements.Fe.total / totalElements.B.total).toFixed(2) }}
-      </div>
-    </div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

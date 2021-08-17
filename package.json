@@ -1,10 +1,8 @@
 {
   "name": "samomes",
   "version": "1.0.0",
-  "author": "Mikhail Lapshin <lapshinmr@gmail.com> (https://samomes.com)",
-  "license": "GPL-v3.0",
   "private": true,
-  "repository": "https://github.com/lapshinmr/samomes.git",
+  "author": "Mikhail Lapshin <lapshinmr@gmail.com> (https://samomes.com)",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -28,7 +26,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "^4.5.13",
+    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-service": "^4.5.13",
     "@vue/eslint-config-airbnb": "^5.0.2",
     "babel-eslint": "^10.1.0",
@@ -44,6 +42,8 @@
     "vue-template-compiler": "^2.6.13",
     "vuetify-loader": "^1.7.2"
   },
+  "license": "GPL-v3.0",
+  "repository": "https://github.com/lapshinmr/samomes.git",
   "resolutions": {
     "vuetify/**/sass": "1.32.12"
   }

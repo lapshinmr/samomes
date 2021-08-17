@@ -65,6 +65,17 @@
             <v-list-item-title>GitHub</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item
+          v-if="deferredPrompt"
+          @click="install"
+        >
+          <v-list-item-action>
+            <v-icon>mdi mdi-download</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Установить</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -123,9 +134,36 @@ export default {
       { name: 'settings', icon: 'fas fa-cog' },
       { name: 'about', icon: 'mdi-information-outline' },
     ],
+    deferredPrompt: null,
   }),
   created() {
     this.initLang();
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      this.deferredPrompt = e;
+    });
+    window.addEventListener('appinstalled', () => {
+      this.deferredPrompt = null;
+    });
+  },
+  mounted() {
+    this.recipes.forEach((recipe, index) => {
+      if (recipe.type === 'Готовое') {
+        this.FERTILIZER_ADD(recipe);
+        this.RECIPE_REMOVE(index);
+      }
+    });
+    if (typeof this.guideIsClosed === 'boolean') {
+      this.GUIDE_RESET();
+    }
+    if (!this.$router.currentRoute.query.share) {
+      const path = localStorage.getItem('path');
+      if (path) {
+        localStorage.removeItem('path');
+        this.$router.push(path);
+      }
+    }
   },
   computed: {
     ...mapState([
@@ -159,24 +197,6 @@ export default {
       },
     },
   },
-  mounted() {
-    this.recipes.forEach((recipe, index) => {
-      if (recipe.type === 'Готовое') {
-        this.FERTILIZER_ADD(recipe);
-        this.RECIPE_REMOVE(index);
-      }
-    });
-    if (typeof this.guideIsClosed === 'boolean') {
-      this.GUIDE_RESET();
-    }
-    if (!this.$router.currentRoute.query.share) {
-      const path = localStorage.getItem('path');
-      if (path) {
-        localStorage.removeItem('path');
-        this.$router.push(path);
-      }
-    }
-  },
   methods: {
     ...mapMutations([
       'DRAWER_SET',
@@ -192,6 +212,11 @@ export default {
       let lang = window.navigator.userLanguage || window.navigator.language;
       lang = lang === 'ru-RU' ? 'ru' : 'en';
       this.langSet(this.lang || lang);
+    },
+    async install() {
+      if (this.deferredPrompt) {
+        this.deferredPrompt.prompt();
+      }
     },
   },
 };

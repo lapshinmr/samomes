@@ -23,9 +23,10 @@
       v-if="isFertilizationTypes"
       :value="fertilizationType"
       @change="$emit('change', $event)"
-      row
       class="my-2"
       hide-details="auto"
+      :column="$vuetify.breakpoint.name === 'xs'"
+      :row="$vuetify.breakpoint.name !== 'xs'"
     >
       <v-radio
         label="Каждый день"
@@ -34,10 +35,12 @@
       <v-radio
         label="В подменную воду"
         :value="1"
+        class="mt-1 mt-sm-0"
       />
       <v-radio
         label="Комбинированная подача"
         :value="2"
+        class="mt-1 mt-sm-0"
       />
     </v-radio-group>
     <number-field
@@ -51,31 +54,32 @@
     <div class="d-flex mt-4">
       <div
         v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_MIX].includes(fertilizationType) && isFertilizationTypes"
-        class="text-subtitle-1 font-weight-medium w-50 pr-2"
-        :class="{ 'w-100': fertilizationType === FERTILIZATION_IN_TAP_WATER}"
+        class="text-subtitle-1 font-weight-medium w-60 pr-2"
+        :class="{ 'w-100': fertilizationType === FERTILIZATION_IN_TAP_WATER }"
       >
-        <template v-if="FERTILIZATION_IN_TAP_WATER === fertilizationType">
-          Весь объем удобрений
-        </template>
-        <template v-else>
-          Подмена
-        </template>
-        <v-divider />
+        <span style="position: relative; top: 3px;">
+          <template v-if="FERTILIZATION_IN_TAP_WATER === fertilizationType">
+            Весь объем удобрений
+          </template>
+          <template v-else>
+            Подмена
+          </template>
+        </span>
+        <v-divider class="mt-1" />
       </div>
       <div
         v-if="[FERTILIZATION_EVERY_DAY, FERTILIZATION_MIX].includes(fertilizationType)"
-        class="text-subtitle-1 w-50 font-weight-medium pr-2"
+        class="text-subtitle-1 w-40 font-weight-medium"
         :class="{ 'w-100': fertilizationType === FERTILIZATION_EVERY_DAY}"
       >
-        <div class="d-flex justify-space-between align-center">
-          <v-switch
-            v-model="isTotal"
-            :label="!isTotal ? 'Ежедневно' : 'Всего'"
-            hide-details="auto"
-            class="mt-0 mb-0 mb-sm-0"
-          />
-        </div>
-        <v-divider />
+        <v-select
+          v-model="isTotal"
+          :items="mode"
+          item-text="text"
+          item-value="value"
+          hide-details="auto"
+          class="mt-0 pt-0"
+        />
       </div>
     </div>
     <div
@@ -93,14 +97,14 @@
         :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
         hide-details="auto"
         class="pr-2"
-        :class="{'w-50': fertilizationType === FERTILIZATION_MIX}"
+        :class="{'w-60': fertilizationType === FERTILIZATION_MIX}"
       />
       <div
         v-if="[FERTILIZATION_EVERY_DAY, FERTILIZATION_MIX].includes(fertilizationType)"
         class="d-flex"
         :class="{
           'w-100': fertilizationType === FERTILIZATION_EVERY_DAY,
-          'w-50': FERTILIZATION_MIX || isTotal
+          'w-40': FERTILIZATION_MIX || isTotal
         }"
       >
         <number-field
@@ -109,10 +113,9 @@
           @input="inputRecipeAmountDay($event, index)"
           :precision-show="2"
           :precision-value="4"
-          :label="recipe.name"
+          :label="FERTILIZATION_EVERY_DAY === fertilizationType ? recipe.name : ''"
           :suffix="recipe.volume > 0 || isFertilizer(recipe) ? 'мл/день' : 'г/день'"
           hide-details="auto"
-          class="pr-2"
         />
         <number-field
           v-if="isTotal"
@@ -120,10 +123,9 @@
           @input="inputRecipeAmountDayTotal($event, index)"
           :precision-show="2"
           :precision-value="4"
-          :label="recipe.name"
+          :label="FERTILIZATION_EVERY_DAY === fertilizationType ? recipe.name : ''"
           :suffix=" recipe.volume > 0 || isFertilizer(recipe) ? 'мл' : 'г'"
           hide-details="auto"
-          class="pr-2"
         />
       </div>
     </div>
@@ -171,6 +173,10 @@ export default {
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,
       isTotal: false,
+      mode: [
+        { text: 'Ежедневно', value: false },
+        { text: 'Всего', value: true },
+      ],
       amountDayTotal: [],
     };
   },
@@ -245,6 +251,10 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.w-60
+  width: 60%
 .w-50
   width: 50%
+.w-40
+  width: 40%
 </style>

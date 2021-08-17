@@ -10,4 +10,15 @@ module.exports = {
       },
     },
   },
+  pwa: {
+    workboxOptions: {
+      exclude: [/CNAME/, /\.map$/],
+    },
+    manifestOptions: {
+      name: 'Samomes',
+      short_name: 'Samomes',
+      start_url: '/?standalone=true',
+      scope: '/',
+    },
+  },
 };
