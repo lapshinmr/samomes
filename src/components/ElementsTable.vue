@@ -155,6 +155,30 @@
       class="mt-4"
     >
       <v-col
+        v-if="totalElements.P && totalElements.P.total > 0 && totalElements.N && totalElements.N.total > 0"
+        cols="12"
+      >
+        Потребленное количество газа (NO3 - PO4):
+        <span
+          class="mx-2"
+          style="white-space: nowrap;"
+        >
+          {{ CN | precision(2) }} - {{ CP | precision(2) }} мг/л
+        </span>
+        <v-tooltip
+          bottom
+          max-width="400"
+        >
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on">
+              mdi-help-circle-outline
+            </v-icon>
+          </template>
+          Исходя из полного соотношения Редфилда (106-16-1), левая граница показывает то, сколько было поглощено
+          углекислого газа относительно нитрата, а правая, то сколько было поглощено относительно фосфата.
+        </v-tooltip>
+      </v-col>
+      <v-col
         cols="6"
         sm="3"
         v-if="totalElements.P && totalElements.P.total > 0 && totalElements.N && totalElements.N.total > 0"
@@ -200,6 +224,7 @@ import {
   FERTILIZATION_EVERY_DAY,
   FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
+import ELEMENTS from '@/constants/elements';
 
 export default {
   name: 'ElementsTable',
@@ -243,6 +268,7 @@ export default {
       FERTILIZATION_IN_TAP_WATER,
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,
+      ELEMENTS,
       isWithoutConversion: false,
       isSpecificArea: false,
     };
@@ -356,9 +382,22 @@ export default {
       sortableResult.sort((a, b) => b[1].amount - a[1].amount);
       return sortableResult;
     },
-  },
-  methods: {
-    convertIonName,
+    CN() {
+      return (
+        ((ELEMENTS.C + ELEMENTS.O * 2) * 106 / (ELEMENTS.P + ELEMENTS.O * 4))
+        / ((ELEMENTS.N + ELEMENTS.O * 3) * 16 / (ELEMENTS.P + ELEMENTS.O * 4))
+        * this.totalElements.N.total * convertIonRatio('N')
+      );
+    },
+    CP() {
+      return (
+        (ELEMENTS.C + ELEMENTS.O * 2) * 106 / (ELEMENTS.P + ELEMENTS.O * 4)
+        * this.totalElements.P.total * convertIonRatio('P')
+      );
+    },
+},
+methods: {
+  convertIonName,
     convertIonRatio,
     isFertilizer,
     isRecipe,
