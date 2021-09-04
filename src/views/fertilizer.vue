@@ -200,6 +200,12 @@ export default {
         Cu: null,
         Mo: null,
         Ni: null,
+        S: null,
+        Cl: null,
+        Na: null,
+        Co: null,
+        Rb: null,
+        V: null,
       },
       isPercent: false,
       rulesName: [
