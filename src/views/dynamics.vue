@@ -82,7 +82,7 @@
                 @input="onInputWaterChangeVolume"
                 label="Объем подмены"
                 hide-details
-                suffix="%"
+                suffix="л"
               />
             </v-col>
             <v-col

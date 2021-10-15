@@ -488,13 +488,13 @@
                         cols="12"
                       >
                         <v-btn
-                          v-if="!isCreate"
+                          v-if="!isCreate && !isShared"
                           @click="removeRecipe"
                         >
                           Удалить
                         </v-btn>
                         <v-btn
-                          v-if="!isCreate"
+                          v-if="!isCreate && !isShared"
                           color="primary"
                           @click="editRecipe"
                           class="ml-2"
@@ -502,7 +502,7 @@
                           Сохранить
                         </v-btn>
                         <v-btn
-                          v-if="isCreate"
+                          v-if="isCreate || isShared"
                           color="primary"
                           @click="addRecipe"
                         >
@@ -943,11 +943,11 @@ export default {
           name: this.name,
           note: this.note,
           volume: this.volume,
+          tankVolume: this.tankVolume,
           reagents: [...this.reagents.map((reagent) => reagent.key)],
           compounds: [...this.compounds.map((compound) => compound.key)],
           mass: { ...this.mass },
           concentration: { ...this.concentration },
-          tankVolume: this.tankVolume,
         });
         this.SNACKBAR_SHOW('Рецепт добавлен');
         this.$router.push('/recipes');
