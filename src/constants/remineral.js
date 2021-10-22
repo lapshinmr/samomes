@@ -86,14 +86,12 @@ export default [
   },
   {
     name: 'Seachem Equilibrium',
-    isPercent: true,
-    elements: {
-      K: 19.09,
-      Ca: 8.06,
-      Mg: 2.41,
-      Fe: 0.11,
-      Mn: 0.06,
-    },
+    kh: 0,
+    gh: 3,
+    mass: 16,
+    volume: 80,
+    ca: 8.06,
+    mg: 2.41,
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
 ];
