@@ -251,6 +251,18 @@ export default [
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
+  // {
+  //   name: 'Seachem Equilibrium',
+  //   isPercent: true,
+  //   elements: {
+  //     K: 19.09,
+  //     Ca: 8.06,
+  //     Mg: 2.41,
+  //     Fe: 0.11,
+  //     Mn: 0.06,
+  //   },
+  //   note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  // },
   {
     name: 'Seachem Flourish Iron',
     isPercent: true,
