@@ -1158,4 +1158,67 @@ export default {
     },
     name: 'Янтарная кислота',
   },
+  'Na2MoO4(H2O)2': {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      Mo: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+      H: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    name: 'Натрий молибденовокислый 2-водный',
+  },
+  'NiSO4(H2O)7': {
+    ions: {
+      Ni: {
+        isNeeded: true,
+        count: 1,
+      },
+      S: {
+        isNeeded: false,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 11,
+      },
+      H: {
+        isNeeded: false,
+        count: 14,
+      },
+    },
+    name: 'Никель сернокислый (II) 7-водный',
+  },
+  'CoSO4(H2O)7': {
+    ions: {
+      Co: {
+        isNeeded: true,
+        count: 1,
+      },
+      S: {
+        isNeeded: false,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 11,
+      },
+      H: {
+        isNeeded: false,
+        count: 14,
+      },
+    },
+    name: 'Кобальт сернокислый (II) 7-водный',
+  },
 };

@@ -171,10 +171,10 @@
                     cols="3"
                   >
                     <number-field
-                      v-model="massKg"
+                      v-model="massG"
                       type="number"
-                      suffix="кг"
-                      :hint="`Массы реагентов в пересчете на ${massKg} кг смеси`"
+                      suffix="г"
+                      :hint="`Массы реагентов в пересчете на ${massG} г смеси`"
                       persistent-hint
                     />
                   </v-col>
@@ -257,11 +257,11 @@
                         </v-col>
                         <v-col
                           v-if="!isWater"
-                          :key="reagent.key + 'kg'"
+                          :key="reagent.key + 'g'"
                           cols="3"
                           class="text-end"
                         >
-                          {{ (mass[reagent.key] / totalFertilizerMass * massKg * 1000) | precision(2) }} г
+                          {{ (mass[reagent.key] / totalFertilizerMass * massG) | precision(2) }} г
                         </v-col>
                       </template>
                       <v-col
@@ -566,7 +566,7 @@ export default {
       note: null,
       isShared: false,
       isWater: true,
-      massKg: 1,
+      massG: 1,
       rulesReagent: [
         () => (this.reagents.length > 0 || this.compounds.length > 0) || 'Выберите реагент',
       ],
