@@ -18,6 +18,20 @@
 */
 
 export default {
+  Biolan: {
+    ions: {
+      N: 0.13,
+      P: 0.013,
+      K: 0.125,
+      Fe: 0.0017,
+      Mg: 0.018,
+      B: 0.0001,
+      Zn: 0.0004,
+      Cu: 0.0004,
+      Mo: 0.0001,
+    },
+    name: 'Biolan Удобрение для орхидей RAIN MIX',
+  },
   PlantexCSM: {
     ions: {
       Fe: 0.07,
