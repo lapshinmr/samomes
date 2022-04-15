@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2021 Mikhail Lapshin
+ * Copyright (C) 2022 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -217,6 +217,28 @@ export default {
     },
     solubilityLimit: 1130,
     name: 'Магния сульфат 7-водный (магнезия)',
+  },
+  'MgCl2(H2O)6': {
+    ions: {
+      Mg: {
+        isNeeded: true,
+        count: 1,
+      },
+      Cl: {
+        isNeeded: false,
+        count: 2,
+      },
+      H: {
+        isNeeded: false,
+        count: 12,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    solubilityLimit: 546,
+    name: 'Магния Хлорид 6-водный',
   },
   'Mg(NO3)2(H2O)6': {
     ions: {
@@ -507,6 +529,72 @@ export default {
     },
     solubilityLimit: 745,
     name: 'Кальция хлорид 2-водный',
+  },
+  'CaCl2(H20)6': {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      Cl: {
+        isNeeded: false,
+        count: 2,
+      },
+      H: {
+        isNeeded: false,
+        count: 12,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    solubilityLimit: 745,
+    name: 'Кальция хлорид 6-водный',
+  },
+  C12H22CaO14: {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 12,
+      },
+      H: {
+        isNeeded: false,
+        count: 22,
+      },
+      O: {
+        isNeeded: false,
+        count: 14,
+      },
+    },
+    solubilityLimit: 100, // TODO: fill
+    name: 'Кальция глюконат',
+  },
+  C6H6O7Mg: {
+    ions: {
+      Mg: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 6,
+      },
+      H: {
+        isNeeded: false,
+        count: 6,
+      },
+      O: {
+        isNeeded: false,
+        count: 7,
+      },
+    },
+    solubilityLimit: 1000, // TODO: fill
+    name: 'Магния цитрат',
   },
   H3BO3: {
     ions: {
