@@ -34,7 +34,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
     "gh-pages": "^2.2.0",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "sass": "1.32.12",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "^2.4.1",
