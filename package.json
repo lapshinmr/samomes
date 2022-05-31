@@ -35,7 +35,6 @@
     "eslint-plugin-vue": "^6.2.2",
     "gh-pages": "^2.2.0",
     "minimist": "^1.2.5",
-    "node-sass": "^4.14.1",
     "sass": "1.32.12",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "^2.4.1",

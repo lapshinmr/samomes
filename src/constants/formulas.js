@@ -36,6 +36,24 @@ export default {
     solubilityLimit: 242,
     name: 'Калия нитрат',
   },
+  NaNO3: {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 3,
+      },
+    },
+    solubilityLimit: 916,
+    name: 'Натрия нитрат',
+  },
   KH2PO4: {
     ions: {
       K: {
