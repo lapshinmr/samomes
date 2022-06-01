@@ -1327,4 +1327,48 @@ export default {
     },
     name: 'Кобальт сернокислый (II) 7-водный',
   },
+  'Ca(CH3COO)2': {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    solubilityLimit: 400,
+    name: 'Кальция ацетат',
+  },
+  'Mg(CH3COO)2': {
+    ions: {
+      Mg: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    solubilityLimit: 656,
+    name: 'Магния ацетат',
+  },
 };
