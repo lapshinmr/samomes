@@ -101,6 +101,19 @@ export default [
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    name: 'Aquabalance Micro Premium (KH>4)',
+    isPercent: true,
+    elements: {
+      Fe: 0.32,
+      Mn: 0.08,
+      B: 0.009,
+      Zn: 0.008,
+      Cu: 0.008,
+      Mo: 0.003,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
     name: 'Aquabalance Ферро Баланс',
     isPercent: true,
     elements: {
@@ -389,6 +402,24 @@ export default [
     elements: {
       Fe: 0.2,
       Mn: 0.04,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'WaterSci Micro 1/2 FE XL для осмоса',
+    isPercent: false,
+    elements: {
+      K: 10.48,
+      S: 5.56,
+      Mg: 5.55,
+      Fe: 1.00,
+      Na: 0.37,
+      Mn: 0.26,
+      B: 0.09,
+      Zn: 0.05,
+      Mo: 0.04,
+      Cu: 0.03,
+      Co: 0.01,
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
