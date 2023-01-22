@@ -279,6 +279,24 @@ export default {
     },
     name: 'Магния нитрат 6-водный',
   },
+  'Ca(NO3)2': {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    solubilityLimit: 2710,
+    name: 'Кальция нитрат',
+  },
   'Ca(NO3)2(H2O)2': {
     ions: {
       Ca: {
@@ -1370,5 +1388,30 @@ export default {
     },
     solubilityLimit: 656,
     name: 'Магния ацетат',
+  },
+  'CO(NH2)2H3PO4': {
+    ions: {
+      N: {
+        isNeeded: true,
+        count: 2,
+      },
+      C: {
+        isNeeded: false,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 5,
+      },
+      H: {
+        isNeeded: false,
+        count: 7,
+      },
+      P: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    name: 'Фосфат мочевины',
   },
 };
