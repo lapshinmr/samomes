@@ -65,7 +65,7 @@ export default [
       'C10H14N2Na2O8(H2O)2': 3,
       'MgSO4(H2O)7': 30,
       K2SO4: 20,
-      C6H8O6: 3,
+      C6H8O6: 0.1,
       C6H7KO2: 0.5,
     },
     compounds: {

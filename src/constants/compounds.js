@@ -154,4 +154,17 @@ export default {
     isLiquid: true,
     name: 'Цитовит',
   },
+  AquaMicsCT: {
+    ions: {
+      Fe: 0.0384,
+      Mn: 0.0257,
+      Zn: 0.0053,
+      Ca: 0.0257,
+      B: 0.0052,
+      Mo: 0.0013,
+      Cu: 0.0053,
+    },
+    isLiquid: false,
+    name: 'Аквамикс СТ',
+  },
 };

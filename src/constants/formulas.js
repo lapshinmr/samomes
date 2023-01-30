@@ -1414,4 +1414,48 @@ export default {
     },
     name: 'Фосфат мочевины',
   },
+  C4H7NO4: {
+    ions: {
+      C: {
+        isNeeded: true,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 7,
+      },
+      N: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    solubilityLimit: 4.5,
+    name: 'L-Аспарагиновая кислота',
+  },
+  C5H9NO4: {
+    ions: {
+      C: {
+        isNeeded: true,
+        count: 5,
+      },
+      H: {
+        isNeeded: false,
+        count: 9,
+      },
+      N: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    solubilityLimit: 7.5,
+    name: 'L-Глутаминовая кислота',
+  },
 };
