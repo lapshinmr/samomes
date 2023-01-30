@@ -123,6 +123,15 @@ export default [
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    name: 'Aquabalance Fe+Mn Premium',
+    isPercent: true,
+    elements: {
+      Fe: 1.0,
+      Mn: 0.2,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
     name: 'Aquayer Macro+',
     isPercent: false,
     elements: {
