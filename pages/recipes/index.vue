@@ -21,21 +21,23 @@
   <v-container class="mb-12">
     <v-row>
       <page-title>
-        Удобрения
+        Рецепты
       </page-title>
       <guide>
-        На этой странице можно добавить готовые удобрения (самодельные или фирменные удобрения с известным составом).
-        А так же можно добавить удобрение с неизвестным составом, чтобы была возможность учесть его в расписании.
+        На этой странице можно добавить рецепты самодельных удобрений.
         <br>
         <br>
-        Готовые удобрения можно использовать при составлении
+        Можно составить свой рецепт, а так же можно воспользоваться готовыми рецептами других аквариумистов.
+        <br>
+        <br>
+        Рецепты - это ваши собственные удобрения, которые можно использовать при составлении
         <router-link to="/schedules">
           расписания
         </router-link>
         внесения удобрений.
       </guide>
       <v-col
-        v-if="fertilizers.length === 0"
+        v-if="recipes.length === 0"
         cols="12"
         md="8"
         offset-md="2"
@@ -44,7 +46,7 @@
           class="mb-8"
           :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
         >
-          У вас нет ни одного удобрения
+          У вас нет ни одного рецепта
         </p>
       </v-col>
       <v-col
@@ -56,7 +58,7 @@
           multiple
         >
           <draggable
-            v-model="fertilizers"
+            v-model="recipes"
             v-bind="dragOptions"
             @start="drag=true"
             @end="drag=false"
@@ -68,8 +70,8 @@
               :name="!drag ? 'flip-list' : null"
             >
               <v-expansion-panel
-                v-for="(item, index) in fertilizers"
-                :key="item.name"
+                v-for="(recipe, index) in recipes"
+                :key="recipe.name"
               >
                 <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
                   <div
@@ -81,7 +83,7 @@
                       :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                     >
                       <span style="line-height: 1.25rem;">
-                        {{ item.name }}
+                        {{ recipe.name }}
                       </span>
                     </span>
                     <span class="mr-3">
@@ -95,20 +97,26 @@
                             v-on="on"
                           >mdi mdi-drag</v-icon>
                         </template>
-                        {{ $t('fertilizers.panels.header.pull') }}
+                        {{ $t('Recipes.panels.header.pull') }}
                       </v-tooltip>
                     </span>
                   </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <recipe :recipe="item" />
+                  <Recipe :recipe="recipe" />
                   <div class="d-flex justify-end mt-4">
                     <v-btn
                       text
-                      :to="`/fertilizers/${index}`"
+                      @click="openShareDialog(index)"
+                    >
+                      Поделиться
+                    </v-btn>
+                    <v-btn
+                      text
+                      :to="`/recipes/${index}`"
                       class="mr-n4"
                     >
-                      {{ $t('buttons.open') }}
+                      Открыть
                     </v-btn>
                   </div>
                 </v-expansion-panel-content>
@@ -118,8 +126,51 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-    <add-button :action="addFertilizer">
-      {{ $t('fertilizers.addButton') }}
+
+    <v-dialog
+      v-model="dialogShare"
+      width="500"
+    >
+      <v-card>
+        <v-card-title>
+          Поделиться ссылкой
+        </v-card-title>
+        <v-card-text v-if="curRecipeIndex !== null">
+          <v-text-field
+            :value="encodedUrl"
+            label="Ваша ссылка для отправки"
+            hint="Скопируйте ссылку"
+            id="encodedUrl"
+          >
+            <template #append>
+              <v-tooltip
+                bottom
+                max-width="400"
+              >
+                <template #activator="{ on }">
+                  <a @click="copyUrl()">
+                    <v-icon v-on="on">fas fa-clipboard</v-icon>
+                  </a>
+                </template>
+                Скопировать
+              </v-tooltip>
+            </template>
+          </v-text-field>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            text
+            @click="dialogShare = false"
+          >
+            Закрыть
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <add-button :action="addRecipe">
+      {{ $t('Recipes.addButton') }}
     </add-button>
   </v-container>
 </template>
@@ -127,10 +178,10 @@
 <script>
 import { mapMutations } from 'vuex';
 import draggable from 'vuedraggable';
-import Recipe from '@/components/Recipes/Recipe.vue';
+import Recipe from '~/components/Recipes/Recipe.vue';
 
 export default {
-  name: 'Fertilizers',
+  name: 'Recipes',
   components: {
     draggable,
     Recipe,
@@ -138,6 +189,9 @@ export default {
   data() {
     return {
       drag: false,
+      isShared: false,
+      curRecipeIndex: null,
+      dialogShare: false,
     };
   },
   computed: {
@@ -149,22 +203,46 @@ export default {
         ghostClass: 'ghost',
       };
     },
-    fertilizers: {
+    recipes: {
       get() {
-        return this.$store.state.fertilizers;
+        return this.$store.state.recipes;
       },
       set(value) {
-        this.FERTILIZER_MOVE(value);
+        this.RECIPE_MOVE(value);
       },
+    },
+    encodedUrl() {
+      let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]]);
+      jsonString = jsonString.replace(/%/g, '%25');
+      const encoded = encodeURIComponent(jsonString);
+      return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
+    },
+  },
+  watch: {
+    dialogShare() {
+      if (!this.dialogShare) {
+        this.curRecipeIndex = null;
+      }
     },
   },
   methods: {
     ...mapMutations([
-      'FERTILIZER_MOVE',
+      'RECIPE_MOVE',
       'SNACKBAR_SHOW',
     ]),
-    addFertilizer() {
-      return this.$router.push('/fertilizers/create');
+    addRecipe() {
+      this.$router.push('/Recipes/create');
+    },
+    openShareDialog(index) {
+      this.curRecipeIndex = index;
+      this.dialogShare = true;
+    },
+    copyUrl() {
+      const encodedUrl = document.getElementById('encodedUrl');
+      encodedUrl.select();
+      encodedUrl.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      this.SNACKBAR_SHOW('Ссылка скопирована');
     },
   },
 };

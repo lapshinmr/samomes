@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -86,8 +86,8 @@ export default {
       return result;
     },
     onInput(value) {
-      value = +(value.replace(',', '.').replace(/[^0-9,.]/g, ''));
-      return this.$emit('input', value);
+      const valueReplaced = +(value.replace(',', '.').replace(/[^0-9,.]/g, ''));
+      return this.$emit('input', valueReplaced);
     },
   },
 };

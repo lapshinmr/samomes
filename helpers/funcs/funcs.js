@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2022 Mikhail Lapshin
+ * Copyright (C) 2023 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import ELEMENTS from '@/constants/elements';
-import FORMULAS from '@/constants/formulas';
+import ELEMENTS from '~/helpers/constants/elements';
+import FORMULAS from '~/helpers/constants/formulas';
 
 export const countTotalIonConcentration = (concentration) => {
   const total = {};
@@ -113,3 +113,28 @@ export const convertIonRatio = (ion) => (
 
 export const isRecipe = (recipe) => recipe.reagents && recipe.reagents.length > 0;
 export const isFertilizer = (recipe) => recipe.elements && Object.keys(recipe.elements).length > 0;
+
+export const prepareFormulas = (filter = []) => {
+  const result = [];
+  Object.entries(FORMULAS).forEach(([formula, data]) => {
+    let found = false;
+    if (filter.length !== 0) {
+      filter.forEach((element) => {
+        if (formula.includes(element)) {
+          found = true;
+        }
+      });
+    } else {
+      found = true;
+    }
+    if (found) {
+      result.push({
+        key: formula,
+        text: `${data.name} - ${formula}`,
+        ...data,
+      });
+    }
+  });
+  result.sort((a, b) => a.text.localeCompare(b.text));
+  return result;
+};

@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -169,9 +169,9 @@
 </template>
 
 <script>
-import FORMULAS from '@/constants/formulas';
-import FERTILIZERS from '@/constants/fertilizers';
-import { convertIonName, convertIonRatio, OPPOSITE } from '@/helpers/funcs';
+import FORMULAS from '@/helpers/constants/formulas';
+import FERTILIZERS from '@/helpers/constants/fertilizers';
+import { convertIonName, convertIonRatio, OPPOSITE } from '~/helpers/funcs/funcs';
 import { mapState, mapMutations } from 'vuex';
 
 export default {

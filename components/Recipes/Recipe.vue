@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -116,14 +116,14 @@
 </template>
 
 <script>
-import FORMULAS from '~/constants/formulas';
-import COMPOUNDS from '~/constants/compounds';
+import FORMULAS from '~/helpers/constants/formulas';
+import COMPOUNDS from '~/helpers/constants/compounds';
 import {
   convertIonName,
   convertIonRatio,
   countTotalIonConcentration,
   isConcentration,
-} from '~/helpers/funcs';
+} from '~/helpers/funcs/funcs';
 
 export default {
   name: 'Recipe',

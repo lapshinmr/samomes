@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -523,9 +523,9 @@
 
 <script>
 import Vue from 'vue';
-import FORMULAS from '@/constants/formulas';
-import COMPOUNDS from '@/constants/compounds';
-import RECIPES from '@/constants/recipes';
+import FORMULAS from '~/helpers/constants/formulas';
+import COMPOUNDS from '~/helpers/constants/compounds';
+import RECIPES from '~/helpers/constants/recipes';
 import {
   countTotalIonConcentration,
   countPercent,
@@ -535,12 +535,12 @@ import {
   convertIonName,
   convertIonRatio,
   OPPOSITE,
-} from '@/helpers/funcs';
-import { KH, GH } from '@/constants/hardness';
+} from '~/helpers/funcs/funcs';
+import { KH, GH } from '~/helpers/constants/hardness';
 import { mapState, mapMutations } from 'vuex';
-import ElementsTable from '@/components/Recipes/ElementsTable.vue';
-import ElementsDryTable from '@/components/Recipes/ElementsDryTable.vue';
-import HardnessTable from '@/components/Recipes/HardnessTable.vue';
+import ElementsTable from '~/components/Recipes/ElementsTable.vue';
+import ElementsDryTable from '~/components/Recipes/ElementsDryTable.vue';
+import HardnessTable from '~/components/Recipes/HardnessTable.vue';
 
 export default {
   name: 'Recipe',

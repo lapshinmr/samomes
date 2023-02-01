@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -238,7 +238,7 @@ import FertilizerDoseTable, {
 import ElementsTable from '@/components/ElementsTable.vue';
 import ScheduleDozeTable from '@/components/Schedules/ScheduleDozeTable.vue';
 import { mapState, mapMutations } from 'vuex';
-import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
+import { convertIonName, convertIonRatio, isRecipe } from '~/helpers/funcs/funcs';
 
 export default {
   name: 'Schedule',

@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2022 Mikhail Lapshin
+ * Copyright (C) 2023 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ export default {
     recipes: 'Recipies',
     fertilizers: 'Fertilizers',
     schedules: 'Schedule',
+    reminerals: 'Reminerals',
     remineralization: 'Remineralization',
     dynamics: 'Dynamics',
     about: 'About',
@@ -142,6 +143,41 @@ export default {
   },
   fertilizers: {
     addButton: 'Add solution',
+    panels: {
+      header: {
+        pull: 'Pull to sort Recipes',
+      },
+      body: {
+        noSizes: 'Размеры не указаны',
+      },
+    },
+    dialog: {
+      fertilizerNew: 'New fertilizer',
+      fertilizerEdit: 'Fertilizer editing',
+      name: 'Name',
+      nameHint: 'Придумайте простое название, например "Аквариум 1" или "Большой аквариум"',
+      volume: 'Объем',
+      volumeHint: 'Вы можете воспользоваться калькулятором объема ниже',
+      length: 'Длина',
+      width: 'Ширина',
+      height: 'Высота',
+      heightHint: 'Введите высоту чистого столба воды',
+      glassThickness: 'Толщина стекла',
+      orSizes: 'Или используйте размеры',
+      messageTankAdd: 'Аквариум добавлен',
+      messageTankEdit: 'Аквариум изменен',
+      messageTankRemove: 'Аквариум удален',
+      nameRules: {
+        require: 'Введите название',
+        exists: 'Аквариум с таким названием уже существует',
+      },
+      volumeRules: {
+        require: 'Введите объем в литрах',
+      },
+    },
+  },
+  reminerals: {
+    addButton: 'Add remineral',
     panels: {
       header: {
         pull: 'Pull to sort Recipes',

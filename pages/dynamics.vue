@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -267,10 +267,10 @@
 
 <script>
 import Vue from 'vue';
-import ELEMENTS from '@/constants/elements';
-import FORMULAS from '@/constants/formulas';
+import ELEMENTS from '@/helpers/constants/elements';
+import FORMULAS from '@/helpers/constants/formulas';
 import { mapState } from 'vuex';
-import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs';
+import { convertIonName, convertIonRatio, isRecipe } from '~/helpers/funcs/funcs';
 import ElementsTable from '@/components/ElementsTable.vue';
 import FertilizersDoseTable, {
   FERTILIZATION_EVERY_DAY,

@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { isFertilizer } from '~/helpers/funcs';
+import { isFertilizer } from '~/helpers/funcs/funcs';
 
 export const FERTILIZATION_EVERY_DAY = 0;
 export const FERTILIZATION_IN_TAP_WATER = 1;

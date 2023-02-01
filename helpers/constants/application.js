@@ -5,6 +5,7 @@ export const ROUTES = [
   { path: 'recipes', icon: 'mdi-clipboard-text-multiple-outline' },
   { path: 'fertilizers', icon: 'mdi-flask' },
   { path: 'schedules', icon: 'mdi-calendar-blank-multiple' },
+  { path: 'reminerals', icon: 'fas fa-cubes' },
   { path: 'remineralization', icon: 'fas fa-cubes' },
   { path: 'dynamics', icon: 'far fa-chart-bar' },
   { path: 'settings', icon: 'fas fa-cog' },

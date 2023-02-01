@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -219,14 +219,14 @@
 <script>
 import {
   convertIonName, convertIonRatio, isFertilizer, isRecipe,
-} from '~/helpers/funcs';
-import { GH } from '~/constants/hardness';
+} from '~/helpers/funcs/funcs';
+import { GH } from '~/helpers/constants/hardness';
 import {
   FERTILIZATION_IN_TAP_WATER,
   FERTILIZATION_EVERY_DAY,
   FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
-import ELEMENTS from '~/constants/elements';
+import ELEMENTS from '~/helpers/constants/elements';
 
 export default {
   name: 'ElementsTable',

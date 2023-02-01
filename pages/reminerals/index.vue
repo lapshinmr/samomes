@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -170,7 +170,7 @@
       </v-card>
     </v-dialog>
     <add-button :action="addRecipe">
-      {{ $t('Recipes.addButton') }}
+      {{ $t('reminerals.addButton') }}
     </add-button>
   </v-container>
 </template>
@@ -178,7 +178,7 @@
 <script>
 import { mapMutations } from 'vuex';
 import draggable from 'vuedraggable';
-import Recipe from '@/components/Recipes/Recipe.vue';
+import Recipe from '~/components/Recipes/Recipe.vue';
 
 export default {
   name: 'Recipes',
@@ -231,7 +231,7 @@ export default {
       'SNACKBAR_SHOW',
     ]),
     addRecipe() {
-      this.$router.push('/Recipes/create');
+      this.$router.push('/reminerals/create');
     },
     openShareDialog(index) {
       this.curRecipeIndex = index;

@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
-import { ROUTES } from '~/constants/application';
+import { ROUTES } from '~/helpers/constants/application';
 import Drawer from '~/components/Layout/Drawer.vue';
 // import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 

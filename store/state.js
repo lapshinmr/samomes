@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2022 Mikhail Lapshin
+ * Copyright (C) 2023 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DEFAULT_LANGUAGE } from '@/constants/lang';
+import { DEFAULT_LANGUAGE } from '@/helpers/constants/lang';
 
 export default () => ({
   lang: DEFAULT_LANGUAGE,
@@ -35,5 +35,6 @@ export default () => ({
   tanks: [],
   recipes: [],
   fertilizers: [],
+  reminerals: [],
   schedules: [],
 });

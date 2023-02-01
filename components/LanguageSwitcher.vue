@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
     offset-y
     transition="slide-y-transition"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-btn
         text
         v-on="on"
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { LANGUAGES } from '~/constants/lang';
+import { LANGUAGES } from '~/helpers/constants/lang';
 import { mapState, mapActions } from 'vuex';
 
 export default {

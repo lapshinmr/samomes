@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -142,7 +142,7 @@
 </template>
 
 <script>
-import { convertIonName, convertIonRatio, countPercent } from '~/helpers/funcs';
+import { convertIonName, convertIonRatio, countPercent } from '~/helpers/funcs/funcs';
 
 export default {
   name: 'ElementsDryTable',

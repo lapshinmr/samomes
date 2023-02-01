@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2022 Mikhail Lapshin
+ * Copyright (C) 2023 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -90,6 +90,24 @@ export default {
   },
   FERTILIZERS_REMOVE(state) {
     state.fertilizers = [];
+  },
+  REMINERAL_ADD(state, payload) {
+    state.reminerals.push(payload);
+  },
+  REMINERAL_REMOVE(state, payload) {
+    state.reminerals.splice(payload, 1);
+  },
+  REMINERAL_EDIT(state, payload) {
+    Vue.set(state.reminerals, payload.index, payload.recipe);
+  },
+  REMINERAL_MOVE(state, payload) {
+    state.reminerals = payload;
+  },
+  REMINERALS_SET(state, payload) {
+    state.reminerals = payload;
+  },
+  REMINERALS_REMOVE(state) {
+    state.reminerals = [];
   },
   SCHEDULE_ADD(state, payload) {
     state.schedules.push(payload);

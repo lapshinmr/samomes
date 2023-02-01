@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,28 +19,32 @@
 
 <template>
   <div>
-    <div class="text-subtitle-2 mb-4">
-      Данный рецепт повышает жесткость
-    </div>
-    <div class="d-flex align-center mb-2">
+    <div class="d-flex align-start mb-4">
       <number-field
-        v-model="amount"
-        label="Введите количество"
-        hint="То количество, которое будет внесено на объем подмены или весь объем аквариума"
-        :suffix="isVolume ? 'мл' : 'г'"
+        :value="mass"
+        @input="$emit('update:mass', $event)"
+        label="Введите массу смеси"
+        suffix="г"
+        hide-details="auto"
+        style="flex-basis: 0;"
       />
       <number-field
-        v-model="volume"
+        :value="volume"
+        @input="$emit('update:volume', $event)"
         label="Введите объем"
-        hint="Объем подмены или весь объем аквариума"
         suffix="л"
+        hide-details="auto"
         class="ml-2"
+        style="flex-basis: 0;"
       />
+    </div>
+    <div class="text-subtitle-2 mb-3">
+      {{ mass }} г смеси повышают в {{ volume }} л:
     </div>
     <div class="d-flex">
       <v-text-field
         :value="totalGh.toFixed(2)"
-        label="Общая жесткость"
+        label="Общую жесткость"
         suffix="dGh"
         hide-details="auto"
         readonly
@@ -50,7 +54,7 @@
       />
       <v-text-field
         :value="totalKh.toFixed(2)"
-        label="Карбонатная жесткость"
+        label="Карбонатную жесткость"
         suffix="dKh"
         hide-details="auto"
         readonly
@@ -59,18 +63,22 @@
         class="mb-2 ml-2"
       />
     </div>
-    <div
-      v-if="totalIonConcentration.Ca && totalIonConcentration.Mg"
-      class="text-subtitle-2 mt-2"
-    >
-      Соотношение Ca / Mg = {{ (totalIonConcentration.Ca / totalIonConcentration.Mg).toFixed(2) }}
+    <div class="text-subtitle-2 mt-2">
+      Соотношение Ca / Mg
+      <template v-if="totalIonConcentration.Ca && totalIonConcentration.Mg">
+        = {{ (totalIonConcentration.Ca / totalIonConcentration.Mg).toFixed(2) }}
+      </template>
+      <template v-else>
+        будет вычислено после ввода массы реагентов
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-import { countPercent } from '~/helpers/funcs';
-import { GH, countKh } from '~/constants/hardness';
+import { countPercent } from '~/helpers/funcs/funcs';
+import { GH } from '~/helpers/constants/hardness';
+import { countKh } from '~/helpers/funcs/hardness';
 
 export default {
   name: 'HardnessTable',
@@ -79,38 +87,32 @@ export default {
       type: Object,
       default: () => {},
     },
-    isVolume: {
-      type: Boolean,
-      default: false,
+    mass: {
+      type: Number,
+      default: 0,
     },
-  },
-  data() {
-    return {
-      volume: 10,
-      amount: 1,
-    };
+    volume: {
+      type: Number,
+      default: 10,
+    },
   },
   computed: {
     totalGh() {
       let result = 0;
       if ('Ca' in this.totalIonConcentration) {
-        result += (this.totalIonConcentration.Ca * this.amount) / (GH.Ca * this.volume);
+        result += (this.totalIonConcentration.Ca * this.mass) / (GH.Ca * this.volume);
       }
       if ('Mg' in this.totalIonConcentration) {
-        result += (this.totalIonConcentration.Mg * this.amount) / (GH.Mg * this.volume);
+        result += (this.totalIonConcentration.Mg * this.mass) / (GH.Mg * this.volume);
       }
-      if (!this.isVolume) {
-        result *= 1000;
-      }
+      result *= 1000;
       return result;
     },
     totalKh() {
       let result = 0;
       if ('CO3' in this.totalIonConcentration) {
-        result += countKh(this.totalIonConcentration.CO3, this.volume) * this.amount;
-        if (!this.isVolume) {
-          result *= 1000;
-        }
+        result += countKh(this.totalIonConcentration.CO3, this.volume) * this.mass;
+        result *= 1000;
       }
       return result;
     },

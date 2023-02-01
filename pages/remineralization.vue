@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2022 Mikhail Lapshin
+  Copyright (C) 2023 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -313,10 +313,10 @@
 <script>
 import Vue from 'vue';
 import { mapState } from 'vuex';
-import ELEMENTS from '@/constants/elements';
-import FORMULAS from '@/constants/formulas';
-import { countKh, GH } from '@/constants/hardness';
-import REMINERALS from '@/constants/remineral';
+import ELEMENTS from '@/helpers/constants/elements';
+import FORMULAS from '@/helpers/constants/formulas';
+import { GH } from '@/helpers/constants/hardness';
+import REMINERALS from '@/helpers/constants/remineral';
 import {
   convertIonName,
   convertIonRatio,
@@ -324,8 +324,9 @@ import {
   countTotalIonConcentration,
   isRecipe,
   isFertilizer,
-} from '@/helpers/funcs';
+} from '~/helpers/funcs/funcs';
 import FertilizersDoseTable, { FERTILIZATION_IN_TAP_WATER } from '@/components/FertilizersDoseTable.vue';
+import { countKh } from '~/helpers/funcs/hardness';
 
 export default {
   name: 'Remineralization',
@@ -409,7 +410,7 @@ export default {
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          ghRem += rem.gh * rem.amount * rem.volume / (this.tank.waterChangeVolume * rem.mass);
+          ghRem += (rem.gh * rem.amount * rem.volume) / (this.tank.waterChangeVolume * rem.mass);
         }
       });
       const ghFromChangeWater = (this.ghWaterChange * (1 - this.osmosisChange / 100));
@@ -423,7 +424,7 @@ export default {
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          khRem += rem.kh * rem.amount * rem.volume / (this.tank.waterChangeVolume * rem.mass);
+          khRem += (rem.kh * rem.amount * rem.volume) / (this.tank.waterChangeVolume * rem.mass);
         }
       });
       const khFromChangeWater = (this.khWaterChange * (1 - this.osmosisChange / 100));
@@ -441,7 +442,7 @@ export default {
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          ghRem += rem.gh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tank.volume * rem.mass)
+          ghRem += ((rem.gh * rem.amount * rem.volume) / ((this.waterChange / 100) * this.tank.volume * rem.mass))
             * (this.waterChange / 100);
         }
       });
@@ -457,7 +458,7 @@ export default {
       }
       this.remineralsSelected.forEach((rem) => {
         if (rem.amount) {
-          khRem += rem.kh * rem.amount * rem.volume / ((this.waterChange / 100) * this.tank.volume * rem.mass)
+          khRem += ((rem.kh * rem.amount * rem.volume) / ((this.waterChange / 100) * this.tank.volume * rem.mass))
             * (this.waterChange / 100);
         }
       });
@@ -562,7 +563,7 @@ export default {
       this.ownRemineral = {
         kh: 0,
         gh: 0,
-        mass: 0,
+        reagentsMassObject: 0,
         volume: 0,
       };
     },

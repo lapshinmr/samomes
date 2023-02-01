@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { ROUTES } from '~/constants/application';
+import { ROUTES } from '~/helpers/constants/application';
 
 export default {
   name: 'Drawer',

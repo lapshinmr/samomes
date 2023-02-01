@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2022 Mikhail Lapshin
+ * Copyright (C) 2023 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-export const KH = {
-  CO3: 60.01001,
-  HCO3: 61.01812,
+export const DEFAULT_LANGUAGE = 'ru';
+export const LANGUAGES = {
+  ru: 'Ru',
+  en: 'En',
 };
-
-export const GH = {
-  Mg: 4.346,
-  Ca: 7.144,
-};
-
-const KH_RATIO = 2.804;
-
-export const countKh = (mass, volume) => mass / (volume * KH.HCO3) * (KH.HCO3 / KH.CO3) * KH_RATIO;
