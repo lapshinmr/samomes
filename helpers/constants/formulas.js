@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 export default {
   KNO3: {
@@ -274,7 +274,7 @@ export default {
       },
     },
     solubilityLimit: 546,
-    name: 'Магния хлорид 6-водный',
+    name: 'Магния Хлорид 6-водный',
   },
   'Mg(NO3)2(H2O)6': {
     ions: {
@@ -417,28 +417,6 @@ export default {
     HCO3: 2,
     solubilityLimit: 218,
     name: 'Натрия карбонат (бельевая сода)',
-  },
-  C2H3O2Na: {
-    ions: {
-      Na: {
-        isNeeded: true,
-        count: 1,
-      },
-      C: {
-        isNeeded: false,
-        count: 2,
-      },
-      H: {
-        isNeeded: false,
-        count: 3,
-      },
-      O: {
-        isNeeded: false,
-        count: 2,
-      },
-    },
-    solubilityLimit: 760,
-    name: 'Натрия ацетат',
   },
   'Na2CO3(H2O)': {
     ions: {

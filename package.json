@@ -19,6 +19,7 @@
     "@nuxtjs/i18n": "^7.2.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
+    "@nuxtjs/sitemap": "^2.4.0",
     "@nuxtjs/yandex-metrika": "^1.3.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.14.0",

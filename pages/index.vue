@@ -37,15 +37,15 @@
         <div
           class="about__content d-flex flex-column"
         >
-          <div class="about__title">
+          <h1 class="about__title">
             Самомес
-          </div>
-          <div class="about__subtitle">
+          </h1>
+          <h3 class="about__subtitle">
             набор инструментов аквариумиста
-          </div>
-          <div class="about__question">
+          </h3>
+          <h3 class="about__question">
             Рассчитаем калий вместе? 😉
-          </div>
+          </h3>
           <div id="vk_groups" />
         </div>
       </v-col>
@@ -95,11 +95,10 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link
-            to="/tanks"
-            class="section__title"
-          >
-            Аквариумы
+          <nuxt-link to="/tanks">
+            <h2 class="section__title">
+              Аквариумы
+            </h2>
           </nuxt-link>
           <div class="section__text">
             <p class="font-italic">
@@ -137,11 +136,10 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link
-            to="/recipes"
-            class="section__title"
-          >
-            Рецепты
+          <nuxt-link to="/recipes">
+            <h2 class="section__title">
+              Рецепты
+            </h2>
           </nuxt-link>
           <div class="section__text">
             <p class="font-italic">
@@ -182,11 +180,10 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link
-            to="/fertilizers"
-            class="section__title"
-          >
-            Удобрения
+          <nuxt-link to="/fertilizers">
+            <h2 class="section__title">
+              Удобрения
+            </h2>
           </nuxt-link>
           <div class="section__text">
             <p class="font-italic">
@@ -222,11 +219,10 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link
-            to="/schedules"
-            class="section__title"
-          >
-            Расписание
+          <nuxt-link to="/schedules">
+            <h2 class="section__title">
+              Расписание
+            </h2>
           </nuxt-link>
           <div class="section__text">
             <p class="font-italic">
@@ -265,11 +261,10 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link
-            to="/remineralization"
-            class="section__title"
-          >
-            Реминерализация
+          <nuxt-link to="/remineralization">
+            <h2 class="section__title">
+              Реминерализация
+            </h2>
           </nuxt-link>
           <div class="section__text">
             <p class="font-italic">
@@ -304,11 +299,10 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link
-            to="/dynamics"
-            class="section__title"
-          >
-            Динамика
+          <nuxt-link to="/dynamics">
+            <h2 class="section__title">
+              Динамика
+            </h2>
           </nuxt-link>
           <div class="section__text">
             <p class="font-italic">
@@ -346,9 +340,9 @@
           </v-icon>
         </a>
         <div class="section__content">
-          <p class="section__title">
+          <h2 class="section__title">
             Остались вопросы?
-          </p>
+          </h2>
           <p>
             Не стесняйтесь их задавать в группе ВКонтакте
             <a
@@ -465,6 +459,7 @@ export default {
         @media (max-width: $xs)
           font-size: 1.2rem !important
         font-size: 1.3rem !important
+        font-weight: 400
         margin-top: 2rem
         margin-bottom: 1rem
   .section--goals

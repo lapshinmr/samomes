@@ -169,8 +169,8 @@
 </template>
 
 <script>
-import FORMULAS from '@/helpers/constants/formulas';
-import FERTILIZERS from '@/helpers/constants/fertilizers';
+import FORMULAS from '~/helpers/constants/formulas';
+import FERTILIZERS from '~/helpers/constants/fertilizers';
 import { convertIonName, convertIonRatio, OPPOSITE } from '~/helpers/funcs/funcs';
 import { mapState, mapMutations } from 'vuex';
 

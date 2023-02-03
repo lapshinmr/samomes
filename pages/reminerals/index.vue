@@ -21,23 +21,16 @@
   <v-container class="mb-12">
     <v-row>
       <page-title>
-        Рецепты
+        Реминерализаторы
       </page-title>
       <guide>
-        На этой странице можно добавить рецепты самодельных удобрений.
+        На этой странице можно добавить самодельные реминерализаторы.
         <br>
         <br>
         Можно составить свой рецепт, а так же можно воспользоваться готовыми рецептами других аквариумистов.
-        <br>
-        <br>
-        Рецепты - это ваши собственные удобрения, которые можно использовать при составлении
-        <router-link to="/schedules">
-          расписания
-        </router-link>
-        внесения удобрений.
       </guide>
       <v-col
-        v-if="recipes.length === 0"
+        v-if="reminerals.length === 0"
         cols="12"
         md="8"
         offset-md="2"
@@ -46,7 +39,7 @@
           class="mb-8"
           :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
         >
-          У вас нет ни одного рецепта
+          У вас нет ни одного реминерализатора
         </p>
       </v-col>
       <v-col
@@ -58,7 +51,7 @@
           multiple
         >
           <draggable
-            v-model="recipes"
+            v-model="reminerals"
             v-bind="dragOptions"
             @start="drag=true"
             @end="drag=false"
@@ -70,8 +63,8 @@
               :name="!drag ? 'flip-list' : null"
             >
               <v-expansion-panel
-                v-for="(recipe, index) in recipes"
-                :key="recipe.name"
+                v-for="(remineral, index) in reminerals"
+                :key="remineral.name"
               >
                 <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
                   <div
@@ -83,7 +76,7 @@
                       :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                     >
                       <span style="line-height: 1.25rem;">
-                        {{ recipe.name }}
+                        {{ remineral.name }}
                       </span>
                     </span>
                     <span class="mr-3">
@@ -103,7 +96,7 @@
                   </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Recipe :recipe="recipe" />
+                  <Recipe :remineral="remineral" />
                   <div class="d-flex justify-end mt-4">
                     <v-btn
                       text
@@ -113,7 +106,7 @@
                     </v-btn>
                     <v-btn
                       text
-                      :to="`/recipes/${index}`"
+                      :to="`/remineral/${index}`"
                       class="mr-n4"
                     >
                       Открыть
@@ -135,7 +128,7 @@
         <v-card-title>
           Поделиться ссылкой
         </v-card-title>
-        <v-card-text v-if="curRecipeIndex !== null">
+        <v-card-text v-if="curRemineralIndex !== null">
           <v-text-field
             :value="encodedUrl"
             label="Ваша ссылка для отправки"
@@ -169,7 +162,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <add-button :action="addRecipe">
+    <add-button :action="addRemineral">
       {{ $t('reminerals.addButton') }}
     </add-button>
   </v-container>
@@ -181,7 +174,7 @@ import draggable from 'vuedraggable';
 import Recipe from '~/components/Recipes/Recipe.vue';
 
 export default {
-  name: 'Recipes',
+  name: 'Reminerals',
   components: {
     draggable,
     Recipe,
@@ -190,7 +183,7 @@ export default {
     return {
       drag: false,
       isShared: false,
-      curRecipeIndex: null,
+      curRemineralIndex: null,
       dialogShare: false,
     };
   },
@@ -203,16 +196,16 @@ export default {
         ghostClass: 'ghost',
       };
     },
-    recipes: {
+    reminerals: {
       get() {
-        return this.$store.state.recipes;
+        return this.$store.state.reminerals;
       },
       set(value) {
-        this.RECIPE_MOVE(value);
+        this.REMINERAL_MOVE(value);
       },
     },
     encodedUrl() {
-      let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]]);
+      let jsonString = JSON.stringify([this.reminerals[this.curRemineralIndex]]);
       jsonString = jsonString.replace(/%/g, '%25');
       const encoded = encodeURIComponent(jsonString);
       return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
@@ -221,7 +214,7 @@ export default {
   watch: {
     dialogShare() {
       if (!this.dialogShare) {
-        this.curRecipeIndex = null;
+        this.curRemineralIndex = null;
       }
     },
   },
@@ -230,11 +223,11 @@ export default {
       'RECIPE_MOVE',
       'SNACKBAR_SHOW',
     ]),
-    addRecipe() {
+    addRemineral() {
       this.$router.push('/reminerals/create');
     },
     openShareDialog(index) {
-      this.curRecipeIndex = index;
+      this.curRemineralIndex = index;
       this.dialogShare = true;
     },
     copyUrl() {

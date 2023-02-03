@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 export default [
   {
@@ -83,7 +83,7 @@ export default [
     tankVolume: 100,
     volume: 1000,
     note: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru'
-    + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Нитрат+',
@@ -95,7 +95,7 @@ export default [
     tankVolume: 100,
     volume: 1000,
     note: 'Калиевая селитра, разбавленная мочевиной и нитратом аммония. Рецепт взят с сайта aqua-botanic.ru'
-    + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Фосфат',
@@ -105,7 +105,7 @@ export default [
     tankVolume: 100,
     volume: 1000,
     note: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru'
-    + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Калий',
@@ -115,7 +115,7 @@ export default [
     tankVolume: 100,
     volume: 1000,
     note: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru'
-    + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Микро',

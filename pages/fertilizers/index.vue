@@ -127,7 +127,7 @@
 <script>
 import { mapMutations } from 'vuex';
 import draggable from 'vuedraggable';
-import Recipe from '@/components/Recipes/Recipe.vue';
+import Recipe from '~/components/Recipes/Recipe.vue';
 
 export default {
   name: 'Fertilizers',

@@ -49,6 +49,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/sitemap',
     [
       '@nuxtjs/yandex-metrika',
       {
@@ -65,6 +66,7 @@ export default {
       {
         langDir: 'locales',
         defaultLocale: 'ru',
+        strategy: 'no_prefix',
         locales: [
           { code: 'en', iso: 'en-US', file: 'en.js' },
           { code: 'ru', iso: 'ru-Ru', file: 'ru.js' },
@@ -72,6 +74,10 @@ export default {
       },
     ],
   ],
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -105,7 +111,8 @@ export default {
     },
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
+  sitemap: {
+    path: '/sitemap.xml',
   },
+
 };

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import Schedule from '@/components/Schedule.vue';
+import Schedule from '~/components/Schedule.vue';
 import { mapState } from 'vuex';
 
 export default {

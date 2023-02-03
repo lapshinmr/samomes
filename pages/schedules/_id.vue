@@ -234,9 +234,9 @@ import FertilizerDoseTable, {
   FERTILIZATION_EVERY_DAY,
   FERTILIZATION_IN_TAP_WATER,
   FERTILIZATION_MIX,
-} from '@/components/FertilizersDoseTable.vue';
-import ElementsTable from '@/components/ElementsTable.vue';
-import ScheduleDozeTable from '@/components/Schedules/ScheduleDozeTable.vue';
+} from '~/components/FertilizersDoseTable.vue';
+import ElementsTable from '~/components/ElementsTable.vue';
+import ScheduleDozeTable from '~/components/Schedules/ScheduleDozeTable.vue';
 import { mapState, mapMutations } from 'vuex';
 import { convertIonName, convertIonRatio, isRecipe } from '~/helpers/funcs/funcs';
 

@@ -28,6 +28,7 @@ export default () => ({
     tanks: false,
     recipes: false,
     fertilizers: false,
+    reminerals: false,
     schedules: false,
     dynamics: false,
     remineralization: false,
