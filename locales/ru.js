@@ -20,8 +20,8 @@
 export default {
   routes: {
     tanks: 'Аквариумы',
-    recipes: 'Рецепты',
-    fertilizers: 'Удобрения',
+    recipes: 'Самодельные',
+    fertilizers: 'Фирменные',
     schedules: 'Расписание',
     reminerals: 'Реминерализаторы',
     remineralization: 'Реминерализация',

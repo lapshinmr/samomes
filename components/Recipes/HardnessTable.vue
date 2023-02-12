@@ -19,32 +19,35 @@
 
 <template>
   <div>
-    <div class="d-flex align-start mb-4">
-      <number-field
-        :value="mass"
-        @input="$emit('update:mass', $event)"
-        label="Введите массу смеси"
-        suffix="г"
-        hide-details="auto"
-        style="flex-basis: 0;"
-      />
-      <number-field
-        :value="volume"
-        @input="$emit('update:volume', $event)"
-        label="Введите объем"
-        suffix="л"
-        hide-details="auto"
-        class="ml-2"
-        style="flex-basis: 0;"
-      />
-    </div>
-    <div class="text-subtitle-2 mb-3">
-      {{ mass }} г смеси повышают в {{ volume }} л:
+    <div class="d-flex align-center mb-4">
+      <div style="width: 60px;">
+        <number-field
+          :value="mass"
+          @input="$emit('update:mass', $event)"
+          suffix="г"
+          hide-details="auto"
+          class="mr-2 mt-0 pt-0"
+          style=""
+        />
+      </div>
+      <div class="mx-2">
+        смеси повышают в
+      </div>
+      <div style="width: 60px;">
+        <number-field
+          :value="volume"
+          @input="$emit('update:volume', $event)"
+          suffix="л"
+          hide-details="auto"
+          class="mt-0 pt-0"
+          style="flex-basis: 0;"
+        />
+      </div>
     </div>
     <div class="d-flex">
       <v-text-field
         :value="totalGh.toFixed(2)"
-        label="Общую жесткость"
+        label="Общую жесткость на"
         suffix="dGh"
         hide-details="auto"
         readonly
@@ -54,7 +57,7 @@
       />
       <v-text-field
         :value="totalKh.toFixed(2)"
-        label="Карбонатную жесткость"
+        label="Карбонатную жесткость на"
         suffix="dKh"
         hide-details="auto"
         readonly
@@ -65,8 +68,8 @@
     </div>
     <div class="text-subtitle-2 mt-2">
       Соотношение Ca / Mg
-      <template v-if="totalIonConcentration.Ca && totalIonConcentration.Mg">
-        = {{ (totalIonConcentration.Ca / totalIonConcentration.Mg).toFixed(2) }}
+      <template v-if="concentration.Ca && concentration.Mg">
+        = {{ (concentration.Ca / concentration.Mg).toFixed(2) }}
       </template>
       <template v-else>
         будет вычислено после ввода массы реагентов
@@ -76,14 +79,12 @@
 </template>
 
 <script>
-import { countPercent } from '~/helpers/funcs/funcs';
-import { GH } from '~/helpers/constants/hardness';
-import { countKh } from '~/helpers/funcs/hardness';
+import { countGh, countKh } from '~/helpers/funcs/hardness';
 
 export default {
   name: 'HardnessTable',
   props: {
-    totalIonConcentration: {
+    concentration: {
       type: Object,
       default: () => {},
     },
@@ -93,32 +94,16 @@ export default {
     },
     volume: {
       type: Number,
-      default: 10,
+      default: 50,
     },
   },
   computed: {
     totalGh() {
-      let result = 0;
-      if ('Ca' in this.totalIonConcentration) {
-        result += (this.totalIonConcentration.Ca * this.mass) / (GH.Ca * this.volume);
-      }
-      if ('Mg' in this.totalIonConcentration) {
-        result += (this.totalIonConcentration.Mg * this.mass) / (GH.Mg * this.volume);
-      }
-      result *= 1000;
-      return result;
+      return countGh(this.concentration, this.mass, this.volume);
     },
     totalKh() {
-      let result = 0;
-      if ('CO3' in this.totalIonConcentration) {
-        result += countKh(this.totalIonConcentration.CO3, this.volume) * this.mass;
-        result *= 1000;
-      }
-      return result;
+      return countKh(this.concentration, this.mass, this.volume);
     },
-  },
-  methods: {
-    countPercent,
   },
 };
 </script>

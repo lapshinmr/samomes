@@ -138,3 +138,12 @@ export const prepareFormulas = (filter = []) => {
   result.sort((a, b) => a.text.localeCompare(b.text));
   return result;
 };
+
+export const sortArrayByObjectField = (array, fieldName) => {
+  // const recipeExamples = [];
+  // array.forEach((item) => {
+  //   recipeExamples.push(item[fieldName]);
+  // });
+  array.sort((a, b) => a[fieldName].localeCompare(b[fieldName]));
+  return array;
+};

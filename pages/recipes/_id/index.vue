@@ -225,9 +225,7 @@
                           <v-divider />
                         </div>
                       </v-col>
-                      <template
-                        v-for="reagent in reagents"
-                      >
+                      <template v-for="reagent in reagents">
                         <v-col
                           :cols="isWater ? 12 : 9"
                           :key="reagent.key"

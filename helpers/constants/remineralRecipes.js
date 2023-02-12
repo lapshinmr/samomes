@@ -17,13 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Vue from 'vue';
-import moment from 'moment';
-
-Vue.filter('format', (value, format) => moment(value, 'YYYY-MM-DD').locale('ru').format(format));
-Vue.filter('precision', (value, precision = 1) => {
-  if (!Number.isNaN(value)) {
-    return (+value).toFixed(precision);
-  }
-  return value;
-});
+export default [
+  {
+    name: 'Samomes Gh+',
+    note: 'Этот рецепт был создан и использовался автором проекта',
+  },
+  {
+    reagentsMassObject: {
+      CaCO3: 1,
+      'MgSO4(H2O)7': 1.2,
+    },
+    totalMass: 8,
+    volume: 50,
+    name: 'Samomes Gh/Kh+',
+    note: 'Этот рецепт был создан и использовался автором проекта',
+  },
+  {
+    name: 'Samomes Gh/Kh(low)+',
+    note: 'Этот рецепт был создан и использовался автором проекта',
+  },
+];

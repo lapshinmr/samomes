@@ -84,9 +84,10 @@
               cols="12"
               sm="6"
             >
-              <v-select
-                :items="recipesExamples"
+              <v-combobox
                 v-model="recipeExampleChosen"
+                :items="recipesExamples"
+                item-text="name"
                 label="Рецепт"
                 hint="или выбрать один из рецептов"
                 persistent-hint
@@ -97,13 +98,9 @@
           <v-expand-transition>
             <v-row v-if="isReagents">
               <v-col cols="12">
-                <div class="d-flex align-center">
-                  <v-divider />
-                  <span class="mx-3">
-                    Введите массу реагента
-                  </span>
-                  <v-divider />
-                </div>
+                <SDivider>
+                  Введите масс{{ reagents.length > 1 ? 'ы' : 'у' }} реагент{{ reagents.length > 1 ? 'ов' : 'а' }}
+                </SDivider>
               </v-col>
               <v-col :cols="12">
                 <number-field
@@ -113,109 +110,36 @@
                   @input="inputMass($event, reagent.key)"
                   :label="reagent.text"
                   :precision-show="3"
-                  :suffix="reagent.density ? 'мл' : 'г'"
+                  suffix="г"
                   hide-details="auto"
                   class="mb-4"
                 />
               </v-col>
-              <v-expand-transition>
-                <v-col cols="12">
-                  <hardness-table
-                    :total-ion-concentration="totalIonConcentration"
-                    :mass.sync="totalMass"
-                    :volume.sync="volume"
-                    class="mt-4 mb-8"
-                  />
-                  <v-simple-table>
-                    <template #default>
-                      <thead>
-                        <tr>
-                          <th
-                            v-for="reagent in reagents"
-                            :key="reagent.key"
-                            class="text-left"
-                          >
-                            {{ reagent.key }}
-                          </th>
-                          <th class="text-left">
-                            Масса смеси, г
-                          </th>
-                          <th class="text-left">
-                            Gh/Kh
-                          </th>
-                          <th class="text-left">
-                            Объем, л
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td
-                            v-for="reagent in reagents"
-                            :key="reagent.key"
-                          >
-                            {{ countReagentsMassByGh(1, 5)[reagent.key].toFixed(2) }}
-                          </td>
-                          <td />
-                          <td>1 / </td>
-                          <td>5</td>
-                        </tr>
-                        <tr>
-                          <td
-                            v-for="reagent in reagents"
-                            :key="reagent.key"
-                          >
-                            {{ countReagentsMassByGh(1, 10)[reagent.key].toFixed(2) }}
-                          </td>
-                          <td />
-                          <td>1 / </td>
-                          <td>10</td>
-                        </tr>
-                        <tr>
-                          <td
-                            v-for="reagent in reagents"
-                            :key="reagent.key"
-                          >
-                            {{ countReagentsMassByGh(6, 10)[reagent.key].toFixed(2) }}
-                          </td>
-                          <td />
-                          <td>6 / </td>
-                          <td>10</td>
-                        </tr>
-                        <tr>
-                          <td
-                            v-for="reagent in reagents"
-                            :key="reagent.key"
-                          >
-                            {{ countReagentsMassByGh(customGh, customVolume)[reagent.key].toFixed(2) }}
-                          </td>
-                          <td />
-                          <td>
-                            <div class="d-flex align-center">
-                              <v-text-field
-                                v-model="customGh"
-                                label="Gh"
-                                class="mr-2"
-                              />
-                              <v-text-field
-                                label="Kh"
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div class="d-flex align-center">
-                              <v-text-field
-                                v-model="customVolume"
-                                label="Объем, л"
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </v-col>
-              </v-expand-transition>
+              <v-col cols="12">
+                <hardness-table
+                  :concentration="concentrationPerIon"
+                  :mass.sync="totalMass"
+                  :volume.sync="volume"
+                  class="mt-4"
+                />
+              </v-col>
+              <v-col cols="12">
+                <SDivider class="mb-4">
+                  Таблица с навесками
+                </SDivider>
+                <the-reminerals-recipes-table
+                  :reagents-mass-object="reagentsMassObject"
+                  :volume="volume"
+                />
+              </v-col>
+              <v-col cols="12">
+                <SDivider class="mb-4">
+                  Подготовка смеси
+                </SDivider>
+                <TheRemineralsMixTable
+                  :reagents-mass-object="reagentsMassObject"
+                />
+              </v-col>
             </v-row>
           </v-expand-transition>
           <v-expand-transition>
@@ -227,9 +151,8 @@
                   hide-details="auto"
                   hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
                   :rules="rulesName"
+                  class="mb-4"
                 />
-              </v-col>
-              <v-col cols="12">
                 <v-textarea
                   v-model="note"
                   label="Примечание"
@@ -275,40 +198,39 @@
 
 <script>
 import Vue from 'vue';
-import FORMULAS from '~/helpers/constants/formulas';
-import RECIPES from '~/helpers/constants/recipes';
-import {
-  countTotalIonConcentration,
-  countPercent,
-  countTotalIonDose,
-  prepareFormulas,
-  OPPOSITE,
-} from '~/helpers/funcs/funcs';
 import { mapState, mapMutations } from 'vuex';
-import { GH } from '~/helpers/constants/hardness';
+
+import FORMULAS from '~/helpers/constants/formulas';
+import RECIPES from '~/helpers/constants/remineralRecipes';
+import { prepareFormulas, sortArrayByObjectField } from '~/helpers/funcs/funcs';
+import {
+  countDryIonConcentrationPerReagent,
+  countDryIonConcentrationPerIon,
+  countTotalReagentsMass,
+} from '~/helpers/funcs/concentrations';
+
 import HardnessTable from '~/components/Recipes/HardnessTable.vue';
-import { countKh } from '~/helpers/funcs/hardness';
+import TheRemineralsRecipesTable from '~/components/Reminerals/TheRemineralsRecipesTable.vue';
+import TheRemineralsMixTable from '~/components/Reminerals/TheRemineralsMixTable.vue';
 
 export default {
   name: 'RemineralPage',
   components: {
     HardnessTable,
+    TheRemineralsRecipesTable,
+    TheRemineralsMixTable,
   },
   data() {
     return {
       FORMULAS,
       RECIPES,
-      OPPOSITE,
       isShared: false,
       reagents: [],
       search: '',
       recipeExampleChosen: null,
       reagentsMassObject: {},
       totalMass: 0,
-      customGh: 1,
-      customVolume: 10,
       volume: 10,
-      solute: {},
       name: '',
       note: null,
       rulesReagent: [
@@ -369,51 +291,23 @@ export default {
         note: this.note,
         reagents: [...this.reagents.map((reagent) => reagent.key)],
         mass: { ...this.reagentsMassObject },
-        concentration: { ...this.concentration },
+        concentration: { ...this.concentrationPerReagent },
       };
     },
     formulas() {
       return prepareFormulas(['Ca', 'Mg']);
     },
     recipesExamples() {
-      const recipeExamples = [];
-      RECIPES.forEach((item) => {
-        recipeExamples.push(item.name);
-      });
-      recipeExamples.sort((a, b) => a.localeCompare(b));
-      return recipeExamples;
+      return sortArrayByObjectField(RECIPES, 'name');
     },
     isReagents() {
       return this.reagents.length > 0;
     },
-    totalReagentsMass() {
-      if (Object.values(this.reagentsMassObject).length === 0) {
-        return 0;
-      }
-      return Object.values(this.reagentsMassObject).reduce((sum, value) => sum + +value);
+    concentrationPerReagent() {
+      return countDryIonConcentrationPerReagent(this.reagentsMassObject);
     },
-    concentration() {
-      const result = {};
-      if (!this.isReagents || Object.keys(this.reagentsMassObject).length === 0 || !this.totalReagentsMass) {
-        return result;
-      }
-      this.reagents.forEach((reagent) => {
-        result[reagent.key] = {};
-        const { ions, HCO3 } = reagent;
-        Object.entries(ions).forEach(([ion, data]) => {
-          if (data.isNeeded) {
-            let factor = 1 / this.totalReagentsMass;
-            if (ion === 'CO3' && HCO3) {
-              factor *= HCO3;
-            }
-            result[reagent.key][ion] = this.reagentsMassObject[reagent.key] * this.countPercent(reagent.key)[ion] * factor;
-          }
-        });
-      });
-      return result;
-    },
-    totalIonConcentration() {
-      return this.countTotalIonConcentration(this.concentration);
+    concentrationPerIon() {
+      return countDryIonConcentrationPerIon(this.reagentsMassObject);
     },
     isExist() {
       const names = this.recipes.map((item) => item.name);
@@ -422,76 +316,56 @@ export default {
       const isEdit = index === +this.recipeIndex;
       return isExist && !isEdit;
     },
-    ionTotalDoseSorted() {
-      const result = Object.entries(countTotalIonDose(this.solute));
-      result.sort((a, b) => b[1] - a[1]);
-      return result;
-    },
   },
   watch: {
-    reagents(newValue, oldValue) {
-      if (newValue.length < oldValue.length) {
-        const reagentsToRemove = oldValue.filter((item) => !newValue.includes(item));
-        reagentsToRemove.forEach((item) => {
-          delete this.reagentsMassObject[item.key];
-        });
-      }
-      if (!this.name && this.reagents.length === 1) {
-        const reagent = this.reagents[0];
-        this.name = reagent.key;
-      }
-      const solute = {};
-      this.reagents.forEach((reagent) => {
-        const { ions } = reagent;
-        solute[reagent.key] = {};
-        Object.entries(ions).forEach(([ion, data]) => {
-          if (data.isNeeded) {
-            solute[reagent.key][ion] = 0;
-          }
+    // reagents(newValue, oldValue) {
+    //   if (newValue.length < oldValue.length) {
+    //     const reagentsToRemove = oldValue.filter((item) => !newValue.includes(item));
+    //     reagentsToRemove.forEach((item) => {
+    //       delete this.reagentsMassObject[item.key];
+    //     });
+    //   }
+    //   if (!this.name && this.reagents.length === 1) {
+    //     const reagent = this.reagents[0];
+    //     this.name = reagent.key;
+    //   }
+    //   const mass = { ...this.reagentsMassObject };
+    //   this.reagents.forEach((reagent) => {
+    //     if (!(reagent.key in mass)) {
+    //       mass[reagent.key] = 0;
+    //     }
+    //   });
+    //   this.reagentsMassObject = { ...mass };
+    // },
+    recipeExampleChosen(recipe) {
+      console.log(recipe);
+      this.reagentsMassObject = { ...recipe.reagentsMassObject };
+      const reagents = [];
+      Object.keys(recipe.reagentsMassObject).forEach((reagentName) => {
+        reagents.push({
+          key: reagentName,
+          text: `${FORMULAS[reagentName].name} - ${reagentName}`,
+          ...FORMULAS[reagentName],
         });
       });
-      this.solute = { ...solute };
-      const mass = { ...this.reagentsMassObject };
-      this.reagents.forEach((reagent) => {
-        if (!(reagent.key in mass)) {
-          mass[reagent.key] = 0;
-        }
-      });
-      this.reagentsMassObject = { ...mass };
+      this.reagents = reagents;
+      this.name = recipe.name;
+      this.note = recipe.note;
     },
-    recipeExampleChosen() {
-      const recipe = this.RECIPES.find((item) => item.name === this.recipeExampleChosen);
-      this.reagentsMassObject = {};
-      if (recipe) {
-        const reagents = [];
-        this.formulas.forEach((formula) => {
-          if (recipe.reagents && formula.key in recipe.reagents) {
-            reagents.push(formula);
-          }
-        });
-        this.reagents = reagents;
-        this.name = recipe.name;
-        this.note = recipe.note;
-        if (recipe.reagents) {
-          Object.entries(recipe.reagents).forEach(([reagent, mass]) => {
-            this.reagentsMassObject[reagent] = mass;
-          });
-        }
-      }
-    },
-    totalReagentsMass(value) {
-      this.totalMass = value;
+    reagentsMassObject: {
+      deep: true,
+      handler() {
+        this.totalMass = countTotalReagentsMass(this.reagentsMassObject);
+      },
     },
   },
   methods: {
     ...mapMutations([
-      'RECIPE_ADD',
-      'RECIPE_REMOVE',
-      'RECIPE_EDIT',
+      'REMINERAL_ADD',
+      'REMINERAL_REMOVE',
+      'REMINERAL_EDIT',
       'SNACKBAR_SHOW',
     ]),
-    countTotalIonConcentration,
-    countPercent,
     inputMass(value, key) {
       const mass = +value;
       Vue.set(this.reagentsMassObject, key, mass || '');
@@ -516,31 +390,10 @@ export default {
     removeRecipe() {
       this.RECIPE_REMOVE(this.recipeIndex);
       this.SNACKBAR_SHOW('Рецепт удален');
-      this.$router.push('/Recipes');
+      this.$router.push('/reminerals');
     },
-    countReagentsMassByGh(dstGh, volume) {
-      let gh = 0;
-      if ('Ca' in this.totalIonConcentration) {
-        gh += (this.totalIonConcentration.Ca * this.totalReagentsMass) / (GH.Ca * volume);
-      }
-      if ('Mg' in this.totalIonConcentration) {
-        gh += (this.totalIonConcentration.Mg * this.totalReagentsMass) / (GH.Mg * volume);
-      }
-      gh *= 1000;
-      const factor = gh / dstGh;
-      const reagentsMassObjectPrepared = {};
-      Object.entries(this.reagentsMassObject).forEach(([key, value]) => {
-        reagentsMassObjectPrepared[key] = value / factor;
-      });
-      return reagentsMassObjectPrepared;
-    },
-    countKhByGh(volume) {
-      let kh = 0;
-      if ('CO3' in this.totalIonConcentration) {
-        kh += countKh(this.totalIonConcentration.CO3, volume) * this.totalReagentsMass;
-        kh *= 1000;
-      }
-      return kh;
+    onExample(event) {
+      console.log(event);
     },
   },
 };
