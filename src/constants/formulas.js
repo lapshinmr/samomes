@@ -156,6 +156,24 @@ export default {
     solubilityLimit: 111,
     name: 'Калия сульфат',
   },
+  KOH: {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 1,
+      },
+      H: {
+        isNeeded: false,
+        count: 1,
+      },
+    },
+    solubilityLimit: 1210,
+    name: 'Калия гидрооксид',
+  },
   '(NH2)2CO': {
     ions: {
       N: {
