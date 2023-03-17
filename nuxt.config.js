@@ -113,6 +113,7 @@ export default {
 
   sitemap: {
     path: '/sitemap.xml',
+    hostname: 'https://samomes.com',
   },
 
 };

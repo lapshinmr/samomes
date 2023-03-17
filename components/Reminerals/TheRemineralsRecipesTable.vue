@@ -91,9 +91,7 @@ import { countGh, countKh } from '~/helpers/funcs/hardness';
 import { countDryIonConcentrationPerIon, countTotalReagentsMass } from '~/helpers/funcs/concentrations';
 
 const HARDNESS_VOLUMES = [
-  // { gh: 1, volume: 5 },
   { gh: 1, volume: 10 },
-  // { gh: 6, volume: 5 },
   { gh: 6, volume: 10 },
   { gh: 8, volume: 10 },
 ];

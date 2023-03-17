@@ -20,18 +20,8 @@
 <template>
   <div>
     <div class="d-flex align-center mb-4">
-      <div style="width: 60px;">
-        <number-field
-          :value="mass"
-          @input="$emit('update:mass', $event)"
-          suffix="г"
-          hide-details="auto"
-          class="mr-2 mt-0 pt-0"
-          style=""
-        />
-      </div>
       <div class="mx-2">
-        смеси повышают в
+        <span class="font-weight-medium">{{ mass.toFixed(2) }} г</span> смеси повышают в
       </div>
       <div style="width: 60px;">
         <number-field
@@ -65,15 +55,15 @@
         persistent-hint
         class="mb-2 ml-2"
       />
-    </div>
-    <div class="text-subtitle-2 mt-2">
-      Соотношение Ca / Mg
-      <template v-if="concentration.Ca && concentration.Mg">
-        = {{ (concentration.Ca / concentration.Mg).toFixed(2) }}
-      </template>
-      <template v-else>
-        будет вычислено после ввода массы реагентов
-      </template>
+      <v-text-field
+        :value="ratio"
+        label="Ca / Mg"
+        hide-details="auto"
+        readonly
+        outlined
+        persistent-hint
+        class="mb-2 ml-2"
+      />
     </div>
   </div>
 </template>
@@ -103,6 +93,12 @@ export default {
     },
     totalKh() {
       return countKh(this.concentration, this.mass, this.volume);
+    },
+    ratio() {
+      if (this.concentration.Ca && this.concentration.Mg) {
+        return (this.concentration.Ca / this.concentration.Mg).toFixed(2);
+      }
+      return '—';
     },
   },
 };

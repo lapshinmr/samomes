@@ -68,7 +68,7 @@ export const countDryIonConcentrationPerIon = (reagentsMassObject) => {
         if (ion === 'CO3' && HCO3) {
           factor *= HCO3;
         }
-        result[ion] = mass * countIonPercent(reagentName)[ion] * factor;
+        result[ion] += mass * countIonPercent(reagentName)[ion] * factor;
       }
     });
   });

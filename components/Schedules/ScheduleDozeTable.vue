@@ -64,16 +64,21 @@
             </td>
             <td
               v-for="(quotas, recipeName, idx) in daysQuotas"
-              class="text-center"
-              :class="{'pr-0': idx === Object.keys(daysQuotas).length - 1}"
               :key="recipeName + day"
+              class="text-center"
+              :class="{
+                'pr-0': idx === Object.keys(daysQuotas).length - 1
+              }"
             >
               <span v-if="quotas[index] === null"> - </span>
               <v-checkbox
                 v-if="quotas[index] !== null"
+                :input-value="value[recipeName][index]"
+                @change="onChange($event, recipeName, index)"
+                :true-value="true"
+                :false-value="false"
                 color="primary"
                 dense
-                v-model="selected[recipeName][index]"
                 hide-details="auto"
                 class="mt-0"
                 style="display: inline-block;"
@@ -102,6 +107,10 @@ import {
 export default {
   name: 'ScheduleDoseTable',
   props: {
+    value: {
+      type: Object,
+      default: () => {},
+    },
     fertilizationType: {
       type: Number,
       default: FERTILIZATION_EVERY_DAY,
@@ -118,18 +127,12 @@ export default {
       type: Array,
       default: () => [],
     },
-    selectedInit: {
-      type: Object,
-      default: () => {},
-    },
   },
   data() {
     return {
       FERTILIZATION_IN_TAP_WATER,
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,
-      // TODO: check this
-      selected: { ...this.selectedInit },
     };
   },
   computed: {
@@ -147,11 +150,12 @@ export default {
       }
       this.recipesSelected.forEach((recipe) => {
         const result = [];
-        const selectedList = this.selected[recipe.name];
-        const excludedTotal = selectedList.filter((x) => x === false).length;
+        const selectedList = this.value[recipe.name];
+        const excludedTotal = selectedList.filter((x) => !x).length;
         const daysLeft = this.daysTotal - excludedTotal;
         const amount = recipe.amountDay * this.daysTotal;
         let currentDay = amount / (this.daysTotal - excludedTotal);
+        console.log(selectedList, excludedTotal, daysLeft, amount, currentDay);
         Object.keys([...Array(this.daysTotal)]).forEach((index) => {
           if (!amount) {
             result.push(null);
@@ -173,6 +177,15 @@ export default {
         return Object.keys(this.waterChangeQuotas);
       }
       return Object.keys(this.daysQuotas);
+    },
+  },
+  methods: {
+    onChange(value, recipeName, index) {
+      console.log(value, recipeName, index);
+      const selected = { ...this.value };
+      selected[recipeName][index] = value;
+      console.log(selected);
+      this.$emit('input', selected);
     },
   },
 };

@@ -24,7 +24,7 @@ export default {
     fertilizers: 'Фирменные',
     schedules: 'Расписание',
     reminerals: 'Реминерализаторы',
-    remineralization: 'Реминерализация',
+    remineralization: 'Водоподготовка',
     dynamics: 'Динамика',
     about: 'О проекте',
     settings: 'Настройки',

@@ -26,9 +26,10 @@
         offset-sm="2"
       >
         <v-btn
+          color="primary"
           class="mr-0"
           square
-          to="/recipes"
+          to="/reminerals"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -86,7 +87,7 @@
             >
               <v-combobox
                 v-model="recipeExampleChosen"
-                :items="recipesExamples"
+                :items="remineralsExamples"
                 item-text="name"
                 label="Рецепт"
                 hint="или выбрать один из рецептов"
@@ -106,8 +107,7 @@
                 <number-field
                   v-for="reagent in reagents"
                   :key="reagent.key"
-                  :value="reagentsMassObject[reagent.key]"
-                  @input="inputMass($event, reagent.key)"
+                  v-model="reagentsMassObject[reagent.key]"
                   :label="reagent.text"
                   :precision-show="3"
                   suffix="г"
@@ -197,17 +197,16 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { mapState, mapMutations } from 'vuex';
 
 import FORMULAS from '~/helpers/constants/formulas';
 import RECIPES from '~/helpers/constants/remineralRecipes';
 import { prepareFormulas, sortArrayByObjectField } from '~/helpers/funcs/funcs';
 import {
-  countDryIonConcentrationPerReagent,
   countDryIonConcentrationPerIon,
   countTotalReagentsMass,
 } from '~/helpers/funcs/concentrations';
+import { countGh, countKh } from '~/helpers/funcs/hardness';
 
 import HardnessTable from '~/components/Recipes/HardnessTable.vue';
 import TheRemineralsRecipesTable from '~/components/Reminerals/TheRemineralsRecipesTable.vue';
@@ -232,20 +231,10 @@ export default {
       totalMass: 0,
       volume: 10,
       name: '',
-      note: null,
+      note: '',
       rulesReagent: [
         () => (this.reagents.length > 0) || 'Выберите реагент',
       ],
-      rulesMass: {
-        isExist() {
-          return (v) => !!v || 'Введите массу';
-        },
-      },
-      rulesVolume: {
-        isExist() {
-          return (v) => !!v || 'Введите объем удобрения';
-        },
-      },
       rulesName: [
         (v) => !!v || 'Введите название',
         () => !this.isExist || 'Рецепт с таким названием уже существует',
@@ -262,22 +251,23 @@ export default {
       this.isShared = true;
       [recipe] = JSON.parse(decodeURIComponent(share));
     } else if (!this.isCreate) {
-      recipe = JSON.parse(JSON.stringify({ ...this.recipes[this.recipeIndex] }));
+      recipe = JSON.parse(JSON.stringify({ ...this.reminerals[this.recipeIndex] }));
     }
     const reagents = [];
+    const reagentsNames = Object.keys(recipe.reagentsMassObject);
     this.formulas.forEach((formula) => {
-      if (recipe.reagents && recipe.reagents.includes(formula.key)) {
+      if (reagentsNames.includes(formula.key)) {
         reagents.push(formula);
       }
     });
-    delete recipe.reagents;
-    Object.assign(this.$data, recipe);
     this.reagents = reagents;
+    this.name = recipe.name;
+    this.note = recipe.note;
+    this.reagentsMassObject = recipe.reagentsMassObject;
   },
   computed: {
     ...mapState([
-      'tanks',
-      'recipes',
+      'reminerals',
     ]),
     isCreate() {
       return this.$route.params.id === 'create';
@@ -289,28 +279,26 @@ export default {
       return {
         name: this.name,
         note: this.note,
-        reagents: [...this.reagents.map((reagent) => reagent.key)],
-        mass: { ...this.reagentsMassObject },
-        concentration: { ...this.concentrationPerReagent },
+        volume: this.volume,
+        reagentsMassObject: { ...this.reagentsMassObject },
+        gh: countGh(this.concentrationPerIon, this.totalMass, this.volume),
+        kh: countKh(this.concentrationPerIon, this.totalMass, this.volume),
       };
     },
     formulas() {
       return prepareFormulas(['Ca', 'Mg']);
     },
-    recipesExamples() {
+    remineralsExamples() {
       return sortArrayByObjectField(RECIPES, 'name');
     },
     isReagents() {
       return this.reagents.length > 0;
     },
-    concentrationPerReagent() {
-      return countDryIonConcentrationPerReagent(this.reagentsMassObject);
-    },
     concentrationPerIon() {
       return countDryIonConcentrationPerIon(this.reagentsMassObject);
     },
     isExist() {
-      const names = this.recipes.map((item) => item.name);
+      const names = this.reminerals.map((item) => item.name);
       const index = names.findIndex((item) => item === this.name);
       const isExist = index !== -1;
       const isEdit = index === +this.recipeIndex;
@@ -318,27 +306,26 @@ export default {
     },
   },
   watch: {
-    // reagents(newValue, oldValue) {
-    //   if (newValue.length < oldValue.length) {
-    //     const reagentsToRemove = oldValue.filter((item) => !newValue.includes(item));
-    //     reagentsToRemove.forEach((item) => {
-    //       delete this.reagentsMassObject[item.key];
-    //     });
-    //   }
-    //   if (!this.name && this.reagents.length === 1) {
-    //     const reagent = this.reagents[0];
-    //     this.name = reagent.key;
-    //   }
-    //   const mass = { ...this.reagentsMassObject };
-    //   this.reagents.forEach((reagent) => {
-    //     if (!(reagent.key in mass)) {
-    //       mass[reagent.key] = 0;
-    //     }
-    //   });
-    //   this.reagentsMassObject = { ...mass };
-    // },
+    reagents(newValue, oldValue) {
+      if (newValue.length < oldValue.length) {
+        const reagentsToRemove = oldValue.filter((item) => !newValue.includes(item));
+        reagentsToRemove.forEach((item) => {
+          delete this.reagentsMassObject[item.key];
+        });
+      }
+      if (!this.name && this.reagents.length === 1) {
+        const reagent = this.reagents[0];
+        this.name = reagent.key;
+      }
+      const mass = { ...this.reagentsMassObject };
+      this.reagents.forEach((reagent) => {
+        if (!(reagent.key in mass)) {
+          mass[reagent.key] = 0;
+        }
+      });
+      this.reagentsMassObject = { ...mass };
+    },
     recipeExampleChosen(recipe) {
-      console.log(recipe);
       this.reagentsMassObject = { ...recipe.reagentsMassObject };
       const reagents = [];
       Object.keys(recipe.reagentsMassObject).forEach((reagentName) => {
@@ -351,6 +338,8 @@ export default {
       this.reagents = reagents;
       this.name = recipe.name;
       this.note = recipe.note;
+      this.totalMass = recipe.mass;
+      this.volume = recipe.volume;
     },
     reagentsMassObject: {
       deep: true,
@@ -366,34 +355,27 @@ export default {
       'REMINERAL_EDIT',
       'SNACKBAR_SHOW',
     ]),
-    inputMass(value, key) {
-      const mass = +value;
-      Vue.set(this.reagentsMassObject, key, mass || '');
-    },
     addRecipe() {
       if (this.$refs.recipeForm.validate()) {
-        this.RECIPE_ADD({ ...this.recipe });
+        this.REMINERAL_ADD({ ...this.recipe });
         this.SNACKBAR_SHOW('Рецепт добавлен');
-        this.$router.push('/Recipes');
+        this.$router.push('/reminerals');
       }
     },
     editRecipe() {
       if (this.$refs.recipeForm.validate()) {
-        this.RECIPE_EDIT({
+        this.REMINERAL_EDIT({
           index: this.recipeIndex,
           recipe: { ...this.recipe },
         });
         this.SNACKBAR_SHOW('Рецепт изменен');
-        this.$router.push('/Recipes');
+        this.$router.push('/reminerals');
       }
     },
     removeRecipe() {
-      this.RECIPE_REMOVE(this.recipeIndex);
+      this.REMINERAL_REMOVE(this.recipeIndex);
       this.SNACKBAR_SHOW('Рецепт удален');
       this.$router.push('/reminerals');
-    },
-    onExample(event) {
-      console.log(event);
     },
   },
 };

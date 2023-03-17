@@ -3,6 +3,6 @@ import VuexPersistence from 'vuex-persist';
 
 export default ({ store }) => {
   new VuexPersistence({
-    key: 'ithaca',
+    key: 'udata',
   }).plugin(store);
 };

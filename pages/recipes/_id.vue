@@ -26,6 +26,7 @@
         offset-sm="2"
       >
         <v-btn
+          color="primary"
           class="mr-0"
           square
           to="/recipes"
@@ -167,20 +168,6 @@
                 </v-expand-transition>
                 <v-expand-transition>
                   <v-col
-                    v-if="isReagents && !isWater"
-                    cols="3"
-                  >
-                    <number-field
-                      v-model="massG"
-                      type="number"
-                      suffix="г"
-                      :hint="`Массы реагентов в пересчете на ${massG} г смеси`"
-                      persistent-hint
-                    />
-                  </v-col>
-                </v-expand-transition>
-                <v-expand-transition>
-                  <v-col
                     v-if="isReagents && isWater"
                     cols="12"
                   >
@@ -225,43 +212,34 @@
                           <v-divider />
                         </div>
                       </v-col>
-                      <template v-for="reagent in reagents">
-                        <v-col
-                          :cols="isWater ? 12 : 9"
+                      <v-col
+                        v-for="reagent in reagents"
+                        :key="reagent.key"
+                        cols="12"
+                        class="py-0"
+                      >
+                        <number-field
+                          :value="mass[reagent.key]"
+                          @input="inputMass($event, reagent.key)"
+                          :label="reagent.text"
+                          :precision-show="3"
                           :key="reagent.key"
-                          class="d-flex py-0"
-                        >
-                          <number-field
-                            :value="mass[reagent.key]"
-                            @input="inputMass($event, reagent.key)"
-                            :label="reagent.text"
-                            :precision-show="3"
-                            :key="reagent.key"
-                            :suffix="reagent.density ? 'мл' : 'г'"
-                            hide-details="auto"
-                            :rules="[
-                              rulesMass.isExist(),
-                            ]"
-                            :error="isWater && (mass[reagent.key] / volume) * 1000
-                              > FORMULAS[reagent.key].solubilityLimit"
-                            :error-messages="
-                              isWater && (mass[reagent.key] / volume) * 1000
-                                > FORMULAS[reagent.key].solubilityLimit
-                                ? `Достигнута максимальная растворимость -
+                          :suffix="reagent.density ? 'мл' : 'г'"
+                          hide-details="auto"
+                          :rules="[
+                            rulesMass.isExist(),
+                          ]"
+                          :error="isWater && (mass[reagent.key] / volume) * 1000
+                            > FORMULAS[reagent.key].solubilityLimit"
+                          :error-messages="
+                            isWater && (mass[reagent.key] / volume) * 1000
+                              > FORMULAS[reagent.key].solubilityLimit
+                              ? `Достигнута максимальная растворимость -
                                         ${FORMULAS[reagent.key].solubilityLimit} г/л при 20°С!`
-                                : ''
-                            "
-                          />
-                        </v-col>
-                        <v-col
-                          v-if="!isWater"
-                          :key="reagent.key + 'g'"
-                          cols="3"
-                          class="text-end"
-                        >
-                          {{ (mass[reagent.key] / totalFertilizerMass * massG) | precision(2) }} г
-                        </v-col>
-                      </template>
+                              : ''
+                          "
+                        />
+                      </v-col>
                       <v-col
                         v-for="compound in compounds"
                         cols="12"
@@ -304,19 +282,6 @@
                             :total-ion-concentration="totalIonConcentration"
                             :fertilizer-mass="mass"
                             :total-fertilizer-mass="totalFertilizerMass"
-                          />
-                        </v-col>
-                      </v-expand-transition>
-                      <v-expand-transition>
-                        <v-col
-                          v-if="isHardness"
-                          cols="12"
-                          class="pt-0"
-                        >
-                          <hardness-table
-                            :total-ion-concentration="totalIonConcentration"
-                            :is-volume="!!volume"
-                            class="mt-4"
                           />
                         </v-col>
                       </v-expand-transition>
@@ -534,18 +499,15 @@ import {
   convertIonRatio,
   OPPOSITE,
 } from '~/helpers/funcs/funcs';
-import { KH, GH } from '~/helpers/constants/hardness';
 import { mapState, mapMutations } from 'vuex';
 import ElementsTable from '~/components/Recipes/ElementsTable.vue';
 import ElementsDryTable from '~/components/Recipes/ElementsDryTable.vue';
-import HardnessTable from '~/components/Recipes/HardnessTable.vue';
 
 export default {
   name: 'Recipe',
   components: {
     ElementsTable,
     ElementsDryTable,
-    HardnessTable,
   },
   data() {
     return {
@@ -564,7 +526,6 @@ export default {
       note: null,
       isShared: false,
       isWater: true,
-      massG: 1,
       rulesReagent: [
         () => (this.reagents.length > 0 || this.compounds.length > 0) || 'Выберите реагент',
       ],
@@ -714,15 +675,6 @@ export default {
     ionTotalDoseSorted() {
       const result = Object.entries(countTotalIonDose(this.solute));
       result.sort((a, b) => b[1] - a[1]);
-      return result;
-    },
-    isHardness() {
-      let result = false;
-      Object.keys(this.totalIonConcentration).forEach((ion) => {
-        if ([...Object.keys(GH), ...Object.keys(KH)].includes(ion)) {
-          result = true;
-        }
-      });
       return result;
     },
   },

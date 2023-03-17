@@ -26,9 +26,9 @@
         offset-sm="2"
       >
         <v-btn
+          color="primary"
           class="mr-0"
           square
-          text
           to="/schedules"
         >
           <v-icon>mdi-chevron-left</v-icon>
@@ -182,11 +182,12 @@
                 cols="12"
               >
                 <schedule-doze-table
+                  v-model="selected"
+                  :key="Object.keys(selected).length"
                   :fertilization-type="fertilizationType"
                   :dates-column="datesColumn"
                   :days-total="daysTotal"
                   :recipes-selected="recipesSelected"
-                  :selected="selected"
                 />
               </v-col>
             </v-expand-transition>

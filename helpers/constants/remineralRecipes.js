@@ -19,21 +19,31 @@
 
 export default [
   {
+    reagentsMassObject: {
+      'CaSO4(H2O)2': 1.04,
+      'MgSO4(H2O)7': 0.708,
+    },
+    volume: 10,
     name: 'Samomes Gh+',
-    note: 'Этот рецепт был создан и использовался автором проекта',
+    note: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
     reagentsMassObject: {
-      CaCO3: 1,
-      'MgSO4(H2O)7': 1.2,
+      CaCO3: 0.708,
+      'MgSO4(H2O)7': 0.895,
     },
-    totalMass: 8,
-    volume: 50,
+    volume: 10,
     name: 'Samomes Gh/Kh+',
-    note: 'Этот рецепт был создан и использовался автором проекта',
+    note: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
-    name: 'Samomes Gh/Kh(low)+',
-    note: 'Этот рецепт был создан и использовался автором проекта',
+    reagentsMassObject: {
+      CaCO3: 0.357,
+      'CaSO4(H2O)2': 0.641,
+      'MgSO4(H2O)7': 0.84,
+    },
+    volume: 10,
+    name: 'Samomes Gh/Kh-',
+    note: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
 ];

@@ -30,7 +30,7 @@
         Можно составить свой рецепт, а так же можно воспользоваться готовыми рецептами других аквариумистов.
       </guide>
       <v-col
-        v-if="reminerals.length === 0"
+        v-if="recipes.length === 0"
         cols="12"
         md="8"
         offset-md="2"
@@ -51,7 +51,7 @@
           multiple
         >
           <draggable
-            v-model="reminerals"
+            v-model="recipes"
             v-bind="dragOptions"
             @start="drag=true"
             @end="drag=false"
@@ -63,8 +63,8 @@
               :name="!drag ? 'flip-list' : null"
             >
               <v-expansion-panel
-                v-for="(remineral, index) in reminerals"
-                :key="remineral.name"
+                v-for="(recipe, index) in recipes"
+                :key="recipe.name"
               >
                 <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
                   <div
@@ -76,7 +76,7 @@
                       :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                     >
                       <span style="line-height: 1.25rem;">
-                        {{ remineral.name }}
+                        {{ recipe.name }}
                       </span>
                     </span>
                     <span class="mr-3">
@@ -96,7 +96,8 @@
                   </div>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content>
-                  <Recipe :remineral="remineral" />
+                  <RemineralRecipe :recipe="recipe" />
+
                   <div class="d-flex justify-end mt-4">
                     <v-btn
                       text
@@ -106,7 +107,7 @@
                     </v-btn>
                     <v-btn
                       text
-                      :to="`/remineral/${index}`"
+                      :to="`/reminerals/${index}`"
                       class="mr-n4"
                     >
                       Открыть
@@ -171,13 +172,13 @@
 <script>
 import { mapMutations } from 'vuex';
 import draggable from 'vuedraggable';
-import Recipe from '~/components/Recipes/Recipe.vue';
+import RemineralRecipe from '~/components/Reminerals/RemineralRecipe.vue';
 
 export default {
   name: 'Reminerals',
   components: {
     draggable,
-    Recipe,
+    RemineralRecipe,
   },
   data() {
     return {
@@ -196,7 +197,7 @@ export default {
         ghostClass: 'ghost',
       };
     },
-    reminerals: {
+    recipes: {
       get() {
         return this.$store.state.reminerals;
       },
@@ -205,7 +206,7 @@ export default {
       },
     },
     encodedUrl() {
-      let jsonString = JSON.stringify([this.reminerals[this.curRemineralIndex]]);
+      let jsonString = JSON.stringify([this.recipes[this.curRemineralIndex]]);
       jsonString = jsonString.replace(/%/g, '%25');
       const encoded = encodeURIComponent(jsonString);
       return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
@@ -220,7 +221,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'RECIPE_MOVE',
+      'REMINERAL_MOVE',
       'SNACKBAR_SHOW',
     ]),
     addRemineral() {

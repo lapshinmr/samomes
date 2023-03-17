@@ -26,6 +26,7 @@
         offset-sm="2"
       >
         <v-btn
+          color="primary"
           class="mr-0"
           square
           to="/tanks"
