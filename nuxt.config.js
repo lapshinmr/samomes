@@ -68,8 +68,8 @@ export default {
         defaultLocale: 'ru',
         strategy: 'no_prefix',
         locales: [
+          { code: 'ru', iso: 'ru-RU', file: 'ru.js' },
           { code: 'en', iso: 'en-US', file: 'en.js' },
-          { code: 'ru', iso: 'ru-Ru', file: 'ru.js' },
         ],
       },
     ],
