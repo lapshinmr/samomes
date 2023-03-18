@@ -44,6 +44,7 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.18.0",
     "node-sass": "^8.0.0",
+    "push-dir": "^0.4.1",
     "sass-loader": "^10.1.1"
   },
   "resolutions": {
