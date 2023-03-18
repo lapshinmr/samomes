@@ -66,6 +66,7 @@ export default {
       {
         langDir: 'locales',
         defaultLocale: 'ru',
+        detectBrowserLanguage: false,
         strategy: 'no_prefix',
         locales: [
           { code: 'ru', iso: 'ru-RU', file: 'ru.js' },
