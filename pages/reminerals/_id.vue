@@ -255,7 +255,7 @@ export default {
       recipe = JSON.parse(JSON.stringify({ ...this.reminerals[this.recipeIndex] }));
     }
     const reagents = [];
-    const reagentsNames = Object.keys(recipe.reagentsMassObject);
+    const reagentsNames = Object.keys(recipe.mass);
     this.formulas.forEach((formula) => {
       if (reagentsNames.includes(formula.key)) {
         reagents.push(formula);
@@ -264,7 +264,7 @@ export default {
     this.reagents = reagents;
     this.name = recipe.name;
     this.note = recipe.note;
-    this.reagentsMassObject = recipe.reagentsMassObject;
+    this.reagentsMassObject = recipe.mass;
   },
   computed: {
     ...mapState([
@@ -281,7 +281,7 @@ export default {
         name: this.name,
         note: this.note,
         volume: this.volume,
-        reagentsMassObject: { ...this.reagentsMassObject },
+        mass: { ...this.reagentsMassObject },
         gh: countGh(this.concentrationPerIon, this.totalMass, this.volume),
         kh: countKh(this.concentrationPerIon, this.totalMass, this.volume),
       };
@@ -322,7 +322,6 @@ export default {
       this.reagents = reagents;
       this.name = recipe.name;
       this.note = recipe.note;
-      this.totalMass = recipe.mass;
       this.volume = recipe.volume;
     },
     reagentsMassObject: {

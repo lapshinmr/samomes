@@ -36,7 +36,7 @@
     </div>
     <v-divider class="my-3" />
     <div
-      v-for="(mass, reagent) in recipe.reagentsMassObject"
+      v-for="(mass, reagent) in recipe.mass"
       :key="reagent"
       class="d-flex justify-space-between body-2"
     >
@@ -49,7 +49,7 @@
     </div>
     <div class="d-flex justify-end body-2 mt-1">
       <span class="font-weight-bold">
-        {{ countTotalReagentsMass(recipe.reagentsMassObject).toFixed(2) }} г
+        {{ countTotalReagentsMass(recipe.mass).toFixed(2) }} г
       </span>
     </div>
     <v-divider class="my-3" />
