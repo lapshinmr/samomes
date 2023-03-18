@@ -47,6 +47,11 @@
         {{ mass | precision(2) }} г
       </span>
     </div>
+    <div class="d-flex justify-end body-2 mt-1">
+      <span class="font-weight-bold">
+        {{ countTotalReagentsMass(recipe.reagentsMassObject).toFixed(2) }} г
+      </span>
+    </div>
     <v-divider class="my-3" />
     <div class="d-flex justify-space-between body-2">
       <span>Объем</span>
@@ -74,6 +79,8 @@
 import FORMULAS from '~/helpers/constants/formulas';
 import COMPOUNDS from '~/helpers/constants/compounds';
 
+import { countTotalReagentsMass } from '~/helpers/funcs/concentrations';
+
 export default {
   name: 'RemineralRecipe',
   props: {
@@ -87,6 +94,9 @@ export default {
       FORMULAS,
       COMPOUNDS,
     };
+  },
+  methods: {
+    countTotalReagentsMass,
   },
 };
 </script>

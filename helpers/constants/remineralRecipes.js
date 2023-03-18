@@ -20,8 +20,8 @@
 export default [
   {
     reagentsMassObject: {
-      'CaSO4(H2O)2': 1.04,
-      'MgSO4(H2O)7': 0.708,
+      'CaSO4(H2O)2': 1.253,
+      'MgSO4(H2O)7': 0.844,
     },
     volume: 10,
     name: 'Samomes Gh+',

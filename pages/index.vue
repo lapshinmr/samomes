@@ -263,7 +263,7 @@
         <div class="section__content">
           <nuxt-link to="/remineralization">
             <h2 class="section__title">
-              Реминерализация
+              Водоподготовка
             </h2>
           </nuxt-link>
           <div class="section__text">

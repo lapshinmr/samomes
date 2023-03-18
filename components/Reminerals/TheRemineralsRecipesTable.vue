@@ -10,6 +10,9 @@
           >
             {{ reagentName }}
           </th>
+          <th>
+            Сумма
+          </th>
           <th class="text-left">
             Gh/Kh
           </th>
@@ -29,6 +32,9 @@
           >
             {{ countReagentsMassByGh(item.gh, item.volume)[reagentName].toFixed(2) }} г
           </td>
+          <td>
+            {{ countReagentsMassByGh(item.gh, item.volume).total.toFixed(2) }} г
+          </td>
           <td>{{ item.gh.toFixed(1) }} / {{ countKhByGh(item.gh).toFixed(1) }}</td>
           <td>{{ item.volume }} л</td>
         </tr>
@@ -38,6 +44,9 @@
             :key="reagentName"
           >
             {{ countReagentsMassByGh(customGh, customVolume)[reagentName].toFixed(2) }} г
+          </td>
+          <td>
+            {{ countReagentsMassByGh(customGh, customVolume).total.toFixed(2) }} г
           </td>
           <td>
             <div class="d-flex align-center">
@@ -139,9 +148,10 @@ export default {
     countReagentsMassByGh(dstGh, volume) {
       const gh = countGh(this.concentrationPerIon, this.totalMass, volume);
       const factor = gh / dstGh;
-      const reagentsMassObjectPrepared = {};
+      const reagentsMassObjectPrepared = { total: 0 };
       Object.entries(this.reagentsMassObject).forEach(([key, value]) => {
         reagentsMassObjectPrepared[key] = value / factor;
+        reagentsMassObjectPrepared.total += value / factor;
       });
       return reagentsMassObjectPrepared;
     },

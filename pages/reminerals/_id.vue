@@ -65,7 +65,8 @@
               sm="6"
             >
               <v-combobox
-                v-model="reagents"
+                :value="reagents"
+                @input="onReagentInput"
                 :search-input.sync="search"
                 :items="formulas"
                 item-text="text"
@@ -306,26 +307,9 @@ export default {
     },
   },
   watch: {
-    reagents(newValue, oldValue) {
-      if (newValue.length < oldValue.length) {
-        const reagentsToRemove = oldValue.filter((item) => !newValue.includes(item));
-        reagentsToRemove.forEach((item) => {
-          delete this.reagentsMassObject[item.key];
-        });
-      }
-      if (!this.name && this.reagents.length === 1) {
-        const reagent = this.reagents[0];
-        this.name = reagent.key;
-      }
-      const mass = { ...this.reagentsMassObject };
-      this.reagents.forEach((reagent) => {
-        if (!(reagent.key in mass)) {
-          mass[reagent.key] = 0;
-        }
-      });
-      this.reagentsMassObject = { ...mass };
-    },
     recipeExampleChosen(recipe) {
+      this.reagents = [];
+      this.reagentsMassObject = {};
       this.reagentsMassObject = { ...recipe.reagentsMassObject };
       const reagents = [];
       Object.keys(recipe.reagentsMassObject).forEach((reagentName) => {
@@ -355,6 +339,20 @@ export default {
       'REMINERAL_EDIT',
       'SNACKBAR_SHOW',
     ]),
+    onReagentInput(newValue) {
+      if (newValue.length < this.reagents.length) {
+        const reagentsToRemove = this.reagents.filter((item) => !newValue.includes(item));
+        reagentsToRemove.forEach((item) => {
+          delete this.reagentsMassObject[item.key];
+        });
+      }
+      this.reagents = [...newValue];
+      this.reagents.forEach((reagent) => {
+        if (!(reagent.key in this.reagentsMassObject)) {
+          this.reagentsMassObject[reagent.key] = 0;
+        }
+      });
+    },
     addRecipe() {
       if (this.$refs.recipeForm.validate()) {
         this.REMINERAL_ADD({ ...this.recipe });
