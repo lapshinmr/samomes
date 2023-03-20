@@ -153,6 +153,12 @@ export default {
         count: 4,
       },
     },
+    cation: {
+      K: 2,
+    },
+    anion: {
+      SO4: 1,
+    },
     solubilityLimit: 111,
     name: 'Калия сульфат',
   },
@@ -229,6 +235,12 @@ export default {
         count: 4,
       },
     },
+    cation: {
+      Mg: 1,
+    },
+    anion: {
+      SO4: 1,
+    },
     solubilityLimit: 351,
     name: 'Магния сульфат',
   },
@@ -251,6 +263,15 @@ export default {
         count: 11,
       },
     },
+    cation: {
+      Mg: 1,
+    },
+    anion: {
+      SO4: 1,
+    },
+    water: {
+      H2O: 7,
+    },
     solubilityLimit: 1130,
     name: 'Магния сульфат 7-водный (магнезия)',
   },
@@ -272,6 +293,15 @@ export default {
         isNeeded: false,
         count: 6,
       },
+    },
+    cation: {
+      Mg: 1,
+    },
+    anion: {
+      Cl: 2,
+    },
+    water: {
+      H2O: 6,
     },
     solubilityLimit: 546,
     name: 'Магния Хлорид 6-водный',
@@ -369,6 +399,12 @@ export default {
         count: 1,
       },
     },
+    cation: {
+      Ca: 1,
+    },
+    anion: {
+      CO3: 1,
+    },
     HCO3: 2,
     solubilityLimit: 0.014,
     name: 'Кальция карбонат',
@@ -383,6 +419,12 @@ export default {
         isNeeded: true,
         count: 1,
       },
+    },
+    cation: {
+      Mg: 1,
+    },
+    anion: {
+      CO3: 1,
     },
     HCO3: 2,
     solubilityLimit: 0.012,
@@ -399,6 +441,12 @@ export default {
         count: 1,
       },
     },
+    cation: {
+      K: 2,
+    },
+    anion: {
+      CO3: 1,
+    },
     HCO3: 2,
     solubilityLimit: 1105,
     name: 'Калия карбонат',
@@ -413,6 +461,12 @@ export default {
         isNeeded: true,
         count: 1,
       },
+    },
+    cation: {
+      Na: 2,
+    },
+    anion: {
+      CO3: 1,
     },
     HCO3: 2,
     solubilityLimit: 218,
@@ -437,6 +491,15 @@ export default {
         count: 1,
       },
     },
+    cation: {
+      Na: 2,
+    },
+    anion: {
+      CO3: 1,
+    },
+    water: {
+      H2O: 1,
+    },
     HCO3: 2,
     solubilityLimit: 218,
     name: 'Натрия карбонат 1-водный (стиральная сода)',
@@ -459,6 +522,15 @@ export default {
         isNeeded: false,
         count: 7,
       },
+    },
+    cation: {
+      Na: 2,
+    },
+    anion: {
+      CO3: 1,
+    },
+    water: {
+      H2O: 7,
     },
     HCO3: 2,
     solubilityLimit: 218,
@@ -483,6 +555,15 @@ export default {
         count: 10,
       },
     },
+    cation: {
+      Na: 2,
+    },
+    anion: {
+      CO3: 1,
+    },
+    water: {
+      H2O: 10,
+    },
     HCO3: 2,
     solubilityLimit: 218,
     name: 'Натрия карбонат 10-водный (стиральная сода)',
@@ -502,6 +583,12 @@ export default {
         count: 1,
       },
     },
+    cation: {
+      K: 1,
+    },
+    anion: {
+      HCO3: 1,
+    },
     HCO3: 1,
     solubilityLimit: 333,
     name: 'Калия гидрокарбонат',
@@ -520,6 +607,12 @@ export default {
         isNeeded: true,
         count: 1,
       },
+    },
+    cation: {
+      Na: 1,
+    },
+    anion: {
+      HCO3: 1,
     },
     HCO3: 1,
     solubilityLimit: 95.9,
@@ -545,6 +638,13 @@ export default {
         count: 6,
       },
     },
+    cation: {
+      Ca: 1,
+    },
+    anion: {
+      SO4: 1,
+    },
+    H2O: 2,
     solubilityLimit: 2.036,
     name: 'Кальция сульфат 2-водный (гипс)',
   },
@@ -558,6 +658,12 @@ export default {
         isNeeded: false,
         count: 2,
       },
+    },
+    cation: {
+      Ca: 1,
+    },
+    anion: {
+      Cl: 2,
     },
     solubilityLimit: 745,
     name: 'Кальция хлорид',
@@ -581,6 +687,13 @@ export default {
         count: 2,
       },
     },
+    cation: {
+      Ca: 1,
+    },
+    anion: {
+      Cl: 2,
+    },
+    H2O: 2,
     solubilityLimit: 745,
     name: 'Кальция хлорид 2-водный',
   },
@@ -603,6 +716,13 @@ export default {
         count: 6,
       },
     },
+    cation: {
+      Ca: 1,
+    },
+    anion: {
+      Cl: 2,
+    },
+    H2O: 6,
     solubilityLimit: 745,
     name: 'Кальция хлорид 6-водный',
   },
@@ -1382,6 +1502,12 @@ export default {
         count: 6,
       },
     },
+    cation: {
+      Ca: 1,
+    },
+    anion: {
+      CH3COO: 2,
+    },
     solubilityLimit: 400,
     name: 'Кальция ацетат',
   },
@@ -1403,6 +1529,12 @@ export default {
         isNeeded: false,
         count: 6,
       },
+    },
+    cation: {
+      Mg: 1,
+    },
+    anion: {
+      CH3COO: 2,
     },
     solubilityLimit: 656,
     name: 'Магния ацетат',

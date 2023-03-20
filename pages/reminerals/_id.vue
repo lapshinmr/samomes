@@ -124,6 +124,12 @@
                   class="mt-4"
                 />
               </v-col>
+<!--              <v-col cols="12">-->
+<!--                <the-reminerals-ions-->
+<!--                  :reagents-mass-object="reagentsMassObject"-->
+<!--                  :volume="volume"-->
+<!--                />-->
+<!--              </v-col>-->
               <v-col cols="12">
                 <SDivider class="mb-4">
                   Таблица с навесками
@@ -210,6 +216,7 @@ import {
 import { countGh, countKh } from '~/helpers/funcs/hardness';
 
 import HardnessTable from '~/components/Recipes/HardnessTable.vue';
+// import TheRemineralsIons from '~/components/Reminerals/TheRemineralsIons.vue';
 import TheRemineralsRecipesTable from '~/components/Reminerals/TheRemineralsRecipesTable.vue';
 import TheRemineralsMixTable from '~/components/Reminerals/TheRemineralsMixTable.vue';
 
@@ -217,6 +224,7 @@ export default {
   name: 'RemineralPage',
   components: {
     HardnessTable,
+    // TheRemineralsIons,
     TheRemineralsRecipesTable,
     TheRemineralsMixTable,
   },
@@ -346,11 +354,13 @@ export default {
         });
       }
       this.reagents = [...newValue];
+      const mass = { ...this.reagentsMassObject };
       this.reagents.forEach((reagent) => {
-        if (!(reagent.key in this.reagentsMassObject)) {
-          this.reagentsMassObject[reagent.key] = 0;
+        if (!(reagent.key in mass)) {
+          mass[reagent.key] = 0;
         }
       });
+      this.reagentsMassObject = { ...mass };
     },
     addRecipe() {
       if (this.$refs.recipeForm.validate()) {
