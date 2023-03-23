@@ -67,26 +67,30 @@
                   cols="12"
                   sm="6"
                 >
-                  <v-select
+                  <v-combobox
+                    v-model="reagents"
                     :items="formulas"
                     item-text="text"
-                    v-model="reagents"
+                    :search-input.sync="searchReagent"
+                    @blur="searchReagent = ''"
                     multiple
+                    clearable
                     label="Формула"
                     hint="Вы можете выбрать несколько реагентов"
                     persistent-hint
                     hide-details="auto"
                     :rules="rulesReagent"
-                    :return-object="true"
                   />
                 </v-col>
                 <v-col
                   cols="12"
                   sm="6"
                 >
-                  <v-select
-                    :items="recipesExamples"
+                  <v-combobox
                     v-model="recipeExampleChosen"
+                    :items="recipesExamples"
+                    :search-input.sync="searchExample"
+                    @blur="searchExample = ''"
                     label="Рецепт"
                     hint="или выбрать один из рецептов"
                     persistent-hint
@@ -97,17 +101,19 @@
                   cols="12"
                   sm="6"
                 >
-                  <v-select
+                  <v-combobox
+                    v-model="compounds"
                     :items="compoundsList"
                     item-text="text"
-                    v-model="compounds"
+                    :search-input.sync="searchCompound"
+                    @blur="searchCompound = ''"
+                    clearable
                     multiple
                     label="Готовая смесь"
                     hint="Вы можете выбрать несколько смесей"
                     persistent-hint
                     hide-details="auto"
                     :rules="rulesReagent"
-                    :return-object="true"
                   />
                 </v-col>
                 <v-col
@@ -265,7 +271,7 @@
                           v-if="isWater"
                           class="pt-0"
                         >
-                          <elements-table
+                          <the-elements-table
                             :total-ion-concentration="totalIonConcentration"
                             :fertilizer-mass="mass"
                             :concentration="concentration"
@@ -278,7 +284,7 @@
                           v-if="!isWater"
                           class="pt-0"
                         >
-                          <elements-dry-table
+                          <the-elements-dry-table
                             :total-ion-concentration="totalIonConcentration"
                             :fertilizer-mass="mass"
                             :total-fertilizer-mass="totalFertilizerMass"
@@ -500,14 +506,14 @@ import {
   OPPOSITE,
 } from '~/helpers/funcs/funcs';
 import { mapState, mapMutations } from 'vuex';
-import ElementsTable from '~/components/Recipes/ElementsTable.vue';
-import ElementsDryTable from '~/components/Recipes/ElementsDryTable.vue';
+import TheElementsTable from '~/components/Recipes/TheElementsTable.vue';
+import TheElementsDryTable from '~/components/Recipes/TheElementsDryTable.vue';
 
 export default {
   name: 'Recipe',
   components: {
-    ElementsTable,
-    ElementsDryTable,
+    TheElementsTable,
+    TheElementsDryTable,
   },
   data() {
     return {
@@ -517,6 +523,9 @@ export default {
       OPPOSITE,
       reagents: [],
       compounds: [],
+      searchReagent: '',
+      searchCompound: '',
+      searchExample: '',
       recipeExampleChosen: null,
       volume: null,
       tankVolume: null,

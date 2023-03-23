@@ -130,11 +130,41 @@
         </tbody>
       </template>
     </v-simple-table>
+    <div class="d-flex mt-2">
+      <v-text-field
+        :value="No3Po4Ratio"
+        label="No3 / Po4"
+        hide-details="auto"
+        readonly
+        outlined
+      />
+      <v-text-field
+        :value="No3KRatio"
+        label="No3 / K"
+        hide-details="auto"
+        readonly
+        outlined
+        class="ml-2"
+      />
+      <v-text-field
+        :value="CaMgRatio"
+        label="Ca / Mg"
+        hide-details="auto"
+        readonly
+        outlined
+        class="ml-2"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { convertIonName, convertIonRatio, countPercent } from '~/helpers/funcs/funcs';
+import {
+  convertIonName,
+  convertIonRatio,
+  countPercent,
+  countRatio,
+} from '~/helpers/funcs/funcs';
 
 export default {
   name: 'ElementsTable',
@@ -163,6 +193,15 @@ export default {
       const result = Object.entries(this.totalIonConcentration);
       result.sort((a, b) => b[1] - a[1]);
       return result;
+    },
+    No3Po4Ratio() {
+      return countRatio(this.totalIonConcentration, 'N', 'P');
+    },
+    No3KRatio() {
+      return countRatio(this.totalIonConcentration, 'N', 'K');
+    },
+    CaMgRatio() {
+      return countRatio(this.totalIonConcentration, 'Ca', 'Mg');
     },
   },
   methods: {

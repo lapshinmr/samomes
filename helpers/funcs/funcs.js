@@ -112,6 +112,7 @@ export const convertIonRatio = (ion) => (
 );
 
 export const isRecipe = (recipe) => recipe.reagents && recipe.reagents.length > 0;
+
 export const isFertilizer = (recipe) => recipe.elements && Object.keys(recipe.elements).length > 0;
 
 export const prepareFormulas = (filter = []) => {
@@ -146,4 +147,13 @@ export const sortArrayByObjectField = (array, fieldName) => {
   // });
   array.sort((a, b) => a[fieldName].localeCompare(b[fieldName]));
   return array;
+};
+
+export const countRatio = (concentration, el1, el2) => {
+  const c1 = concentration[el1];
+  const c2 = concentration[el2];
+  if (c1 && c2) {
+    return ((c1 * convertIonRatio(el1)) / (c2 * convertIonRatio(el2))).toFixed(2);
+  }
+  return '—';
 };

@@ -20,6 +20,15 @@
 export default [
   {
     reagentsMassObject: {
+      'CaSO4(H2O)2': 1.88,
+      'MgSO4(H2O)7': 1.28,
+    },
+    volume: 10,
+    name: 'Kuban Aquariums Реминерализатор',
+    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=KQE7l637Rd8)',
+  },
+  {
+    reagentsMassObject: {
       'CaSO4(H2O)2': 1.253,
       'MgSO4(H2O)7': 0.844,
     },
@@ -45,5 +54,17 @@ export default [
     volume: 10,
     name: 'Samomes Gh/Kh-',
     note: 'Этот рецепт создан и проверен автором проекта Samomes',
+  },
+  {
+    reagentsMassObject: {
+      'CaSO4(H2O)2': 5,
+      'MgSO4(H2O)7': 7,
+      CaCl2: 3,
+      K2CO3: 0.5,
+      NaHCO3: 1,
+    },
+    volume: 10,
+    name: 'Реминерализатор от Романа Че',
+    note: 'Рецепт Романа Че',
   },
 ];

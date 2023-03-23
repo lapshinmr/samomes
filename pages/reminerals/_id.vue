@@ -68,6 +68,7 @@
                 :value="reagents"
                 @input="onReagentInput"
                 :search-input.sync="search"
+                @blur="search = ''"
                 :items="formulas"
                 item-text="text"
                 multiple
@@ -77,9 +78,7 @@
                 persistent-hint
                 hide-details="auto"
                 validate-on-blur
-                @blur="search = ''"
                 :rules="rulesReagent"
-                :return-object="true"
               />
             </v-col>
             <v-col
@@ -215,7 +214,7 @@ import {
 } from '~/helpers/funcs/concentrations';
 import { countGh, countKh } from '~/helpers/funcs/hardness';
 
-import HardnessTable from '~/components/Recipes/HardnessTable.vue';
+import HardnessTable from '@/components/Reminerals/HardnessTable.vue';
 // import TheRemineralsIons from '~/components/Reminerals/TheRemineralsIons.vue';
 import TheRemineralsRecipesTable from '~/components/Reminerals/TheRemineralsRecipesTable.vue';
 import TheRemineralsMixTable from '~/components/Reminerals/TheRemineralsMixTable.vue';
@@ -295,7 +294,7 @@ export default {
       };
     },
     formulas() {
-      return prepareFormulas(['Ca', 'Mg']);
+      return prepareFormulas();
     },
     remineralsExamples() {
       return sortArrayByObjectField(RECIPES, 'name');

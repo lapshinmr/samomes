@@ -51,14 +51,6 @@ export default [
     note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
-    name: 'Kuban Aquariums Реминерализатор',
-    reagents: {
-      'CaSO4(H2O)2': 1.88,
-      'MgSO4(H2O)7': 1.28,
-    },
-    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
-  },
-  {
     name: 'Kuban Aquariums Микро',
     reagents: {
       H3BO3: 0.7,
@@ -320,16 +312,5 @@ export default [
     },
     volume: 500,
     note: 'http://www.amania.org/Tech/liqfert-mikom.html',
-  },
-  {
-    name: 'Реминерализатор от Романа Че',
-    reagents: {
-      'CaSO4(H2O)2': 5,
-      'MgSO4(H2O)7': 7,
-      CaCl2: 3,
-      K2CO3: 0.5,
-      NaHCO3: 1,
-    },
-    note: 'Рецепт Романа Че',
   },
 ];

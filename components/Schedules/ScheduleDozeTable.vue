@@ -155,7 +155,6 @@ export default {
         const daysLeft = this.daysTotal - excludedTotal;
         const amount = recipe.amountDay * this.daysTotal;
         let currentDay = amount / (this.daysTotal - excludedTotal);
-        console.log(selectedList, excludedTotal, daysLeft, amount, currentDay);
         Object.keys([...Array(this.daysTotal)]).forEach((index) => {
           if (!amount) {
             result.push(null);
@@ -181,10 +180,8 @@ export default {
   },
   methods: {
     onChange(value, recipeName, index) {
-      console.log(value, recipeName, index);
       const selected = { ...this.value };
       selected[recipeName][index] = value;
-      console.log(selected);
       this.$emit('input', selected);
     },
   },

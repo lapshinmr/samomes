@@ -56,7 +56,7 @@
         class="mb-2 ml-2"
       />
       <v-text-field
-        :value="ratio"
+        :value="CaMgRatio"
         label="Ca / Mg"
         hide-details="auto"
         readonly
@@ -69,7 +69,8 @@
 </template>
 
 <script>
-import { countGh, countKh } from '~/helpers/funcs/hardness';
+import { countGh, countKh } from '@/helpers/funcs/hardness';
+import { countRatio } from '@/helpers/funcs/funcs';
 
 export default {
   name: 'HardnessTable',
@@ -94,11 +95,8 @@ export default {
     totalKh() {
       return countKh(this.concentration, this.mass, this.volume);
     },
-    ratio() {
-      if (this.concentration.Ca && this.concentration.Mg) {
-        return (this.concentration.Ca / this.concentration.Mg).toFixed(2);
-      }
-      return '—';
+    CaMgRatio() {
+      return countRatio(this.concentration, 'Ca', 'Mg');
     },
   },
 };
