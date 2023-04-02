@@ -19,6 +19,23 @@
 
 export default [
   {
+    name: 'APT 3 / Complete',
+    isPercent: true,
+    elements: {
+      N: 0.67,
+      P: 0.51,
+      K: 6.7,
+      Fe: 0.094,
+      Mn: 0.015,
+      Mg: 1.16,
+      Cu: 0.0004,
+      B: 0.015,
+      Zn: 0.007,
+      Mo: 0.000001,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
     name: 'Prestige NPK',
     isPercent: false,
     elements: {
