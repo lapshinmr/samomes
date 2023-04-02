@@ -3,21 +3,14 @@
     <template #default>
       <thead>
         <tr>
-          <th
-            v-for="reagentName in reagentsNames"
-            :key="reagentName"
-            class="text-left"
-          >
-            {{ reagentName }}
-          </th>
-          <th>
-            Сумма
+          <th class="text-left">
+            Объем реминерализатора, мл
           </th>
           <th class="text-left">
             Gh/Kh
           </th>
           <th class="text-left">
-            Объем
+            Объем подмены, л
           </th>
         </tr>
       </thead>
@@ -26,27 +19,15 @@
           v-for="(item, index) in HARDNESS_VOLUMES"
           :key="index"
         >
-          <td
-            v-for="reagentName in reagentsNames"
-            :key="reagentName"
-          >
-            {{ countReagentsMassByGh(item.gh, item.volume)[reagentName].toFixed(2) }} г
-          </td>
           <td>
-            {{ countReagentsMassByGh(item.gh, item.volume).total.toFixed(2) }} г
+            {{ countVolume(item.gh, item.volume) }} мл
           </td>
           <td>{{ item.gh.toFixed(1) }} / {{ countKhByGh(item.gh).toFixed(1) }}</td>
           <td>{{ item.volume }} л</td>
         </tr>
         <tr>
-          <td
-            v-for="reagentName in reagentsNames"
-            :key="reagentName"
-          >
-            {{ countReagentsMassByGh(customGh, customVolume)[reagentName].toFixed(2) }} г
-          </td>
           <td>
-            {{ countReagentsMassByGh(customGh, customVolume).total.toFixed(2) }} г
+            {{ countVolume(customGh, customVolume) }} мл
           </td>
           <td>
             <div class="d-flex align-center">
@@ -97,7 +78,6 @@
 
 <script>
 import { countGh, countKh } from '~/helpers/funcs/hardness';
-import { countDryIonConcentrationPerIon, countTotalReagentsMass } from '~/helpers/funcs/concentrations';
 
 const HARDNESS_VOLUMES = [
   { gh: 1, volume: 10 },
@@ -106,9 +86,9 @@ const HARDNESS_VOLUMES = [
 ];
 
 export default {
-  name: 'TheRemineralsRecipesTable',
+  name: 'TheRemineralsRecipesLiquidTable',
   props: {
-    reagentsMassObject: {
+    substance: {
       type: Object,
       default() {
         return {};
@@ -129,37 +109,26 @@ export default {
   },
   computed: {
     reagentsNames() {
-      return Object.keys(this.reagentsMassObject);
-    },
-    concentrationPerIon() {
-      return countDryIonConcentrationPerIon(this.reagentsMassObject);
+      return Object.keys(this.substance.reagentsMassObject);
     },
     totalGh() {
-      return countGh(this.concentrationPerIon, this.totalMass, this.volume);
+      return countGh(this.substance.concentrationPerIon, this.substance.totalReagentsMass, this.volume);
     },
     totalKh() {
-      return countKh(this.concentrationPerIon, this.totalMass, this.volume);
-    },
-    totalMass() {
-      return countTotalReagentsMass(this.reagentsMassObject);
+      return countKh(this.substance.concentrationPerIon, this.substance.totalReagentsMass, this.volume);
     },
   },
   methods: {
-    countReagentsMassByGh(dstGh, volume) {
-      const gh = countGh(this.concentrationPerIon, this.totalMass, volume);
+    countVolume(dstGh, volume) {
+      const gh = countGh(this.substance.concentrationPerIon, this.substance.totalReagentsMass, volume);
       const factor = gh / dstGh;
-      const reagentsMassObjectPrepared = { total: 0 };
-      Object.entries(this.reagentsMassObject).forEach(([key, value]) => {
-        reagentsMassObjectPrepared[key] = value / factor;
-        reagentsMassObjectPrepared.total += value / factor;
-      });
-      return reagentsMassObjectPrepared;
+      return (this.substance.volume / factor).toFixed(0);
     },
     countKhByGh(gh) {
-      return (this.totalKh / this.totalGh) * gh;
+      return ((this.totalKh / this.totalGh) * gh);
     },
     countGhByKh(kh) {
-      return (this.totalGh / this.totalKh) * kh;
+      return ((this.totalGh / this.totalKh) * kh);
     },
     onInputCustomGh(value) {
       this.customKh = this.countKhByGh(value);

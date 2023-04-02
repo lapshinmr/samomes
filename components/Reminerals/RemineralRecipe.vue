@@ -19,22 +19,6 @@
 
 <template>
   <div>
-    <div class="d-flex justify-space-between body-2">
-      <div>
-        Параметры
-      </div>
-      <div>
-        <span class="">
-          <span>Gg</span>
-          <span>{{ recipe.gh.toFixed(1) }}</span>
-        </span>
-        <span class="ml-2">
-          <span>Kh</span>
-          <span>{{ recipe.kh.toFixed(1) }}</span>
-        </span>
-      </div>
-    </div>
-    <v-divider class="my-3" />
     <div
       v-for="(mass, reagent) in recipe.mass"
       :key="reagent"
@@ -47,15 +31,36 @@
         {{ mass | precision(2) }} г
       </span>
     </div>
-    <div class="d-flex justify-end body-2 mt-1">
-      <span class="font-weight-bold">
-        {{ countTotalReagentsMass(recipe.mass).toFixed(2) }} г
+    <div
+      v-if="isLiquid"
+      class="d-flex justify-space-between body-2"
+    >
+      <span>
+        Вода
+      </span>
+      <span>
+        {{ recipe.substanceVolume }} мл
       </span>
     </div>
     <v-divider class="my-3" />
     <div class="d-flex justify-space-between body-2">
-      <span>Объем</span>
-      <span>{{ recipe.volume }} л</span>
+      <span>Расшифровка</span>
+      <span v-if="isLiquid">
+        <span class="font-weight-bold">{{ recipe.doseVolume }}</span>
+        мл повышают в <span class="font-weight-bold">{{ recipe.volume }}</span> л
+        Gh на {{ recipe.gh.toFixed(1) }}
+        <template v-if="!!recipe.kh">
+          и Kh на {{ recipe.kh.toFixed(1) }}
+        </template>
+      </span>
+      <span v-else>
+        <span class="font-weight-bold">{{ countTotalReagentsMass(recipe.mass).toFixed(2) }}</span>
+        г повышают в <span class="font-weight-bold">{{ recipe.volume }}</span> л
+        Gh на {{ recipe.gh.toFixed(1) }}
+        <template v-if="!!recipe.kh">
+          и Kh на {{ recipe.kh.toFixed(1) }}
+        </template>
+      </span>
     </div>
     <v-divider
       v-if="recipe.note"
@@ -94,6 +99,11 @@ export default {
       FORMULAS,
       COMPOUNDS,
     };
+  },
+  computed: {
+    isLiquid() {
+      return !!this.recipe.substanceVolume;
+    },
   },
   methods: {
     countTotalReagentsMass,

@@ -73,7 +73,7 @@ import { countGh, countKh } from '@/helpers/funcs/hardness';
 import { countRatio } from '@/helpers/funcs/funcs';
 
 export default {
-  name: 'HardnessTable',
+  name: 'TheHardnessTableDry',
   props: {
     concentration: {
       type: Object,

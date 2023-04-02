@@ -114,11 +114,33 @@
                   hide-details="auto"
                   class="mb-4"
                 />
+                <v-switch
+                  v-model="isLiquid"
+                  label="Жидкий реминерализатор"
+                  hide-details="auto"
+                />
+                <number-field
+                  v-if="isLiquid"
+                  v-model="substanceVolume"
+                  label="Объем раствора"
+                  suffix="мл"
+                  hide-details="auto"
+                  class="mb-4"
+                />
               </v-col>
               <v-col cols="12">
-                <hardness-table
-                  :concentration="concentrationPerIon"
-                  :mass.sync="totalMass"
+                <the-hardness-table-liquid
+                  v-if="isLiquid"
+                  :substance="substance"
+                  :dose-volume.sync="doseVolume"
+                  :volume.sync="volume"
+                  :key="substance.volume"
+                  class="mt-4"
+                />
+                <the-hardness-table-dry
+                  v-else
+                  :concentration="substance.concentrationPerIon"
+                  :mass="substance.totalReagentsMass"
                   :volume.sync="volume"
                   class="mt-4"
                 />
@@ -133,12 +155,22 @@
                 <SDivider class="mb-4">
                   Таблица с навесками
                 </SDivider>
+                <the-reminerals-recipes-liquid-table
+                  v-if="isLiquid"
+                  :substance="substance"
+                  :volume="volume"
+                  :key="substance.volume"
+                />
                 <the-reminerals-recipes-table
+                  v-else
                   :reagents-mass-object="reagentsMassObject"
                   :volume="volume"
                 />
               </v-col>
-              <v-col cols="12">
+              <v-col
+                v-if="!isLiquid"
+                cols="12"
+              >
                 <SDivider class="mb-4">
                   Подготовка смеси
                 </SDivider>
@@ -211,20 +243,25 @@ import { prepareFormulas, sortArrayByObjectField } from '~/helpers/funcs/funcs';
 import {
   countDryIonConcentrationPerIon,
   countTotalReagentsMass,
+  Substance,
 } from '~/helpers/funcs/concentrations';
 import { countGh, countKh } from '~/helpers/funcs/hardness';
 
-import HardnessTable from '@/components/Reminerals/HardnessTable.vue';
+import TheHardnessTableDry from '@/components/Reminerals/TheHardnessTableDry.vue';
+import TheHardnessTableLiquid from '@/components/Reminerals/TheHardnessTableLiquid.vue';
 // import TheRemineralsIons from '~/components/Reminerals/TheRemineralsIons.vue';
 import TheRemineralsRecipesTable from '~/components/Reminerals/TheRemineralsRecipesTable.vue';
+import TheRemineralsRecipesLiquidTable from '~/components/Reminerals/TheRemineralsRecipesLiquidTable.vue';
 import TheRemineralsMixTable from '~/components/Reminerals/TheRemineralsMixTable.vue';
 
 export default {
   name: 'RemineralPage',
   components: {
-    HardnessTable,
+    TheHardnessTableDry,
+    TheHardnessTableLiquid,
     // TheRemineralsIons,
     TheRemineralsRecipesTable,
+    TheRemineralsRecipesLiquidTable,
     TheRemineralsMixTable,
   },
   data() {
@@ -235,9 +272,13 @@ export default {
       reagents: [],
       search: '',
       recipeExampleChosen: null,
+      subst: new Substance(),
       reagentsMassObject: {},
       totalMass: 0,
       volume: 10,
+      isLiquid: false,
+      substanceVolume: null,
+      doseVolume: 10,
       name: '',
       note: '',
       rulesReagent: [
@@ -272,6 +313,9 @@ export default {
     this.name = recipe.name;
     this.note = recipe.note;
     this.reagentsMassObject = recipe.mass;
+    this.isLiquid = !!recipe.substanceVolume;
+    this.substanceVolume = recipe.substanceVolume;
+    this.doseVolume = recipe.doseVolume;
   },
   computed: {
     ...mapState([
@@ -283,14 +327,37 @@ export default {
     recipeIndex() {
       return this.$route.params.id;
     },
+    isExist() {
+      const names = this.reminerals.map((item) => item.name);
+      const index = names.findIndex((item) => item === this.name);
+      const isExist = index !== -1;
+      const isEdit = index === +this.recipeIndex;
+      return isExist && !isEdit;
+    },
+    gh() {
+      let result = countGh(this.concentrationPerIon, this.totalMass, this.volume);
+      if (this.isLiquid) {
+        result *= (this.doseVolume / this.substanceVolume);
+      }
+      return result;
+    },
+    kh() {
+      let result = countKh(this.concentrationPerIon, this.totalMass, this.volume);
+      if (this.isLiquid) {
+        result *= (this.doseVolume / this.substanceVolume);
+      }
+      return result;
+    },
     recipe() {
       return {
         name: this.name,
         note: this.note,
         volume: this.volume,
         mass: { ...this.reagentsMassObject },
-        gh: countGh(this.concentrationPerIon, this.totalMass, this.volume),
-        kh: countKh(this.concentrationPerIon, this.totalMass, this.volume),
+        substanceVolume: this.substanceVolume,
+        doseVolume: this.doseVolume,
+        gh: this.gh,
+        kh: this.kh,
       };
     },
     formulas() {
@@ -305,12 +372,10 @@ export default {
     concentrationPerIon() {
       return countDryIonConcentrationPerIon(this.reagentsMassObject);
     },
-    isExist() {
-      const names = this.reminerals.map((item) => item.name);
-      const index = names.findIndex((item) => item === this.name);
-      const isExist = index !== -1;
-      const isEdit = index === +this.recipeIndex;
-      return isExist && !isEdit;
+    substance() {
+      this.subst.setReagentsMassObject(this.reagentsMassObject);
+      this.subst.setVolume(this.substanceVolume);
+      return this.subst;
     },
   },
   watch: {
