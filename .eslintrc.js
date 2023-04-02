@@ -1,27 +1,37 @@
 module.exports = {
-  root: true,
   env: {
+    browser: true,
+    es2021: true,
     node: true,
   },
   extends: [
+    'eslint:recommended',
+    'airbnb-base',
     'plugin:vue/essential',
     'plugin:vue/strongly-recommended',
-    '@vue/airbnb',
+    'plugin:nuxt/recommended',
   ],
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    parser: 'babel-eslint',
+    ecmaVersion: 12,
+    sourceType: 'module',
   },
+  plugins: [
+    'vue',
+  ],
   rules: {
-    'template-curly-spacing': 'off',
-    indent: 'off',
     'max-len': ['warn', { code: 120 }],
     'vue/max-len': ['warn', {
       code: 120,
       template: 120,
     }],
-    'no-param-reassign': 0,
-    'no-mixed-operators': 'off',
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-param-reassign': ['error', { props: false }],
+  },
+  settings: {
+    'import/resolver': {
+      nuxt: {
+        extensions: ['.js', '.vue'],
+      },
+    },
   },
 };
