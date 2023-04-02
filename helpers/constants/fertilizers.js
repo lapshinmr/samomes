@@ -42,8 +42,9 @@ export default [
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
+  // Aquabalance
   {
-    name: 'Aquabalance NPK',
+    name: 'Aquabalance полный комплекс Total',
     isPercent: true,
     elements: {
       NO3: 4.65,
@@ -51,65 +52,12 @@ export default [
       K: 1.45,
       Ca: 0.14,
       Mg: 0.17,
-    },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  },
-  {
-    name: 'Aquabalance Нитрат',
-    isPercent: true,
-    elements: {
-      NO3: 4.65,
-      K: 1.45,
-      Ca: 0.14,
-      Mg: 0.17,
-    },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  },
-  {
-    name: 'Aquabalance Фосфат',
-    isPercent: true,
-    elements: {
-      PO4: 0.45,
-      K: 0.095,
-    },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  },
-  {
-    name: 'Aquabalance Micro',
-    isPercent: true,
-    elements: {
-      Fe: 0.2,
-      Mn: 0.05,
-      Zn: 0.01,
-      B: 0.009,
-      Cu: 0.003,
-      Mo: 0.003,
-    },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  },
-  {
-    name: 'Aquabalance Micro Premium (KH<4)',
-    isPercent: true,
-    elements: {
-      Fe: 0.2,
-      Mn: 0.08,
+      Fe: 0.07,
+      Mn: 0.015,
       B: 0.008,
-      Zn: 0.005,
-      Cu: 0.01,
-      Mo: 0.006,
-    },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  },
-  {
-    name: 'Aquabalance Micro Premium (KH>4)',
-    isPercent: true,
-    elements: {
-      Fe: 0.32,
-      Mn: 0.08,
-      B: 0.009,
-      Zn: 0.008,
-      Cu: 0.008,
-      Mo: 0.003,
+      Zn: 0.006,
+      Cu: 0.0015,
+      Mo: 0.002,
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
@@ -123,7 +71,141 @@ export default [
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
-    name: 'Aquabalance Fe+Mn Premium',
+    name: 'Aquabalance Калий Баланс',
+    isPercent: true,
+    elements: {
+      K: 5,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Нитро Баланс',
+    isPercent: true,
+    elements: {
+      NO3: 4.65,
+      K: 1.45,
+      Ca: 0.14,
+      Mg: 0.17,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Фосфо Баланс',
+    isPercent: true,
+    elements: {
+      PO4: 0.45,
+      K: 0.095,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Макро Баланс',
+    isPercent: true,
+    elements: {
+      NO3: 4.65,
+      PO4: 0.45,
+      K: 1.45,
+      Ca: 0.14,
+      Mg: 0.17,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Микро Баланс',
+    isPercent: true,
+    elements: {
+      Fe: 0.2,
+      Mn: 0.05,
+      Zn: 0.01,
+      B: 0.009,
+      Cu: 0.003,
+      Mo: 0.003,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Микро Баланс + K',
+    isPercent: true,
+    elements: {
+      K: 3,
+      Fe: 0.2,
+      Mn: 0.05,
+      Zn: 0.01,
+      B: 0.009,
+      Cu: 0.003,
+      Mo: 0.003,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Тотал-Мох',
+    isPercent: true,
+    elements: {
+      NO3: 5,
+      PO4: 0.5,
+      Fe: 0.05,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки. Содержит макроэлементы: '
+      + 'азот, фосфор, калий, кальций, магний, а так же микроэле- менты: железо, марганец,'
+      + 'бор в том числе в органической форме.',
+  },
+  {
+    name: 'Aquabalance Premium Micro (KH<4)',
+    isPercent: true,
+    elements: {
+      Fe: 0.2,
+      Mn: 0.08,
+      B: 0.008,
+      Zn: 0.005,
+      Cu: 0.01,
+      Mo: 0.006,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Premium Micro (KH>4)',
+    isPercent: true,
+    elements: {
+      Fe: 0.32,
+      Mn: 0.08,
+      B: 0.009,
+      Zn: 0.008,
+      Cu: 0.008,
+      Mo: 0.003,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Premium Макро корректор P+K',
+    isPercent: true,
+    elements: {
+      PO4: 0.9,
+      // TODO: replace by K2O here
+      K: 0.4,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Premium Макро корректор N+K',
+    isPercent: true,
+    elements: {
+      NO3: 10,
+      K: 1.76,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Premium Макро комплекс NPK',
+    isPercent: true,
+    elements: {
+      NO3: 9.6,
+      PO4: 0.9,
+      K: 2,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Premium Fe+Mn',
     isPercent: true,
     elements: {
       Fe: 1.0,
@@ -131,6 +213,7 @@ export default [
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
+  // Aquayer
   {
     name: 'Aquayer Macro+',
     isPercent: false,
