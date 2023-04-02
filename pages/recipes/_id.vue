@@ -89,8 +89,6 @@
                   <v-combobox
                     v-model="recipeExampleChosen"
                     :items="recipesExamples"
-                    :search-input.sync="searchExample"
-                    @blur="searchExample = ''"
                     label="Рецепт"
                     hint="или выбрать один из рецептов"
                     persistent-hint
@@ -525,7 +523,6 @@ export default {
       compounds: [],
       searchReagent: '',
       searchCompound: '',
-      searchExample: '',
       recipeExampleChosen: null,
       volume: null,
       tankVolume: null,
