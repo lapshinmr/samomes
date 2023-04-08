@@ -29,10 +29,12 @@
         class="section section--about"
       >
         <div class="about__image">
-          <img
-            :src="require('@/assets/images/npk-512x512.png')"
-            alt="npk"
-          >
+          <v-img
+            :src="require('@/assets/images/npk-512x512-min.png')"
+            max-height="300"
+            max-width="300"
+            alt="Main logotype NPK"
+          />
         </div>
         <div
           class="about__content d-flex flex-column"
@@ -361,10 +363,6 @@
 
 export default {
   name: 'Home',
-  data() {
-    return {
-    };
-  },
   mounted() {
     const vk = document.createElement('script');
     vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');
@@ -430,9 +428,6 @@ export default {
       align-items: center
       @media (min-width: $xs)
         width: 50%
-      img
-        height: 300px
-        width: 300px
     .about__content
       @media (min-width: $xs)
         width: 50%

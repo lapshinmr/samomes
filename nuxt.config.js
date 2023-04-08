@@ -43,6 +43,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-fonts',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -95,6 +96,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    treeShake: true,
     customVariables: ['~/assets/variables.sass'],
     theme: {
       dark: false,
@@ -112,9 +114,21 @@ export default {
     },
   },
 
+  googleFonts: {
+    display: 'swap',
+    preconnect: true,
+    preload: true,
+    prefetch: true,
+    download: true,
+    overwriting: true,
+    families: {
+      Roboto: [300, 400, 500, 600, 700],
+      Lexend: [300, 400, 500, 600, 700],
+    },
+  },
+
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://samomes.com',
   },
-
 };
