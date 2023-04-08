@@ -302,10 +302,11 @@ export default {
   name: 'SimplestNitratePage',
   head() {
     return {
-      title: 'Простой нитрат',
+      title: 'Самый простой рецепт самодельного удобрения с нитратом',
       meta: [
-        { title: 'Простой нитрат' },
         { description: 'Самый простой рецепт самодельного удобрения с нитратом и калием (самомес нитрата)' },
+        { keywords: 'Простой нитрат' },
+        { author: 'Михаил Лапшин' },
         { 'og:title': 'Простой нитрат' },
         { 'og:description': 'Самый простой рецепт самодельного удобрения с нитратом и калием (самомес нитрата)' },
         // { 'og:type': this.post.meta.ogType },
@@ -316,7 +317,6 @@ export default {
         // { hid: 'og:image:width', property: 'og:image:width', content: this.post.ogImage.width },
         // { hid: 'og:image:height', property: 'og:image:height', content: this.post.ogImage.height },
         // { hid: 'og:image:type', property: 'og:image:type', content: this.post.ogImage.type },
-        { author: 'Михаил Лапшин' },
       ],
     };
   },

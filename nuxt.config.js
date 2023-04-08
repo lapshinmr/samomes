@@ -6,13 +6,18 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - samomes',
-    title: 'samomes',
+    titleTemplate: '%s - Samomes',
+    title: 'Samomes',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Проект "Самомес" - это калькулятор самодельных рецептов удобрений для аквариума и'
+          + 'удобный способ составить расписание внесения удобрений на неделю или любой другой период времени.',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -56,10 +61,9 @@ export default {
       {
         id: '61348777',
         webvisor: true,
-        // clickmap:true,
-        // useCDN:false,
-        // trackLinks:true,
-        // accurateTrackBounce:true,
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
       },
     ],
     [
