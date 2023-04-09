@@ -19,7 +19,7 @@
 
 <template>
   <v-app id="inspire">
-    <drawer v-model="drawer" />
+    <drawer v-model="isDrawer" />
 
     <v-app-bar
       app
@@ -36,7 +36,7 @@
       <div class="d-flex justify-end">
 <!--        <LanguageSwitcher />-->
       </div>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="isDrawer = !isDrawer" />
     </v-app-bar>
 
     <v-main>
@@ -99,7 +99,7 @@ export default {
       'recipes',
       'guideIsClosed',
     ]),
-    drawer: {
+    isDrawer: {
       get() {
         return this.$store.state.drawer;
       },

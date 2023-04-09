@@ -21,7 +21,7 @@ import { DEFAULT_LANGUAGE } from '@/helpers/constants/lang';
 
 export default () => ({
   lang: DEFAULT_LANGUAGE,
-  drawer: false,
+  drawer: true,
   isSnackbar: false,
   snackbarMessage: '',
   guideIsClosed: {
