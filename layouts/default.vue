@@ -34,7 +34,7 @@
       </v-toolbar-title>
       <v-spacer />
       <div class="d-flex justify-end">
-<!--        <LanguageSwitcher />-->
+        <!--        <LanguageSwitcher />-->
       </div>
       <v-app-bar-nav-icon @click.stop="isDrawer = !isDrawer" />
     </v-app-bar>
@@ -74,6 +74,14 @@ export default {
   //   this.initLang();
   // },
   mounted() {
+    const data = localStorage.getItem('udata');
+    if (!data) {
+      this.$nextTick(() => {
+        if (this.$vuetify.breakpoint.smAndUp) {
+          this.isDrawer = true;
+        }
+      });
+    }
     this.recipes.forEach((recipe, index) => {
       if (recipe.type === 'Готовое') {
         this.FERTILIZER_ADD(recipe);
