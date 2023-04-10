@@ -156,11 +156,16 @@ export default {
       title: 'О проекте',
       meta: [
         {
-          description: 'Проект "Samomes" был создан для того, чтобы облегчить рутинные расчеты дозировок удобрений, '
+          hid: 'description',
+          name: 'description',
+          content: 'Проект "Samomes" был создан для того, чтобы облегчить рутинные расчеты дозировок удобрений, '
             + 'составления расписания, расчета самодельных рецептов.',
         },
-        { keywords: 'samomes, самомес' },
-        { author: 'Михаил Лапшин' },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'samomes, самомес',
+        },
       ],
     };
   },

@@ -18,6 +18,11 @@ export default {
         content: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
           + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
       },
+      {
+        hid: 'author',
+        name: 'author',
+        author: 'Михаил Лапшин',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -135,7 +140,7 @@ export default {
     path: '/sitemap.xml',
     hostname: 'https://samomes.com',
     exclude: [
-      'https://samomes.com/settings',
+      '/settings',
     ],
   },
 };
