@@ -23,9 +23,9 @@
     sm="8"
     offset-sm="2"
   >
-    <div class="d-none d-sm-block text-h4">
+    <h1 class="d-none d-sm-block text-h4">
       <slot />
-    </div>
+    </h1>
   </v-col>
 </template>
 

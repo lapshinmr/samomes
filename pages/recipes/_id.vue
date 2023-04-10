@@ -906,7 +906,7 @@ export default {
           concentration: { ...this.concentration },
         });
         this.SNACKBAR_SHOW('Рецепт добавлен');
-        this.$router.push('/Recipes');
+        this.$router.push('/recipes');
       }
     },
     editRecipe() {
@@ -925,13 +925,13 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Рецепт изменен');
-        this.$router.push('/Recipes');
+        this.$router.push('/recipes');
       }
     },
     removeRecipe() {
       this.RECIPE_REMOVE(this.recipeIndex);
       this.SNACKBAR_SHOW('Рецепт удален');
-      this.$router.push('/Recipes');
+      this.$router.push('/recipes');
     },
   },
 };

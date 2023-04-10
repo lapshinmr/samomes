@@ -97,7 +97,7 @@
                             v-on="on"
                           >mdi mdi-drag</v-icon>
                         </template>
-                        {{ $t('Recipes.panels.header.pull') }}
+                        {{ $t('recipes.panels.header.pull') }}
                       </v-tooltip>
                     </span>
                   </div>
@@ -170,7 +170,7 @@
       </v-card>
     </v-dialog>
     <add-button :action="addRecipe">
-      {{ $t('Recipes.addButton') }}
+      {{ $t('recipes.addButton') }}
     </add-button>
   </v-container>
 </template>
@@ -185,6 +185,19 @@ export default {
   components: {
     draggable,
     Recipe,
+  },
+  head() {
+    return {
+      title: 'Список рецептов самодельных удобрений',
+      meta: [
+        {
+          description: 'Здесь вы можете создавать рецепты самодельных микро и макро удобрений: '
+            + 'из реагентов или готовых смесей, а так же воспользоваться готовыми рецептами.',
+        },
+        { keywords: 'рецепты удобрений, самомес, макро, микро' },
+        { author: 'Михаил Лапшин' },
+      ],
+    };
   },
   data() {
     return {
@@ -231,7 +244,7 @@ export default {
       'SNACKBAR_SHOW',
     ]),
     addRecipe() {
-      this.$router.push('/Recipes/create');
+      this.$router.push('/recipes/create');
     },
     openShareDialog(index) {
       this.curRecipeIndex = index;

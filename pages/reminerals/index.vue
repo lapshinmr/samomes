@@ -90,7 +90,7 @@
                             v-on="on"
                           >mdi mdi-drag</v-icon>
                         </template>
-                        {{ $t('Recipes.panels.header.pull') }}
+                        {{ $t('recipes.panels.header.pull') }}
                       </v-tooltip>
                     </span>
                   </div>
@@ -179,6 +179,19 @@ export default {
   components: {
     draggable,
     RemineralRecipe,
+  },
+  head() {
+    return {
+      title: 'Список рецептов самодельных реминерализаторов',
+      meta: [
+        {
+          description: 'На этой странице вы можете создавать и использовать рецепты самодельных реминерализаторов для '
+            + 'восстановления постоянной (gh) и временной жесткости (kh) воды.',
+        },
+        { keywords: 'рецепты реминерализаторов, рем, kh, gh' },
+        { author: 'Михаил Лапшин' },
+      ],
+    };
   },
   data() {
     return {

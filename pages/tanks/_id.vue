@@ -210,6 +210,16 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Tank',
+  head() {
+    return {
+      title: 'Редактирование аквариума',
+      meta: [
+        { description: 'На этой странице вы можете рассчитать объем аквариума' },
+        { keywords: 'аквариум, размеры, объем' },
+        { author: 'Михаил Лапшин' },
+      ],
+    };
+  },
   data() {
     return {
       tank: {

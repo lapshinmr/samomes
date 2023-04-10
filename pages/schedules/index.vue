@@ -71,6 +71,19 @@ export default {
   components: {
     Schedule,
   },
+  head() {
+    return {
+      title: 'Подбор дозировок и расписания внесения удобрений',
+      meta: [
+        {
+          description: 'Здесь можно подобрать дозировки удобрений для своих аквариумов, '
+            + 'составить расписание и легко отслеживать внесение каждый день с помощью виджета.',
+        },
+        { keywords: 'дозировки, расписание внесения удобрений' },
+        { author: 'Михаил Лапшин' },
+      ],
+    };
+  },
   computed: {
     ...mapState([
       'schedules',
@@ -78,7 +91,7 @@ export default {
   },
   methods: {
     openAddSchedule() {
-      return this.$router.push('/Schedules/create');
+      return this.$router.push('/schedules/create');
     },
   },
 };

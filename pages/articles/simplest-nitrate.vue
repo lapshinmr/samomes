@@ -304,19 +304,12 @@ export default {
     return {
       title: 'Самый простой рецепт самодельного удобрения с нитратом',
       meta: [
-        { description: 'Самый простой рецепт самодельного удобрения с нитратом и калием (самомес нитрата)' },
-        { keywords: 'Простой нитрат' },
+        {
+          description: 'В этой статье вы узнаете как сделать рецепт удобрения с нитратом и калием (самомес нитрата). '
+            + 'И что на самом деле это совсем не сложно.',
+        },
+        { keywords: 'нитрат, удобрение, самомес, монораствор, рецепт' },
         { author: 'Михаил Лапшин' },
-        { 'og:title': 'Простой нитрат' },
-        { 'og:description': 'Самый простой рецепт самодельного удобрения с нитратом и калием (самомес нитрата)' },
-        // { 'og:type': this.post.meta.ogType },
-        { 'og:site_name': 'samomes.com' },
-        { 'og:url': 'samomes.com' },
-        // { hid: 'og:image', property: 'og:image', content: this.post.ogImage.url },
-        // { hid: 'og:image:url', property: 'og:image:url', content: this.post.ogImage.url },
-        // { hid: 'og:image:width', property: 'og:image:width', content: this.post.ogImage.width },
-        // { hid: 'og:image:height', property: 'og:image:height', content: this.post.ogImage.height },
-        // { hid: 'og:image:type', property: 'og:image:type', content: this.post.ogImage.type },
       ],
     };
   },
