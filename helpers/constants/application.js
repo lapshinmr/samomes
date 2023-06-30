@@ -7,6 +7,7 @@ export const ROUTES = [
   { path: 'reminerals', icon: 'fas fa-cubes' },
   { path: 'remineralization', icon: 'fas fa-tint' },
   { path: 'dynamics', icon: 'far fa-chart-bar' },
+  // { path: 'articles', icon: 'far fa-chart-bar' },
   { path: 'settings', icon: 'fas fa-cog' },
   { path: 'about', icon: 'mdi-information-outline' },
 ];

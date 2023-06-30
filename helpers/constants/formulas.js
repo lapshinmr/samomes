@@ -178,7 +178,25 @@ export default {
       },
     },
     solubilityLimit: 1210,
-    name: 'Калия гидрооксид',
+    name: 'Калия гидроксид',
+  },
+  'Ca(OH)2': {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 2,
+      },
+      H: {
+        isNeeded: false,
+        count: 2,
+      },
+    },
+    solubilityLimit: 1.66,
+    name: 'Кальция гидроксид',
   },
   '(NH2)2CO': {
     ions: {
