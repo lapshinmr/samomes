@@ -300,7 +300,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
       H: {
@@ -673,7 +673,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
     },
@@ -693,7 +693,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
       H: {
@@ -722,7 +722,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
       H: {
@@ -845,7 +845,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
     },
