@@ -145,7 +145,7 @@ export default {
         count: 2,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
@@ -245,7 +245,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
@@ -269,7 +269,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -644,7 +644,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -838,6 +838,20 @@ export default {
     solubilityLimit: 144.5,
     name: 'Калия йодид',
   },
+  KCl: {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 1,
+      },
+      Cl: {
+        isNeeded: false,
+        count: 1,
+      },
+    },
+    solubilityLimit: 339.7,
+    name: 'Калия хлорид',
+  },
   'CuSO4(H2O)5': {
     ions: {
       Cu: {
@@ -845,7 +859,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -867,7 +881,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -933,7 +947,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -955,7 +969,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -977,7 +991,7 @@ export default {
         count: 2,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 3,
       },
       H: {
@@ -999,7 +1013,7 @@ export default {
         count: 2,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 3,
       },
       H: {
@@ -1466,7 +1480,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
@@ -1487,7 +1501,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
