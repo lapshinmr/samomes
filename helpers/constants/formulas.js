@@ -1640,4 +1640,18 @@ export default {
     solubilityLimit: 7.5,
     name: 'L-Глутаминовая кислота',
   },
+  SrCl2: {
+    ions: {
+      Sr: {
+        isNeeded: true,
+        count: 1,
+      },
+      Cl: {
+        isNeeded: true,
+        count: 2,
+      },
+    },
+    solubilityLimit: 7.5,
+    name: 'Стронция хлорид',
+  },
 };
