@@ -1651,7 +1651,6 @@ export default {
         count: 2,
       },
     },
-    solubilityLimit: 7.5,
     name: 'Стронция хлорид',
   },
 };
