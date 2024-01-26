@@ -138,6 +138,27 @@ export default {
     solubilityLimit: 1870,
     name: 'Калия пирофосфат 3-водный',
   },
+  'K3PO4(H20)7': {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 3,
+      },
+      P: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 11,
+      },
+      H: {
+        isNeeded: false,
+        count: 14,
+      },
+    },
+    name: 'Калий фосфорнокислый 3-замещенный 7-водный',
+  },
   K2SO4: {
     ions: {
       K: {
