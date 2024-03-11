@@ -26,6 +26,7 @@ export default {
     reminerals: 'Реминерализаторы',
     remineralization: 'Водоподготовка',
     dynamics: 'Динамика',
+    articles: 'Статьи',
     about: 'О проекте',
     settings: 'Настройки',
     Github: 'Github',
