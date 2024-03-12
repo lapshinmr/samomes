@@ -30,7 +30,6 @@
               color="deep-purple lighten-2"
               text
               class="ml-auto"
-              to="/articles/simplest-nitrate/"
             >
               Читать
             </v-btn>
@@ -43,7 +42,7 @@
         lg="4"
       >
         <v-card
-          to="/articles/simplest-nitrate/"
+          to="/articles/simplest-phosphate/"
           min-height="471px"
         >
           <v-img
@@ -66,7 +65,6 @@
               color="deep-purple lighten-2"
               text
               class="ml-auto"
-              to="/articles/simplest-phosphate/"
             >
               Читать
             </v-btn>
