@@ -26,6 +26,7 @@ export default {
     reminerals: 'Reminerals',
     remineralization: 'Remineralization',
     dynamics: 'Dynamics',
+    articles: 'Articles',
     about: 'About',
     settings: 'Settings',
     Github: 'Github',
