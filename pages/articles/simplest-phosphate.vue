@@ -27,7 +27,7 @@
           Михаил Лапшин
         </div>
         <div class="subtitle-2 mb-10">
-          11 марта 2023
+          11 марта 2024
         </div>
 
         <v-alert

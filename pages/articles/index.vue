@@ -78,32 +78,33 @@
       >
         <v-card
           min-height="471px"
+          to="/articles/potassium/"
         >
           <v-img
             height="250"
             :src="require('@/assets/images/potassium-thumb.webp')"
-            alt="Easiest phosphate recipe"
+            alt="Easiest potassium recipe"
           />
 
-          <v-card-title>Про калий</v-card-title>
+          <v-card-title>Рецепт калия</v-card-title>
 
           <v-card-text>
-            Скоро
+            Эта статья завершает серию из трех самых простых рецептов домашних удобрений для аквариума с растениями,
+            сосредотачиваясь на калии. Для ознакомления с рецептами...
           </v-card-text>
 
-<!--          <v-divider class="mx-4" />-->
+          <v-divider class="mx-4" />
 
-<!--          <v-card-actions>-->
-<!--            <v-btn-->
-<!--              color="deep-purple lighten-2"-->
-<!--              text-->
-<!--              class="ml-auto"-->
-<!--              to="/articles/simplest-phosphate/"-->
-<!--              disabled-->
-<!--            >-->
-<!--              Читать-->
-<!--            </v-btn>-->
-<!--          </v-card-actions>-->
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              text
+              class="ml-auto"
+              to="/articles/potassium/"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
