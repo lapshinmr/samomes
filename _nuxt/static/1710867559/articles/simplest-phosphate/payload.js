@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/articles/simplest-phosphate", {data:[{}],fetch:{},mutations:[]});
