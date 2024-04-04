@@ -23,6 +23,10 @@ export default {
         name: 'author',
         author: 'Михаил Лапшин',
       },
+      {
+        name: 'yandex-verification',
+        content: 'd58e65f9d4e5df54',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

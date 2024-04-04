@@ -100,7 +100,6 @@
               color="deep-purple lighten-2"
               text
               class="ml-auto"
-              to="/articles/potassium/"
             >
               Читать
             </v-btn>
