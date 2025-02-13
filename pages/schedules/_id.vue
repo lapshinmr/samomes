@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -440,7 +440,7 @@ export default {
           datesColumn: this.datesColumn,
         });
         this.SNACKBAR_SHOW('Расписание добавлено');
-        this.$router.push('/Schedules');
+        this.$router.push('/schedules');
       }
     },
     editSchedule() {
@@ -470,13 +470,13 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Расписание сохранено');
-        this.$router.push('/Schedules');
+        this.$router.push('/schedules');
       }
     },
     removeSchedule() {
       this.SCHEDULE_REMOVE(this.scheduleIndex);
       this.SNACKBAR_SHOW('Расписание удалено');
-      this.$router.push('/Schedules');
+      this.$router.push('/schedules');
     },
   },
 };

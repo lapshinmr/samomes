@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -285,6 +285,24 @@ export default {
     LineChart,
     ElementsTable,
     FertilizersDoseTable,
+  },
+  head() {
+    return {
+      title: 'Динамика элементов в аквариуме',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'С помощью удобного графика, используя свои дозировки удобрений и объем подмены воды, '
+            + 'можно легко получить диапазон параметров, которые могут быть в аквариуме.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'калий, нитрат, фосфат, концентрация',
+        },
+      ],
+    };
   },
   data() {
     return {

@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2023 Mikhail Lapshin
+ * Copyright (C) 2025 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ export default {
   Cu: 63.546,
   Zn: 65.38,
   Rb: 85.4678,
+  Sr: 87.62,
   Mo: 95.95,
   J: 126.90447,
   CO3: 60.01001,

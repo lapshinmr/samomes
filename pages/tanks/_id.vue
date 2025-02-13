@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -210,6 +210,16 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Tank',
+  head() {
+    return {
+      title: 'Редактирование аквариума',
+      meta: [
+        { description: 'На этой странице вы можете рассчитать объем аквариума' },
+        { keywords: 'аквариум, размеры, объем' },
+        { author: 'Михаил Лапшин' },
+      ],
+    };
+  },
   data() {
     return {
       tank: {

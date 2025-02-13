@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2023 Mikhail Lapshin
+ * Copyright (C) 2025 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,5 +66,15 @@ export default [
     volume: 10,
     name: 'Реминерализатор от Романа Че',
     note: 'Рецепт Романа Че',
+  },
+  {
+    reagentsMassObject: {
+      CaCO3: 0.714,
+      'CaSO4(H2O)2': 0.395,
+      'MgSO4(H2O)7': 1.196,
+    },
+    volume: 10,
+    name: 'Samomes Gh8/Kh4',
+    note: 'Этот рецепт создан специально для Сереги Ефремова ;)',
   },
 ];

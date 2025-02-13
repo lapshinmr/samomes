@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -191,6 +191,24 @@ export default {
   name: 'Tanks',
   components: {
     draggable,
+  },
+  head() {
+    return {
+      title: 'Список аквариумов',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'На этой странице вы можете рассчитать объем аквариума по его'
+            + ' линейным размерам, а так же добавить все свои аквариумы в один список.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'список, аквариум, объем',
+        },
+      ],
+    };
   },
   data() {
     return {

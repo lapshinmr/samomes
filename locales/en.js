@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2023 Mikhail Lapshin
+ * Copyright (C) 2025 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ export default {
     reminerals: 'Reminerals',
     remineralization: 'Remineralization',
     dynamics: 'Dynamics',
+    articles: 'Articles',
     about: 'About',
     settings: 'Settings',
     Github: 'Github',

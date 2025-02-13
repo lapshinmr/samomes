@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -134,6 +134,24 @@ export default {
   components: {
     draggable,
     Recipe,
+  },
+  head() {
+    return {
+      title: 'Список фирменных удобрений',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'На этой странице вы можете добавить свои фирменные удобрения, '
+          + ' которые используете в своем аквариуме, чтобы легко расчитать дозировки.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'фирменные удобрения',
+        },
+      ],
+    };
   },
   data() {
     return {

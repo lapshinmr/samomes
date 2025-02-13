@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -332,6 +332,24 @@ export default {
   name: 'Remineralization',
   components: {
     FertilizersDoseTable,
+  },
+  head() {
+    return {
+      title: 'Водоподготовка в аквариуме',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Данный калькулятор позволяет подготовить подменную воду с нужными параметрами жесткости '
+            + 'воды и легко рассчитать итоговую жесткость в аквариуме.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'подмена, жесткость воды, gh, kh',
+        },
+      ],
+    };
   },
   data() {
     return {

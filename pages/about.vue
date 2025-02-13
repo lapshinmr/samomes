@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -151,8 +151,22 @@
 <script>
 export default {
   name: 'About',
-  data() {
+  head() {
     return {
+      title: 'О проекте',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Проект "Samomes" был создан для того, чтобы облегчить рутинные расчеты дозировок удобрений, '
+            + 'составления расписания, расчета самодельных рецептов.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'samomes, самомес',
+        },
+      ],
     };
   },
 };

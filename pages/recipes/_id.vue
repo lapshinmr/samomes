@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -906,7 +906,7 @@ export default {
           concentration: { ...this.concentration },
         });
         this.SNACKBAR_SHOW('Рецепт добавлен');
-        this.$router.push('/Recipes');
+        this.$router.push('/recipes');
       }
     },
     editRecipe() {
@@ -925,13 +925,13 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Рецепт изменен');
-        this.$router.push('/Recipes');
+        this.$router.push('/recipes');
       }
     },
     removeRecipe() {
       this.RECIPE_REMOVE(this.recipeIndex);
       this.SNACKBAR_SHOW('Рецепт удален');
-      this.$router.push('/Recipes');
+      this.$router.push('/recipes');
     },
   },
 };

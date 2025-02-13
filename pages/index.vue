@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,10 +29,12 @@
         class="section section--about"
       >
         <div class="about__image">
-          <img
-            :src="require('@/assets/images/npk-512x512.png')"
-            alt="npk"
-          >
+          <v-img
+            :src="require('@/assets/images/npk-512x512-min.png')"
+            max-height="300"
+            max-width="300"
+            alt="Main logotype NPK"
+          />
         </div>
         <div
           class="about__content d-flex flex-column"
@@ -233,7 +235,7 @@
               аквариумистам с самодельными удобрениями, но и тем, кто использует фирменные удобрения.
             </p>
             <p>
-              Здесь можно сделать прикидку дозировок удобрений на свои аквариумы. А потом составить расписание
+              Здесь можно сделать прикидку дозировок удобрений для своих аквариумов. А потом составить расписание
               внесения удобрений на неделю. Удобный виджет легко поможет отследить процесс внесения.
             </p>
             <p>
@@ -361,10 +363,6 @@
 
 export default {
   name: 'Home',
-  data() {
-    return {
-    };
-  },
   mounted() {
     const vk = document.createElement('script');
     vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');
@@ -430,9 +428,6 @@ export default {
       align-items: center
       @media (min-width: $xs)
         width: 50%
-      img
-        height: 300px
-        width: 300px
     .about__content
       @media (min-width: $xs)
         width: 50%

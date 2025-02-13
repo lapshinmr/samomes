@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2023 Mikhail Lapshin
+ * Copyright (C) 2025 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -138,6 +138,27 @@ export default {
     solubilityLimit: 1870,
     name: 'Калия пирофосфат 3-водный',
   },
+  'K3PO4(H20)7': {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 3,
+      },
+      P: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 11,
+      },
+      H: {
+        isNeeded: false,
+        count: 14,
+      },
+    },
+    name: 'Калий фосфорнокислый 3-замещенный 7-водный',
+  },
   K2SO4: {
     ions: {
       K: {
@@ -145,7 +166,7 @@ export default {
         count: 2,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
@@ -178,7 +199,25 @@ export default {
       },
     },
     solubilityLimit: 1210,
-    name: 'Калия гидрооксид',
+    name: 'Калия гидроксид',
+  },
+  'Ca(OH)2': {
+    ions: {
+      Ca: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 2,
+      },
+      H: {
+        isNeeded: false,
+        count: 2,
+      },
+    },
+    solubilityLimit: 1.66,
+    name: 'Кальция гидроксид',
   },
   '(NH2)2CO': {
     ions: {
@@ -227,7 +266,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
@@ -251,7 +290,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -282,7 +321,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
       H: {
@@ -626,7 +665,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -655,7 +694,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
     },
@@ -675,7 +714,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
       H: {
@@ -704,7 +743,7 @@ export default {
         count: 1,
       },
       Cl: {
-        isNeeded: false,
+        isNeeded: true,
         count: 2,
       },
       H: {
@@ -820,6 +859,20 @@ export default {
     solubilityLimit: 144.5,
     name: 'Калия йодид',
   },
+  KCl: {
+    ions: {
+      K: {
+        isNeeded: true,
+        count: 1,
+      },
+      Cl: {
+        isNeeded: true,
+        count: 1,
+      },
+    },
+    solubilityLimit: 339.7,
+    name: 'Калия хлорид',
+  },
   'CuSO4(H2O)5': {
     ions: {
       Cu: {
@@ -827,7 +880,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -849,7 +902,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -915,7 +968,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -937,7 +990,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       H: {
@@ -959,7 +1012,7 @@ export default {
         count: 2,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 3,
       },
       H: {
@@ -981,7 +1034,7 @@ export default {
         count: 2,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 3,
       },
       H: {
@@ -1448,7 +1501,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
@@ -1469,7 +1522,7 @@ export default {
         count: 1,
       },
       S: {
-        isNeeded: false,
+        isNeeded: true,
         count: 1,
       },
       O: {
@@ -1607,5 +1660,18 @@ export default {
     },
     solubilityLimit: 7.5,
     name: 'L-Глутаминовая кислота',
+  },
+  SrCl2: {
+    ions: {
+      Sr: {
+        isNeeded: true,
+        count: 1,
+      },
+      Cl: {
+        isNeeded: true,
+        count: 2,
+      },
+    },
+    name: 'Стронция хлорид',
   },
 };

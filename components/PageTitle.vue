@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
     sm="8"
     offset-sm="2"
   >
-    <div class="d-none d-sm-block text-h4">
+    <h1 class="d-none d-sm-block text-h4">
       <slot />
-    </div>
+    </h1>
   </v-col>
 </template>
 

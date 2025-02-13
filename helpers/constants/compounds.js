@@ -1,7 +1,7 @@
 /**
  * Samomes
  *
- * Copyright (C) 2023 Mikhail Lapshin
+ * Copyright (C) 2025 Mikhail Lapshin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -166,5 +166,21 @@ export default {
     },
     isLiquid: false,
     name: 'Аквамикс СТ',
+  },
+  AquarinUniversal: {
+    ions: {
+      N: 0.18,
+      P: 0.0786,
+      K: 0.1494,
+      S: 0.015,
+      Fe: 0.00054,
+      Mn: 0.00042,
+      Mg: 0.012064,
+      B: 0.0002,
+      Zn: 0.00014,
+      Cu: 0.0001,
+      Mo: 0.00004,
+    },
+    name: 'Акварин "Универсальный"',
   },
 };

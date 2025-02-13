@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -71,6 +71,24 @@ export default {
   components: {
     Schedule,
   },
+  head() {
+    return {
+      title: 'Подбор дозировок и расписания внесения удобрений',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Здесь можно подобрать дозировки удобрений для своих аквариумов, '
+            + 'составить расписание и легко отслеживать внесение каждый день с помощью виджета.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'дозировки, расписание внесения удобрений',
+        },
+      ],
+    };
+  },
   computed: {
     ...mapState([
       'schedules',
@@ -78,7 +96,7 @@ export default {
   },
   methods: {
     openAddSchedule() {
-      return this.$router.push('/Schedules/create');
+      return this.$router.push('/schedules/create');
     },
   },
 };

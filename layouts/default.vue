@@ -1,7 +1,7 @@
 <!--
   Samomes
 
-  Copyright (C) 2023 Mikhail Lapshin
+  Copyright (C) 2025 Mikhail Lapshin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 <template>
   <v-app id="inspire">
-    <drawer v-model="drawer" />
+    <drawer v-model="isDrawer" />
 
     <v-app-bar
       app
@@ -34,9 +34,9 @@
       </v-toolbar-title>
       <v-spacer />
       <div class="d-flex justify-end">
-<!--        <LanguageSwitcher />-->
+        <!--        <LanguageSwitcher />-->
       </div>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="isDrawer = !isDrawer" />
     </v-app-bar>
 
     <v-main>
@@ -74,6 +74,14 @@ export default {
   //   this.initLang();
   // },
   mounted() {
+    const data = localStorage.getItem('udata');
+    if (!data) {
+      this.$nextTick(() => {
+        if (this.$vuetify.breakpoint.smAndUp) {
+          this.isDrawer = true;
+        }
+      });
+    }
     this.recipes.forEach((recipe, index) => {
       if (recipe.type === 'Готовое') {
         this.FERTILIZER_ADD(recipe);
@@ -99,7 +107,7 @@ export default {
       'recipes',
       'guideIsClosed',
     ]),
-    drawer: {
+    isDrawer: {
       get() {
         return this.$store.state.drawer;
       },

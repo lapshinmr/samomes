@@ -1,3 +1,22 @@
+/*
+Samomes
+
+Copyright (C) 2025 Mikhail Lapshin
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import colors from 'vuetify/es5/util/colors';
 
 export default {
@@ -6,13 +25,27 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - samomes',
-    title: 'samomes',
+    titleTemplate: '%s - Samomes',
+    title: 'Samomes',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
+          + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
+      },
+      {
+        hid: 'author',
+        name: 'author',
+        author: 'Михаил Лапшин',
+      },
+      {
+        name: 'yandex-verification',
+        content: 'd58e65f9d4e5df54',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -43,6 +76,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/google-fonts',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -55,10 +89,9 @@ export default {
       {
         id: '61348777',
         webvisor: true,
-        // clickmap:true,
-        // useCDN:false,
-        // trackLinks:true,
-        // accurateTrackBounce:true,
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
       },
     ],
     [
@@ -95,6 +128,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    treeShake: true,
     customVariables: ['~/assets/variables.sass'],
     theme: {
       dark: false,
@@ -112,9 +146,28 @@ export default {
     },
   },
 
+  googleFonts: {
+    display: 'swap',
+    preconnect: true,
+    preload: true,
+    prefetch: true,
+    download: true,
+    overwriting: true,
+    families: {
+      Roboto: [300, 400, 500, 600, 700],
+      Lexend: [300, 400, 500, 600, 700],
+    },
+  },
+
+  // router: {
+  //   // trailingSlash: true,
+  // },
+
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://samomes.com',
+    exclude: [
+      '/settings',
+    ],
   },
-
 };
