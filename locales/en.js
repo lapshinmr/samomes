@@ -18,6 +18,7 @@
  */
 
 export default {
+  home: 'Samomes',
   routes: {
     tanks: 'Fish tanks',
     recipes: 'Recipies',

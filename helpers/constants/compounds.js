@@ -165,7 +165,20 @@ export default {
       Cu: 0.0053,
     },
     isLiquid: false,
-    name: 'Аквамикс СТ',
+    name: 'Аквамикс СТ (порошок)',
+  },
+  AquaMics: {
+    ions: {
+      Fe: 0.0058,
+      Mn: 0.0039,
+      Zn: 0.0008,
+      Ca: 0.0039,
+      B: 0.00079,
+      Mo: 0.00019,
+      Cu: 0.0008,
+    },
+    isLiquid: true,
+    name: 'Аквамикс (раствор)',
   },
   AquarinUniversal: {
     ions: {

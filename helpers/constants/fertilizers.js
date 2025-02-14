@@ -230,6 +230,16 @@ export default [
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
+  {
+    name: 'Aquabalance Колор Баланс',
+    isPercent: true,
+    elements: {
+      Mg: 3,
+      Mn: 0.05,
+      Fe: 0.1,
+    },
+    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
   // Aquayer
   {
     name: 'Aquayer Macro+',

@@ -22,6 +22,7 @@
     app
     right
     :value="value"
+    @input="$emit('input', $event)"
   >
     <v-list class="pt-0">
       <v-list-item
@@ -32,6 +33,19 @@
         <v-list-item-content>
           <v-list-item-title class="d-flex justify-end">
             <v-icon>mdi-close</v-icon>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        to="/"
+        exact-path
+      >
+        <v-list-item-action>
+          <v-icon>mdi-home</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $t('home') }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>

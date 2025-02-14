@@ -29,14 +29,14 @@
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
-          <span>{{ breadcrumbs[$router.currentRoute.name] }}</span>
+          <span>{{ breadcrumbs[$router.currentRoute.name] || $t('home') }}</span>
         </div>
       </v-toolbar-title>
       <v-spacer />
       <div class="d-flex justify-end">
         <!--        <LanguageSwitcher />-->
       </div>
-      <v-app-bar-nav-icon @click.stop="isDrawer = !isDrawer" />
+      <v-app-bar-nav-icon @click="isDrawer = !isDrawer" />
     </v-app-bar>
 
     <v-main>
@@ -68,20 +68,14 @@ export default {
     // LanguageSwitcher,
   },
   data() {
-    return {};
+    return {
+      isDrawer: false,
+    };
   },
   // created() {
   //   this.initLang();
   // },
   mounted() {
-    const data = localStorage.getItem('udata');
-    if (!data) {
-      this.$nextTick(() => {
-        if (this.$vuetify.breakpoint.smAndUp) {
-          this.isDrawer = true;
-        }
-      });
-    }
     this.recipes.forEach((recipe, index) => {
       if (recipe.type === 'Готовое') {
         this.FERTILIZER_ADD(recipe);
@@ -107,14 +101,6 @@ export default {
       'recipes',
       'guideIsClosed',
     ]),
-    isDrawer: {
-      get() {
-        return this.$store.state.drawer;
-      },
-      set(value) {
-        this.DRAWER_SET(value);
-      },
-    },
     breadcrumbs() {
       const result = {};
       ROUTES.forEach((item) => {
