@@ -77,12 +77,12 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/google-fonts',
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
     '@nuxtjs/sitemap',
     [
       '@nuxtjs/yandex-metrika',
@@ -121,6 +121,9 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    icon: {
+      purpose: false,
+    },
     manifest: {
       lang: 'en',
     },
@@ -170,4 +173,9 @@ export default {
       '/settings',
     ],
   },
+
+  // server: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  // },
 };

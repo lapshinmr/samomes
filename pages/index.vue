@@ -49,6 +49,19 @@
             Рассчитаем калий вместе? 😉
           </h3>
           <div id="vk_groups" />
+          <div class="mt-6">
+            <div>
+              🚀 Samomes запустил Telegram-канал! Подпишитесь, чтобы быть в курсе всех новинок и обновлений.
+            </div>
+            <v-btn
+              href="https://t.me/samomes_calculator"
+              target="_blank"
+              color="primary"
+              class="mt-4"
+            >
+              Перейти в Telegram
+            </v-btn>
+          </div>
         </div>
       </v-col>
       <v-col
@@ -360,7 +373,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Home',
   mounted() {
