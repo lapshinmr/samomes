@@ -18,6 +18,7 @@
  */
 
 export default {
+  home: 'Самомес',
   routes: {
     tanks: 'Аквариумы',
     recipes: 'Самодельные',

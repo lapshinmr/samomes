@@ -231,43 +231,6 @@ export default [
     note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
-    name: 'Simple Aqua Micro',
-    reagents: {
-      C6H8O7: 15,
-      H3BO3: 0.3,
-      C4H6O4: 0.05,
-      C63H88CoN14O14P: 0.0005,
-      '(NH4)2MoO4': 0.1,
-    },
-    compounds: {
-      'Fe-EDTA13': 5,
-      'Mn-EDTA13': 0.5,
-      'Cu-EDTA15': 0.03,
-      'Zn-EDTA15': 0.6,
-      'Mg-EDTA6': 5,
-    },
-    volume: 1000,
-    note: `
-      Рецепт от Simple Aqua (https://vk.com/simpleaqua1):
-
-      * нагреть 1 литр осмоса;
-      * растворить реагенты последовательно:
-
-        15 г лимонная кислота,
-        5 г хелат железа,
-        0.5 г хелат марганца,
-        0.03 г хелат меди,
-        0.6 г хелат цинка,
-        5 г хелат магния,
-        0.1 молибдат аммония
-        0.3 г борная кислота,
-        0.05 г янтарная кислота;
-
-      * остудить;
-      * добавить 1 мл (500 мкг) цианокобаламин.
-    `,
-  },
-  {
     name: 'Pps-pro Macro',
     reagents: {
       K2SO4: 29.3,
