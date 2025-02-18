@@ -152,6 +152,23 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Settings',
+  head() {
+    return {
+      title: 'Страница настроек',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'На данной странице пользователь может скопировать, сохранить или удалить свои данные',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'копирование, сохранение, удаление, данные',
+        },
+      ],
+    };
+  },
   data() {
     return {
       storageData: '',

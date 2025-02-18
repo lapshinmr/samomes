@@ -375,6 +375,24 @@
 <script>
 export default {
   name: 'Home',
+  head() {
+    return {
+      title: 'Домашняя страница проекта Samomes',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
+            + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'аквариумы, рецепты, удобрения, расписание, водоподготовка, динамика',
+        },
+      ],
+    };
+  },
   mounted() {
     const vk = document.createElement('script');
     vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');
