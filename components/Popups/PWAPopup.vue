@@ -6,7 +6,7 @@
   >
     <v-card>
       <v-card-title class="text-h6">
-        Инструкция по установке
+        Инструкция по установке приложения Samomes
       </v-card-title>
       <v-card-text>
         <template v-if="platform === 'ios'">

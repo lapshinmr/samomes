@@ -141,7 +141,7 @@ export default {
         this.deferredPrompt = null;
       });
       // eslint-disable-next-line nuxt/no-globals-in-created
-      if (window.navigator.standalone === true) {
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
         this.isPWAInstallButton = false;
       }
     }
