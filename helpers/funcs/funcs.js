@@ -107,12 +107,39 @@ export const OPPOSITE = {
   SO4: 'S',
   K: 'K2O',
   K2O: 'K',
+  MgO: 'Mg',
+  Mg: 'MgO',
+  CaO: 'Ca',
+  Ca: 'CaO',
+};
+
+export const OXIDE_TO_ELEMENT = {
+  NO3: 'N',
+  PO4: 'P',
+  P2O5: 'P',
+  SO4: 'S',
+  K2O: 'K',
+  MgO: 'Mg',
+  CaO: 'Ca',
+};
+
+export const ELEMENT_TO_OXIDE = {
+  N: 'NO3',
+  P: 'PO4',
+  S: 'SO4',
+  K: 'K2O',
+  Mg: 'MgO',
+  Ca: 'CaO',
 };
 
 export const convertIonName = (ion) => OPPOSITE[ion] || ion;
 
 export const convertIonRatio = (ion) => (
   convertIonName(ion) !== ion ? countMass(convertIonName(ion)) / countMass(ion) : 1
+);
+
+export const getOxideToElementRatio = (ion) => (
+  countMass(OXIDE_TO_ELEMENT[ion]) / countMass(ion)
 );
 
 export const isRecipe = (recipe) => recipe.reagents && recipe.reagents.length > 0;

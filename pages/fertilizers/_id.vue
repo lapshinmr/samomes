@@ -93,7 +93,7 @@
                   <v-row>
                     <v-col
                       v-for="el in Object.keys(elements)"
-                      :cols="['N', 'NO3', 'P', 'PO4', 'K', 'K2O'].includes(el) ? 6 : 12"
+                      :cols="elementCols[el]"
                       class="py-0"
                       :key="el"
                     >
@@ -172,7 +172,13 @@
 <script>
 import FORMULAS from '~/helpers/constants/formulas';
 import FERTILIZERS from '~/helpers/constants/fertilizers';
-import { convertIonName, convertIonRatio, OPPOSITE } from '~/helpers/funcs/funcs';
+import {
+  convertIonName,
+  convertIonRatio,
+  OXIDE_TO_ELEMENT,
+  OPPOSITE,
+  getOxideToElementRatio,
+} from '~/helpers/funcs/funcs';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -191,10 +197,13 @@ export default {
         NO3: null,
         P: null,
         PO4: null,
+        P2O5: null,
         K: null,
         K2O: null,
         Ca: null,
+        CaO: null,
         Mg: null,
+        MgO: null,
         Fe: null,
         Mn: null,
         B: null,
@@ -239,13 +248,26 @@ export default {
       fertilizerExamples.sort((a, b) => a.localeCompare(b));
       return fertilizerExamples;
     },
+    elementCols() {
+      const result = {};
+      Object.keys(this.elements).forEach((el) => {
+        if (['N', 'NO3', 'K', 'K2O', 'Ca', 'CaO', 'Mg', 'MgO'].includes(el)) {
+          result[el] = 6;
+        } else if (['P', 'PO4', 'P2O5'].includes(el)) {
+          result[el] = 4;
+        } else {
+          result[el] = 12;
+        }
+      });
+      return result;
+    },
     concentration() {
       const result = {};
       result[this.name] = {};
       Object.entries(this.elements).forEach(([el, value]) => {
         const convertRatio = this.isPercent ? 10 : 1;
-        if (value && ['NO3', 'PO4'].includes(el)) {
-          result[this.name][this.convertIonName(el)] = this.convertIonRatio(el) * value * convertRatio;
+        if (value && ['NO3', 'PO4', 'P2O5', 'K2O', 'MgO', 'CaO'].includes(el)) {
+          result[this.name][OXIDE_TO_ELEMENT[el]] = this.getOxideToElementRatio(el) * value * convertRatio;
         } else if (value) {
           result[this.name][el] = value * convertRatio;
         }
@@ -284,6 +306,7 @@ export default {
     ]),
     convertIonName,
     convertIonRatio,
+    getOxideToElementRatio,
     addFertilizer() {
       if (this.$refs.fertilizerForm.validate()) {
         this.FERTILIZER_ADD({
