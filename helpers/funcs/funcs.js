@@ -105,6 +105,8 @@ export const OPPOSITE = {
   PO4: 'P',
   S: 'SO4',
   SO4: 'S',
+  K: 'K2O',
+  K2O: 'K',
 };
 
 export const convertIonName = (ion) => OPPOSITE[ion] || ion;

@@ -69,7 +69,6 @@ export default {
   },
   data() {
     return {
-      isDrawer: false,
     };
   },
   // created() {
@@ -107,6 +106,14 @@ export default {
         result[item.path] = this.$t(`routes.${item.path}`);
       });
       return result;
+    },
+    isDrawer: {
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(value) {
+        this.DRAWER_SET(value);
+      },
     },
     isSnackbar: {
       get() {

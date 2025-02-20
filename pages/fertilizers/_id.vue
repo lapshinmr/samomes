@@ -93,7 +93,7 @@
                   <v-row>
                     <v-col
                       v-for="el in Object.keys(elements)"
-                      :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6 : 12"
+                      :cols="['N', 'NO3', 'P', 'PO4', 'K', 'K2O'].includes(el) ? 6 : 12"
                       class="py-0"
                       :key="el"
                     >
@@ -192,6 +192,7 @@ export default {
         P: null,
         PO4: null,
         K: null,
+        K2O: null,
         Ca: null,
         Mg: null,
         Fe: null,
