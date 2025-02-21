@@ -19,6 +19,7 @@
 
 import ELEMENTS from '~/helpers/constants/elements';
 import FORMULAS from '~/helpers/constants/formulas';
+import MolecularFormula from '~/helpers/funcs/molecular-formula';
 
 export const countTotalIonConcentration = (concentration) => {
   const total = {};
@@ -138,9 +139,11 @@ export const convertIonRatio = (ion) => (
   convertIonName(ion) !== ion ? countMass(convertIonName(ion)) / countMass(ion) : 1
 );
 
-export const getOxideToElementRatio = (ion) => (
-  countMass(OXIDE_TO_ELEMENT[ion]) / countMass(ion)
-);
+export const getOxideToElementRatio = (oxide) => {
+  const oxideMass = new MolecularFormula(oxide).mass;
+  const elementMass = ELEMENTS[OXIDE_TO_ELEMENT[oxide]];
+  return elementMass / oxideMass;
+};
 
 export const isRecipe = (recipe) => recipe.reagents && recipe.reagents.length > 0;
 
