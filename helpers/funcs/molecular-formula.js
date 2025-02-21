@@ -1,4 +1,6 @@
-import ELEMENTS from '~/helpers/constants/elements';
+// This code was originally taken from the repository: https://github.com/emptyport/molecular-formula
+// It has been modified by me to suit the requirements of this project.
+import ELEMENTS from '../constants/elements';
 
 export default class MolecularFormula {
   constructor(formula) {
@@ -26,7 +28,7 @@ export default class MolecularFormula {
 
   get mass() {
     let mass = 0.0;
-    this.composition.forEach((key) => {
+    Object.keys(this.composition).forEach((key) => {
       mass += (ELEMENTS[key] * this.composition[key]);
     });
     return mass;
@@ -72,13 +74,12 @@ export default class MolecularFormula {
     const openIndex = [];
     const groups = [];
 
-    formula.forEach((i) => {
-      const c = formula[i];
-      if (c === '(') {
-        openIndex.push(i);
+    formula.split('').forEach((char, index) => {
+      if (char === '(') {
+        openIndex.push(index);
       }
-      if (c === ')') {
-        groups.push([openIndex.pop(), i]);
+      if (char === ')') {
+        groups.push([openIndex.pop(), index]);
       }
     });
     return groups;
@@ -103,7 +104,7 @@ export default class MolecularFormula {
             currentCount = '1';
           }
           elemList.push([currentElem, currentCount]);
-          currentElem = '';
+          currentElem = char;
           currentCount = '';
         }
       }
@@ -159,10 +160,10 @@ export default class MolecularFormula {
 
   createSimplifiedFormula() {
     let formula = '';
-    this.composition.forEach((key) => {
-      formula += key;
-      if (this.composition[key] !== 1) {
-        formula += this.composition[key];
+    Object.entries(this.composition).forEach(([element, count]) => {
+      formula += element;
+      if (count !== 1) {
+        formula += count;
       }
     });
     return formula;
