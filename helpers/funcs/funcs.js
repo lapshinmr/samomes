@@ -99,6 +99,7 @@ export const countMass = (ion) => {
   return mass;
 };
 
+// TODO: refactor OPPOSITE constants
 export const OPPOSITE = {
   N: 'NO3',
   NO3: 'N',
@@ -106,20 +107,14 @@ export const OPPOSITE = {
   PO4: 'P',
   S: 'SO4',
   SO4: 'S',
-  K: 'K2O',
-  K2O: 'K',
-  MgO: 'Mg',
-  Mg: 'MgO',
-  CaO: 'Ca',
-  Ca: 'CaO',
 };
 
 export const OXIDE_TO_ELEMENT = {
   NO3: 'N',
   PO4: 'P',
-  P2O5: 'P',
+  P2O5: 'P2',
   SO4: 'S',
-  K2O: 'K',
+  K2O: 'K2',
   MgO: 'Mg',
   CaO: 'Ca',
 };
@@ -141,7 +136,7 @@ export const convertIonRatio = (ion) => (
 
 export const getOxideToElementRatio = (oxide) => {
   const oxideMass = new MolecularFormula(oxide).mass;
-  const elementMass = ELEMENTS[OXIDE_TO_ELEMENT[oxide]];
+  const elementMass = new MolecularFormula(OXIDE_TO_ELEMENT[oxide]).mass;
   return elementMass / oxideMass;
 };
 

@@ -104,7 +104,7 @@
                         :suffix="isPercent ? '%' : 'г/л'"
                         persistent-hint
                         hide-details="auto"
-                        :disabled="OPPOSITE[el] ? Boolean(elements[OPPOSITE[el]]) : false"
+                        :disabled="isDisabledCol[el]"
                       />
                     </v-col>
                   </v-row>
@@ -187,7 +187,6 @@ export default {
     return {
       FORMULAS,
       FERTILIZERS,
-      OPPOSITE,
       fertilizerExampleChosen: null,
       solute: {},
       name: 'Удобрение',
@@ -266,10 +265,39 @@ export default {
       result[this.name] = {};
       Object.entries(this.elements).forEach(([el, value]) => {
         const convertRatio = this.isPercent ? 10 : 1;
-        if (value && ['NO3', 'PO4', 'P2O5', 'K2O', 'MgO', 'CaO'].includes(el)) {
+        // TODO: Simplify condition; remove this.name data nesting
+        if (value && ['NO3', 'PO4', 'MgO', 'CaO'].includes(el)) {
           result[this.name][OXIDE_TO_ELEMENT[el]] = this.getOxideToElementRatio(el) * value * convertRatio;
+        } else if (value && el === 'P2O5') {
+          result[this.name].P = this.getOxideToElementRatio(el) * value * convertRatio;
+        } else if (value && el === 'K2O') {
+          result[this.name].K = this.getOxideToElementRatio(el) * value * convertRatio;
         } else if (value) {
           result[this.name][el] = value * convertRatio;
+        }
+      });
+      return result;
+    },
+    isDisabledCol() {
+      const result = {};
+      const OPPOSITE_EXTENDED = {
+        ...OPPOSITE,
+        K: 'K2O',
+        K2O: 'K',
+        MgO: 'Mg',
+        Mg: 'MgO',
+        CaO: 'Ca',
+        Ca: 'CaO',
+      };
+      Object.entries(this.elements).forEach(([el, value]) => {
+        if (value) {
+          if (this.concentration[this.name].P) {
+            result.P = !this.elements.P;
+            result.PO4 = !this.elements.PO4;
+            result.P2O5 = !this.elements.P2O5;
+          } else if (OPPOSITE_EXTENDED[el]) {
+            result[OPPOSITE_EXTENDED[el]] = true;
+          }
         }
       });
       return result;
