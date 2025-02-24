@@ -66,7 +66,7 @@
                   </div>
                   <v-combobox
                     v-model="fertilizerExampleChosen"
-                    :items="fertilizerExamples"
+                    :items="FERTILIZERS_SORTED"
                     label="Выберите удобрение из списка"
                     hint="* здесь есть большинство фирменных удобрений"
                     persistent-hint
@@ -197,7 +197,7 @@
 
 <script>
 import FORMULAS from '~/helpers/constants/formulas';
-import FERTILIZERS from '~/helpers/constants/fertilizers';
+import { FERTILIZERS_SORTED } from '~/helpers/constants/fertilizers';
 import {
   convertIonName,
   convertIonRatio,
@@ -212,7 +212,7 @@ export default {
   data() {
     return {
       FORMULAS,
-      FERTILIZERS,
+      FERTILIZERS_SORTED,
       fertilizerExampleChosen: null,
       solute: {},
       name: 'Удобрение',
@@ -247,7 +247,7 @@ export default {
       isPercent: false,
       rulesName: [
         (v) => !!v || 'Введите название',
-        () => !this.isExist || 'Удобрение с таким названием уже существует',
+        () => !this.isExist || 'Удобрение или рецепт с таким названием уже существует',
       ],
     };
   },
@@ -258,6 +258,7 @@ export default {
   },
   computed: {
     ...mapState([
+      'recipes',
       'fertilizers',
     ]),
     isCreate() {
@@ -265,11 +266,6 @@ export default {
     },
     fertilizerIndex() {
       return this.$route.params.id;
-    },
-    fertilizerExamples() {
-      const fertilizerExamples = [...this.FERTILIZERS];
-      fertilizerExamples.sort((a, b) => a.name.localeCompare(b));
-      return fertilizerExamples;
     },
     isUnitsChangedAlert() {
       return this.fertilizerExampleChosen && this.fertilizerExampleChosen?.isPercent !== this.isPercent;
@@ -294,11 +290,11 @@ export default {
         const convertRatio = this.isPercent ? 10 : 1;
         // TODO: Simplify condition; remove this.name data nesting
         if (value && ['NO3', 'PO4', 'MgO', 'CaO'].includes(el)) {
-          result[this.name][OXIDE_TO_ELEMENT[el]] = this.getOxideToElementRatio(el) * value * convertRatio;
+          result[this.name][OXIDE_TO_ELEMENT[el]] = getOxideToElementRatio(el) * value * convertRatio;
         } else if (value && el === 'P2O5') {
-          result[this.name].P = this.getOxideToElementRatio(el) * value * convertRatio;
+          result[this.name].P = getOxideToElementRatio(el) * value * convertRatio;
         } else if (value && el === 'K2O') {
-          result[this.name].K = this.getOxideToElementRatio(el) * value * convertRatio;
+          result[this.name].K = getOxideToElementRatio(el) * value * convertRatio;
         } else if (value) {
           result[this.name][el] = value * convertRatio;
         }
@@ -329,12 +325,18 @@ export default {
       });
       return result;
     },
+    isEdit() {
+      const fertilizersNames = this.fertilizers.map((item) => item.name);
+      const index = fertilizersNames.indexOf(this.name);
+      return index === +this.fertilizerIndex;
+    },
     isExist() {
-      const names = this.fertilizers.map((item) => item.name);
-      const index = names.findIndex((item) => item === this.name);
-      const isExist = index !== -1;
-      const isEdit = index === +this.fertilizerIndex;
-      return isExist && !isEdit;
+      const recipesNames = this.recipes.map((item) => item.name);
+      const fertilizersNames = this.fertilizers.map((item) => item.name);
+      const recipeFound = recipesNames.find((item) => item === this.name);
+      const fertilizerFound = fertilizersNames.find((item) => item === this.name);
+      const isExist = recipeFound || fertilizerFound;
+      return isExist && !this.isEdit;
     },
   },
   watch: {
@@ -361,7 +363,6 @@ export default {
     ]),
     convertIonName,
     convertIonRatio,
-    getOxideToElementRatio,
     addFertilizer() {
       if (this.$refs.fertilizerForm.validate()) {
         this.FERTILIZER_ADD({

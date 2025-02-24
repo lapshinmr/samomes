@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export default [
+export const FERTILIZERS = [
   {
     name: 'APT 3 / Complete',
     isPercent: true,
@@ -623,3 +623,8 @@ export default [
     updatedAt: '2025-02-21',
   },
 ];
+
+export const FERTILIZERS_SORTED = FERTILIZERS
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+export default FERTILIZERS;

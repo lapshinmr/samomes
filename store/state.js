@@ -33,6 +33,7 @@ export default () => ({
     dynamics: false,
     remineralization: false,
   },
+  isDefaultFertilizers: false,
   tanks: [],
   recipes: [],
   fertilizers: [],

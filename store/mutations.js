@@ -109,6 +109,9 @@ export default {
   REMINERALS_REMOVE(state) {
     state.reminerals = [];
   },
+  SCHEDULE_SET_DEFAULT_FERTILIZERS(state, payload) {
+    state.isDefaultFertilizers = payload;
+  },
   SCHEDULE_ADD(state, payload) {
     state.schedules.push(payload);
   },
