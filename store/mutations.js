@@ -110,7 +110,10 @@ export default {
     state.reminerals = [];
   },
   SCHEDULE_SET_DEFAULT_FERTILIZERS(state, payload) {
-    state.isDefaultFertilizers = payload;
+    state.schedule.isDefaultFertilizers = payload;
+  },
+  SCHEDULE_SET_TOTAL_MODE(state, payload) {
+    state.schedule.isTotalMode = payload;
   },
   SCHEDULE_ADD(state, payload) {
     state.schedules.push(payload);
