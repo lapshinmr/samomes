@@ -434,9 +434,9 @@
                       <v-col cols="12">
                         <v-text-field
                           v-model="name"
-                          label="Имя рецепта"
+                          label="Название рецепта"
                           hide-details="auto"
-                          hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
+                          hint="* название рецепта должно быть уникальным"
                           :rules="rulesName"
                         />
                       </v-col>

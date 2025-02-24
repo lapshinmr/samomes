@@ -52,25 +52,36 @@
           <v-row>
             <v-col cols="12">
               <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
-                  Выберите единицы и введите концентрации элементов, которые указаны в составе удобрения.
-                  Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
+                <v-col cols="12">
+                  Чтобы добавить своё фирменное удобрение, воспользуйтесь формой ниже. Выберите единицы
+                  измерения и введите концентрации элементов, указанные на этикетке.
                 </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
+                <v-col cols="12">
+                  <div class="d-flex align-center my-3">
+                    <v-divider />
+                    <div class="mx-4">
+                      или
+                    </div>
+                    <v-divider />
+                  </div>
                   <v-combobox
-                    :items="fertilizerExamples"
                     v-model="fertilizerExampleChosen"
-                    label="Удобрение"
-                    hint="или выберите удобрение из списка"
+                    :items="fertilizerExamples"
+                    label="Выберите удобрение из списка"
+                    hint="* здесь есть большинство фирменных удобрений"
                     persistent-hint
+                    item-text="name"
+                    :return-object="true"
                     hide-details="auto"
                   />
+                  <v-alert
+                    v-if="updatedAt"
+                    type="success"
+                    class="mt-2"
+                  >
+                    Информация о составе удобрения обновлена {{ updatedAt | format('DD MMMM YYYY') }}
+                    в соответствии с данными производителя.
+                  </v-alert>
                 </v-col>
                 <v-col cols="12">
                   <v-radio-group
@@ -88,9 +99,24 @@
                       :value="true"
                     />
                   </v-radio-group>
+                  <v-alert
+                    v-if="isUnitsChangedAlert"
+                    type="error"
+                    class="mt-4"
+                  >
+                    Внимание! Вы изменили единицы измерения. Концентрации теперь отличаются в 10
+                    раз от указанных на этикетке.
+                    Если вы не уверены в правильности изменений, вернитесь к исходному варианту.
+                  </v-alert>
                 </v-col>
                 <v-col cols="12">
                   <v-row>
+                    <v-col
+                      cols="12"
+                      class="text--red"
+                    >
+                      * элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
+                    </v-col>
                     <v-col
                       v-for="el in Object.keys(elements)"
                       :cols="elementCols[el]"
@@ -113,9 +139,9 @@
                   <v-col cols="12">
                     <v-text-field
                       v-model="name"
-                      label="Имя рецепта"
+                      label="Название удобрения"
                       hide-details="auto"
-                      hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
+                      hint="* название удобрения должно быть уникальным"
                       :rules="rulesName"
                     />
                   </v-col>
@@ -128,7 +154,7 @@
                       hide-details="auto"
                       auto-grow
                       rows="1"
-                      hint="Вы можете добавить дополнительные сведения к рецепту"
+                      hint="Вы можете добавить дополнительные сведения к удобрению"
                     />
                   </v-col>
                 </v-expand-transition>
@@ -191,6 +217,7 @@ export default {
       solute: {},
       name: 'Удобрение',
       note: '',
+      updatedAt: undefined,
       elements: {
         N: null,
         NO3: null,
@@ -240,12 +267,12 @@ export default {
       return this.$route.params.id;
     },
     fertilizerExamples() {
-      const fertilizerExamples = [];
-      this.FERTILIZERS.forEach((item) => {
-        fertilizerExamples.push(item.name);
-      });
-      fertilizerExamples.sort((a, b) => a.localeCompare(b));
+      const fertilizerExamples = [...this.FERTILIZERS];
+      fertilizerExamples.sort((a, b) => a.name.localeCompare(b));
       return fertilizerExamples;
+    },
+    isUnitsChangedAlert() {
+      return this.fertilizerExampleChosen && this.fertilizerExampleChosen?.isPercent !== this.isPercent;
     },
     elementCols() {
       const result = {};
@@ -311,18 +338,18 @@ export default {
     },
   },
   watch: {
-    fertilizerExampleChosen() {
-      this.FERTILIZERS.forEach((item) => {
-        if (item.name === this.fertilizerExampleChosen) {
-          this.isPercent = item.isPercent;
-          Object.keys(this.elements).forEach((ion) => {
-            this.elements[ion] = null;
-          });
-          this.elements = Object.assign(this.elements, item.elements);
-          this.name = item.name;
-          this.note = item.note;
-        }
-      });
+    fertilizerExampleChosen: {
+      deep: true,
+      handler(value) {
+        this.isPercent = value.isPercent;
+        Object.keys(this.elements).forEach((ion) => {
+          this.elements[ion] = null;
+        });
+        this.elements = Object.assign(this.elements, value.elements);
+        this.name = value.name;
+        this.note = value.note;
+        this.updatedAt = value.updatedAt;
+      },
     },
   },
   methods: {
