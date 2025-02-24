@@ -79,10 +79,11 @@
                     item-text="name"
                     persistent-hint
                     multiple
-                    hint="Выберите рецепты, которые хотите использовать для данного аквариума"
                     :return-object="true"
+                    hint="* здесь собраны все ваши рецепты и удобрения.
+                      Нажмите «Фирменные» для просмотра полного списка."
                   />
-                  <v-checkbox
+                  <v-switch
                     v-model="isDefaultFertilizers"
                     label="Фирменные"
                     class="ml-md-4"
@@ -310,7 +311,7 @@ export default {
     },
     isDefaultFertilizers: {
       get() {
-        return this.$store.state.isDefaultFertilizers;
+        return this.$store.state.schedule.isDefaultFertilizers;
       },
       set(value) {
         this.$store.commit('SCHEDULE_SET_DEFAULT_FERTILIZERS', value);
@@ -442,7 +443,7 @@ export default {
           concentration[fertilizer.name][el] = value * convertRatio;
         }
       });
-      result.concentration = { ...this.concentration };
+      result.concentration = { ...concentration };
       return result;
     },
     onChangeFertilizationType(value) {
