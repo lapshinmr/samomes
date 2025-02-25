@@ -434,9 +434,9 @@
                       <v-col cols="12">
                         <v-text-field
                           v-model="name"
-                          label="Имя рецепта"
+                          label="Название рецепта"
                           hide-details="auto"
-                          hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
+                          hint="* название рецепта должно быть уникальным"
                           :rules="rulesName"
                         />
                       </v-col>
@@ -547,7 +547,7 @@ export default {
       },
       rulesName: [
         (v) => !!v || 'Введите название',
-        () => !this.isExist || 'Рецепт с таким названием уже существует',
+        () => !this.isExist || 'Рецепт или удобрение с таким названием уже существует',
       ],
     };
   },
@@ -586,6 +586,7 @@ export default {
     ...mapState([
       'tanks',
       'recipes',
+      'fertilizers',
     ]),
     isCreate() {
       return this.$route.params.id === 'create';
@@ -671,12 +672,18 @@ export default {
     totalIonConcentration() {
       return this.countTotalIonConcentration(this.concentration);
     },
+    isEdit() {
+      const recipesNames = this.recipes.map((item) => item.name);
+      const index = recipesNames.indexOf(this.name);
+      return index === +this.recipeIndex;
+    },
     isExist() {
-      const names = this.recipes.map((item) => item.name);
-      const index = names.findIndex((item) => item === this.name);
-      const isExist = index !== -1;
-      const isEdit = index === +this.recipeIndex;
-      return isExist && !isEdit;
+      const recipesNames = this.recipes.map((item) => item.name);
+      const fertilizersNames = this.fertilizers.map((item) => item.name);
+      const recipeFound = recipesNames.find((item) => item === this.name);
+      const fertilizerFound = fertilizersNames.find((item) => item === this.name);
+      const isExist = recipeFound || fertilizerFound;
+      return isExist && !this.isEdit;
     },
     ionTotalDoseSorted() {
       const result = Object.entries(countTotalIonDose(this.solute));

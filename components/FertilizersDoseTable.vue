@@ -172,13 +172,22 @@ export default {
       FERTILIZATION_IN_TAP_WATER,
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,
-      isTotal: false,
       mode: [
         { text: 'Ежедневно', value: false },
         { text: 'Всего', value: true },
       ],
       amountDayTotal: [],
     };
+  },
+  computed: {
+    isTotal: {
+      get() {
+        return this.$store.state.schedule.isTotalMode;
+      },
+      set(value) {
+        this.$store.commit('SCHEDULE_SET_TOTAL_MODE', value);
+      },
+    },
   },
   watch: {
     isTotal(value) {

@@ -131,7 +131,7 @@ export default {
     if (process.client) {
       // eslint-disable-next-line nuxt/no-globals-in-created
       window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         // Stash the event so it can be triggered later.
         this.deferredPrompt = e;
       });

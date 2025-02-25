@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export default [
+export const FERTILIZERS = [
   {
     name: 'APT 3 / Complete',
     isPercent: true,
@@ -34,6 +34,7 @@ export default [
       Mo: 0.000001,
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-02-18',
   },
   {
     name: 'Prestige NPK',
@@ -578,16 +579,11 @@ export default [
       Fe: 2.40,
       Mg: 0.90,
       Mn: 0.40,
-      I: 0.20,
       B: 0.08,
-      Li: 0.02,
       Mo: 0.02,
       Zn: 0.02,
-      Al: 0.01,
       Co: 0.01,
-      F: 0.01,
       Ni: 0.01,
-      Sn: 0.01,
       Cu: 0,
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
@@ -627,3 +623,8 @@ export default [
     updatedAt: '2025-02-21',
   },
 ];
+
+export const FERTILIZERS_SORTED = FERTILIZERS
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+export default FERTILIZERS;

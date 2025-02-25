@@ -54,7 +54,7 @@
               <v-combobox
                 :items="tanks"
                 :value="tank.volume"
-                @input="chooseTank"
+                @input="onChooseTank"
                 item-text="name"
                 item-value="volume"
                 label="Выберите аквариум или введите объем"
@@ -70,16 +70,25 @@
                 v-if="tank.volume"
                 cols="12"
               >
-                <v-select
-                  :items="items"
-                  v-model="recipesSelected"
-                  label="Выберите удобрения"
-                  item-text="name"
-                  persistent-hint
-                  multiple
-                  hint="Выберите рецепты, которые хотите использовать для данного аквариума"
-                  :return-object="true"
-                />
+                <div class="d-flex flex-column flex-md-row align-md-center">
+                  <v-combobox
+                    :items="items"
+                    :value="recipesSelected"
+                    @input="onRecipeSelect"
+                    label="Выберите удобрения"
+                    item-text="name"
+                    persistent-hint
+                    multiple
+                    :return-object="true"
+                    hint="* здесь собраны все ваши рецепты и удобрения.
+                      Нажмите «Фирменные» для просмотра полного списка."
+                  />
+                  <v-switch
+                    v-model="isDefaultFertilizers"
+                    label="Фирменные"
+                    class="ml-md-4"
+                  />
+                </div>
               </v-col>
             </v-expand-transition>
             <v-col
@@ -239,7 +248,14 @@ import FertilizerDoseTable, {
 import ElementsTable from '~/components/ElementsTable.vue';
 import ScheduleDozeTable from '~/components/Schedules/ScheduleDozeTable.vue';
 import { mapState, mapMutations } from 'vuex';
-import { convertIonName, convertIonRatio, isRecipe } from '~/helpers/funcs/funcs';
+import {
+  convertIonName,
+  convertIonRatio,
+  isRecipe,
+  OXIDE_TO_ELEMENT,
+  getOxideToElementRatio,
+} from '~/helpers/funcs/funcs';
+import { FERTILIZERS_SORTED } from '~/helpers/constants/fertilizers';
 
 export default {
   name: 'Schedule',
@@ -293,8 +309,28 @@ export default {
     scheduleIndex() {
       return this.$route.params.id;
     },
+    isDefaultFertilizers: {
+      get() {
+        return this.$store.state.schedule.isDefaultFertilizers;
+      },
+      set(value) {
+        this.$store.commit('SCHEDULE_SET_DEFAULT_FERTILIZERS', value);
+      },
+    },
+    defaultFertilizers() {
+      return FERTILIZERS_SORTED.map((fertilizer) => this.convertFertilizer(fertilizer));
+    },
     items() {
-      return [...this.recipes, ...this.fertilizers];
+      const result = [...this.recipes, ...this.fertilizers];
+      if (this.isDefaultFertilizers) {
+        const recipesNames = this.recipes.map((item) => item.name);
+        const fertilizersNames = this.recipes.map((item) => item.name);
+        const defaultFertilizersFiltered = this.defaultFertilizers.filter(
+          (item) => ![...recipesNames, ...fertilizersNames].includes(item.name),
+        );
+        result.push(...defaultFertilizersFiltered);
+      }
+      return result;
     },
     isAmount() {
       return this.recipesSelected.length > 0 && this.recipesSelected.every((x) => x.amount > 0 || x.amountDay > 0);
@@ -366,13 +402,49 @@ export default {
     convertIonName,
     convertIonRatio,
     isRecipe,
-    chooseTank(value) {
+    onChooseTank(value) {
       if (typeof value === 'object') {
         this.tank = { ...value };
       } else {
         this.tank.name = value;
         this.tank.volume = +value;
       }
+    },
+    onRecipeSelect(value) {
+      if (value.length > this.recipesSelected.length) {
+        const valueCopied = [...value];
+        const lastSelected = valueCopied.pop();
+        if (typeof lastSelected === 'string') {
+          this.recipesSelected = valueCopied;
+          return;
+        }
+      }
+      this.recipesSelected = value;
+    },
+    convertFertilizer(fertilizer) {
+      const result = {
+        name: fertilizer.name,
+        note: '',
+        elements: { ...fertilizer.elements },
+        isPercent: fertilizer.isPercent,
+      };
+      const concentration = {
+        [fertilizer.name]: {},
+      };
+      Object.entries(fertilizer.elements).forEach(([el, value]) => {
+        const convertRatio = fertilizer.isPercent ? 10 : 1;
+        if (value && ['NO3', 'PO4', 'MgO', 'CaO'].includes(el)) {
+          concentration[fertilizer.name][OXIDE_TO_ELEMENT[el]] = getOxideToElementRatio(el) * value * convertRatio;
+        } else if (value && el === 'P2O5') {
+          concentration[fertilizer.name].P = getOxideToElementRatio(el) * value * convertRatio;
+        } else if (value && el === 'K2O') {
+          concentration[fertilizer.name].K = getOxideToElementRatio(el) * value * convertRatio;
+        } else if (value) {
+          concentration[fertilizer.name][el] = value * convertRatio;
+        }
+      });
+      result.concentration = { ...concentration };
+      return result;
     },
     onChangeFertilizationType(value) {
       this.fertilizationType = value;
