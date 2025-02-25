@@ -231,7 +231,7 @@
           v-model="remineral.amount"
           :label="remineral.name"
           hint="Введите массу реминерализатора"
-          suffix="г"
+          :suffix="remineral.liquid ? 'мл' : 'г'"
           hide-details="auto"
           :key="`rem_${index}`"
         />
