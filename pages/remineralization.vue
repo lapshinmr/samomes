@@ -23,10 +23,12 @@
       <page-title>
         Водоподготовка
       </page-title>
-      <guide>
-        На этой странице можно рассчитать Gh/Kh в аквариуме в зависимости от исходной воды, разбавления осмосом,
-        реминерализатора и дозировок удобрений.
-      </guide>
+      <client-only>
+        <guide>
+          На этой странице можно рассчитать Gh/Kh в аквариуме в зависимости от исходной воды, разбавления осмосом,
+          реминерализатора и дозировок удобрений.
+        </guide>
+      </client-only>
       <v-col
         cols="12"
         sm="8"
@@ -142,8 +144,8 @@
             </div>
             <div class="d-flex flex-column flex-sm-row mb-8">
               <v-combobox
-                :items="REMINERALS"
                 v-model="remineralsSelected"
+                :items="remineralsAll"
                 label="Реминерализатор"
                 hint="Выберите готовый реминерализатор"
                 item-text="name"
@@ -152,8 +154,8 @@
                 multiple
               />
               <v-combobox
-                :items="items"
                 v-model="recipesSelected"
+                :items="items"
                 label="Удобрение"
                 hint="и/или удобрение из списка"
                 item-text="name"
@@ -226,15 +228,48 @@
             </div>
           </div>
         </v-expand-transition>
-        <number-field
+        <div
           v-for="(remineral, index) in remineralsSelected"
-          v-model="remineral.amount"
-          :label="remineral.name"
-          hint="Введите массу реминерализатора"
-          :suffix="remineral.liquid ? 'мл' : 'г'"
-          hide-details="auto"
           :key="`rem_${index}`"
-        />
+        >
+          <div class="d-flex align-start">
+            <number-field
+              v-model="remineral.amount"
+              :label="remineral.name"
+              :hint="remineral.liquid ? 'Введите объем реминерализатора' : 'Введите массу реминерализатора'"
+              :suffix="remineral.liquid ? 'мл' : 'г'"
+              persistent-hint
+            />
+            <v-icon
+              class="cursor-pointer ml-2 ml-md-2 mt-5 mt-md-5"
+              @click="onRemoveRemineral(index)"
+            >
+              mdi-delete
+            </v-icon>
+          </div>
+          <div
+            v-if="remineral.reagents"
+            class="d-flex body-2 text--secondary my-2 my-md-4"
+          >
+            <div class="mr-2 mr-md-4">
+              Реагенты:
+            </div>
+            <div>
+              <div
+                v-for="(mass, name) in remineral.reagents"
+                :key="`rem_${index}_${mass}`"
+              >
+                {{ name }}:
+                <template v-if="remineral.amount">
+                  {{ (mass * ( remineral.amount / remineral.mass )).toFixed(2) }} г
+                </template>
+                <template v-else>
+                  —
+                </template>
+              </div>
+            </div>
+          </div>
+        </div>
         <fertilizers-dose-table
           v-if="recipesSelected.length > 0"
           :fertilization-type="FERTILIZATION_IN_TAP_WATER"
@@ -389,7 +424,16 @@ export default {
       'tanks',
       'recipes',
       'fertilizers',
+      'reminerals',
     ]),
+    remineralsAll() {
+      const reminerals = this.reminerals.map((rem) => ({
+        ...rem,
+        mass: Object.values(rem.mass).reduce((acc, val) => acc + val, 0),
+        reagents: { ...rem.mass },
+      }));
+      return [...REMINERALS, ...reminerals];
+    },
     items() {
       return [...this.recipes, ...this.fertilizers];
     },
@@ -584,6 +628,9 @@ export default {
         reagentsMassObject: 0,
         volume: 0,
       };
+    },
+    onRemoveRemineral(index) {
+      this.remineralsSelected.splice(index, 1);
     },
   },
 };
