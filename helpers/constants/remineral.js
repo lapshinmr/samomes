@@ -94,4 +94,30 @@ export default [
     mg: 2.41,
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
+  {
+    name: 'WaterSci Remineral Gh+',
+    kh: 0,
+    gh: 8,
+    mass: 1,
+    volume: 1,
+    ca: 27.54,
+    mg: 6.48,
+    liquid: true,
+    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://watersci\n'
+      + 'https://vk.com/watersci.ru',
+  },
+  {
+    name: 'WaterSci Remineral Kh+',
+    kh: 4,
+    gh: 0,
+    mass: 1,
+    volume: 1,
+    ca: 0,
+    mg: 0,
+    liquid: true,
+    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://watersci\n'
+      + 'https://vk.com/watersci.ru',
+  },
 ];

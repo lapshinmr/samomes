@@ -23,6 +23,7 @@
     @input="onInput"
     @focus="toggleFocus(true)"
     @blur="toggleFocus(false)"
+    @click:append="$emit('click:append', $event)"
   />
 </template>
 
