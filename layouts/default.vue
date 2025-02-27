@@ -29,13 +29,10 @@
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
-          <span>{{ breadcrumbs[$router.currentRoute.name] || $t('home') }}</span>
+          <a class="white--text" href="/">Самомес</a>
         </div>
       </v-toolbar-title>
       <v-spacer />
-      <div class="d-flex justify-end">
-        <!--        <LanguageSwitcher />-->
-      </div>
       <v-app-bar-nav-icon @click="isDrawer = !isDrawer" />
     </v-app-bar>
 
@@ -59,21 +56,16 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 import { ROUTES } from '~/helpers/constants/application';
 import Drawer from '~/components/Layout/Drawer.vue';
-// import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 
 export default {
   name: 'App',
   components: {
     Drawer,
-    // LanguageSwitcher,
   },
   data() {
     return {
     };
   },
-  // created() {
-  //   this.initLang();
-  // },
   mounted() {
     this.recipes.forEach((recipe, index) => {
       if (recipe.type === 'Готовое') {
@@ -135,13 +127,6 @@ export default {
     ...mapActions([
       'langSet',
     ]),
-    // initLang() {
-    //   if (process.client) {
-    //     let lang = document.window.navigator.userLanguage || document.window.navigator.language;
-    //     lang = lang === 'ru-RU' ? 'ru' : 'en';
-    //     this.langSet(this.lang || lang);
-    //   }
-    // },
   },
 };
 </script>

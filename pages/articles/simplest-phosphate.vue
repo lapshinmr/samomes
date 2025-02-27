@@ -36,7 +36,7 @@
         sm="8"
         offset-sm="2"
       >
-        <h1 class="display-2 mt-md-10">
+        <h1 class="text-h4 text-md-h3 mt-md-10">
           Простейший рецепт фосфата PO<sub>4</sub>
         </h1>
         <h2 class="title font-weight-regular mb-6">

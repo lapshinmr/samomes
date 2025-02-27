@@ -36,7 +36,7 @@
         sm="8"
         offset-sm="2"
       >
-        <h1 class="display-2 mt-md-10">
+        <h1 class="text-h4 text-md-h3 mt-md-10">
           Рецепт калия
         </h1>
         <h2 class="title font-weight-regular mb-6">
@@ -337,6 +337,7 @@ const OTHER_DOSE = 'другая';
 
 export default {
   name: 'SimplestNitratePage',
+  scrollToTop: true,
   head() {
     return {
       title: 'Самый простой рецепт самодельного удобрения с калием',

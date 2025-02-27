@@ -24,6 +24,7 @@
         cols="12"
         sm="8"
         offset-sm="2"
+        class="d-flex"
       >
         <v-btn
           color="primary"
@@ -33,22 +34,37 @@
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
+        <v-btn
+          v-if="!isCreate && !isShare"
+          color="primary"
+          class="ml-auto"
+          @click="copyRecipe"
+        >
+          Скопировать
+        </v-btn>
       </v-col>
       <page-title>
-        <template v-if="isCreate">
+        <template v-if="isCreate && !isCopy">
           Новый рецепт
         </template>
-        <template v-if="isShared">
-          <p class="text-h4">
+        <template v-else-if="isCopy">
+          <div class="text-h5 text-md-h4">
+            Это копия рецепта {{ name }}
+          </div>
+          <div class="subtitle-1 font-weight-regular">
+            Внесите изменения и не забудьте сохранить
+          </div>
+        </template>
+        <template v-else-if="isShare">
+          <p class="text-h5 text-md-h4">
             С вами поделились рецептом!
           </p>
-          <p class="text-h6 font-weight-regular">
-            Посмотрите рецепт, дайте ему
-            название и напишите примечание. После этого можете сохранить его.
+          <p class="subtitle-1 font-weight-regular">
+            Проверьте его, дайте название и не забудьте сохранить.
           </p>
         </template>
         <template v-else>
-          Рецепт {{ name }}
+          {{ name }}
         </template>
       </page-title>
       <v-col
@@ -451,14 +467,21 @@
                         />
                       </v-col>
                       <v-col
-                        class="text-right"
                         cols="12"
+                        class="d-flex"
                       >
                         <v-btn
                           v-if="!isCreate && !isShared"
+                          color="error"
                           @click="removeRecipe"
                         >
                           Удалить
+                        </v-btn>
+                        <v-btn
+                          class="ml-auto"
+                          @click="$router.push('/recipes')"
+                        >
+                          Отмена
                         </v-btn>
                         <v-btn
                           v-if="!isCreate && !isShared"
@@ -471,9 +494,10 @@
                         <v-btn
                           v-if="isCreate || isShared"
                           color="primary"
+                          class="ml-2"
                           @click="addRecipe"
                         >
-                          Добавить
+                          Сохранить
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -552,14 +576,17 @@ export default {
     };
   },
   mounted() {
-    const { share } = this.$router.currentRoute.query;
-    if (this.isCreate) {
+    if (this.isCreate && !this.isCopy) {
       return;
     }
     let recipe;
+    const { share } = this.$router.currentRoute.query;
     if (share) {
       this.isShared = true;
       [recipe] = JSON.parse(decodeURIComponent(share));
+    } else if (this.isCopy) {
+      const recipeIndex = this.$route.query.copy;
+      recipe = JSON.parse(JSON.stringify({ ...this.recipes[recipeIndex] }));
     } else if (!this.isCreate) {
       recipe = JSON.parse(JSON.stringify({ ...this.recipes[this.recipeIndex] }));
     }
@@ -590,6 +617,12 @@ export default {
     ]),
     isCreate() {
       return this.$route.params.id === 'create';
+    },
+    isCopy() {
+      return this.$route.query.copy !== undefined;
+    },
+    isShare() {
+      return this.$route.params.id === 'share';
     },
     recipeIndex() {
       return this.$route.params.id;
@@ -934,6 +967,10 @@ export default {
         this.SNACKBAR_SHOW('Рецепт изменен');
         this.$router.push('/recipes');
       }
+    },
+    async copyRecipe() {
+      this.SNACKBAR_SHOW('Рецепт скопирован');
+      await this.$router.push(`/recipes/create?copy=${this.recipeIndex}`);
     },
     removeRecipe() {
       this.RECIPE_REMOVE(this.recipeIndex);

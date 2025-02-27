@@ -37,23 +37,9 @@
         </v-list-item-content>
       </v-list-item>
       <v-list-item
-        to="/"
-        exact-path
-      >
-        <v-list-item-action>
-          <v-icon>mdi-home</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ $t('home') }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
         v-for="route in ROUTES"
         :to="`/${route.path}`"
         :key="route.icon"
-        exact-path
       >
         <v-list-item-action>
           <v-icon>{{ route.icon }}</v-icon>

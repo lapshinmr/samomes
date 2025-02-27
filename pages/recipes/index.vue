@@ -230,7 +230,9 @@ export default {
       },
     },
     encodedUrl() {
-      let jsonString = JSON.stringify([this.recipes[this.curRecipeIndex]]);
+      const recipe = { ...this.recipes[this.curRecipeIndex] };
+      delete recipe.concentration;
+      let jsonString = JSON.stringify([recipe]);
       jsonString = jsonString.replace(/%/g, '%25');
       const encoded = encodeURIComponent(jsonString);
       return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
