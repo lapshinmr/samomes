@@ -377,7 +377,7 @@ export default {
   name: 'Home',
   head() {
     return {
-      title: 'Домашняя страница проекта Samomes',
+      title: 'Самомес - калькулятор удобрений для растительного аквариума',
       meta: [
         {
           hid: 'description',
