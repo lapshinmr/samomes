@@ -41,7 +41,7 @@
         name="fade"
         mode="out-in"
       >
-        <router-view />
+        <nuxt />
       </transition>
       <v-snackbar v-model="isSnackbar">
         <div>
