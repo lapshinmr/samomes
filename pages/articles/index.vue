@@ -21,7 +21,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1 class="d-none d-sm-block text-h4">
+        <h1 class="text-h5 text-md-h4 mt-md-4">
           Статьи
         </h1>
       </v-col>

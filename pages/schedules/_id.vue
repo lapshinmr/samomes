@@ -315,6 +315,11 @@ export default {
       },
       set(value) {
         this.$store.commit('SCHEDULE_SET_DEFAULT_FERTILIZERS', value);
+        this.SNACKBAR_SHOW(
+          value
+            ? 'Фирменные удобрения добавлены в список'
+            : 'Фирменные удобрения удалены из списка',
+        );
       },
     },
     defaultFertilizers() {

@@ -439,6 +439,48 @@ export const FERTILIZERS = [
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    name: 'Dennerle Plant Care NPK',
+    isPercent: false,
+    elements: {
+      NO3: 50,
+      PO4: 4,
+      K: 25,
+    },
+    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://dennerle.com/en/collections/plantcare',
+    updatedAt: '2025-02-24',
+  },
+  {
+    name: 'Dennerle Plant Care N',
+    isPercent: false,
+    elements: {
+      NO3: 100,
+    },
+    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://dennerle.com/en/collections/plantcare',
+    updatedAt: '2025-02-24',
+  },
+  {
+    name: 'Dennerle Plant Care P ',
+    isPercent: false,
+    elements: {
+      PO4: 10,
+    },
+    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://dennerle.com/en/collections/plantcare',
+    updatedAt: '2025-02-24',
+  },
+  {
+    name: 'Dennerle Plan Care K',
+    isPercent: false,
+    elements: {
+      K: 50,
+    },
+    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://dennerle.com/en/collections/plantcare',
+    updatedAt: '2025-02-24',
+  },
+  {
     name: 'Dennerle NPK Booster',
     isPercent: false,
     elements: {
@@ -447,9 +489,10 @@ export const FERTILIZERS = [
       K: 10,
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2021-08-14',
   },
   {
-    name: 'Dennerle Scaper’s Green ',
+    name: 'Dennerle Scaper’s Green',
     isPercent: true,
     elements: {
       K: 1.08,
@@ -462,6 +505,7 @@ export const FERTILIZERS = [
       Zn: 0.003,
     },
     note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2021-08-14',
   },
   {
     name: 'Аквапозитив Азот+',
@@ -599,8 +643,8 @@ export const FERTILIZERS = [
       P: 2.82,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
-      + 'https://watersci\n'
-      + 'https://vk.com/watersci.ru',
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
   },
   {
@@ -610,8 +654,8 @@ export const FERTILIZERS = [
       K: 90.77,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
-      + 'https://watersci\n'
-      + 'https://vk.com/watersci.ru',
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
   },
   {
@@ -631,8 +675,8 @@ export const FERTILIZERS = [
       Cu: 0.01,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
-      + 'https://watersci\n'
-      + 'https://vk.com/watersci.ru',
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
   },
   {
@@ -644,8 +688,8 @@ export const FERTILIZERS = [
       P: 1.41,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
-      + 'https://watersci\n'
-      + 'https://vk.com/watersci.ru',
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
   },
   {

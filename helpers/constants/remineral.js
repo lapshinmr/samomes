@@ -104,8 +104,8 @@ export default [
     mg: 6.48,
     liquid: true,
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
-      + 'https://watersci\n'
-      + 'https://vk.com/watersci.ru',
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
   },
   {
     name: 'WaterSci Remineral Kh+',
@@ -117,7 +117,7 @@ export default [
     mg: 0,
     liquid: true,
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
-      + 'https://watersci\n'
-      + 'https://vk.com/watersci.ru',
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
   },
 ];
