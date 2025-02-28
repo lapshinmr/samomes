@@ -28,11 +28,11 @@
         <br>
         <br>
         Список аквариумов упрощает выбор объема при составлении
-        <router-link to="/recipes">
+        <router-link to="/recipes/">
           рецепта
         </router-link>
         или
-        <router-link to="/schedules">
+        <router-link to="/schedules/">
           расписания
         </router-link>
         внесения удобрений.
@@ -163,7 +163,7 @@
                     <v-btn
                       text
                       right
-                      :to="`/tanks/${index}`"
+                      :to="`/tanks/${index}/`"
                       class="mr-n4"
                     >
                       {{ $t('buttons.open') }}
@@ -238,7 +238,7 @@ export default {
       'TANK_MOVE',
     ]),
     addTank() {
-      return this.$router.push('/tanks/create');
+      return this.$router.push('/tanks/create/');
     },
   },
 };

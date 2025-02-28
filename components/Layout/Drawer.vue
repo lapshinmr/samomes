@@ -38,7 +38,7 @@
       </v-list-item>
       <v-list-item
         v-for="route in ROUTES"
-        :to="`/${route.path}`"
+        :to="`/${route.path}/`"
         :key="route.icon"
       >
         <v-list-item-action>

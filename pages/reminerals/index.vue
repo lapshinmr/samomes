@@ -107,7 +107,7 @@
                     </v-btn>
                     <v-btn
                       text
-                      :to="`/reminerals/${index}`"
+                      :to="`/reminerals/${index}/`"
                       class="mr-n4"
                     >
                       Открыть
@@ -243,7 +243,7 @@ export default {
       'SNACKBAR_SHOW',
     ]),
     addRemineral() {
-      this.$router.push('/reminerals/create');
+      this.$router.push('/reminerals/create/');
     },
     openShareDialog(index) {
       this.curRemineralIndex = index;

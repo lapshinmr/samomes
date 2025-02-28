@@ -194,15 +194,15 @@ export default {
     },
   },
 
-  // router: {
-  //   // trailingSlash: true,
-  // },
+  router: {
+    trailingSlash: true,
+  },
 
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://samomes.com',
     exclude: [
-      '/settings',
+      '/settings/',
     ],
   },
 

@@ -30,7 +30,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/recipes"
+          to="/recipes/"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -479,7 +479,7 @@
                         </v-btn>
                         <v-btn
                           class="ml-auto"
-                          @click="$router.push('/recipes')"
+                          @click="$router.push('/recipes/')"
                         >
                           Отмена
                         </v-btn>
@@ -575,7 +575,7 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (this.isCreate && !this.isCopy) {
       return;
     }
@@ -589,6 +589,9 @@ export default {
       recipe = JSON.parse(JSON.stringify({ ...this.recipes[recipeIndex] }));
     } else if (!this.isCreate) {
       recipe = JSON.parse(JSON.stringify({ ...this.recipes[this.recipeIndex] }));
+    }
+    if (Object.keys(recipe).length === 0) {
+      await this.$router.push('/recipes/');
     }
     const reagents = [];
     const compounds = [];
@@ -946,7 +949,7 @@ export default {
           concentration: { ...this.concentration },
         });
         this.SNACKBAR_SHOW('Рецепт добавлен');
-        this.$router.push('/recipes');
+        this.$router.push('/recipes/');
       }
     },
     editRecipe() {
@@ -965,17 +968,17 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Рецепт изменен');
-        this.$router.push('/recipes');
+        this.$router.push('/recipes/');
       }
     },
     async copyRecipe() {
       this.SNACKBAR_SHOW('Рецепт скопирован');
-      await this.$router.push(`/recipes/create?copy=${this.recipeIndex}`);
+      await this.$router.push(`/recipes/create/?copy=${this.recipeIndex}`);
     },
     removeRecipe() {
       this.RECIPE_REMOVE(this.recipeIndex);
       this.SNACKBAR_SHOW('Рецепт удален');
-      this.$router.push('/recipes');
+      this.$router.push('/recipes/');
     },
   },
 };

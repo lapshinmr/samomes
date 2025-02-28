@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     openAddSchedule() {
-      return this.$router.push('/schedules/create');
+      return this.$router.push('/schedules/create/');
     },
   },
 };

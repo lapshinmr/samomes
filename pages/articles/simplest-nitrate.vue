@@ -57,7 +57,7 @@
           class="mb-6"
         >
           Для тех, кто хочет создать более сложный рецепт, есть основная
-          <nuxt-link to="/recipes">
+          <nuxt-link to="/recipes/">
             страница
           </nuxt-link>
           с рецептами.

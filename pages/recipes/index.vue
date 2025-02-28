@@ -32,7 +32,7 @@
           <br>
           <br>
           Рецепты - это ваши собственные удобрения, которые можно использовать при составлении
-          <router-link to="/schedules">
+          <router-link to="/schedules/">
             расписания
           </router-link>
           внесения удобрений.
@@ -115,7 +115,7 @@
                     </v-btn>
                     <v-btn
                       text
-                      :to="`/recipes/${index}`"
+                      :to="`/recipes/${index}/`"
                       class="mr-n4"
                     >
                       Открыть
@@ -253,7 +253,7 @@ export default {
       'SNACKBAR_SHOW',
     ]),
     addRecipe() {
-      this.$router.push('/recipes/create');
+      this.$router.push('/recipes/create/');
     },
     openShareDialog(index) {
       this.curRecipeIndex = index;

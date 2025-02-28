@@ -18,17 +18,50 @@
 -->
 
 <template>
-  <div />
+  <v-container class="fill-height">
+    <v-row>
+      <v-col
+        cols="12"
+        class="d-flex flex-column align-center justify-center"
+      >
+        <h1 class="text-h1">
+          Oops!
+        </h1>
+        <h2 class="text-h4">
+          Что-то пошло не так
+        </h2>
+        <div class="mt-4 mt-md-6">
+          Мы будем благодарны, если вы сообщите о проблеме в
+          <a href="https://t.me/samomes_calculator">Telegram канале</a> или
+          <a href="https://vk.com/samomes">группе VK</a>
+        </div>
+        <div class="mt-4 mt-md-6">
+          Вернуться на
+          <a href="/">
+            главную страницу
+          </a>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
   name: 'ErrorLayout',
+  props: {
+    error: {
+      type: Object,
+      default: null,
+    },
+  },
   mounted() {
     // Handle page refresh with dynamic routes
-    const path = window.location.pathname;
-    localStorage.setItem('404_redirect_path', path);
-    window.location.href = '/';
+    if (this.error.statusCode === 404) {
+      const path = window.location.pathname;
+      localStorage.setItem('404_redirect_path', path);
+      window.location.href = '/';
+    }
   },
 };
 </script>

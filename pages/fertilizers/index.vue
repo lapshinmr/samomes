@@ -29,7 +29,7 @@
         <br>
         <br>
         Готовые удобрения можно использовать при составлении
-        <router-link to="/schedules">
+        <router-link to="/schedules/">
           расписания
         </router-link>
         внесения удобрений.
@@ -105,7 +105,7 @@
                   <div class="d-flex justify-end mt-4">
                     <v-btn
                       text
-                      :to="`/fertilizers/${index}`"
+                      :to="`/fertilizers/${index}/`"
                       class="mr-n4"
                     >
                       {{ $t('buttons.open') }}
@@ -182,7 +182,7 @@ export default {
       'SNACKBAR_SHOW',
     ]),
     addFertilizer() {
-      return this.$router.push('/fertilizers/create');
+      return this.$router.push('/fertilizers/create/');
     },
   },
 };

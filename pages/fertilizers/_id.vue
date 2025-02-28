@@ -29,7 +29,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/fertilizers"
+          to="/fertilizers/"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -182,7 +182,7 @@
                       color="primary"
                       @click="addFertilizer"
                     >
-                      Добавить
+                      Сохранить
                     </v-btn>
                   </v-col>
                 </v-expand-transition>
@@ -251,9 +251,14 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.isCreate) {
-      Object.assign(this.$data, JSON.parse(JSON.stringify({ ...this.fertilizers[this.fertilizerIndex] })));
+      const fertilizer = this.fertilizers[this.fertilizerIndex];
+      if (!fertilizer) {
+        await this.$router.push('/fertilizers/');
+      }
+      // TODO: investigate this construction
+      Object.assign(this.$data, JSON.parse(JSON.stringify({ ...fertilizer })));
     }
   },
   computed: {
@@ -373,7 +378,7 @@ export default {
           isPercent: this.isPercent,
         });
         this.SNACKBAR_SHOW('Удобрение добавлено');
-        this.$router.push('/fertilizers');
+        this.$router.push('/fertilizers/');
       }
     },
     editFertilizer() {
@@ -389,13 +394,13 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Удобрение изменено');
-        this.$router.push('/fertilizers');
+        this.$router.push('/fertilizers/');
       }
     },
     removeFertilizer() {
       this.FERTILIZER_REMOVE(this.fertilizerIndex);
       this.SNACKBAR_SHOW('Удобрение удалено');
-      this.$router.push('/fertilizers');
+      this.$router.push('/fertilizers/');
     },
   },
 };
