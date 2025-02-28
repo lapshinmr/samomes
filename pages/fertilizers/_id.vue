@@ -273,7 +273,9 @@ export default {
       return this.$route.params.id;
     },
     isUnitsChangedAlert() {
-      return this.fertilizerExampleChosen && this.fertilizerExampleChosen?.isPercent !== this.isPercent;
+      return this.fertilizerExampleChosen !== null
+        && typeof this.fertilizerExampleChosen !== 'string'
+        && this.fertilizerExampleChosen?.isPercent !== this.isPercent;
     },
     elementCols() {
       const result = {};
@@ -348,10 +350,12 @@ export default {
     fertilizerExampleChosen: {
       deep: true,
       handler(value) {
+        if (value === null || typeof value === 'string') {
+          this.resetForm();
+          return;
+        }
+        this.resetForm();
         this.isPercent = value.isPercent;
-        Object.keys(this.elements).forEach((ion) => {
-          this.elements[ion] = null;
-        });
         this.elements = Object.assign(this.elements, value.elements);
         this.name = value.name;
         this.note = value.note;
@@ -368,6 +372,15 @@ export default {
     ]),
     convertIonName,
     convertIonRatio,
+    resetForm() {
+      Object.keys(this.elements).forEach((ion) => {
+        this.elements[ion] = null;
+      });
+      this.name = 'Удобрение';
+      this.note = '';
+      this.updatedAt = undefined;
+      this.isPercent = false;
+    },
     addFertilizer() {
       if (this.$refs.fertilizerForm.validate()) {
         this.FERTILIZER_ADD({

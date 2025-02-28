@@ -149,11 +149,11 @@ export default {
     isChrome() {
       const isChromium = window.chrome;
       const winNav = window.navigator;
-      const vendorName = winNav.vendor;
+      const vendorName = winNav?.vendor;
       const isOpera = typeof window.opr !== 'undefined';
       const isIEedge = winNav.userAgent.indexOf('Edg') > -1;
-      const isGoogleChrome = (typeof winNav.userAgentData !== 'undefined')
-        ? winNav.userAgentData.brands[0].brand === 'Google Chrome'
+      const isGoogleChrome = (typeof winNav?.userAgentData !== 'undefined')
+        ? winNav.userAgentData.brands[0]?.brand === 'Google Chrome'
         : vendorName === 'Google Inc.';
 
       return isChromium !== null
