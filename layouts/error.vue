@@ -18,41 +18,17 @@
 -->
 
 <template>
-  <v-container class="fill-height">
-    <v-row>
-      <v-col
-        cols="12"
-        class="d-flex flex-column align-center justify-center"
-      >
-        <h1 class="text-h1">
-          404
-        </h1>
-        <h2 class="text-h4">
-          {{ pageNotFound }}
-        </h2>
-        <div class="mt-4 mt-md-6">
-          Вернуться на
-          <a
-            href="/"
-          >
-            главную страницу
-          </a>
-        </div>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div />
 </template>
 
 <script>
 export default {
   name: 'ErrorLayout',
-  data() {
-    return {
-      pageNotFound: 'Страница не найдена',
-    };
-  },
-  head() {
-    return { title: this.pageNotFound };
+  mounted() {
+    // Handle page refresh with dynamic routes
+    const path = window.location.pathname;
+    localStorage.setItem('404_redirect_path', path);
+    window.location.href = '/';
   },
 };
 </script>

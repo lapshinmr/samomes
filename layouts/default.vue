@@ -66,13 +66,13 @@ export default {
     return {
     };
   },
-  mounted() {
-    this.recipes.forEach((recipe, index) => {
-      if (recipe.type === 'Готовое') {
-        this.FERTILIZER_ADD(recipe);
-        this.RECIPE_REMOVE(index);
-      }
-    });
+  async mounted() {
+    // Handle page refresh with dynamic routes
+    const redirectPath = localStorage.getItem('404_redirect_path');
+    if (redirectPath) {
+      localStorage.removeItem('404_redirect_path');
+      await this.$router.replace(redirectPath);
+    }
     if (typeof this.guideIsClosed === 'boolean') {
       this.GUIDE_RESET();
     }
@@ -80,7 +80,7 @@ export default {
       const path = localStorage.getItem('path');
       if (path) {
         localStorage.removeItem('path');
-        this.$router.push(path);
+        await this.$router.push(path);
       }
     }
   },
