@@ -36,6 +36,20 @@
         sm="8"
         offset-sm="2"
       >
+        <v-btn
+          color="primary"
+          class="mr-0"
+          square
+          to="/articles/"
+        >
+          <v-icon>mdi-chevron-left</v-icon> Все статьи
+        </v-btn>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="8"
+        offset-sm="2"
+      >
         <h1 class="text-h4 text-md-h3 mt-md-10">
           Простейший рецепт фосфата PO<sub>4</sub>
         </h1>
@@ -212,6 +226,25 @@
           Продолжайте и у вас все получится 👍
         </p>
       </v-col>
+      <v-col
+        cols="12"
+        sm="8"
+        offset-sm="2"
+        class="d-flex justify-space-between mb-15"
+      >
+        <v-btn
+          color="primary"
+          to="/articles/simplest-nitrate/"
+        >
+          <v-icon>mdi-chevron-left</v-icon> Предыдущая статья
+        </v-btn>
+        <v-btn
+          color="primary"
+          to="/articles/potassium/"
+        >
+          Следующая статья <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -224,6 +257,7 @@ const OTHER_DOSE = 'другая';
 
 export default {
   name: 'SimplestNitratePage',
+  scrollToTop: true,
   head() {
     return {
       title: 'Самый простой рецепт самодельного удобрения с фосфатом',
