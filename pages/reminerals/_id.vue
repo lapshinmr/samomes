@@ -307,6 +307,7 @@ export default {
     this.reagents = reagents;
     this.name = recipe.name;
     this.note = recipe.note;
+    this.volume = recipe.volume;
     this.reagentsMassObject = recipe.mass;
     this.isLiquid = !!recipe.substanceVolume;
     this.substanceVolume = recipe.substanceVolume;
