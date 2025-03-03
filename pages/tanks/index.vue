@@ -23,158 +23,161 @@
       <page-title>
         Аквариумы
       </page-title>
-      <guide>
-        На этой странице можно рассчитать объем аквариума по линейным размерам и добавить аквариум в список.
-        <br>
-        <br>
-        Список аквариумов упрощает выбор объема при составлении
-        <router-link to="/recipes/">
-          рецепта
-        </router-link>
-        или
-        <router-link to="/schedules/">
-          расписания
-        </router-link>
-        внесения удобрений.
-      </guide>
-      <v-col
-        v-if="tanks.length === 0"
-        cols="12"
-        md="8"
-        offset-md="2"
-      >
-        <p
-          class="mb-8"
-          :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
+      <client-only>
+        <guide>
+          На этой странице можно рассчитать объем аквариума по линейным размерам и добавить аквариум в список.
+          <br>
+          <br>
+          Список аквариумов упрощает выбор объема при составлении
+          <router-link to="/recipes/">
+            рецепта
+          </router-link>
+          или
+          <router-link to="/schedules/">
+            расписания
+          </router-link>
+          внесения удобрений.
+        </guide>
+        <v-col
+          v-if="tanks.length === 0"
+          cols="12"
+          md="8"
+          offset-md="2"
         >
-          У вас нет ни одного аквариума
-        </p>
-      </v-col>
-      <v-col
-        cols="12"
-        sm="8"
-        offset-sm="2"
-      >
-        <v-expansion-panels multiple>
-          <draggable
-            v-model="tanks"
-            v-bind="dragOptions"
-            @start="drag=true"
-            @end="drag=false"
-            style="width: 100%;"
-            handle=".handle"
+          <p
+            class="mb-8"
+            :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
           >
-            <transition-group
-              type="transition"
-              :name="!drag ? 'flip-list' : null"
+            У вас нет ни одного аквариума
+          </p>
+        </v-col>
+        <v-col
+          v-else
+          cols="12"
+          sm="8"
+          offset-sm="2"
+        >
+          <v-expansion-panels multiple>
+            <draggable
+              v-model="tanks"
+              v-bind="dragOptions"
+              @start="drag=true"
+              @end="drag=false"
+              style="width: 100%;"
+              handle=".handle"
             >
-              <v-expansion-panel
-                v-for="(tank, index) in tanks"
-                :key="tank.name"
+              <transition-group
+                type="transition"
+                :name="!drag ? 'flip-list' : null"
               >
-                <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
-                  <div
-                    class="d-flex align-center"
-                    style="width: 100%;"
-                  >
+                <v-expansion-panel
+                  v-for="(tank, index) in tanks"
+                  :key="tank.name"
+                >
+                  <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
                     <div
-                      class="no-break font-weight-regular mr-auto"
-                      :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                      class="d-flex align-center"
+                      style="width: 100%;"
                     >
-                      {{ tank.name }}
-                    </div>
-                    <div
-                      class="mr-1 mx-sm-4"
-                      style="white-space: nowrap;"
-                    >
-                      {{ tank.volume | precision(1) }} {{ $t('units.l') }}
-                    </div>
-                    <div>
-                      <v-tooltip
-                        bottom
-                        max-width="400"
+                      <div
+                        class="no-break font-weight-regular mr-auto"
+                        :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                       >
-                        <template #activator="{ on }">
-                          <v-icon
-                            class="handle"
-                            v-on="on"
-                          >
-                            mdi mdi-drag
-                          </v-icon>
-                        </template>
-                        {{ $t('tanks.panels.header.pull') }}
-                      </v-tooltip>
-                    </div>
-                  </div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <div
-                    v-if="tank.length"
-                    class="body-2"
-                  >
-                    <div class="d-flex justify-space-between">
-                      <div>{{ $t('tanks.dialog.length') }}</div>
-                      <div>{{ tank.length | precision(1) }} {{ $t('units.cm') }}</div>
-                    </div>
-                    <div class="d-flex justify-space-between">
-                      <div>{{ $t('tanks.dialog.width') }}</div>
-                      <div>{{ tank.width | precision(1) }} {{ $t('units.cm') }}</div>
-                    </div>
-                    <div class="d-flex justify-space-between">
-                      <div>{{ $t('tanks.dialog.height') }}</div>
-                      <div>{{ tank.height | precision(1) }} {{ $t('units.cm') }}</div>
-                    </div>
-                    <div class="d-flex justify-space-between">
-                      <div>{{ $t('tanks.dialog.glassThickness') }}</div>
-                      <div>{{ tank.glassThickness }} {{ $t('units.mm') }}</div>
-                    </div>
-                    <div
-                      v-if="tank.filter"
-                      class="d-flex justify-space-between"
-                    >
-                      <div>{{ $t('tanks.dialog.filter') }}</div>
-                      <div>{{ tank.filter | precision(1) }} {{ $t('units.l') }}</div>
-                    </div>
-                    <div
-                      v-if="tank.soil"
-                      class="d-flex justify-space-between"
-                    >
-                      <div>{{ $t('tanks.dialog.soil') }}</div>
-                      <div>{{ tank.soil | precision(1) }} {{ $t('units.l') }}</div>
-                    </div>
-                    <div
-                      v-if="tank.waterChangeVolume"
-                      class="d-flex justify-space-between"
-                    >
-                      <div>{{ $t('tanks.dialog.waterChange') }}</div>
+                        {{ tank.name }}
+                      </div>
+                      <div
+                        class="mr-1 mx-sm-4"
+                        style="white-space: nowrap;"
+                      >
+                        {{ tank.volume | precision(1) }} {{ $t('units.l') }}
+                      </div>
                       <div>
-                        {{ tank.waterChangeVolume | precision(1) }} {{ $t('units.l') }} —
-                        {{ tank.waterChangeVolume / tank.volume * 100 | precision(1) }}%
+                        <v-tooltip
+                          bottom
+                          max-width="400"
+                        >
+                          <template #activator="{ on }">
+                            <v-icon
+                              class="handle"
+                              v-on="on"
+                            >
+                              mdi mdi-drag
+                            </v-icon>
+                          </template>
+                          {{ $t('tanks.panels.header.pull') }}
+                        </v-tooltip>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    v-else
-                    class="body-2"
-                  >
-                    {{ $t('tanks.panels.body.noSizes') }}
-                  </div>
-                  <div class="d-flex justify-end mt-4">
-                    <v-btn
-                      text
-                      right
-                      :to="`/tanks/${index}/`"
-                      class="mr-n4"
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <div
+                      v-if="tank.length"
+                      class="body-2"
                     >
-                      {{ $t('buttons.open') }}
-                    </v-btn>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </transition-group>
-          </draggable>
-        </v-expansion-panels>
-      </v-col>
+                      <div class="d-flex justify-space-between">
+                        <div>{{ $t('tanks.dialog.length') }}</div>
+                        <div>{{ tank.length | precision(1) }} {{ $t('units.cm') }}</div>
+                      </div>
+                      <div class="d-flex justify-space-between">
+                        <div>{{ $t('tanks.dialog.width') }}</div>
+                        <div>{{ tank.width | precision(1) }} {{ $t('units.cm') }}</div>
+                      </div>
+                      <div class="d-flex justify-space-between">
+                        <div>{{ $t('tanks.dialog.height') }}</div>
+                        <div>{{ tank.height | precision(1) }} {{ $t('units.cm') }}</div>
+                      </div>
+                      <div class="d-flex justify-space-between">
+                        <div>{{ $t('tanks.dialog.glassThickness') }}</div>
+                        <div>{{ tank.glassThickness }} {{ $t('units.mm') }}</div>
+                      </div>
+                      <div
+                        v-if="tank.filter"
+                        class="d-flex justify-space-between"
+                      >
+                        <div>{{ $t('tanks.dialog.filter') }}</div>
+                        <div>{{ tank.filter | precision(1) }} {{ $t('units.l') }}</div>
+                      </div>
+                      <div
+                        v-if="tank.soil"
+                        class="d-flex justify-space-between"
+                      >
+                        <div>{{ $t('tanks.dialog.soil') }}</div>
+                        <div>{{ tank.soil | precision(1) }} {{ $t('units.l') }}</div>
+                      </div>
+                      <div
+                        v-if="tank.waterChangeVolume"
+                        class="d-flex justify-space-between"
+                      >
+                        <div>{{ $t('tanks.dialog.waterChange') }}</div>
+                        <div>
+                          {{ tank.waterChangeVolume | precision(1) }} {{ $t('units.l') }} —
+                          {{ tank.waterChangeVolume / tank.volume * 100 | precision(1) }}%
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      v-else
+                      class="body-2"
+                    >
+                      {{ $t('tanks.panels.body.noSizes') }}
+                    </div>
+                    <div class="d-flex justify-end mt-4">
+                      <v-btn
+                        text
+                        right
+                        :to="`/tanks/${index}/`"
+                        class="mr-n4"
+                      >
+                        {{ $t('buttons.open') }}
+                      </v-btn>
+                    </div>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </transition-group>
+            </draggable>
+          </v-expansion-panels>
+        </v-col>
+      </client-only>
     </v-row>
 
     <add-button :action="addTank">

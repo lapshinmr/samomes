@@ -23,37 +23,40 @@
       <page-title>
         Расписание
       </page-title>
-      <guide>
-        На этой странице можно составить расписание внесения удобрений в аквариум.
-        <br>
-        <br>
-        Калькулятор сам рассчитает концентрации элементов, по которым можно прикинуть дозировки вносимых
-        удобрений. А так же предложит составить расписание.
-      </guide>
-      <v-col
-        v-if="schedules.length === 0"
-        cols="12"
-        md="8"
-        offset-md="2"
-      >
-        <p
-          class="mb-8"
-          :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
+      <client-only>
+        <guide>
+          На этой странице можно составить расписание внесения удобрений в аквариум.
+          <br>
+          <br>
+          Калькулятор сам рассчитает концентрации элементов, по которым можно прикинуть дозировки вносимых
+          удобрений. А так же предложит составить расписание.
+        </guide>
+        <v-col
+          v-if="schedules.length === 0"
+          cols="12"
+          md="8"
+          offset-md="2"
         >
-          У вас нет ни одного расписания
-        </p>
-      </v-col>
-      <v-col
-        cols="12"
-        md="8"
-        offset-md="2"
-      >
-        <Schedule
-          v-for="(schedule, index) in schedules"
-          :schedule-index="index"
-          :key="index"
-        />
-      </v-col>
+          <p
+            class="mb-8"
+            :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
+          >
+            У вас нет ни одного расписания
+          </p>
+        </v-col>
+        <v-col
+          v-else
+          cols="12"
+          md="8"
+          offset-md="2"
+        >
+          <Schedule
+            v-for="(schedule, index) in schedules"
+            :schedule-index="index"
+            :key="index"
+          />
+        </v-col>
+      </client-only>
     </v-row>
 
     <add-button :action="openAddSchedule">

@@ -86,7 +86,7 @@ export default {
     '~plugins/core-components.js',
     '~plugins/filters.js',
     '~plugins/helpers.js',
-    { src: '~plugins/error-handler.js', client: true },
+    '~plugins/error-handler.js',
     { src: '~/plugins/vuex-persist', ssr: false },
   ],
 

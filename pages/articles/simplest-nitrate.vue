@@ -430,7 +430,6 @@ const OTHER_DOSE = 'другая';
 
 export default {
   name: 'SimplestNitratePage',
-  scrollToTop: true,
   head() {
     return {
       title: 'Самый простой рецепт самодельного удобрения с нитратом',

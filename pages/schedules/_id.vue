@@ -211,7 +211,7 @@
                   @click="addSchedule"
                   color="primary"
                 >
-                  Добавить
+                  Сохранить
                 </v-btn>
                 <v-btn
                   v-if="!isCreate"

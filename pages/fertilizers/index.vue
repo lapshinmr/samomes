@@ -23,100 +23,103 @@
       <page-title>
         Удобрения
       </page-title>
-      <guide>
-        На этой странице можно добавить готовые удобрения (самодельные или фирменные удобрения с известным составом).
-        А так же можно добавить удобрение с неизвестным составом, чтобы была возможность учесть его в расписании.
-        <br>
-        <br>
-        Готовые удобрения можно использовать при составлении
-        <router-link to="/schedules/">
-          расписания
-        </router-link>
-        внесения удобрений.
-      </guide>
-      <v-col
-        v-if="fertilizers.length === 0"
-        cols="12"
-        md="8"
-        offset-md="2"
-      >
-        <p
-          class="mb-8"
-          :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
+      <client-only>
+        <guide>
+          На этой странице можно добавить готовые удобрения (самодельные или фирменные удобрения с известным составом).
+          А так же можно добавить удобрение с неизвестным составом, чтобы была возможность учесть его в расписании.
+          <br>
+          <br>
+          Готовые удобрения можно использовать при составлении
+          <router-link to="/schedules/">
+            расписания
+          </router-link>
+          внесения удобрений.
+        </guide>
+        <v-col
+          v-if="fertilizers.length === 0"
+          cols="12"
+          md="8"
+          offset-md="2"
         >
-          У вас нет ни одного удобрения
-        </p>
-      </v-col>
-      <v-col
-        cols="12"
-        sm="8"
-        offset-sm="2"
-      >
-        <v-expansion-panels
-          multiple
-        >
-          <draggable
-            v-model="fertilizers"
-            v-bind="dragOptions"
-            @start="drag=true"
-            @end="drag=false"
-            handle=".handle"
-            style="width: 100%;"
+          <p
+            class="mb-8"
+            :class="{'text-h6': $vuetify.breakpoint['xs'], 'text-h5': $vuetify.breakpoint['smAndUp']}"
           >
-            <transition-group
-              type="transition"
-              :name="!drag ? 'flip-list' : null"
+            У вас нет ни одного удобрения
+          </p>
+        </v-col>
+        <v-col
+          v-else
+          cols="12"
+          sm="8"
+          offset-sm="2"
+        >
+          <v-expansion-panels
+            multiple
+          >
+            <draggable
+              v-model="fertilizers"
+              v-bind="dragOptions"
+              @start="drag=true"
+              @end="drag=false"
+              handle=".handle"
+              style="width: 100%;"
             >
-              <v-expansion-panel
-                v-for="(item, index) in fertilizers"
-                :key="item.name"
+              <transition-group
+                type="transition"
+                :name="!drag ? 'flip-list' : null"
               >
-                <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
-                  <div
-                    class="d-flex justify-space-between align-center"
-                    style="width: 100%;"
-                  >
-                    <span
-                      class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
-                      :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                <v-expansion-panel
+                  v-for="(item, index) in fertilizers"
+                  :key="item.name"
+                >
+                  <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
+                    <div
+                      class="d-flex justify-space-between align-center"
+                      style="width: 100%;"
                     >
-                      <span style="line-height: 1.25rem;">
-                        {{ item.name }}
-                      </span>
-                    </span>
-                    <span class="mr-3">
-                      <v-tooltip
-                        bottom
-                        max-width="400"
+                      <span
+                        class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
+                        :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
                       >
-                        <template #activator="{ on }">
-                          <v-icon
-                            class="handle ml-2"
-                            v-on="on"
-                          >mdi mdi-drag</v-icon>
-                        </template>
-                        {{ $t('fertilizers.panels.header.pull') }}
-                      </v-tooltip>
-                    </span>
-                  </div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <recipe :recipe="item" />
-                  <div class="d-flex justify-end mt-4">
-                    <v-btn
-                      text
-                      :to="`/fertilizers/${index}/`"
-                      class="mr-n4"
-                    >
-                      {{ $t('buttons.open') }}
-                    </v-btn>
-                  </div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </transition-group>
-          </draggable>
-        </v-expansion-panels>
-      </v-col>
+                        <span style="line-height: 1.25rem;">
+                          {{ item.name }}
+                        </span>
+                      </span>
+                      <span class="mr-3">
+                        <v-tooltip
+                          bottom
+                          max-width="400"
+                        >
+                          <template #activator="{ on }">
+                            <v-icon
+                              class="handle ml-2"
+                              v-on="on"
+                            >mdi mdi-drag</v-icon>
+                          </template>
+                          {{ $t('fertilizers.panels.header.pull') }}
+                        </v-tooltip>
+                      </span>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <recipe :recipe="item" />
+                    <div class="d-flex justify-end mt-4">
+                      <v-btn
+                        text
+                        :to="`/fertilizers/${index}/`"
+                        class="mr-n4"
+                      >
+                        {{ $t('buttons.open') }}
+                      </v-btn>
+                    </div>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </transition-group>
+            </draggable>
+          </v-expansion-panels>
+        </v-col>
+      </client-only>
     </v-row>
     <add-button :action="addFertilizer">
       {{ $t('fertilizers.addButton') }}
