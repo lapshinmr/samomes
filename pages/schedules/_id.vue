@@ -29,7 +29,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/schedules"
+          to="/schedules/"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -211,7 +211,7 @@
                   @click="addSchedule"
                   color="primary"
                 >
-                  Добавить
+                  Сохранить
                 </v-btn>
                 <v-btn
                   v-if="!isCreate"
@@ -517,7 +517,7 @@ export default {
           datesColumn: this.datesColumn,
         });
         this.SNACKBAR_SHOW('Расписание добавлено');
-        this.$router.push('/schedules');
+        this.$router.push('/schedules/');
       }
     },
     editSchedule() {
@@ -547,13 +547,13 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Расписание сохранено');
-        this.$router.push('/schedules');
+        this.$router.push('/schedules/');
       }
     },
     removeSchedule() {
       this.SCHEDULE_REMOVE(this.scheduleIndex);
       this.SNACKBAR_SHOW('Расписание удалено');
-      this.$router.push('/schedules');
+      this.$router.push('/schedules/');
     },
   },
 };

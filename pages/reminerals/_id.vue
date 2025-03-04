@@ -29,7 +29,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/reminerals"
+          to="/reminerals/"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -145,12 +145,6 @@
                   class="mt-4"
                 />
               </v-col>
-<!--              <v-col cols="12">-->
-<!--                <the-reminerals-ions-->
-<!--                  :reagents-mass-object="reagentsMassObject"-->
-<!--                  :volume="volume"-->
-<!--                />-->
-<!--              </v-col>-->
               <v-col cols="12">
                 <SDivider class="mb-4">
                   Таблица с навесками
@@ -223,7 +217,7 @@
                   color="primary"
                   @click="addRecipe"
                 >
-                  Добавить
+                  Сохранить
                 </v-btn>
               </v-col>
             </v-row>
@@ -249,7 +243,6 @@ import { countGh, countKh } from '~/helpers/funcs/hardness';
 
 import TheHardnessTableDry from '@/components/Reminerals/TheHardnessTableDry.vue';
 import TheHardnessTableLiquid from '@/components/Reminerals/TheHardnessTableLiquid.vue';
-// import TheRemineralsIons from '~/components/Reminerals/TheRemineralsIons.vue';
 import TheRemineralsRecipesTable from '~/components/Reminerals/TheRemineralsRecipesTable.vue';
 import TheRemineralsRecipesLiquidTable from '~/components/Reminerals/TheRemineralsRecipesLiquidTable.vue';
 import TheRemineralsMixTable from '~/components/Reminerals/TheRemineralsMixTable.vue';
@@ -259,7 +252,6 @@ export default {
   components: {
     TheHardnessTableDry,
     TheHardnessTableLiquid,
-    // TheRemineralsIons,
     TheRemineralsRecipesTable,
     TheRemineralsRecipesLiquidTable,
     TheRemineralsMixTable,
@@ -290,7 +282,7 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     const { share } = this.$router.currentRoute.query;
     if (this.isCreate) {
       return;
@@ -302,6 +294,9 @@ export default {
     } else if (!this.isCreate) {
       recipe = JSON.parse(JSON.stringify({ ...this.reminerals[this.recipeIndex] }));
     }
+    if (Object.keys(recipe).length === 0) {
+      await this.$router.push('/reminerals/');
+    }
     const reagents = [];
     const reagentsNames = Object.keys(recipe.mass);
     this.formulas.forEach((formula) => {
@@ -312,6 +307,7 @@ export default {
     this.reagents = reagents;
     this.name = recipe.name;
     this.note = recipe.note;
+    this.volume = recipe.volume;
     this.reagentsMassObject = recipe.mass;
     this.isLiquid = !!recipe.substanceVolume;
     this.substanceVolume = recipe.substanceVolume;
@@ -430,7 +426,7 @@ export default {
       if (this.$refs.recipeForm.validate()) {
         this.REMINERAL_ADD({ ...this.recipe });
         this.SNACKBAR_SHOW('Рецепт добавлен');
-        this.$router.push('/reminerals');
+        this.$router.push('/reminerals/');
       }
     },
     editRecipe() {
@@ -440,13 +436,13 @@ export default {
           recipe: { ...this.recipe },
         });
         this.SNACKBAR_SHOW('Рецепт изменен');
-        this.$router.push('/reminerals');
+        this.$router.push('/reminerals/');
       }
     },
     removeRecipe() {
       this.REMINERAL_REMOVE(this.recipeIndex);
       this.SNACKBAR_SHOW('Рецепт удален');
-      this.$router.push('/reminerals');
+      this.$router.push('/reminerals/');
     },
   },
 };

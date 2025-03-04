@@ -29,7 +29,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/tanks"
+          to="/tanks/"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -51,12 +51,12 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
-                v-model.lazy="tank.name"
+                v-model="tank.name"
                 :label="$t('tanks.dialog.name')"
                 hide-details="auto"
                 clearable
                 :hint="$t('tanks.dialog.nameHint')"
-                :rules="nameRules"
+                :rules="rulesName"
               />
             </v-col>
             <v-col
@@ -194,7 +194,7 @@
                   @click="addTank"
                   color="primary"
                 >
-                  {{ $t('buttons.add') }}
+                  {{ $t('buttons.save') }}
                 </v-btn>
               </v-col>
             </v-expand-transition>
@@ -224,7 +224,7 @@ export default {
         filter: null,
         soil: null,
       },
-      nameRules: [
+      rulesName: [
         (v) => !!v || this.$t('tanks.dialog.nameRules.require'),
         () => !this.isExist || this.$t('tanks.dialog.nameRules.exists'),
       ],
@@ -233,9 +233,13 @@ export default {
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.isCreate) {
-      this.tank = JSON.parse(JSON.stringify({ ...this.tanks[this.tankIndex] }));
+      const tank = this.tanks[this.tankIndex];
+      if (!tank) {
+        await this.$router.push('/tanks/');
+      }
+      this.tank = JSON.parse(JSON.stringify({ ...tank }));
     }
   },
   computed: {
@@ -248,6 +252,16 @@ export default {
     tankIndex() {
       return this.$route.params.id;
     },
+    isEdit() {
+      const names = this.tanks.map((item) => item.name);
+      const index = names.indexOf(this.tank.name);
+      return index === +this.tankIndex;
+    },
+    isExist() {
+      const names = this.tanks.map((item) => item.name);
+      const nameFound = names.find((item) => item === this.tank.name);
+      return nameFound && !this.isEdit;
+    },
     dimensions() {
       return `
         ${this.tank.length}
@@ -257,13 +271,6 @@ export default {
         ${this.tank.filter}
         ${this.tank.soil}
       `;
-    },
-    isExist() {
-      const names = this.tanks.map((item) => item.name);
-      const index = names.findIndex((item) => item === this.name);
-      const isExist = index !== -1;
-      const isEdit = index === +this.tankIndex;
-      return isExist && !isEdit;
     },
   },
   watch: {
@@ -318,7 +325,7 @@ export default {
       if (this.$refs.tankForm.validate()) {
         this.TANK_ADD({ ...this.tank });
         this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankAdd'));
-        this.$router.push('/tanks');
+        this.$router.push('/tanks/');
       }
     },
     editTank() {
@@ -328,12 +335,12 @@ export default {
           tank: { ...this.tank },
         });
         this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankEdit'));
-        this.$router.push('/tanks');
+        this.$router.push('/tanks/');
       }
     },
     removeTank() {
       this.TANK_REMOVE(this.tankIndex);
-      this.$router.push('/tanks');
+      this.$router.push('/tanks/');
       this.SNACKBAR_SHOW(this.$t('tanks.dialog.messageTankRemove'));
     },
   },

@@ -30,7 +30,6 @@ export default {
     articles: 'Статьи',
     about: 'О проекте',
     settings: 'Настройки',
-    Github: 'Github',
   },
   units: {
     mm: 'мм',

@@ -129,6 +129,18 @@
               Удалить
             </v-btn>
           </div>
+          <div class="d-flex justify-space-between mb-3">
+            <div>
+              Реминерализаторы ({{ reminerals.length }})
+            </div>
+            <v-btn
+              color="red"
+              @click="REMINERALS_REMOVE"
+              :disabled="!reminerals.length"
+            >
+              Удалить
+            </v-btn>
+          </div>
           <div class="d-flex justify-space-between">
             <div>
               Все данные
@@ -184,6 +196,7 @@ export default {
       'recipes',
       'fertilizers',
       'schedules',
+      'reminerals',
     ]),
   },
   methods: {
@@ -196,6 +209,7 @@ export default {
       'FERTILIZERS_REMOVE',
       'SCHEDULES_SET',
       'SCHEDULES_REMOVE',
+      'REMINERALS_REMOVE',
       'SNACKBAR_SHOW',
     ]),
     copyAll() {

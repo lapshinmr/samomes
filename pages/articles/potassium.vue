@@ -36,6 +36,20 @@
         sm="8"
         offset-sm="2"
       >
+        <v-btn
+          color="primary"
+          class="mr-0"
+          square
+          to="/articles/"
+        >
+          <v-icon>mdi-chevron-left</v-icon> Все статьи
+        </v-btn>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="8"
+        offset-sm="2"
+      >
         <h1 class="text-h4 text-md-h3 mt-md-10">
           Рецепт калия
         </h1>
@@ -57,7 +71,7 @@
           class="mb-6"
         >
           Для тех, кто хочет создать более сложный рецепт, есть основная
-          <nuxt-link to="/recipes">
+          <nuxt-link to="/recipes/">
             страница
           </nuxt-link>
           с рецептами.
@@ -325,6 +339,19 @@
           </nuxt-link>.
         </p>
       </v-col>
+      <v-col
+        cols="12"
+        sm="8"
+        offset-sm="2"
+        class="d-flex justify-start mb-15"
+      >
+        <v-btn
+          color="primary"
+          to="/articles/simplest-phosphate/"
+        >
+          <v-icon>mdi-chevron-left</v-icon> Предыдущая статья
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -337,7 +364,6 @@ const OTHER_DOSE = 'другая';
 
 export default {
   name: 'SimplestNitratePage',
-  scrollToTop: true,
   head() {
     return {
       title: 'Самый простой рецепт самодельного удобрения с калием',

@@ -86,6 +86,7 @@ export default {
     '~plugins/core-components.js',
     '~plugins/filters.js',
     '~plugins/helpers.js',
+    '~plugins/error-handler.js',
     { src: '~/plugins/vuex-persist', ssr: false },
   ],
 
@@ -194,15 +195,24 @@ export default {
     },
   },
 
-  // router: {
-  //   // trailingSlash: true,
-  // },
+  router: {
+    trailingSlash: true,
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition;
+      }
+      if (to.hash) {
+        return { selector: to.hash };
+      }
+      return { x: 0, y: 0 };
+    },
+  },
 
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://samomes.com',
     exclude: [
-      '/settings',
+      '/settings/',
     ],
   },
 

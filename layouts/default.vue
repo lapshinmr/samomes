@@ -53,18 +53,13 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
-import { ROUTES } from '~/helpers/constants/application';
+import { mapState, mapMutations } from 'vuex';
 import Drawer from '~/components/Layout/Drawer.vue';
 
 export default {
   name: 'App',
   components: {
     Drawer,
-  },
-  data() {
-    return {
-    };
   },
   async mounted() {
     // Handle page refresh with dynamic routes
@@ -92,13 +87,6 @@ export default {
       'recipes',
       'guideIsClosed',
     ]),
-    breadcrumbs() {
-      const result = {};
-      ROUTES.forEach((item) => {
-        result[item.path] = this.$t(`routes.${item.path}`);
-      });
-      return result;
-    },
     isDrawer: {
       get() {
         return this.$store.state.drawer;
@@ -123,9 +111,6 @@ export default {
       'FERTILIZER_ADD',
       'RECIPE_REMOVE',
       'GUIDE_RESET',
-    ]),
-    ...mapActions([
-      'langSet',
     ]),
   },
 };

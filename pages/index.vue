@@ -99,7 +99,7 @@
         class="section section--tanks"
       >
         <nuxt-link
-          to="/tanks"
+          to="/tanks/"
           class="section__icon-link"
         >
           <v-icon
@@ -110,7 +110,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/tanks">
+          <nuxt-link to="/tanks/">
             <h2 class="section__title">
               Аквариумы
             </h2>
@@ -140,7 +140,7 @@
         class="section section--recipes"
       >
         <nuxt-link
-          to="/recipes"
+          to="/recipes/"
           class="section__icon-link"
         >
           <v-icon
@@ -151,7 +151,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/recipes">
+          <nuxt-link to="/recipes/">
             <h2 class="section__title">
               Рецепты
             </h2>
@@ -184,7 +184,7 @@
         class="section section--fertilizers"
       >
         <nuxt-link
-          to="/fertilizers"
+          to="/fertilizers/"
           class="section__icon-link"
         >
           <v-icon
@@ -195,7 +195,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/fertilizers">
+          <nuxt-link to="/fertilizers/">
             <h2 class="section__title">
               Удобрения
             </h2>
@@ -223,7 +223,7 @@
         class="section section--schedules"
       >
         <nuxt-link
-          to="/schedules"
+          to="/schedules/"
           class="section__icon-link"
         >
           <v-icon
@@ -234,7 +234,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/schedules">
+          <nuxt-link to="/schedules/">
             <h2 class="section__title">
               Расписание
             </h2>
@@ -265,7 +265,7 @@
         class="section section--remineralization"
       >
         <nuxt-link
-          to="/remineralization"
+          to="/remineralization/"
           class="section__icon-link"
         >
           <v-icon
@@ -276,7 +276,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/remineralization">
+          <nuxt-link to="/remineralization/">
             <h2 class="section__title">
               Водоподготовка
             </h2>
@@ -303,7 +303,7 @@
         class="section section--dynamics"
       >
         <nuxt-link
-          to="/dynamics"
+          to="/dynamics/"
           class="section__icon-link"
         >
           <v-icon
@@ -314,7 +314,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/dynamics">
+          <nuxt-link to="/dynamics/">
             <h2 class="section__title">
               Динамика
             </h2>
