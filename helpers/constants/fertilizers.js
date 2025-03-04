@@ -33,32 +33,55 @@ export const FERTILIZERS = [
       Zn: 0.007,
       Mo: 0.000001,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-18',
   },
+  // Prestige
   {
-    name: 'Prestige NPK',
+    name: 'Prestige FitoMin Macro',
     isPercent: false,
     elements: {
       N: 10.7,
       K: 32.0,
       P: 1.5,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-04',
   },
   {
-    name: 'Prestige Micro',
+    name: 'Prestige FitoMin Калий',
     isPercent: false,
     elements: {
-      K: 12,
-      Fe: 1.5,
-      Mg: 0.8,
-      Mn: 0.5,
-      B: 0.06,
-      Mo: 0.036,
-      Zn: 0.0185,
+      K: 50,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Prestige FitoMin Micro',
+    isPercent: true,
+    elements: {
+      K: 1.2,
+      Fe: 0.15,
+      Mg: 0.08,
+      B: 0.006,
+      Mn: 0.05,
+      Mo: 0.003,
+      Zn: 0.002,
+      Cu: 0.002,
+    },
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Prestige FitoMin Железо',
+    isPercent: true,
+    elements: {
+      Fe: 6,
+      Mn: 1.1,
+    },
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-04',
   },
   // Aquabalance
   {
@@ -77,7 +100,8 @@ export const FERTILIZERS = [
       Cu: 0.0015,
       Mo: 0.002,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Ферро Баланс',
@@ -86,7 +110,8 @@ export const FERTILIZERS = [
       Fe: 0.7,
       Mn: 0.1,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Калий Баланс',
@@ -94,7 +119,8 @@ export const FERTILIZERS = [
     elements: {
       K: 5,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Нитро Баланс',
@@ -105,7 +131,8 @@ export const FERTILIZERS = [
       Ca: 0.14,
       Mg: 0.17,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Фосфо Баланс',
@@ -114,7 +141,8 @@ export const FERTILIZERS = [
       PO4: 0.45,
       K: 0.095,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Макро Баланс',
@@ -126,7 +154,8 @@ export const FERTILIZERS = [
       Ca: 0.14,
       Mg: 0.17,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Микро Баланс',
@@ -139,7 +168,8 @@ export const FERTILIZERS = [
       Cu: 0.003,
       Mo: 0.003,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Микро Баланс + K',
@@ -153,7 +183,8 @@ export const FERTILIZERS = [
       Cu: 0.003,
       Mo: 0.003,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Тотал-Мох',
@@ -163,9 +194,10 @@ export const FERTILIZERS = [
       PO4: 0.5,
       Fe: 0.05,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки. Содержит макроэлементы: '
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки. Содержит макроэлементы: '
       + 'азот, фосфор, калий, кальций, магний, а так же микроэле- менты: железо, марганец,'
       + 'бор в том числе в органической форме.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Premium Micro (KH<4)',
@@ -178,7 +210,8 @@ export const FERTILIZERS = [
       Cu: 0.01,
       Mo: 0.006,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Premium Micro (KH>4)',
@@ -191,17 +224,18 @@ export const FERTILIZERS = [
       Cu: 0.008,
       Mo: 0.003,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Premium Макро корректор P+K',
     isPercent: true,
     elements: {
       PO4: 0.9,
-      // TODO: replace by K2O here
-      K: 0.4,
+      K2O: 0.4,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Premium Макро корректор N+K',
@@ -210,7 +244,7 @@ export const FERTILIZERS = [
       NO3: 10,
       K: 1.76,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
   },
   {
     name: 'Aquabalance Premium Макро комплекс NPK',
@@ -220,7 +254,8 @@ export const FERTILIZERS = [
       PO4: 0.9,
       K: 2,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Premium Fe+Mn',
@@ -229,31 +264,34 @@ export const FERTILIZERS = [
       Fe: 1.0,
       Mn: 0.2,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquabalance Колор Баланс',
     isPercent: true,
     elements: {
       Mg: 3,
-      Mn: 0.05,
       Fe: 0.1,
+      Mn: 0.05,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    updatedAt: '2025-03-03',
   },
   // Aquayer
   {
-    name: 'Aquayer Macro+',
+    name: 'Aquayer Макро+',
     isPercent: false,
     elements: {
       N: 8.21,
       P: 1.20,
       K: 20.43,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    updatedAt: '2025-03-03',
   },
   {
-    name: 'Aquayer Micro+',
+    name: 'Aquayer Микро+',
     isPercent: false,
     elements: {
       K: 6.930,
@@ -266,7 +304,8 @@ export const FERTILIZERS = [
       Zn: 0.015,
       Co: 0.007,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquayer Железо+',
@@ -275,7 +314,8 @@ export const FERTILIZERS = [
       Fe: 7.00,
       Mg: 1.3,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Aquayer Калий+',
@@ -283,76 +323,137 @@ export const FERTILIZERS = [
     elements: {
       K: 50,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    updatedAt: '2025-03-03',
   },
   {
-    name: 'Aquayer Smart Macro (Нитрат)',
+    name: 'Aquayer Смарт Макро (Нитрат)',
     isPercent: false,
     elements: {
       NO3: 72,
       K: 45.3,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    updatedAt: '2025-03-03',
   },
   {
-    name: 'Aquayer Smart Macro (Фосфат)',
+    name: 'Aquayer Смарт Макро (Фосфат)',
     isPercent: false,
     elements: {
       PO4: 7.2,
       K: 3,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    updatedAt: '2025-03-03',
   },
+  // Aquaerus
   {
-    name: 'Aqua Botanic Micro',
+    name: 'Aquaerus Макро',
     isPercent: false,
     elements: {
-      K: 4,
-      Fe: 2.67,
-      Mg: 1.1,
-      Mn: 0.3,
-      Zn: 0.17,
-      B: 0.1,
-      Cu: 0.05,
-      Mo: 0.02,
-      Co: 0.01204,
+      N: 8.21,
+      P: 1.20,
+      K: 20.43,
     },
-    note: 'Рецепт взят с сайта aqua-botanic.ru'
-      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    updatedAt: '2025-03-03',
+  },
+  {
+    name: 'Aquaerus Микро',
+    isPercent: false,
+    elements: {
+      K: 6.930,
+      Fe: 1.2,
+      Mg: 0.8,
+      Mn: 0.4,
+      B: 0.072,
+      Mo: 0.03,
+      Cu: 0.045,
+      Zn: 0.015,
+      Co: 0.007,
+    },
+    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    updatedAt: '2025-03-03',
+  },
+  {
+    name: 'Aquaerus Железо',
+    isPercent: false,
+    elements: {
+      Fe: 7.00,
+      Mg: 1.3,
+    },
+    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    updatedAt: '2025-03-03',
+  },
+  {
+    name: 'Aquaerus Калий',
+    isPercent: false,
+    elements: {
+      K: 50,
+    },
+    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    updatedAt: '2025-03-03',
+  },
+  {
+    name: 'Aquaerus Нитрат+',
+    isPercent: false,
+    elements: {
+      NO3: 72,
+      K: 45.3,
+    },
+    note: 'Это фирменное удобрение. ВНИМАНИЕ! Производитель не указал содержание калия в этом удобрении. '
+      + 'Но в оригинальном удобрении калий присутствует. Также пользователи указывают на повышение калия в аквариуме.'
+      + 'Поэтому безопаснее для аквариума будет учитывать калий как в удобрении Aquayer.',
+    updatedAt: '2025-03-03',
+  },
+  {
+    name: 'Aquaerus Фосфат+',
+    isPercent: false,
+    elements: {
+      PO4: 7.2,
+      K: 3,
+    },
+    note: 'Это фирменное удобрение. ВНИМАНИЕ! Производитель не указал содержание калия в этом удобрении. '
+      + 'Но в оригинальном удобрении калий присутствует. Также пользователи указывают на повышение калия в аквариуме.'
+      + 'Поэтому безопаснее для аквариума будет учитывать калий как в удобрении Aquayer.',
+    updatedAt: '2025-03-03',
   },
   {
     name: 'Seachem Nitrogen',
     isPercent: true,
     elements: {
       N: 1.5,
-      K: 1.66,
+      K2O: 2,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Seachem Phosphorus',
     isPercent: true,
     elements: {
-      P: 0.131,
-      K: 0.166,
+      P2O5: 0.3,
+      K2O: 0.2,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Seachem Potassium',
     isPercent: true,
     elements: {
-      K: 4.15,
+      K2O: 5,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Seachem Flourish',
     isPercent: true,
     elements: {
       N: 0.07,
-      P: 0.004365,
-      K: 0.307,
+      P2O5: 0.01,
+      K2O: 0.37,
       Ca: 0.14,
       Mg: 0.11,
       S: 0.2773,
@@ -366,7 +467,20 @@ export const FERTILIZERS = [
       Na: 0.13,
       Zn: 0.0007,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Seachem Flourish Advance',
+    isPercent: true,
+    elements: {
+      P2O5: 0.04,
+      K2O: 0.45,
+      Ca: 0.04,
+      Mg: 0.04,
+    },
+    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Seachem Flourish Trace',
@@ -382,28 +496,19 @@ export const FERTILIZERS = [
       Ni: 0.000003,
       V: 0.000002,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    updatedAt: '2025-03-04',
   },
-  // {
-  //   name: 'Seachem Equilibrium',
-  //   isPercent: true,
-  //   elements: {
-  //     K: 19.09,
-  //     Ca: 8.06,
-  //     Mg: 2.41,
-  //     Fe: 0.11,
-  //     Mn: 0.06,
-  //   },
-  //   note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  // },
   {
     name: 'Seachem Flourish Iron',
     isPercent: true,
     elements: {
       Fe: 1,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    updatedAt: '2025-03-04',
   },
+  // Tropica
   {
     name: 'Tropica Premium Nutrition',
     isPercent: true,
@@ -418,7 +523,9 @@ export const FERTILIZERS = [
       Mo: 0.002,
       Zn: 0.002,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта '
+      + 'https://tropica.com/en/plant-care/liquid-fertilisers/premium-nutrition/',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Tropica Specialised Nutrition',
@@ -436,7 +543,9 @@ export const FERTILIZERS = [
       Mo: 0.002,
       Zn: 0.002,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты с сайта '
+      + 'https://tropica.com/en/plant-care/liquid-fertilisers/specialised-nutrition/',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Dennerle Plant Care NPK',
@@ -488,7 +597,7 @@ export const FERTILIZERS = [
       PO4: 2,
       K: 10,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2021-08-14',
   },
   {
@@ -504,7 +613,7 @@ export const FERTILIZERS = [
       Mo: 0.003,
       Zn: 0.003,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2021-08-14',
   },
   {
@@ -516,6 +625,8 @@ export const FERTILIZERS = [
       Ca: 0.3,
       Mg: 0.1,
     },
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Аквапозитив Фосфор+',
@@ -525,15 +636,8 @@ export const FERTILIZERS = [
       K: 0.5,
       Mg: 0.1,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
-  },
-  {
-    name: 'Аквапозитив Калий+',
-    isPercent: true,
-    elements: {
-      K: 5,
-    },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Аквапозитив Макро+',
@@ -543,7 +647,8 @@ export const FERTILIZERS = [
       K: 2.3,
       PO4: 0.5,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Аквапозитив Микро+',
@@ -558,7 +663,8 @@ export const FERTILIZERS = [
       Zn: 0.007,
       Ni: 0.0002,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'Аквапозитив Железо+',
@@ -567,7 +673,47 @@ export const FERTILIZERS = [
       Fe: 0.2,
       Mn: 0.04,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Аквапозитив Азот+ (порошок)',
+    isPercent: true,
+    elements: {
+      NO3: 6,
+      K: 2,
+    },
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Аквапозитив Фосфор+ (порошок)',
+    isPercent: true,
+    elements: {
+      PO4: 0.5,
+      K: 0.5,
+      Mg: 0.1,
+    },
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Аквапозитив Калий+ (порошок)',
+    isPercent: true,
+    elements: {
+      K: 5,
+    },
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Аквапозитив Магний (порошок)',
+    isPercent: true,
+    elements: {
+      Mg: 0.3,
+    },
+    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    updatedAt: '2025-03-04',
   },
   {
     name: 'WaterSci Micro XL для осмоса',
@@ -699,7 +845,7 @@ export const FERTILIZERS = [
       NO3: 100,
       K: 65,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -708,7 +854,7 @@ export const FERTILIZERS = [
     elements: {
       PO4: 10,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -717,7 +863,7 @@ export const FERTILIZERS = [
     elements: {
       K: 40,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -735,7 +881,7 @@ export const FERTILIZERS = [
       Ni: 0.01,
       Cu: 0,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -747,7 +893,7 @@ export const FERTILIZERS = [
       K: 65,
       Fe: 2,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -759,7 +905,7 @@ export const FERTILIZERS = [
       K: 16.5,
       Fe: 2,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -768,8 +914,42 @@ export const FERTILIZERS = [
     elements: {
       Fe: 10,
     },
-    note: 'Это заводское удобрение. Все данные взяты с этикетки.',
+    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
+  },
+  // Tetra
+  {
+    name: 'Tetra PlantaMin',
+    isPercent: true,
+    elements: {
+      K2O: 1,
+      Fe: 0.2,
+      B: 0.005,
+      Mn: 0.01,
+      Zn: 0.002,
+      S: 0.5,
+      Na: 0.95,
+    },
+    note: 'Это фирменное удобрение. Данные взяты с сайта магазина https://www.aquasabi.com/Tetra-PlantaMin',
+    updatedAt: '2025-03-04',
+  },
+  // Aqua Botanic
+  {
+    name: 'Aqua Botanic Micro',
+    isPercent: false,
+    elements: {
+      K: 4,
+      Fe: 2.67,
+      Mg: 1.1,
+      Mn: 0.3,
+      Zn: 0.17,
+      B: 0.1,
+      Cu: 0.05,
+      Mo: 0.02,
+      Co: 0.01204,
+    },
+    note: 'Рецепт взят с сайта aqua-botanic.ru'
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
 ];
 
