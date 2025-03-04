@@ -103,14 +103,15 @@
     />
     <div
       v-if="recipe.note"
-      class="d-flex justify-space-between"
+      class="d-flex flex-column flex-md-row justify-md-space-between"
     >
-      <div class="mr-3">
+      <div class="mb-3 mr-md-3">
         Примечание
       </div>
-      <div class="text-right body-2">
-        {{ recipe.note }}
-      </div>
+      <div
+        class="text-md-right body-2"
+        style="word-break: break-word; white-space: pre-wrap;"
+      >{{ recipe.note }}</div>
     </div>
   </div>
 </template>

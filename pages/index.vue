@@ -49,6 +49,19 @@
             Рассчитаем калий вместе? 😉
           </h3>
           <div id="vk_groups" />
+          <div class="mt-6">
+            <div>
+              🚀 Samomes запустил Telegram-канал! Подпишитесь, чтобы быть в курсе всех новинок и обновлений.
+            </div>
+            <v-btn
+              href="https://t.me/samomes_calculator"
+              target="_blank"
+              color="primary"
+              class="mt-4"
+            >
+              Перейти в Telegram
+            </v-btn>
+          </div>
         </div>
       </v-col>
       <v-col
@@ -86,7 +99,7 @@
         class="section section--tanks"
       >
         <nuxt-link
-          to="/tanks"
+          to="/tanks/"
           class="section__icon-link"
         >
           <v-icon
@@ -97,7 +110,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/tanks">
+          <nuxt-link to="/tanks/">
             <h2 class="section__title">
               Аквариумы
             </h2>
@@ -127,7 +140,7 @@
         class="section section--recipes"
       >
         <nuxt-link
-          to="/recipes"
+          to="/recipes/"
           class="section__icon-link"
         >
           <v-icon
@@ -138,7 +151,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/recipes">
+          <nuxt-link to="/recipes/">
             <h2 class="section__title">
               Рецепты
             </h2>
@@ -171,7 +184,7 @@
         class="section section--fertilizers"
       >
         <nuxt-link
-          to="/fertilizers"
+          to="/fertilizers/"
           class="section__icon-link"
         >
           <v-icon
@@ -182,7 +195,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/fertilizers">
+          <nuxt-link to="/fertilizers/">
             <h2 class="section__title">
               Удобрения
             </h2>
@@ -210,7 +223,7 @@
         class="section section--schedules"
       >
         <nuxt-link
-          to="/schedules"
+          to="/schedules/"
           class="section__icon-link"
         >
           <v-icon
@@ -221,7 +234,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/schedules">
+          <nuxt-link to="/schedules/">
             <h2 class="section__title">
               Расписание
             </h2>
@@ -252,7 +265,7 @@
         class="section section--remineralization"
       >
         <nuxt-link
-          to="/remineralization"
+          to="/remineralization/"
           class="section__icon-link"
         >
           <v-icon
@@ -263,7 +276,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/remineralization">
+          <nuxt-link to="/remineralization/">
             <h2 class="section__title">
               Водоподготовка
             </h2>
@@ -290,7 +303,7 @@
         class="section section--dynamics"
       >
         <nuxt-link
-          to="/dynamics"
+          to="/dynamics/"
           class="section__icon-link"
         >
           <v-icon
@@ -301,7 +314,7 @@
           </v-icon>
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/dynamics">
+          <nuxt-link to="/dynamics/">
             <h2 class="section__title">
               Динамика
             </h2>
@@ -360,9 +373,26 @@
 </template>
 
 <script>
-
 export default {
   name: 'Home',
+  head() {
+    return {
+      title: 'Самомес - калькулятор удобрений для растительного аквариума',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
+            + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'аквариумы, рецепты, удобрения, расписание, водоподготовка, динамика',
+        },
+      ],
+    };
+  },
   mounted() {
     const vk = document.createElement('script');
     vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');

@@ -18,6 +18,7 @@
  */
 
 export default {
+  home: 'Самомес',
   routes: {
     tanks: 'Аквариумы',
     recipes: 'Самодельные',
@@ -29,7 +30,6 @@ export default {
     articles: 'Статьи',
     about: 'О проекте',
     settings: 'Настройки',
-    Github: 'Github',
   },
   units: {
     mm: 'мм',

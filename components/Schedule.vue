@@ -141,7 +141,7 @@
       </v-btn>
       <v-btn
         text
-        @click="$router.push(`/schedules/${scheduleIndex}`)"
+        @click="$router.push(`/schedules/${scheduleIndex}/`)"
         :class="{
           'ml-auto': fertilizationType === FERTILIZATION_IN_TAP_WATER,
           'ml-0 ml-sm-3': fertilizationType !== FERTILIZATION_IN_TAP_WATER,

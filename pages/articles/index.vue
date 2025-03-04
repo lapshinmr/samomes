@@ -20,6 +20,11 @@
 <template>
   <v-container>
     <v-row>
+      <v-col cols="12">
+        <h1 class="text-h5 text-md-h4 mt-md-4">
+          Статьи
+        </h1>
+      </v-col>
       <v-col
         cols="12"
         sm="6"
@@ -35,7 +40,9 @@
             alt="Easiest nitrate recipe"
           />
 
-          <v-card-title>Простейший рецепт нитрата NO3</v-card-title>
+          <v-card-title>
+            Простейший рецепт нитрата NO<sub>3</sub>
+          </v-card-title>
 
           <v-card-text>
             Данная статья посвящена самому простому рецепту жидкого удобрения, содержащего нитрат. Нитрат
@@ -70,7 +77,9 @@
             alt="Easiest phosphate recipe"
           />
 
-          <v-card-title>Простейший рецепт фосфата PO4</v-card-title>
+          <v-card-title>
+            Простейший рецепт фосфата PO<sub>4</sub>
+          </v-card-title>
 
           <v-card-text>
             В этой статье мы продолжим рассматривать самые простые способы приготовления домашних удобрений и теперь

@@ -43,24 +43,32 @@
       </span>
     </div>
     <v-divider class="my-3" />
-    <div class="d-flex justify-space-between body-2">
-      <span>Расшифровка</span>
-      <span v-if="isLiquid">
+    <div class="d-flex flex-column flex-md-row justify-md-space-between">
+      <div class="mb-3 mr-md-3">
+        Расшифровка
+      </div>
+      <div
+        v-if="isLiquid"
+        class="body-2"
+      >
         <span class="font-weight-bold">{{ recipe.doseVolume }}</span>
         мл повышают в <span class="font-weight-bold">{{ recipe.volume }}</span> л
         Gh на {{ recipe.gh.toFixed(1) }}
         <template v-if="!!recipe.kh">
           и Kh на {{ recipe.kh.toFixed(1) }}
         </template>
-      </span>
-      <span v-else>
+      </div>
+      <div
+        v-else
+        class="body-2"
+      >
         <span class="font-weight-bold">{{ countTotalReagentsMass(recipe.mass).toFixed(2) }}</span>
         г повышают в <span class="font-weight-bold">{{ recipe.volume }}</span> л
         Gh на {{ recipe.gh.toFixed(1) }}
         <template v-if="!!recipe.kh">
           и Kh на {{ recipe.kh.toFixed(1) }}
         </template>
-      </span>
+      </div>
     </div>
     <v-divider
       v-if="recipe.note"
@@ -68,14 +76,15 @@
     />
     <div
       v-if="recipe.note"
-      class="d-flex justify-space-between"
+      class="d-flex flex-column flex-md-row justify-md-space-between"
     >
-      <div class="mr-3">
+      <div class="mb-3 mr-md-3">
         Примечание
       </div>
-      <div class="text-right body-2">
-        {{ recipe.note }}
-      </div>
+      <div
+        class="text-md-right body-2"
+        style="word-break: break-word; white-space: pre-wrap;"
+      >{{ recipe.note }}</div>
     </div>
   </div>
 </template>

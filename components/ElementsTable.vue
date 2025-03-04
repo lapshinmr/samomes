@@ -155,32 +155,6 @@
       class="mt-4"
     >
       <v-col
-        v-if="totalElements.P && totalElements.P.total > 0 && totalElements.N && totalElements.N.total > 0"
-        cols="12"
-      >
-        Потребленное количество CO2 (NO3 - PO4):
-        <span
-          class="mx-2"
-          style="white-space: nowrap;"
-        >
-          {{ CN | precision(2) }} — {{ CP | precision(2) }} мг/л
-        </span>
-        <v-tooltip
-          bottom
-          max-width="400"
-        >
-          <template #activator="{ on }">
-            <v-icon v-on="on">
-              mdi-help-circle-outline
-            </v-icon>
-          </template>
-          Исходя из полного соотношения Редфилда (106-16-1), левая граница показывает то, сколько было поглощено
-          углекислого газа относительно нитрата, а правая, то сколько было поглощено относительно фосфата.
-          Или другими словами, сколько нужно газа, чтобы усвоить данное количество нитрата и фосфата указанного
-          в дозировках.
-        </v-tooltip>
-      </v-col>
-      <v-col
         cols="6"
         sm="3"
         v-if="totalElements.P && totalElements.P.total > 0 && totalElements.N && totalElements.N.total > 0"

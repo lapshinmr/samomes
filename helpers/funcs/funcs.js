@@ -19,6 +19,7 @@
 
 import ELEMENTS from '~/helpers/constants/elements';
 import FORMULAS from '~/helpers/constants/formulas';
+import MolecularFormula from '~/helpers/funcs/molecular-formula';
 
 export const countTotalIonConcentration = (concentration) => {
   const total = {};
@@ -98,6 +99,7 @@ export const countMass = (ion) => {
   return mass;
 };
 
+// TODO: refactor OPPOSITE constants
 export const OPPOSITE = {
   N: 'NO3',
   NO3: 'N',
@@ -107,11 +109,36 @@ export const OPPOSITE = {
   SO4: 'S',
 };
 
+export const OXIDE_TO_ELEMENT = {
+  NO3: 'N',
+  PO4: 'P',
+  P2O5: 'P2',
+  SO4: 'S',
+  K2O: 'K2',
+  MgO: 'Mg',
+  CaO: 'Ca',
+};
+
+export const ELEMENT_TO_OXIDE = {
+  N: 'NO3',
+  P: 'PO4',
+  S: 'SO4',
+  K: 'K2O',
+  Mg: 'MgO',
+  Ca: 'CaO',
+};
+
 export const convertIonName = (ion) => OPPOSITE[ion] || ion;
 
 export const convertIonRatio = (ion) => (
   convertIonName(ion) !== ion ? countMass(convertIonName(ion)) / countMass(ion) : 1
 );
+
+export const getOxideToElementRatio = (oxide) => {
+  const oxideMass = new MolecularFormula(oxide).mass;
+  const elementMass = new MolecularFormula(OXIDE_TO_ELEMENT[oxide]).mass;
+  return elementMass / oxideMass;
+};
 
 export const isRecipe = (recipe) => recipe.reagents && recipe.reagents.length > 0;
 

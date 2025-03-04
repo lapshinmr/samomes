@@ -20,6 +20,9 @@
 <template>
   <v-container>
     <v-row>
+      <page-title>
+        О проекте
+      </page-title>
       <v-col
         cols="12"
         md="8"

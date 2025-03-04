@@ -20,8 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import colors from 'vuetify/es5/util/colors';
 
 export default {
-  // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  generate: {
+    fallback: '404.html',
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -31,6 +33,11 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'mobile-web-app-capable', content: 'yes' },
+      { name: 'apple-touch-fullscreen', content: 'yes' },
+      { name: 'apple-mobile-web-app-capable', content: 'yes' },
+      { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+      { name: 'apple-mobile-web-app-title', content: 'Samomes' },
       {
         hid: 'description',
         name: 'description',
@@ -49,6 +56,21 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600&display=swap' },
+      // https://stackoverflow.com/questions/70036043/nuxt-pwa-is-not-displaying-splash-screens-on-ios-devices
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-2048-2732.png', media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1668-2388.png', media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1668-2224.png', media: '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1620-2160.png', media: '(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1536-2048.png', media: '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1284-2778.png', media: '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1242-2688.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1242-2208.png', media: '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1170-2532.png', media: '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1125-2436.png', media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-828-1792.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-750-1334.png', media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+      { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-640-1136.png', media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
     ],
     script: [
       { src: 'https://kit.fontawesome.com/b163e0af3d.js', crossorigin: true },
@@ -64,6 +86,7 @@ export default {
     '~plugins/core-components.js',
     '~plugins/filters.js',
     '~plugins/helpers.js',
+    '~plugins/error-handler.js',
     { src: '~/plugins/vuex-persist', ssr: false },
   ],
 
@@ -77,12 +100,12 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/google-fonts',
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
     '@nuxtjs/sitemap',
     [
       '@nuxtjs/yandex-metrika',
@@ -121,8 +144,21 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    icon: {
+      purpose: false,
+    },
     manifest: {
       lang: 'en',
+      name: 'Samomes',
+      short_name: 'Samomes',
+      background_color: '#ffffff',
+      start_url: '/',
+      orientation: 'portrait-primary',
+      description: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
+        + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
+    },
+    meta: {
+      mobileAppIOS: false,
     },
   },
 
@@ -159,15 +195,29 @@ export default {
     },
   },
 
-  // router: {
-  //   // trailingSlash: true,
-  // },
+  router: {
+    trailingSlash: true,
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition;
+      }
+      if (to.hash) {
+        return { selector: to.hash };
+      }
+      return { x: 0, y: 0 };
+    },
+  },
 
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://samomes.com',
     exclude: [
-      '/settings',
+      '/settings/',
     ],
   },
+
+  // server: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  // },
 };

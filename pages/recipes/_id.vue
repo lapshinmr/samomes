@@ -24,31 +24,47 @@
         cols="12"
         sm="8"
         offset-sm="2"
+        class="d-flex"
       >
         <v-btn
           color="primary"
           class="mr-0"
           square
-          to="/recipes"
+          to="/recipes/"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
+        <v-btn
+          v-if="!isCreate && !isShare"
+          color="primary"
+          class="ml-auto"
+          @click="copyRecipe"
+        >
+          Скопировать
+        </v-btn>
       </v-col>
       <page-title>
-        <template v-if="isCreate">
+        <template v-if="isCreate && !isCopy">
           Новый рецепт
         </template>
-        <template v-if="isShared">
-          <p class="text-h4">
+        <template v-else-if="isCopy">
+          <div class="text-h5 text-md-h4">
+            Это копия рецепта {{ name }}
+          </div>
+          <div class="subtitle-1 font-weight-regular">
+            Внесите изменения и не забудьте сохранить
+          </div>
+        </template>
+        <template v-else-if="isShare">
+          <p class="text-h5 text-md-h4">
             С вами поделились рецептом!
           </p>
-          <p class="text-h6 font-weight-regular">
-            Посмотрите рецепт, дайте ему
-            название и напишите примечание. После этого можете сохранить его.
+          <p class="subtitle-1 font-weight-regular">
+            Проверьте его, дайте название и не забудьте сохранить.
           </p>
         </template>
         <template v-else>
-          Рецепт {{ name }}
+          {{ name }}
         </template>
       </page-title>
       <v-col
@@ -434,9 +450,9 @@
                       <v-col cols="12">
                         <v-text-field
                           v-model="name"
-                          label="Имя рецепта"
+                          label="Название рецепта"
                           hide-details="auto"
-                          hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
+                          hint="* название рецепта должно быть уникальным"
                           :rules="rulesName"
                         />
                       </v-col>
@@ -451,14 +467,21 @@
                         />
                       </v-col>
                       <v-col
-                        class="text-right"
                         cols="12"
+                        class="d-flex"
                       >
                         <v-btn
                           v-if="!isCreate && !isShared"
+                          color="error"
                           @click="removeRecipe"
                         >
                           Удалить
+                        </v-btn>
+                        <v-btn
+                          class="ml-auto"
+                          @click="$router.push('/recipes/')"
+                        >
+                          Отмена
                         </v-btn>
                         <v-btn
                           v-if="!isCreate && !isShared"
@@ -471,9 +494,10 @@
                         <v-btn
                           v-if="isCreate || isShared"
                           color="primary"
+                          class="ml-2"
                           @click="addRecipe"
                         >
-                          Добавить
+                          Сохранить
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -547,21 +571,27 @@ export default {
       },
       rulesName: [
         (v) => !!v || 'Введите название',
-        () => !this.isExist || 'Рецепт с таким названием уже существует',
+        () => !this.isExist || 'Рецепт или удобрение с таким названием уже существует',
       ],
     };
   },
-  mounted() {
-    const { share } = this.$router.currentRoute.query;
-    if (this.isCreate) {
+  async mounted() {
+    if (this.isCreate && !this.isCopy) {
       return;
     }
     let recipe;
+    const { share } = this.$router.currentRoute.query;
     if (share) {
       this.isShared = true;
       [recipe] = JSON.parse(decodeURIComponent(share));
+    } else if (this.isCopy) {
+      const recipeIndex = this.$route.query.copy;
+      recipe = JSON.parse(JSON.stringify({ ...this.recipes[recipeIndex] }));
     } else if (!this.isCreate) {
       recipe = JSON.parse(JSON.stringify({ ...this.recipes[this.recipeIndex] }));
+    }
+    if (Object.keys(recipe).length === 0) {
+      await this.$router.push('/recipes/');
     }
     const reagents = [];
     const compounds = [];
@@ -586,9 +616,16 @@ export default {
     ...mapState([
       'tanks',
       'recipes',
+      'fertilizers',
     ]),
     isCreate() {
       return this.$route.params.id === 'create';
+    },
+    isCopy() {
+      return this.$route.query.copy !== undefined;
+    },
+    isShare() {
+      return this.$route.params.id === 'share';
     },
     recipeIndex() {
       return this.$route.params.id;
@@ -671,12 +708,18 @@ export default {
     totalIonConcentration() {
       return this.countTotalIonConcentration(this.concentration);
     },
+    isEdit() {
+      const recipesNames = this.recipes.map((item) => item.name);
+      const index = recipesNames.indexOf(this.name);
+      return index === +this.recipeIndex;
+    },
     isExist() {
-      const names = this.recipes.map((item) => item.name);
-      const index = names.findIndex((item) => item === this.name);
-      const isExist = index !== -1;
-      const isEdit = index === +this.recipeIndex;
-      return isExist && !isEdit;
+      const recipesNames = this.recipes.map((item) => item.name);
+      const fertilizersNames = this.fertilizers.map((item) => item.name);
+      const recipeFound = recipesNames.find((item) => item === this.name);
+      const fertilizerFound = fertilizersNames.find((item) => item === this.name);
+      const isExist = recipeFound || fertilizerFound;
+      return isExist && !this.isEdit;
     },
     ionTotalDoseSorted() {
       const result = Object.entries(countTotalIonDose(this.solute));
@@ -906,7 +949,7 @@ export default {
           concentration: { ...this.concentration },
         });
         this.SNACKBAR_SHOW('Рецепт добавлен');
-        this.$router.push('/recipes');
+        this.$router.push('/recipes/');
       }
     },
     editRecipe() {
@@ -925,13 +968,17 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Рецепт изменен');
-        this.$router.push('/recipes');
+        this.$router.push('/recipes/');
       }
+    },
+    async copyRecipe() {
+      this.SNACKBAR_SHOW('Рецепт скопирован');
+      await this.$router.push(`/recipes/create/?copy=${this.recipeIndex}`);
     },
     removeRecipe() {
       this.RECIPE_REMOVE(this.recipeIndex);
       this.SNACKBAR_SHOW('Рецепт удален');
-      this.$router.push('/recipes');
+      this.$router.push('/recipes/');
     },
   },
 };

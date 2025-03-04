@@ -29,7 +29,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/fertilizers"
+          to="/fertilizers/"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -52,25 +52,36 @@
           <v-row>
             <v-col cols="12">
               <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
-                  Выберите единицы и введите концентрации элементов, которые указаны в составе удобрения.
-                  Элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
+                <v-col cols="12">
+                  Чтобы добавить своё фирменное удобрение, воспользуйтесь формой ниже. Выберите единицы
+                  измерения и введите концентрации элементов, указанные на этикетке.
                 </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
+                <v-col cols="12">
+                  <div class="d-flex align-center my-3">
+                    <v-divider />
+                    <div class="mx-4">
+                      или
+                    </div>
+                    <v-divider />
+                  </div>
                   <v-combobox
-                    :items="fertilizerExamples"
                     v-model="fertilizerExampleChosen"
-                    label="Удобрение"
-                    hint="или выберите удобрение из списка"
+                    :items="FERTILIZERS_SORTED"
+                    label="Выберите удобрение из списка"
+                    hint="* здесь есть большинство фирменных удобрений"
                     persistent-hint
+                    item-text="name"
+                    :return-object="true"
                     hide-details="auto"
                   />
+                  <v-alert
+                    v-if="updatedAt"
+                    type="success"
+                    class="mt-2"
+                  >
+                    Информация о составе удобрения обновлена {{ updatedAt | format('DD MMMM YYYY') }}
+                    в соответствии с данными производителя.
+                  </v-alert>
                 </v-col>
                 <v-col cols="12">
                   <v-radio-group
@@ -88,12 +99,27 @@
                       :value="true"
                     />
                   </v-radio-group>
+                  <v-alert
+                    v-if="isUnitsChangedAlert"
+                    type="error"
+                    class="mt-4"
+                  >
+                    Внимание! Вы изменили единицы измерения. Концентрации теперь отличаются в 10
+                    раз от указанных на этикетке.
+                    Если вы не уверены в правильности изменений, вернитесь к исходному варианту.
+                  </v-alert>
                 </v-col>
                 <v-col cols="12">
                   <v-row>
                     <v-col
+                      cols="12"
+                      class="text--red"
+                    >
+                      * элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
+                    </v-col>
+                    <v-col
                       v-for="el in Object.keys(elements)"
-                      :cols="['N', 'NO3', 'P', 'PO4'].includes(el) ? 6 : 12"
+                      :cols="elementCols[el]"
                       class="py-0"
                       :key="el"
                     >
@@ -104,7 +130,7 @@
                         :suffix="isPercent ? '%' : 'г/л'"
                         persistent-hint
                         hide-details="auto"
-                        :disabled="OPPOSITE[el] ? Boolean(elements[OPPOSITE[el]]) : false"
+                        :disabled="isDisabledCol[el]"
                       />
                     </v-col>
                   </v-row>
@@ -113,9 +139,9 @@
                   <v-col cols="12">
                     <v-text-field
                       v-model="name"
-                      label="Имя рецепта"
+                      label="Название удобрения"
                       hide-details="auto"
-                      hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
+                      hint="* название удобрения должно быть уникальным"
                       :rules="rulesName"
                     />
                   </v-col>
@@ -128,7 +154,7 @@
                       hide-details="auto"
                       auto-grow
                       rows="1"
-                      hint="Вы можете добавить дополнительные сведения к рецепту"
+                      hint="Вы можете добавить дополнительные сведения к удобрению"
                     />
                   </v-col>
                 </v-expand-transition>
@@ -156,7 +182,7 @@
                       color="primary"
                       @click="addFertilizer"
                     >
-                      Добавить
+                      Сохранить
                     </v-btn>
                   </v-col>
                 </v-expand-transition>
@@ -171,8 +197,14 @@
 
 <script>
 import FORMULAS from '~/helpers/constants/formulas';
-import FERTILIZERS from '~/helpers/constants/fertilizers';
-import { convertIonName, convertIonRatio, OPPOSITE } from '~/helpers/funcs/funcs';
+import { FERTILIZERS_SORTED } from '~/helpers/constants/fertilizers';
+import {
+  convertIonName,
+  convertIonRatio,
+  OXIDE_TO_ELEMENT,
+  OPPOSITE,
+  getOxideToElementRatio,
+} from '~/helpers/funcs/funcs';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -180,20 +212,24 @@ export default {
   data() {
     return {
       FORMULAS,
-      FERTILIZERS,
-      OPPOSITE,
+      FERTILIZERS_SORTED,
       fertilizerExampleChosen: null,
       solute: {},
       name: 'Удобрение',
       note: '',
+      updatedAt: undefined,
       elements: {
         N: null,
         NO3: null,
         P: null,
         PO4: null,
+        P2O5: null,
         K: null,
+        K2O: null,
         Ca: null,
+        CaO: null,
         Mg: null,
+        MgO: null,
         Fe: null,
         Mn: null,
         B: null,
@@ -211,17 +247,23 @@ export default {
       isPercent: false,
       rulesName: [
         (v) => !!v || 'Введите название',
-        () => !this.isExist || 'Удобрение с таким названием уже существует',
+        () => !this.isExist || 'Удобрение или рецепт с таким названием уже существует',
       ],
     };
   },
-  mounted() {
+  async mounted() {
     if (!this.isCreate) {
-      Object.assign(this.$data, JSON.parse(JSON.stringify({ ...this.fertilizers[this.fertilizerIndex] })));
+      const fertilizer = this.fertilizers[this.fertilizerIndex];
+      if (!fertilizer) {
+        await this.$router.push('/fertilizers/');
+      }
+      // TODO: investigate this construction
+      Object.assign(this.$data, JSON.parse(JSON.stringify({ ...fertilizer })));
     }
   },
   computed: {
     ...mapState([
+      'recipes',
       'fertilizers',
     ]),
     isCreate() {
@@ -230,48 +272,95 @@ export default {
     fertilizerIndex() {
       return this.$route.params.id;
     },
-    fertilizerExamples() {
-      const fertilizerExamples = [];
-      this.FERTILIZERS.forEach((item) => {
-        fertilizerExamples.push(item.name);
+    isUnitsChangedAlert() {
+      return this.fertilizerExampleChosen !== null
+        && typeof this.fertilizerExampleChosen !== 'string'
+        && this.fertilizerExampleChosen?.isPercent !== this.isPercent;
+    },
+    elementCols() {
+      const result = {};
+      Object.keys(this.elements).forEach((el) => {
+        if (['N', 'NO3', 'K', 'K2O', 'Ca', 'CaO', 'Mg', 'MgO'].includes(el)) {
+          result[el] = 6;
+        } else if (['P', 'PO4', 'P2O5'].includes(el)) {
+          result[el] = 4;
+        } else {
+          result[el] = 12;
+        }
       });
-      fertilizerExamples.sort((a, b) => a.localeCompare(b));
-      return fertilizerExamples;
+      return result;
     },
     concentration() {
       const result = {};
       result[this.name] = {};
       Object.entries(this.elements).forEach(([el, value]) => {
         const convertRatio = this.isPercent ? 10 : 1;
-        if (value && ['NO3', 'PO4'].includes(el)) {
-          result[this.name][this.convertIonName(el)] = this.convertIonRatio(el) * value * convertRatio;
+        // TODO: Simplify condition; remove this.name data nesting
+        if (value && ['NO3', 'PO4', 'MgO', 'CaO'].includes(el)) {
+          result[this.name][OXIDE_TO_ELEMENT[el]] = getOxideToElementRatio(el) * value * convertRatio;
+        } else if (value && el === 'P2O5') {
+          result[this.name].P = getOxideToElementRatio(el) * value * convertRatio;
+        } else if (value && el === 'K2O') {
+          result[this.name].K = getOxideToElementRatio(el) * value * convertRatio;
         } else if (value) {
           result[this.name][el] = value * convertRatio;
         }
       });
       return result;
     },
+    isDisabledCol() {
+      const result = {};
+      const OPPOSITE_EXTENDED = {
+        ...OPPOSITE,
+        K: 'K2O',
+        K2O: 'K',
+        MgO: 'Mg',
+        Mg: 'MgO',
+        CaO: 'Ca',
+        Ca: 'CaO',
+      };
+      Object.entries(this.elements).forEach(([el, value]) => {
+        if (value) {
+          if (this.concentration[this.name].P) {
+            result.P = !this.elements.P;
+            result.PO4 = !this.elements.PO4;
+            result.P2O5 = !this.elements.P2O5;
+          } else if (OPPOSITE_EXTENDED[el]) {
+            result[OPPOSITE_EXTENDED[el]] = true;
+          }
+        }
+      });
+      return result;
+    },
+    isEdit() {
+      const fertilizersNames = this.fertilizers.map((item) => item.name);
+      const index = fertilizersNames.indexOf(this.name);
+      return index === +this.fertilizerIndex;
+    },
     isExist() {
-      const names = this.fertilizers.map((item) => item.name);
-      const index = names.findIndex((item) => item === this.name);
-      const isExist = index !== -1;
-      const isEdit = index === +this.fertilizerIndex;
-      return isExist && !isEdit;
+      const recipesNames = this.recipes.map((item) => item.name);
+      const fertilizersNames = this.fertilizers.map((item) => item.name);
+      const recipeFound = recipesNames.find((item) => item === this.name);
+      const fertilizerFound = fertilizersNames.find((item) => item === this.name);
+      const isExist = recipeFound || fertilizerFound;
+      return isExist && !this.isEdit;
     },
   },
   watch: {
-    fertilizerExampleChosen() {
-      this.FERTILIZERS.forEach((item) => {
-        if (item.name === this.fertilizerExampleChosen) {
-          this.isPercent = item.isPercent;
-          Object.keys(this.elements).forEach((ion) => {
-            this.elements[ion] = null;
-          });
-          this.elements = Object.assign(this.elements, item.elements);
-          this.name = item.name;
-          this.note = item.note;
+    fertilizerExampleChosen: {
+      deep: true,
+      handler(value) {
+        if (value === null || typeof value === 'string') {
+          this.resetForm();
+          return;
         }
-      });
+        this.resetForm();
+        this.isPercent = value.isPercent;
+        this.elements = Object.assign(this.elements, value.elements);
+        this.name = value.name;
+        this.note = value.note;
+        this.updatedAt = value.updatedAt;
+      },
     },
   },
   methods: {
@@ -283,6 +372,15 @@ export default {
     ]),
     convertIonName,
     convertIonRatio,
+    resetForm() {
+      Object.keys(this.elements).forEach((ion) => {
+        this.elements[ion] = null;
+      });
+      this.name = 'Удобрение';
+      this.note = '';
+      this.updatedAt = undefined;
+      this.isPercent = false;
+    },
     addFertilizer() {
       if (this.$refs.fertilizerForm.validate()) {
         this.FERTILIZER_ADD({
@@ -293,7 +391,7 @@ export default {
           isPercent: this.isPercent,
         });
         this.SNACKBAR_SHOW('Удобрение добавлено');
-        this.$router.push('/fertilizers');
+        this.$router.push('/fertilizers/');
       }
     },
     editFertilizer() {
@@ -309,13 +407,13 @@ export default {
           },
         });
         this.SNACKBAR_SHOW('Удобрение изменено');
-        this.$router.push('/fertilizers');
+        this.$router.push('/fertilizers/');
       }
     },
     removeFertilizer() {
       this.FERTILIZER_REMOVE(this.fertilizerIndex);
       this.SNACKBAR_SHOW('Удобрение удалено');
-      this.$router.push('/fertilizers');
+      this.$router.push('/fertilizers/');
     },
   },
 };

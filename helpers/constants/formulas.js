@@ -1068,7 +1068,6 @@ export default {
         count: 14,
       },
     },
-    solubilityLimit: 100,
     name: 'Железа глюконат',
   },
   'C12H22FeO14(H2O)': {
@@ -1090,7 +1089,6 @@ export default {
         count: 15,
       },
     },
-    solubilityLimit: 100,
     name: 'Железа глюконат 1-водный',
   },
   'C12H22FeO14(H2O)2': {
@@ -1112,8 +1110,221 @@ export default {
         count: 16,
       },
     },
-    solubilityLimit: 100,
     name: 'Железа глюконат 2-водный',
+  },
+  C4H8FeN2O4: {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 8,
+      },
+      Fe: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: false,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    name: 'Железа глицинат',
+  },
+  'C4H8FeN2O4(H2O)': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 10,
+      },
+      Fe: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: false,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 5,
+      },
+    },
+    name: 'Железа глицинат 1-водный',
+  },
+  'C4H8FeN2O4(H2O)2': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 12,
+      },
+      Fe: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: false,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    name: 'Железа глицинат 2-водный',
+  },
+  // Mn
+  C12H22MnO14: {
+    ions: {
+      Mn: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 12,
+      },
+      H: {
+        isNeeded: false,
+        count: 22,
+      },
+      O: {
+        isNeeded: false,
+        count: 14,
+      },
+    },
+    name: 'Марганца глюконат',
+  },
+  'C12H22MnO14(H2O)': {
+    ions: {
+      Mn: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 12,
+      },
+      H: {
+        isNeeded: false,
+        count: 24,
+      },
+      O: {
+        isNeeded: false,
+        count: 15,
+      },
+    },
+    name: 'Марганца глюконат 1-водный',
+  },
+  'C12H22MnO14(H2O)2': {
+    ions: {
+      Mn: {
+        isNeeded: true,
+        count: 1,
+      },
+      C: {
+        isNeeded: false,
+        count: 12,
+      },
+      H: {
+        isNeeded: false,
+        count: 26,
+      },
+      O: {
+        isNeeded: false,
+        count: 16,
+      },
+    },
+    name: 'Марганца глюконат 2-водный',
+  },
+  C4H8MnN2O4: {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 8,
+      },
+      Mn: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: false,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    name: 'Марганца глицинат',
+  },
+  'C4H8MnN2O4(H2O)': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 10,
+      },
+      Mn: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: false,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 5,
+      },
+    },
+    name: 'Марганца глицинат 1-водный',
+  },
+  'C4H8MnN2O4(H2O)2': {
+    ions: {
+      C: {
+        isNeeded: false,
+        count: 4,
+      },
+      H: {
+        isNeeded: false,
+        count: 12,
+      },
+      Mn: {
+        isNeeded: true,
+        count: 1,
+      },
+      N: {
+        isNeeded: false,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+    },
+    name: 'Марганца глицинат 2-водный',
   },
   // EDTA
   'C10H14N2Na2O8(H2O)2': {

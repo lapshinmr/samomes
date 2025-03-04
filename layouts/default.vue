@@ -29,14 +29,11 @@
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
-          <span>{{ breadcrumbs[$router.currentRoute.name] }}</span>
+          <a class="white--text" href="/">Самомес</a>
         </div>
       </v-toolbar-title>
       <v-spacer />
-      <div class="d-flex justify-end">
-        <!--        <LanguageSwitcher />-->
-      </div>
-      <v-app-bar-nav-icon @click.stop="isDrawer = !isDrawer" />
+      <v-app-bar-nav-icon @click="isDrawer = !isDrawer" />
     </v-app-bar>
 
     <v-main>
@@ -44,7 +41,7 @@
         name="fade"
         mode="out-in"
       >
-        <router-view />
+        <nuxt />
       </transition>
       <v-snackbar v-model="isSnackbar">
         <div>
@@ -56,38 +53,21 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
-import { ROUTES } from '~/helpers/constants/application';
+import { mapState, mapMutations } from 'vuex';
 import Drawer from '~/components/Layout/Drawer.vue';
-// import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 
 export default {
   name: 'App',
   components: {
     Drawer,
-    // LanguageSwitcher,
   },
-  data() {
-    return {};
-  },
-  // created() {
-  //   this.initLang();
-  // },
-  mounted() {
-    const data = localStorage.getItem('udata');
-    if (!data) {
-      this.$nextTick(() => {
-        if (this.$vuetify.breakpoint.smAndUp) {
-          this.isDrawer = true;
-        }
-      });
+  async mounted() {
+    // Handle page refresh with dynamic routes
+    const redirectPath = localStorage.getItem('404_redirect_path');
+    if (redirectPath) {
+      localStorage.removeItem('404_redirect_path');
+      await this.$router.replace(redirectPath);
     }
-    this.recipes.forEach((recipe, index) => {
-      if (recipe.type === 'Готовое') {
-        this.FERTILIZER_ADD(recipe);
-        this.RECIPE_REMOVE(index);
-      }
-    });
     if (typeof this.guideIsClosed === 'boolean') {
       this.GUIDE_RESET();
     }
@@ -95,7 +75,7 @@ export default {
       const path = localStorage.getItem('path');
       if (path) {
         localStorage.removeItem('path');
-        this.$router.push(path);
+        await this.$router.push(path);
       }
     }
   },
@@ -115,13 +95,6 @@ export default {
         this.DRAWER_SET(value);
       },
     },
-    breadcrumbs() {
-      const result = {};
-      ROUTES.forEach((item) => {
-        result[item.path] = this.$t(`routes.${item.path}`);
-      });
-      return result;
-    },
     isSnackbar: {
       get() {
         return this.$store.state.isSnackbar;
@@ -139,16 +112,6 @@ export default {
       'RECIPE_REMOVE',
       'GUIDE_RESET',
     ]),
-    ...mapActions([
-      'langSet',
-    ]),
-    // initLang() {
-    //   if (process.client) {
-    //     let lang = document.window.navigator.userLanguage || document.window.navigator.language;
-    //     lang = lang === 'ru-RU' ? 'ru' : 'en';
-    //     this.langSet(this.lang || lang);
-    //   }
-    // },
   },
 };
 </script>

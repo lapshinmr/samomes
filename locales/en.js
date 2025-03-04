@@ -18,6 +18,7 @@
  */
 
 export default {
+  home: 'Samomes',
   routes: {
     tanks: 'Fish tanks',
     recipes: 'Recipies',
@@ -29,7 +30,6 @@ export default {
     articles: 'Articles',
     about: 'About',
     settings: 'Settings',
-    Github: 'Github',
   },
   units: {
     mm: 'mm',
