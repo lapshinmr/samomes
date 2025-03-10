@@ -359,9 +359,9 @@ import {
   countTotalIonConcentration,
   isRecipe,
   isFertilizer,
-} from '~/helpers/funcs/funcs';
+} from '@/helpers/funcs/funcs';
 import FertilizersDoseTable, { FERTILIZATION_IN_TAP_WATER } from '@/components/FertilizersDoseTable.vue';
-import { countKh } from '~/helpers/funcs/hardness';
+import { countKh } from '@/helpers/funcs/hardness';
 
 export default {
   name: 'Remineralization',

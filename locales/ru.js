@@ -21,8 +21,8 @@ export default {
   home: 'Самомес',
   routes: {
     tanks: 'Аквариумы',
-    recipes: 'Самодельные',
-    fertilizers: 'Фирменные',
+    recipes: 'Рецепты',
+    fertilizers: 'Удобрения',
     schedules: 'Расписание',
     reminerals: 'Реминерализаторы',
     remineralization: 'Водоподготовка',

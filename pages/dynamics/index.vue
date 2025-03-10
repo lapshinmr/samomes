@@ -272,14 +272,14 @@ import Vue from 'vue';
 import ELEMENTS from '@/helpers/constants/elements';
 import FORMULAS from '@/helpers/constants/formulas';
 import { mapState } from 'vuex';
-import { convertIonName, convertIonRatio, isRecipe } from '~/helpers/funcs/funcs';
+import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs/funcs';
 import ElementsTable from '@/components/ElementsTable.vue';
 import FertilizersDoseTable, {
   FERTILIZATION_EVERY_DAY,
   FERTILIZATION_IN_TAP_WATER,
   FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
-import LineChart from '../components/Chart.vue';
+import LineChart from '@/components/Chart.vue';
 
 export default {
   name: 'Dynamics',
