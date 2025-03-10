@@ -172,6 +172,21 @@ export default {
     meta: {
       mobileAppIOS: false,
     },
+    workbox: {
+      runtimeCaching: [
+        {
+          urlPattern: '/*',
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'runtime-cache',
+            expiration: {
+              maxEntries: 200,
+              maxAgeSeconds: 7 * 24 * 60 * 60, // 1 week
+            },
+          },
+        },
+      ],
+    },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
