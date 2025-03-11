@@ -38,8 +38,8 @@
       </v-list-item>
       <v-list-item
         v-for="route in ROUTES"
-        :to="`/${route.path}/`"
         :key="route.icon"
+        @click="navigateTo(route.path)"
       >
         <v-list-item-action>
           <v-icon>{{ route.icon }}</v-icon>
@@ -50,7 +50,10 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item href="https://vk.com/samomes">
+      <v-list-item
+        href="https://vk.com/samomes"
+        @click="closeDrawer"
+      >
         <v-list-item-action>
           <v-icon>fab fa-vk</v-icon>
         </v-list-item-action>
@@ -60,7 +63,10 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item href="https://github.com/lapshinmr/samomes">
+      <v-list-item
+        href="https://github.com/lapshinmr/samomes"
+        @click="closeDrawer"
+      >
         <v-list-item-action>
           <v-icon>fab fa-github</v-icon>
         </v-list-item-action>
@@ -137,6 +143,13 @@ export default {
     this.browser = this.isChrome() ? 'chrome' : 'unknown';
   },
   methods: {
+    closeDrawer() {
+      this.$emit('input', false);
+    },
+    navigateTo(path) {
+      this.closeDrawer();
+      this.$router.push(`/${path}/`);
+    },
     getPlatform() {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
@@ -166,8 +179,10 @@ export default {
     async install() {
       if (this.deferredPrompt) {
         this.deferredPrompt.prompt();
+        this.closeDrawer();
       } else {
         this.isPWAPopup = true;
+        this.closeDrawer();
       }
     },
   },
