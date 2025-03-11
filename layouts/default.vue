@@ -81,9 +81,6 @@ export default {
       localStorage.removeItem('404_redirect_path');
       await this.$router.replace(redirectPath);
     }
-    if (typeof this.guideIsClosed === 'boolean') {
-      this.GUIDE_RESET();
-    }
     if (!this.$router.currentRoute.query.share) {
       const path = localStorage.getItem('path');
       if (path) {
@@ -98,7 +95,6 @@ export default {
       'snackbarMessage',
       'lang',
       'recipes',
-      'guideIsClosed',
     ]),
     isDrawer: {
       get() {
