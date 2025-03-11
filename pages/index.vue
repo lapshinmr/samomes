@@ -414,7 +414,7 @@
             <a
               href="https://t.me/samomes_calculator"
               target="_blank"
-            >Telegram-канал</a> или в группе
+            >Telegram-канале</a> или в группе
             <a
               href="https://vk.com/samomes"
               target="_blank"
