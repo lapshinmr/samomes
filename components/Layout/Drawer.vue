@@ -39,7 +39,7 @@
       <v-list-item
         v-for="route in ROUTES"
         :key="route.icon"
-        @click="navigateTo(route.path)"
+        :to="`/${route.path}/`"
       >
         <v-list-item-action>
           <v-icon>{{ route.icon }}</v-icon>
@@ -145,10 +145,6 @@ export default {
   methods: {
     closeDrawer() {
       this.$emit('input', false);
-    },
-    navigateTo(path) {
-      this.closeDrawer();
-      this.$router.push(`/${path}/`);
     },
     getPlatform() {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;

@@ -68,6 +68,7 @@ export default {
       },
     ],
     link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       // https://stackoverflow.com/questions/70036043/nuxt-pwa-is-not-displaying-splash-screens-on-ios-devices
       { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-2048-2732.png', media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
       { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1668-2388.png', media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
@@ -145,12 +146,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
-  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
