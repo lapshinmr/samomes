@@ -75,7 +75,7 @@
           />
         </div>
         <v-expand-transition>
-          <div v-if="tank.volume">
+          <div v-if="tank.volume && remineralizationType !== null">
             <div class="text-subtitle-1">
               Подмена
             </div>
