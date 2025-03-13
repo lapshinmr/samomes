@@ -42,9 +42,41 @@
           suffix="л"
           :return-object="true"
         />
+        <div class="mt-2 mt-sm-4">
+          Выберите тип подмены
+        </div>
+        <div class="d-flex flex-column flex-md-row">
+          <v-radio-group
+            v-model="remineralizationType"
+            class="my-2"
+            hide-details="auto"
+            :column="$vuetify.breakpoint.name === 'xs'"
+            :row="$vuetify.breakpoint.name !== 'xs'"
+          >
+            <v-radio
+              label="Осмос + реминерализатор"
+              :value="REMINERALIZATION_TYPES_REM"
+            />
+            <v-radio
+              label="Осмос + водопровод"
+              :value="REMINERALIZATION_TYPES_TAP"
+              class="mt-1 mt-sm-0"
+            />
+            <v-radio
+              label="Другое"
+              :value="REMINERALIZATION_TYPES_MIX"
+              class="mt-1 mt-sm-0"
+            />
+          </v-radio-group>
+          <v-checkbox
+            v-model="isTests"
+            label="Тестирую воду"
+            class="my-2"
+          />
+        </div>
         <v-expand-transition>
           <div v-if="tank.volume">
-            <div class="text-subtitle-1 mt-4 mt-sm-8">
+            <div class="text-subtitle-1">
               Подмена
             </div>
             <div class="d-flex flex-column flex-sm-row align-sm-center">
@@ -75,10 +107,10 @@
                 @click:append="inputWaterChange(100)"
               />
               <number-field
+                v-if="[REMINERALIZATION_TYPES_TAP, REMINERALIZATION_TYPES_MIX].includes(remineralizationType)"
                 :value="osmosisChange"
                 @input="inputOsmosisChange"
                 :precision-show="1"
-                type="number"
                 label="Процент"
                 :hint="`
                   Осмос: ${osmosisChangeVolume.toFixed(1)} л.
@@ -92,47 +124,69 @@
                 @click:append="inputOsmosisChange(100)"
               />
             </div>
-            <div class="text-headline mt-8">
-              Значения жесткости
-            </div>
-            <div class="d-flex">
-              <number-field
-                :value="ghInit"
-                @input="inputGhInit"
-                label="Gh в аквариуме"
-                suffix="dGh"
-                hide-details="auto"
-              />
-              <number-field
-                :value="ghWaterChange"
-                @input="inputGhWaterChange"
-                label="Gh водопровода"
-                suffix="dGh"
-                hide-details="auto"
-                class="ml-3"
-              />
-            </div>
-            <div class="d-flex">
-              <number-field
-                :value="khInit"
-                @input="inputKhInit"
-                label="Kh в аквариуме"
-                suffix="dKh"
-                hide-details="auto"
-              />
-              <number-field
-                :value="khWaterChange"
-                @input="inputKhWaterChange"
-                label="Kh водопровода"
-                suffix="dKh"
-                hide-details="auto"
-                class="ml-3"
-              />
-            </div>
+            <v-expand-transition>
+              <div
+                v-if="
+                  isTests
+                    || [REMINERALIZATION_TYPES_TAP, REMINERALIZATION_TYPES_MIX].includes(remineralizationType)
+                "
+              >
+                <div class="text-headline mt-8">
+                  Исходная жесткость
+                </div>
+                <div class="d-flex">
+                  <number-field
+                    v-if="[REMINERALIZATION_TYPES_TAP, REMINERALIZATION_TYPES_MIX].includes(remineralizationType)"
+                    :value="ghWaterChange"
+                    @input="inputGhWaterChange"
+                    label="Gh водопровода"
+                    suffix="dGh"
+                    hide-details="auto"
+                  />
+                  <number-field
+                    v-if="isTests"
+                    :value="ghInit"
+                    @input="inputGhInit"
+                    label="Gh в аквариуме"
+                    suffix="dGh"
+                    hide-details="auto"
+                    :class="{
+                      'ml-3': [REMINERALIZATION_TYPES_TAP, REMINERALIZATION_TYPES_MIX].includes(remineralizationType)
+                    }"
+                  />
+                </div>
+                <div class="d-flex">
+                  <number-field
+                    v-if="[REMINERALIZATION_TYPES_TAP, REMINERALIZATION_TYPES_MIX].includes(remineralizationType)"
+                    :value="khWaterChange"
+                    @input="inputKhWaterChange"
+                    label="Kh водопровода"
+                    suffix="dKh"
+                    hide-details="auto"
+                  />
+                  <number-field
+                    v-if="isTests"
+                    :value="khInit"
+                    @input="inputKhInit"
+                    label="Kh в аквариуме"
+                    suffix="dKh"
+                    hide-details="auto"
+                    :class="{
+                      'ml-3': [REMINERALIZATION_TYPES_TAP, REMINERALIZATION_TYPES_MIX].includes(remineralizationType)
+                    }"
+                  />
+                </div>
+              </div>
+            </v-expand-transition>
           </div>
         </v-expand-transition>
         <v-expand-transition>
-          <div v-if="tank.volume">
+          <div
+            v-if="
+              tank.volume
+                && [REMINERALIZATION_TYPES_REM, REMINERALIZATION_TYPES_MIX].includes(remineralizationType)
+            "
+          >
             <div class="text-subtitle-1 mt-8">
               Реминерализатор и удобрения
             </div>
@@ -183,6 +237,13 @@
                         suffix="dGh"
                         hide-details="auto"
                       />
+                      <number-field
+                        v-model="ownRemineral.volume"
+                        label="Объем"
+                        hint="Объем, на который рассчитан состав"
+                        suffix="л"
+                        hide-details="auto"
+                      />
                     </v-col>
                     <v-col cols="6">
                       <number-field
@@ -191,22 +252,11 @@
                         suffix="dKh"
                         hide-details="auto"
                       />
-                    </v-col>
-                    <v-col cols="6">
                       <number-field
                         v-model="ownRemineral.mass"
                         label="Масса"
                         hint="Масса, которая повышает Gh и Кh в n объеме на m градусов"
                         suffix="г"
-                        hide-details="auto"
-                      />
-                    </v-col>
-                    <v-col cols="6">
-                      <number-field
-                        v-model="ownRemineral.volume"
-                        label="Объем"
-                        hint="Объем, на который рассчитан состав"
-                        suffix="л"
                         hide-details="auto"
                       />
                     </v-col>
@@ -280,56 +330,56 @@
             v-if="tank.volume"
             class="mt-8"
           >
-            <div class="d-flex flex-column flex-sm-row">
-              <div class="flex-grow-1">
-                <div class="text-subtitle-1 mb-2">
-                  Жесткость в подмене
-                </div>
+            <div class="text-subtitle-1 mb-2">
+              Подготовленная жесткость
+            </div>
+            <div>
+              <div class="d-flex">
                 <v-text-field
                   :value="waterChangeGh.toFixed(2)"
-                  label="Общая жесткость"
+                  label="Gh в подмене"
                   suffix="dGh"
                   hide-details="auto"
                   readonly
                   outlined
                   persistent-hint
-                  class="mb-2"
+                  class="mb-3"
                   :rules="rulesCalculation"
                 />
                 <v-text-field
-                  :value="waterChangeKh.toFixed(2)"
-                  label="Карбонатная жесткость"
-                  suffix="dKh"
+                  v-if="isTests"
+                  :value="totalGh.toFixed(2)"
+                  label="Gh в аквариуме"
+                  suffix="dGh"
                   hide-details="auto"
                   readonly
                   outlined
                   persistent-hint
+                  class="mb-3 ml-3"
                   :rules="rulesCalculation"
                 />
               </div>
-              <div class="flex-grow-1 ml-sm-2">
-                <div class="text-subtitle-1 mb-2">
-                  Жесткость в аквариуме
-                </div>
+              <div class="d-flex">
                 <v-text-field
-                  :value="totalGh.toFixed(2)"
-                  label="Общая жесткость"
-                  suffix="dGh"
-                  hide-details="auto"
-                  readonly
-                  outlined
-                  persistent-hint
-                  class="mb-2"
-                  :rules="rulesCalculation"
-                />
-                <v-text-field
-                  :value="totalKh.toFixed(2)"
-                  label="Карбонатная жесткость"
+                  :value="waterChangeKh.toFixed(2)"
+                  label="Kh в подмене"
                   suffix="dKh"
                   hide-details="auto"
                   readonly
                   outlined
                   persistent-hint
+                  :rules="rulesCalculation"
+                />
+                <v-text-field
+                  v-if="isTests"
+                  :value="totalKh.toFixed(2)"
+                  label="Kh в аквариуме"
+                  suffix="dKh"
+                  hide-details="auto"
+                  readonly
+                  outlined
+                  persistent-hint
+                  class="ml-3"
                   :rules="rulesCalculation"
                 />
               </div>
@@ -363,6 +413,10 @@ import {
 import FertilizersDoseTable, { FERTILIZATION_IN_TAP_WATER } from '@/components/FertilizersDoseTable.vue';
 import { countKh } from '@/helpers/funcs/hardness';
 
+export const REMINERALIZATION_TYPES_REM = 0;
+export const REMINERALIZATION_TYPES_TAP = 1;
+export const REMINERALIZATION_TYPES_MIX = 2;
+
 export default {
   name: 'Remineralization',
   components: {
@@ -393,6 +447,9 @@ export default {
       GH,
       REMINERALS,
       FERTILIZATION_IN_TAP_WATER,
+      REMINERALIZATION_TYPES_REM,
+      REMINERALIZATION_TYPES_TAP,
+      REMINERALIZATION_TYPES_MIX,
       dialog: true,
       tank: {
         name: null,
@@ -426,6 +483,29 @@ export default {
       'fertilizers',
       'reminerals',
     ]),
+    remineralizationType: {
+      get() {
+        return this.$store.state.remineralization.type;
+      },
+      set(value) {
+        this.osmosisChange = 0;
+        this.ghInit = 0;
+        this.khInit = 0;
+        this.ghWaterChange = 0;
+        this.khWaterChange = 0;
+        this.recipesSelected = [];
+        this.remineralsSelected = [];
+        this.$store.commit('REMINERALIZATION_SET_TYPE', value);
+      },
+    },
+    isTests: {
+      get() {
+        return this.$store.state.remineralization.isTests;
+      },
+      set(value) {
+        this.$store.commit('REMINERALIZATION_SET_IS_TESTS', value);
+      },
+    },
     remineralsAll() {
       const reminerals = this.reminerals.map((rem) => ({
         ...rem,

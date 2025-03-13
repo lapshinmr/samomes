@@ -25,7 +25,7 @@
         offset-sm="1"
       >
         <v-img
-          :src="require('@/assets/images/simplest-phosphate.webp')"
+          :src="require('assets/images/simplest-phosphate.webp')"
           alt="Easiest nitrate recipe"
         />
       </v-col>
@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import FORMULAS from '~/helpers/constants/formulas';
+import FORMULAS from '@/helpers/constants/formulas';
 import { convertIonRatio, countPercent, convertIonName } from '@/helpers/funcs/funcs';
 
 const OTHER_DOSE = 'другая';

@@ -25,7 +25,7 @@
         offset-sm="1"
       >
         <v-img
-          :src="require('@/assets/images/simplest-nitrate.webp')"
+          :src="require('assets/images/simplest-nitrate.webp')"
           alt="Easiest nitrate recipe"
         />
       </v-col>
@@ -268,7 +268,8 @@
         >
           Рецепт:
           <br><br>
-          {{ reagentMass ? reagentMass.toFixed(2) : '-' }} г нитрата калия (KNO<sub>3</sub>) на {{ fertilizerVolume }} мл.
+          {{ reagentMass ? reagentMass.toFixed(2) : '-' }} г
+          нитрата калия (KNO<sub>3</sub>) на {{ fertilizerVolume }} мл.
           <br><br>
           1 мл данного удобрения повышает уровень нитрата на
           {{ fertilizerDose.NO3 ? fertilizerDose.NO3.toFixed(2) : '-' }} мг/л и калия на
@@ -423,7 +424,7 @@
 </template>
 
 <script>
-import FORMULAS from '~/helpers/constants/formulas';
+import FORMULAS from '@/helpers/constants/formulas';
 import { convertIonRatio, countPercent, convertIonName } from '@/helpers/funcs/funcs';
 
 const OTHER_DOSE = 'другая';
