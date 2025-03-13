@@ -119,28 +119,26 @@ export default {
       browser: 'unknown',
     };
   },
-  created() {
-    if (process.client) {
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // e.preventDefault();
-        // Stash the event so it can be triggered later.
-        this.deferredPrompt = e;
-      });
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      window.addEventListener('appinstalled', () => {
-        this.isPWAInstallButton = false;
-        this.deferredPrompt = null;
-      });
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-        this.isPWAInstallButton = false;
-      }
-    }
-  },
   mounted() {
     this.platform = this.getPlatform();
     this.browser = this.isChrome() ? 'chrome' : 'unknown';
+    // By default, we hide PWA install button on chrome because it can be already installed
+    if (this.isChrome()) {
+      this.isPWAInstallButton = false;
+    }
+    window.addEventListener('beforeinstallprompt', (e) => {
+      this.deferredPrompt = e;
+      this.isPWAInstallButton = true;
+    });
+    // This event is required to hide PWA install button in the PWA right after app is installed
+    window.addEventListener('appinstalled', () => {
+      this.isPWAInstallButton = false;
+      this.deferredPrompt = null;
+    });
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isPWA) {
+      this.isPWAInstallButton = false;
+    }
   },
   methods: {
     closeDrawer() {
@@ -152,6 +150,8 @@ export default {
         return 'ios';
       } if (/android/i.test(userAgent)) {
         return 'android';
+      } if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent) && !window.MSStream) {
+        return 'macos';
       }
       return 'unknown';
     },
@@ -162,7 +162,7 @@ export default {
       const isOpera = typeof window.opr !== 'undefined';
       const isIEedge = winNav.userAgent.indexOf('Edg') > -1;
       const isGoogleChrome = (typeof winNav?.userAgentData !== 'undefined')
-        ? winNav.userAgentData.brands[0]?.brand === 'Google Chrome'
+        ? winNav.userAgentData.brands.some((item) => item.brand === 'Google Chrome')
         : vendorName === 'Google Inc.';
 
       return isChromium !== null
@@ -175,10 +175,8 @@ export default {
     async install() {
       if (this.deferredPrompt) {
         this.deferredPrompt.prompt();
-        this.closeDrawer();
       } else {
         this.isPWAPopup = true;
-        this.closeDrawer();
       }
     },
   },
