@@ -19,6 +19,7 @@
 <template>
   <v-text-field
     v-bind="$attrs"
+    :inputmode="$attrs.inputmode || 'decimal'"
     :value="prepareValue($attrs.value)"
     @input="onInput"
     @focus="toggleFocus(true)"

@@ -131,6 +131,12 @@ export default {
   SCHEDULES_REMOVE(state) {
     state.schedules = [];
   },
+  REMINERALIZATION_SET_TYPE(state, payload) {
+    state.remineralization.type = payload;
+  },
+  REMINERALIZATION_SET_IS_TESTS(state, payload) {
+    state.remineralization.isTests = payload;
+  },
   SNACKBAR_SHOW(state, payload) {
     state.snackbarMessage = payload;
     state.isSnackbar = true;

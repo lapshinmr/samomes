@@ -29,6 +29,10 @@ export default () => ({
     isTotalMode: false,
     isHardness: false,
   },
+  remineralization: {
+    type: null,
+    isTests: false,
+  },
   tanks: [],
   recipes: [],
   fertilizers: [],
