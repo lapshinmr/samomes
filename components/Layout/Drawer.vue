@@ -24,68 +24,49 @@
     :value="value"
     @input="$emit('input', $event)"
   >
-    <v-list class="pt-0">
-      <v-list-item
-        v-if="$vuetify.breakpoint['xs']"
-        @click.stop="$emit('input', false)"
-      >
-        <v-list-item-action />
-        <v-list-item-content>
-          <v-list-item-title class="d-flex justify-end">
-            <v-icon>mdi-close</v-icon>
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        v-for="route in ROUTES"
-        :key="route.icon"
-        :to="`/${route.path}/`"
-      >
-        <v-list-item-action>
-          <v-icon>{{ route.icon }}</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ $t(`routes.${route.path}`) }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        href="https://vk.com/samomes"
-        @click="closeDrawer"
-      >
-        <v-list-item-action>
-          <v-icon>fab fa-vk</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            Вконтакте
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        href="https://github.com/lapshinmr/samomes"
-        @click="closeDrawer"
-      >
-        <v-list-item-action>
-          <v-icon>fab fa-github</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>GitHub</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        v-if="isPWAInstallButton"
-        @click="install"
-      >
-        <v-list-item-action>
-          <v-icon>mdi mdi-download</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Установить</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    <div class="d-flex flex-column justify-between fill-height">
+      <v-list class="pt-0">
+        <v-list-item
+          v-for="route in ROUTES"
+          :key="route.icon"
+          :to="`/${route.path}/`"
+        >
+          <v-list-item-action>
+            <v-icon>{{ route.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ $t(`routes.${route.path}`) }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="isPWAInstallButton"
+          @click="install"
+        >
+          <v-list-item-action>
+            <v-icon>mdi mdi-download</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Установить</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <div class="d-flex justify-space-around mt-auto pa-4">
+        <a
+          href="https://vk.com/samomes"
+          target="_blank"
+        ><v-icon>fab fa-vk</v-icon></a>
+        <a
+          href="https://t.me/samomes_calculator"
+          target="_blank"
+        ><v-icon>fab fa-telegram</v-icon></a>
+        <a
+          href="https://github.com/lapshinmr/samomes"
+          target="_blank"
+        ><v-icon>fab fa-github</v-icon></a>
+      </div>
+    </div>
     <PWAPopup
       v-model="isPWAPopup"
       :platform="platform"
