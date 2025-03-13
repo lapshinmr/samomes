@@ -29,7 +29,20 @@
     >
       <v-toolbar-title>
         <div class="d-flex align-content-center text-uppercase">
-          <a class="white--text" href="/">Самомес</a>
+          <a
+            class="d-flex white--text"
+            href="/"
+          >
+            <v-img
+              :src="require('@/assets/images/npk-120x120.png')"
+              max-height="24"
+              max-width="24"
+              alt="Main logotype NPK"
+            />
+            <span class="ml-1">
+              Самомес
+            </span>
+          </a>
         </div>
       </v-toolbar-title>
       <v-spacer />
@@ -68,9 +81,6 @@ export default {
       localStorage.removeItem('404_redirect_path');
       await this.$router.replace(redirectPath);
     }
-    if (typeof this.guideIsClosed === 'boolean') {
-      this.GUIDE_RESET();
-    }
     if (!this.$router.currentRoute.query.share) {
       const path = localStorage.getItem('path');
       if (path) {
@@ -85,7 +95,6 @@ export default {
       'snackbarMessage',
       'lang',
       'recipes',
-      'guideIsClosed',
     ]),
     isDrawer: {
       get() {

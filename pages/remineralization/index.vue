@@ -23,12 +23,6 @@
       <page-title>
         Водоподготовка
       </page-title>
-      <client-only>
-        <guide>
-          На этой странице можно рассчитать Gh/Kh в аквариуме в зависимости от исходной воды, разбавления осмосом,
-          реминерализатора и дозировок удобрений.
-        </guide>
-      </client-only>
       <v-col
         cols="12"
         sm="8"
@@ -341,6 +335,10 @@
           </div>
         </v-expand-transition>
       </v-col>
+      <the-guide>
+        На этой странице можно рассчитать Gh/Kh в аквариуме в зависимости от исходной воды, разбавления осмосом,
+        реминерализатора и дозировок удобрений.
+      </the-guide>
     </v-row>
   </v-container>
 </template>
@@ -359,9 +357,9 @@ import {
   countTotalIonConcentration,
   isRecipe,
   isFertilizer,
-} from '~/helpers/funcs/funcs';
+} from '@/helpers/funcs/funcs';
 import FertilizersDoseTable, { FERTILIZATION_IN_TAP_WATER } from '@/components/FertilizersDoseTable.vue';
-import { countKh } from '~/helpers/funcs/hardness';
+import { countKh } from '@/helpers/funcs/hardness';
 
 export default {
   name: 'Remineralization',

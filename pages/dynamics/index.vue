@@ -23,15 +23,6 @@
       <page-title>
         Динамика элементов
       </page-title>
-      <client-only>
-        <guide>
-          На данной странице можно найти равновесные концентрации элементов в зависимости от объема и частоты подмены,
-          а так же дозировок вносимых удобрений.
-          <br>
-          <br>
-          Страница находится на доработке!
-        </guide>
-      </client-only>
       <v-col
         cols="12"
         sm="8"
@@ -263,6 +254,16 @@
           </v-tab-item>
         </v-tabs-items>
       </v-col>
+      <the-guide>
+        Динамика — это анализ процессов изменения и достижения равновесной концентрации питательных
+        элементов в вашем аквариуме. Основываясь на вашем режиме подмен воды и графике внесения удобрений,
+        система рассчитывает временные зависимости концентраций всех важных элементов.
+        <br>
+        <br>
+        Такой расчет позволяет видеть более детальную картину состояния аквариума. А для таких
+        элементов как калий, можно рассчитать довольно точную равновесную концентрацию и сэкономить
+        время и деньги на тестах.
+      </the-guide>
     </v-row>
   </v-container>
 </template>
@@ -272,14 +273,14 @@ import Vue from 'vue';
 import ELEMENTS from '@/helpers/constants/elements';
 import FORMULAS from '@/helpers/constants/formulas';
 import { mapState } from 'vuex';
-import { convertIonName, convertIonRatio, isRecipe } from '~/helpers/funcs/funcs';
+import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs/funcs';
 import ElementsTable from '@/components/ElementsTable.vue';
 import FertilizersDoseTable, {
   FERTILIZATION_EVERY_DAY,
   FERTILIZATION_IN_TAP_WATER,
   FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
-import LineChart from '../components/Chart.vue';
+import LineChart from '@/components/Chart.vue';
 
 export default {
   name: 'Dynamics',
@@ -290,18 +291,20 @@ export default {
   },
   head() {
     return {
-      title: 'Динамика элементов в аквариуме',
+      title: 'Динамика элементов в аквариуме: расчет равновесных концентраций',
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: 'С помощью удобного графика, используя свои дозировки удобрений и объем подмены воды, '
-            + 'можно легко получить диапазон параметров, которые могут быть в аквариуме.',
+          content: 'Анализ процессов изменения и достижения равновесной концентрации питательных элементов '
+            + 'в аквариуме. Рассчитайте временные зависимости концентраций всех важных элементов '
+            + 'на основе режима подмен воды и графика внесения удобрений.',
         },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: 'калий, нитрат, фосфат, концентрация',
+          content: 'калий, нитрат, фосфат, концентрация, равновесие, динамика элементов, аквариум, удобрения, '
+            + 'подмена воды',
         },
       ],
     };
