@@ -123,7 +123,7 @@ export default {
     this.platform = this.getPlatform();
     this.browser = this.isChrome() ? 'chrome' : 'unknown';
     // By default, we hide PWA install button on chrome because it can be already installed
-    if (this.isChrome()) {
+    if (this.platform === 'macos' && this.isChrome()) {
       this.isPWAInstallButton = false;
     }
     window.addEventListener('beforeinstallprompt', (e) => {

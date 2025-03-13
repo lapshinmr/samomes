@@ -15,7 +15,9 @@
           <p>Для iPhone & iPad:</p>
           <ol class="space-y-2 text-gray-600 ml-2">
             <li class="mb-2 mb-md-3">
-              Нажмите на кнопку "Поделиться" (иконка с квадратом и стрелкой)
+              Нажмите на кнопку "Поделиться" <v-icon size="20">
+                mdi mdi-export-variant
+              </v-icon>
             </li>
             <li class="mb-2 mb-md-3">
               Прокрутите меню вниз до пункта "На экран «Домой»" и нажмите его
@@ -23,11 +25,13 @@
             <li>Нажмите "Добавить" для завершения установки</li>
           </ol>
         </template>
-        <template v-if="platform === 'macos'">
+        <template v-else-if="platform === 'macos'">
           <p>Для MacOS:</p>
           <ol class="space-y-2 text-gray-600 ml-2">
             <li class="mb-2 mb-md-3">
-              Нажмите на кнопку "Поделиться" (иконка с квадратом и стрелкой)
+              Нажмите на кнопку "Поделиться" <v-icon size="20">
+                mdi mdi-export-variant
+              </v-icon>
             </li>
             <li class="mb-2 mb-md-3">
               Нажмите "Добавить в Док" или "Добавить в Док-панель"
@@ -40,7 +44,9 @@
           <p>Для браузера Chrome на Android:</p>
           <ol class="space-y-2 text-gray-600 ml-2">
             <li class="mb-2 mb-md-3">
-              Нажмите на иконку меню (⋮) в Chrome
+              Нажмите на иконку меню <v-icon size="20">
+                mdi mdi-dots-vertical
+              </v-icon> в Chrome
             </li>
             <li class="mb-2 mb-md-3">
               Выберите пункт "Установить приложение" или "Добавить на главный экран"
