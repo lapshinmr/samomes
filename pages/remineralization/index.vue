@@ -327,7 +327,7 @@
         />
         <v-expand-transition>
           <div
-            v-if="tank.volume"
+            v-if="tank.volume && remineralizationType !== null"
             class="mt-8"
           >
             <div class="text-subtitle-1 mb-2">
