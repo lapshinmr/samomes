@@ -236,13 +236,13 @@
           color="primary"
           to="/articles/simplest-nitrate/"
         >
-          <v-icon>mdi-chevron-left</v-icon> Предыдущая статья
+          <v-icon>mdi-chevron-left</v-icon> Предыдущая <span class="hidden-xs-only">статья</span>
         </v-btn>
         <v-btn
           color="primary"
           to="/articles/potassium/"
         >
-          Следующая статья <v-icon>mdi-chevron-right</v-icon>
+          Следующая <span class="hidden-xs-only">статья</span> <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </v-col>
     </v-row>

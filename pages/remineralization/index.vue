@@ -77,7 +77,7 @@
               <number-field
                 :value="osmosisChange"
                 @input="inputOsmosisChange"
-                :precision-show="0"
+                :precision-show="1"
                 type="number"
                 label="Процент"
                 :hint="`
@@ -175,40 +175,42 @@
               </div>
               <v-expand-transition>
                 <div v-if="isOwnRemineral">
-                  <div class="d-flex flex-wrap mb-2">
-                    <number-field
-                      v-model="ownRemineral.gh"
-                      label="Gh"
-                      suffix="dGh"
-                      hide-details="auto"
-                      style="min-width: 40%;"
-                    />
-                    <number-field
-                      v-model="ownRemineral.kh"
-                      label="Kh"
-                      suffix="dKh"
-                      hide-details="auto"
-                      style="min-width: 40%;"
-                      class="ml-sm-3"
-                    />
-                    <number-field
-                      v-model="ownRemineral.mass"
-                      label="Масса"
-                      hint="Масса, которая повышает Gh и Кh в n объеме на m градусов"
-                      suffix="г"
-                      hide-details="auto"
-                      style="min-width: 40%;"
-                    />
-                    <number-field
-                      v-model="ownRemineral.volume"
-                      label="Объем"
-                      hint="Объем, на который рассчитан состав"
-                      suffix="л"
-                      hide-details="auto"
-                      style="min-width: 40%;"
-                      class="ml-sm-3"
-                    />
-                  </div>
+                  <v-row class="d-flex flex-wrap mb-2">
+                    <v-col cols="6">
+                      <number-field
+                        v-model="ownRemineral.gh"
+                        label="Gh"
+                        suffix="dGh"
+                        hide-details="auto"
+                      />
+                    </v-col>
+                    <v-col cols="6">
+                      <number-field
+                        v-model="ownRemineral.kh"
+                        label="Kh"
+                        suffix="dKh"
+                        hide-details="auto"
+                      />
+                    </v-col>
+                    <v-col cols="6">
+                      <number-field
+                        v-model="ownRemineral.mass"
+                        label="Масса"
+                        hint="Масса, которая повышает Gh и Кh в n объеме на m градусов"
+                        suffix="г"
+                        hide-details="auto"
+                      />
+                    </v-col>
+                    <v-col cols="6">
+                      <number-field
+                        v-model="ownRemineral.volume"
+                        label="Объем"
+                        hint="Объем, на который рассчитан состав"
+                        suffix="л"
+                        hide-details="auto"
+                      />
+                    </v-col>
+                  </v-row>
                   <div class="d-flex justify-end">
                     <v-btn
                       color="primary"

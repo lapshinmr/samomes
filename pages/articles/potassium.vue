@@ -349,7 +349,7 @@
           color="primary"
           to="/articles/simplest-phosphate/"
         >
-          <v-icon>mdi-chevron-left</v-icon> Предыдущая статья
+          <v-icon>mdi-chevron-left</v-icon> Предыдущая <span class="hidden-xs-only">статья</span>
         </v-btn>
       </v-col>
     </v-row>

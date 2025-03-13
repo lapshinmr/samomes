@@ -58,19 +58,6 @@
               class="py-0"
             >
               <number-field
-                :value="waterChange"
-                @input="onInputWaterChange"
-                label="Процент подмены"
-                hide-details
-                suffix="%"
-              />
-            </v-col>
-            <v-col
-              cols="6"
-              sm="4"
-              class="py-0"
-            >
-              <number-field
                 :value="waterChangeVolume"
                 @input="onInputWaterChangeVolume"
                 label="Объем подмены"
@@ -79,13 +66,27 @@
               />
             </v-col>
             <v-col
+              cols="6"
+              sm="4"
+              class="py-0"
+            >
+              <number-field
+                :value="waterChange"
+                @input="onInputWaterChange"
+                label="Процент подмены"
+                hide-details
+                suffix="%"
+              />
+            </v-col>
+            <v-col
               cols="12"
               sm="4"
               class="py-0"
             >
-              <v-text-field
+              <number-field
                 v-model.number="waterChangePeriod"
                 type="number"
+                inputmode="numeric"
                 label="Количество дней между подменами"
                 hide-details
               />
@@ -212,10 +213,9 @@
                   sm="6"
                   class="py-0"
                 >
-                  <v-text-field
+                  <number-field
                     :value="ionsWaterConcentration[convertIonName(ion)]"
                     @input="inputIonsWaterConcentration(ion, $event)"
-                    type="number"
                     label="Концентрация в подменной воде"
                     suffix="мг/л"
                     hide-details="auto"
@@ -226,10 +226,9 @@
                   sm="6"
                   class="py-0"
                 >
-                  <v-text-field
+                  <number-field
                     :value="ionsInit[convertIonName(ion)]"
                     @input="inputIonsInit(ion, $event)"
-                    type="number"
                     label="В аквариуме сейчас"
                     suffix="мг/л"
                     hide-details="auto"
@@ -240,10 +239,9 @@
                   sm="6"
                   class="py-0"
                 >
-                  <v-text-field
+                  <number-field
                     :value="ionsReduction[convertIonName(ion)]"
                     @input="inputIonsReduction(ion, $event)"
-                    type="number"
                     label="Потребление в день"
                     suffix="мг/л"
                     hide-details="auto"
