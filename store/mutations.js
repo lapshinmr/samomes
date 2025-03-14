@@ -23,20 +23,6 @@ export default {
   DRAWER_SET(state, payload) {
     state.drawer = payload;
   },
-  GUIDE_CLOSE(state, dst) {
-    state.guideIsClosed[dst] = true;
-  },
-  GUIDE_RESET(state) {
-    state.guideIsClosed = {
-      tanks: false,
-      recipes: false,
-      fertilizers: false,
-      schedules: false,
-    };
-  },
-  LANG_SET(state, payload) {
-    state.lang = payload;
-  },
   TANK_ADD(state, payload) {
     state.tanks.push(payload);
   },
@@ -115,6 +101,9 @@ export default {
   SCHEDULE_SET_TOTAL_MODE(state, payload) {
     state.schedule.isTotalMode = payload;
   },
+  SCHEDULE_SET_IS_HARDNESS(state, payload) {
+    state.schedule.isHardness = payload;
+  },
   SCHEDULE_ADD(state, payload) {
     state.schedules.push(payload);
   },
@@ -141,6 +130,12 @@ export default {
   },
   SCHEDULES_REMOVE(state) {
     state.schedules = [];
+  },
+  REMINERALIZATION_SET_TYPE(state, payload) {
+    state.remineralization.type = payload;
+  },
+  REMINERALIZATION_SET_IS_TESTS(state, payload) {
+    state.remineralization.isTests = payload;
   },
   SNACKBAR_SHOW(state, payload) {
     state.snackbarMessage = payload;

@@ -24,18 +24,14 @@ export default () => ({
   drawer: false,
   isSnackbar: false,
   snackbarMessage: '',
-  guideIsClosed: {
-    tanks: false,
-    recipes: false,
-    fertilizers: false,
-    reminerals: false,
-    schedules: false,
-    dynamics: false,
-    remineralization: false,
-  },
   schedule: {
     isDefaultFertilizers: false,
     isTotalMode: false,
+    isHardness: false,
+  },
+  remineralization: {
+    type: null,
+    isTests: false,
   },
   tanks: [],
   recipes: [],

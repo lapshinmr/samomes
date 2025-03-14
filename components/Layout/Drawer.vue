@@ -24,62 +24,49 @@
     :value="value"
     @input="$emit('input', $event)"
   >
-    <v-list class="pt-0">
-      <v-list-item
-        v-if="$vuetify.breakpoint['xs']"
-        @click.stop="$emit('input', false)"
-      >
-        <v-list-item-action />
-        <v-list-item-content>
-          <v-list-item-title class="d-flex justify-end">
-            <v-icon>mdi-close</v-icon>
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        v-for="route in ROUTES"
-        :to="`/${route.path}/`"
-        :key="route.icon"
-      >
-        <v-list-item-action>
-          <v-icon>{{ route.icon }}</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ $t(`routes.${route.path}`) }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item href="https://vk.com/samomes">
-        <v-list-item-action>
-          <v-icon>fab fa-vk</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>
-            Вконтакте
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item href="https://github.com/lapshinmr/samomes">
-        <v-list-item-action>
-          <v-icon>fab fa-github</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>GitHub</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        v-if="isPWAInstallButton"
-        @click="install"
-      >
-        <v-list-item-action>
-          <v-icon>mdi mdi-download</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Установить</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    <div class="d-flex flex-column justify-between fill-height">
+      <v-list class="pt-0">
+        <v-list-item
+          v-for="route in ROUTES"
+          :key="route.icon"
+          :to="`/${route.path}/`"
+        >
+          <v-list-item-action>
+            <v-icon>{{ route.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ $t(`routes.${route.path}`) }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="isPWAInstallButton"
+          @click="install"
+        >
+          <v-list-item-action>
+            <v-icon>mdi mdi-download</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Установить</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <div class="d-flex justify-space-around mt-auto pa-4">
+        <a
+          href="https://vk.com/samomes"
+          target="_blank"
+        ><v-icon>fab fa-vk</v-icon></a>
+        <a
+          href="https://t.me/samomes_calculator"
+          target="_blank"
+        ><v-icon>fab fa-telegram</v-icon></a>
+        <a
+          href="https://github.com/lapshinmr/samomes"
+          target="_blank"
+        ><v-icon>fab fa-github</v-icon></a>
+      </div>
+    </div>
     <PWAPopup
       v-model="isPWAPopup"
       :platform="platform"
@@ -113,36 +100,39 @@ export default {
       browser: 'unknown',
     };
   },
-  created() {
-    if (process.client) {
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // e.preventDefault();
-        // Stash the event so it can be triggered later.
-        this.deferredPrompt = e;
-      });
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      window.addEventListener('appinstalled', () => {
-        this.isPWAInstallButton = false;
-        this.deferredPrompt = null;
-      });
-      // eslint-disable-next-line nuxt/no-globals-in-created
-      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-        this.isPWAInstallButton = false;
-      }
-    }
-  },
   mounted() {
     this.platform = this.getPlatform();
     this.browser = this.isChrome() ? 'chrome' : 'unknown';
+    // By default, we hide PWA install button on chrome because it can be already installed
+    if (this.platform === 'macos' && this.isChrome()) {
+      this.isPWAInstallButton = false;
+    }
+    window.addEventListener('beforeinstallprompt', (e) => {
+      this.deferredPrompt = e;
+      this.isPWAInstallButton = true;
+    });
+    // This event is required to hide PWA install button in the PWA right after app is installed
+    window.addEventListener('appinstalled', () => {
+      this.isPWAInstallButton = false;
+      this.deferredPrompt = null;
+    });
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isPWA) {
+      this.isPWAInstallButton = false;
+    }
   },
   methods: {
+    closeDrawer() {
+      this.$emit('input', false);
+    },
     getPlatform() {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         return 'ios';
       } if (/android/i.test(userAgent)) {
         return 'android';
+      } if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent) && !window.MSStream) {
+        return 'macos';
       }
       return 'unknown';
     },
@@ -153,7 +143,7 @@ export default {
       const isOpera = typeof window.opr !== 'undefined';
       const isIEedge = winNav.userAgent.indexOf('Edg') > -1;
       const isGoogleChrome = (typeof winNav?.userAgentData !== 'undefined')
-        ? winNav.userAgentData.brands[0]?.brand === 'Google Chrome'
+        ? winNav.userAgentData.brands.some((item) => item.brand === 'Google Chrome')
         : vendorName === 'Google Inc.';
 
       return isChromium !== null

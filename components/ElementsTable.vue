@@ -24,18 +24,11 @@
       class="d-flex align-center mt-2 mb-2"
     >
       <v-switch
-        v-if="tank.length && tank.width"
-        v-model="isSpecificArea"
-        label="dm/dS"
+        v-model="isHardness"
+        label="Показать повышение жесткости"
         hide-details="auto"
-        class="mt-0 mb-2 mb-sm-0 ml-3"
+        class="mt-0 mb-2 mb-sm-0"
       />
-      <!--      <v-switch-->
-      <!--        v-model="isWithoutConversion"-->
-      <!--        label="N & P"-->
-      <!--        hide-details="auto"-->
-      <!--        class="mt-0 mb-2 mb-sm-0 ml-4"-->
-      <!--      />-->
     </div>
     <v-simple-table dense>
       <template #default>
@@ -43,6 +36,12 @@
           <tr>
             <th class="pl-0 text-center">
               Элемент
+            </th>
+            <th
+              v-if="isHardness"
+              class="text-center"
+            >
+              dGh
             </th>
             <template v-if="fertilizationType === FERTILIZATION_EVERY_DAY">
               <th class="text-center">
@@ -74,12 +73,6 @@
                 Общая доза, <span>мг/л</span>
               </th>
             </template>
-            <th
-              v-if="isSpecificArea && tank.length && tank.width"
-              class="text-center"
-            >
-              dm/dS, мг/дм2
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -94,8 +87,18 @@
             <template v-if="value.amount !== undefined">
               <td class="pl-0 text-center">
                 {{ name }}
-                <template v-if="convertIonName(name) !== name && isWithoutConversion">
-                  / {{ convertIonName(name) }}
+              </td>
+              <td
+                v-if="isHardness"
+                class="text-center"
+              >
+                <template v-if="name in GH">
+                  <template v-if="[FERTILIZATION_IN_TAP_WATER, FERTILIZATION_EVERY_DAY].includes(fertilizationType)">
+                    +{{ (value.amount / GH[name]).toFixed(2) }}
+                  </template>
+                  <template v-if="FERTILIZATION_MIX === fertilizationType">
+                    +{{ (value.total / GH[name]).toFixed(2) }}
+                  </template>
                 </template>
               </td>
               <template v-if="fertilizationType === FERTILIZATION_EVERY_DAY">
@@ -127,24 +130,8 @@
                 </td>
                 <td class="text-center text-no-wrap">
                   {{ value.total.toFixed(3) }}
-                  <!--                  <template v-if="convertIonName(name) !== name && isWithoutConversion">-->
-                  <!--                    / {{ (value.total * convertIonRatio(name)).toFixed(3) }}-->
-                  <!--                  </template>-->
                 </td>
               </template>
-              <td
-                v-if="isSpecificArea && tank.length && tank.width"
-                class="text-center"
-              >
-                {{ (
-                  value.total * tank.volume / Math.round(
-                    (tank.length - (2 * tank.glassThickness) / 10)
-                      * (tank.width - (2 * tank.glassThickness) / 10)
-                      * 100,
-                  ) * 100 * 100
-                ).toFixed(3)
-                }}
-              </td>
             </template>
           </tr>
         </tbody>
@@ -152,39 +139,49 @@
     </v-simple-table>
     <v-row
       v-if="isHelpful && isHelpfulInfo"
-      class="mt-4"
+      class="mt-4 body-2"
     >
       <v-col
-        cols="6"
-        sm="3"
         v-if="totalElements.P && totalElements.P.total > 0 && totalElements.N && totalElements.N.total > 0"
+        cols="3"
+        sm="3"
+        class="text-center"
       >
-        NO3 / PO4 =
+        NO<sub>3</sub> / PO<sub>4</sub>
+        <br>
         {{ (
           totalElements.N.total * convertIonRatio('N') / (totalElements.P.total * convertIonRatio('P'))
         ).toFixed(2) }}
-        <!--        (N / P = {{ (totalElements.N.total / totalElements.P.total).toFixed(2) }})-->
       </v-col>
       <v-col
-        cols="6"
-        sm="3"
         v-if="totalElements.P && totalElements.P.total > 0 && totalElements.Fe && totalElements.Fe.total > 0"
+        cols="3"
+        sm="3"
+        class="text-center"
       >
-        PO4 / Fe = {{ (totalElements.P.total * convertIonRatio('P') / totalElements.Fe.total).toFixed(2) }}
+        PO<sub>4</sub> / Fe
+        <br>
+        {{ (totalElements.P.total * convertIonRatio('P') / totalElements.Fe.total).toFixed(2) }}
       </v-col>
       <v-col
-        cols="6"
-        sm="3"
         v-if="totalElements.P && totalElements.P.total > 0 && totalElements.B && totalElements.B.total > 0"
+        cols="3"
+        sm="3"
+        class="text-center"
       >
-        P / B = {{ (totalElements.P.total / totalElements.B.total).toFixed(2) }}
+        P / B
+        <br>
+        {{ (totalElements.P.total / totalElements.B.total).toFixed(2) }}
       </v-col>
       <v-col
-        cols="6"
-        sm="3"
         v-if="totalElements.Fe && totalElements.Fe.total > 0 && totalElements.B && totalElements.B.total > 0"
+        cols="3"
+        sm="3"
+        class="text-center"
       >
-        Fe / B = {{ (totalElements.Fe.total / totalElements.B.total).toFixed(2) }}
+        Fe / B
+        <br>
+        {{ (totalElements.Fe.total / totalElements.B.total).toFixed(2) }}
       </v-col>
     </v-row>
   </div>
@@ -245,11 +242,17 @@ export default {
       FERTILIZATION_EVERY_DAY,
       FERTILIZATION_MIX,
       ELEMENTS,
-      isWithoutConversion: false,
-      isSpecificArea: false,
     };
   },
   computed: {
+    isHardness: {
+      get() {
+        return this.$store.state.schedule.isHardness;
+      },
+      set(value) {
+        this.$store.commit('SCHEDULE_SET_IS_HARDNESS', value);
+      },
+    },
     isHelpful() {
       if (
         this.totalElements.P

@@ -23,15 +23,6 @@
       <page-title>
         Динамика элементов
       </page-title>
-      <client-only>
-        <guide>
-          На данной странице можно найти равновесные концентрации элементов в зависимости от объема и частоты подмены,
-          а так же дозировок вносимых удобрений.
-          <br>
-          <br>
-          Страница находится на доработке!
-        </guide>
-      </client-only>
       <v-col
         cols="12"
         sm="8"
@@ -67,19 +58,6 @@
               class="py-0"
             >
               <number-field
-                :value="waterChange"
-                @input="onInputWaterChange"
-                label="Процент подмены"
-                hide-details
-                suffix="%"
-              />
-            </v-col>
-            <v-col
-              cols="6"
-              sm="4"
-              class="py-0"
-            >
-              <number-field
                 :value="waterChangeVolume"
                 @input="onInputWaterChangeVolume"
                 label="Объем подмены"
@@ -88,13 +66,27 @@
               />
             </v-col>
             <v-col
+              cols="6"
+              sm="4"
+              class="py-0"
+            >
+              <number-field
+                :value="waterChange"
+                @input="onInputWaterChange"
+                label="Процент подмены"
+                hide-details
+                suffix="%"
+              />
+            </v-col>
+            <v-col
               cols="12"
               sm="4"
               class="py-0"
             >
-              <v-text-field
+              <number-field
                 v-model.number="waterChangePeriod"
                 type="number"
+                inputmode="numeric"
                 label="Количество дней между подменами"
                 hide-details
               />
@@ -221,10 +213,9 @@
                   sm="6"
                   class="py-0"
                 >
-                  <v-text-field
+                  <number-field
                     :value="ionsWaterConcentration[convertIonName(ion)]"
                     @input="inputIonsWaterConcentration(ion, $event)"
-                    type="number"
                     label="Концентрация в подменной воде"
                     suffix="мг/л"
                     hide-details="auto"
@@ -235,10 +226,9 @@
                   sm="6"
                   class="py-0"
                 >
-                  <v-text-field
+                  <number-field
                     :value="ionsInit[convertIonName(ion)]"
                     @input="inputIonsInit(ion, $event)"
-                    type="number"
                     label="В аквариуме сейчас"
                     suffix="мг/л"
                     hide-details="auto"
@@ -249,10 +239,9 @@
                   sm="6"
                   class="py-0"
                 >
-                  <v-text-field
+                  <number-field
                     :value="ionsReduction[convertIonName(ion)]"
                     @input="inputIonsReduction(ion, $event)"
-                    type="number"
                     label="Потребление в день"
                     suffix="мг/л"
                     hide-details="auto"
@@ -263,6 +252,16 @@
           </v-tab-item>
         </v-tabs-items>
       </v-col>
+      <the-guide>
+        Динамика — это анализ процессов изменения и достижения равновесной концентрации питательных
+        элементов в вашем аквариуме. Основываясь на вашем режиме подмен воды и графике внесения удобрений,
+        система рассчитывает временные зависимости концентраций всех важных элементов.
+        <br>
+        <br>
+        Такой расчет позволяет видеть более детальную картину состояния аквариума. А для таких
+        элементов как калий, можно рассчитать довольно точную равновесную концентрацию и сэкономить
+        время и деньги на тестах.
+      </the-guide>
     </v-row>
   </v-container>
 </template>
@@ -272,14 +271,14 @@ import Vue from 'vue';
 import ELEMENTS from '@/helpers/constants/elements';
 import FORMULAS from '@/helpers/constants/formulas';
 import { mapState } from 'vuex';
-import { convertIonName, convertIonRatio, isRecipe } from '~/helpers/funcs/funcs';
+import { convertIonName, convertIonRatio, isRecipe } from '@/helpers/funcs/funcs';
 import ElementsTable from '@/components/ElementsTable.vue';
 import FertilizersDoseTable, {
   FERTILIZATION_EVERY_DAY,
   FERTILIZATION_IN_TAP_WATER,
   FERTILIZATION_MIX,
 } from '@/components/FertilizersDoseTable.vue';
-import LineChart from '../components/Chart.vue';
+import LineChart from '@/components/Chart.vue';
 
 export default {
   name: 'Dynamics',
@@ -290,18 +289,20 @@ export default {
   },
   head() {
     return {
-      title: 'Динамика элементов в аквариуме',
+      title: 'Динамика элементов в аквариуме: расчет равновесных концентраций',
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: 'С помощью удобного графика, используя свои дозировки удобрений и объем подмены воды, '
-            + 'можно легко получить диапазон параметров, которые могут быть в аквариуме.',
+          content: 'Анализ процессов изменения и достижения равновесной концентрации питательных элементов '
+            + 'в аквариуме. Рассчитайте временные зависимости концентраций всех важных элементов '
+            + 'на основе режима подмен воды и графика внесения удобрений.',
         },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: 'калий, нитрат, фосфат, концентрация',
+          content: 'калий, нитрат, фосфат, концентрация, равновесие, динамика элементов, аквариум, удобрения, '
+            + 'подмена воды',
         },
       ],
     };

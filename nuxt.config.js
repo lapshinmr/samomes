@@ -41,8 +41,8 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
-          + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
+        content: 'Самомес — это калькулятор рецептов удобрений для растительного аквариума, '
+          + 'удобный способ расчета дозировок удобрений и составления расписания на неделю.',
       },
       {
         hid: 'author',
@@ -53,10 +53,21 @@ export default {
         name: 'yandex-verification',
         content: 'd58e65f9d4e5df54',
       },
+      { hid: 'og:title', name: 'og:title', content: 'Samomes' },
+      { hid: 'og:site_name', name: 'og:site_name', content: 'Samomes' },
+      {
+        hid: 'og:description',
+        name: 'og:description',
+        content: 'Самомес — это калькулятор рецептов удобрений для растительного аквариума, '
+          + 'удобный способ расчета дозировок удобрений и составления расписания на неделю.',
+      },
+      {
+        hid: 'og:image',
+        name: 'og:image',
+        content: '/og_image.png',
+      },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600&display=swap' },
       // https://stackoverflow.com/questions/70036043/nuxt-pwa-is-not-displaying-splash-screens-on-ios-devices
       { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-2048-2732.png', media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
       { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1668-2388.png', media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
@@ -133,14 +144,7 @@ export default {
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
-  },
+  build: {},
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -156,9 +160,150 @@ export default {
       orientation: 'portrait-primary',
       description: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
         + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
+      display: 'standalone',
     },
     meta: {
       mobileAppIOS: false,
+    },
+    workbox: {
+      offline: true,
+      offlineStrategy: 'StaleWhileRevalidate',
+      autoRegister: true,
+      preCaching: [
+        '/',
+        // External resources
+        'https://kit.fontawesome.com/b163e0af3d.js',
+        'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css',
+        'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap',
+      ],
+      runtimeCaching: [
+        {
+          urlPattern: '/',
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'pages-cache',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: '/.*/',
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'pages-cache',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: '/_nuxt/.*\\.js',
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'nuxt-js',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 1000,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: 'https://kit.fontawesome.com/.*',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'fontawesome-cache',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 30,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: 'https://ka-f.fontawesome.com/.*',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'fontawesome-cdn-cache',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 30,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: 'https://fonts.googleapis.com/.*',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'google-fonts-stylesheets',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: 'https://fonts.gstatic.com/.*',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'google-fonts-webfonts',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 30,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/.*',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'mdi-icons-assets',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+        {
+          urlPattern: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/fonts/.*',
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'mdi-icons-fonts',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 20,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+          },
+        },
+      ],
     },
   },
 

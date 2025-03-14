@@ -99,7 +99,7 @@
               class="d-flex align-center"
               style="width: 60px"
             >
-              <v-text-field
+              <number-field
                 :value="customVolume"
                 @input="onInputCustomVolume"
                 suffix="л"
