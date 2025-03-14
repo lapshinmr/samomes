@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/articles/simplest-nitrate", {data:[{}],fetch:{},mutations:[]});

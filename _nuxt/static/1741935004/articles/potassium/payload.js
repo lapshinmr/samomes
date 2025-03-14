@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/articles/potassium", {data:[{}],fetch:{},mutations:[]});
