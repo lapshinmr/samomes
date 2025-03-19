@@ -196,4 +196,16 @@ export default {
     },
     name: 'Акварин "Универсальный"',
   },
+  BrexilFe: {
+    ions: {
+      Fe: 0.1,
+    },
+    name: 'Brexil Fe 10%',
+  },
+  BrexilMn: {
+    ions: {
+      Mn: 0.1,
+    },
+    name: 'Brexil Mn 10%',
+  },
 };
