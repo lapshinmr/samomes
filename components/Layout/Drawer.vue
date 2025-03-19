@@ -56,15 +56,15 @@
         <a
           href="https://vk.com/samomes"
           target="_blank"
-        ><v-icon>fab fa-vk</v-icon></a>
+        ><v-icon size="32px">fab fa-vk</v-icon></a>
         <a
           href="https://t.me/samomes_calculator"
           target="_blank"
-        ><v-icon>fab fa-telegram</v-icon></a>
+        ><v-icon size="32px">fab fa-telegram</v-icon></a>
         <a
           href="https://github.com/lapshinmr/samomes"
           target="_blank"
-        ><v-icon>fab fa-github</v-icon></a>
+        ><v-icon size="32px">fab fa-github</v-icon></a>
       </div>
     </div>
     <PWAPopup
