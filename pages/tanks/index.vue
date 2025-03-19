@@ -18,11 +18,14 @@
 -->
 
 <template>
-  <v-container class="mb-12">
+  <v-container
+    min-height="100%"
+    class="mb-12 position-relative"
+  >
     <v-row>
-      <page-title>
+      <BasePageTitle>
         Аквариумы
-      </page-title>
+      </BasePageTitle>
       <client-only>
         <v-col
           v-if="tanks.length === 0"
@@ -42,7 +45,7 @@
         >
           <v-expansion-panels multiple>
             <draggable
-              v-model="tanks"
+              v-model="tanksModel"
               v-bind="dragOptions"
               @start="drag=true"
               @end="drag=false"
@@ -57,14 +60,14 @@
                   v-for="(tank, index) in tanks"
                   :key="tank.name"
                 >
-                  <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
+                  <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
                     <div
                       class="d-flex align-center"
                       style="width: 100%;"
                     >
                       <div
                         class="no-break font-weight-regular mr-auto"
-                        :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                        :class="{'subtitle-1': $vuetify.display.xs, 'title': $vuetify.display.smAndUp}"
                       >
                         {{ tank.name }}
                       </div>
@@ -72,17 +75,17 @@
                         class="mr-1 mx-sm-4"
                         style="white-space: nowrap;"
                       >
-                        {{ tank.volume | precision(1) }} {{ $t('units.l') }}
+                        {{ formatPrecision(tank.volume, 1) }} {{ $t('units.l') }}
                       </div>
                       <div>
                         <v-tooltip
-                          bottom
+                          location="bottom"
                           max-width="400"
                         >
-                          <template #activator="{ on }">
+                          <template #activator="{ props }">
                             <v-icon
                               class="handle"
-                              v-on="on"
+                              v-bind="props"
                             >
                               mdi mdi-drag
                             </v-icon>
@@ -91,23 +94,23 @@
                         </v-tooltip>
                       </div>
                     </div>
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content>
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
                     <div
                       v-if="tank.length"
                       class="body-2"
                     >
                       <div class="d-flex justify-space-between">
                         <div>{{ $t('tanks.dialog.length') }}</div>
-                        <div>{{ tank.length | precision(1) }} {{ $t('units.cm') }}</div>
+                        <div>{{ formatPrecision(tank.length, 1) }} {{ $t('units.cm') }}</div>
                       </div>
                       <div class="d-flex justify-space-between">
                         <div>{{ $t('tanks.dialog.width') }}</div>
-                        <div>{{ tank.width | precision(1) }} {{ $t('units.cm') }}</div>
+                        <div>{{ formatPrecision(tank.width, 1) }} {{ $t('units.cm') }}</div>
                       </div>
                       <div class="d-flex justify-space-between">
                         <div>{{ $t('tanks.dialog.height') }}</div>
-                        <div>{{ tank.height | precision(1) }} {{ $t('units.cm') }}</div>
+                        <div>{{ formatPrecision(tank.height, 1) }} {{ $t('units.cm') }}</div>
                       </div>
                       <div class="d-flex justify-space-between">
                         <div>{{ $t('tanks.dialog.glassThickness') }}</div>
@@ -118,14 +121,14 @@
                         class="d-flex justify-space-between"
                       >
                         <div>{{ $t('tanks.dialog.filter') }}</div>
-                        <div>{{ tank.filter | precision(1) }} {{ $t('units.l') }}</div>
+                        <div>{{ formatPrecision(tank.filter, 1) }} {{ $t('units.l') }}</div>
                       </div>
                       <div
                         v-if="tank.soil"
                         class="d-flex justify-space-between"
                       >
                         <div>{{ $t('tanks.dialog.soil') }}</div>
-                        <div>{{ tank.soil | precision(1) }} {{ $t('units.l') }}</div>
+                        <div>{{ formatPrecision(tank.soil, 1) }} {{ $t('units.l') }}</div>
                       </div>
                       <div
                         v-if="tank.waterChangeVolume"
@@ -133,8 +136,8 @@
                       >
                         <div>{{ $t('tanks.dialog.waterChange') }}</div>
                         <div>
-                          {{ tank.waterChangeVolume | precision(1) }} {{ $t('units.l') }} —
-                          {{ tank.waterChangeVolume / tank.volume * 100 | precision(1) }}%
+                          {{ formatPrecision(tank.waterChangeVolume, 1) }} {{ $t('units.l') }} —
+                          {{ formatPrecision(tank.waterChangeVolume / tank.volume * 100, 1) }}%
                         </div>
                       </div>
                     </div>
@@ -154,107 +157,102 @@
                         {{ $t('buttons.open') }}
                       </v-btn>
                     </div>
-                  </v-expansion-panel-content>
+                  </v-expansion-panel-text>
                 </v-expansion-panel>
               </transition-group>
             </draggable>
           </v-expansion-panels>
         </v-col>
-        <the-guide>
+        <BaseGuide>
           <p>
-            На этой странице вы можете рассчитать объем вашего прямоугольного аквариума по его размерам,
-            а также учесть объем фильтра и воду, содержащуюся в грунте.
+            {{ $t('tanks.guide.paragraph1') }}
           </p>
           <p>
-            Аквариум в нашей системе — это базовая сущность, которая создаётся здесь, а используется на
-            других страницах сервиса. Добавив аквариум однажды, вы получите доступ к его
-            параметрам во всех разделах калькулятора.
+            {{ $t('tanks.guide.paragraph2') }}
           </p>
           <p>
-            Это значительно упрощает работу с сервисом и экономит ваше время, например, при составлении
-            <nuxt-link to="/recipes/">
-              рецепта
-            </nuxt-link>
-            или
-            <nuxt-link to="/schedules/">
-              расписания
-            </nuxt-link>
-            внесения удобрений.
+            {{ $t('tanks.guide.paragraph3') }}
+            <NuxtLink to="/recipes/">
+              {{ $t('routes.recipes').toLowerCase() }}
+            </NuxtLink>
+            {{ $t('common.or') }}
+            <NuxtLink to="/schedules/">
+              {{ $t('routes.schedules').toLowerCase() }}
+            </NuxtLink>
           </p>
           <p>
-            Начните с нажатия на кнопку со знаком «<a @click="addTank">плюс</a>», чтобы добавить новый аквариум.
+            {{ $t('tanks.guide.paragraph4') }}
           </p>
-        </the-guide>
+        </BaseGuide>
       </client-only>
     </v-row>
 
-    <add-button :action="addTank">
+    <BaseAddButton :action="addTank">
       {{ $t('tanks.addButton') }}
-    </add-button>
+    </BaseAddButton>
   </v-container>
 </template>
 
-<script>
-import { mapMutations } from 'vuex';
+<script setup>
 import draggable from 'vuedraggable';
+import { useRouter } from 'vue-router';
+import { useTanksStore } from '~/stores/tanks';
 
-export default {
-  name: 'Tanks',
-  components: {
-    draggable,
-  },
-  head() {
-    return {
-      title: 'Список аквариумов',
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'На этой странице вы можете управлять списком ваших аквариумов, рассчитывать '
-            + 'их объемы по линейным размерам, а также учитывать объем фильтра и воды в грунте. '
-            + 'Добавив аквариум, вы получите доступ к его параметрам во всех разделах калькулятора, '
-            + 'что упрощает работу с сервисом и экономит ваше время.',
-        },
-        {
-          hid: 'keywords',
-          name: 'keywords',
-          content: 'аквариумы, расчет объема, фильтр, грунт, управление аквариумами',
-        },
-      ],
-    };
-  },
-  data() {
-    return {
-      drag: false,
-    };
-  },
-  computed: {
-    dragOptions() {
-      return {
-        animation: 200,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost',
-      };
+definePageMeta({
+  title: 'Список аквариумов',
+  meta: [
+    {
+      name: 'description',
+      content: 'На этой странице вы можете управлять списком ваших аквариумов, рассчитывать '
+        + 'их объемы по линейным размерам, а также учитывать объем фильтра и воды в грунте. '
+        + 'Добавив аквариум, вы получите доступ к его параметрам во всех разделах калькулятора, '
+        + 'что упрощает работу с сервисом и экономит ваше время.',
     },
-    tanks: {
-      get() {
-        return this.$store.state.tanks;
-      },
-      set(value) {
-        this.TANK_MOVE(value);
-      },
+    {
+      name: 'keywords',
+      content: 'аквариумы, расчет объема, фильтр, грунт, управление аквариумами',
     },
-  },
-  methods: {
-    ...mapMutations([
-      'TANK_MOVE',
-    ]),
-    addTank() {
-      return this.$router.push('/tanks/create/');
-    },
-  },
+  ],
+});
+
+const router = useRouter();
+const tanksStore = useTanksStore();
+
+const drag = ref(false);
+
+const dragOptions = {
+  animation: 200,
+  group: 'description',
+  disabled: false,
+  ghostClass: 'ghost',
 };
+
+const tanks = computed(() => tanksStore.tanks);
+
+const tanksModel = computed({
+  get: () => tanksStore.tanks,
+  set: (value) => tanksStore.moveTanks(value)
+});
+
+function addTank() {
+  return router.push('/tanks/create/');
+}
+
+function formatPrecision(value, precision = 2) {
+  if (value === undefined || value === null) return '';
+
+  // Convert to number if it's a string
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+
+  // Check if it's a valid number
+  if (isNaN(num)) return '';
+
+  // Format with the specified precision
+  const formatted = num.toFixed(precision);
+
+  // Remove trailing zeros
+  return formatted.replace(/\.?0+$/, '');
+}
 </script>
 
 <style lang="sass" scoped>

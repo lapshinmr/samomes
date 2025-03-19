@@ -18,25 +18,24 @@
 -->
 
 <template>
-  <v-app id="inspire">
-    <drawer v-model="isDrawer" />
+  <v-app>
+    <LayoutDrawer v-model="isDrawer" />
 
     <v-app-bar
-      app
       color="primary"
       dark
       dense
     >
-      <v-toolbar-title>
+      <v-app-bar-title>
         <div class="d-flex align-content-center text-uppercase">
           <a
-            class="d-flex white--text"
+            class="d-flex text-white"
             href="/"
           >
             <v-img
-              :src="require('@/assets/images/npk-120x120.png')"
-              max-height="24"
-              max-width="24"
+              src="/images/npk-120x120.png"
+              height="28"
+              width="28"
               alt="Main logotype NPK"
             />
             <span class="ml-1">
@@ -44,101 +43,79 @@
             </span>
           </a>
         </div>
-      </v-toolbar-title>
+      </v-app-bar-title>
       <v-spacer />
-      <v-app-bar-nav-icon @click="isDrawer = !isDrawer" />
+      <BaseLanguageSwitcher />
+      <v-app-bar-nav-icon @click="drawerStore.toggle" />
     </v-app-bar>
 
     <v-main>
-      <transition
-        name="fade"
-        mode="out-in"
+      <slot />
+      <v-snackbar
+        v-model="isSnackbar"
+        :color="snackbarStore.color"
+        :timeout="snackbarStore.timeout"
       >
-        <nuxt />
-      </transition>
-      <v-snackbar v-model="isSnackbar">
         <div>
-          {{ snackbarMessage }}
+          {{ snackbarStore.message }}
         </div>
       </v-snackbar>
     </v-main>
   </v-app>
 </template>
 
-<script>
-import { mapState, mapMutations } from 'vuex';
-import Drawer from '~/components/Layout/Drawer.vue';
+<script lang="ts" setup>
+import { useRouter, useRoute } from 'vue-router';
 
-export default {
-  name: 'App',
-  components: {
-    Drawer,
-  },
-  async mounted() {
-    // Handle page refresh with dynamic routes
-    const redirectPath = localStorage.getItem('404_redirect_path');
-    if (redirectPath) {
-      localStorage.removeItem('404_redirect_path');
-      await this.$router.replace(redirectPath);
-    }
-    if (!this.$router.currentRoute.query.share) {
-      const path = localStorage.getItem('path');
-      if (path) {
-        localStorage.removeItem('path');
-        await this.$router.push(path);
-      }
-    }
-  },
-  computed: {
-    ...mapState([
-      'isSnackbar',
-      'snackbarMessage',
-      'lang',
-      'recipes',
-    ]),
-    isDrawer: {
-      get() {
-        return this.$store.state.drawer;
-      },
-      set(value) {
-        this.DRAWER_SET(value);
-      },
-    },
-    isSnackbar: {
-      get() {
-        return this.$store.state.isSnackbar;
-      },
-      set() {
-        this.SNACKBAR_HIDE();
-      },
-    },
-  },
-  methods: {
-    ...mapMutations([
-      'DRAWER_SET',
-      'SNACKBAR_HIDE',
-      'FERTILIZER_ADD',
-      'RECIPE_REMOVE',
-      'GUIDE_RESET',
-    ]),
-  },
-};
+const drawerStore = useDrawerStore();
+const snackbarStore = useSnackbarStore();
+const router = useRouter();
+const route = useRoute();
+
+
+const isDrawer = computed({
+  get: () => drawerStore.isOpen,
+  set: (value) => drawerStore.set(value)
+});
+
+const isSnackbar = computed({
+  get: () => snackbarStore.isVisible,
+  set: () => snackbarStore.hide()
+});
+
+// Lifecycle hooks
+onMounted(async () => {
+  // Handle page refresh with dynamic routes
+  const redirectPath = localStorage.getItem('404_redirect_path');
+  if (redirectPath) {
+    localStorage.removeItem('404_redirect_path');
+    await router.replace(redirectPath);
+  }
+
+  const path = localStorage.getItem('path');
+  if (path && !route.query.share) {
+    localStorage.removeItem('path');
+    await router.push(path);
+  }
+});
 </script>
 
 <style lang="sass">
 .v-toolbar__title
-  font-size: 1rem!important
+  font-size: 1rem !important
+
 a
   text-decoration: none
 
 .no-break
   word-break: normal
 
-.v-stepper__step__step .v-icon
-  font-size: 1rem!important
+.v-stepper__step__step
+  .v-icon
+    font-size: 1rem !important
 
 .w-100
-  width: 100%!important
+  width: 100% !important
 
 .fade-enter
   opacity: 0
@@ -149,4 +126,5 @@ a
 .fade-leave-active
   opacity: 0
   transition: opacity 0.3s
+
 </style>

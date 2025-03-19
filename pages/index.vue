@@ -30,7 +30,7 @@
       >
         <div class="about__image">
           <v-img
-            :src="require('@/assets/images/npk-512x512-min.png')"
+            src="/images/npk-512x512-min.png"
             max-height="300"
             max-width="300"
             alt="Main logotype NPK"
@@ -434,6 +434,11 @@
 <script>
 export default {
   name: 'Home',
+  data() {
+    return {
+      isVKVisible: false,
+    };
+  },
   head() {
     return {
       title: 'Самомес - калькулятор удобрений для растительного аквариума',
@@ -455,18 +460,13 @@ export default {
       ],
     };
   },
-  data() {
-    return {
-      isVKVisible: false,
-    };
-  },
   watch: {
     isVKVisible(value) {
       if (value) {
         const vk = document.createElement('script');
         vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');
         vk.onload = () => {
-          // eslint-disable-next-line no-undef
+
           VK.Widgets.Group('vk_groups', { mode: 0, width: 'auto', height: '300' }, 205374081);
         };
         document.head.appendChild(vk);
@@ -477,6 +477,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import 'assets/variables.sass'
+
 .landing
   .section
     min-height: 400px

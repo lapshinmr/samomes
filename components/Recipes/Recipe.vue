@@ -46,7 +46,7 @@
           {{ FORMULAS[reagent].name }}
         </span>
         <span>
-          {{ recipe.mass[reagent] | precision(2) }} г
+          {{ formatPrecision(recipe.mass[reagent], 2) }} г
         </span>
       </div>
     </template>
@@ -60,7 +60,7 @@
           {{ COMPOUNDS[compound].name }}
         </span>
         <span>
-          {{ recipe.mass[compound] | precision(2) }} г
+          {{ formatPrecision(recipe.mass[compound], 2) }} г
         </span>
       </div>
     </template>
@@ -91,7 +91,7 @@
             :key="ion + 'unit'"
             class="text-right"
           >
-            {{ (convertIonRatio(ion) * value * (!recipe.volume && isRecipe ? 1000 : 1)) | precision(3) }}
+            {{ formatPrecision(convertIonRatio(ion) * value * (!recipe.volume && isRecipe ? 1000 : 1), 3) }}
             {{ !recipe.volume && isRecipe ? 'мг/г' : 'г/л' }}
           </div>
         </div>
@@ -116,7 +116,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import FORMULAS from '~/helpers/constants/formulas';
 import COMPOUNDS from '~/helpers/constants/compounds';
 import {
@@ -126,37 +126,38 @@ import {
   isConcentration,
 } from '~/helpers/funcs/funcs';
 
-export default {
-  name: 'Recipe',
-  props: {
-    recipe: {
-      type: Object,
-      default: () => {},
-    },
+const props = defineProps({
+  recipe: {
+    type: Object,
+    default: () => ({}),
   },
-  data() {
-    return {
-      FORMULAS,
-      COMPOUNDS,
-    };
-  },
-  computed: {
-    concentrations() {
-      const result = Object.entries(countTotalIonConcentration(this.recipe.concentration));
-      result.sort((a, b) => b[1] - a[1]);
-      return result;
-    },
-    isRecipe() {
-      return this.recipe.reagents && this.recipe.reagents.length > 0;
-    },
-  },
-  methods: {
-    convertIonName,
-    convertIonRatio,
-    countTotalIonConcentration,
-    isConcentration,
-  },
-};
+});
+
+const concentrations = computed(() => {
+  const result = Object.entries(countTotalIonConcentration(props.recipe.concentration));
+  result.sort((a, b) => b[1] - a[1]);
+  return result;
+});
+
+const isRecipe = computed(() => {
+  return props.recipe.reagents && props.recipe.reagents.length > 0;
+});
+
+function formatPrecision(value, precision = 2) {
+  if (value === undefined || value === null) return '';
+
+  // Convert to number if it's a string
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+
+  // Check if it's a valid number
+  if (isNaN(num)) return '';
+
+  // Format with the specified precision
+  const formatted = num.toFixed(precision);
+
+  // Remove trailing zeros
+  return formatted.replace(/\.?0+$/, '');
+}
 </script>
 
 <style scoped>

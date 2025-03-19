@@ -19,10 +19,8 @@
 
 <template>
   <v-navigation-drawer
-    app
-    right
-    :value="value"
-    @input="$emit('input', $event)"
+    v-model="model"
+    location="right"
   >
     <div class="d-flex flex-column justify-between fill-height">
       <v-list class="pt-0">
@@ -31,25 +29,23 @@
           :key="route.icon"
           :to="`/${route.path}/`"
         >
-          <v-list-item-action>
+          <template #prepend>
             <v-icon>{{ route.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ $t(`routes.${route.path}`) }}
-            </v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>
+            {{ $t(`routes.${route.path}`) }}
+          </v-list-item-title>
         </v-list-item>
         <v-list-item
           v-if="isPWAInstallButton"
           @click="install"
         >
-          <v-list-item-action>
+          <template #prepend>
             <v-icon>mdi mdi-download</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Установить</v-list-item-title>
-          </v-list-item-content>
+          </template>
+          <v-list-item-title>
+            Установить
+          </v-list-item-title>
         </v-list-item>
       </v-list>
       <div class="d-flex justify-space-around mt-auto pa-4">
@@ -75,95 +71,89 @@
   </v-navigation-drawer>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
 import { ROUTES } from '~/helpers/constants/application';
 import PWAPopup from '~/components/Popups/PWAPopup.vue';
 
-export default {
-  name: 'Drawer',
-  components: {
-    PWAPopup,
-  },
-  props: {
-    value: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      ROUTES,
-      isPWAInstallButton: true,
-      isPWAPopup: false,
-      deferredPrompt: null,
-      platform: 'unknown',
-      browser: 'unknown',
-    };
-  },
-  mounted() {
-    this.platform = this.getPlatform();
-    this.browser = this.isChrome() ? 'chrome' : 'unknown';
-    // By default, we hide PWA install button on chrome because it can be already installed
-    if (this.platform === 'macos' && this.isChrome()) {
-      this.isPWAInstallButton = false;
-    }
-    window.addEventListener('beforeinstallprompt', (e) => {
-      this.deferredPrompt = e;
-      this.isPWAInstallButton = true;
-    });
-    // This event is required to hide PWA install button in the PWA right after app is installed
-    window.addEventListener('appinstalled', () => {
-      this.isPWAInstallButton = false;
-      this.deferredPrompt = null;
-    });
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if (isPWA) {
-      this.isPWAInstallButton = false;
-    }
-  },
-  methods: {
-    closeDrawer() {
-      this.$emit('input', false);
-    },
-    getPlatform() {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return 'ios';
-      } if (/android/i.test(userAgent)) {
-        return 'android';
-      } if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent) && !window.MSStream) {
-        return 'macos';
-      }
-      return 'unknown';
-    },
-    isChrome() {
-      const isChromium = window.chrome;
-      const winNav = window.navigator;
-      const vendorName = winNav?.vendor;
-      const isOpera = typeof window.opr !== 'undefined';
-      const isIEedge = winNav.userAgent.indexOf('Edg') > -1;
-      const isGoogleChrome = (typeof winNav?.userAgentData !== 'undefined')
-        ? winNav.userAgentData.brands.some((item) => item.brand === 'Google Chrome')
-        : vendorName === 'Google Inc.';
+const model = defineModel();
 
-      return isChromium !== null
-        && typeof isChromium !== 'undefined'
-        && vendorName === 'Google Inc.'
-        && isOpera === false
-        && isIEedge === false
-        && isGoogleChrome;
-    },
-    async install() {
-      if (this.deferredPrompt) {
-        this.deferredPrompt.prompt();
-      } else {
-        this.isPWAPopup = true;
-      }
-    },
-  },
-};
+// defineProps({
+//   modelValue: {
+//     type: Boolean,
+//     default: false,
+//   },
+// });
+//
+// defineEmits(['update:modelValue']);
+
+const isPWAInstallButton = ref(true);
+const isPWAPopup = ref(false);
+const deferredPrompt = ref(null);
+const platform = ref('unknown');
+const browser = ref('unknown');
+
+function getPlatform() {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return 'ios';
+  } if (/android/i.test(userAgent)) {
+    return 'android';
+  } if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent) && !window.MSStream) {
+    return 'macos';
+  }
+  return 'unknown';
+}
+
+function isChrome() {
+  const isChromium = window.chrome;
+  const winNav = window.navigator;
+  const vendorName = winNav?.vendor;
+  const isOpera = typeof window.opr !== 'undefined';
+  const isIEedge = winNav.userAgent.indexOf('Edg') > -1;
+  const isGoogleChrome = (typeof winNav?.userAgentData !== 'undefined')
+    ? winNav.userAgentData.brands.some((item) => item.brand === 'Google Chrome')
+    : vendorName === 'Google Inc.';
+
+  return isChromium !== null
+    && typeof isChromium !== 'undefined'
+    && vendorName === 'Google Inc.'
+    && isOpera === false
+    && isIEedge === false
+    && isGoogleChrome;
+}
+
+async function install() {
+  if (deferredPrompt.value) {
+    deferredPrompt.value.prompt();
+  } else {
+    isPWAPopup.value = true;
+  }
+}
+
+onMounted(() => {
+  platform.value = getPlatform();
+  browser.value = isChrome() ? 'chrome' : 'unknown';
+  // By default, we hide PWA install button on chrome because it can be already installed
+  if (platform.value === 'macos' && isChrome()) {
+    isPWAInstallButton.value = false;
+  }
+  window.addEventListener('beforeinstallprompt', (e) => {
+    deferredPrompt.value = e;
+    isPWAInstallButton.value = true;
+  });
+  // This event is required to hide PWA install button in the PWA right after app is installed
+  window.addEventListener('appinstalled', () => {
+    isPWAInstallButton.value = false;
+    deferredPrompt.value = null;
+  });
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (isPWA) {
+    isPWAInstallButton.value = false;
+  }
+});
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
 
 </style>

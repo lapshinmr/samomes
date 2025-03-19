@@ -19,117 +19,92 @@
 
 <template>
   <div>
-    <div
-      class="d-flex mt-1"
-      :class="{
-        'flex-column': $vuetify.breakpoint['xs'],
-        'flex-row': $vuetify.breakpoint['smAndUp']
-      }"
-    >
+    <div class="d-flex flex-col flex-md-row mt-1">
       <v-switch
         v-model="isConcentrationPercent"
         label="Показать соотношение"
         hide-details="auto"
         class="mr-4"
       />
-      <v-switch
-        v-model="isConvertion"
-        label="Показать N и P"
-        hide-details="auto"
-        class="mr-4"
-      />
     </div>
-    <v-simple-table>
-      <template #default>
-        <thead>
-          <tr>
-            <th class="pl-0 text-center">
-              Реагент
-            </th>
-            <th
-              v-for="([ion], index) in totalIonConcentrationSorted"
-              :key="ion"
+    <v-table>
+      <thead>
+        <tr>
+          <th class="pl-0 text-center">
+            Реагент
+          </th>
+          <th
+            v-for="([ion], index) in totalIonConcentrationSorted"
+            :key="ion"
+            class="text-center"
+            :class="{'pr-0': index === totalIonConcentrationSorted.length - 1}"
+          >
+            <div style="white-space: nowrap;">
+              <template v-if="ion !== convertIonName(ion)">
+                {{ convertIonName(ion) }}, г/л
+              </template>
+              <template v-else>
+                {{ ion }}, г/л
+              </template>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="reagent in Object.keys(concentration)"
+          :key="reagent"
+        >
+          <td class="pl-0 text-center">
+            {{ reagent }}
+          </td>
+          <td
+            v-for="([ion, value], index) in totalIonConcentrationSorted"
+            :key="reagent + ion"
+            class="text-center"
+            :class="{'pr-0': index === Object.keys(concentration).length - 1}"
+          >
+            <template v-if="Object.keys(concentration[reagent]).includes(ion)">
+              <template v-if="ion !== convertIonName(ion)">
+                {{ formatPrecision(convertIonRatio(ion) * concentration[reagent][ion], 3) }}
+              </template>
+              <template v-else>
+                {{ formatPrecision(concentration[reagent][ion], 3) }}
+              </template>
+              <template v-if="value && isConcentrationPercent">
+                ({{ formatPrecision(concentration[reagent][ion] / value * 100, 1) }}%)
+              </template>
+            </template>
+            <template v-else>
+              -
+            </template>
+          </td>
+        </tr>
+        <tr class="font-weight-bold">
+          <td class="pl-0 text-center">
+            Сумма
+          </td>
+          <template v-for="([ion, value], index) in totalIonConcentrationSorted">
+            <td
+              v-if="ion !== convertIonName(ion)"
+              :key="`${ion}${index}converted`"
               class="text-center"
               :class="{'pr-0': index === totalIonConcentrationSorted.length - 1}"
             >
-              <div style="white-space: nowrap;">
-                <template v-if="isConvertion && ion !== convertIonName(ion)">
-                  {{ ion }} /
-                </template>
-                <template v-if="ion !== convertIonName(ion)">
-                  {{ convertIonName(ion) }}, г/л
-                </template>
-                <template v-else>
-                  {{ ion }}, г/л
-                </template>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="reagent in Object.keys(concentration)"
-            :key="reagent"
-          >
-            <td class="pl-0 text-center">
-              {{ reagent }}
+              {{ formatPrecision(convertIonRatio(ion) * value, 3) }}
             </td>
             <td
-              v-for="([ion, value], index) in totalIonConcentrationSorted"
-              :key="reagent + ion"
+              v-else
+              :key="`${ion}${index}unconverted`"
               class="text-center"
-              :class="{'pr-0': index === Object.keys(concentration).length - 1}"
+              :class="{'pr-0': index === totalIonConcentration.length - 1}"
             >
-              <template v-if="Object.keys(concentration[reagent]).includes(ion)">
-                <template v-if="isConvertion && ion !== convertIonName(ion)">
-                  {{ concentration[reagent][ion].toFixed(3) }} /
-                </template>
-                <template v-if="ion !== convertIonName(ion)">
-                  {{ (convertIonRatio(ion) * concentration[reagent][ion]).toFixed(3) }}
-                </template>
-                <template v-else>
-                  {{ concentration[reagent][ion].toFixed(3) }}
-                </template>
-                <template v-if="value && isConcentrationPercent">
-                  ({{ (concentration[reagent][ion] / value * 100).toFixed(1) }}%)
-                </template>
-              </template>
-              <template v-else>
-                -
-              </template>
+              {{ formatPrecision(value, 3) }}
             </td>
-          </tr>
-          <tr class="font-weight-bold">
-            <td class="pl-0 text-center">
-              Сумма
-            </td>
-            <template
-              v-for="([ion, value], index) in totalIonConcentrationSorted"
-            >
-              <td
-                v-if="ion !== convertIonName(ion)"
-                :key="ion"
-                class="text-center"
-                :class="{'pr-0': index === totalIonConcentrationSorted.length - 1}"
-              >
-                <template v-if="isConvertion && ion !== convertIonName(ion)">
-                  {{ value.toFixed(3) }} /
-                </template>
-                {{ (convertIonRatio(ion) * value).toFixed(3) }}
-              </td>
-              <td
-                v-else
-                class="text-center"
-                :class="{'pr-0': index === totalIonConcentration.length - 1}"
-                :key="ion"
-              >
-                {{ value.toFixed(3) }}
-              </td>
-            </template>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+          </template>
+        </tr>
+      </tbody>
+    </v-table>
     <div class="d-flex mt-2">
       <v-text-field
         :value="No3Po4Ratio"
@@ -158,58 +133,49 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import {
   convertIonName,
   convertIonRatio,
-  countPercent,
   countRatio,
-} from '~/helpers/funcs/funcs';
+} from '~/utils/funcs';
 
-export default {
-  name: 'ElementsTable',
-  props: {
-    totalIonConcentration: {
-      type: Object,
-      default: () => {},
-    },
-    fertilizerMass: {
-      type: Object,
-      default: () => {},
-    },
-    concentration: {
-      type: Object,
-      default: () => {},
-    },
+const props = defineProps({
+  totalIonConcentration: {
+    type: Object,
+    default: () => ({}),
   },
-  data() {
-    return {
-      isConcentrationPercent: false,
-      isConvertion: false,
-    };
+  fertilizerMass: {
+    type: Object,
+    default: () => ({}),
   },
-  computed: {
-    totalIonConcentrationSorted() {
-      const result = Object.entries(this.totalIonConcentration);
-      result.sort((a, b) => b[1] - a[1]);
-      return result;
-    },
-    No3Po4Ratio() {
-      return countRatio(this.totalIonConcentration, 'N', 'P');
-    },
-    No3KRatio() {
-      return countRatio(this.totalIonConcentration, 'N', 'K');
-    },
-    CaMgRatio() {
-      return countRatio(this.totalIonConcentration, 'Ca', 'Mg');
-    },
+  concentration: {
+    type: Object,
+    default: () => ({}),
   },
-  methods: {
-    convertIonRatio,
-    convertIonName,
-    countPercent,
-  },
-};
+});
+
+// TODO: turn this on automatically if element present more than once
+const isConcentrationPercent = ref(false);
+
+const totalIonConcentrationSorted = computed(() => {
+  const result = Object.entries(props.totalIonConcentration);
+  result.sort((a, b) => b[1] - a[1]);
+  return result;
+});
+
+const No3Po4Ratio = computed(() => {
+  return countRatio(props.totalIonConcentration, 'N', 'P');
+});
+
+const No3KRatio = computed(() => {
+  return countRatio(props.totalIonConcentration, 'N', 'K');
+});
+
+const CaMgRatio = computed(() => {
+  return countRatio(props.totalIonConcentration, 'Ca', 'Mg');
+});
+
 </script>
 
 <style scoped>

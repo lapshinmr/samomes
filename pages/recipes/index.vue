@@ -18,11 +18,11 @@
 -->
 
 <template>
-  <v-container class="mb-12">
+  <v-container class="mb-12 position-relative">
     <v-row>
-      <page-title>
+      <BasePageTitle>
         Рецепты
-      </page-title>
+      </BasePageTitle>
       <client-only>
         <v-col
           v-if="recipes.length === 0"
@@ -40,16 +40,14 @@
           sm="8"
           offset-sm="2"
         >
-          <v-expansion-panels
-            multiple
-          >
+          <v-expansion-panels multiple>
             <draggable
-              v-model="recipes"
+              v-model="recipesModel"
               v-bind="dragOptions"
               @start="drag=true"
               @end="drag=false"
-              handle=".handle"
               style="width: 100%;"
+              handle=".handle"
             >
               <transition-group
                 type="transition"
@@ -59,36 +57,36 @@
                   v-for="(recipe, index) in recipes"
                   :key="recipe.name"
                 >
-                  <v-expansion-panel-header class="pa-3 py-sm-4 px-sm-6">
+                  <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
                     <div
-                      class="d-flex justify-space-between align-center"
+                      class="d-flex align-center"
                       style="width: 100%;"
                     >
-                      <span
-                        class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
-                        :class="{'subtitle-1': $vuetify.breakpoint['xs'], 'title': $vuetify.breakpoint['smAndUp']}"
+                      <div
+                        class="no-break font-weight-regular mr-auto"
+                        :class="{'subtitle-1': $vuetify.display.xs, 'title': $vuetify.display.smAndUp}"
                       >
-                        <span style="line-height: 1.25rem;">
-                          {{ recipe.name }}
-                        </span>
-                      </span>
-                      <span class="mr-3">
+                        {{ recipe.name }}
+                      </div>
+                      <div>
                         <v-tooltip
-                          bottom
+                          location="bottom"
                           max-width="400"
                         >
-                          <template #activator="{ on }">
+                          <template #activator="{ props }">
                             <v-icon
-                              class="handle ml-2"
-                              v-on="on"
-                            >mdi mdi-drag</v-icon>
+                              class="handle"
+                              v-bind="props"
+                            >
+                              mdi-drag
+                            </v-icon>
                           </template>
                           {{ $t('recipes.panels.header.pull') }}
                         </v-tooltip>
-                      </span>
+                      </div>
                     </div>
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content>
+                  </v-expansion-panel-title>
+                  <v-expansion-panel-text>
                     <Recipe :recipe="recipe" />
                     <div class="d-flex justify-end mt-4">
                       <v-btn
@@ -102,38 +100,36 @@
                         :to="`/recipes/${index}/`"
                         class="mr-n4"
                       >
-                        Открыть
+                        {{ $t('buttons.open') }}
                       </v-btn>
                     </div>
-                  </v-expansion-panel-content>
+                  </v-expansion-panel-text>
                 </v-expansion-panel>
               </transition-group>
             </draggable>
           </v-expansion-panels>
         </v-col>
-        <the-guide>
+        <BaseGuide>
           <p>
-            На этой странице вы можете разработать свой уникальный рецепт самодельного удобрения.
+            {{ $t('recipes.guide.paragraph1') }}
           </p>
           <p>
-            Для этого в вашем распоряжении есть как чистые реагенты (с точными химическими формулами),
-            так и распространенные среди аквариумистов готовые смеси удобрений.
+            {{ $t('recipes.guide.paragraph2') }}
           </p>
           <p>
-            Не беспокойтесь — вы всегда можете воспользоваться готовыми рецептами, которые уже
-            проверены и успешно применяются многими аквариумистами.
+            {{ $t('recipes.guide.paragraph3') }}
+            <NuxtLink to="/recipes/">
+              {{ $t('routes.recipes').toLowerCase() }}
+            </NuxtLink>
+            {{ $t('common.or') }}
+            <NuxtLink to="/schedules/">
+              {{ $t('routes.schedules').toLowerCase() }}
+            </NuxtLink>
           </p>
           <p>
-            Рецепты - это ваши собственные удобрения, которые можно использовать при составлении
-            <nuxt-link to="/schedules/">
-              расписания
-            </nuxt-link>
-            внесения удобрений.
+            {{ $t('recipes.guide.paragraph4') }}
           </p>
-          <p>
-            Начните с нажатия на кнопку со знаком «<a @click="addRecipe">плюс</a>», чтобы добавить новый рецепт.
-          </p>
-        </the-guide>
+        </BaseGuide>
       </client-only>
     </v-row>
 
@@ -154,12 +150,12 @@
           >
             <template #append>
               <v-tooltip
-                bottom
+                location="bottom"
                 max-width="400"
               >
-                <template #activator="{ on }">
+                <template #activator="{ props }">
                   <a @click="copyUrl()">
-                    <v-icon v-on="on">fas fa-clipboard</v-icon>
+                    <v-icon v-bind="props">mdi-content-copy</v-icon>
                   </a>
                 </template>
                 Скопировать
@@ -179,107 +175,84 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <add-button :action="addRecipe">
+    <BaseAddButton :action="addRecipe">
       {{ $t('recipes.addButton') }}
-    </add-button>
+    </BaseAddButton>
   </v-container>
 </template>
 
-<script>
-import { mapMutations } from 'vuex';
+<script setup>
 import draggable from 'vuedraggable';
-import Recipe from '~/components/Recipes/Recipe.vue';
+import { useRouter } from 'vue-router';
+import { useRecipesStore } from '~/stores/recipes';
 
-export default {
-  name: 'Recipes',
-  components: {
-    draggable,
-    Recipe,
-  },
-  head() {
-    return {
-      title: 'Список рецептов самодельных удобрений',
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'На этой странице вы можете создавать рецепты самодельных микро и макро удобрений из '
-            + 'реагентов или готовых смесей, а также воспользоваться готовыми рецептами, которые уже проверены '
-            + 'и успешно применяются многими аквариумистами.',
-        },
-        {
-          hid: 'keywords',
-          name: 'keywords',
-          content: 'рецепты удобрений, самомес, макро, микро, аквариум, самодельные удобрения, удобрения для аквариума',
-        },
-      ],
-    };
-  },
-  data() {
-    return {
-      drag: false,
-      isShared: false,
-      curRecipeIndex: null,
-      dialogShare: false,
-    };
-  },
-  computed: {
-    dragOptions() {
-      return {
-        animation: 200,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost',
-      };
+definePageMeta({
+  title: 'Список рецептов самодельных удобрений',
+  meta: [
+    {
+      name: 'description',
+      content: 'На этой странице вы можете создавать рецепты самодельных микро и макро удобрений из '
+        + 'реагентов или готовых смесей, а также воспользоваться готовыми рецептами, которые уже проверены '
+        + 'и успешно применяются многими аквариумистами.',
     },
-    recipes: {
-      get() {
-        return this.$store.state.recipes;
-      },
-      set(value) {
-        this.RECIPE_MOVE(value);
-      },
+    {
+      name: 'keywords',
+      content: 'рецепты удобрений, самомес, макро, микро, аквариум, самодельные удобрения, удобрения для аквариума',
     },
-    encodedUrl() {
-      const recipe = { ...this.recipes[this.curRecipeIndex] };
-      delete recipe.concentration;
-      let jsonString = JSON.stringify([recipe]);
-      jsonString = jsonString.replace(/%/g, '%25');
-      const encoded = encodeURIComponent(jsonString);
-      return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
-    },
-  },
-  watch: {
-    dialogShare() {
-      if (!this.dialogShare) {
-        this.curRecipeIndex = null;
-      }
-    },
-  },
-  methods: {
-    ...mapMutations([
-      'RECIPE_MOVE',
-      'SNACKBAR_SHOW',
-    ]),
-    addRecipe() {
-      this.$router.push('/recipes/create/');
-    },
-    openShareDialog(index) {
-      this.curRecipeIndex = index;
-      this.dialogShare = true;
-    },
-    copyUrl() {
-      const encodedUrl = document.getElementById('encodedUrl');
-      encodedUrl.select();
-      encodedUrl.setSelectionRange(0, 99999);
-      document.execCommand('copy');
-      this.SNACKBAR_SHOW('Ссылка скопирована');
-    },
-  },
+  ],
+});
+
+const router = useRouter();
+const recipesStore = useRecipesStore();
+
+const drag = ref(false);
+const dialogShare = ref(false);
+const curRecipeIndex = ref(null);
+
+const dragOptions = {
+  animation: 200,
+  group: 'description',
+  disabled: false,
+  ghostClass: 'ghost',
 };
+
+const recipes = computed(() => recipesStore.recipes);
+
+const recipesModel = computed({
+  get: () => recipesStore.recipes,
+  set: (value) => recipesStore.moveRecipes(value)
+});
+
+function addRecipe() {
+  return router.push('/recipes/create/');
+}
+
+function openShareDialog(index) {
+  curRecipeIndex.value = index;
+  dialogShare.value = true;
+}
+
+function copyUrl() {
+  const encodedUrl = document.getElementById('encodedUrl');
+  encodedUrl.select();
+  encodedUrl.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  recipesStore.showSnackbar('Ссылка скопирована');
+}
+
+const encodedUrl = computed(() => {
+  if (curRecipeIndex.value === null) return '';
+  
+  const recipe = { ...recipes.value[curRecipeIndex.value] };
+  delete recipe.concentration;
+  let jsonString = JSON.stringify([recipe]);
+  jsonString = jsonString.replace(/%/g, '%25');
+  const encoded = encodeURIComponent(jsonString);
+  return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
+});
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .flip-list-move
   transition: transform 0.5s
 .ghost
