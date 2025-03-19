@@ -208,4 +208,15 @@ export default {
     },
     name: 'Brexil Mn 10%',
   },
+  BrexilCombi: {
+    ions: {
+      Fe: 0.068,
+      Mn: 0.026,
+      B: 0.009,
+      Zn: 0.011,
+      Cu: 0.003,
+      Mo: 0.002,
+    },
+    name: 'Brexil Combi',
+  },
 };
