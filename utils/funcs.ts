@@ -22,21 +22,6 @@ import FORMULAS from '~/utils/constants/formulas';
 import MolecularFormula from '~/utils/molecular-formula';
 import type {FormulaType} from "~/utils/types/types";
 
-export const countTotalIonConcentration = (
-  concentration: Record<string, Record<string, number>>
-): Record<string, number> => {
-  const total: Record<string, number> = {};
-  Object.values(concentration).forEach((item) => {
-    Object.entries(item).forEach(([ion, value]) => {
-      if (total[ion] === undefined) {
-        total[ion] = 0;
-      }
-      total[ion] += value;
-    });
-  });
-  return total;
-};
-
 export const countMassTotal = (reagent: string): number => {
   let massTotal = 0.0;
   const { ions } = FORMULAS[reagent];
@@ -44,30 +29,6 @@ export const countMassTotal = (reagent: string): number => {
     massTotal += ELEMENTS[ion] * value.count;
   });
   return massTotal;
-};
-
-export const countPercent = (reagent: string): Record<string, number> => {
-  const massTotal = countMassTotal(reagent);
-  const result: Record<string, number> = {};
-  const { ions } = FORMULAS[reagent];
-  Object.entries(ions).forEach(([ion, value]: [string, { count: number, isNeeded?: boolean }]) => {
-    if (value.isNeeded) {
-      result[ion] = (ELEMENTS[ion] * value.count) / massTotal;
-    }
-  });
-  return result;
-};
-
-export const isConcentration = (concentration: Record<string, Record<string, number>>) => {
-  let result = false;
-  Object.values(concentration).forEach((item) => {
-    Object.keys(item).forEach((ion) => {
-      if (item[ion]) {
-        result = true;
-      }
-    });
-  });
-  return result;
 };
 
 export const countTotalIonDose = (solute: Record<string, Record<string, number>>) => {
@@ -79,15 +40,6 @@ export const countTotalIonDose = (solute: Record<string, Record<string, number>>
       }
       total[ion] += value[ion];
     });
-  });
-  return total;
-};
-
-export const countTotalDose = (solute: Record<string, Record<string, number>>) => {
-  let total = 0;
-  const totalIonSolute = countTotalIonDose(solute);
-  Object.keys(totalIonSolute).forEach((ion) => {
-    total += totalIonSolute[ion];
   });
   return total;
 };
@@ -137,10 +89,16 @@ export const convertIonRatio = (ion: string) => (
   convertIonName(ion) !== ion ? countMass(convertIonName(ion)) / countMass(ion) : 1
 );
 
-export const getOxideToElementRatio = (oxide: string) => {
+export const getOxideToElementRatio = (oxide: string): number => {
   const oxideMass = new MolecularFormula(oxide).mass;
   const elementMass = new MolecularFormula(OXIDE_TO_ELEMENT[oxide]).mass;
   return elementMass / oxideMass;
+};
+
+export const getElementToOxideRatio = (element: string): number => {
+  const elementMass = new MolecularFormula(element).mass;
+  const oxideMass = new MolecularFormula(ELEMENT_TO_OXIDE[element]).mass;
+  return oxideMass / elementMass ;
 };
 
 // export const isRecipe = (recipe: Recipe) => recipe.reagents && recipe.reagents.length > 0;
@@ -182,11 +140,3 @@ export const prepareFormulas = (filter: string[] = []) => {
 //   return array;
 // };
 
-export const countRatio = (concentration: Record<string, number>, el1: string, el2: string) => {
-  const c1 = concentration[el1];
-  const c2 = concentration[el2];
-  if (c1 && c2) {
-    return ((c1 * convertIonRatio(el1)) / (c2 * convertIonRatio(el2))).toFixed(2);
-  }
-  return '—';
-};

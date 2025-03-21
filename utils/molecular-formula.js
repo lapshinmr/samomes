@@ -1,6 +1,7 @@
 // This code was originally taken from the repository: https://github.com/emptyport/molecular-formula
 // It has been modified by me to suit the requirements of this project.
 import ELEMENTS from '~/utils/constants/elements.js';
+import FORMULAS from "~/utils/constants/formulas.js";
 
 export default class MolecularFormula {
   constructor(formula) {
@@ -32,6 +33,14 @@ export default class MolecularFormula {
       mass += (ELEMENTS[key] * this.composition[key]);
     });
     return mass;
+  }
+
+  get fraction() {
+    let percent = {};
+    Object.entries(this.composition).forEach(([key, value]) => {
+      percent[key] = (ELEMENTS[key] * this.composition[key]) / this.mass;
+    });
+    return percent;
   }
 
   get formula() {

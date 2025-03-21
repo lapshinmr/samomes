@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import type { RecipeExampleType } from "~/utils/types/types";
 
-export default [
+const RECIPES: RecipeExampleType[] = [
   {
     name: 'Kuban Aquariums Нитрат',
     reagents: {
@@ -28,7 +29,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+    description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Фосфат',
@@ -38,7 +39,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+    description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Калий',
@@ -48,7 +49,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+    description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Микро',
@@ -59,13 +60,11 @@ export default [
       K2SO4: 20,
       C6H8O6: 0.1,
       C6H7KO2: 0.5,
-    },
-    compounds: {
       AgroMicsT: 11,
       'Fe-EDTA13': 5.6,
     },
     volume: 1000,
-    note: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+    description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Aqua Botanic Нитрат',
@@ -74,7 +73,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru'
+    description: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
@@ -86,7 +85,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Калиевая селитра, разбавленная мочевиной и нитратом аммония. Рецепт взят с сайта aqua-botanic.ru'
+    description: 'Калиевая селитра, разбавленная мочевиной и нитратом аммония. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
@@ -96,7 +95,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru'
+    description: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
@@ -106,7 +105,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru'
+    description: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
@@ -121,14 +120,12 @@ export default [
       H3BO3: 0.3,
       K2SO4: 8.6,
       C63H88CoN14O14P: 0.001,
-      // H2SO4: 20,
-    },
-    compounds: {
       Citovit: 6,
       Ferovit: 6,
+      // H2SO4: 20,
     },
     volume: 1000,
-    note: `Рецепт взят с сайта aqua-botanic.ru
+    description: `Рецепт взят с сайта aqua-botanic.ru
 (https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html):
 
 С помощью мерного стакана отмеряем 700 мл дистиллированной воды или воды из фильтра с обратным осмосом.
@@ -162,7 +159,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Макро в соотношении 1 к 15. Рецепт взят с сайта amania.org',
+    description: 'Макро в соотношении 1 к 15. Рецепт взят с сайта amania.org',
   },
   {
     name: 'NPK Amania.org 1:15 + амидный азот',
@@ -173,7 +170,7 @@ export default [
     },
     tankVolume: 100,
     volume: 1000,
-    note: 'Макро в соотношении 1 к 15. Калиевая селитра в соотношении 50 на 50 с мочевиной.'
+    description: 'Макро в соотношении 1 к 15. Калиевая селитра в соотношении 50 на 50 с мочевиной.'
       + ' Рецепт взят с сайта amania.org',
   },
   {
@@ -191,7 +188,7 @@ export default [
     },
     tankVolume: 100,
     volume: 500,
-    note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
+    description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Удо Ермолаева. МИКРО (gh < 7)',
@@ -208,7 +205,7 @@ export default [
     },
     tankVolume: 100,
     volume: 500,
-    note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
+    description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Удо Ермолаева. МИКРО (Железный купорос)',
@@ -226,7 +223,7 @@ export default [
     },
     tankVolume: 100,
     volume: 500,
-    note: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
+    description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Pps-pro Macro',
@@ -237,15 +234,15 @@ export default [
       'MgSO4(H2O)7': 20.2,
     },
     volume: 500,
-    note: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
+    description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
     name: 'Pps-pro Micro',
-    compounds: {
+    reagents: {
       PlantexCMM: 28.6,
     },
     volume: 500,
-    note: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
+    description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
     name: 'PMDD CMM',
@@ -253,12 +250,10 @@ export default [
       K2SO4: 33,
       KNO3: 15,
       'MgSO4(H2O)7': 15,
-    },
-    compounds: {
       PlantexCMM: 9.93,
     },
     volume: 500,
-    note: 'http://www.amania.org/Tech/liqfert-mikom.html',
+    description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
   {
     name: 'PMDD CSM + B',
@@ -267,11 +262,13 @@ export default [
       KNO3: 15,
       'MgSO4(H2O)7': 15,
       H3BO3: 0.714,
-    },
-    compounds: {
       PlantexCSM: 9.93,
     },
     volume: 500,
-    note: 'http://www.amania.org/Tech/liqfert-mikom.html',
+    description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
 ];
+
+RECIPES.sort((a, b) => a.name.localeCompare(b.name));
+
+export default RECIPES;

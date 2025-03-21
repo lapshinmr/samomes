@@ -1,4 +1,4 @@
-export const formatPrecision = (value: string | number, precision = 2) => {
+export const format = (value: string | number, precision = 2) => {
   if (value === undefined || value === null) return '';
 
   // Convert to number if it's a string
@@ -8,8 +8,12 @@ export const formatPrecision = (value: string | number, precision = 2) => {
   if (isNaN(num)) return '';
 
   // Format with the specified precision
-  const formatted = num.toFixed(precision);
+  // const formatted = num.toFixed(precision);
+  let formatter = new Intl.NumberFormat('en-US', {
+    maximumSignificantDigits: precision
+  });
 
   // Remove trailing zeros
-  return formatted.replace(/\.?0+$/, '');
+  // return formatted.replace(/\.?0+$/, '');
+  return formatter.format(num);
 }

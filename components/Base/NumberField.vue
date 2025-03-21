@@ -96,10 +96,12 @@ const emit = defineEmits(['update:modelValue', 'click:append']);
 //   return result;
 // }
 
-function onInput(value: string) {
-  const valueReplaced = +(value.replace(',', '.').replace(/[^0-9,.]/g, ''));
+function onInput(value: string | number) {
+  let valueReplaced = value;
+  if (typeof value === 'string') {
+    valueReplaced = +(value.replace(',', '.').replace(/[^0-9,.]/g, ''));
+  }
   emit('update:modelValue', valueReplaced);
-  return valueReplaced;
 }
 </script>
 

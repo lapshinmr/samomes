@@ -73,7 +73,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { ROUTES } from '~/helpers/constants/application';
+import { ROUTES } from '~/utils/constants/application';
 import PWAPopup from '~/components/Popups/PWAPopup.vue';
 
 const model = defineModel();
