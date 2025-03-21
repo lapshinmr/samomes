@@ -183,6 +183,30 @@ export default {
     solubilityLimit: 111,
     name: 'Калия сульфат',
   },
+  Na2SO4: {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      S: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 4,
+      },
+    },
+    cation: {
+      Na: 2,
+    },
+    anion: {
+      SO4: 1,
+    },
+    solubilityLimit: 192,
+    name: 'Натрия сульфат',
+  },
   KOH: {
     ions: {
       K: {
