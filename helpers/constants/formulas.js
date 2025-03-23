@@ -198,14 +198,30 @@ export default {
         count: 4,
       },
     },
-    cation: {
-      Na: 2,
-    },
-    anion: {
-      SO4: 1,
-    },
     solubilityLimit: 192,
     name: 'Натрия сульфат',
+  },
+  'Na2SO4(H2O)10': {
+    ions: {
+      Na: {
+        isNeeded: true,
+        count: 2,
+      },
+      S: {
+        isNeeded: true,
+        count: 1,
+      },
+      O: {
+        isNeeded: false,
+        count: 14,
+      },
+      H: {
+        isNeeded: false,
+        count: 20,
+      },
+    },
+    solubilityLimit: 195,
+    name: 'Натрия сульфат 10-водный',
   },
   KOH: {
     ions: {

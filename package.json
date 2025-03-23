@@ -51,11 +51,11 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.18.0",
     "jest": "^29.7.0",
-    "node-sass": "^8.0.0",
+    "sass": "^1.32.13",
     "push-dir": "^0.4.1",
     "sass-loader": "^10.1.1"
   },
   "resolutions": {
-    "@nuxtjs/vuetify/**/sass": "1.32.12"
+    "@nuxtjs/vuetify/**/sass": "1.32.13"
   }
 }
