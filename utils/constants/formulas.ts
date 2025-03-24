@@ -16,12 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import type { FormulaType } from "~/utils/types/types";
-import MolecularFormula from "~/utils/molecular-formula";
+import type { FormulaType } from '~/utils/types/types';
 
-const ELEMENTS_TO_SKIP = ['H', 'O', 'C'];
-
-const FORMULAS: Record<string, FormulaType> = {
+export const FORMULAS: Record<string, FormulaType> = {
   KNO3: {
     solubility: 242,
     name: 'Калия нитрат',
@@ -458,5 +455,3 @@ const FORMULAS: Record<string, FormulaType> = {
     name: 'Стронция хлорид',
   },
 };
-
-export default FORMULAS;

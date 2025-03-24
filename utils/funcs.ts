@@ -18,31 +18,9 @@
 */
 
 import ELEMENTS from '~/utils/constants/elements';
-import FORMULAS from '~/utils/constants/formulas';
+import { FORMULAS } from '~/utils/constants/formulas';
 import MolecularFormula from '~/utils/molecular-formula';
-import type {FormulaType} from "~/utils/types/types";
-
-export const countMassTotal = (reagent: string): number => {
-  let massTotal = 0.0;
-  const { ions } = FORMULAS[reagent];
-  Object.entries(ions).forEach(([ion, value]) => {
-    massTotal += ELEMENTS[ion] * value.count;
-  });
-  return massTotal;
-};
-
-export const countTotalIonDose = (solute: Record<string, Record<string, number>>) => {
-  const total: Record<string, number> = {};
-  Object.values(solute).forEach((value) => {
-    Object.keys(value).forEach((ion) => {
-      if (total[ion] === undefined) {
-        total[ion] = 0;
-      }
-      total[ion] += value[ion];
-    });
-  });
-  return total;
-};
+import type { FormulaType } from '~/utils/types/types';
 
 export const countMass = (ion: string) => {
   let mass = 0;
@@ -100,10 +78,6 @@ export const getElementToOxideRatio = (element: string): number => {
   const oxideMass = new MolecularFormula(ELEMENT_TO_OXIDE[element]).mass;
   return oxideMass / elementMass ;
 };
-
-// export const isRecipe = (recipe: Recipe) => recipe.reagents && recipe.reagents.length > 0;
-
-// export const isFertilizer = (recipe: Recipe) => recipe.elements && Object.keys(recipe.elements).length > 0;
 
 export const prepareFormulas = (filter: string[] = []) => {
   const result: ({ key: string; text: string } & FormulaType)[] = [];

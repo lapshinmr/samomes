@@ -18,10 +18,7 @@
 -->
 
 <template>
-  <v-navigation-drawer
-    v-model="model"
-    location="right"
-  >
+  <v-navigation-drawer v-model="model" location="right">
     <div class="d-flex flex-column justify-between fill-height">
       <v-list class="pt-0">
         <v-list-item
@@ -30,62 +27,54 @@
           :to="`/${route.path}/`"
         >
           <template #prepend>
-            <v-icon>{{ route.icon }}</v-icon>
+            <Icon
+              :name="route.icon"
+              size="24"
+              class="mr-2 mr-sm-4 text-grey-darken-1"
+            />
           </template>
           <v-list-item-title>
             {{ $t(`routes.${route.path}`) }}
           </v-list-item-title>
         </v-list-item>
-        <v-list-item
-          v-if="isPWAInstallButton"
-          @click="install"
-        >
+        <v-list-item v-if="isPWAInstallButton" @click="install">
           <template #prepend>
             <v-icon>mdi mdi-download</v-icon>
           </template>
-          <v-list-item-title>
-            Установить
-          </v-list-item-title>
+          <v-list-item-title> Установить </v-list-item-title>
         </v-list-item>
       </v-list>
-      <div class="d-flex justify-space-around mt-auto pa-4">
-        <a
-          href="https://vk.com/samomes"
-          target="_blank"
-        ><v-icon>fab fa-vk</v-icon></a>
-        <a
-          href="https://t.me/samomes_calculator"
-          target="_blank"
-        ><v-icon>fab fa-telegram</v-icon></a>
-        <a
-          href="https://github.com/lapshinmr/samomes"
-          target="_blank"
-        ><v-icon>fab fa-github</v-icon></a>
+      <div class="d-flex justify-space-around mt-auto pa-4 text-grey-darken-1">
+        <a href="https://vk.com/samomes" target="_blank">
+          <Icon
+            name="mdi:vk-circle"
+            size="36"
+          />
+        </a>
+        <a href="https://t.me/samomes_calculator" target="_blank">
+          <Icon
+            name="mdi:telegram"
+            size="36"
+          />
+        </a>
+        <a href="https://github.com/lapshinmr/samomes" target="_blank">
+          <Icon
+            name="mdi:github"
+            size="36"
+          />
+        </a>
       </div>
     </div>
-    <PWAPopup
-      v-model="isPWAPopup"
-      :platform="platform"
-      :browser="browser"
-    />
+    <PWAPopup v-model="isPWAPopup" :platform="platform" :browser="browser" />
   </v-navigation-drawer>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { ROUTES } from '~/utils/constants/application';
+import ROUTES from '~/utils/constants/application';
 import PWAPopup from '~/components/Popups/PWAPopup.vue';
 
-const model = defineModel();
-
-// defineProps({
-//   modelValue: {
-//     type: Boolean,
-//     default: false,
-//   },
-// });
-//
-// defineEmits(['update:modelValue']);
+const model = defineModel<boolean>();
 
 const isPWAInstallButton = ref(true);
 const isPWAPopup = ref(false);
@@ -97,9 +86,11 @@ function getPlatform() {
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     return 'ios';
-  } if (/android/i.test(userAgent)) {
+  }
+  if (/android/i.test(userAgent)) {
     return 'android';
-  } if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent) && !window.MSStream) {
+  }
+  if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent) && !window.MSStream) {
     return 'macos';
   }
   return 'unknown';
@@ -111,16 +102,21 @@ function isChrome() {
   const vendorName = winNav?.vendor;
   const isOpera = typeof window.opr !== 'undefined';
   const isIEedge = winNav.userAgent.indexOf('Edg') > -1;
-  const isGoogleChrome = (typeof winNav?.userAgentData !== 'undefined')
-    ? winNav.userAgentData.brands.some((item) => item.brand === 'Google Chrome')
-    : vendorName === 'Google Inc.';
+  const isGoogleChrome =
+    typeof winNav?.userAgentData !== 'undefined'
+      ? winNav.userAgentData.brands.some(
+        (item) => item.brand === 'Google Chrome',
+      )
+      : vendorName === 'Google Inc.';
 
-  return isChromium !== null
-    && typeof isChromium !== 'undefined'
-    && vendorName === 'Google Inc.'
-    && isOpera === false
-    && isIEedge === false
-    && isGoogleChrome;
+  return (
+    isChromium !== null &&
+    typeof isChromium !== 'undefined' &&
+    vendorName === 'Google Inc.' &&
+    isOpera === false &&
+    isIEedge === false &&
+    isGoogleChrome
+  );
 }
 
 async function install() {
@@ -147,13 +143,13 @@ onMounted(() => {
     isPWAInstallButton.value = false;
     deferredPrompt.value = null;
   });
-  const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const isPWA =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
   if (isPWA) {
     isPWAInstallButton.value = false;
   }
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

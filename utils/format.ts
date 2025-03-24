@@ -9,11 +9,11 @@ export const format = (value: string | number, precision = 2) => {
 
   // Format with the specified precision
   // const formatted = num.toFixed(precision);
-  let formatter = new Intl.NumberFormat('en-US', {
-    maximumSignificantDigits: precision
+  const formatter = new Intl.NumberFormat('en-US', {
+    maximumSignificantDigits: precision,
   });
 
   // Remove trailing zeros
   // return formatted.replace(/\.?0+$/, '');
   return formatter.format(num);
-}
+};

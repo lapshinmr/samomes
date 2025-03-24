@@ -1,5 +1,4 @@
-import type Reagent from "~/utils/Reagent";
-import {countTotalIonDose} from "~/utils/funcs";
+import type Reagent from '~/utils/Reagent';
 
 export default class Recipe {
   public name: string;
@@ -34,7 +33,7 @@ export default class Recipe {
     return this.reagents.reduce((sum, reagent) => sum + +reagent.amount, 0);
   }
 
-  get concentration() {
+  get concentration(): Record<string, Record<string, number>> {
     const result = {};
     if (this.reagents.length === 0) {
       return result;
@@ -60,13 +59,13 @@ export default class Recipe {
 
   get totalConcentration() {
     const result = {};
-    Object.keys(this.concentration).forEach(key => {
-      Object.keys(this.concentration[key]).forEach(ionKey => {
+    Object.keys(this.concentration).forEach((key) => {
+      Object.keys(this.concentration[key]).forEach((ionKey) => {
         if (!result[ionKey]) {
           result[ionKey] = 0;
         }
         result[ionKey] += this.concentration[key][ionKey];
-      })
+      });
     });
     return result;
   }
@@ -80,7 +79,7 @@ export default class Recipe {
           3,
         );
       }
-    })
+    });
   }
 
   // TODO: add total volume and tank volume decorator?
@@ -133,15 +132,15 @@ export default class Recipe {
     return Object.values(this.recipeIonDoses).reduce((sum, value) => sum + value, 0);
   };
 
-  toJson() {
+  toJson(): RecipeType {
     return {
       name: this.name,
       description: this.description,
       waterVolume: this.waterVolume,
       tankVolume: this.tankVolume,
-      reagents: this.reagents.map(reagent => ({
+      reagents: this.reagents.map((reagent) => ({
         ...reagent.toJson(),
-      }))
-    }
+      })),
+    };
   }
 }

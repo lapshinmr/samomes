@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import FORMULAS from '~/utils/constants/formulas';
+import FORMULAS from '~/utils/constants/formulas.ts';
 import ELEMENTS from '~/utils/constants/elements.js';
 
 export const countMolarMass = (reagentName) => {

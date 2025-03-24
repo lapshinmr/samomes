@@ -3,12 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
 
-  typescript: {
-    strict: false,
-    // typeCheck: true,
-  },
-
-  css: ['~/assets/variables.sass'],
+  css: ['~/assets/variables.sass', '~/assets/global.sass'],
 
   modules: [
     '@nuxt/eslint',
@@ -23,16 +18,27 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
   ],
 
+  imports: {
+    dirs: [
+      'utils/**',
+    ],
+  },
+
+  typescript: {
+    strict: false,
+    // typeCheck: true,
+  },
+
   vuetify: {
     moduleOptions: {
     },
     vuetifyOptions: {
       /* vuetify options */
-    }
+    },
   },
 
   app: {
-    pageTransition: { name: 'page', mode: 'out-in' }
+    pageTransition: { name: 'page', mode: 'out-in' },
   },
 
   i18n: {
@@ -41,12 +47,12 @@ export default defineNuxtConfig({
     strategy: 'prefix_except_default',
     locales: [
       { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.js' },
-      { code: 'en', name: 'En', iso: 'en-US', file: 'en.js' }
-    ]
+      { code: 'en', name: 'En', iso: 'en-US', file: 'en.js' },
+    ],
   },
 
   piniaPluginPersistedstate: {
     storage: 'localStorage',
     debug: true,
   },
-})
+});

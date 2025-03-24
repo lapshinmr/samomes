@@ -1,33 +1,33 @@
 // This code was originally taken from the repository: https://github.com/emptyport/molecular-formula
 // It has been modified by me to suit the requirements of this project.
-import ELEMENTS from '~/utils/constants/elements.js';
-import FORMULAS from "~/utils/constants/formulas.js";
+import { ELEMENTS } from '~/utils/constants/elements';
 
 export default class MolecularFormula {
-  constructor(formula) {
+  readonly formulaInit: string;
+  constructor(formula: string) {
     this.formulaInit = formula;
   }
 
-  static replaceSupAndSub(formula) {
+  static replaceSupAndSub(formula: string): string {
     return formula.replace(
       /[⁰¹²³⁴-⁹₀-₉]/g,
-      (char) => char.charCodeAt(0).toString(16).slice(-1),
+      (char: string) => char.charCodeAt(0).toString(16).slice(-1),
     );
   }
 
-  static isLowerCase(char) {
+  static isLowerCase(char: string): boolean {
     return /^[a-z]$/.test(char);
   }
 
-  static isUpperCase(char) {
+  static isUpperCase(char: string): boolean {
     return /^[A-Z]$/.test(char);
   }
 
-  static isNumber(char) {
+  static isNumber(char: string): boolean {
     return /^\d+$/.test(char);
   }
 
-  get mass() {
+  get mass(): number {
     let mass = 0.0;
     Object.keys(this.composition).forEach((key) => {
       mass += (ELEMENTS[key] * this.composition[key]);
@@ -35,28 +35,28 @@ export default class MolecularFormula {
     return mass;
   }
 
-  get fraction() {
-    let percent = {};
-    Object.entries(this.composition).forEach(([key, value]) => {
+  get fraction(): Record<string, number> {
+    const percent = {};
+    Object.keys(this.composition).forEach((key) => {
       percent[key] = (ELEMENTS[key] * this.composition[key]) / this.mass;
     });
     return percent;
   }
 
-  get formula() {
+  get formula(): string {
     return MolecularFormula.replaceSupAndSub(this.formulaInit);
   }
 
-  get composition() {
+  get composition(): Record<string, number> {
     const formulaCleaned = MolecularFormula.cleanParentheses(this.formula);
     return MolecularFormula.formulaToJson(formulaCleaned);
   }
 
-  get simplifiedFormula() {
+  get simplifiedFormula(): string {
     return this.createSimplifiedFormula();
   }
 
-  static createComposition(elemList) {
+  static createComposition(elemList: [string, number][]): Record<string, number> {
     /**
      * Converts an array of element-count pairs into a JSON object representing the element composition.
      *
@@ -79,7 +79,7 @@ export default class MolecularFormula {
     return json;
   }
 
-  static getParenthesisGroups(formula) {
+  static getParenthesisGroups(formula: string): [number, number][]  {
     const openIndex = [];
     const groups = [];
 
@@ -94,7 +94,7 @@ export default class MolecularFormula {
     return groups;
   }
 
-  static createElemList(formula) {
+  static createElemList(formula: string): [string, number][] {
     const lettersAndDigits = formula.split('');
     let currentElem = '';
     let currentCount = '';
@@ -125,7 +125,7 @@ export default class MolecularFormula {
     return elemList;
   }
 
-  static cleanParentheses(formula) {
+  static cleanParentheses(formula: string): string {
     if (!formula.includes('(')) {
       return formula;
     }
@@ -159,7 +159,7 @@ export default class MolecularFormula {
     return MolecularFormula.cleanParentheses(newFormula);
   }
 
-  static formulaToJson(formula) {
+  static formulaToJson(formula: string): Record<string, number> {
     if (formula.length === 0) {
       return {};
     }
@@ -167,7 +167,7 @@ export default class MolecularFormula {
     return MolecularFormula.createComposition(elemList);
   }
 
-  createSimplifiedFormula() {
+  createSimplifiedFormula(): string {
     let formula = '';
     Object.entries(this.composition).forEach(([element, count]) => {
       formula += element;

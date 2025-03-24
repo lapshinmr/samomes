@@ -25,3 +25,24 @@ export type RecipeExampleType = {
   waterVolume?: number;
   description?: string;
 }
+
+export type ReagentType = {
+  key: string;
+  name: string;
+  amount: number;
+  doses?: Record<string, number>;
+  ions?: Record<string, number> | object;
+  solubility?: number;
+  isLiquid?: boolean;
+  isFormula: boolean;
+  isCompound: boolean;
+  HCO3: number;
+}
+
+export type RecipeType = {
+  name: string;
+  description?: string;
+  reagents: ReagentType[];
+  waterVolume?: number;
+  tankVolume?: number;
+}

@@ -25,7 +25,7 @@
       </BasePageTitle>
       <client-only>
         <v-col
-          v-if="recipes.length === 0"
+          v-if="recipeInstances.length === 0"
           cols="12"
           md="8"
           offset-md="2"
@@ -43,29 +43,16 @@
           <v-expansion-panels multiple>
             <draggable
               v-model="recipesModel"
+              tag="transition-group"
+              :component-data="{name:'fade'}"
               v-bind="dragOptions"
-              @start="drag=true"
-              @end="drag=false"
-              style="width: 100%;"
               handle=".handle"
             >
-              <transition-group
-                type="transition"
-                :name="!drag ? 'flip-list' : null"
-              >
-                <v-expansion-panel
-                  v-for="(recipe, index) in recipes"
-                  :key="recipe.name"
-                >
+              <template #item="{element: recipe, index}">
+                <v-expansion-panel>
                   <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
-                    <div
-                      class="d-flex align-center"
-                      style="width: 100%;"
-                    >
-                      <div
-                        class="no-break font-weight-regular mr-auto"
-                        :class="{'subtitle-1': $vuetify.display.xs, 'title': $vuetify.display.smAndUp}"
-                      >
+                    <div class="d-flex align-center w-100">
+                      <div class="no-break font-weight-regular mr-auto">
                         {{ recipe.name }}
                       </div>
                       <div>
@@ -75,7 +62,7 @@
                         >
                           <template #activator="{ props }">
                             <v-icon
-                              class="handle"
+                              class="handle mr-2 mr-sm-4"
                               v-bind="props"
                             >
                               mdi-drag
@@ -87,16 +74,16 @@
                     </div>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
-                    <Recipe :recipe="recipe" />
+                    <RecipesRecipe :recipe="recipe" />
                     <div class="d-flex justify-end mt-4">
                       <v-btn
-                        text
+                        variant="text"
                         @click="openShareDialog(index)"
                       >
                         Поделиться
                       </v-btn>
                       <v-btn
-                        text
+                        variant="text"
                         :to="`/recipes/${index}/`"
                         class="mr-n4"
                       >
@@ -105,7 +92,7 @@
                     </div>
                   </v-expansion-panel-text>
                 </v-expansion-panel>
-              </transition-group>
+              </template>
             </draggable>
           </v-expansion-panels>
         </v-col>
@@ -181,10 +168,57 @@
   </v-container>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import draggable from 'vuedraggable';
 import { useRouter } from 'vue-router';
 import { useRecipesStore } from '~/stores/recipes';
+
+const router = useRouter();
+const { recipeInstances, moveRecipes } = useRecipesStore();
+const snackbarStore = useSnackbarStore();
+
+const dialogShare = ref(false);
+const curRecipeIndex = ref(null);
+
+const dragOptions = {
+  animation: 200,
+  group: 'description',
+  disabled: false,
+  ghostClass: 'ghost',
+};
+
+const recipesModel = computed({
+  get: () => recipeInstances,
+  set: (value) => moveRecipes(value)
+});
+
+function addRecipe() {
+  return router.push('/recipes/create/');
+}
+
+function openShareDialog(index: number) {
+  curRecipeIndex.value = index;
+  dialogShare.value = true;
+}
+
+function copyUrl() {
+  const encodedUrl = document.getElementById('encodedUrl');
+  encodedUrl.select();
+  encodedUrl.setSelectionRange(0, 99999);
+  document.execCommand('copy');
+  snackbarStore.showSnackbar('Ссылка скопирована');
+}
+
+const encodedUrl = computed(() => {
+  if (curRecipeIndex.value === null) return '';
+
+  const recipe = { ...recipes.value[curRecipeIndex.value] };
+  delete recipe.concentration;
+  let jsonString = JSON.stringify([recipe]);
+  jsonString = jsonString.replace(/%/g, '%25');
+  const encoded = encodeURIComponent(jsonString);
+  return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
+});
 
 definePageMeta({
   title: 'Список рецептов самодельных удобрений',
@@ -200,55 +234,6 @@ definePageMeta({
       content: 'рецепты удобрений, самомес, макро, микро, аквариум, самодельные удобрения, удобрения для аквариума',
     },
   ],
-});
-
-const router = useRouter();
-const recipesStore = useRecipesStore();
-
-const drag = ref(false);
-const dialogShare = ref(false);
-const curRecipeIndex = ref(null);
-
-const dragOptions = {
-  animation: 200,
-  group: 'description',
-  disabled: false,
-  ghostClass: 'ghost',
-};
-
-const recipes = computed(() => recipesStore.recipes);
-
-const recipesModel = computed({
-  get: () => recipesStore.recipes,
-  set: (value) => recipesStore.moveRecipes(value)
-});
-
-function addRecipe() {
-  return router.push('/recipes/create/');
-}
-
-function openShareDialog(index) {
-  curRecipeIndex.value = index;
-  dialogShare.value = true;
-}
-
-function copyUrl() {
-  const encodedUrl = document.getElementById('encodedUrl');
-  encodedUrl.select();
-  encodedUrl.setSelectionRange(0, 99999);
-  document.execCommand('copy');
-  recipesStore.showSnackbar('Ссылка скопирована');
-}
-
-const encodedUrl = computed(() => {
-  if (curRecipeIndex.value === null) return '';
-  
-  const recipe = { ...recipes.value[curRecipeIndex.value] };
-  delete recipe.concentration;
-  let jsonString = JSON.stringify([recipe]);
-  jsonString = jsonString.replace(/%/g, '%25');
-  const encoded = encodeURIComponent(jsonString);
-  return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
 });
 </script>
 

@@ -17,34 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export const ELEMENTS: {
-  [key: string]: number;
-} = {
-  H: 1.00794,
-  B: 10.811,
-  C: 12.0107,
-  N: 14.0067,
-  O: 15.9994,
-  Na: 22.98976928,
-  Mg: 24.30505,
-  Si: 28.0855,
-  P: 30.97376,
-  S: 32.06479,
-  Cl: 35.45294,
-  K: 39.0983,
-  Ca: 40.07802,
-  V: 50.94147,
-  Mn: 54.93804,
-  Fe: 55.84514,
-  Co: 58.93319,
-  Ni: 58.69335,
-  Cu: 63.54604,
-  Zn: 65.37778,
-  Rb: 85.46766,
-  Sr: 87.61664,
-  Mo: 95.95979,
-  I: 126.90447,
-  // TODO: move it to another constant
-  CO3: 60.01001,
-  HCO3: 61.01812,
+export const ROUTES = {
+  tanks: { path: 'tanks', icon: 'game-icons:aquarium' },
+  recipes: { path: 'recipes', icon: 'game-icons:fizzing-flask' },
+  fertilizers: { path: 'fertilizers', icon: 'game-icons:liquid-soap' },
+  schedules: { path: 'schedules', icon: 'game-icons:settings-knobs' },
+  reminerals: { path: 'reminerals', icon: 'game-icons:powder' },
+  remineralization: { path: 'remineralization', icon: 'game-icons:full-metal-bucket-handle' },
+  dynamics: { path: 'dynamics', icon: 'game-icons:chart' },
+  articles: { path: 'articles', icon: 'game-icons:bookmarklet' },
+  settings: { path: 'settings', icon: 'game-icons:cog' },
+  about: { path: 'about', icon: 'mdi:info-outline' },
 };
+
+export default ROUTES;

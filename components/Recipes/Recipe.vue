@@ -19,147 +19,67 @@
 
 <template>
   <div>
+    <div class="mb-2">Рецепт</div>
     <div
-      v-if="isRecipe"
-      class="mb-2"
+      v-if="recipe.waterVolume"
+      class="d-flex justify-space-between text-body-2"
     >
-      Рецепт
+      <span class=""> Объем удобрения </span>
+      <span> {{ recipe.waterVolume }} мл </span>
     </div>
-    <div
-      v-if="recipe.volume"
-      class="d-flex justify-space-between body-2"
-    >
-      <span class="">
-        Объем удобрения
-      </span>
-      <span>
-        {{ recipe.volume }} мл
-      </span>
-    </div>
-    <template v-for="reagent in recipe.reagents">
-      <div
-        v-if="recipe.mass[reagent]"
-        class="d-flex justify-space-between body-2"
-        :key="reagent"
-      >
+    <template v-for="reagent in recipe.reagents" :key="reagent.key">
+      <div class="d-flex justify-space-between text-body-2">
         <span>
-          {{ FORMULAS[reagent].name }}
+          {{ reagent.name }}
         </span>
-        <span>
-          {{ formatPrecision(recipe.mass[reagent], 2) }} г
-        </span>
+        <span> {{ format(reagent.amount, 3) }} г </span>
       </div>
     </template>
-    <template v-for="compound in recipe.compounds">
-      <div
-        v-if="recipe.mass[compound]"
-        class="d-flex justify-space-between body-2"
-        :key="compound"
-      >
-        <span>
-          {{ COMPOUNDS[compound].name }}
-        </span>
-        <span>
-          {{ formatPrecision(recipe.mass[compound], 2) }} г
-        </span>
-      </div>
-    </template>
-    <v-divider
-      v-if="isRecipe"
-      class="my-3"
-    />
-    <div
-      v-if="isConcentration(recipe.concentration)"
-      class="d-flex justify-space-between"
-    >
-      <div class="">
-        Концентрация
-      </div>
-      <div class="d-flex body-2">
+    <v-divider class="my-3" />
+    <div class="d-flex justify-space-between">
+      <div class="mb-2 mb-sm-4">Состав</div>
+      <div class="d-flex text-body-2">
         <div>
-          <div
-            v-for="[ion] in concentrations"
-            class="mr-3"
-            :key="ion + 'name'"
-          >
-            {{ convertIonName(ion) }}
-          </div>
-        </div>
-        <div>
-          <div
-            v-for="[ion, value] in concentrations"
-            :key="ion + 'unit'"
-            class="text-right"
-          >
-            {{ formatPrecision(convertIonRatio(ion) * value * (!recipe.volume && isRecipe ? 1000 : 1), 3) }}
-            {{ !recipe.volume && isRecipe ? 'мг/г' : 'г/л' }}
-          </div>
+          <table>
+            <tr
+              v-for="(value, ion) in recipe.totalConcentration"
+              :key="ion + 'name'"
+            >
+              <td>{{ ion }}</td>
+              <td class="d-flex justify-end ml-2">
+                <span>{{ format(value, 3) }}</span>
+                <span class="ml-1">{{ recipe.isLiquid ? "г/л" : "г/1г" }}</span>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
-    <v-divider
-      v-if="recipe.note"
-      class="my-3"
-    />
-    <div
-      v-if="recipe.note"
-      class="d-flex flex-column flex-md-row justify-md-space-between"
-    >
-      <div class="mb-3 mr-md-3">
-        Примечание
+    <template v-if="recipe.description">
+      <v-divider class="my-3" />
+      <div class="d-flex flex-column">
+        <div class="mb-3 mr-md-3">Описание</div>
+        <div
+          class="text-body-2"
+          style="word-break: break-word; white-space: pre-wrap"
+        >
+          {{ recipe.description }}
+        </div>
       </div>
-      <div
-        class="text-md-right body-2"
-        style="word-break: break-word; white-space: pre-wrap;"
-      >{{ recipe.note }}</div>
-    </div>
+    </template>
   </div>
 </template>
 
-<script setup>
-import FORMULAS from '~/helpers/constants/formulas';
-import COMPOUNDS from '~/helpers/constants/compounds';
-import {
-  convertIonName,
-  convertIonRatio,
-  countTotalIonConcentration,
-  isConcentration,
-} from '~/helpers/funcs/funcs';
+<script lang="ts" setup>
+import type Recipe from "~/utils/Recipe";
 
-const props = defineProps({
-  recipe: {
-    type: Object,
-    default: () => ({}),
-  },
+defineOptions({
+  name: "Recipe",
 });
 
-const concentrations = computed(() => {
-  const result = Object.entries(countTotalIonConcentration(props.recipe.concentration));
-  result.sort((a, b) => b[1] - a[1]);
-  return result;
-});
-
-const isRecipe = computed(() => {
-  return props.recipe.reagents && props.recipe.reagents.length > 0;
-});
-
-function formatPrecision(value, precision = 2) {
-  if (value === undefined || value === null) return '';
-
-  // Convert to number if it's a string
-  const num = typeof value === 'string' ? parseFloat(value) : value;
-
-  // Check if it's a valid number
-  if (isNaN(num)) return '';
-
-  // Format with the specified precision
-  const formatted = num.toFixed(precision);
-
-  // Remove trailing zeros
-  return formatted.replace(/\.?0+$/, '');
-}
+defineProps<{
+  recipe: Recipe;
+}>();
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

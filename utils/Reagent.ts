@@ -1,5 +1,5 @@
-import MolecularFormula from "~/utils/molecular-formula";
-import { getElementToOxideRatio } from "~/utils/funcs";
+import MolecularFormula from '~/utils/MolecularFormula';
+import { getElementToOxideRatio } from '~/utils/funcs';
 
 export default class Reagent {
   public key: string;
@@ -11,9 +11,9 @@ export default class Reagent {
   public isFormula: boolean;
   public isCompound: boolean;
   public HCO3: number;
-  public _ions?: Record<string, number> | {};
+  public _ions?: Record<string, number> | object;
 
-	constructor(args: {
+  constructor(args: {
     key: string;
     name: string;
     amount: number;
@@ -25,7 +25,7 @@ export default class Reagent {
     isCompound?: boolean;
     HCO3?: number;
   }) {
-		this.name = args.name;
+    this.name = args.name;
     this.key = args.key;
     this.amount = args.amount;
     this.doses = args.doses || {};
@@ -35,9 +35,9 @@ export default class Reagent {
     this.isCompound = args.isCompound || false;
     this.HCO3 = args.HCO3;
     this.ions = args.ions;
-	}
+  }
 
-  get ions() {
+  get ions(): Record<number, string> | object {
     return this._ions;
   }
 
@@ -66,7 +66,7 @@ export default class Reagent {
 
     Object.keys(this._ions).forEach((ion) => {
       this.doses[ion] = 0;
-    })
+    });
   }
 
   get text() {
@@ -81,9 +81,18 @@ export default class Reagent {
     return output.join(' ');
   }
 
-  toJson() {
+  toJson(): ReagentType {
     return {
-      ...this,
+      key: this.key,
+      name: this.name,
+      amount: this.amount,
+      doses: this.doses,
+      solubility: this.solubility,
+      isLiquid: this.isLiquid,
+      isFormula: this.isFormula,
+      isCompound: this.isCompound,
+      HCO3: this.HCO3,
+      ions: this.ions,
     };
   }
 }

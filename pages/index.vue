@@ -95,18 +95,16 @@
         class="section section--tanks"
       >
         <nuxt-link
-          to="/tanks/"
+          :to="ROUTES.tanks.path"
           class="section__icon-link"
         >
-          <v-icon
-            class="section__icon"
-            color="blue"
-          >
-            mdi-fishbowl-outline
-          </v-icon>
+          <Icon
+            :name="ROUTES.tanks.icon"
+            class="section__icon text-blue"
+          />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/tanks/">
+          <nuxt-link :to="ROUTES.tanks.path">
             <h2 class="section__title">
               Аквариумы
             </h2>
@@ -137,18 +135,16 @@
         class="section section--recipes"
       >
         <nuxt-link
-          to="/recipes/"
+          :to="ROUTES.recipes.path"
           class="section__icon-link"
         >
-          <v-icon
-            class="section__icon"
-            color="green"
-          >
-            mdi-clipboard-text-multiple-outline
-          </v-icon>
+          <Icon
+            class="section__icon text-green"
+            :name="ROUTES.recipes.icon"
+          />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/recipes/">
+          <nuxt-link :to="ROUTES.recipes.path">
             <h2 class="section__title">
               Рецепты
             </h2>
@@ -182,18 +178,16 @@
         class="section section--fertilizers"
       >
         <nuxt-link
-          to="/fertilizers/"
+          :to="ROUTES.fertilizers.path"
           class="section__icon-link"
         >
-          <v-icon
-            class="section__icon"
-            color="purple"
-          >
-            mdi-flask
-          </v-icon>
+          <Icon
+            class="section__icon text-purple"
+            :name="ROUTES.fertilizers.icon"
+          />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/fertilizers/">
+          <nuxt-link :to="ROUTES.fertilizers.path">
             <h2 class="section__title">
               Удобрения
             </h2>
@@ -221,18 +215,16 @@
         class="section section--schedules"
       >
         <nuxt-link
-          to="/schedules/"
+          :to="ROUTES.schedules.path"
           class="section__icon-link"
         >
-          <v-icon
-            class="section__icon"
-            color="teal"
-          >
-            mdi-calendar-blank-multiple
-          </v-icon>
+          <Icon
+            class="section__icon text-teal"
+            :name="ROUTES.schedules.icon"
+          />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/schedules/">
+          <nuxt-link :to="ROUTES.schedules.path">
             <h2 class="section__title">
               Расписание
             </h2>
@@ -273,18 +265,16 @@
         class="section section--reminerals"
       >
         <nuxt-link
-          to="/reminerals/"
+          :to="ROUTES.reminerals.path"
           class="section__icon-link"
         >
-          <v-icon
-            class="section__icon"
-            color="blue-gray"
-          >
-            fas fa-cubes
-          </v-icon>
+          <Icon
+            class="section__icon text-blue-gray"
+            :name="ROUTES.reminerals.icon"
+          />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/reminerals/">
+          <nuxt-link :to="ROUTES.reminerals.path">
             <h2 class="section__title">
               Реминерализаторы
             </h2>
@@ -314,18 +304,16 @@
         class="section section--remineralization"
       >
         <nuxt-link
-          to="/remineralization/"
+          :to="ROUTES.remineralization.path"
           class="section__icon-link"
         >
-          <v-icon
-            class="section__icon"
-            color="blue"
-          >
-            fas fa-tint
-          </v-icon>
+          <Icon
+            class="section__icon text-blue"
+            :name="ROUTES.remineralization.icon"
+          />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/remineralization/">
+          <nuxt-link :to="ROUTES.remineralization.path">
             <h2 class="section__title">
               Водоподготовка
             </h2>
@@ -354,18 +342,16 @@
         class="section section--dynamics"
       >
         <nuxt-link
-          to="/dynamics/"
+          :to="ROUTES.dynamics.path"
           class="section__icon-link"
         >
-          <v-icon
-            class="section__icon"
-            color="orange"
-          >
-            far fa-chart-bar
-          </v-icon>
+          <Icon
+            class="section__icon text-orange"
+            :name="ROUTES.dynamics.icon"
+          />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link to="/dynamics/">
+          <nuxt-link :to="ROUTES.dynamics.path">
             <h2 class="section__title">
               Динамика
             </h2>
@@ -431,49 +417,44 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: 'Home',
-  data() {
-    return {
-      isVKVisible: false,
-    };
-  },
-  head() {
-    return {
-      title: 'Самомес - калькулятор удобрений для растительного аквариума',
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'Самомес — это удобный калькулятор для аквариумистов, который упрощает расчет '
-            + 'концентрации элементов и дозировок удобрений для растительных аквариумов. '
-            + 'С его помощью можно создавать собственные рецепты удобрений, составлять расписания '
-            + 'внесения, управлять жесткостью воды и отслеживать динамику содержания элементов.',
-        },
-        {
-          hid: 'keywords',
-          name: 'keywords',
-          content: 'аквариумы, рецепты, удобрения, расписание, водоподготовка, динамика, растительный аквариум, '
-            + 'реминерализаторы, аквариумисты',
-        },
-      ],
-    };
-  },
-  watch: {
-    isVKVisible(value) {
-      if (value) {
-        const vk = document.createElement('script');
-        vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');
-        vk.onload = () => {
+<script lang="ts" setup>
+const isVKVisible = ref<boolean>(false);
 
-          VK.Widgets.Group('vk_groups', { mode: 0, width: 'auto', height: '300' }, 205374081);
-        };
-        document.head.appendChild(vk);
-      }
+watch(isVKVisible, (value) => {
+  if (value) {
+    const vk = document.createElement('script');
+    vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');
+    vk.onload = () => {
+
+      VK.Widgets.Group('vk_groups', { mode: 0, width: 'auto', height: '300' }, 205374081);
+    };
+    document.head.appendChild(vk);
+  }
+});
+
+defineOptions({
+  name: 'Home',
+});
+
+definePageMeta({
+  title: 'Самомес - калькулятор удобрений для растительного аквариума',
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: 'Самомес — это удобный калькулятор для аквариумистов, который упрощает расчет '
+        + 'концентрации элементов и дозировок удобрений для растительных аквариумов. '
+        + 'С его помощью можно создавать собственные рецепты удобрений, составлять расписания '
+        + 'внесения, управлять жесткостью воды и отслеживать динамику содержания элементов.',
     },
-  },
-};
+    {
+      hid: 'keywords',
+      name: 'keywords',
+      content: 'аквариумы, рецепты, удобрения, расписание, водоподготовка, динамика, растительный аквариум, '
+        + 'реминерализаторы, аквариумисты',
+    },
+  ],
+});
 </script>
 
 <style lang="sass" scoped>

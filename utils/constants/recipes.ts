@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import type { RecipeExampleType } from "~/utils/types/types";
+import type { RecipeExampleType } from '~/utils/types/types';
 
-const RECIPES: RecipeExampleType[] = [
+export const RECIPES: RecipeExampleType[] = [
   {
     name: 'Kuban Aquariums Нитрат',
     reagents: {
@@ -270,5 +270,3 @@ const RECIPES: RecipeExampleType[] = [
 ];
 
 RECIPES.sort((a, b) => a.name.localeCompare(b.name));
-
-export default RECIPES;

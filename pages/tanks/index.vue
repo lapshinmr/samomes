@@ -193,7 +193,7 @@
   </v-container>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import draggable from 'vuedraggable';
 import { useRouter } from 'vue-router';
 import { useTanksStore } from '~/stores/tanks';
