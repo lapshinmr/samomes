@@ -18,7 +18,7 @@
  */
 
 import Vue from 'vue';
-import PageTitle from '~/components/Base/PageTitle.vue';
+import PageTitle from '~/components/Layout/PageTitle.vue';
 import TheGuide from '~/components/Base/TheGuide.vue';
 import AddButton from '~/components/Base/AddButton.vue';
 import NumberField from '~/components/Base/NumberField.vue';

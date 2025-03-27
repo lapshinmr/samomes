@@ -1,4 +1,4 @@
-export const format = (value: string | number, precision = 2) => {
+export const format = (value: string | number, precision = undefined) => {
   if (value === undefined || value === null) return '';
 
   // Convert to number if it's a string
@@ -9,9 +9,11 @@ export const format = (value: string | number, precision = 2) => {
 
   // Format with the specified precision
   // const formatted = num.toFixed(precision);
-  const formatter = new Intl.NumberFormat('en-US', {
-    maximumSignificantDigits: precision,
-  });
+  const options = {};
+  if (precision !== undefined) {
+    options['maximumSignificantDigits'] = precision;
+  }
+  const formatter = new Intl.NumberFormat('en-US', options);
 
   // Remove trailing zeros
   // return formatted.replace(/\.?0+$/, '');

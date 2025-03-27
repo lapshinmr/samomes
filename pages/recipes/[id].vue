@@ -20,20 +20,7 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <v-col
-        cols="12"
-        sm="8"
-        offset-sm="2"
-        class="d-flex"
-      >
-        <v-btn
-          color="primary"
-          class="mr-0"
-          square
-          to="/recipes/"
-        >
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
+      <LayoutBackButton :path="ROUTES.recipes.path">
         <v-btn
           v-if="!isCreate && !isShare"
           color="primary"
@@ -42,8 +29,8 @@
         >
           Скопировать
         </v-btn>
-      </v-col>
-      <BasePageTitle>
+      </LayoutBackButton>
+      <LayoutPageTitle>
         <template v-if="isCreate && !isCopy">
           Новый рецепт
         </template>
@@ -66,7 +53,7 @@
         <template v-else>
           {{ name }}
         </template>
-      </BasePageTitle>
+      </LayoutPageTitle>
       <v-col
         cols="12"
         md="8"
@@ -110,15 +97,12 @@
               cols="12"
               class="pt-0"
             >
-              <BaseDividerWithNote class="mb-2 mb-sm-4">
-                <v-btn
-                  center
-                  variant="text"
-                  @click="isReagentsInfo = !isReagentsInfo"
-                >
-                  Подробнее о реагентах
-                  <v-icon>{{ isReagentsInfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                </v-btn>
+              <BaseDividerWithNote
+                v-model="isReagentsInfo"
+                class="mb-2 mb-sm-4"
+                button
+              >
+                Подробнее о реагентах
               </BaseDividerWithNote>
               <v-expand-transition>
                 <div
@@ -349,7 +333,7 @@
 import { useRouter, useRoute } from 'vue-router';
 import { required, positive } from '~/utils/validation';
 import type { RecipeExampleType } from '~/utils/types/types';
-import Reagent from '~/utils/Reagent';
+import Reagent from '~/utils/classes/Reagent';
 
 const router = useRouter();
 const route = useRoute();

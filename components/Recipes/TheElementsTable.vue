@@ -147,7 +147,7 @@
 
 <script lang="ts" setup>
 // TODO: check importing
-import type Recipe from "~/utils/Recipe";
+import type Recipe from "~/utils/classes/Recipe";
 
 // TODO: refactor this component
 

@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import ELEMENTS from '~/utils/constants/elements';
+import { ELEMENTS } from '~/utils/constants/elements';
 import { FORMULAS } from '~/utils/constants/formulas';
-import MolecularFormula from '~/utils/molecular-formula';
+import MolecularFormula from '~/utils/models/MolecularFormula';
 import type { FormulaType } from '~/utils/types/types';
 
 export const countMass = (ion: string) => {

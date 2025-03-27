@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import type Recipe from "~/utils/Recipe";
+import type Recipe from "~/utils/classes/Recipe";
 
 defineOptions({
   name: "Recipe",

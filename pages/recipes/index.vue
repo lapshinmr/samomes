@@ -20,9 +20,9 @@
 <template>
   <v-container class="mb-12 position-relative">
     <v-row>
-      <BasePageTitle>
+      <LayoutPageTitle>
         Рецепты
-      </BasePageTitle>
+      </LayoutPageTitle>
       <client-only>
         <v-col
           v-if="recipeInstances.length === 0"
@@ -44,11 +44,11 @@
             <draggable
               v-model="recipesModel"
               tag="transition-group"
-              :component-data="{name:'fade'}"
-              v-bind="dragOptions"
+              :component-data="{ name: 'fade' }"
+              v-bind="DRAG_OPTIONS"
               handle=".handle"
             >
-              <template #item="{element: recipe, index}">
+              <template #item="{ element: recipe, index }">
                 <v-expansion-panel>
                   <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
                     <div class="d-flex align-center w-100">
@@ -68,7 +68,7 @@
                               mdi-drag
                             </v-icon>
                           </template>
-                          {{ $t('recipes.panels.header.pull') }}
+                          {{ t('recipes.panels.header.pull') }}
                         </v-tooltip>
                       </div>
                     </div>
@@ -87,7 +87,7 @@
                         :to="`/recipes/${index}/`"
                         class="mr-n4"
                       >
-                        {{ $t('buttons.open') }}
+                        {{ t('buttons.open') }}
                       </v-btn>
                     </div>
                   </v-expansion-panel-text>
@@ -98,23 +98,23 @@
         </v-col>
         <BaseGuide>
           <p>
-            {{ $t('recipes.guide.paragraph1') }}
+            {{ t('recipes.guide.paragraph1') }}
           </p>
           <p>
-            {{ $t('recipes.guide.paragraph2') }}
+            {{ t('recipes.guide.paragraph2') }}
           </p>
           <p>
-            {{ $t('recipes.guide.paragraph3') }}
-            <NuxtLink to="/recipes/">
-              {{ $t('routes.recipes').toLowerCase() }}
+            {{ t('recipes.guide.paragraph3') }}
+            <NuxtLink :to="ROUTES.recipes.path">
+              {{ t('routes.recipes').toLowerCase() }}
             </NuxtLink>
-            {{ $t('common.or') }}
-            <NuxtLink to="/schedules/">
-              {{ $t('routes.schedules').toLowerCase() }}
+            {{ t('common.or') }}
+            <NuxtLink :to="ROUTES.schedules.path">
+              {{ t('routes.schedules').toLowerCase() }}
             </NuxtLink>
           </p>
           <p>
-            {{ $t('recipes.guide.paragraph4') }}
+            {{ t('recipes.guide.paragraph4') }}
           </p>
         </BaseGuide>
       </client-only>
@@ -130,10 +130,10 @@
         </v-card-title>
         <v-card-text v-if="curRecipeIndex !== null">
           <v-text-field
+            id="encodedUrl"
             :value="encodedUrl"
             label="Ваша ссылка для отправки"
             hint="Скопируйте ссылку"
-            id="encodedUrl"
           >
             <template #append>
               <v-tooltip
@@ -163,33 +163,26 @@
       </v-card>
     </v-dialog>
     <BaseAddButton :action="addRecipe">
-      {{ $t('recipes.addButton') }}
+      {{ t('recipes.addButton') }}
     </BaseAddButton>
   </v-container>
 </template>
 
 <script lang="ts" setup>
 import draggable from 'vuedraggable';
-import { useRouter } from 'vue-router';
-import { useRecipesStore } from '~/stores/recipes';
+import { DRAG_OPTIONS } from '~/utils/constants/application';
 
 const router = useRouter();
+const { t } = useI18n();
 const { recipeInstances, moveRecipes } = useRecipesStore();
 const snackbarStore = useSnackbarStore();
 
 const dialogShare = ref(false);
 const curRecipeIndex = ref(null);
 
-const dragOptions = {
-  animation: 200,
-  group: 'description',
-  disabled: false,
-  ghostClass: 'ghost',
-};
-
 const recipesModel = computed({
   get: () => recipeInstances,
-  set: (value) => moveRecipes(value)
+  set: (value) => moveRecipes(value),
 });
 
 function addRecipe() {

@@ -1,3 +1,15 @@
+export type TankType = {
+  name: string;
+  volume: number;
+  length?: number;
+  width?: number;
+  height?: number;
+  glassThickness?: number;
+  waterChangePercent?: number;
+  waterChangeVolume?: number;
+  filterVolume?: number;
+  soilVolume?: number;
+};
 
 export type FormulaType = {
   name: string;
@@ -45,4 +57,13 @@ export type RecipeType = {
   reagents: ReagentType[];
   waterVolume?: number;
   tankVolume?: number;
+}
+
+export type FertilizerType = {
+  name: string;
+  description?: string;
+  ions: Record<string, number | null>;
+  isPercent: boolean;
+  updatedAt?: string;
+  concentration?: Record<string, Record<string, number>>;
 }

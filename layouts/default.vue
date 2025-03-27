@@ -72,15 +72,14 @@ const snackbarStore = useSnackbarStore();
 const router = useRouter();
 const route = useRoute();
 
-
 const isDrawer = computed({
   get: () => drawerStore.isOpen,
-  set: (value) => drawerStore.set(value)
+  set: (value) => drawerStore.set(value),
 });
 
 const isSnackbar = computed({
   get: () => snackbarStore.isVisible,
-  set: () => snackbarStore.hide()
+  set: () => snackbarStore.hide(),
 });
 
 // Lifecycle hooks

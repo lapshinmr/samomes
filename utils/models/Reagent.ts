@@ -1,4 +1,4 @@
-import MolecularFormula from '~/utils/MolecularFormula';
+import MolecularFormula from '~/utils/models/MolecularFormula';
 import { getElementToOxideRatio } from '~/utils/funcs';
 
 export default class Reagent {
@@ -11,7 +11,7 @@ export default class Reagent {
   public isFormula: boolean;
   public isCompound: boolean;
   public HCO3: number;
-  public _ions?: Record<string, number> | object;
+  private _ions?: Record<string, number> | object;
 
   constructor(args: {
     key: string;
@@ -42,7 +42,7 @@ export default class Reagent {
   }
 
   set ions(value) {
-    // TODO: refactoring
+    // TODO: refactoring & check if value is from formula type
     if (value) {
       this._ions = value;
     } else {

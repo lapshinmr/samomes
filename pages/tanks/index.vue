@@ -23,9 +23,9 @@
     class="mb-12 position-relative"
   >
     <v-row>
-      <BasePageTitle>
+      <LayoutPageTitle>
         Аквариумы
-      </BasePageTitle>
+      </LayoutPageTitle>
       <client-only>
         <v-col
           v-if="tanks.length === 0"
@@ -46,36 +46,26 @@
           <v-expansion-panels multiple>
             <draggable
               v-model="tanksModel"
-              v-bind="dragOptions"
-              @start="drag=true"
-              @end="drag=false"
-              style="width: 100%;"
+              tag="transition-group"
+              :component-data="{ name:'fade' }"
+              v-bind="DRAG_OPTIONS"
               handle=".handle"
             >
-              <transition-group
-                type="transition"
-                :name="!drag ? 'flip-list' : null"
-              >
-                <v-expansion-panel
-                  v-for="(tank, index) in tanks"
-                  :key="tank.name"
-                >
+              <template #item="{element: tank, index}">
+                <v-expansion-panel>
                   <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
                     <div
                       class="d-flex align-center"
                       style="width: 100%;"
                     >
-                      <div
-                        class="no-break font-weight-regular mr-auto"
-                        :class="{'subtitle-1': $vuetify.display.xs, 'title': $vuetify.display.smAndUp}"
-                      >
+                      <div class="no-break font-weight-regular mr-auto text-subtitle-1 text-md-h6">
                         {{ tank.name }}
                       </div>
                       <div
                         class="mr-1 mx-sm-4"
                         style="white-space: nowrap;"
                       >
-                        {{ formatPrecision(tank.volume, 1) }} {{ $t('units.l') }}
+                        {{ format(tank.volume) }} {{ t('units.l') }}
                       </div>
                       <div>
                         <v-tooltip
@@ -90,7 +80,7 @@
                               mdi mdi-drag
                             </v-icon>
                           </template>
-                          {{ $t('tanks.panels.header.pull') }}
+                          {{ t('tanks.panels.header.pull') }}
                         </v-tooltip>
                       </div>
                     </div>
@@ -101,43 +91,43 @@
                       class="body-2"
                     >
                       <div class="d-flex justify-space-between">
-                        <div>{{ $t('tanks.dialog.length') }}</div>
-                        <div>{{ formatPrecision(tank.length, 1) }} {{ $t('units.cm') }}</div>
+                        <div>{{ t('tanks.dialog.length') }}</div>
+                        <div>{{ format(tank.length, 1) }} {{ t('units.cm') }}</div>
                       </div>
                       <div class="d-flex justify-space-between">
-                        <div>{{ $t('tanks.dialog.width') }}</div>
-                        <div>{{ formatPrecision(tank.width, 1) }} {{ $t('units.cm') }}</div>
+                        <div>{{ t('tanks.dialog.width') }}</div>
+                        <div>{{ format(tank.width, 1) }} {{ t('units.cm') }}</div>
                       </div>
                       <div class="d-flex justify-space-between">
-                        <div>{{ $t('tanks.dialog.height') }}</div>
-                        <div>{{ formatPrecision(tank.height, 1) }} {{ $t('units.cm') }}</div>
+                        <div>{{ t('tanks.dialog.height') }}</div>
+                        <div>{{ format(tank.height, 1) }} {{ t('units.cm') }}</div>
                       </div>
                       <div class="d-flex justify-space-between">
-                        <div>{{ $t('tanks.dialog.glassThickness') }}</div>
-                        <div>{{ tank.glassThickness }} {{ $t('units.mm') }}</div>
+                        <div>{{ t('tanks.dialog.glassThickness') }}</div>
+                        <div>{{ tank.glassThickness }} {{ t('units.mm') }}</div>
                       </div>
                       <div
                         v-if="tank.filter"
                         class="d-flex justify-space-between"
                       >
-                        <div>{{ $t('tanks.dialog.filter') }}</div>
-                        <div>{{ formatPrecision(tank.filter, 1) }} {{ $t('units.l') }}</div>
+                        <div>{{ t('tanks.dialog.filter') }}</div>
+                        <div>{{ format(tank.filter, 1) }} {{ t('units.l') }}</div>
                       </div>
                       <div
                         v-if="tank.soil"
                         class="d-flex justify-space-between"
                       >
-                        <div>{{ $t('tanks.dialog.soil') }}</div>
-                        <div>{{ formatPrecision(tank.soil, 1) }} {{ $t('units.l') }}</div>
+                        <div>{{ t('tanks.dialog.soil') }}</div>
+                        <div>{{ format(tank.soilVolume, 1) }} {{ t('units.l') }}</div>
                       </div>
                       <div
                         v-if="tank.waterChangeVolume"
                         class="d-flex justify-space-between"
                       >
-                        <div>{{ $t('tanks.dialog.waterChange') }}</div>
+                        <div>{{ t('tanks.dialog.waterChange') }}</div>
                         <div>
-                          {{ formatPrecision(tank.waterChangeVolume, 1) }} {{ $t('units.l') }} —
-                          {{ formatPrecision(tank.waterChangeVolume / tank.volume * 100, 1) }}%
+                          {{ format(tank.waterChangeVolume, 1) }} {{ t('units.l') }}
+                          ({{ format(tank.waterChangePercent, 3) }}%)
                         </div>
                       </div>
                     </div>
@@ -145,58 +135,105 @@
                       v-else
                       class="body-2"
                     >
-                      {{ $t('tanks.panels.body.noSizes') }}
+                      {{ t('tanks.panels.body.noSizes') }}
                     </div>
-                    <div class="d-flex justify-end mt-4">
+                    <div class="d-flex justify-space-between mt-4">
                       <v-btn
-                        text
+                        variant="text"
+                        right
+                        color="red"
+                        class="ml-n4"
+                        @click="onTankRemove(index)"
+                      >
+                        {{ t('buttons.remove') }}
+                      </v-btn>
+                      <v-btn
+                        variant="text"
                         right
                         :to="`/tanks/${index}/`"
                         class="mr-n4"
                       >
-                        {{ $t('buttons.open') }}
+                        {{ t('buttons.open') }}
                       </v-btn>
                     </div>
                   </v-expansion-panel-text>
                 </v-expansion-panel>
-              </transition-group>
+              </template>
             </draggable>
           </v-expansion-panels>
         </v-col>
         <BaseGuide>
           <p>
-            {{ $t('tanks.guide.paragraph1') }}
+            {{ t('tanks.guide.paragraph1') }}
           </p>
           <p>
-            {{ $t('tanks.guide.paragraph2') }}
+            {{ t('tanks.guide.paragraph2') }}
           </p>
           <p>
-            {{ $t('tanks.guide.paragraph3') }}
-            <NuxtLink to="/recipes/">
-              {{ $t('routes.recipes').toLowerCase() }}
+            {{ t('tanks.guide.paragraph3') }}
+            <NuxtLink :to="ROUTES.recipes.path">
+              {{ t('routes.recipes').toLowerCase() }}
             </NuxtLink>
-            {{ $t('common.or') }}
-            <NuxtLink to="/schedules/">
-              {{ $t('routes.schedules').toLowerCase() }}
+            {{ t('common.or') }}
+            <NuxtLink :to="ROUTES.schedules.path">
+              {{ t('routes.schedules').toLowerCase() }}
             </NuxtLink>
           </p>
           <p>
-            {{ $t('tanks.guide.paragraph4') }}
+            {{ t('tanks.guide.paragraph4') }}
           </p>
         </BaseGuide>
       </client-only>
     </v-row>
 
     <BaseAddButton :action="addTank">
-      {{ $t('tanks.addButton') }}
+      {{ t('tanks.addButton') }}
     </BaseAddButton>
+
+    <PopupsRemoveDialog
+      v-model="isRemoveDialog"
+      @remove="onTankRemoveConfirmation"
+      @cancel="isRemoveDialog = false"
+    >
+      Are you sure you want to remove this tank? This action cannot be undone.
+    </PopupsRemoveDialog>
   </v-container>
 </template>
 
 <script lang="ts" setup>
 import draggable from 'vuedraggable';
-import { useRouter } from 'vue-router';
-import { useTanksStore } from '~/stores/tanks';
+import { DRAG_OPTIONS } from '~/utils/constants/application';
+
+const { t } = useI18n();
+const router = useRouter();
+const tanksStore = useTanksStore();
+const snackbarStore = useSnackbarStore();
+
+const isRemoveDialog = ref(false);
+const tankIndexToRemove = ref(null);
+
+const tanks = computed(() => tanksStore.tanks);
+
+const tanksModel = computed({
+  get: () => tanksStore.tanks,
+  set: (value) => tanksStore.moveTanks(value),
+});
+
+function addTank() {
+  return router.push('/tanks/create/');
+}
+
+const onTankRemove = (index: number) =>{
+  tankIndexToRemove.value = index;
+  isRemoveDialog.value = true;
+};
+
+const onTankRemoveConfirmation = async () => {
+  tanksStore.removeTank(tankIndexToRemove.value);
+  snackbarStore.showSuccess('Аквариум удален');
+  tankIndexToRemove.value = null;
+  isRemoveDialog.value = false;
+};
 
 definePageMeta({
   title: 'Список аквариумов',
@@ -215,44 +252,6 @@ definePageMeta({
   ],
 });
 
-const router = useRouter();
-const tanksStore = useTanksStore();
-
-const drag = ref(false);
-
-const dragOptions = {
-  animation: 200,
-  group: 'description',
-  disabled: false,
-  ghostClass: 'ghost',
-};
-
-const tanks = computed(() => tanksStore.tanks);
-
-const tanksModel = computed({
-  get: () => tanksStore.tanks,
-  set: (value) => tanksStore.moveTanks(value)
-});
-
-function addTank() {
-  return router.push('/tanks/create/');
-}
-
-function formatPrecision(value, precision = 2) {
-  if (value === undefined || value === null) return '';
-
-  // Convert to number if it's a string
-  const num = typeof value === 'string' ? parseFloat(value) : value;
-
-  // Check if it's a valid number
-  if (isNaN(num)) return '';
-
-  // Format with the specified precision
-  const formatted = num.toFixed(precision);
-
-  // Remove trailing zeros
-  return formatted.replace(/\.?0+$/, '');
-}
 </script>
 
 <style lang="sass" scoped>

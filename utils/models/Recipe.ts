@@ -1,4 +1,4 @@
-import type Reagent from '~/utils/Reagent';
+import type Reagent from '~/utils/classes/Reagent';
 
 export default class Recipe {
   public name: string;
@@ -44,9 +44,9 @@ export default class Recipe {
       Object.entries(ions).forEach(([ion, value]) => {
         let units = 1;
         if (this.totalVolume) {
-          units = 1 / (this.totalVolume / 1000);
-        } else if (!this.totalVolume) {
-          units = 1 / this.totalMass;
+          units = 1 / (this.totalVolume / 1000); // solute
+        } else {
+          units = 1 / this.totalMass; // dry
         }
         if (ion === 'CO3' && HCO3) {
           units *= HCO3;

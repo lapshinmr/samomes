@@ -24,7 +24,7 @@
         <v-list-item
           v-for="route in ROUTES"
           :key="route.icon"
-          :to="`/${route.path}/`"
+          :to="`${route.path}`"
         >
           <template #prepend>
             <Icon
@@ -34,7 +34,7 @@
             />
           </template>
           <v-list-item-title>
-            {{ $t(`routes.${route.path}`) }}
+            {{ t(`routes.${route.key}`) }}
           </v-list-item-title>
         </v-list-item>
         <v-list-item v-if="isPWAInstallButton" @click="install">
@@ -70,9 +70,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import ROUTES from '~/utils/constants/application';
 import PWAPopup from '~/components/Popups/PWAPopup.vue';
+
+const { t } = useI18n();
 
 const model = defineModel<boolean>();
 

@@ -18,16 +18,61 @@
  */
 
 export const ROUTES = {
-  tanks: { path: 'tanks', icon: 'game-icons:aquarium' },
-  recipes: { path: 'recipes', icon: 'game-icons:fizzing-flask' },
-  fertilizers: { path: 'fertilizers', icon: 'game-icons:liquid-soap' },
-  schedules: { path: 'schedules', icon: 'game-icons:settings-knobs' },
-  reminerals: { path: 'reminerals', icon: 'game-icons:powder' },
-  remineralization: { path: 'remineralization', icon: 'game-icons:full-metal-bucket-handle' },
-  dynamics: { path: 'dynamics', icon: 'game-icons:chart' },
-  articles: { path: 'articles', icon: 'game-icons:bookmarklet' },
-  settings: { path: 'settings', icon: 'game-icons:cog' },
-  about: { path: 'about', icon: 'mdi:info-outline' },
+  tanks: {
+    key: 'tanks',
+    path: '/tanks/',
+    icon: 'game-icons:aquarium',
+  },
+  recipes: {
+    key: 'recipes',
+    path: '/recipes/',
+    icon: 'game-icons:fizzing-flask',
+  },
+  fertilizers: {
+    key: 'fertilizers',
+    path: '/fertilizers/',
+    icon: 'game-icons:liquid-soap',
+  },
+  reminerals: {
+    key: 'reminerals',
+    path: '/reminerals/',
+    icon: 'game-icons:powder',
+  },
+  schedules: {
+    key: 'schedules',
+    path: '/schedules/',
+    icon: 'game-icons:settings-knobs',
+  },
+  remineralization: {
+    key: 'remineralization',
+    path: '/remineralization/',
+    icon: 'game-icons:full-metal-bucket-handle',
+  },
+  dynamics: {
+    key: 'dynamics',
+    path: '/dynamics/',
+    icon: 'game-icons:chart',
+  },
+  articles: {
+    key: 'articles',
+    path: '/articles/',
+    icon: 'game-icons:bookmarklet',
+  },
+  settings: {
+    key: 'settings',
+    path: '/settings/',
+    icon: 'game-icons:cog',
+  },
+  about: {
+    key: 'about',
+    path: '/about/',
+    icon: 'mdi:info-outline',
+  },
 };
 
-export default ROUTES;
+export const DRAG_OPTIONS = {
+  animation: 200,
+  group: 'description',
+  disabled: false,
+  ghostClass: 'ghost',
+};

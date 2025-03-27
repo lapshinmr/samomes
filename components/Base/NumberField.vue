@@ -32,7 +32,6 @@ defineOptions({
 
 const model = defineModel<string | number>({ required: true });
 
-
 withDefaults(defineProps<{
   inputmode?: string;
 }>(), {
