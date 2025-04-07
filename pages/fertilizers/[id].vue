@@ -20,8 +20,7 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <LayoutBackButton :path="ROUTES.fertilizers.path">
-      </LayoutBackButton>
+      <LayoutBackButton :path="ROUTES.fertilizers.path"/>
       <LayoutPageTitle>
         <template v-if="isCreate">
           Новое удобрение
@@ -37,129 +36,119 @@
         offset-md="2"
       >
         <v-form ref="fertilizerForm">
-          <v-row>
-            <v-col cols="12">
-              Чтобы добавить своё фирменное удобрение, воспользуйтесь формой ниже. Выберите единицы
-              измерения и введите концентрации элементов, указанные на этикетке.
-              <div class="d-flex align-center my-3">
-                <v-divider />
-                <div class="mx-4">
-                  или
-                </div>
-                <v-divider />
-              </div>
-              <v-combobox
-                v-model="fertilizerExampleChosen"
-                :items="FERTILIZERS_SORTED"
-                variant="underlined"
-                label="Выберите удобрение из списка"
-                hint="* здесь есть большинство фирменных удобрений"
-                persistent-hint
-                item-title="name"
-                :return-object="true"
-                hide-details="auto"
-              />
-              <v-alert
-                v-if="updatedAt"
-                type="success"
-                class="mt-2"
-              >
-                Информация о составе удобрения обновлена {{ updatedAt }}
-                в соответствии с данными производителя.
-              </v-alert>
-            </v-col>
-            <v-col cols="12">
-              <v-radio-group
-                v-model="isPercent"
-                row
-                class="mt-0"
-                hide-details="auto"
-              >
-                <v-radio
-                  label="г/л"
-                  :value="false"
-                />
-                <v-radio
-                  label="%"
-                  :value="true"
-                />
-              </v-radio-group>
-              <v-alert
-                v-if="isUnitsChangedAlert"
-                type="error"
-                class="mt-4"
-              >
-                Внимание! Вы изменили единицы измерения. Концентрации теперь отличаются в 10
-                раз от указанных на этикетке.
-                Если вы не уверены в правильности изменений, вернитесь к исходному варианту.
-              </v-alert>
-            </v-col>
-            <v-col cols="12">
-              * элементы, которые есть в списке, но нет в составе удобрения, можно пропустить.
-            </v-col>
-            <v-col
-              v-for="el in Object.keys(elements)"
-              :key="el"
-              :cols="elementCols[el]"
-              class="py-1"
+          <div>
+            Чтобы добавить своё фирменное удобрение, воспользуйтесь формой ниже. Выберите единицы
+            измерения и введите концентрации элементов, указанные на этикетке.
+            <BaseDividerWithNote class="my-3">
+              или
+            </BaseDividerWithNote>
+          </div>
+          <v-combobox
+            v-model="fertilizerExampleChosen"
+            :items="FERTILIZERS_SORTED"
+            variant="underlined"
+            label="Выберите удобрение из списка"
+            hint="Здесь есть большинство фирменных удобрений"
+            persistent-hint
+            item-title="name"
+            :return-object="true"
+            hide-details="auto"
+          />
+          <v-alert
+            v-if="updatedAt"
+            type="success"
+            class="mt-2"
+          >
+            Информация о составе удобрения обновлена {{ updatedAt }}
+            в соответствии с данными производителя.
+          </v-alert>
+          <v-radio-group
+            v-model="isPercent"
+            :inline="$vuetify.display.smAndUp"
+            class="mt-0"
+            hide-details="auto"
+          >
+            <v-radio
+              label="г/л"
+              :value="false"
+            />
+            <v-radio
+              label="%"
+              :value="true"
+            />
+          </v-radio-group>
+          <v-alert
+            v-if="isUnitsChangedAlert"
+            type="error"
+            class="mt-4"
+          >
+            Внимание! Вы изменили единицы измерения. Концентрации теперь отличаются в 10
+            раз от указанных на этикетке.
+            Если вы не уверены в правильности изменений, вернитесь к исходному варианту.
+          </v-alert>
+          <v-combobox
+            v-model="ionsChosen"
+            :items="allIons"
+            item-title="ion"
+            variant="underlined"
+            label="Выберите элементы из списка"
+            hint="Здесь есть все необходимые элементы"
+            persistent-hint
+            hide-details="auto"
+            multiple
+            clearable
+            :rules="[required]"
+          />
+          <BaseNumberField
+            v-for="item in ionsChosen"
+            :key="item.ion"
+            v-model="item.conc"
+            :label="item.ion"
+            :suffix="isPercent ? '%' : 'г/л'"
+            variant="underlined"
+            hide-details="auto"
+            :rules="[required]"
+          />
+          <v-text-field
+            v-model="name"
+            variant="underlined"
+            label="Название удобрения"
+            hide-details="auto"
+            hint="* название удобрения должно быть уникальным"
+            :rules="[required, isNameExist]"
+            class="mb-2 mt-8"
+          />
+          <v-textarea
+            v-model="description"
+            variant="underlined"
+            label="Примечание"
+            hide-details="auto"
+            auto-grow
+            rows="1"
+            hint="Вы можете добавить дополнительные сведения к удобрению"
+          />
+          <div class="d-flex justify-end">
+            <v-btn
+              v-if="isEdit"
+              color="error"
+              @click="onRemoveFertilizer"
             >
-              <BaseNumberField
-                v-model="elements[el]"
-                variant="underlined"
-                :precision-show="5"
-                :label="el"
-                :suffix="isPercent ? '%' : 'г/л'"
-                persistent-hint
-                hide-details="auto"
-                :disabled="isDisabledCol[el]"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                v-model="name"
-                variant="underlined"
-                label="Название удобрения"
-                hide-details="auto"
-                hint="* название удобрения должно быть уникальным"
-                :rules="[required, isNameExist]"
-                class="mb-2 mt-8"
-              />
-              <v-textarea
-                v-model="description"
-                variant="underlined"
-                label="Примечание"
-                hide-details="auto"
-                auto-grow
-                rows="1"
-                hint="Вы можете добавить дополнительные сведения к удобрению"
-              />
-            </v-col>
-            <v-col
-              class="d-flex justify-end"
-              cols="12"
+              Удалить
+            </v-btn>
+            <v-btn
+              class="ml-auto"
+              @click="$router.push('/fertilizers/')"
             >
-              <v-btn
-                v-if="isEdit"
-                color="error"
-                @click="removeFertilizer"
-              >
-                Удалить
-              </v-btn>
-              <v-btn
-                class="ml-auto"
-                @click="$router.push('/fertilizers/')"
-              >
-                Отмена
-              </v-btn>
-              <v-btn
-                color="primary"
-                class="ml-2"
-                v-on="isCreate ? { click: addFertilizer } : { click: editFertilizer }"
-              >
-                Сохранить
-              </v-btn>
-            </v-col>
-          </v-row>
+              Отмена
+            </v-btn>
+            <v-btn
+              color="primary"
+              class="ml-2"
+              v-on="isCreate ? { click: onAddFertilizer } : { click: onEditFertilizer }"
+            >
+              Сохранить
+            </v-btn>
+          </div>
         </v-form>
       </v-col>
     </v-row>
@@ -167,54 +156,71 @@
 </template>
 
 <script lang="ts" setup>
-// TODO: check useless imports
-import { FERTILIZERS_SORTED } from '~/utils/constants/fertilizers';
-// import { OXIDE_TO_ELEMENT } from '~/utils/constants/elements';
-// import { getOxideToElementRatio } from '~/utils/funcs';
 import { required } from '~/utils/validation';
 
 const router = useRouter();
 const route = useRoute();
-const fertilizerForm = ref(null);
+
 const fertilizersStore = useFertilizersStore();
 const recipesStore = useRecipesStore();
 const snackbarStore = useSnackbarStore();
 
-// Form data
+// PAGE MATH LOGIC
+const fertilizerForm = ref(null);
+const ionsChosen = ref<{ ion: IonType, conc: number }[]>([]);
+
 const fertilizerExampleChosen = ref(null);
+const isPercent = ref(false);
 const name = ref('Удобрение');
 const description = ref('');
-const updatedAt = ref<string | undefined>(undefined);
-const isPercent = ref(false);
+const updatedAt = ref(null);
 
-const elements = ref({
-  N: null,
-  NO3: null,
-  P: null,
-  PO4: null,
-  P2O5: null,
-  K: null,
-  K2O: null,
-  Ca: null,
-  CaO: null,
-  Mg: null,
-  MgO: null,
-  Fe: null,
-  Mn: null,
-  B: null,
-  Zn: null,
-  Cu: null,
-  Mo: null,
-  Ni: null,
-  S: null,
-  Cl: null,
-  Na: null,
-  Co: null,
-  Rb: null,
-  V: null,
+// TODO: come up with idea how to prevent user to choose N and NO3 simulteniusly
+const allIons: { ion: IonType, conc: number }[] = ALL_IONS.map((ion: IonType) => ({ ion: ion, conc: null }));
+
+const ions = computed(() => {
+  const result: Record<IonType, number> = {};
+  ionsChosen.value.forEach(({ ion, conc }) => {
+    result[ion] = conc;
+  });
+  return result;
 });
 
-// Computed properties
+const fertilizerObject = computed(() => {
+  return new Fertilizer({
+    name: name.value,
+    description: description.value,
+    ions: { ...ions.value },
+    isPercent: isPercent.value,
+    updatedAt: updatedAt.value,
+  });
+});
+
+function resetForm() {
+  ionsChosen.value = [];
+  name.value = 'Удобрение';
+  description.value = '';
+  isPercent.value = false;
+  updatedAt.value = undefined;
+}
+
+watch(fertilizerExampleChosen, (value: FertilizerType) => {
+  if (value === null || typeof value === 'string') {
+    resetForm();
+    return;
+  }
+
+  resetForm();
+  name.value = value.name;
+  description.value = value.description || '';
+  isPercent.value = value.isPercent;
+  updatedAt.value = value.updatedAt;
+  Object.entries(value.ions).forEach(([ion, conc]) => {
+    ionsChosen.value.push({ ion, conc });
+  });
+});
+
+// PAGE MANIPULATION
 const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');
 const fertilizerIndex = computed(() => +route.params.id);
@@ -223,61 +229,6 @@ const isUnitsChangedAlert = computed(() => {
   return fertilizerExampleChosen.value !== null
     && typeof fertilizerExampleChosen.value !== 'string'
     && fertilizerExampleChosen.value?.isPercent !== isPercent.value;
-});
-
-const elementCols = computed(() => {
-  const result = {};
-  Object.keys(elements.value).forEach((el) => {
-    if (['N', 'NO3', 'K', 'K2O', 'Ca', 'CaO', 'Mg', 'MgO'].includes(el)) {
-      result[el] = 6;
-    } else if (['P', 'PO4', 'P2O5'].includes(el)) {
-      result[el] = 4;
-    } else {
-      result[el] = 12;
-    }
-  });
-  return result;
-});
-
-const fertilizer = computed(() => {
-  return new Fertilizer({
-    name: name.value,
-    description: description.value,
-    elements: { ...elements.value },
-    isPercent: isPercent.value,
-    updatedAt: updatedAt.value,
-  });
-});
-
-const isDisabledCol = computed(() => {
-  const result = {};
-  const OPPOSITE_EXTENDED = {
-    K: 'K2O',
-    K2O: 'K',
-    MgO: 'Mg',
-    Mg: 'MgO',
-    CaO: 'Ca',
-    Ca: 'CaO',
-    N: 'NO3',
-    NO3: 'N',
-    P: 'PO4',
-    PO4: 'P',
-    P2O5: 'P',
-  };
-
-  Object.entries(elements.value).forEach(([el, value]) => {
-    if (value) {
-      if (fertilizer.value.concentration[name.value]?.P) {
-        result['P'] = !elements.value.P;
-        result['PO4'] = !elements.value.PO4;
-        result['P2O5'] = !elements.value.P2O5;
-      } else if (OPPOSITE_EXTENDED[el]) {
-        result[OPPOSITE_EXTENDED[el]] = true;
-      }
-    }
-  });
-
-  return result;
 });
 
 const isExist = computed(() => {
@@ -292,74 +243,53 @@ const isExist = computed(() => {
 const isNameExist = () => !isExist.value || 'Удобрение или рецепт с таким названием уже существует';
 
 // Watchers
-watch(fertilizerExampleChosen, (value) => {
-  if (value === null || typeof value === 'string') {
-    resetForm();
+// Lifecycle hooks
+onMounted(async () => {
+  if (isCreate.value) {
+    return;
+  }
+  const fertilizer = { ...fertilizersStore.fertilizers[fertilizerIndex.value] };
+  if (!fertilizer) {
+    await router.push('/fertilizers/');
     return;
   }
 
-  resetForm();
-  isPercent.value = value.isPercent;
-  elements.value = Object.assign({}, elements.value, value.elements);
-  name.value = value.name;
-  description.value = value.note || '';
-  updatedAt.value = value.updatedAt;
-}, { deep: true });
-
-// Lifecycle hooks
-onMounted(async () => {
-  if (!isCreate.value) {
-    const fertilizer = fertilizersStore.fertilizers[fertilizerIndex.value];
-    if (!fertilizer) {
-      await router.push('/fertilizers/');
-      return;
-    }
-
-    name.value = fertilizer.name || 'Удобрение';
-    description.value = fertilizer.description || '';
-    isPercent.value = fertilizer.isPercent || false;
-    updatedAt.value = fertilizer.updatedAt;
-    elements.value = Object.assign({}, elements.value, fertilizer.elements);
-  }
+  name.value = fertilizer.name;
+  description.value = fertilizer.description;
+  isPercent.value = fertilizer.isPercent;
+  updatedAt.value = fertilizer.updatedAt;
+  Object.entries(fertilizer.ions).forEach(([ion, conc]) => {
+    ionsChosen.value.push({ ion, conc });
+  });
 });
 
 // Methods
-function resetForm() {
-  Object.keys(elements.value).forEach((ion) => {
-    elements.value[ion] = null;
-  });
-  name.value = 'Удобрение';
-  description.value = '';
-  updatedAt.value = undefined;
-  isPercent.value = false;
-}
-
-function addFertilizer() {
-  const { valid } = fertilizerForm.value.validate();
+async function onAddFertilizer() {
+  const { valid } = await fertilizerForm.value.validate();
   if (valid) {
-    fertilizersStore.addFertilizer(fertilizer.value.toJson());
+    fertilizersStore.addFertilizer(fertilizerObject.value.toJson());
     snackbarStore.show('Удобрение добавлено');
-    router.push('/fertilizers/');
+    await router.push('/fertilizers/');
   }
 }
 
-function editFertilizer() {
-  const { valid } = fertilizerForm.value.validate();
+async function onEditFertilizer() {
+  const { valid } = await fertilizerForm.value.validate();
   if (valid) {
     fertilizersStore.editFertilizer({
       index: fertilizerIndex.value,
-      fertilizer: fertilizer.value.toJson(),
+      fertilizer: fertilizerObject.value.toJson(),
     });
 
     snackbarStore.show('Удобрение изменено');
-    router.push('/fertilizers/');
+    await router.push('/fertilizers/');
   }
 }
 
-function removeFertilizer() {
+async function onRemoveFertilizer() {
   fertilizersStore.removeFertilizer(fertilizerIndex.value);
   snackbarStore.show('Удобрение удалено');
-  router.push('/fertilizers/');
+  await router.push('/fertilizers/');
 }
 
 definePageMeta({

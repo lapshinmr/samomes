@@ -156,14 +156,14 @@
             <div class="d-flex justify-end mt-3 mt-sm-6">
               <v-btn
                 v-if="isEdit"
-                @click="removeTank"
+                @click="onRemoveTank"
               >
                 {{ t('buttons.remove') }}
               </v-btn>
               <v-btn
                 color="primary"
                 class="ml-2"
-                v-on="isCreate ? { click: addTank } : { click: editTank }"
+                v-on="isCreate ? { click: onAddTank } : { click: onEditTank }"
               >
                 {{ t('buttons.save') }}
               </v-btn>
@@ -261,7 +261,7 @@ function onInputWaterChangeVolume(value: number) {
   }
 }
 
-const addTank = async () =>{
+const onAddTank = async () =>{
   const { valid } = await tankForm.value.validate();
   if (valid) {
     tanksStore.addTank({ ...tankObject.value.toJson() });
@@ -270,7 +270,7 @@ const addTank = async () =>{
   }
 };
 
-const editTank = async () => {
+const onEditTank = async () => {
   const { valid } = await tankForm.value.validate();
   if (valid) {
     tanksStore.editTank({
@@ -282,7 +282,7 @@ const editTank = async () => {
   }
 };
 
-const removeTank = async () => {
+const onRemoveTank = async () => {
   tanksStore.removeTank(tankIndex.value);
   snackbarStore.showSuccess('Аквариум удален');
   await router.push(ROUTES.tanks.path);

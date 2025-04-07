@@ -24,17 +24,17 @@
   >
     <v-row>
       <LayoutPageTitle>
-        Рецепты
+        Реминерализаторы
       </LayoutPageTitle>
       <client-only>
         <v-col
-          v-if="recipeModels.length === 0"
+          v-if="remineralModels.length === 0"
           cols="12"
           md="8"
           offset-md="2"
         >
           <p class="mb-8 text-h6 text-md-h5">
-            У вас еще нет ни одного рецепта
+            У вас еще нет ни одного реминерализатора
           </p>
         </v-col>
         <v-col
@@ -45,18 +45,18 @@
         >
           <v-expansion-panels multiple>
             <draggable
-              v-model="recipeModels"
+              v-model="remineralModels"
               tag="transition-group"
               :component-data="{ name: 'fade' }"
               v-bind="DRAG_OPTIONS"
               handle=".handle"
             >
-              <template #item="{ element: recipe, index }">
+              <template #item="{ element: remineral, index }">
                 <v-expansion-panel>
                   <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
                     <div class="d-flex align-center w-100">
                       <div class="no-break font-weight-regular mr-auto">
-                        {{ recipe.name }}
+                        {{ remineral.name }}
                       </div>
                       <div>
                         <v-tooltip
@@ -77,7 +77,7 @@
                     </div>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
-                    <RecipesRecipe :recipe="recipe" />
+                    <RemineralsRemineralRecipe :remineral="remineral" />
                     <div class="d-flex justify-end mt-4">
                       <v-btn
                         variant="text"
@@ -87,7 +87,7 @@
                       </v-btn>
                       <v-btn
                         variant="text"
-                        :to="`/recipes/${index}/`"
+                        :to="`/reminerals/${index}/`"
                         class="mr-n4"
                       >
                         {{ t('buttons.open') }}
@@ -101,23 +101,16 @@
         </v-col>
         <BaseGuide>
           <p>
-            {{ t('recipes.guide.paragraph1') }}
+            На этой странице вы можете разработать свой собственный рецепт реминерализатора.
+            Для этого в вашем распоряжении есть реагенты, которые часто используются аквариумистами.
           </p>
           <p>
-            {{ t('recipes.guide.paragraph2') }}
+            Не беспокойтесь — вы всегда можете воспользоваться готовыми рецептами, которые уже проверены
+            и успешно применяются многими аквариумистами.
           </p>
           <p>
-            {{ t('recipes.guide.paragraph3') }}
-            <NuxtLink :to="ROUTES.recipes.path">
-              {{ t('routes.recipes').toLowerCase() }}
-            </NuxtLink>
-            {{ t('common.or') }}
-            <NuxtLink :to="ROUTES.schedules.path">
-              {{ t('routes.schedules').toLowerCase() }}
-            </NuxtLink>
-          </p>
-          <p>
-            {{ t('recipes.guide.paragraph4') }}
+            Начните с нажатия на кнопку со знаком «плюс», чтобы добавить новый
+            реминерализатор.
           </p>
         </BaseGuide>
       </client-only>
@@ -131,7 +124,7 @@
         <v-card-title>
           Поделиться ссылкой
         </v-card-title>
-        <v-card-text v-if="curRecipeIndex !== null">
+        <v-card-text v-if="curRemineralIndex !== null">
           <v-text-field
             id="encodedUrl"
             :value="encodedUrl"
@@ -165,8 +158,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <BaseAddButton :action="addRecipe">
-      {{ t('recipes.addButton') }}
+    <BaseAddButton :action="addRemineral">
+      {{ t('reminerals.addButton') }}
     </BaseAddButton>
   </v-container>
 </template>
@@ -177,23 +170,23 @@ import { DRAG_OPTIONS } from '~/utils/constants/application';
 
 const router = useRouter();
 const { t } = useI18n();
-const recipesStore = useRecipesStore();
+const remineralsStore = useRemineralsStore();
 const snackbarStore = useSnackbarStore();
 
 const dialogShare = ref(false);
-const curRecipeIndex = ref(null);
+const curRemineralIndex = ref(null);
 
-const recipeModels = computed({
-  get: () => recipesStore.recipeModels,
-  set: (value) => recipesStore.moveRecipes(value),
+const remineralModels = computed({
+  get: () => remineralsStore.remineralInstances,
+  set: (value) => remineralsStore.moveReminerals(value),
 });
 
-function addRecipe() {
-  return router.push('/recipes/create/');
+function addRemineral() {
+  return router.push('/reminerals/create/');
 }
 
 function openShareDialog(index: number) {
-  curRecipeIndex.value = index;
+  curRemineralIndex.value = index;
   dialogShare.value = true;
 }
 
@@ -206,28 +199,25 @@ function copyUrl() {
 }
 
 const encodedUrl = computed(() => {
-  if (curRecipeIndex.value === null) return '';
+  if (curRemineralIndex.value === null) return '';
 
-  const recipe = { ...recipes.value[curRecipeIndex.value] };
-  delete recipe.concentration;
-  let jsonString = JSON.stringify([recipe]);
+  let jsonString = JSON.stringify([remineralModels.value[curRemineralIndex.value]]);
   jsonString = jsonString.replace(/%/g, '%25');
   const encoded = encodeURIComponent(jsonString);
   return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
 });
 
 definePageMeta({
-  title: 'Список рецептов самодельных удобрений',
+  title: 'Рецепты реминерализаторов',
   meta: [
     {
       name: 'description',
-      content: 'На этой странице вы можете создавать рецепты самодельных микро и макро удобрений из '
-        + 'реагентов или готовых смесей, а также воспользоваться готовыми рецептами, которые уже проверены '
-        + 'и успешно применяются многими аквариумистами.',
+      content: 'На этой странице вы можете разработать свой собственный рецепт реминерализатора. '
+        + 'Для этого в вашем распоряжении есть реагенты, которые часто используются аквариумистами.',
     },
     {
       name: 'keywords',
-      content: 'рецепты удобрений, самомес, макро, микро, аквариум, самодельные удобрения, удобрения для аквариума',
+      content: 'рецепты реминерализаторов, GH, KH, реминерализация воды',
     },
   ],
 });

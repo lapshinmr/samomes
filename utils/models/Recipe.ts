@@ -1,35 +1,37 @@
-import type Reagent from '~/utils/classes/Reagent';
+import Reagent from '~/utils/models/Reagent';
 
-export default class Recipe {
+export default class Recipe implements RecipeType {
   public name: string;
   public description?: string;
-  public reagents?: Reagent[];
+  public reagents: Reagent[] = [];
+  // TODO: check if I need null here
   public waterVolume?: number | null;
   public tankVolume?: number | null;
 
+  // TODO: add shortcuts
   constructor(args: {
     name: string;
     description?: string;
-    reagents?: Reagent[];
+    reagents: ReagentType[];
     waterVolume?: number | null;
     tankVolume?: number | null;
   }) {
     this.name = args.name;
     this.description = args.description;
-    this.reagents = args.reagents;
+    this.reagents = args.reagents.map((reagent) => new Reagent({ ...reagent })) || [];
     this.waterVolume = args.waterVolume;
     this.tankVolume = args.tankVolume;
   }
 
-  get totalVolume() {
+  get totalVolume(): number {
     return this.waterVolume;
   }
 
-  get isLiquid() {
+  get isLiquid(): boolean {
     return !!this.totalVolume;
   }
 
-  get totalMass() {
+  get totalMass(): number {
     return this.reagents.reduce((sum, reagent) => sum + +reagent.amount, 0);
   }
 
@@ -43,6 +45,7 @@ export default class Recipe {
       const { ions, HCO3 } = reagent;
       Object.entries(ions).forEach(([ion, value]) => {
         let units = 1;
+        // TODO: check units conversion
         if (this.totalVolume) {
           units = 1 / (this.totalVolume / 1000); // solute
         } else {
@@ -57,23 +60,23 @@ export default class Recipe {
     return result;
   }
 
-  get totalConcentration() {
+  get totalConcentration(): Record<string, number> {
     const result = {};
-    Object.keys(this.concentration).forEach((key) => {
-      Object.keys(this.concentration[key]).forEach((ionKey) => {
-        if (!result[ionKey]) {
-          result[ionKey] = 0;
+    Object.values(this.concentration).forEach((ions) => {
+      Object.entries(ions).forEach(([ion, value]) => {
+        if (!result[ion]) {
+          result[ion] = 0;
         }
-        result[ionKey] += this.concentration[key][ionKey];
+        result[ion] += value;
       });
     });
     return result;
   }
 
-  updateReagentDoses(reagent: Reagent, skipIon: string = '') {
+  updateReagentUnitConcs(reagent: ReagentType, skipIon: string = '') {
     Object.entries(reagent.ions).forEach(([ion, value]) => {
       if (skipIon === '' || skipIon !== ion) {
-        reagent.doses[ion] = +format(
+        reagent.unitConcs[ion] = +format(
           // TODO: split equation to separate functions
           (reagent.amount / this.waterVolume / this.tankVolume) * value * 1000,
           3,
@@ -83,32 +86,32 @@ export default class Recipe {
   }
 
   // TODO: add total volume and tank volume decorator?
-  updateRecipeDoses(skipIon: string = '') {
+  updateRecipeUnitConcs(skipIon: string = '') {
     if (!this.totalVolume || !this.tankVolume) {
       return;
     }
     this.reagents.forEach((reagent) => {
-      this.updateReagentDoses(reagent, skipIon);
+      this.updateReagentUnitConcs(reagent, skipIon);
     });
   }
 
-  updateAmounts(value: number, reagent: Reagent, ion: string) {
+  updateAmounts(value: number, reagent: ReagentType, ion: string) {
     if (!this.totalVolume || !this.tankVolume) {
       return;
     }
-    reagent.doses[ion] = value;
+    reagent.unitConcs[ion] = value;
     reagent.amount = +format(
       // TODO: split equation to separate functions
-      (reagent.doses[ion] * this.tankVolume * this.waterVolume) / 1000 / reagent.ions[ion],
+      (reagent.unitConcs[ion] * this.tankVolume * this.waterVolume) / 1000 / reagent.ions[ion],
       3,
     );
-    this.updateReagentDoses(reagent, ion);
+    this.updateReagentUnitConcs(reagent, ion);
   }
 
-  countRecipeIonDoses() {
+  countRecipeIonUnitConcs() {
     const total: Record<string, number> = {};
     Object.values(this.reagents).forEach((reagent) => {
-      Object.entries(reagent.doses).forEach(([ion, value]) => {
+      Object.entries(reagent.unitConcs).forEach(([ion, value]) => {
         if (total[ion] === undefined) {
           total[ion] = 0;
         }
@@ -118,18 +121,18 @@ export default class Recipe {
     return total;
   };
 
-  get recipeIonDoses() {
-    return this.countRecipeIonDoses();
+  get recipeIonUnitConcs() {
+    return this.countRecipeIonUnitConcs();
   }
 
-  get recipeIonDosesSorted () {
-    const result = Object.entries(this.recipeIonDoses);
+  get recipeIonUnitConcsSorted () {
+    const result = Object.entries(this.recipeIonUnitConcs);
     result.sort((a, b) => b[1] - a[1]);
     return result;
   };
 
-  get totalRecipeDose() {
-    return Object.values(this.recipeIonDoses).reduce((sum, value) => sum + value, 0);
+  get totalRecipeUnitConcs() {
+    return Object.values(this.recipeIonUnitConcs).reduce((sum, value) => sum + value, 0);
   };
 
   toJson(): RecipeType {

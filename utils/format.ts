@@ -1,4 +1,4 @@
-export const format = (value: string | number, precision = undefined) => {
+export const format = (value: string | number, precision = 3) => {
   if (value === undefined || value === null) return '';
 
   // Convert to number if it's a string

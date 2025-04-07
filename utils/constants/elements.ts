@@ -17,53 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export const OXIDE_TO_ELEMENT = {
-  NO3: 'N',
-  PO4: 'P',
-  MgO: 'Mg',
-  CaO: 'Ca',
-  P2O5: 'P',
-  K2O: 'K',
-  SO4: 'S',
-};
-
-export const ELEMENT_TO_OXIDE = {
-  N: 'NO3',
-  P: 'PO4',
-  Mg: 'MgO',
-  Ca: 'CaO',
-  S: 'SO4',
-};
-
-export const OPPOSITE = {
-  N: 'NO3',
-  NO3: 'N',
-  P: 'PO4',
-  PO4: 'P',
-  S: 'SO4',
-  SO4: 'S',
-};/**
- * Samomes
- *
- * Copyright (C) 2025 Mikhail Lapshin
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-export const ELEMENTS: {
-  [key: string]: number;
-} = {
+export const ELEMENTS = {
   H: 1.00794,
   B: 10.811,
   C: 12.0107,
@@ -88,7 +42,34 @@ export const ELEMENTS: {
   Sr: 87.61664,
   Mo: 95.95979,
   I: 126.90447,
-  // TODO: move it to another constant
-  CO3: 60.01001,
-  HCO3: 61.01812,
-};
+} as const;
+
+export const CARBONATES = ['CO3', 'HCO3'] as const;
+
+export const OXIDE_TO_ELEMENT = {
+  NO3: 'N',
+  PO4: 'P',
+  P2O5: 'P2',
+  SO4: 'S',
+  K2O: 'K2',
+  MgO: 'Mg',
+  CaO: 'Ca',
+} as const;
+
+export const ELEMENT_TO_OXIDE = {
+  N: 'NO3',
+  P: 'PO4',
+  S: 'SO4',
+  K: 'K2O',
+  Mg: 'MgO',
+  Ca: 'CaO',
+  C: 'CO3',
+} as const;
+
+export const ELEMENTS_IGNORED_IN_REAGENT_CONCENTRATION_CALCULATION = [
+
+];
+
+// TODO: Add kations and anions here or in the formulas
+
+export const ALL_IONS = [...Object.keys(ELEMENTS), ...Object.keys(OXIDE_TO_ELEMENT)];

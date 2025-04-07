@@ -21,7 +21,7 @@ export const FERTILIZERS = [
   {
     name: 'APT 3 / Complete',
     isPercent: true,
-    elements: {
+    ions: {
       N: 0.7,
       P2O5: 0.9,
       K2O: 7,
@@ -40,7 +40,7 @@ export const FERTILIZERS = [
   {
     name: 'Prestige FitoMin Macro',
     isPercent: false,
-    elements: {
+    ions: {
       N: 10.7,
       K: 32.0,
       P: 1.5,
@@ -51,7 +51,7 @@ export const FERTILIZERS = [
   {
     name: 'Prestige FitoMin Калий',
     isPercent: false,
-    elements: {
+    ions: {
       K: 50,
     },
     note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
@@ -60,7 +60,7 @@ export const FERTILIZERS = [
   {
     name: 'Prestige FitoMin Micro',
     isPercent: true,
-    elements: {
+    ions: {
       K: 1.2,
       Fe: 0.15,
       Mg: 0.08,
@@ -76,7 +76,7 @@ export const FERTILIZERS = [
   {
     name: 'Prestige FitoMin Железо',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 6,
       Mn: 1.1,
     },
@@ -87,7 +87,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance полный комплекс Total',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 4.65,
       PO4: 0.45,
       K: 1.45,
@@ -106,7 +106,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Ферро Баланс',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 0.7,
       Mn: 0.1,
     },
@@ -116,7 +116,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Калий Баланс',
     isPercent: true,
-    elements: {
+    ions: {
       K: 5,
     },
     note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
@@ -125,7 +125,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Нитро Баланс',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 4.65,
       K: 1.45,
       Ca: 0.14,
@@ -137,7 +137,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Фосфо Баланс',
     isPercent: true,
-    elements: {
+    ions: {
       PO4: 0.45,
       K: 0.095,
     },
@@ -147,7 +147,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Макро Баланс',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 4.65,
       PO4: 0.45,
       K: 1.45,
@@ -160,7 +160,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Микро Баланс',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 0.2,
       Mn: 0.05,
       Zn: 0.01,
@@ -174,7 +174,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Микро Баланс + K',
     isPercent: true,
-    elements: {
+    ions: {
       K: 3,
       Fe: 0.2,
       Mn: 0.05,
@@ -189,7 +189,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Тотал-Мох',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 5,
       PO4: 0.5,
       Fe: 0.05,
@@ -202,7 +202,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Premium Micro (KH<4)',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 0.2,
       Mn: 0.08,
       B: 0.008,
@@ -216,7 +216,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Premium Micro (KH>4)',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 0.32,
       Mn: 0.08,
       B: 0.009,
@@ -230,7 +230,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Premium Макро корректор P+K',
     isPercent: true,
-    elements: {
+    ions: {
       PO4: 0.9,
       K2O: 0.4,
     },
@@ -240,7 +240,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Premium Макро корректор N+K',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 10,
       K: 1.76,
     },
@@ -249,7 +249,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Premium Макро комплекс NPK',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 9.6,
       PO4: 0.9,
       K: 2,
@@ -260,7 +260,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Premium Fe+Mn',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 1.0,
       Mn: 0.2,
     },
@@ -270,7 +270,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquabalance Колор Баланс',
     isPercent: true,
-    elements: {
+    ions: {
       Mg: 3,
       Fe: 0.1,
       Mn: 0.05,
@@ -282,7 +282,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquayer Макро+',
     isPercent: false,
-    elements: {
+    ions: {
       N: 8.21,
       P: 1.20,
       K: 20.43,
@@ -293,7 +293,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquayer Микро+',
     isPercent: false,
-    elements: {
+    ions: {
       K: 6.930,
       Fe: 1.2,
       Mg: 0.8,
@@ -310,7 +310,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquayer Железо+',
     isPercent: false,
-    elements: {
+    ions: {
       Fe: 7.00,
       Mg: 1.3,
     },
@@ -320,7 +320,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquayer Калий+',
     isPercent: false,
-    elements: {
+    ions: {
       K: 50,
     },
     note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
@@ -329,7 +329,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquayer Смарт Макро (Нитрат)',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 72,
       K: 45.3,
     },
@@ -339,7 +339,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquayer Смарт Макро (Фосфат)',
     isPercent: false,
-    elements: {
+    ions: {
       PO4: 7.2,
       K: 3,
     },
@@ -350,7 +350,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquaerus Макро',
     isPercent: false,
-    elements: {
+    ions: {
       N: 8.21,
       P: 1.20,
       K: 20.43,
@@ -361,7 +361,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquaerus Микро',
     isPercent: false,
-    elements: {
+    ions: {
       K: 6.930,
       Fe: 1.2,
       Mg: 0.8,
@@ -378,7 +378,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquaerus Железо',
     isPercent: false,
-    elements: {
+    ions: {
       Fe: 7.00,
       Mg: 1.3,
     },
@@ -388,7 +388,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquaerus Калий',
     isPercent: false,
-    elements: {
+    ions: {
       K: 50,
     },
     note: 'Это фирменное удобрение. Данные взяты c этикетки.',
@@ -397,7 +397,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquaerus Нитрат+',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 72,
       K: 45.3,
     },
@@ -409,7 +409,7 @@ export const FERTILIZERS = [
   {
     name: 'Aquaerus Фосфат+',
     isPercent: false,
-    elements: {
+    ions: {
       PO4: 7.2,
       K: 3,
     },
@@ -421,7 +421,7 @@ export const FERTILIZERS = [
   {
     name: 'Seachem Nitrogen',
     isPercent: true,
-    elements: {
+    ions: {
       N: 1.5,
       K2O: 2,
     },
@@ -431,7 +431,7 @@ export const FERTILIZERS = [
   {
     name: 'Seachem Phosphorus',
     isPercent: true,
-    elements: {
+    ions: {
       P2O5: 0.3,
       K2O: 0.2,
     },
@@ -441,7 +441,7 @@ export const FERTILIZERS = [
   {
     name: 'Seachem Potassium',
     isPercent: true,
-    elements: {
+    ions: {
       K2O: 5,
     },
     note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
@@ -450,7 +450,7 @@ export const FERTILIZERS = [
   {
     name: 'Seachem Flourish',
     isPercent: true,
-    elements: {
+    ions: {
       N: 0.07,
       P2O5: 0.01,
       K2O: 0.37,
@@ -473,7 +473,7 @@ export const FERTILIZERS = [
   {
     name: 'Seachem Flourish Advance',
     isPercent: true,
-    elements: {
+    ions: {
       P2O5: 0.04,
       K2O: 0.45,
       Ca: 0.04,
@@ -485,7 +485,7 @@ export const FERTILIZERS = [
   {
     name: 'Seachem Flourish Trace',
     isPercent: true,
-    elements: {
+    ions: {
       B: 0.0028,
       Co: 0.00003,
       Cu: 0.0032,
@@ -502,7 +502,7 @@ export const FERTILIZERS = [
   {
     name: 'Seachem Flourish Iron',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 1,
     },
     note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
@@ -512,7 +512,7 @@ export const FERTILIZERS = [
   {
     name: 'Tropica Premium Nutrition',
     isPercent: true,
-    elements: {
+    ions: {
       K: 0.8,
       Mg: 0.4,
       S: 0.9,
@@ -530,7 +530,7 @@ export const FERTILIZERS = [
   {
     name: 'Tropica Specialised Nutrition',
     isPercent: true,
-    elements: {
+    ions: {
       N: 1.3,
       P: 0.1,
       K: 1,
@@ -550,7 +550,7 @@ export const FERTILIZERS = [
   {
     name: 'Dennerle Plant Care NPK',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 50,
       PO4: 4,
       K: 25,
@@ -562,7 +562,7 @@ export const FERTILIZERS = [
   {
     name: 'Dennerle Plant Care N',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 100,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
@@ -572,7 +572,7 @@ export const FERTILIZERS = [
   {
     name: 'Dennerle Plant Care P ',
     isPercent: false,
-    elements: {
+    ions: {
       PO4: 10,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
@@ -582,7 +582,7 @@ export const FERTILIZERS = [
   {
     name: 'Dennerle Plan Care K',
     isPercent: false,
-    elements: {
+    ions: {
       K: 50,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
@@ -592,7 +592,7 @@ export const FERTILIZERS = [
   {
     name: 'Dennerle NPK Booster',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 50,
       PO4: 2,
       K: 10,
@@ -603,7 +603,7 @@ export const FERTILIZERS = [
   {
     name: 'Dennerle Scaper’s Green',
     isPercent: true,
-    elements: {
+    ions: {
       K: 1.08,
       B: 0.0006,
       Co: 0.001,
@@ -619,7 +619,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Азот+',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 6,
       K: 2.2,
       Ca: 0.3,
@@ -631,7 +631,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Фосфор+',
     isPercent: true,
-    elements: {
+    ions: {
       PO4: 0.5,
       K: 0.5,
       Mg: 0.1,
@@ -642,7 +642,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Макро+',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 6,
       K: 2.3,
       PO4: 0.5,
@@ -653,7 +653,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Микро+',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 0.13,
       Mn: 0.042,
       B: 0.01,
@@ -669,7 +669,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Железо+',
     isPercent: true,
-    elements: {
+    ions: {
       Fe: 0.2,
       Mn: 0.04,
     },
@@ -679,7 +679,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Азот+ (порошок)',
     isPercent: true,
-    elements: {
+    ions: {
       NO3: 6,
       K: 2,
     },
@@ -689,7 +689,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Фосфор+ (порошок)',
     isPercent: true,
-    elements: {
+    ions: {
       PO4: 0.5,
       K: 0.5,
       Mg: 0.1,
@@ -700,7 +700,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Калий+ (порошок)',
     isPercent: true,
-    elements: {
+    ions: {
       K: 5,
     },
     note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
@@ -709,7 +709,7 @@ export const FERTILIZERS = [
   {
     name: 'Аквапозитив Магний (порошок)',
     isPercent: true,
-    elements: {
+    ions: {
       Mg: 0.3,
     },
     note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
@@ -718,7 +718,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci Micro XL для осмоса',
     isPercent: false,
-    elements: {
+    ions: {
       K: 10.48,
       S: 6.56,
       Mg: 5.5,
@@ -739,7 +739,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci Micro 1/2 Fe XL для осмоса',
     isPercent: false,
-    elements: {
+    ions: {
       K: 10.48,
       S: 6.56,
       Mg: 5.5,
@@ -760,7 +760,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci 1/2 Fe gluconate XL для осмоса',
     isPercent: false,
-    elements: {
+    ions: {
       Fe: 1.00,
       Mn: 0.26,
     },
@@ -772,7 +772,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci NK XL для любой воды',
     isPercent: false,
-    elements: {
+    ions: {
       K: 90.77,
       N: 22.93,
     },
@@ -784,7 +784,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci PK XL для любой воды',
     isPercent: false,
-    elements: {
+    ions: {
       K: 90.77,
       P: 2.82,
     },
@@ -796,7 +796,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci K XL для любой воды',
     isPercent: false,
-    elements: {
+    ions: {
       K: 90.77,
     },
     note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
@@ -807,7 +807,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci Micro 3 in 1 L для водопроводной воды',
     isPercent: false,
-    elements: {
+    ions: {
       K: 3.41,
       S: 2.13,
       Mg: 1.79,
@@ -828,7 +828,7 @@ export const FERTILIZERS = [
   {
     name: 'WaterSci Mаcro NPK L для водопроводной воды',
     isPercent: false,
-    elements: {
+    ions: {
       K: 90.77,
       N: 10.71,
       P: 1.41,
@@ -841,7 +841,7 @@ export const FERTILIZERS = [
   {
     name: 'Easy Life: Nitro',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 100,
       K: 65,
     },
@@ -851,7 +851,7 @@ export const FERTILIZERS = [
   {
     name: 'Easy Life: Fosfo',
     isPercent: false,
-    elements: {
+    ions: {
       PO4: 10,
     },
     note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
@@ -860,7 +860,7 @@ export const FERTILIZERS = [
   {
     name: 'Easy Life: Potassium ',
     isPercent: false,
-    elements: {
+    ions: {
       K: 40,
     },
     note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
@@ -869,7 +869,7 @@ export const FERTILIZERS = [
   {
     name: 'Easy Life: ProFito',
     isPercent: false,
-    elements: {
+    ions: {
       K: 4.80,
       Fe: 2.40,
       Mg: 0.90,
@@ -887,7 +887,7 @@ export const FERTILIZERS = [
   {
     name: 'Easy Life: GreenScape',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 100,
       PO4: 10,
       K: 65,
@@ -899,7 +899,7 @@ export const FERTILIZERS = [
   {
     name: 'Easy Life: RedScape',
     isPercent: false,
-    elements: {
+    ions: {
       NO3: 20,
       PO4: 10,
       K: 16.5,
@@ -911,7 +911,7 @@ export const FERTILIZERS = [
   {
     name: 'Easy Life: Ferro',
     isPercent: false,
-    elements: {
+    ions: {
       Fe: 10,
     },
     note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
@@ -921,7 +921,7 @@ export const FERTILIZERS = [
   {
     name: 'Tetra PlantaMin',
     isPercent: true,
-    elements: {
+    ions: {
       K2O: 1,
       Fe: 0.2,
       B: 0.005,
@@ -937,7 +937,7 @@ export const FERTILIZERS = [
   {
     name: 'Aqua Botanic Micro',
     isPercent: false,
-    elements: {
+    ions: {
       K: 4,
       Fe: 2.67,
       Mg: 1.1,

@@ -16,15 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-export const KH = {
-  CO3: 60.01001,
-  HCO3: 61.01812,
-};
-
 export const GH = {
   Mg: 4.346,
   Ca: 7.144,
 };
 
-export const KH_RATIO = 2.804;
+export const KH_RATIO = 2.804; // 1 °dH = 0,357 ммоль/л HCO₃⁻

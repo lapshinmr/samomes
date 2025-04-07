@@ -25,7 +25,7 @@
           v-if="!isCreate && !isShare"
           color="primary"
           class="ml-auto"
-          @click="copyRecipe"
+          @click="onCopyRecipe"
         >
           Скопировать
         </v-btn>
@@ -69,23 +69,24 @@
               sm="12"
             >
               <v-combobox
-                v-model="chosenReagents"
+                v-model="reagentsChosen"
                 :items="reagents"
                 item-title="text"
+                variant="underlined"
                 multiple
                 clearable
-                label="Формула"
+                label="Реагенты"
                 hint="Вы можете выбрать несколько реагентов"
                 persistent-hint
                 hide-details="auto"
-                class="mb-2 mb-sm-4"
                 :rules="[required]"
               />
               <v-combobox
                 v-model="recipeExampleChosen"
                 :items="RECIPES"
                 item-title="name"
-                label="Рецепт"
+                variant="underlined"
+                label="Рецепты"
                 hint="или выбрать один из рецептов"
                 persistent-hint
                 hide-details="auto"
@@ -95,14 +96,13 @@
             <v-col
               v-if="isReagents"
               cols="12"
-              class="pt-0"
+              class="pb-0"
             >
               <BaseDividerWithNote
                 v-model="isReagentsInfo"
-                class="mb-2 mb-sm-4"
                 button
               >
-                Подробнее о реагентах
+                Реагенты
               </BaseDividerWithNote>
               <v-expand-transition>
                 <div
@@ -110,7 +110,7 @@
                   class="mt-3"
                 >
                   <template
-                    v-for="reagent in chosenReagents"
+                    v-for="reagent in reagentsChosen"
                     :key="reagent.key"
                   >
                     <div class="d-flex justify-space-between caption">
@@ -132,30 +132,15 @@
               >
                 <BaseNumberField
                   v-model="waterVolume"
-                  label="Введите объем воды"
+                  label="Объем воды"
                   suffix="мл"
-                  hint="Выбирайте объем, который вы сможете использовать в течении 2-3x месяцев. Обычно это 250-300 мл."
-                  hide-details="auto"
+                  hint="Вы можете пропустить это поле, если хотите использовать сухую смесь"
+                  persistent-hint
                   class="mb-2 mb-sm-4"
                   @update:model-value="inputVolume"
                 />
-                <BaseDividerWithNote class="mb-2 mb-sm-4">
-                  Введите массу реагента
-                  <v-tooltip
-                    location="bottom"
-                    max-width="400"
-                  >
-                    <template #activator="{ props }">
-                      <v-icon v-bind="props">
-                        mdi-help-circle-outline
-                      </v-icon>
-                    </template>
-                    Введите массу реагента и калькулятор автоматически рассчитает
-                    дозы элементов, которые показаны ниже.
-                  </v-tooltip>
-                </BaseDividerWithNote>
                 <BaseNumberField
-                  v-for="reagent in chosenReagents"
+                  v-for="reagent in reagentsChosen"
                   :key="reagent.key"
                   v-model="reagent.amount"
                   :label="reagent.text"
@@ -167,15 +152,17 @@
                   :error-messages="getSolubilityErrorMessage(reagent)"
                   @update:model-value="inputAmount"
                 />
-                <RecipesTheElementsTable :recipe="recipeObject" />
               </v-col>
             </v-expand-transition>
             <v-col
-              v-if="isWater"
+              v-if="isLiquid"
               cols="12"
             >
-              <BaseDividerWithNote>
-                Или введите дозу элемента
+              <BaseDividerWithNote
+                v-model="isUnitConc"
+                button
+              >
+                Рассчитать массы через удельный прирост концентрации
                 <v-tooltip
                   location="bottom"
                   max-width="400"
@@ -185,82 +172,75 @@
                       mdi-help-circle-outline
                     </v-icon>
                   </template>
-                  Калькулятор автоматически рассчитает
-                  необходимую массу реагента.
-                  Доза - это количество элемента, на которую повысится концентрация
-                  элемента в заданном объеме аквариума при внесении 1 мл удобрения.
-                  Например, вы хотите сделать макро удобрение с нитратом.
+                  Удельный прирост концентрации - это величина, на которую повысится концентрация элемента
+                  в аквариуме при внесении 1 мл удобрения.
+                  Например, вы хотите сделать макроудобрение с нитратом.
                   И для удобства введения его в аквариум вы бы хотели, чтобы
-                  на каждый вводимый 1 мл удобрения, нитрат повышался на 0.5 мг/л.
-                  0.5 - это доза.
+                  при каждом вводимом 1 мл удобрения концентрация нитрата повышалась на 0.5 мг/л / мл.
+                  0.5 мг/л / мл - это удельный прирост концентрации.
                 </v-tooltip>
               </BaseDividerWithNote>
             </v-col>
             <v-expand-transition>
               <v-col
-                v-if="isReagents && isWater"
+                v-if="isUnitConc && isLiquid"
                 cols="12"
               >
                 <v-combobox
                   v-model.number="tankVolume"
                   :items="tanks"
-                  type="number"
-                  item-text="name"
-                  item-value="volume"
-                  label="Объем аквариума"
+                  item-title="name"
+                  variant="underlined"
+                  label="Выберите аквариум или введите объем"
                   persistent-hint
                   hide-selected
-                  hint="Выберите аквариум или введите объем"
                   suffix="л"
                   class="mb-2 mb-sm-4"
-                  :return-object="false"
+                  @update:model-value="onTankVolumeInput"
                 />
                 <v-expand-transition>
                   <div v-if="tankVolume">
                     <v-row
-                      v-for="reagent in chosenReagents"
+                      v-for="reagent in reagentsChosen"
                       :key="reagent.key"
                       class="mb-3"
                     >
                       <v-col
                         cols="12"
-                        class="font-weight-medium"
+                        class="font-weight-medium pb-1"
                       >
                         {{ reagent.text }}
                       </v-col>
                       <template
-                        v-for="ion in reagent.ions"
+                        v-for="(_, ion) in reagent.ions"
                         :key="reagent.key + ion"
                       >
                         <v-col class="py-0">
                           <BaseNumberField
-                            v-model.number="reagent.doses[ion]"
+                            v-model.number="reagent.unitConcs[ion]"
                             :label="ion"
-                            suffix="мг/л"
-                            persistent-hint
-                            @update:model-value="inputIonDose($event, reagent, ion)"
+                            suffix="мг/л / мл"
+                            hide-details="auto"
+                            @update:model-value="inputIonUnitConc($event, reagent, ion)"
                           />
                         </v-col>
                       </template>
                     </v-row>
                     <v-row>
-                      <v-col
-                        cols="12"
-                        class="d-flex justify-space-between pb-0"
-                      >
-                        <div>
-                          Общая доза, мг/л
+                      <v-col cols="12">
+                        <div class="font-weight-medium">
+                          Удельный прирост концентрации, мг/л / мл
                         </div>
-                        <div class="d-flex flex-column">
+                        <div class="d-flex">
                           <div
-                            v-for="[ion, value] in recipeObject.recipeIonDosesSorted"
+                            v-for="[ion, value] in recipeObject.recipeIonUnitConcsSorted"
                             :key="ion"
                             class="d-flex justify-space-between"
                           >
                             <div>{{ ion }}:</div>
                             <div class="ml-3">
                               {{ format(value, 3) }}
-                              ({{ format(value / recipeObject.totalRecipeDose * 100, 3) }}%)
+                              ({{ format(value / recipeObject.totalRecipeUnitConcs * 100, 3) }}%)
                             </div>
                           </div>
                         </div>
@@ -274,8 +254,15 @@
               v-if="isReagents"
               cols="12"
             >
+              <RecipesTheElementsTable :recipe="recipeObject" />
+            </v-col>
+            <v-col
+              v-if="isReagents"
+              cols="12"
+            >
               <v-text-field
                 v-model="name"
+                variant="underlined"
                 label="Название рецепта"
                 hide-details="auto"
                 hint="* название рецепта должно быть уникальным"
@@ -284,6 +271,7 @@
               />
               <v-textarea
                 v-model="description"
+                variant="underlined"
                 label="Описание"
                 hide-details="auto"
                 auto-grow
@@ -294,7 +282,7 @@
                 <v-btn
                   v-if="!isCreate && !isShared"
                   color="error"
-                  @click="removeRecipe"
+                  @click="onRemoveRecipe"
                 >
                   Удалить
                 </v-btn>
@@ -308,7 +296,7 @@
                   v-if="!isCreate && !isShared"
                   color="primary"
                   class="ml-2"
-                  @click="editRecipe"
+                  @click="onEditRecipe"
                 >
                   Сохранить
                 </v-btn>
@@ -316,7 +304,7 @@
                   v-if="isCreate || isShared"
                   color="primary"
                   class="ml-2"
-                  @click="addRecipe"
+                  @click="onAddRecipe"
                 >
                   Сохранить
                 </v-btn>
@@ -330,10 +318,10 @@
 </template>
 
 <script lang="ts" setup>
+// TODO: check columns in layout
 import { useRouter, useRoute } from 'vue-router';
 import { required, positive } from '~/utils/validation';
 import type { RecipeExampleType } from '~/utils/types/types';
-import Reagent from '~/utils/classes/Reagent';
 
 const router = useRouter();
 const route = useRoute();
@@ -343,26 +331,24 @@ const tanksStore = useTanksStore();
 
 // RECIPE DATA MANIPULATION
 const recipeForm = ref(null);
-const chosenReagents = ref<Reagent[]>([]);
+const reagentsChosen = ref<Reagent[]>([]);
 const recipeExampleChosen = ref(null);
 const waterVolume = ref<number | null>(null);
 const tankVolume = ref<number | null>(null);
 const name = ref<string>('');
 const description = ref<string>('');
 
-const reagents = computed(() => {
-  return [
-    ...Object.entries({ ...FORMULAS, ...COMPOUNDS }).map(([key, data]) => new Reagent({
-      key,
-      ...data,
-      amount: 0,
-      isFormula: key in FORMULAS,
-    })),
-  ];
-});
+const reagents = [
+  ...Object.entries({ ...FORMULAS, ...COMPOUNDS }).map(([key, data]) => new Reagent({
+    key,
+    ...data,
+    amount: 0,
+    type: key in FORMULAS ? ReagentTypeName.FORMULA : ReagentTypeName.COMPOUND,
+  })),
+];
 
-const isReagents = computed(() => chosenReagents.value.length > 0);
-const isWater = computed(() => waterVolume.value !== null && waterVolume.value > 0);
+const isReagents = computed(() => reagentsChosen.value.length > 0);
+const isLiquid = computed(() => waterVolume.value !== null && waterVolume.value > 0);
 
 const recipeObject = computed(() => {
   return new Recipe(
@@ -371,35 +357,35 @@ const recipeObject = computed(() => {
       description: description.value,
       waterVolume: waterVolume.value,
       tankVolume: tankVolume.value,
-      reagents: chosenReagents.value,
+      reagents: reagentsChosen.value,
     },
   );
 });
 
-const checkSolubilityError = (reagent: Reagent) => {
-  return isWater.value && (reagent.amount / waterVolume.value) * 1000 > reagent.solubility;
+const checkSolubilityError = (reagent: ReagentType) => {
+  return isLiquid.value && (reagent.amount / waterVolume.value) * 1000 > reagent.solubility;
 };
 
-const getSolubilityErrorMessage = (reagent: Reagent) => {
-  return isWater.value && (reagent.amount / waterVolume.value) * 1000 > reagent.solubility
+const getSolubilityErrorMessage = (reagent: ReagentType) => {
+  return isLiquid.value && (reagent.amount / waterVolume.value) * 1000 > reagent.solubility
     ? `Достигнута максимальная растворимость - ${reagent.solubility} г/л при 20°С!`
     : '';
 };
 
-watch(chosenReagents, () => {
-  // Set recipe name
-  if (!name.value && chosenReagents.value.length === 1) {
-    const reagent = chosenReagents.value[0];
+watch(reagentsChosen, () => {
+  // Set recipe default name by first reagent name
+  if (!name.value && reagentsChosen.value.length === 1) {
+    const reagent = reagentsChosen.value[0];
     name.value = reagent.text;
   }
 });
 
 const onInputRecipeExample = (recipe: RecipeExampleType) => {
-  chosenReagents.value = [];
-  reagents.value.forEach((reagent) => {
+  reagentsChosen.value = [];
+  reagents.forEach((reagent) => {
     if (recipe.reagents && reagent.key in recipe.reagents) {
       reagent.amount = recipe.reagents[reagent.key];
-      chosenReagents.value.push(reagent);
+      reagentsChosen.value.push(reagent);
     }
   });
 
@@ -411,25 +397,27 @@ const onInputRecipeExample = (recipe: RecipeExampleType) => {
 
 watch(tankVolume, () => {
   if (waterVolume.value) {
-    recipeObject.value.updateRecipeDoses();
+    recipeObject.value.updateRecipeUnitConcs();
   }
 });
 
 function inputAmount() {
-  recipeObject.value.updateRecipeDoses();
+  recipeObject.value.updateRecipeUnitConcs();
 }
 
 function inputVolume() {
-  recipeObject.value.updateRecipeDoses();
+  recipeObject.value.updateRecipeUnitConcs();
 }
 
-function inputIonDose(value: number, reagent: Reagent, ion: string) {
+// TODO: fix bug with changing unit conc of other reagents
+function inputIonUnitConc(value: number, reagent: ReagentType, ion: string) {
   recipeObject.value.updateAmounts(value, reagent, ion);
 }
 
 // PAGE MANIPULATION
 const isShared = ref<boolean>(false);
 const isReagentsInfo = ref<boolean>(false);
+const isUnitConc = ref<boolean>(false);
 
 const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');
@@ -438,7 +426,7 @@ const isShare = computed(() => route.params.id === 'share');
 const recipeIndex = computed(() => +route.params.id);
 
 const tanks = computed(() => tanksStore.tanks);
-const recipes = computed(() => recipesStore.recipeInstances);
+const recipes = computed(() => recipesStore.recipeModels);
 // TODO: check []
 const fertilizers = computed(() => recipesStore.fertilizers || []);
 
@@ -482,25 +470,33 @@ onMounted(async () => {
 
   const reagentsArray = [];
   const recipeReagentsKeys = recipe.reagents.map((reagent: ReagentType) => reagent.key);
-  reagents.value.forEach((reagent: Reagent) => {
+  reagents.value.forEach((reagent: ReagentType) => {
     if (recipeReagentsKeys.includes(reagent.key)) {
       reagentsArray.push(reagent);
     }
   });
-  chosenReagents.value = reagentsArray;
+  reagentsChosen.value = reagentsArray;
 });
 
-function addRecipe() {
-  const { valid } = recipeForm.value.validate();
+const onTankVolumeInput = (value: number | TankType) => {
+  if (typeof value === 'number') {
+    tankVolume.value = +value;
+    return;
+  }
+  tankVolume.value = value.volume;
+};
+
+async function onAddRecipe () {
+  const { valid } = await recipeForm.value.validate();
   if (valid) {
     recipesStore.addRecipe({ ...recipeObject.value.toJson() });
     snackbarStore.show('Рецепт добавлен');
-    router.push('/recipes/');
+    await router.push('/recipes/');
   }
-}
+};
 
-function editRecipe() {
-  const { valid } = recipeForm.value.validate();
+async function onEditRecipe() {
+  const { valid } = await recipeForm.value.validate();
   if (valid) {
     recipesStore.editRecipe({
       index: recipeIndex.value,
@@ -508,17 +504,17 @@ function editRecipe() {
     });
 
     snackbarStore.show('Рецепт изменен');
-    router.push('/recipes/');
+    await router.push('/recipes/');
   }
 }
 
-function removeRecipe() {
+async function onRemoveRecipe() {
   recipesStore.removeRecipe(recipeIndex.value);
   snackbarStore.show('Рецепт удален');
-  router.push('/recipes/');
+  await router.push('/recipes/');
 }
 
-async function copyRecipe() {
+async function onCopyRecipe() {
   snackbarStore.show('Рецепт скопирован');
   await router.push(`/recipes/create/?copy=${recipeIndex.value}`);
 }

@@ -5,68 +5,77 @@ export default class Reagent {
   public key: string;
   public name: string;
   public amount: number;
-  public doses?: Record<string, number>;
+  public type: ReagentTypeName;
+  // TODO: add more specific keys for ions
+  public unitConcs?: Record<string, number>;
   public solubility?: number;
   public isLiquid?: boolean;
-  public isFormula: boolean;
-  public isCompound: boolean;
   public HCO3: number;
-  private _ions?: Record<string, number> | object;
+  private _ions?: Record<string, number>;
 
   constructor(args: {
     key: string;
     name: string;
     amount: number;
-    doses?: Record<string, number>;
+    type: ReagentTypeName;
+    unitConcs?: Record<string, number>;
     ions?: Record<string, number>;
     solubility?: number;
     isLiquid?: boolean;
-    isFormula?: boolean;
-    isCompound?: boolean;
     HCO3?: number;
   }) {
-    this.name = args.name;
     this.key = args.key;
+    this.name = args.name;
     this.amount = args.amount;
-    this.doses = args.doses || {};
+    this.type = args.type;
+    this.unitConcs = args.unitConcs || {};
     this.solubility = args.solubility;
-    this.isLiquid = args.isLiquid || false;
-    this.isFormula = args.isFormula || false;
-    this.isCompound = args.isCompound || false;
+    this.isLiquid = args.isLiquid ?? false;
     this.HCO3 = args.HCO3;
     this.ions = args.ions;
+
+    this.initDoses();
   }
 
-  get ions(): Record<number, string> | object {
-    return this._ions;
-  }
-
-  set ions(value) {
-    // TODO: refactoring & check if value is from formula type
-    if (value) {
-      this._ions = value;
+  get ions(): Record<string, number> {
+    if (this.isCompound) {
+      return this._ions;
     } else {
-      this._ions = new MolecularFormula(this.key).fraction;
-    }
-    if (this._ions['N']) {
-      this._ions['NO3'] = this._ions['N'] * getElementToOxideRatio('N');
-    }
-    if (this._ions['P']) {
-      this._ions['PO4'] = this._ions['P'] * getElementToOxideRatio('P');
-    }
-    if (this._ions['S']) {
-      this._ions['SO4'] = this._ions['S'] * getElementToOxideRatio('S');
-    }
-    delete this._ions['C'];
-    delete this._ions['O'];
-    delete this._ions['N'];
-    delete this._ions['P'];
-    delete this._ions['H'];
-    delete this._ions['S'];
+      // TODO: refactoring & check if value is from formula type or move it to the getter
+      const ions = new MolecularFormula(this.key).fraction;
+      if (ions['N']) {
+        ions['NO3'] = ions['N'] * getElementToOxideRatio('N');
+      }
+      if (ions['P']) {
+        ions['PO4'] = ions['P'] * getElementToOxideRatio('P');
+      }
+      if (ions['S']) {
+        ions['SO4'] = ions['S'] * getElementToOxideRatio('S');
+      }
+      if (ions['C'] && FORMULAS[this.key].HCO3) {
+        ions['CO3'] = ions['C'] * getElementToOxideRatio('C');
+      }
+      delete ions['C'];
+      delete ions['O'];
+      delete ions['N'];
+      delete ions['P'];
+      delete ions['H'];
+      delete ions['S'];
 
-    Object.keys(this._ions).forEach((ion) => {
-      this.doses[ion] = 0;
-    });
+      return ions;
+    }
+  }
+
+  set ions(value: Record<string, number>) {
+    this._ions = value;
+  }
+
+  get isFormula() {
+    return this.type === 'formula';
+  }
+
+  get isCompound() {
+    return this.type === 'compound';
   }
 
   get text() {
@@ -81,16 +90,21 @@ export default class Reagent {
     return output.join(' ');
   }
 
+  initDoses() {
+    Object.keys(this.ions).forEach((ion) => {
+      this.unitConcs[ion] = 0;
+    });
+  }
+
   toJson(): ReagentType {
     return {
       key: this.key,
       name: this.name,
       amount: this.amount,
-      doses: this.doses,
+      unitConcs: this.unitConcs,
       solubility: this.solubility,
       isLiquid: this.isLiquid,
-      isFormula: this.isFormula,
-      isCompound: this.isCompound,
+      type: this.type,
       HCO3: this.HCO3,
       ions: this.ions,
     };

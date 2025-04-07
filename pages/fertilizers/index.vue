@@ -18,14 +18,17 @@
 -->
 
 <template>
-  <v-container class="mb-12">
+  <v-container
+    min-height="100%"
+    class="mb-12 position-relative"
+  >
     <v-row>
       <LayoutPageTitle>
         Удобрения
       </LayoutPageTitle>
       <client-only>
         <v-col
-          v-if="fertilizers.length === 0"
+          v-if="fertilizerModels.length === 0"
           cols="12"
           md="8"
           offset-md="2"
@@ -44,32 +47,22 @@
             multiple
           >
             <draggable
-              v-model="fertilizers"
-              v-bind="dragOptions"
-              @start="drag=true"
-              @end="drag=false"
+              v-model="fertilizerModels"
+              tag="transition-group"
+              :component-data="{ name: 'fade' }"
+              v-bind="DRAG_OPTIONS"
               handle=".handle"
-              style="width: 100%;"
             >
-              <transition-group
-                type="transition"
-                :name="!drag ? 'flip-list' : null"
-              >
-                <v-expansion-panel
-                  v-for="(item, index) in fertilizers"
-                  :key="item.name"
-                >
+              <template #item="{ element: fertilizer, index }">
+                <v-expansion-panel>
                   <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
                     <div
                       class="d-flex justify-space-between align-center"
                       style="width: 100%;"
                     >
-                      <span
-                        class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start"
-                        :class="{'text-subtitle-1': $vuetify.display.xs, 'text-h6': !$vuetify.display.xs}"
-                      >
+                      <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start">
                         <span style="line-height: 1.25rem;">
-                          {{ item.name }}
+                          {{ fertilizer.name }}
                         </span>
                       </span>
                       <span class="mr-3">
@@ -89,7 +82,7 @@
                     </div>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
-                    <RecipesRecipe :recipe="item" />
+                    <RecipesRecipe :recipe="fertilizer" />
                     <div class="d-flex justify-end mt-4">
                       <v-btn
                         variant="text"
@@ -101,7 +94,7 @@
                     </div>
                   </v-expansion-panel-text>
                 </v-expansion-panel>
-              </transition-group>
+              </template>
             </draggable>
           </v-expansion-panels>
         </v-col>
@@ -138,15 +131,9 @@ import { useFertilizersStore } from '~/stores/fertilizers';
 const router = useRouter();
 const fertilizersStore = useFertilizersStore();
 
-const drag = ref(false);
-
-const fertilizers = computed({
-  get() {
-    return fertilizersStore.fertilizers;
-  },
-  set(value) {
-    fertilizersStore.moveFertilizers(value);
-  },
+const fertilizerModels = computed({
+  get: () => fertilizersStore.fertilizers,
+  set: (value) => fertilizersStore.moveFertilizers(value),
 });
 
 // TODO: move this to the component call
@@ -160,9 +147,9 @@ definePageMeta({
 </script>
 
 <style lang="sass" scoped>
-.flip-list-move
-  transition: transform 0.5s
-.ghost
-  opacity: 0.5
-  background: #c8ebfb
+//.flip-list-move
+//  transition: transform 0.5s
+//.ghost
+//  opacity: 0.5
+//  background: #c8ebfb
 </style>

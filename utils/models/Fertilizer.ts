@@ -17,56 +17,67 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { getOxideToElementRatio } from '~/utils/funcs';
-import type { FertilizerType } from '~/utils/types/types';
+import { getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
+import type { IonType } from '~/utils/types/types';
 
 export default class Fertilizer {
   public name: string;
-  public note: string;
-  public elements: Record<string, number | null>;
+  public description: string;
+  public ions: Record<IonType, number>;
   public isPercent: boolean;
   public updatedAt?: string;
 
-  constructor(args: FertilizerType) {
-    this.name = args.name || 'Удобрение';
-    this.note = args.note || '';
-    this.elements = args.elements || {};
-    this.isPercent = args.isPercent || false;
+  constructor(args: {
+    name: string;
+    description: string;
+    ions: Record<IonType, number>;
+    isPercent: boolean;
+    updatedAt?: string;
+  }) {
+    this.name = args.name;
+    this.description = args.description;
+    this.ions = args.ions;
+    this.isPercent = args.isPercent;
     this.updatedAt = args.updatedAt;
   }
 
-  get concentration(): Record<string, Record<string, number>> {
-    const result: Record<string, Record<string, number>> = {};
-    result[this.name] = {};
-    
-    Object.entries(this.elements).forEach(([el, value]) => {
-      if (value === null) return;
-      
-      const convertRatio = this.isPercent ? 10 : 1;
-      
-      if (['NO3', 'PO4', 'MgO', 'CaO'].includes(el)) {
-        result[this.name][el.replace('O3', '').replace('O4', '').replace('O', '')] = 
-          getOxideToElementRatio(el) * value * convertRatio;
+  get totalConcentration(): Partial<Record<IonType, number>> {
+    const result: Partial<Record<IonType, number>> = {};
+    Object.entries(this.ions).forEach(([el, value]) => {
+      if (!value) {
+        return;
+      }
+      if (this.isPercent) {
+        value *= 10;
+      }
+      if (el === 'N') {
+        result['NO3'] = +format(value * getElementToOxideRatio(el));
+      } else if (el === 'P') {
+        result['PO4'] = +format(value * getElementToOxideRatio(el));
+      } else if (el === 'S') {
+        result['SO4'] = +format(value * getElementToOxideRatio(el));
+      } else if (el === 'Mg') {
+        result['Mg'] = +format(value * getOxideToElementRatio(el));
+      } else if (el === 'Ca') {
+        result['Ca'] = +format(value * getOxideToElementRatio(el));
       } else if (el === 'P2O5') {
-        result[this.name].P = getOxideToElementRatio(el) * value * convertRatio;
+        result['PO4'] = +format(value * getOxideToElementRatio(el) * getElementToOxideRatio('P'));
       } else if (el === 'K2O') {
-        result[this.name].K = getOxideToElementRatio(el) * value * convertRatio;
+        result['K'] = +format(value * getOxideToElementRatio(el));
       } else {
-        result[this.name][el] = value * convertRatio;
+        result[el] = value;
       }
     });
-    
     return result;
   }
 
   toJson(): FertilizerType {
     return {
       name: this.name,
-      note: this.note,
-      elements: { ...this.elements },
+      description: this.description,
+      ions: this.ions,
       isPercent: this.isPercent,
       updatedAt: this.updatedAt,
-      concentration: this.concentration,
     };
   }
 }

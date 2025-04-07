@@ -85,72 +85,11 @@
         </tr>
       </tbody>
     </v-table>
-    <div class="d-flex justify-space-around mt-2 text-body-2">
-      <div
-        v-if="No3Po4Ratio"
-        class="d-flex flex-column align-center"
-      >
-        <div class="font-weight-medium">
-          NO<sub>3</sub> / PO<sub>4</sub>
-        </div>
-        <div>
-          {{ format(No3Po4Ratio, 3) }}
-        </div>
-      </div>
-      <div
-        v-if="No3KRatio"
-        class="d-flex flex-column align-center"
-      >
-        <div class="font-weight-medium">
-          NO<sub>3</sub> / K
-        </div>
-        <div>
-          {{ format(No3KRatio, 3) }}
-        </div>
-      </div>
-      <div
-        v-if="CaMgRatio"
-        class="d-flex flex-column align-center"
-      >
-        <div class="font-weight-medium">
-          Ca / Mg
-        </div>
-        <div>
-          {{ format(CaMgRatio, 3) }}
-        </div>
-      </div>
-      <div
-        v-if="Po4BRatio"
-        class="d-flex flex-column align-center"
-      >
-        <div class="font-weight-medium">
-          PO<sub>4</sub> / B
-        </div>
-        <div>
-          {{ format(Po4BRatio, 3) }}
-        </div>
-      </div>
-      <div
-        v-if="FeBRatio"
-        class="d-flex flex-column align-center"
-      >
-        <div class="font-weight-medium">
-          Fe / B
-        </div>
-        <div>
-          {{ format(FeBRatio, 3) }}
-        </div>
-      </div>
-    </div>
+    <CommonTheElementsRatios :concentration="recipe.totalConcentration" />
   </div>
 </template>
 
 <script lang="ts" setup>
-// TODO: check importing
-import type Recipe from "~/utils/classes/Recipe";
-
-// TODO: refactor this component
-
 defineOptions({
   name: 'TheElementsTable',
 });
@@ -160,43 +99,14 @@ const props = defineProps<{
 }>();
 
 const totalConcentrationSorted = computed(() => {
-  const result = Object.entries(props.recipe.totalConcentration);
+  const result: [string, number][] = Object.entries(props.recipe.totalConcentration);
   result.sort((a, b) => b[1] - a[1]);
   return result;
 });
 
-const countRatio = (concentration: Record<string, number>, el1: string, el2: string) => {
-  const c1 = concentration[el1];
-  const c2 = concentration[el2];
-  if (c1 && c2) {
-    return c1 / c2;
-  }
-  return null;
-};
-
 const ionsTotal = computed(() => {
   return Object.keys(props.recipe.totalConcentration).length;
 });
-
-const No3Po4Ratio = computed(() => {
-  return countRatio(props.recipe.totalConcentration, 'NO3', 'PO4');
-});
-
-const No3KRatio = computed(() => {
-  return countRatio(props.recipe.totalConcentration, 'NO3', 'K');
-});
-
-const CaMgRatio = computed(() => {
-  return countRatio(props.recipe.totalConcentration, 'Ca', 'Mg');
-});
-
-const Po4BRatio = computed(() => {
-  return countRatio(props.recipe.totalConcentration, 'PO4', 'B');
-});
-const FeBRatio = computed(() => {
-  return countRatio(props.recipe.totalConcentration, 'Fe', 'B');
-});
-
 </script>
 
 <style scoped>

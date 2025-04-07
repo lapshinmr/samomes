@@ -26,7 +26,7 @@ export const useRecipesStore = defineStore(
   () => {
     const recipes = ref([]);
 
-    const recipeInstances = computed(
+    const recipeModels = computed(
       () => recipes.value.map((recipe) => new Recipe(recipe)),
     );
 
@@ -50,7 +50,7 @@ export const useRecipesStore = defineStore(
 
     return {
       recipes,
-      recipeInstances,
+      recipeModels,
       addRecipe,
       removeRecipe,
       editRecipe,

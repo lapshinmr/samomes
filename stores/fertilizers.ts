@@ -26,6 +26,7 @@ export const useFertilizersStore = defineStore(
   () => {
     const fertilizers = ref<FertilizerType[]>([]);
 
+    // TODO: rename to fertilizerModels
     const fertilizerInstances = computed(
       () => fertilizers.value.map((fertilizer) => new Fertilizer(fertilizer)),
     );

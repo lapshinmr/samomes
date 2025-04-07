@@ -20,6 +20,7 @@
   <v-text-field
     v-model.number="model"
     :inputmode="inputmode"
+    variant="underlined"
     @update:model-value="onInput"
     @click:append="$emit('click:append', $event)"
   />

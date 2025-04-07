@@ -38,15 +38,20 @@ export const ROUTES = {
     path: '/reminerals/',
     icon: 'game-icons:powder',
   },
-  schedules: {
-    key: 'schedules',
-    path: '/schedules/',
+  dosing: {
+    key: 'dosing',
+    path: '/dosing/',
     icon: 'game-icons:settings-knobs',
   },
   remineralization: {
     key: 'remineralization',
     path: '/remineralization/',
     icon: 'game-icons:full-metal-bucket-handle',
+  },
+  schedules: {
+    key: 'schedules',
+    path: '/schedules/',
+    icon: 'game-icons:toggles',
   },
   dynamics: {
     key: 'dynamics',
