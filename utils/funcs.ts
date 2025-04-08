@@ -41,3 +41,8 @@ export const countRatio = (concentration: Record<string, number>, el1: string, e
   return null;
 };
 
+export const sortArrayByObjectField = (array: Record<string, string>[], fieldName: string) => {
+  const result = [...array];
+  result.sort((a, b) => a[fieldName].localeCompare(b[fieldName]));
+  return result;
+};

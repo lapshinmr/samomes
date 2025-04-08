@@ -37,72 +37,37 @@
             У вас еще нет ни одного удобрения
           </p>
         </v-col>
-        <v-col
+        <CommonTheCards
           v-else
-          cols="12"
-          sm="8"
-          offset-sm="2"
+          v-model="fertilizerModels"
         >
-          <v-expansion-panels
-            multiple
-          >
-            <draggable
-              v-model="fertilizerModels"
-              tag="transition-group"
-              :component-data="{ name: 'fade' }"
-              v-bind="DRAG_OPTIONS"
-              handle=".handle"
+          <template #default="{ item }">
+            <RecipesRecipe :recipe="item" />
+          </template>
+          <template #actions="{ index }">
+            <v-btn
+              variant="text"
+              right
+              color="red"
+              class="ml-n4"
+              @click="onRemove(index)"
             >
-              <template #item="{ element: fertilizer, index }">
-                <v-expansion-panel>
-                  <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
-                    <div
-                      class="d-flex justify-space-between align-center"
-                      style="width: 100%;"
-                    >
-                      <span class="no-break font-weight-regular d-flex flex-column flex-sm-row align-start">
-                        <span style="line-height: 1.25rem;">
-                          {{ fertilizer.name }}
-                        </span>
-                      </span>
-                      <span class="mr-3">
-                        <v-tooltip
-                          location="bottom"
-                          max-width="400"
-                        >
-                          <template #activator="{ props }">
-                            <v-icon
-                              class="handle ml-2"
-                              v-bind="props"
-                            >mdi-drag</v-icon>
-                          </template>
-                          Перетащите, чтобы изменить порядок
-                        </v-tooltip>
-                      </span>
-                    </div>
-                  </v-expansion-panel-title>
-                  <v-expansion-panel-text>
-                    <RecipesRecipe :recipe="fertilizer" />
-                    <div class="d-flex justify-end mt-4">
-                      <v-btn
-                        variant="text"
-                        :to="`/fertilizers/${index}/`"
-                        class="mr-n4"
-                      >
-                        Открыть
-                      </v-btn>
-                    </div>
-                  </v-expansion-panel-text>
-                </v-expansion-panel>
-              </template>
-            </draggable>
-          </v-expansion-panels>
-        </v-col>
+              {{ t('buttons.remove') }}
+            </v-btn>
+            <v-btn
+              variant="text"
+              :to="`${ROUTES.fertilizers.path}${index}/`"
+              class="mr-n4"
+            >
+              Открыть
+            </v-btn>
+          </template>
+        </CommonTheCards>
         <BaseGuide>
           <p>
             На этой странице вы можете добавить любимые фирменные удобрения с известным составом,
             чтобы система помогла подобрать дозировки и включила их в ваше персональное
-            <router-link to="/schedules/">
+            <router-link :to="ROUTES.dosing.path">
               расписание.
             </router-link>
           </p>
@@ -111,25 +76,30 @@
             это поможет вести учет внесений и не пропустить важные подкормки для ваших растений.
           </p>
           <p>
-            Начните с нажатия на кнопку со знаком «<a @click="addFertilizer">плюс</a>», чтобы добавить новое удобрение.
+            Начните с нажатия на кнопку со знаком «<a @click="onAdd">плюс</a>», чтобы добавить новое удобрение.
           </p>
         </BaseGuide>
       </client-only>
     </v-row>
-    <BaseAddButton :action="addFertilizer">
+    <BaseAddButton :action="onAdd">
       Добавить удобрение
     </BaseAddButton>
+
+    <PopupsTheRemovePopup
+      v-model="isRemovePopup"
+      @remove="onRemoveFertilizerConfirmation"
+    >
+      Are you sure you want to remove this fertilizer? This action cannot be undone.
+    </PopupsTheRemovePopup>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import draggable from 'vuedraggable';
-import { DRAG_OPTIONS } from '~/utils/constants/application';
-
-import { useFertilizersStore } from '~/stores/fertilizers';
-
+const { t } = useI18n();
 const router = useRouter();
 const fertilizersStore = useFertilizersStore();
+const snackbarStore = useSnackbarStore();
+const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
 
 const fertilizerModels = computed({
   get: () => fertilizersStore.fertilizers,
@@ -137,8 +107,14 @@ const fertilizerModels = computed({
 });
 
 // TODO: move this to the component call
-function addFertilizer() {
+function onAdd() {
   router.push('/fertilizers/create/');
+}
+
+async function onRemoveFertilizerConfirmation() {
+  fertilizersStore.removeFertilizer(itemIndexToRemove.value);
+  snackbarStore.showSuccess('Рецепт удален');
+  onRemoveConfirmation();
 }
 
 definePageMeta({
@@ -147,9 +123,4 @@ definePageMeta({
 </script>
 
 <style lang="sass" scoped>
-//.flip-list-move
-//  transition: transform 0.5s
-//.ghost
-//  opacity: 0.5
-//  background: #c8ebfb
 </style>

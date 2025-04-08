@@ -89,7 +89,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       SO4: 1,
     },
-    H2O: 7,
     solubility: 1130,
     name: 'Магния сульфат 7-водный (магнезия)',
   },
@@ -100,7 +99,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       Cl: 2,
     },
-    H2O: 6,
     solubility: 546,
     name: 'Магния Хлорид 6-водный',
   },
@@ -169,7 +167,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       CO3: 1,
     },
-    H2O: 1,
     HCO3: 2,
     solubility: 218,
     name: 'Натрия карбонат 1-водный (стиральная сода)',
@@ -181,7 +178,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       CO3: 1,
     },
-    H2O: 7,
     HCO3: 2,
     solubility: 218,
     name: 'Натрия карбонат 7-водный (стиральная сода)',
@@ -193,7 +189,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       CO3: 1,
     },
-    H2O: 10,
     HCO3: 2,
     solubility: 218,
     name: 'Натрия карбонат 10-водный (стиральная сода)',
@@ -228,7 +223,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       SO4: 1,
     },
-    H2O: 2,
     solubility: 2.036,
     name: 'Кальция сульфат 2-водный (гипс)',
   },
@@ -249,7 +243,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       Cl: 2,
     },
-    H2O: 2,
     solubility: 745,
     name: 'Кальция хлорид 2-водный',
   },
@@ -260,7 +253,6 @@ export const FORMULAS: Record<string, FormulaType> = {
     anion: {
       Cl: 2,
     },
-    H2O: 6,
     solubility: 745,
     name: 'Кальция хлорид 6-водный',
   },

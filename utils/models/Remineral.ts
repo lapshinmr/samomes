@@ -57,7 +57,7 @@ export default class Remineral {
     return this.reagents.reduce((sum, reagent) => sum + +reagent.amount, 0);
   }
 
-  get concentration(): Record<string, Partial<Record<IonType, number>>> {
+  get concentrationPerReagent(): Record<string, Partial<Record<IonType, number>>> {
     const result = {};
     if (this.reagents.length === 0) {
       return result;
@@ -73,7 +73,7 @@ export default class Remineral {
         units = 1 / reagent.amount;
         // }
         if (ion === 'CO3' && HCO3) {
-          units *= HCO3;
+          result[reagent.key]['HCO3'] = reagent.amount * value * units * HCO3;
         }
         result[reagent.key][ion] = reagent.amount * value * units;
       });
@@ -81,10 +81,10 @@ export default class Remineral {
     return result;
   }
 
-  get totalConcentration(): Partial<Record<IonType, number>> {
+  get concentration(): Partial<Record<IonType, number>> {
     const result = {};
     this.reagents.forEach((reagent) => {
-      Object.entries(this.concentration[reagent.key]).forEach(([ion, value]) => {
+      Object.entries(this.concentrationPerReagent[reagent.key]).forEach(([ion, value]) => {
         if (!result[ion]) {
           result[ion] = 0;
         }
@@ -123,9 +123,9 @@ export default class Remineral {
     volume: number,
   ) {
     let kh = 0;
-    if ('CO3' in concentration) {
+    if ('HCO3' in concentration) {
       // TODO: add formula description
-      kh += (concentration.CO3 / (volume * new MolecularFormula('CO3').mass)) * KH_RATIO * amount;
+      kh += (concentration.HCO3 / (volume * new MolecularFormula('CO3').mass)) * KH_RATIO * amount;
       kh *= 1000;
     }
     if (this.isLiquid) {
@@ -134,31 +134,86 @@ export default class Remineral {
     return kh;
   }
 
-  get ghPerReagent(): Record<string, number> {
-    const result = {};
+  get ghPerReagent() {
+    const result: Record<string, number> = {};
     this.reagents.forEach((reagent) => {
-      result[reagent.key] = this.countGh(this.concentration[reagent.key], reagent.amount, this.volume);
+      result[reagent.key] = this.countGh(this.concentrationPerReagent[reagent.key], reagent.amount, this.volume);
     });
     return result;
   }
 
   get khPerReagent() {
-    const result = {};
+    const result: Record<string, number> = {};
     this.reagents.forEach((reagent) => {
-      result[reagent.key] = this.countKh(this.concentration[reagent.key], reagent.amount, this.volume);
+      result[reagent.key] = this.countKh(this.concentrationPerReagent[reagent.key], reagent.amount, this.volume);
     });
     return result;
   }
 
   get gh(): number {
-    return this.countGh(this.totalConcentration, this.totalMass, this.volume);
+    return this.countGh(this.concentration, this.totalMass, this.volume);
   }
 
   get kh(): number {
-    return this.countKh(this.totalConcentration, this.totalMass, this.volume);
+    return this.countKh(this.concentration, this.totalMass, this.volume);
   }
 
   get CaMgRatio(): number {
-    return countRatio(this.totalConcentration, 'Ca', 'Mg');
+    return countRatio(this.concentration, 'Ca', 'Mg');
+  }
+
+  get totalElements() {
+    const result: Partial<Record<IonType, number>> = {};
+    Object.entries(this.concentration).forEach(([ion, value]) => {
+      result[ion] = value * this.totalMass / this.volume * 1000; // 1000 - from g/l to mg/l;
+    });
+    return result;
+  };
+
+  get tds(): number {
+    return Object.entries(this.concentration)
+      .filter(([ion]) => ion !== 'HCO3')
+      .reduce((a, [,c]) => a + c * this.totalMass / this.volume * 1000, 0);
+  }
+
+  get cations() {
+    const result: Partial<Record<IonType, [number, number]>> = {};
+    Object.entries(this.concentration).forEach(([ion, value]) => {
+      if (CATIONS.includes(ion)) {
+        result[ion] = [value, value * this.totalMass / this.volume * 1000]; // 1000 - from g/l to mg/l;
+      }
+    });
+    const totalValue: number = Object.values(result).reduce((acc, value) => acc + value[0], 0);
+    Object.keys(result).forEach((ion) => {
+      result[ion][0] /= totalValue;
+    });
+    return result;
+  }
+
+  get anions() {
+    const result: Partial<Record<IonType, [number, number]>> = {};
+    Object.entries(this.concentration).forEach(([ion, value]) => {
+      if (ANIONS.includes(ion)) {
+        result[ion] = [value, value * this.totalMass / this.volume * 1000]; // 1000 - from g/l to mg/l;
+      }
+    });
+    const totalValue: number = Object.values(result).reduce((acc, value) => acc + value[0], 0);
+    Object.keys(result).forEach((ion) => {
+      result[ion][0] /= totalValue;
+    });
+    return result;
+  }
+
+  toJson(): RemineralType {
+    return {
+      name: this.name,
+      description: this.description,
+      waterVolume: this.waterVolume,
+      volume: this.volume,
+      doseVolume: this.doseVolume,
+      reagents: this.reagents.map((reagent) => ({
+        ...reagent.toJson(),
+      })),
+    };
   }
 }

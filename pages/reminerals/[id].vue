@@ -22,7 +22,7 @@
     <v-row>
       <LayoutBackButton :path="ROUTES.reminerals.path"/>
       <LayoutPageTitle>
-        <template v-if="isShared">
+        <template v-if="isShare">
           <p class="text-h4">
             С вами поделились рецептом!
           </p>
@@ -124,25 +124,23 @@
                 :remineral="remineralObject"
                 class="mt-4"
               />
-              <v-col cols="12">
-                <BaseDividerWithNote class="mb-4">
-                  Таблица с навесками
-                </BaseDividerWithNote>
-                <RemineralsTheRemineralsRecipesTable
-                  :remineral="remineralObject"
-                  :reagents="reagentsChosen"
-                  :volume="volume"
-                />
-              </v-col>
-              <v-col
-                v-if="!isLiquid"
-                cols="12"
-              >
+              <RemineralsTheCationsAndAnions
+                :remineral="remineralObject"
+              />
+              <BaseDividerWithNote class="mb-4">
+                Таблица с навесками
+              </BaseDividerWithNote>
+              <RemineralsTheRemineralsRecipesTable
+                :remineral="remineralObject"
+                :reagents="reagentsChosen"
+                :volume="volume"
+              />
+              <template v-if="!isLiquid">
                 <BaseDividerWithNote class="mb-4">
                   Подготовка смеси
                 </BaseDividerWithNote>
                 <RemineralsTheRemineralsMixTable :remineral="remineralObject" />
-              </v-col>
+              </template>
             </div>
           </v-expand-transition>
           <v-expand-transition>
@@ -172,13 +170,13 @@
                 cols="12"
               >
                 <v-btn
-                  v-if="!isCreate && !isShared"
+                  v-if="isEdit && !isShare"
                   @click="onRemoveRecipe"
                 >
                   Удалить
                 </v-btn>
                 <v-btn
-                  v-if="!isShared"
+                  v-if="!isShare"
                   color="primary"
                   class="ml-2"
                   v-on="isCreate ? { click: onAddRemineral } : { click: onEditRemineral }"
@@ -198,18 +196,16 @@
 const route = useRoute();
 const router = useRouter();
 const snackbarStore = useSnackbarStore();
-const { reminerals, addRemineral, removeRemineral, editRemineral } = useRemineralsStore();
+const remineralsStore = useRemineralsStore();
 
 const remineralForm = ref(null);
 const waterVolume = ref<number>(null);
-const reagentsChosen = ref<Reagent[]>([]);
+const reagentsChosen = ref<InstanceType<typeof Reagent>[]>([]);
 const remineralExampleChosen = ref(null);
 const volume = ref(10);
 const doseVolume = ref(10);
 const name = ref('');
 const description = ref('');
-
-const isShared = ref(false);
 
 const reagents = [
   ...Object.entries({ ...FORMULAS }).map(([key, data]) => new Reagent({
@@ -220,6 +216,7 @@ const reagents = [
   })),
 ];
 
+const isReagents = computed(() => reagentsChosen.value.length > 0);
 const isLiquid = computed(() => waterVolume.value !== null && waterVolume.value > 0);
 
 const remineralObject = computed(() => {
@@ -237,193 +234,129 @@ const remineralObject = computed(() => {
 
 const remineralObjectDebug = computed(() => {
   return {
-    ...remineralObject.value,
+    concentrationPerIon: remineralObject.value.concentrationPerReagent,
     concentration: remineralObject.value.concentration,
-    totalConcentration: remineralObject.value.totalConcentration,
-    ghPerReagent: remineralObject.value.ghPerReagent,
-    khPerReagent: remineralObject.value.khPerReagent,
-    gh: remineralObject.value.gh,
-    kh: remineralObject.value.kh,
+    totalElements: remineralObject.value.totalElements,
+    cations: remineralObject.value.cations,
+    anions: remineralObject.value.anions,
   };
 });
 
-function onInputReagentGh(reagent: Reagent, value: number) {
+function onInputReagentGh(reagent: InstanceType<typeof Reagent>, value: number) {
   reagent.amount = +format(reagent.amount * value / remineralObject.value.ghPerReagent[reagent.key]);
 }
 
-function onInputReagentKh(reagent: Reagent, value: number) {
+function onInputReagentKh(reagent: InstanceType<typeof Reagent>, value: number) {
   reagent.amount = +format(reagent.amount * value / remineralObject.value.khPerReagent[reagent.key]);
 }
+
+watch(reagentsChosen, () => {
+  // Set recipe default name by first reagent name
+  if (!name.value && reagentsChosen.value.length === 1) {
+    const reagent = reagentsChosen.value[0];
+    name.value = reagent.text;
+  }
+});
+
+function fillForm(remineral: RemineralType) {
+  name.value = remineral.name;
+  description.value = remineral.description;
+  volume.value = remineral.volume;
+  waterVolume.value = remineral.waterVolume;
+  doseVolume.value = remineral.doseVolume;
+}
+
+const onInputRemineralExample = (remineral: RemineralExampleType) => {
+  reagentsChosen.value = [];
+  reagents.forEach((reagent) => {
+    if (reagent.key in remineral.reagents) {
+      reagent.amount = remineral.reagents[reagent.key];
+      reagentsChosen.value.push(reagent);
+    }
+  });
+
+  fillForm(remineral);
+};
+
+// PAGE MANIPULATION
+const isCreate = computed(() => route.params.id === 'create');
+const isEdit = computed(() => route.params.id !== 'create');
+const isCopy = computed(() => route.query.copy !== undefined);
+const isShare = computed(() => route.params.query === 'share');
+const remineralIndex = computed(() => +route.params.id);
 
 const rulesName = [
   (v) => !!v || 'Введите название',
   () => !isExist.value || 'Рецепт с таким названием уже существует',
 ];
 
-const isCreate = computed(() => route.params.id === 'create');
-const recipeIndex = computed(() => route.params.id as string);
-
+// TODO: move to useNameExist
 const isExist = computed(() => {
-  const names = reminerals.map((item) => item.name);
+  const names = remineralsStore.reminerals.map((item) => item.name);
   const index = names.findIndex((item) => item === name.value);
   const isExistValue = index !== -1;
-  const isEdit = index === +recipeIndex.value;
+  const isEdit = index === +remineralIndex.value;
   return isExistValue && !isEdit;
 });
 
-// const recipe = computed(() => {
-//   return {
-//     name: name.value,
-//     note: description.value,
-//     volume: volume.value,
-//     mass: { ...reagentsMassObject.value },
-//     substanceVolume: substanceVolume.value,
-//     doseVolume: doseVolume.value,
-//     gh: gh.value,
-//     kh: kh.value,
-//   };
-// });
+onMounted(async () => {
+  if (isCreate.value && !isCopy.value) {
+    return;
+  }
 
-// const remineralsExamples = computed(() => {
-//   return sortArrayByObjectField(RECIPES, 'name');
-// });
+  let remineral: RemineralType;
+  if (isShare.value) {
+    [remineral] = JSON.parse(decodeURIComponent(route.params.query as string));
+  } else if (isEdit.value) {
+    remineral = JSON.parse(JSON.stringify({ ...remineralsStore.reminerals[+remineralIndex.value] }));
+  }
 
-const isReagents = computed(() => reagentsChosen.value.length > 0);
+  if (Object.keys(remineral).length === 0) {
+    await router.push(ROUTES.reminerals.path);
+    return;
+  }
 
-// const substance = computed(() => {
-//   subst.value.setReagentsMassObject(reagentsMassObject.value);
-//   subst.value.setVolume(substanceVolume.value);
-//   return subst.value;
-// });
-
-const onInputRemineralExample = (recipe: RecipeExampleType) => {
-  reagentsChosen.value = [];
-  reagents.forEach((reagent) => {
-    if (recipe.reagents && reagent.key in recipe.reagents) {
-      reagent.amount = recipe.reagents[reagent.key];
+  const remineralReagents = {};
+  remineral.reagents.forEach((reagent: ReagentType) => {
+    remineralReagents[reagent.key] = reagent;
+  });
+  reagents.forEach((reagent: ReagentType) => {
+    if (reagent.key in remineralReagents) {
+      reagent.amount = remineralReagents[reagent.key].amount;
       reagentsChosen.value.push(reagent);
     }
   });
 
-  name.value = recipe.name;
-  description.value = recipe.description;
-  volume.value = recipe.volume;
-  // tankVolume.value = recipe.tankVolume;
-};
+  fillForm(remineral);
+});
 
-// watch(recipeExampleChosen, (recipe) => {
-//   if (!recipe) return;
-//
-//   reagents.value = [];
-//   reagentsMassObject.value = {};
-//   reagentsMassObject.value = { ...recipe.reagentsMassObject };
-//   const reagentsArray = [];
-//   Object.keys(recipe.reagentsMassObject).forEach((reagentName) => {
-//     reagentsArray.push({
-//       key: reagentName,
-//       text: `${FORMULAS[reagentName].name} - ${reagentName}`,
-//       ...FORMULAS[reagentName],
-//     });
-//   });
-//   reagents.value = reagentsArray;
-//   name.value = recipe.name;
-//   description.value = recipe.note;
-//   volume.value = recipe.volume;
-// });
-//
-// watch(reagentsMassObject, () => {
-//   totalMass.value = countTotalReagentsMass(reagentsMassObject.value);
-// }, { deep: true });
-
-// onMounted(async () => {
-//   const { share } = route.query;
-//   if (isCreate.value) {
-//     return;
-//   }
-//
-//   let recipeData;
-//   if (share) {
-//     isShared.value = true;
-//     [recipeData] = JSON.parse(decodeURIComponent(share as string));
-//   } else if (!isCreate.value) {
-//     recipeData = JSON.parse(JSON.stringify({ ...reminerals.value[+recipeIndex.value] }));
-//   }
-//
-//   if (Object.keys(recipeData).length === 0) {
-//     await router.push('/reminerals/');
-//     return;
-//   }
-//
-//   const reagentsArray = [];
-//   const reagentsNames = Object.keys(recipeData.mass);
-//   formulas.value.forEach((formula) => {
-//     if (reagentsNames.includes(formula.key)) {
-//       reagentsArray.push(formula);
-//     }
-//   });
-//
-//   reagents.value = reagentsArray;
-//   name.value = recipeData.name;
-//   note.value = recipeData.note;
-//   volume.value = recipeData.volume;
-//   reagentsMassObject.value = recipeData.mass;
-//   isLiquid.value = !!recipeData.substanceVolume;
-//   substanceVolume.value = recipeData.substanceVolume;
-//   doseVolume.value = recipeData.doseVolume;
-// });
-
-// function onReagentInput(newValue) {
-//   if (newValue.length < reagents.value.length) {
-//     const reagentsToRemove = reagents.value.filter((item) => !newValue.includes(item));
-//     reagentsToRemove.forEach((item) => {
-//       delete reagentsMassObject.value[item.key];
-//     });
-//   }
-//
-//   reagents.value = [...newValue];
-//   const mass = { ...reagentsMassObject.value };
-//   reagents.value.forEach((reagent) => {
-//     if (!(reagent.key in mass)) {
-//       mass[reagent.key] = 0;
-//     }
-//   });
-//
-//   reagentsMassObject.value = { ...mass };
-// }
-
-// PAGE MANIPULATION
 async function onAddRemineral() {
   const { valid } = await remineralForm.value.validate();
   if (valid) {
-    addRemineral(recipe.value);
-    snackbarStore.show('Рецепт добавлен');
-    await router.push('/reminerals/');
+    remineralsStore.addRemineral({ ...remineralObject.value.toJson() });
+    snackbarStore.show('Реминерализатор добавлен');
+    await router.push(ROUTES.reminerals.path);
   }
 }
 
 async function onEditRemineral() {
   const { valid } = await remineralForm.value.validate();
   if (valid) {
-    editRemineral({
-      index: +recipeIndex.value,
-      remineral: recipe.value,
+    remineralsStore.editRemineral({
+      index: +remineralIndex.value,
+      remineral: { ...remineralObject.value.toJson() },
     });
     snackbarStore.show('Рецепт изменен');
-    await router.push('/reminerals/');
+    await router.push(ROUTES.reminerals.path);
   }
 }
 
 async function onRemoveRecipe() {
-  removeRemineral(+recipeIndex.value);
+  remineralsStore.removeRemineral(+remineralIndex.value);
   snackbarStore.show('Рецепт удален');
-  await router.push('/reminerals/');
+  await router.push(ROUTES.reminerals.path);
 }
 </script>
 
 <style lang="sass" scoped>
-//.flip-list-move
-//  transition: transform 0.5s
-//.ghost
-//  opacity: 0.5
-//  background: #c8ebfb
 </style>

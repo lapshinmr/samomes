@@ -37,68 +37,39 @@
             У вас еще нет ни одного рецепта
           </p>
         </v-col>
-        <v-col
+        <CommonTheCards
           v-else
-          cols="12"
-          sm="8"
-          offset-sm="2"
+          v-model="recipeModels"
         >
-          <v-expansion-panels multiple>
-            <draggable
-              v-model="recipeModels"
-              tag="transition-group"
-              :component-data="{ name: 'fade' }"
-              v-bind="DRAG_OPTIONS"
-              handle=".handle"
+          <template #default="{ item }">
+            <RecipesRecipe :recipe="item" />
+          </template>
+          <template #actions="{ index }">
+            <v-btn
+              variant="text"
+              right
+              color="red"
+              class="ml-n4"
+              @click="onRemove(index)"
             >
-              <template #item="{ element: recipe, index }">
-                <v-expansion-panel>
-                  <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
-                    <div class="d-flex align-center w-100">
-                      <div class="no-break font-weight-regular mr-auto">
-                        {{ recipe.name }}
-                      </div>
-                      <div>
-                        <v-tooltip
-                          location="bottom"
-                          max-width="400"
-                        >
-                          <template #activator="{ props }">
-                            <v-icon
-                              class="handle mr-2 mr-sm-4"
-                              v-bind="props"
-                            >
-                              mdi-drag
-                            </v-icon>
-                          </template>
-                          {{ t('recipes.panels.header.pull') }}
-                        </v-tooltip>
-                      </div>
-                    </div>
-                  </v-expansion-panel-title>
-                  <v-expansion-panel-text>
-                    <RecipesRecipe :recipe="recipe" />
-                    <div class="d-flex justify-end mt-4">
-                      <v-btn
-                        variant="text"
-                        @click="openShareDialog(index)"
-                      >
-                        Поделиться
-                      </v-btn>
-                      <v-btn
-                        variant="text"
-                        :to="`/recipes/${index}/`"
-                        class="mr-n4"
-                      >
-                        {{ t('buttons.open') }}
-                      </v-btn>
-                    </div>
-                  </v-expansion-panel-text>
-                </v-expansion-panel>
-              </template>
-            </draggable>
-          </v-expansion-panels>
-        </v-col>
+              {{ t('buttons.remove') }}
+            </v-btn>
+            <v-btn
+              variant="text"
+              class="ml-auto"
+              @click="onShare(index)"
+            >
+              Поделиться
+            </v-btn>
+            <v-btn
+              variant="text"
+              :to="`${ROUTES.recipes.path}${index}/`"
+              class="mr-n4"
+            >
+              {{ t('buttons.open') }}
+            </v-btn>
+          </template>
+        </CommonTheCards>
         <BaseGuide>
           <p>
             {{ t('recipes.guide.paragraph1') }}
@@ -123,98 +94,51 @@
       </client-only>
     </v-row>
 
-    <v-dialog
-      v-model="dialogShare"
-      width="500"
-    >
-      <v-card>
-        <v-card-title>
-          Поделиться ссылкой
-        </v-card-title>
-        <v-card-text v-if="curRecipeIndex !== null">
-          <v-text-field
-            id="encodedUrl"
-            :value="encodedUrl"
-            label="Ваша ссылка для отправки"
-            hint="Скопируйте ссылку"
-          >
-            <template #append>
-              <v-tooltip
-                location="bottom"
-                max-width="400"
-              >
-                <template #activator="{ props }">
-                  <a @click="copyUrl()">
-                    <v-icon v-bind="props">mdi-content-copy</v-icon>
-                  </a>
-                </template>
-                Скопировать
-              </v-tooltip>
-            </template>
-          </v-text-field>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            text
-            @click="dialogShare = false"
-          >
-            Закрыть
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <BaseAddButton :action="addRecipe">
+    <BaseAddButton :action="onAdd">
       {{ t('recipes.addButton') }}
     </BaseAddButton>
+
+    <PopupsTheSharePopup
+      v-model="isSharePopup"
+      :url="encodedUrl"
+    />
+
+    <PopupsTheRemovePopup
+      v-model="isRemovePopup"
+      @remove="onRemoveRecipeConfirmation"
+    >
+      Are you sure you want to remove this recipe? This action cannot be undone.
+    </PopupsTheRemovePopup>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import draggable from 'vuedraggable';
-import { DRAG_OPTIONS } from '~/utils/constants/application';
-
 const router = useRouter();
 const { t } = useI18n();
 const recipesStore = useRecipesStore();
 const snackbarStore = useSnackbarStore();
-
-const dialogShare = ref(false);
-const curRecipeIndex = ref(null);
+const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
+const { itemIndexToShare, isSharePopup, onShare, encodeUrl } = useSharePopup();
 
 const recipeModels = computed({
   get: () => recipesStore.recipeModels,
   set: (value) => recipesStore.moveRecipes(value),
 });
 
-function addRecipe() {
+const encodedUrl = computed(() => {
+  const data = recipesStore.recipes[itemIndexToShare.value];
+  return encodeUrl(data);
+});
+
+function onAdd() {
   return router.push('/recipes/create/');
 }
 
-function openShareDialog(index: number) {
-  curRecipeIndex.value = index;
-  dialogShare.value = true;
+async function onRemoveRecipeConfirmation() {
+  recipesStore.removeRecipe(itemIndexToRemove.value);
+  snackbarStore.showSuccess('Рецепт удален');
+  onRemoveConfirmation();
 }
-
-function copyUrl() {
-  const encodedUrl = document.getElementById('encodedUrl');
-  encodedUrl.select();
-  encodedUrl.setSelectionRange(0, 99999);
-  document.execCommand('copy');
-  snackbarStore.showSnackbar('Ссылка скопирована');
-}
-
-const encodedUrl = computed(() => {
-  if (curRecipeIndex.value === null) return '';
-
-  const recipe = { ...recipes.value[curRecipeIndex.value] };
-  delete recipe.concentration;
-  let jsonString = JSON.stringify([recipe]);
-  jsonString = jsonString.replace(/%/g, '%25');
-  const encoded = encodeURIComponent(jsonString);
-  return `${window.location.origin + window.location.pathname}/share?share=${encoded}`;
-});
 
 definePageMeta({
   title: 'Список рецептов самодельных удобрений',
@@ -234,9 +158,4 @@ definePageMeta({
 </script>
 
 <style lang="sass" scoped>
-//.flip-list-move
-//  transition: transform 0.5s
-//.ghost
-//  opacity: 0.5
-//  background: #c8ebfb
 </style>

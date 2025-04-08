@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
 
-  css: ['~/assets/variables.sass', '~/assets/global.sass'],
+  css: ['~/assets/variables.sass'],
 
   modules: [
     '@nuxt/eslint',

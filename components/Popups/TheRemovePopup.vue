@@ -13,7 +13,7 @@
       <v-card-actions>
         <v-btn
           color="primary"
-          @click="emit('cancel')"
+          @click="model = false"
         >
           Cancel
         </v-btn>
@@ -31,7 +31,11 @@
 <script setup lang="ts">
 const model = defineModel<boolean>();
 
-const emit = defineEmits(['remove', 'cancel']);
+const emit = defineEmits(['remove']);
+
+defineOptions({
+  name: 'TheRemovePopup',
+});
 </script>
 
 <style scoped>

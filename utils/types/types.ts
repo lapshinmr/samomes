@@ -94,8 +94,6 @@ export type RemineralType = {
   volume: number;
   waterVolume?: number;
   doseVolume?: number;
-  gh?: number;
-  kh?: number;
 }
 
 export type PortionType<T extends RecipeType> = T & {
@@ -116,3 +114,4 @@ export type CarbonatesType = typeof CARBONATES[number];
 
 export type IonType = ElementType | OxideType | CarbonatesType;
 
+export type ReagentKeyType = keyof typeof FORMULAS | keyof typeof COMPOUNDS;

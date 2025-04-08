@@ -67,9 +67,22 @@ export const ELEMENT_TO_OXIDE = {
 } as const;
 
 export const ELEMENTS_IGNORED_IN_REAGENT_CONCENTRATION_CALCULATION = [
-
+  // TODO: complete or remove
 ];
 
 // TODO: Add kations and anions here or in the formulas
 
 export const ALL_IONS = [...Object.keys(ELEMENTS), ...Object.keys(OXIDE_TO_ELEMENT)];
+
+export const CATIONS = [
+  'Ca',
+  'Mg',
+  'K',
+  'Na',
+];
+
+export const ANIONS = [
+  'Cl',
+  'SO4',
+  'CO3',
+];

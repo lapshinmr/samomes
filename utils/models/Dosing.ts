@@ -26,7 +26,7 @@ export class Dosing {
     this.tank = tank;
   }
 
-  get totalElements(): Record<string, Record<string, number>> {
+  get totalElements(): Record<IonType, Record<string, number>> {
     const result = {};
     this.portions.forEach((portion) => {
       Object.entries(portion.fertilizer.totalConcentration).forEach(([ion, value]) => {

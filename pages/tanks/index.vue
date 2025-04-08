@@ -28,7 +28,7 @@
       </LayoutPageTitle>
       <client-only>
         <v-col
-          v-if="tanks.length === 0"
+          v-if="tankModels.length === 0"
           cols="12"
           md="8"
           offset-md="2"
@@ -37,131 +37,33 @@
             У вас еще нет ни одного аквариума
           </p>
         </v-col>
-        <v-col
+        <CommonTheCards
           v-else
-          cols="12"
-          sm="8"
-          offset-sm="2"
+          v-model="tankModels"
         >
-          <v-expansion-panels multiple>
-            <draggable
-              v-model="tanksModel"
-              tag="transition-group"
-              :component-data="{ name:'fade' }"
-              v-bind="DRAG_OPTIONS"
-              handle=".handle"
+          <template #default="{ item }">
+            <TanksTankCard :tank="item" />
+          </template>
+          <template #actions="{ index }">
+            <v-btn
+              variant="text"
+              right
+              color="red"
+              class="ml-n4"
+              @click="onRemove(index)"
             >
-              <template #item="{element: tank, index}">
-                <v-expansion-panel>
-                  <v-expansion-panel-title class="pa-3 py-sm-4 px-sm-6">
-                    <div
-                      class="d-flex align-center"
-                      style="width: 100%;"
-                    >
-                      <div class="no-break font-weight-regular mr-auto text-subtitle-1 text-md-h6">
-                        {{ tank.name }}
-                      </div>
-                      <div
-                        class="mr-1 mx-sm-4"
-                        style="white-space: nowrap;"
-                      >
-                        {{ format(tank.volume) }} {{ t('units.l') }}
-                      </div>
-                      <div>
-                        <v-tooltip
-                          location="bottom"
-                          max-width="400"
-                        >
-                          <template #activator="{ props }">
-                            <v-icon
-                              class="handle"
-                              v-bind="props"
-                            >
-                              mdi mdi-drag
-                            </v-icon>
-                          </template>
-                          {{ t('tanks.panels.header.pull') }}
-                        </v-tooltip>
-                      </div>
-                    </div>
-                  </v-expansion-panel-title>
-                  <v-expansion-panel-text>
-                    <div
-                      v-if="tank.length"
-                      class="body-2"
-                    >
-                      <div class="d-flex justify-space-between">
-                        <div>{{ t('tanks.dialog.length') }}</div>
-                        <div>{{ format(tank.length, 1) }} {{ t('units.cm') }}</div>
-                      </div>
-                      <div class="d-flex justify-space-between">
-                        <div>{{ t('tanks.dialog.width') }}</div>
-                        <div>{{ format(tank.width, 1) }} {{ t('units.cm') }}</div>
-                      </div>
-                      <div class="d-flex justify-space-between">
-                        <div>{{ t('tanks.dialog.height') }}</div>
-                        <div>{{ format(tank.height, 1) }} {{ t('units.cm') }}</div>
-                      </div>
-                      <div class="d-flex justify-space-between">
-                        <div>{{ t('tanks.dialog.glassThickness') }}</div>
-                        <div>{{ tank.glassThickness }} {{ t('units.mm') }}</div>
-                      </div>
-                      <div
-                        v-if="tank.filter"
-                        class="d-flex justify-space-between"
-                      >
-                        <div>{{ t('tanks.dialog.filter') }}</div>
-                        <div>{{ format(tank.filter, 1) }} {{ t('units.l') }}</div>
-                      </div>
-                      <div
-                        v-if="tank.soil"
-                        class="d-flex justify-space-between"
-                      >
-                        <div>{{ t('tanks.dialog.soil') }}</div>
-                        <div>{{ format(tank.soilVolume, 1) }} {{ t('units.l') }}</div>
-                      </div>
-                      <div
-                        v-if="tank.waterChangeVolume"
-                        class="d-flex justify-space-between"
-                      >
-                        <div>{{ t('tanks.dialog.waterChange') }}</div>
-                        <div>
-                          {{ format(tank.waterChangeVolume, 1) }} {{ t('units.l') }}
-                          ({{ format(tank.waterChangePercent, 3) }}%)
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      v-else
-                      class="body-2"
-                    >
-                      {{ t('tanks.panels.body.noSizes') }}
-                    </div>
-                    <div class="d-flex justify-space-between mt-4">
-                      <v-btn
-                        variant="text"
-                        right
-                        color="red"
-                        class="ml-n4"
-                        @click="onTankRemove(index)"
-                      >
-                        {{ t('buttons.remove') }}
-                      </v-btn>
-                      <v-btn
-                        variant="text"
-                        right
-                        :to="`/tanks/${index}/`"
-                        class="mr-n4"
-                      >
-                        {{ t('buttons.open') }}
-                      </v-btn>
-                    </div>
-                  </v-expansion-panel-text>
-                </v-expansion-panel>
-              </template>
-            </draggable>
-          </v-expansion-panels>
-        </v-col>
+              {{ t('buttons.remove') }}
+            </v-btn>
+            <v-btn
+              variant="text"
+              right
+              :to="`${ROUTES.tanks.path}${index}/`"
+              class="mr-n4"
+            >
+              {{ t('buttons.open') }}
+            </v-btn>
+          </template>
+        </CommonTheCards>
         <BaseGuide>
           <p>
             {{ t('tanks.guide.paragraph1') }}
@@ -186,54 +88,40 @@
       </client-only>
     </v-row>
 
-    <BaseAddButton :action="addTank">
+    <BaseAddButton :action="onAdd">
       {{ t('tanks.addButton') }}
     </BaseAddButton>
 
-    <PopupsRemoveDialog
-      v-model="isRemoveDialog"
-      @remove="onTankRemoveConfirmation"
-      @cancel="isRemoveDialog = false"
+    <PopupsTheRemovePopup
+      v-model="isRemovePopup"
+      @remove="onRemoveTankConfirmation"
     >
       Are you sure you want to remove this tank? This action cannot be undone.
-    </PopupsRemoveDialog>
+    </PopupsTheRemovePopup>
   </v-container>
 </template>
 
 <script lang="ts" setup>
-import draggable from 'vuedraggable';
-import { DRAG_OPTIONS } from '~/utils/constants/application';
-
 const { t } = useI18n();
 const router = useRouter();
 const tanksStore = useTanksStore();
 const snackbarStore = useSnackbarStore();
+const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
 
-const isRemoveDialog = ref(false);
-const tankIndexToRemove = ref(null);
-
-const tanks = computed(() => tanksStore.tanks);
-
-const tanksModel = computed({
+const tankModels = computed({
   get: () => tanksStore.tanks,
   set: (value) => tanksStore.moveTanks(value),
 });
 
-function addTank() {
+function onAdd() {
   return router.push('/tanks/create/');
 }
 
-const onTankRemove = (index: number) =>{
-  tankIndexToRemove.value = index;
-  isRemoveDialog.value = true;
-};
-
-const onTankRemoveConfirmation = async () => {
-  tanksStore.removeTank(tankIndexToRemove.value);
+async function onRemoveTankConfirmation() {
+  tanksStore.removeTank(itemIndexToRemove.value);
   snackbarStore.showSuccess('Аквариум удален');
-  tankIndexToRemove.value = null;
-  isRemoveDialog.value = false;
-};
+  onRemoveConfirmation();
+}
 
 definePageMeta({
   title: 'Список аквариумов',
@@ -255,9 +143,4 @@ definePageMeta({
 </script>
 
 <style lang="sass" scoped>
-//.flip-list-move
-//  transition: transform 0.5s
-//.ghost
-//  opacity: 0.5
-//  background: #c8ebfb
 </style>

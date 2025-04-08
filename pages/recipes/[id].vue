@@ -25,6 +25,7 @@
           v-if="!isCreate && !isShare"
           color="primary"
           class="ml-auto"
+          size="small"
           @click="onCopyRecipe"
         >
           Скопировать
@@ -35,18 +36,18 @@
           Новый рецепт
         </template>
         <template v-else-if="isCopy">
-          <div class="text-h5 text-md-h4">
+          <div class="text-h6 text-sm-h5">
             Это копия рецепта {{ name }}
           </div>
-          <div class="subtitle-1 font-weight-regular">
+          <div class="text-subtitle-1">
             Внесите изменения и не забудьте сохранить
           </div>
         </template>
         <template v-else-if="isShare">
-          <p class="text-h5 text-md-h4">
+          <p class="text-h6 text-md-h5">
             С вами поделились рецептом!
           </p>
-          <p class="subtitle-1 font-weight-regular">
+          <p class="text-subtitle-1">
             Проверьте его, дайте название и не забудьте сохранить.
           </p>
         </template>
@@ -280,7 +281,7 @@
               />
               <div class="d-flex mt-2 mt-sm-4">
                 <v-btn
-                  v-if="!isCreate && !isShared"
+                  v-if="!isCreate && !isShare"
                   color="error"
                   @click="onRemoveRecipe"
                 >
@@ -293,7 +294,7 @@
                   Отмена
                 </v-btn>
                 <v-btn
-                  v-if="!isCreate && !isShared"
+                  v-if="!isCreate && !isShare"
                   color="primary"
                   class="ml-2"
                   @click="onEditRecipe"
@@ -301,7 +302,7 @@
                   Сохранить
                 </v-btn>
                 <v-btn
-                  v-if="isCreate || isShared"
+                  v-if="isCreate || isShare"
                   color="primary"
                   class="ml-2"
                   @click="onAddRecipe"
@@ -329,7 +330,7 @@ const snackbarStore = useSnackbarStore();
 const recipesStore = useRecipesStore();
 const tanksStore = useTanksStore();
 
-// RECIPE DATA MANIPULATION
+// RECIPE FORM MANIPULATION
 const recipeForm = ref(null);
 const reagentsChosen = ref<Reagent[]>([]);
 const recipeExampleChosen = ref(null);
@@ -391,6 +392,7 @@ const onInputRecipeExample = (recipe: RecipeExampleType) => {
 
   name.value = recipe.name;
   description.value = recipe.description;
+  // TODO: remove one of two
   waterVolume.value = recipe.volume || recipe.waterVolume;
   tankVolume.value = recipe.tankVolume;
 };
@@ -409,22 +411,30 @@ function inputVolume() {
   recipeObject.value.updateRecipeUnitConcs();
 }
 
+const onTankVolumeInput = (value: number | TankType) => {
+  if (typeof value === 'number') {
+    tankVolume.value = +value;
+    return;
+  }
+  tankVolume.value = value.volume;
+};
+
 // TODO: fix bug with changing unit conc of other reagents
 function inputIonUnitConc(value: number, reagent: ReagentType, ion: string) {
   recipeObject.value.updateAmounts(value, reagent, ion);
 }
 
 // PAGE MANIPULATION
-const isShared = ref<boolean>(false);
 const isReagentsInfo = ref<boolean>(false);
 const isUnitConc = ref<boolean>(false);
 
 const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');
 const isCopy = computed(() => route.query.copy !== undefined);
-const isShare = computed(() => route.params.id === 'share');
+const isShare = computed(() => route.query.share !== undefined);
 const recipeIndex = computed(() => +route.params.id);
 
+// TODO: investigate if I need computed here
 const tanks = computed(() => tanksStore.tanks);
 const recipes = computed(() => recipesStore.recipeModels);
 // TODO: check []
@@ -447,11 +457,8 @@ onMounted(async () => {
   }
 
   let recipe: RecipeType;
-  const share = route.query.share as string;
-
-  if (share) {
-    isShared.value = true;
-    [recipe] = JSON.parse(decodeURIComponent(share));
+  if (isShare.value) {
+    [recipe] = JSON.parse(decodeURIComponent(route.query.share as string));
   } else if (isCopy.value) {
     const recipeIndex = route.query.copy as string;
     recipe = JSON.parse(JSON.stringify({ ...recipes.value[recipeIndex] }));
@@ -459,32 +466,24 @@ onMounted(async () => {
     recipe = JSON.parse(JSON.stringify({ ...recipes.value[recipeIndex.value] }));
   }
 
+  console.log(recipe);
+
   if (Object.keys(recipe).length === 0) {
     await router.push('/recipes/');
-  }
-
-  waterVolume.value = recipe.waterVolume;
-  tankVolume.value = recipe.tankVolume;
-  name.value = recipe.name || '';
-  description.value = recipe.description || '';
-
-  const reagentsArray = [];
-  const recipeReagentsKeys = recipe.reagents.map((reagent: ReagentType) => reagent.key);
-  reagents.value.forEach((reagent: ReagentType) => {
-    if (recipeReagentsKeys.includes(reagent.key)) {
-      reagentsArray.push(reagent);
-    }
-  });
-  reagentsChosen.value = reagentsArray;
-});
-
-const onTankVolumeInput = (value: number | TankType) => {
-  if (typeof value === 'number') {
-    tankVolume.value = +value;
     return;
   }
-  tankVolume.value = value.volume;
-};
+
+  const recipeReagents = {};
+  recipe.reagents.forEach((reagent: ReagentType) => {
+    recipeReagents[reagent.key] = reagent;
+  });
+  reagents.forEach((reagent: ReagentType) => {
+    if (reagent.key in recipeReagents) {
+      reagent.amount = recipeReagents[reagent.key].amount;
+      reagentsChosen.value.push(reagent);
+    }
+  });
+});
 
 async function onAddRecipe () {
   const { valid } = await recipeForm.value.validate();

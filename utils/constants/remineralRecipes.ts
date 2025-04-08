@@ -80,4 +80,4 @@ export const REMINERALS: RemineralExampleType[] = [
   },
 ];
 
-export default REMINERALS;
+REMINERALS.sort((a, b) => a.name.localeCompare(b.name));

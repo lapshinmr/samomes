@@ -24,7 +24,7 @@ import type { RemineralType } from '~/utils/types/types';
 export const useRemineralsStore = defineStore(
   'reminerals',
   () => {
-    const reminerals = ref([]);
+    const reminerals = ref<RemineralType[]>([]);
 
     // TODO: rename to remineralModels
     const remineralInstances = computed(

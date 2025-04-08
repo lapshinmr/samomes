@@ -23,7 +23,7 @@
     sm="8"
     offset-sm="2"
   >
-    <h1 class="text-h5 text-md-h4 mt-md-4">
+    <h1 class="text-h6 text-sm-h5 mt-md-4">
       <slot />
     </h1>
   </v-col>
