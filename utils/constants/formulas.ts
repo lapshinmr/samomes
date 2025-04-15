@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import type { FormulaType } from '~/utils/types/types';
-
-export const FORMULAS: Record<string, FormulaType> = {
+export const FORMULAS = {
   KNO3: {
     solubility: 242,
     name: 'Калия нитрат',
@@ -47,12 +45,8 @@ export const FORMULAS: Record<string, FormulaType> = {
     name: 'Калий фосфорнокислый 3-замещенный 7-водный',
   },
   K2SO4: {
-    cation: {
-      K: 2,
-    },
-    anion: {
-      SO4: 1,
-    },
+    cation: { key: 'K', number: 2 },
+    anion: { key: 'SO4', number: 1 },
     solubility: 111,
     name: 'Калия сульфат',
   },
@@ -73,32 +67,20 @@ export const FORMULAS: Record<string, FormulaType> = {
     name: 'Нитрат аммония',
   },
   MgSO4: {
-    cation: {
-      Mg: 1,
-    },
-    anion: {
-      SO4: 1,
-    },
+    cation: { key: 'Mg', number: 1 },
+    anion: { key: 'SO4', number: 1 },
     solubility: 351,
     name: 'Магния сульфат',
   },
   'MgSO4(H2O)7': {
-    cation: {
-      Mg: 1,
-    },
-    anion: {
-      SO4: 1,
-    },
+    cation: { key: 'Mg', number: 1 },
+    anion: { key: 'SO4', number: 1 },
     solubility: 1130,
     name: 'Магния сульфат 7-водный (магнезия)',
   },
   'MgCl2(H2O)6': {
-    cation: {
-      Mg: 1,
-    },
-    anion: {
-      Cl: 2,
-    },
+    cation: { key: 'Mg', number: 1 },
+    anion: { key: 'Cl', number: 2 },
     solubility: 546,
     name: 'Магния Хлорид 6-водный',
   },
@@ -117,23 +99,15 @@ export const FORMULAS: Record<string, FormulaType> = {
   },
   // KH
   CaCO3: {
-    cation: {
-      Ca: 1,
-    },
-    anion: {
-      CO3: 1,
-    },
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 2,
     solubility: 0.014,
     name: 'Кальция карбонат',
   },
   MgCO3: {
-    cation: {
-      Mg: 1,
-    },
-    anion: {
-      CO3: 1,
-    },
+    cation: { key: 'Mg', number: 1 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 2,
     solubility: 0.012,
     name: 'Магния карбонат',
@@ -256,7 +230,13 @@ export const FORMULAS: Record<string, FormulaType> = {
     solubility: 745,
     name: 'Кальция хлорид 6-водный',
   },
-  C12H22CaO14: {
+  'Ca(C6H11O7)2': {
+    cation: {
+      Ca: 1,
+    },
+    anion: {
+      C6H11O7: 2,
+    },
     solubility: 100, // TODO: fill
     name: 'Кальция глюконат',
   },

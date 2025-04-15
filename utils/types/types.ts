@@ -13,16 +13,14 @@ export type TankType = {
   soilVolume?: number;
 };
 
-export type FormulaType = {
+export type FormulaType = keyof typeof FORMULAS;
+export type FormulaObjectType = {
   name: string;
-  ions?: Record<string, number>;
   solubility?: number;
-  cation?: object;
+  cation?: ;
   anion?: object;
-  H2O?: number;
   HCO3?: number;
   density?: number;
-  isLiquid?: boolean;
 };
 
 export type CompoundType = {
@@ -31,10 +29,10 @@ export type CompoundType = {
   isLiquid?: boolean;
 }
 
-export type RecipeExampleType = {
+export type RemineralRecipeExampleType = {
   name: string;
   description?: string;
-  reagents: Record<string, number>;
+  reagents: { key: FormulaType, amount: number }[];
   tankVolume?: number;
   volume?: number;
   waterVolume?: number;

@@ -24,6 +24,7 @@ export default class Reagent {
     isLiquid?: boolean;
     HCO3?: number;
   }) {
+    // TODO: check default values
     this.key = args.key;
     this.name = args.name;
     this.amount = args.amount;
@@ -37,11 +38,19 @@ export default class Reagent {
     this.initDoses();
   }
 
+  get isFormula() {
+    return this.type === 'formula';
+  }
+
+  get isCompound() {
+    return this.type === 'compound';
+  }
+
   get ions(): Record<string, number> {
     if (this.isCompound) {
       return this._ions;
     } else {
-      // TODO: refactoring & check if value is from formula type or move it to the getter
+      // TODO: refactoring & check if value is from formula type
       const ions = new MolecularFormula(this.key).fraction;
       if (ions['N']) {
         ions['NO3'] = ions['N'] * getElementToOxideRatio('N');
@@ -68,14 +77,6 @@ export default class Reagent {
 
   set ions(value: Record<string, number>) {
     this._ions = value;
-  }
-
-  get isFormula() {
-    return this.type === 'formula';
-  }
-
-  get isCompound() {
-    return this.type === 'compound';
   }
 
   get text() {

@@ -16,68 +16,120 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import type { RemineralExampleType } from '~/utils/types/types';
+import type { RemineralRecipeExampleType } from '~/utils/types/types';
 
-export const REMINERALS: RemineralExampleType[] = [
+// TODO: change reagents structure to [{ key: string, amount: number }]?
+export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
   {
-    reagents: {
-      'CaSO4(H2O)2': 1.88,
-      'MgSO4(H2O)7': 1.28,
-    },
+    reagents: [
+      {
+        key: 'CaSO4(H2O)2',
+        amount: 1.28,
+      },
+      {
+        key: 'MgSO4(H2O)7',
+        amount: 1.88,
+      },
+    ],
     volume: 10,
     name: 'Kuban Aquariums Реминерализатор',
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=KQE7l637Rd8)',
   },
   {
-    reagents: {
-      'CaSO4(H2O)2': 1.253,
-      'MgSO4(H2O)7': 0.844,
-    },
+    reagents: [
+      {
+        key: 'CaSO4(H2O)2',
+        amount: 1.253,
+      },
+      {
+        key: 'MgSO4(H2O)7',
+        amount: 0.844,
+      },
+    ],
     volume: 10,
     name: 'Samomes Gh+',
     description: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
-    reagents: {
-      CaCO3: 0.708,
-      'MgSO4(H2O)7': 0.895,
-    },
+    reagents: [
+      {
+        key: 'CaCO3',
+        amount: 0.708,
+      },
+      {
+        key: 'MgSO4(H2O)7',
+        amount: 0.895,
+      },
+    ],
     volume: 10,
     name: 'Samomes Gh/Kh+',
     description: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
-    reagents: {
-      CaCO3: 0.357,
-      'CaSO4(H2O)2': 0.641,
-      'MgSO4(H2O)7': 0.84,
-    },
+    reagents: [
+      {
+        key: 'CaCO3',
+        amount: 0.357,
+      },
+      {
+        key: 'CaSO4(H2O)2',
+        amount: 0.641,
+      },
+      {
+        key: 'MgSO4(H2O)7',
+        amount: 0.84,
+      },
+    ],
     volume: 10,
     name: 'Samomes Gh/Kh-',
     description: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
-    reagents: {
-      'CaSO4(H2O)2': 5,
-      'MgSO4(H2O)7': 7,
-      CaCl2: 3,
-      K2CO3: 0.5,
-      NaHCO3: 1,
-    },
+    reagents: [
+      {
+        key: 'CaSO4(H2O)2',
+        amount: 5,
+      },
+      {
+        key: 'MgSO4(H2O)7',
+        amount: 7,
+      },
+      {
+        key: 'CaCl2',
+        amount: 3,
+      },
+      {
+        key: 'K2CO3',
+        amount: 0.5,
+      },
+      {
+        key: 'NaHCO3',
+        amount: 1,
+      },
+    ],
     volume: 10,
     name: 'Реминерализатор от Романа Че',
     description: 'Рецепт Романа Че',
   },
   {
-    reagents: {
-      CaCO3: 0.714,
-      'CaSO4(H2O)2': 0.395,
-      'MgSO4(H2O)7': 1.196,
-    },
+    reagents: [
+      {
+        key: 'CaCO3',
+        amount: 0.714,
+      },
+      {
+        key: 'CaSO4(H2O)2',
+        amount: 0.395,
+      },
+      {
+        key: 'MgSO4(H2O)7',
+        amount: 1.196,
+      },
+    ],
     volume: 10,
     name: 'Samomes Gh8/Kh4',
     description: 'Этот рецепт создан специально для Сереги Ефремова ;)',
   },
 ];
 
-REMINERALS.sort((a, b) => a.name.localeCompare(b.name));
+REMINERAL_RECIPES.sort((a, b) => a.name.localeCompare(b.name));

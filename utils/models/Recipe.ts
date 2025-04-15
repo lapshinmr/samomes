@@ -73,6 +73,7 @@ export default class Recipe implements RecipeType {
     return result;
   }
 
+  // TODO: it's not clear method name
   updateReagentUnitConcs(reagent: ReagentType, skipIon: string = '') {
     Object.entries(reagent.ions).forEach(([ion, value]) => {
       if (skipIon === '' || skipIon !== ion) {
@@ -85,6 +86,7 @@ export default class Recipe implements RecipeType {
     });
   }
 
+  // TODO: it's not clear method name
   // TODO: add total volume and tank volume decorator?
   updateRecipeUnitConcs(skipIon: string = '') {
     if (!this.totalVolume || !this.tankVolume) {
@@ -95,6 +97,7 @@ export default class Recipe implements RecipeType {
     });
   }
 
+  // TODO: it's not clear method name
   updateAmounts(value: number, reagent: ReagentType, ion: string) {
     if (!this.totalVolume || !this.tankVolume) {
       return;

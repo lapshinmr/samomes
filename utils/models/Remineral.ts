@@ -18,7 +18,6 @@
  */
 
 import type { RemineralType } from '~/utils/types/types';
-// import { countIonPercent } from '~/utils/concentrations';
 import Reagent from '~/utils/models/Reagent';
 import { GH, KH_RATIO } from '~/utils/constants/hardness';
 import { countRatio } from '~/utils/funcs';
@@ -30,6 +29,7 @@ export default class Remineral {
   public reagents: Reagent[] = [];
   public volume: number;
   public waterVolume?: number;
+  // TODO: come up with the better name
   public doseVolume?: number;
 
   constructor(args: RemineralType) {
@@ -57,6 +57,8 @@ export default class Remineral {
     return this.reagents.reduce((sum, reagent) => sum + +reagent.amount, 0);
   }
 
+  // TODO: check the difference between recipe and remineral concentration
+  // TODO: add description
   get concentrationPerReagent(): Record<string, Partial<Record<IonType, number>>> {
     const result = {};
     if (this.reagents.length === 0) {
@@ -97,20 +99,24 @@ export default class Remineral {
     return result;
   }
 
+  // TODO: return null if reagent doesn't have Ca or Mg
   countGh(
     concentration: Partial<Record<IonType, number>>,
     amount: number,
     volume: number,
   ) {
-    let gh = 0;
+    let gh = null;
     if ('Ca' in concentration) {
-      gh += (concentration.Ca * amount) / (GH.Ca * volume);
+      gh = (gh ?? 0) + (concentration.Ca * amount) / (GH.Ca * volume);
     }
     if ('Mg' in concentration) {
-      gh += (concentration.Mg * amount) / (GH.Mg * volume);
+      gh = (gh ?? 0) + (concentration.Mg * amount) / (GH.Mg * volume);
     }
-    // TODO: describe this magic number
-    gh *= 1000;
+    if (gh === null) {
+      return gh;
+    }
+    const G_TO_MG = 1000;
+    gh *= G_TO_MG;
     if (this.isLiquid) {
       gh *= (this.doseVolume / this.waterVolume);
     }
@@ -122,16 +128,38 @@ export default class Remineral {
     amount: number,
     volume: number,
   ) {
-    let kh = 0;
+    let kh = null;
     if ('HCO3' in concentration) {
       // TODO: add formula description
-      kh += (concentration.HCO3 / (volume * new MolecularFormula('CO3').mass)) * KH_RATIO * amount;
+      kh = (concentration.HCO3 / (volume * new MolecularFormula('CO3').mass)) * KH_RATIO * amount;
       kh *= 1000;
+    }
+    if (kh === null) {
+      return kh;
     }
     if (this.isLiquid) {
       kh *= (this.doseVolume / this.waterVolume);
     }
     return kh;
+  }
+
+  countReagentAmountByGh(reagent: Reagent, gh: number): number {
+    let result = 0;
+    if ('Ca' in reagent.ions) {
+      result = gh * GH.Ca * this.volume / new MolecularFormula(reagent.key).fraction['Ca'] / 1000;
+    } else if ('Mg' in reagent.ions) {
+      result = gh * GH.Mg * this.volume / new MolecularFormula(reagent.key).fraction['Mg'] / 1000;
+    }
+    return result;
+  }
+
+  countReagentAmountByKh(reagent: Reagent, kh: number): number {
+    let result = 0;
+    if ('CO3' in reagent.ions) {
+      const amountCO3 = kh * this.volume * new MolecularFormula('CO3').mass / (KH_RATIO * reagent.HCO3);
+      result = amountCO3 / reagent.ions['CO3'] / 1000;
+    }
+    return result;
   }
 
   get ghPerReagent() {
@@ -151,6 +179,7 @@ export default class Remineral {
   }
 
   get gh(): number {
+    // TODO: Count by ghPerReagent?
     return this.countGh(this.concentration, this.totalMass, this.volume);
   }
 
@@ -158,7 +187,7 @@ export default class Remineral {
     return this.countKh(this.concentration, this.totalMass, this.volume);
   }
 
-  get CaMgRatio(): number {
+  get caMgRatio(): number {
     return countRatio(this.concentration, 'Ca', 'Mg');
   }
 
@@ -202,6 +231,84 @@ export default class Remineral {
       result[ion][0] /= totalValue;
     });
     return result;
+  }
+
+  setReagentAmount(reagentKey: string, value: number) {
+    const reagent = this.reagents.find((item) => item.key === reagentKey);
+    reagent.amount = value;
+  }
+
+  updateReagentAmountsByGhAndCaMgRatio(gh: number, caMgRatio: number) {
+    /**
+     ghCa = (concentration.Ca * amount) / (GH.Ca * volume)
+     ghMg = (concentration.Mg * amount) / (GH.Mg * volume)
+     concentration.Ca = concentration.Mg * caMgRatio
+
+     Then
+     gh = (concentration.Ca * amount) / (GH.Ca * volume) + (concentration.Mg * amount) / (GH.Mg * volume)
+     gh = (concentration.Mg * caMgRatio * amount) / (GH.Ca * volume) + (concentration.Mg * amount) / (GH.Mg * volume)
+     concentration.Mg = amountMg / amount
+
+     Then
+     gh = (amountMg * caMgRatio) / (GH.Ca * volume) + (amountMg * amount) / (GH.Mg * volume)
+     gh = (amountMg / volume) * (caMgRatio / GH.Ca + 1/ GH.Mg)
+
+     Result
+     amountMg = gh * volume / (caMgRatio / GH.Ca + 1 / GH.Mg)
+     **/
+    const amountMg = gh * this.volume / (caMgRatio / GH.Ca + 1 / GH.Mg);
+    const amountCa = amountMg * caMgRatio;
+    const ghCa = (this.concentration.Ca * this.totalMass) / (GH.Ca * this.volume) * 1000;
+    const ghMg = (this.concentration.Mg * this.totalMass) / (GH.Mg * this.volume) * 1000;
+    const ghPerReagent = { ...this.ghPerReagent };
+    this.reagents.forEach((reagent) => {
+      let ratio = 1;
+      if ('Ca' in reagent.ions) {
+        ratio = ghPerReagent[reagent.key] / ghCa;
+        this.setReagentAmount(
+          reagent.key,
+          amountCa * ratio / (new MolecularFormula(reagent.key).fraction['Ca'] * 1000),
+        );
+      }
+      if ('Mg' in reagent.ions) {
+        ratio = ghPerReagent[reagent.key] / ghMg;
+        this.setReagentAmount(
+          reagent.key,
+          amountMg * ratio / (new MolecularFormula(reagent.key).fraction['Mg'] * 1000),
+        );
+      }
+    });
+  }
+
+  updateReagentAmountsByKhAndCaMgRatio(kh: number) {
+    const khInit = this.kh;
+    let caRatio = 1;
+    let mgRatio = 1;
+    this.reagents.forEach((reagent) => {
+      let ratio = 1;
+      if ('CO3' in reagent.ions) {
+        ratio = kh / khInit;
+        this.setReagentAmount(reagent.key, reagent.amount * ratio);
+        if ('Ca' in reagent.ions) {
+          mgRatio *= ratio;
+        }
+        if ('Mg' in reagent.ions) {
+          caRatio *= ratio;
+        }
+      }
+    });
+    this.reagents.forEach((reagent) => {
+      if (!('CO3' in reagent.ions)) {
+        if ('Ca' in reagent.ions) {
+          this.setReagentAmount(reagent.key, reagent.amount * caRatio);
+        }
+      }
+      if (!('CO3' in reagent.ions)) {
+        if ('Mg' in reagent.ions) {
+          this.setReagentAmount(reagent.key, reagent.amount * mgRatio);
+        }
+      }
+    });
   }
 
   toJson(): RemineralType {

@@ -63,35 +63,31 @@
       </div>
     </div>
     <div class="d-flex">
-      <v-text-field
-        :model-value="format(remineral.gh)"
+      <BaseNumberField
+        v-model="gh"
         label="Gh"
         suffix="dGh"
         variant="outlined"
         hide-details="auto"
-        readonly
-        outlined
         persistent-hint
         class="mb-2"
+        :disabled="gh === null"
       />
-      <v-text-field
-        :model-value="format(remineral.kh)"
+      <BaseNumberField
+        v-model="kh"
         label="Kh"
         suffix="dKh"
         variant="outlined"
         hide-details="auto"
-        readonly
-        outlined
         persistent-hint
         class="mb-2 ml-2"
+        :disabled="kh === null"
       />
-      <v-text-field
-        :model-value="format(remineral.CaMgRatio)"
+      <BaseNumberField
+        v-model="caMgRatio"
         label="Ca / Mg"
         variant="outlined"
         hide-details="auto"
-        readonly
-        outlined
         persistent-hint
         class="mb-2 ml-2"
       />
@@ -102,8 +98,11 @@
 <script lang="ts" setup>
 const volume = defineModel<number>('volume');
 const doseVolume = defineModel<number>('doseVolume');
+const gh = defineModel<number>('gh');
+const kh = defineModel<number>('kh');
+const caMgRatio = defineModel<number>('caMgRatio');
 
 defineProps<{
-  remineral: Remineral;
+  remineral: InstanceType<typeof Remineral>;
 }>();
 </script>

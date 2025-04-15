@@ -1,3 +1,4 @@
+// TODO: return number or null?
 export const format = (value: string | number, precision = 3) => {
   if (value === undefined || value === null) return '';
 

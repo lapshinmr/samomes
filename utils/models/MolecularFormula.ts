@@ -35,8 +35,8 @@ export default class MolecularFormula {
     return mass;
   }
 
-  get fraction(): Record<string, number> {
-    const percent = {};
+  get fraction() {
+    const percent: Partial<Record<IonType, number>> = {};
     Object.keys(this.composition).forEach((key) => {
       percent[key] = (ELEMENTS[key] * this.composition[key]) / this.mass;
     });

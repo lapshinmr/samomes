@@ -85,4 +85,5 @@ export const ANIONS = [
   'Cl',
   'SO4',
   'CO3',
+  'C6H11O7',
 ];

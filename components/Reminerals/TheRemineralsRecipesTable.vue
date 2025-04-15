@@ -138,9 +138,8 @@ defineOptions({
 });
 
 const props = defineProps<{
-  remineral: Remineral;
-  reagents: Reagent[];
-  volume: number;
+  remineral: InstanceType<typeof Remineral>;
+  reagents: InstanceType<typeof Reagent>[];
 }>();
 
 const HARDNESS_VOLUMES = [
