@@ -234,14 +234,14 @@
                         </div>
                         <div class="d-flex">
                           <div
-                            v-for="[ion, value] in recipeObject.recipeIonUnitConcsSorted"
+                            v-for="[ion, value] in recipeModel.recipeIonUnitConcsSorted"
                             :key="ion"
                             class="d-flex justify-space-between"
                           >
                             <div>{{ ion }}:</div>
                             <div class="ml-3">
-                              {{ format(value, 3) }}
-                              ({{ format(value / recipeObject.totalRecipeUnitConcs * 100, 3) }}%)
+                              {{ format(value) }}
+                              ({{ format(value / recipeModel.totalRecipeUnitConcs * 100) }}%)
                             </div>
                           </div>
                         </div>
@@ -255,7 +255,7 @@
               v-if="isReagents"
               cols="12"
             >
-              <RecipesTheElementsTable :recipe="recipeObject" />
+              <RecipesTheElementsTable :recipe="recipeModel" />
             </v-col>
             <v-col
               v-if="isReagents"
@@ -332,7 +332,7 @@ const tanksStore = useTanksStore();
 
 // RECIPE FORM MANIPULATION
 const recipeForm = ref(null);
-const reagentsChosen = ref<Reagent[]>([]);
+const reagentsChosen = ref<InstanceType<typeof Reagent>[]>([]);
 const recipeExampleChosen = ref(null);
 const waterVolume = ref<number | null>(null);
 const tankVolume = ref<number | null>(null);
@@ -351,8 +351,9 @@ const reagents = [
 const isReagents = computed(() => reagentsChosen.value.length > 0);
 const isLiquid = computed(() => waterVolume.value !== null && waterVolume.value > 0);
 
-const recipeObject = computed(() => {
-  return new Recipe(
+// TODO: check if I need computed here
+const recipeModel = computed(() => {
+  return new FertilizerRecipe(
     {
       name: name.value,
       description: description.value,
@@ -399,16 +400,16 @@ const onInputRecipeExample = (recipe: RecipeExampleType) => {
 
 watch(tankVolume, () => {
   if (waterVolume.value) {
-    recipeObject.value.updateRecipeUnitConcs();
+    recipeModel.value.updateRecipeUnitConcs();
   }
 });
 
 function inputAmount() {
-  recipeObject.value.updateRecipeUnitConcs();
+  recipeModel.value.updateRecipeUnitConcs();
 }
 
 function inputVolume() {
-  recipeObject.value.updateRecipeUnitConcs();
+  recipeModel.value.updateRecipeUnitConcs();
 }
 
 const onTankVolumeInput = (value: number | TankType) => {
@@ -421,10 +422,12 @@ const onTankVolumeInput = (value: number | TankType) => {
 
 // TODO: fix bug with changing unit conc of other reagents
 function inputIonUnitConc(value: number, reagent: ReagentType, ion: string) {
-  recipeObject.value.updateAmounts(value, reagent, ion);
+  recipeModel.value.updateAmounts(value, reagent, ion);
 }
 
 // PAGE MANIPULATION
+const { checkName } = useNameExist();
+
 const isReagentsInfo = ref<boolean>(false);
 const isUnitConc = ref<boolean>(false);
 
@@ -437,16 +440,9 @@ const recipeIndex = computed(() => +route.params.id);
 // TODO: investigate if I need computed here
 const tanks = computed(() => tanksStore.tanks);
 const recipes = computed(() => recipesStore.recipeModels);
-// TODO: check []
-const fertilizers = computed(() => recipesStore.fertilizers || []);
 
 const isExist = computed(() => {
-  const recipesNames = recipes.value.map((item) => item.name);
-  const fertilizersNames = fertilizers.value.map((item) => item.name);
-  const recipeFound = recipesNames.find((item) => item === name.value);
-  const fertilizerFound = fertilizersNames.find((item) => item === name.value);
-  const isExist = recipeFound || fertilizerFound;
-  return isExist && !isEdit.value;
+  return checkName(name.value) && !isEdit.value;
 });
 
 const isNameExist = () => !isExist.value || 'Рецепт или удобрение с таким названием уже существует';
@@ -466,8 +462,6 @@ onMounted(async () => {
     recipe = JSON.parse(JSON.stringify({ ...recipes.value[recipeIndex.value] }));
   }
 
-  console.log(recipe);
-
   if (Object.keys(recipe).length === 0) {
     await router.push('/recipes/');
     return;
@@ -477,7 +471,7 @@ onMounted(async () => {
   recipe.reagents.forEach((reagent: ReagentType) => {
     recipeReagents[reagent.key] = reagent;
   });
-  reagents.forEach((reagent: ReagentType) => {
+  reagents.forEach((reagent: InstanceType<typeof Reagent>) => {
     if (reagent.key in recipeReagents) {
       reagent.amount = recipeReagents[reagent.key].amount;
       reagentsChosen.value.push(reagent);
@@ -488,7 +482,7 @@ onMounted(async () => {
 async function onAddRecipe () {
   const { valid } = await recipeForm.value.validate();
   if (valid) {
-    recipesStore.addRecipe({ ...recipeObject.value.toJson() });
+    recipesStore.addRecipe({ ...recipeModel.value.toJson() });
     snackbarStore.show('Рецепт добавлен');
     await router.push('/recipes/');
   }
@@ -499,7 +493,7 @@ async function onEditRecipe() {
   if (valid) {
     recipesStore.editRecipe({
       index: recipeIndex.value,
-      recipe: recipeObject.value.toJson(),
+      recipe: recipeModel.value.toJson(),
     });
 
     snackbarStore.show('Рецепт изменен');

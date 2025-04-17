@@ -1,7 +1,5 @@
-import type Recipe from '~/utils/models/Recipe';
-
 export class Dosing {
-  public portions: Portion<Recipe>[];
+  public portions: InstanceType<typeof Dose>[];
   public fertilizersRegime: FertilizersRegime;
   public daysTotal: number;
   public tank: {
@@ -11,7 +9,7 @@ export class Dosing {
   };
 
   constructor(
-    portions: Portion<Recipe>[],
+    portions: InstanceType<typeof Dose>[],
     fertilizersRegime: FertilizersRegime,
     daysTotal: number,
     tank: {

@@ -95,7 +95,7 @@ defineOptions({
 });
 
 const props = defineProps<{
-  recipe: Recipe;
+  recipe: InstanceType<typeof Recipe>;
 }>();
 
 const totalConcentrationSorted = computed(() => {

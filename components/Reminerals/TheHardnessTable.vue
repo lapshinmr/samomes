@@ -81,7 +81,7 @@
         hide-details="auto"
         persistent-hint
         class="mb-2 ml-2"
-        :disabled="kh === null"
+        :disabled="kh === null || khDisabled"
       />
       <BaseNumberField
         v-model="caMgRatio"
@@ -90,6 +90,7 @@
         hide-details="auto"
         persistent-hint
         class="mb-2 ml-2"
+        :disabled="caMgRatioDisabled"
       />
     </div>
   </div>
@@ -102,7 +103,12 @@ const gh = defineModel<number>('gh');
 const kh = defineModel<number>('kh');
 const caMgRatio = defineModel<number>('caMgRatio');
 
-defineProps<{
+withDefaults(defineProps<{
   remineral: InstanceType<typeof Remineral>;
-}>();
+  khDisabled?: boolean;
+  caMgRatioDisabled?: boolean;
+}>(), {
+  khDisabled: false,
+  caMgRatioDisabled: false,
+});
 </script>

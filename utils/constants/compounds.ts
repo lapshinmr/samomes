@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import type { CompoundType } from '~/utils/types/types';
+import type { CompoundObjectType } from '~/utils/types/types';
 
-export const COMPOUNDS: Record<string, CompoundType> = {
+export const COMPOUNDS = {
   Biolan: {
     ions: {
       N: 0.13,
@@ -197,4 +197,11 @@ export const COMPOUNDS: Record<string, CompoundType> = {
     },
     name: 'Акварин "Универсальный"',
   },
-};
+  CaGluconate: {
+    ions: {
+      Ca: 0.0955,
+    },
+    isLiquid: true,
+    name: 'Кальция глюконат 10% в ампулах (Фармак)',
+  },
+} satisfies Record<string, CompoundObjectType>;

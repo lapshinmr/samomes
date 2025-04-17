@@ -145,7 +145,7 @@ const onChooseTank = (value: number | TankType) => {
   };
 };
 
-const portionsChosen = ref<Portion<Recipe>[]>([]);
+const portionsChosen = ref<Dose<Recipe>[]>([]);
 
 const rulesTank = [
   (v) => !!v || 'Выберите аквариум',
@@ -179,7 +179,7 @@ const allFertilizers = computed(() => {
   //   );
   //   result.push(...defaultFertilizersFiltered);
   // }
-  return result.map((item) => new Portion(item, dosingStore.daysTotal));
+  return result.map((item) => new Dose(item, dosingStore.daysTotal));
 });
 
 const dosingObject = computed(() => new Dosing(

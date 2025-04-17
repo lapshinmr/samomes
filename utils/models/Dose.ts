@@ -1,4 +1,4 @@
-export class Portion<T extends Recipe> {
+export class Dose<T extends InstanceType<typeof Recipe | typeof Fertilizer | typeof Remineral>> {
   public fertilizer: T;
   public amountWaterChange: number;
   public daysTotal: number;

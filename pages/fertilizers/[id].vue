@@ -162,7 +162,6 @@ const router = useRouter();
 const route = useRoute();
 
 const fertilizersStore = useFertilizersStore();
-const recipesStore = useRecipesStore();
 const snackbarStore = useSnackbarStore();
 
 // PAGE MATH LOGIC
@@ -175,18 +174,19 @@ const name = ref('Удобрение');
 const description = ref('');
 const updatedAt = ref(null);
 
-// TODO: come up with idea how to prevent user to choose N and NO3 simulteniusly
+// TODO: come up with idea how to prevent user to choose N and NO3 simultaneously
 const allIons: { ion: IonType, conc: number }[] = ALL_IONS.map((ion: IonType) => ({ ion: ion, conc: null }));
 
 const ions = computed(() => {
-  const result: Record<IonType, number> = {};
+  const result: Partial<Record<IonType, number>> = {};
   ionsChosen.value.forEach(({ ion, conc }) => {
     result[ion] = conc;
   });
   return result;
 });
 
-const fertilizerObject = computed(() => {
+// TODO: check if I need computed here
+const fertilizerModel = computed(() => {
   return new Fertilizer({
     name: name.value,
     description: description.value,
@@ -215,12 +215,14 @@ watch(fertilizerExampleChosen, (value: FertilizerType) => {
   description.value = value.description || '';
   isPercent.value = value.isPercent;
   updatedAt.value = value.updatedAt;
-  Object.entries(value.ions).forEach(([ion, conc]) => {
+  typedEntries(value.ions).forEach(([ion, conc]) => {
     ionsChosen.value.push({ ion, conc });
   });
 });
 
 // PAGE MANIPULATION
+const { checkName } = useNameExist();
+
 const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');
 const fertilizerIndex = computed(() => +route.params.id);
@@ -232,12 +234,7 @@ const isUnitsChangedAlert = computed(() => {
 });
 
 const isExist = computed(() => {
-  const recipesNames = recipesStore.recipes.map((item) => item.name);
-  const fertilizersNames = fertilizersStore.fertilizers.map((item) => item.name);
-  const recipeFound = recipesNames.find((item) => item === name.value);
-  const fertilizerFound = fertilizersNames.find((item) => item === name.value);
-  const isExist = recipeFound || fertilizerFound;
-  return isExist && !isEdit.value;
+  return checkName(name.value) && !isEdit.value;
 });
 
 const isNameExist = () => !isExist.value || 'Удобрение или рецепт с таким названием уже существует';
@@ -258,7 +255,7 @@ onMounted(async () => {
   description.value = fertilizer.description;
   isPercent.value = fertilizer.isPercent;
   updatedAt.value = fertilizer.updatedAt;
-  Object.entries(fertilizer.ions).forEach(([ion, conc]) => {
+  typedEntries(fertilizer.ions).forEach(([ion, conc]) => {
     ionsChosen.value.push({ ion, conc });
   });
 });
@@ -267,7 +264,7 @@ onMounted(async () => {
 async function onAddFertilizer() {
   const { valid } = await fertilizerForm.value.validate();
   if (valid) {
-    fertilizersStore.addFertilizer(fertilizerObject.value.toJson());
+    fertilizersStore.addFertilizer(fertilizerModel.value.toJson());
     snackbarStore.show('Удобрение добавлено');
     await router.push('/fertilizers/');
   }
@@ -278,7 +275,7 @@ async function onEditFertilizer() {
   if (valid) {
     fertilizersStore.editFertilizer({
       index: fertilizerIndex.value,
-      fertilizer: fertilizerObject.value.toJson(),
+      fertilizer: fertilizerModel.value.toJson(),
     });
 
     snackbarStore.show('Удобрение изменено');

@@ -18,7 +18,7 @@
 -->
 <template>
   <v-text-field
-    v-model.number="model"
+    :model-value="model"
     :inputmode="inputmode"
     variant="underlined"
     @update:model-value="onInput"
@@ -39,62 +39,7 @@ withDefaults(defineProps<{
   inputmode: 'decimal',
 });
 
-// const props = defineProps({
-//   precisionShow: {
-//     type: Number,
-//     default: 2,
-//   },
-//   precisionValue: {
-//     type: Number,
-//     default: undefined,
-//   },
-// });
-
 const emit = defineEmits(['update:modelValue', 'click:append']);
-
-// const isFocused = ref(false);
-
-// function toggleFocus(value) {
-//   isFocused.value = value;
-// }
-
-// function trimZeros(value) {
-//   let [left, right] = (+value).toFixed(props.precisionShow).split('.');
-//   if (right) {
-//     right = right.split('');
-//     right.reverse();
-//     let valueEdited = '';
-//     let found = false;
-//     right.forEach((item) => {
-//       if (item !== '0') {
-//         found = true;
-//       }
-//       if (found) {
-//         valueEdited = item + valueEdited;
-//       }
-//     });
-//     if (valueEdited) {
-//       left = `${left}.${valueEdited}`;
-//     }
-//   }
-//   return left;
-// }
-
-// function prepareValue(value) {
-//   if (value === undefined || value === null || value === '') {
-//     return '';
-//   }
-//   let result = value;
-//   if (isFocused.value) {
-//     if (!Number.isNaN(value)) {
-//       result = value.toFixed(props.precisionValue || props.precisionShow);
-//       return +result;
-//     }
-//   }
-//   result = value.toFixed(props.precisionShow);
-//   result = trimZeros(result);
-//   return result;
-// }
 
 function onInput(value: string | number) {
   let valueReplaced = value;

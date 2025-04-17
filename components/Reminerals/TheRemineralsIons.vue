@@ -24,15 +24,17 @@
         <tr>
           <th>Ион</th>
           <th>Концентрация, мг/л</th>
+          <th>Концентрация, %</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="(concentration, ion) in concentrationPerIon"
+          v-for="[ion, value] in concentrationSorted"
           :key="ion"
         >
           <td>{{ ion }}</td>
-          <td>{{ concentration.toFixed(2) }}</td>
+          <td>{{ format(remineral.totalElements[ion]) }}</td>
+          <td>{{ format(value * 100) }}</td>
         </tr>
       </tbody>
     </v-table>
@@ -40,10 +42,13 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
-  concentrationPerIon: {
-    type: Object,
-    required: true,
-  },
+const props = defineProps<{
+  remineral: InstanceType<typeof RemineralRecipe>;
+}>();
+
+const concentrationSorted = computed(() => {
+  const result: [string, number][] = Object.entries(props.remineral.concentration);
+  result.sort((a, b) => b[1] - a[1]);
+  return result;
 });
 </script>

@@ -18,7 +18,7 @@
  */
 
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import Remineral from '~/utils/models/Remineral';
+import RemineralRecipe from '~/utils/models/RemineralRecipe';
 import type { RemineralType } from '~/utils/types/types';
 
 export const useRemineralsStore = defineStore(
@@ -28,7 +28,7 @@ export const useRemineralsStore = defineStore(
 
     // TODO: rename to remineralModels
     const remineralInstances = computed(
-      () => reminerals.value.map((remineral) => new Remineral(remineral)),
+      () => reminerals.value.map((remineral) => new RemineralRecipe(remineral)),
     );
 
     const addRemineral = (remineral: RemineralType) => {

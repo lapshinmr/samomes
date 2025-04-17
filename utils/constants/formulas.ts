@@ -113,130 +113,82 @@ export const FORMULAS = {
     name: 'Магния карбонат',
   },
   K2CO3: {
-    cation: {
-      K: 2,
-    },
-    anion: {
-      CO3: 1,
-    },
+    cation: { key: 'K', number: 2 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 2,
     solubility: 1105,
     name: 'Калия карбонат',
   },
   Na2CO3: {
-    cation: {
-      Na: 2,
-    },
-    anion: {
-      CO3: 1,
-    },
+    cation: { key: 'Na', number: 2 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 2,
     solubility: 218,
     name: 'Натрия карбонат (бельевая сода)',
   },
   'Na2CO3(H2O)': {
-    cation: {
-      Na: 2,
-    },
-    anion: {
-      CO3: 1,
-    },
+    cation: { key: 'Na', number: 2 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 2,
     solubility: 218,
     name: 'Натрия карбонат 1-водный (стиральная сода)',
   },
   'Na2CO3(H2O)7': {
-    cation: {
-      Na: 2,
-    },
-    anion: {
-      CO3: 1,
-    },
+    cation: { key: 'Na', number: 2 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 2,
     solubility: 218,
     name: 'Натрия карбонат 7-водный (стиральная сода)',
   },
   'Na2CO3(H2O)10': {
-    cation: {
-      Na: 2,
-    },
-    anion: {
-      CO3: 1,
-    },
+    cation: { key: 'Na', number: 2 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 2,
     solubility: 218,
     name: 'Натрия карбонат 10-водный (стиральная сода)',
   },
   KHCO3: {
-    cation: {
-      K: 1,
-    },
-    anion: {
-      HCO3: 1,
-    },
+    cation: { key: 'K', number: 1 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 1,
     solubility: 333,
     name: 'Калия гидрокарбонат',
   },
   NaHCO3: {
-    cation: {
-      Na: 1,
-    },
-    anion: {
-      HCO3: 1,
-    },
+    cation: { key: 'Na', number: 1 },
+    anion: { key: 'CO3', number: 1 },
     HCO3: 1,
     solubility: 95.9,
     name: 'Натрия гидрокарбонат (пищевая сода)',
   },
   // GH
   'CaSO4(H2O)2': {
-    cation: {
-      Ca: 1,
-    },
-    anion: {
-      SO4: 1,
-    },
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'SO4', number: 1 },
     solubility: 2.036,
     name: 'Кальция сульфат 2-водный (гипс)',
   },
   CaCl2: {
-    cation: {
-      Ca: 1,
-    },
-    anion: {
-      Cl: 2,
-    },
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'Cl', number: 2 },
     solubility: 745,
     name: 'Кальция хлорид',
   },
   'CaCl2(H20)2': {
-    cation: {
-      Ca: 1,
-    },
-    anion: {
-      Cl: 2,
-    },
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'Cl', number: 2 },
     solubility: 745,
     name: 'Кальция хлорид 2-водный',
   },
   'CaCl2(H20)6': {
-    cation: {
-      Ca: 1,
-    },
-    anion: {
-      Cl: 2,
-    },
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'Cl', number: 2 },
     solubility: 745,
     name: 'Кальция хлорид 6-водный',
   },
   'Ca(C6H11O7)2': {
-    cation: {
-      Ca: 1,
-    },
-    anion: {
-      C6H11O7: 2,
-    },
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'C6H11O7', number: 2 },
     solubility: 100, // TODO: fill
     name: 'Кальция глюконат',
   },
@@ -393,22 +345,14 @@ export const FORMULAS = {
     name: 'Кобальт сернокислый (II) 7-водный',
   },
   'Ca(CH3COO)2': {
-    cation: {
-      Ca: 1,
-    },
-    anion: {
-      CH3COO: 2,
-    },
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'CH3COO', number: 2 },
     solubility: 400,
     name: 'Кальция ацетат',
   },
   'Mg(CH3COO)2': {
-    cation: {
-      Mg: 1,
-    },
-    anion: {
-      CH3COO: 2,
-    },
+    cation: { key: 'Mg', number: 1 },
+    anion: { key: 'CH3COO', number: 2 },
     solubility: 656,
     name: 'Магния ацетат',
   },
@@ -426,4 +370,4 @@ export const FORMULAS = {
   SrCl2: {
     name: 'Стронция хлорид',
   },
-};
+} satisfies Record<string, FormulaObjectType>;

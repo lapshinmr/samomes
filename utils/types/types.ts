@@ -1,4 +1,16 @@
-import {CARBONATES, ELEMENTS, OXIDE_TO_ELEMENT} from "~/utils/constants/elements";
+import type { CARBONATES, ELEMENTS, OXIDE_TO_ELEMENT } from '~/utils/constants/elements';
+
+export type ElementType = keyof typeof ELEMENTS;
+
+export type OxideType = keyof typeof OXIDE_TO_ELEMENT;
+
+export type CarbonatesType = typeof CARBONATES[number];
+
+export type CationType = typeof CATIONS[number]
+
+export type AnionType = typeof ANIONS[number]
+
+export type IonType = ElementType | OxideType | CarbonatesType;
 
 export type TankType = {
   name: string;
@@ -13,43 +25,27 @@ export type TankType = {
   soilVolume?: number;
 };
 
-export type FormulaType = keyof typeof FORMULAS;
+export type FormulaKeyType = keyof typeof FORMULAS;
 export type FormulaObjectType = {
   name: string;
   solubility?: number;
-  cation?: ;
-  anion?: object;
+  cation?: { key: CationType, number: number };
+  anion?: { key: AnionType, number: number };
   HCO3?: number;
   density?: number;
 };
 
-export type CompoundType = {
+export type CompoundKeyType = keyof typeof COMPOUNDS;
+export type CompoundObjectType = {
   name: string;
   ions: Record<string, number>;
   isLiquid?: boolean;
 }
 
-export type RemineralRecipeExampleType = {
-  name: string;
-  description?: string;
-  reagents: { key: FormulaType, amount: number }[];
-  tankVolume?: number;
-  volume?: number;
-  waterVolume?: number;
-}
+export type ReagentKeyType = FormulaKeyType | CompoundKeyType;
 
-export type RemineralExampleType = {
-  name: string;
-  description?: string;
-  reagents: Record<string, number>;
-  volume?: number;
-  waterVolume?: number;
-}
-
-export enum ReagentTypeName {
-  FORMULA = 'formula',
-  COMPOUND = 'compound'
-}
+// TODO: update eslint to fix this issue
+export enum ReagentTypeName { FORMULA = 'formula', COMPOUND = 'compound' }
 
 export type ReagentType = {
   key: string;
@@ -76,10 +72,19 @@ export type RecipeType = {
   totalConcentration?: Record<string, number>;
 }
 
+export type RecipeExampleType = {
+  name: string;
+  description?: string;
+  reagents: { key: FormulaKeyType, amount: number }[];
+  tankVolume?: number;
+  volume?: number;
+  waterVolume?: number;
+}
+
 export type FertilizerType = {
   name: string;
   description?: string;
-  ions: Record<IonType, number>;
+  ions: Partial<Record<IonType, number>>;
   isPercent: boolean;
   updatedAt?: string;
   totalConcentration?: Record<string, number>;
@@ -89,27 +94,23 @@ export type RemineralType = {
   name: string;
   description: string;
   reagents: ReagentType[];
-  volume: number;
+  changeVolume: number;
   waterVolume?: number;
   doseVolume?: number;
 }
 
-export type PortionType<T extends RecipeType> = T & {
+export type RemineralExampleType = {
+  name: string;
+  description?: string;
+  reagents: { key: FormulaKeyType, amount: number }[]
+  changeVolume?: number;
+  waterVolume?: number;
+  doseVolume?: number;
+}
+
+export type DoseType<T extends RecipeType | FertilizerType | RemineralType> = T & {
   amount: number;
 }
 
-export enum FertilizersRegime {
-  EVERY_DAY,
-  ONCE_A_WEEK,
-  MIX
-}
+export enum FertilizersRegime { EVERY_DAY, ONCE_A_WEEK, MIX }
 
-export type ElementType = keyof typeof ELEMENTS;
-
-export type OxideType = keyof typeof OXIDE_TO_ELEMENT;
-
-export type CarbonatesType = typeof CARBONATES[number];
-
-export type IonType = ElementType | OxideType | CarbonatesType;
-
-export type ReagentKeyType = keyof typeof FORMULAS | keyof typeof COMPOUNDS;

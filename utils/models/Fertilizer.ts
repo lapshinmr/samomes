@@ -23,14 +23,14 @@ import type { IonType } from '~/utils/types/types';
 export default class Fertilizer {
   public name: string;
   public description: string;
-  public ions: Record<IonType, number>;
+  public ions: Partial<Record<IonType, number>>;
   public isPercent: boolean;
   public updatedAt?: string;
 
   constructor(args: {
     name: string;
     description: string;
-    ions: Record<IonType, number>;
+    ions: Partial<Record<IonType, number>>;
     isPercent: boolean;
     updatedAt?: string;
   }) {
@@ -41,8 +41,8 @@ export default class Fertilizer {
     this.updatedAt = args.updatedAt;
   }
 
-  get totalConcentration(): Partial<Record<IonType, number>> {
-    const result: Partial<Record<IonType, number>> = {};
+  get concentration(): Partial<Record<IonType, number>> {
+    const result = {};
     Object.entries(this.ions).forEach(([el, value]) => {
       if (!value) {
         return;

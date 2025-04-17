@@ -18,7 +18,7 @@
  */
 
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import Recipe from '~/utils/models/Recipe';
+import FertilizerRecipe from '~/utils/models/FertilizerRecipe';
 import type { RecipeType } from '~/utils/types/types';
 
 export const useRecipesStore = defineStore(
@@ -27,7 +27,7 @@ export const useRecipesStore = defineStore(
     const recipes = ref([]);
 
     const recipeModels = computed(
-      () => recipes.value.map((recipe) => new Recipe(recipe)),
+      () => recipes.value.map((recipe) => new FertilizerRecipe(recipe)),
     );
 
     // console.log(recipes.value);
@@ -44,7 +44,7 @@ export const useRecipesStore = defineStore(
       recipes.value[index] = recipe;
     };
 
-    const moveRecipes = (payload: Recipe[]) => {
+    const moveRecipes = (payload: FertilizerRecipe[]) => {
       recipes.value = payload;
     };
 

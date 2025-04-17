@@ -1,22 +1,16 @@
-// TODO: return number or null?
-export const format = (value: string | number, precision = 3) => {
-  if (value === undefined || value === null) return '';
+export const format = (value: string | number, precision: number | undefined = 3): number | null => {
+  if (value === undefined || value === null) {
+    return null;
+  }
+  const num = +value;
+  if (isNaN(num)) {
+    return null;
+  }
 
-  // Convert to number if it's a string
-  const num = typeof value === 'string' ? parseFloat(value) : value;
-
-  // Check if it's a valid number
-  if (isNaN(num)) return '';
-
-  // Format with the specified precision
-  // const formatted = num.toFixed(precision);
   const options = {};
   if (precision !== undefined) {
     options['maximumSignificantDigits'] = precision;
   }
   const formatter = new Intl.NumberFormat('en-US', options);
-
-  // Remove trailing zeros
-  // return formatted.replace(/\.?0+$/, '');
-  return formatter.format(num);
+  return +formatter.format(num);
 };

@@ -168,7 +168,7 @@ defineOptions({
   name: 'FertilizersPortionTable',
 });
 
-const portions = defineModel<Portion<Recipe>[]>('portions');
+const portions = defineModel<Dose<Recipe>[]>('portions');
 const waterChangeVolume = defineModel<number>('waterChangeVolume');
 
 const dosingStore = useDosingStore();
