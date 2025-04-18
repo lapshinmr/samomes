@@ -7,7 +7,9 @@ export const format = (value: string | number, precision: number | undefined = 3
     return null;
   }
 
-  const options = {};
+  const options = {
+    useGrouping: false,
+  };
   if (precision !== undefined) {
     options['maximumSignificantDigits'] = precision;
   }

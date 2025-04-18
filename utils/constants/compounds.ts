@@ -199,7 +199,8 @@ export const COMPOUNDS = {
   },
   CaGluconate: {
     ions: {
-      Ca: 0.0955,
+      Ca: 0.0089,
+      C6H11O7: 0.0866,
     },
     isLiquid: true,
     name: 'Кальция глюконат 10% в ампулах (Фармак)',

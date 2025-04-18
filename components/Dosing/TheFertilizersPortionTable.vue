@@ -63,14 +63,14 @@
             v-if="isTotalMode"
             v-model="portion.amount"
             :label="portion.fertilizer.name"
-            :suffix="portion.fertilizer.volume > 0 ? 'мл' : 'г'"
+            :suffix="portion.fertilizer.isLiquid ? 'мл' : 'г'"
             hide-details="auto"
           />
           <BaseNumberField
             v-else
             v-model="portion.amountDay"
             :label="portion.fertilizer.name"
-            :suffix="portion.fertilizer.volume > 0 ? 'мл/день' : 'г/день'"
+            :suffix="portion.fertilizer.isLiquid ? 'мл/день' : 'г/день'"
             hide-details="auto"
           />
         </div>
@@ -99,7 +99,7 @@
         <BaseNumberField
           v-model="portion.amount"
           :label="portion.fertilizer.name"
-          :suffix="portion.fertilizer.volume > 0 ? 'мл' : 'г'"
+          :suffix="portion.fertilizer.isLiquid ? 'мл' : 'г'"
           hide-details="auto"
           class="pr-2"
         />
@@ -138,7 +138,7 @@
         <BaseNumberField
           v-model="portion.amountWaterChange"
           :label="portion.fertilizer.name"
-          :suffix="portion.fertilizer.volume > 0 ? 'мл' : 'г'"
+          :suffix="portion.fertilizer.isLiquid ? 'мл' : 'г'"
           hide-details="auto"
           class="pr-2 w-60"
         />
@@ -146,13 +146,13 @@
           <BaseNumberField
             v-if="isTotalMode"
             v-model="portion.amount"
-            :suffix="portion.fertilizer.volume > 0 ? 'мл' : 'г'"
+            :suffix="portion.fertilizer.isLiquid ? 'мл' : 'г'"
             hide-details="auto"
           />
           <BaseNumberField
             v-else
             v-model="portion.amountDay"
-            :suffix="portion.fertilizer.volume > 0 ? 'мл/день' : 'г/день'"
+            :suffix="portion.fertilizer.isLiquid ? 'мл/день' : 'г/день'"
             hide-details="auto"
           />
         </div>
@@ -168,7 +168,7 @@ defineOptions({
   name: 'FertilizersPortionTable',
 });
 
-const portions = defineModel<Dose<Recipe>[]>('portions');
+const portions = defineModel<Dose<InstanceType<typeof FertilizerRecipe>>[]>('portions');
 const waterChangeVolume = defineModel<number>('waterChangeVolume');
 
 const dosingStore = useDosingStore();

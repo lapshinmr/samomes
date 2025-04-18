@@ -41,7 +41,8 @@
                     persistent-hint
                     multiple
                     :return-object="true"
-                    hint="* здесь собраны все ваши рецепты и удобрения. Нажмите «Фирменные» для просмотра полного списка."
+                    hint="* здесь собраны все ваши рецепты и удобрения. Нажмите
+                      «Фирменные» для просмотра полного списка."
                   />
                   <v-switch
                     v-model="isDefaultFertilizers"
@@ -72,10 +73,10 @@
                   растения за заданный период времени.
                 </v-tooltip>
               </div>
-              <DosingTheFertilizersPortionTable
-                v-model:portions="portionsChosen"
-                v-model:water-change-volume="tank.waterChangeVolume"
-              />
+              <!--              <DosingTheFertilizersPortionTable-->
+              <!--                v-model:portions="portionsChosen"-->
+              <!--                v-model:water-change-volume="tank.waterChangeVolume"-->
+              <!--              />-->
             </v-col>
             <v-expand-transition>
               <v-col
@@ -83,11 +84,11 @@
                 cols="12"
                 class="pt-0"
               >
-                <DosingTheElementsTable
-                  is-helpful-info
-                  is-switchers
-                  :dosing="dosingObject"
-                />
+                <!--                <DosingTheElementsTable-->
+                <!--                  is-helpful-info-->
+                <!--                  is-switchers-->
+                <!--                  :dosing="dosingObject"-->
+                <!--                />-->
               </v-col>
             </v-expand-transition>
           </v-row>
@@ -116,8 +117,8 @@ defineOptions({
 
 const { tanks } = useTanksStore();
 const { recipeModels } = useRecipesStore();
-const { fertilizers } = useFertilizersStore();
-// const { reminerals } = useRemineralsStore();
+const { fertilizerModels } = useFertilizersStore();
+const { remineralModels } = useRemineralsStore();
 const dosingStore = useDosingStore();
 const snackbarStore = useSnackbarStore();
 
@@ -130,6 +131,18 @@ const tank = ref<{
   name: null,
   volume: null,
   waterChangeVolume: null,
+});
+
+const allFertilizers = computed(() => {
+  return [...recipeModels, ...fertilizerModels, ...remineralModels];
+  // if (isDefaultFertilizers.value) {
+  //   const recipesNames = recipeInstances.map((item) => item.name);
+  //   const fertilizersNames = fertilizers.map((item) => item.name);
+  //   const defaultFertilizersFiltered = defaultFertilizers.value.filter(
+  //     (item) => ![...recipesNames, ...fertilizersNames].includes(item.name),
+  //   );
+  //   result.push(...defaultFertilizersFiltered);
+  // }
 });
 
 const onChooseTank = (value: number | TankType) => {
@@ -145,7 +158,7 @@ const onChooseTank = (value: number | TankType) => {
   };
 };
 
-const portionsChosen = ref<Dose<Recipe>[]>([]);
+const portionsChosen = ref<InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>[]>([]);
 
 const rulesTank = [
   (v) => !!v || 'Выберите аквариум',
@@ -165,33 +178,17 @@ const isDefaultFertilizers = computed({
   },
 });
 
-// const defaultFertilizers = computed(() => FERTILIZERS_SORTED.map((fertilizer) => this.convertFertilizer(fertilizer)));
+// const defaultFertilizers = computed(() => FERTILIZERS_SORTED.map(
+// (fertilizer) => this.convertFertilizer(fertilizer)));
 
 // const defaultFertilizers = computed(() => FERTILIZERS_SORTED.map((fertilizer) => fertilizer));
 
-const allFertilizers = computed(() => {
-  const result = [...recipeModels, ...fertilizers];
-  // if (isDefaultFertilizers.value) {
-  //   const recipesNames = recipeInstances.map((item) => item.name);
-  //   const fertilizersNames = fertilizers.map((item) => item.name);
-  //   const defaultFertilizersFiltered = defaultFertilizers.value.filter(
-  //     (item) => ![...recipesNames, ...fertilizersNames].includes(item.name),
-  //   );
-  //   result.push(...defaultFertilizersFiltered);
-  // }
-  return result.map((item) => new Dose(item, dosingStore.daysTotal));
-});
-
-const dosingObject = computed(() => new Dosing(
-  portionsChosen.value,
-  dosingStore.fertilizersRegime,
-  dosingStore.daysTotal,
-  tank.value,
-));
-
-watch(dosingObject, (value) => {
-  console.log(value);
-}, { deep: true });
+// const dosingObject = computed(() => new Dosing(
+//   portionsChosen.value,
+//   dosingStore.fertilizersRegime,
+//   dosingStore.daysTotal,
+//   tank.value,
+// ));
 
 // watch(recipesSelected, () => {
 //   this.recipesSelected.forEach((recipe) => {

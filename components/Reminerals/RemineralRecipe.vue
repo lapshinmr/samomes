@@ -26,7 +26,7 @@
         </div>
         <div class="d-flex">
           <v-text-field
-            :value="remineral.gh.toFixed(2)"
+            :value="format(remineral.gh)"
             label="Gh"
             suffix="dGh"
             hide-details="auto"
@@ -36,7 +36,7 @@
             class="mb-3 mr-3"
           />
           <v-text-field
-            :value="remineral.kh.toFixed(2)"
+            :value="format(remineral.kh)"
             label="Kh"
             suffix="dKh"
             hide-details="auto"
@@ -52,7 +52,7 @@
           Объем
         </div>
         <v-text-field
-          :value="remineral.volume"
+          :value="remineral.changeVolume"
           label="Объем"
           suffix="л"
           hide-details="auto"
@@ -63,18 +63,18 @@
         />
       </div>
     </div>
-    <div v-if="remineral.note" class="text-subtitle-1 mb-2">
+    <div v-if="remineral.description" class="text-subtitle-1 mb-2">
       Примечание
     </div>
-    <div v-if="remineral.note" class="mb-4">
-      {{ remineral.note }}
+    <div v-if="remineral.description" class="mb-4">
+      {{ remineral.description }}
     </div>
     <div class="text-subtitle-1 mb-2">
       Реагенты
     </div>
     <div class="d-flex flex-column">
       <div
-        v-for="(mass, name) in remineral.mass"
+        v-for="(mass, name) in remineral.totalMass"
         :key="name"
         class="d-flex justify-space-between mb-1"
       >
@@ -86,13 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue';
-import type { RemineralType } from '~/utils/types/types';
-
-defineProps({
-  remineral: {
-    type: Object as PropType<RemineralType>,
-    required: true,
-  },
-});
+defineProps<{
+  remineral: InstanceType<typeof RemineralRecipe>;
+}>();
 </script>

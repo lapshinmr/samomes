@@ -26,7 +26,7 @@
             Реагент
           </th>
           <th
-            v-for="([ion], index) in totalConcentrationSorted"
+            v-for="([ion], index) in concentrationSorted"
             :key="ion"
             class="text-center"
             :class="{'pr-0': index === ionsTotal - 1}"
@@ -46,7 +46,7 @@
             {{ reagent }}
           </td>
           <td
-            v-for="([ion, value], index) in totalConcentrationSorted"
+            v-for="([ion, value], index) in concentrationSorted"
             :key="reagent + ion"
             class="text-center"
             :class="{'pr-0': index === ionsTotal - 1}"
@@ -67,7 +67,7 @@
             Сумма
           </td>
           <template
-            v-for="([ion, value], index) in totalConcentrationSorted"
+            v-for="([ion, value], index) in concentrationSorted"
             :key="ion"
           >
             <td
@@ -85,7 +85,7 @@
         </tr>
       </tbody>
     </v-table>
-    <CommonTheElementsRatios :concentration="recipe.totalConcentration" />
+    <CommonTheElementsRatios :concentration="recipe.concentration" />
   </div>
 </template>
 
@@ -95,17 +95,17 @@ defineOptions({
 });
 
 const props = defineProps<{
-  recipe: InstanceType<typeof Recipe>;
+  recipe: InstanceType<typeof FertilizerRecipe>;
 }>();
 
-const totalConcentrationSorted = computed(() => {
-  const result: [string, number][] = Object.entries(props.recipe.totalConcentration);
+const concentrationSorted = computed(() => {
+  const result: [string, number][] = Object.entries(props.recipe.concentration);
   result.sort((a, b) => b[1] - a[1]);
   return result;
 });
 
 const ionsTotal = computed(() => {
-  return Object.keys(props.recipe.totalConcentration).length;
+  return Object.keys(props.recipe.concentration).length;
 });
 </script>
 

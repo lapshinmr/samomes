@@ -76,12 +76,13 @@
                 Реагенты
               </BaseDividerWithNote>
               <BaseNumberField
-                v-model="remineralModel.waterVolume"
+                :model-value="remineralModel.waterVolume"
                 label="Объем воды"
                 suffix="мл"
                 hint="Вы можете пропустить это поле, если хотите использовать сухую смесь"
                 persistent-hint
                 class="mb-2 mb-sm-4"
+                @update:model-value="onInputWaterVolume"
               />
               <div
                 v-for="reagent in reagentsChosen"
@@ -91,9 +92,12 @@
                 <BaseNumberField
                   :model-value="reagent.amount"
                   :label="reagent.text"
-                  suffix="г"
+                  :suffix="reagent.isLiquid ? 'мл' : 'г'"
                   hide-details="auto"
                   :disabled="reagentsLocked[reagent.key]"
+                  :rules="[required, positive]"
+                  :error="checkSolubilityError(reagent)"
+                  :error-messages="getSolubilityErrorMessage(reagent)"
                   @update:model-value="onInputReagentAmount(reagent.key, $event)"
                 />
                 <div class="d-flex ml-4">
@@ -135,8 +139,8 @@
                 </div>
               </div>
               <RemineralsTheHardnessTable
-                v-model:volume="remineralModel.changeVolume"
-                v-model:dose-volume="remineralModel.doseVolume"
+                :change-volume="remineralModel.changeVolume"
+                :dose-volume="remineralModel.doseVolume"
                 :gh="gh"
                 :kh="kh"
                 :ca-mg-ratio="caMgRatio"
@@ -144,59 +148,52 @@
                 :kh-disabled="isLocked"
                 :ca-mg-ratio-disabled="isLocked"
                 class="mt-4"
+                @update:change-volume="onInputChangeVolume"
+                @update:dose-volume="onInputDoseVolume"
                 @update:gh="onInputGh"
                 @update:kh="onInputKh"
                 @update:ca-mg-ratio="onInputCaMgRatio"
               />
-              <RemineralsTheCationsAndAnions
-                :remineral="remineralModel"
-              />
-              <BaseDividerWithNote
-                v-model="isIons"
-                class="mb-4"
-                button
-              >
-                Общий ионный состав
-              </BaseDividerWithNote>
               <v-expand-transition>
-                <RemineralsTheRemineralsIons
-                  v-if="isIons"
-                  :remineral="remineralModel"
-                />
-              </v-expand-transition>
-              <BaseDividerWithNote
-                v-model="isTable"
-                class="mb-4"
-                button
-              >
-                Таблица с навесками
-              </BaseDividerWithNote>
-              <v-expand-transition>
-                <RemineralsTheRemineralsRecipesTable
-                  v-if="isTable"
-                  :remineral="remineralModel"
-                  :reagents="reagentsChosen"
-                />
-              </v-expand-transition>
-              <template v-if="!remineralModel.isLiquid">
-                <BaseDividerWithNote
-                  v-model="isMix"
-                  class="mb-4"
-                  button
-                >
-                  Подготовка смеси
-                </BaseDividerWithNote>
-                <v-expand-transition>
-                  <RemineralsTheRemineralsMixTable
-                    v-if="isMix"
+                <div v-if="isReagentsAmount">
+                  <RemineralsTheCationsAndAnions
                     :remineral="remineralModel"
                   />
-                </v-expand-transition>
-              </template>
+                  <BaseDividerWithNote
+                    v-model="isTable"
+                    class="mb-4"
+                    button
+                  >
+                    Таблица с навесками
+                  </BaseDividerWithNote>
+                  <v-expand-transition>
+                    <RemineralsTheRemineralsRecipesTable
+                      v-if="isTable"
+                      :remineral="remineralModel"
+                      :reagents="reagentsChosen"
+                    />
+                  </v-expand-transition>
+                  <template v-if="!remineralModel.isLiquid">
+                    <BaseDividerWithNote
+                      v-model="isMix"
+                      class="mb-4"
+                      button
+                    >
+                      Подготовка смеси
+                    </BaseDividerWithNote>
+                    <v-expand-transition>
+                      <RemineralsTheRemineralsMixTable
+                        v-if="isMix"
+                        :remineral="remineralModel"
+                      />
+                    </v-expand-transition>
+                  </template>
+                </div>
+              </v-expand-transition>
             </div>
           </v-expand-transition>
           <v-expand-transition>
-            <v-row v-if="isReagents">
+            <v-row v-if="isReagentsAmount">
               <v-col cols="12">
                 <v-text-field
                   v-model="remineralModel.name"
@@ -245,7 +242,7 @@
 </template>
 
 <script lang="ts" setup>
-import { required } from '~/utils/validation';
+import { required, positive } from '~/utils/validation';
 
 const route = useRoute();
 const router = useRouter();
@@ -275,15 +272,16 @@ const remineralModel = reactive(new RemineralRecipe({
 }));
 
 const reagents = [
-  ...Object.entries({ ...FORMULAS }).map(([key, data]) => new Reagent({
+  ...Object.entries({ ...FORMULAS, ...COMPOUNDS }).map(([key, data]) => new Reagent({
     key,
     ...data,
     amount: 1,
-    type: ReagentTypeName.FORMULA,
+    type: key in FORMULAS ? ReagentTypeName.FORMULA : ReagentTypeName.COMPOUND,
   })),
 ];
 
 const isReagents = computed(() => reagentsChosen.value.length > 0);
+const isReagentsAmount = computed(() => remineralModel.totalMass > 0);
 const isLocked = computed(() => Object.values(reagentsLocked.value).some((item) => item === true));
 
 function updateGhPerReagent() {
@@ -315,6 +313,45 @@ function updateAmounts() {
     const reagentFound = reagentsChosen.value.find((item) => item.key === reagent.key);
     reagentFound.amount = format(reagent.amount);
   });
+}
+
+function onInputWaterVolume(value: number) {
+  // UPDATE MODEL
+  remineralModel.waterVolume = value;
+  // UPDATE FORM
+  updateGhPerReagent();
+  updateKhPerReagent();
+  updateGh();
+  updateKh();
+  updateCaMgRatio();
+}
+
+function onInputDoseVolume(value: number) {
+  if (!value) {
+    return;
+  }
+  // UPDATE MODEL
+  remineralModel.doseVolume = value;
+  // UPDATE FORM
+  updateGhPerReagent();
+  updateKhPerReagent();
+  updateGh();
+  updateKh();
+  updateCaMgRatio();
+}
+
+function onInputChangeVolume(value: number) {
+  if (!value) {
+    return;
+  }
+  // UPDATE MODEL
+  remineralModel.changeVolume = value;
+  // UPDATE FORM
+  updateGhPerReagent();
+  updateKhPerReagent();
+  updateGh();
+  updateKh();
+  updateCaMgRatio();
 }
 
 function onInputReagent(value: InstanceType<typeof Reagent>[]) {
@@ -440,7 +477,7 @@ watch(reagentsChosen, () => {
   }
 });
 
-function fillForm(remineral: Partial<RemineralExampleType>) {
+function fillForm(remineral: Partial<RemineralType | RemineralExampleType>) {
   remineralModel.name = remineral.name;
   remineralModel.description = remineral.description;
   remineralModel.changeVolume = remineral.changeVolume;
@@ -476,7 +513,6 @@ const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');
 const isCopy = computed(() => route.query.copy !== undefined);
 const isShare = computed(() => route.params.query === 'share');
-const isIons = ref(false);
 const isTable = ref(false);
 const isMix = ref(false);
 const remineralIndex = computed(() => +route.params.id);
@@ -486,6 +522,16 @@ const isExist = computed(() => {
 });
 
 const isNameExist = () => !isExist.value || 'Рецепт или удобрение с таким названием уже существует';
+
+const checkSolubilityError = (reagent: ReagentType) => {
+  return remineralModel.isLiquid && (reagent.amount / remineralModel.waterVolume) * 1000 > reagent.solubility;
+};
+
+const getSolubilityErrorMessage = (reagent: ReagentType) => {
+  return remineralModel.isLiquid && (reagent.amount / remineralModel.waterVolume) * 1000 > reagent.solubility
+    ? `Достигнута максимальная растворимость - ${reagent.solubility} г/л при 25°С!`
+    : '';
+};
 
 onMounted(async () => {
   if (isCreate.value && !isCopy.value) {

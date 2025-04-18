@@ -1,5 +1,5 @@
 import MolecularFormula from '~/utils/models/MolecularFormula';
-import { getElementToOxideRatio } from '~/utils/funcs';
+import { getElementToIonRatio, getElementToOxideRatio } from '~/utils/funcs';
 
 export default class Reagent {
   public key: string;
@@ -64,11 +64,15 @@ export default class Reagent {
       if (ions['C'] && FORMULAS[this.key].HCO3) {
         ions['CO3'] = ions['C'] * getElementToOxideRatio('C');
       }
+      if (ions['C'] && FORMULAS[this.key]?.anion?.key === 'C6H11O7' ) {
+        ions['C6H11O7'] = ions['C'] * getElementToIonRatio('C12', 'C12H22O14');
+      }
       delete ions['C'];
-      delete ions['O'];
       delete ions['N'];
       delete ions['P'];
+      // TODO: save H & O as H2O
       delete ions['H'];
+      delete ions['O'];
       delete ions['S'];
 
       return ions;

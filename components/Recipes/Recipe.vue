@@ -42,7 +42,7 @@
         <div>
           <table>
             <tr
-              v-for="(value, ion) in recipe.totalConcentration"
+              v-for="(value, ion) in recipe.concentration"
               :key="ion + 'name'"
             >
               <td>{{ ion }}</td>
@@ -71,14 +71,12 @@
 </template>
 
 <script lang="ts" setup>
-import type Recipe from "~/utils/classes/Recipe";
-
 defineOptions({
-  name: "Recipe",
+  name: 'Recipe',
 });
 
 defineProps<{
-  recipe: Recipe;
+  recipe: InstanceType<typeof FertilizerRecipe>;
 }>();
 </script>
 

@@ -24,10 +24,10 @@ export class Dosing {
     this.tank = tank;
   }
 
-  get totalElements(): Record<IonType, Record<string, number>> {
+  get totalElements(): Partial<Record<IonType, Record<string, number>>> {
     const result = {};
     this.portions.forEach((portion) => {
-      Object.entries(portion.fertilizer.totalConcentration).forEach(([ion, value]) => {
+      typedEntries(portion.fertilizer.concentration).forEach(([ion, value]) => {
         if (!(ion in result)) {
           result[ion] = {
             concentration: 0,
@@ -36,9 +36,9 @@ export class Dosing {
             concentrationTotal: 0,
           };
         }
-        let concentration = portion.amount * value / this.tank.volume;
-        let concentrationDay = portion.amountDay * value / this.tank.volume;
-        let concentrationWaterChange = this.tank.waterChangeVolume
+        const concentration = portion.amount * value / this.tank.volume;
+        const concentrationDay = portion.amountDay * value / this.tank.volume;
+        const concentrationWaterChange = this.tank.waterChangeVolume
           ? (portion.amountWaterChange * value) / this.tank.waterChangeVolume : 0;
         let concentrationTotal = concentration;
         if (this.fertilizersRegime === FertilizersRegime.MIX) {
@@ -46,12 +46,12 @@ export class Dosing {
             concentrationWaterChange * this.tank.waterChangeVolume / this.tank.volume + concentration;
         }
         // TODO: check if it is necessary
-        if ((!portion.fertilizer.totalVolume)) {
-          concentration *= 1000;
-          concentrationDay *= 1000;
-          concentrationWaterChange *= 1000;
-          concentrationTotal *= 1000;
-        }
+        // if ((!portion.fertilizer.isLiquid)) {
+        //   concentration *= 1000;
+        //   concentrationDay *= 1000;
+        //   concentrationWaterChange *= 1000;
+        //   concentrationTotal *= 1000;
+        // }
         result[ion].concentration += concentration;
         result[ion].concentrationDay += concentrationDay;
         result[ion].concentrationTotal += concentrationTotal;

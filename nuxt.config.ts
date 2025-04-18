@@ -26,7 +26,7 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: false,
-    // typeCheck: true,
+    typeCheck: true,
   },
 
   vuetify: {

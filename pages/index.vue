@@ -426,6 +426,7 @@ watch(isVKVisible, (value) => {
     vk.setAttribute('src', 'https://vk.com/js/api/openapi.js?169');
     vk.onload = () => {
 
+      // @ts-expect-error VK.Widgets
       VK.Widgets.Group('vk_groups', { mode: 0, width: 'auto', height: '300' }, 205374081);
     };
     document.head.appendChild(vk);

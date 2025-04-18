@@ -21,56 +21,56 @@ import type { RecipeExampleType } from '~/utils/types/types';
 export const RECIPES: RecipeExampleType[] = [
   {
     name: 'Kuban Aquariums Нитрат',
-    reagents: {
-      KNO3: 49.71,
-      '(NH2)2CO': 5.02,
-      NH4NO3: 6.71,
-      C6H7KO2: 0.5,
-    },
+    reagents: [
+      { key: 'KNO3', amount: 49.71 },
+      { key: '(NH2)2CO', amount: 5.02 },
+      { key: 'NH4NO3', amount: 6.71 },
+      { key: 'C6H7KO2', amount: 0.5 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Фосфат',
-    reagents: {
-      KH2PO4: 7.01,
-      C6H7KO2: 0.5,
-    },
+    reagents: [
+      { key: 'KH2PO4', amount: 7.01 },
+      { key: 'C6H7KO2', amount: 0.5 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Калий',
-    reagents: {
-      K2SO4: 84.76,
-      C6H7KO2: 0.5,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 84.76 },
+      { key: 'C6H7KO2', amount: 0.5 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Микро',
-    reagents: {
-      H3BO3: 0.7,
-      'C10H14N2Na2O8(H2O)2': 3,
-      'MgSO4(H2O)7': 30,
-      K2SO4: 20,
-      C6H8O6: 0.1,
-      C6H7KO2: 0.5,
-      AgroMicsT: 11,
-      'Fe-EDTA13': 5.6,
-    },
+    reagents: [
+      { key: 'H3BO3', amount: 0.7 },
+      { key: 'C10H14N2Na2O8(H2O)2', amount: 3 },
+      { key: 'MgSO4(H2O)7', amount: 30 },
+      { key: 'K2SO4', amount: 20 },
+      { key: 'C6H8O6', amount: 0.1 },
+      { key: 'C6H7KO2', amount: 0.5 },
+      { key: 'AgroMicsT', amount: 11 },
+      { key: 'Fe-EDTA13', amount: 5.6 },
+    ],
     volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Aqua Botanic Нитрат',
-    reagents: {
-      KNO3: 82.88,
-    },
+    reagents: [
+      { key: 'KNO3', amount: 82.88 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru'
@@ -78,11 +78,11 @@ export const RECIPES: RecipeExampleType[] = [
   },
   {
     name: 'Aqua Botanic Нитрат+',
-    reagents: {
-      KNO3: 49.71,
-      '(NH2)2CO': 5.02,
-      NH4NO3: 6.71,
-    },
+    reagents: [
+      { key: 'KNO3', amount: 49.71 },
+      { key: '(NH2)2CO', amount: 5.02 },
+      { key: 'NH4NO3', amount: 6.71 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Калиевая селитра, разбавленная мочевиной и нитратом аммония. Рецепт взят с сайта aqua-botanic.ru'
@@ -90,9 +90,9 @@ export const RECIPES: RecipeExampleType[] = [
   },
   {
     name: 'Aqua Botanic Фосфат',
-    reagents: {
-      KH2PO4: 7.01,
-    },
+    reagents: [
+      { key: 'KH2PO4', amount: 7.01 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru'
@@ -100,9 +100,9 @@ export const RECIPES: RecipeExampleType[] = [
   },
   {
     name: 'Aqua Botanic Калий',
-    reagents: {
-      K2SO4: 84.76,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 84.76 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru'
@@ -110,20 +110,20 @@ export const RECIPES: RecipeExampleType[] = [
   },
   {
     name: 'Aqua Botanic Микро',
-    reagents: {
-      C6H8O7: 30,
-      'FeSO4(H2O)7': 10,
-      'MnSO4(H2O)5': 0.5,
-      'CuSO4(H2O)5': 0.05,
-      'ZnSO4(H2O)7': 0.6,
-      'MgSO4(H2O)7': 10.54,
-      H3BO3: 0.3,
-      K2SO4: 8.6,
-      C63H88CoN14O14P: 0.001,
-      Citovit: 6,
-      Ferovit: 6,
-      // H2SO4: 20,
-    },
+    reagents: [
+      { key: 'C6H8O7', amount: 30 },
+      { key: 'FeSO4(H2O)7', amount: 10 },
+      { key: 'MnSO4(H2O)5', amount: 0.5 },
+      { key: 'CuSO4(H2O)5', amount: 0.05 },
+      { key: 'ZnSO4(H2O)7', amount: 0.6 },
+      { key: 'MgSO4(H2O)7', amount: 10.54 },
+      { key: 'H3BO3', amount: 0.3 },
+      { key: 'K2SO4', amount: 8.6 },
+      { key: 'C63H88CoN14O14P', amount: 0.001 },
+      { key: 'Citovit', amount: 6 },
+      { key: 'Ferovit', amount: 6 },
+      { key: 'H2SO4', amount: 20 },
+    ],
     volume: 1000,
     description: `Рецепт взят с сайта aqua-botanic.ru
 (https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html):
@@ -153,21 +153,21 @@ export const RECIPES: RecipeExampleType[] = [
   },
   {
     name: 'NPK Amania.org 1:15',
-    reagents: {
-      KNO3: 106.45,
-      KH2PO4: 5.77,
-    },
+    reagents: [
+      { key: 'KNO3', amount: 106.45 },
+      { key: 'KH2PO4', amount: 5.77 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Макро в соотношении 1 к 15. Рецепт взят с сайта amania.org',
   },
   {
     name: 'NPK Amania.org 1:15 + амидный азот',
-    reagents: {
-      KNO3: 53.6,
-      '(NH2)2CO': 16,
-      KH2PO4: 5.77,
-    },
+    reagents: [
+      { key: 'KNO3', amount: 53.6 },
+      { key: '(NH2)2CO', amount: 16 },
+      { key: 'KH2PO4', amount: 5.77 },
+    ],
     tankVolume: 100,
     volume: 1000,
     description: 'Макро в соотношении 1 к 15. Калиевая селитра в соотношении 50 на 50 с мочевиной.'
@@ -175,95 +175,95 @@ export const RECIPES: RecipeExampleType[] = [
   },
   {
     name: 'Удо Ермолаева. МИКРО',
-    reagents: {
-      K2SO4: 7.45,
-      'MgSO4(H2O)7': 16.4,
-      'Fe2(SO4)3(H2O)9': 1.45,
-      'CuSO4(H2O)5': 0.1,
-      'ZnSO4(H2O)7': 0.04,
-      H3BO3: 0.1,
-      '(NH4)2MoO4': 0.04,
-      'MnSO4(H2O)5': 0.73,
-      C10H14N2Na2O8: 2.5,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 7.45 },
+      { key: 'MgSO4(H2O)7', amount: 16.4 },
+      { key: 'Fe2(SO4)3(H2O)9', amount: 1.45 },
+      { key: 'CuSO4(H2O)5', amount: 0.1 },
+      { key: 'ZnSO4(H2O)7', amount: 0.04 },
+      { key: 'H3BO3', amount: 0.1 },
+      { key: '(NH4)2MoO4', amount: 0.04 },
+      { key: 'MnSO4(H2O)5', amount: 0.73 },
+      { key: 'C10H14N2Na2O8', amount: 2.5 },
+    ],
     tankVolume: 100,
     volume: 500,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Удо Ермолаева. МИКРО (gh < 7)',
-    reagents: {
-      K2SO4: 7.45,
-      'MgSO4(H2O)7': 16.4,
-      'Fe2(SO4)3(H2O)9': 1.45,
-      'CuSO4(H2O)5': 0.1,
-      'ZnSO4(H2O)7': 0.04,
-      H3BO3: 0.1,
-      '(NH4)2MoO4': 0.04,
-      'MnSO4(H2O)5': 0.73,
-      C10H14N2Na2O8: 1.75,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 7.45 },
+      { key: 'MgSO4(H2O)7', amount: 16.4 },
+      { key: 'Fe2(SO4)3(H2O)9', amount: 1.45 },
+      { key: 'CuSO4(H2O)5', amount: 0.1 },
+      { key: 'ZnSO4(H2O)7', amount: 0.04 },
+      { key: 'H3BO3', amount: 0.1 },
+      { key: '(NH4)2MoO4', amount: 0.04 },
+      { key: 'MnSO4(H2O)5', amount: 0.73 },
+      { key: 'C10H14N2Na2O8', amount: 1.75 },
+    ],
     tankVolume: 100,
     volume: 500,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Удо Ермолаева. МИКРО (Железный купорос)',
-    reagents: {
-      K2SO4: 7.45,
-      'MgSO4(H2O)7': 16.4,
-      'FeSO4(H2O)7': 1.44,
-      'CuSO4(H2O)5': 0.1,
-      'ZnSO4(H2O)7': 0.04,
-      H3BO3: 0.1,
-      '(NH4)2MoO4': 0.04,
-      'MnSO4(H2O)5': 0.73,
-      C10H14N2Na2O8: 1.75,
-      C14H18N3O10Na2Fe: 1,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 7.45 },
+      { key: 'MgSO4(H2O)7', amount: 16.4 },
+      { key: 'FeSO4(H2O)7', amount: 1.44 },
+      { key: 'CuSO4(H2O)5', amount: 0.1 },
+      { key: 'ZnSO4(H2O)7', amount: 0.04 },
+      { key: 'H3BO3', amount: 0.1 },
+      { key: '(NH4)2MoO4', amount: 0.04 },
+      { key: 'MnSO4(H2O)5', amount: 0.73 },
+      { key: 'C10H14N2Na2O8', amount: 1.75 },
+      { key: 'C14H18N3O10Na2Fe', amount: 1 },
+    ],
     tankVolume: 100,
     volume: 500,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Pps-pro Macro',
-    reagents: {
-      K2SO4: 29.3,
-      KNO3: 32.6,
-      KH2PO4: 2.9,
-      'MgSO4(H2O)7': 20.2,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 29.3 },
+      { key: 'KNO3', amount: 32.6 },
+      { key: 'KH2PO4', amount: 2.9 },
+      { key: 'MgSO4(H2O)7', amount: 20.2 },
+    ],
     volume: 500,
     description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
     name: 'Pps-pro Micro',
-    reagents: {
-      PlantexCMM: 28.6,
-    },
+    reagents: [
+      { key: 'PlantexCMM', amount: 28.6 },
+    ],
     volume: 500,
     description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
     name: 'PMDD CMM',
-    reagents: {
-      K2SO4: 33,
-      KNO3: 15,
-      'MgSO4(H2O)7': 15,
-      PlantexCMM: 9.93,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 33 },
+      { key: 'KNO3', amount: 15 },
+      { key: 'MgSO4(H2O)7', amount: 15 },
+      { key: 'PlantexCMM', amount: 9.93 },
+    ],
     volume: 500,
     description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
   {
     name: 'PMDD CSM + B',
-    reagents: {
-      K2SO4: 33,
-      KNO3: 15,
-      'MgSO4(H2O)7': 15,
-      H3BO3: 0.714,
-      PlantexCSM: 9.93,
-    },
+    reagents: [
+      { key: 'K2SO4', amount: 33 },
+      { key: 'KNO3', amount: 15 },
+      { key: 'MgSO4(H2O)7', amount: 15 },
+      { key: 'H3BO3', amount: 0.714 },
+      { key: 'PlantexCSM', amount: 9.93 },
+    ],
     volume: 500,
     description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },

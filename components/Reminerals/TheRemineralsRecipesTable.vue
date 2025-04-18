@@ -138,7 +138,7 @@ defineOptions({
 });
 
 const props = defineProps<{
-  remineral: InstanceType<typeof Remineral>;
+  remineral: InstanceType<typeof RemineralRecipe>;
   reagents: InstanceType<typeof Reagent>[];
 }>();
 
@@ -150,7 +150,7 @@ const HARDNESS_VOLUMES = [
 
 const customGh = ref(null);
 const customKh = ref(null);
-const customVolume = ref(props.remineral.volume);
+const customVolume = ref(props.remineral.changeVolume);
 
 const reagentsNames = computed(() => {
   return props.reagents.map((reagent) => reagent.key);
@@ -158,7 +158,7 @@ const reagentsNames = computed(() => {
 
 function countReagentsMassByGh(dstGh: number, dstVolume: number) {
   const factorGh = props.remineral.gh / dstGh;
-  const factorVolume = props.remineral.volume / dstVolume;
+  const factorVolume = props.remineral.changeVolume / dstVolume;
   const factor = factorGh * factorVolume;
   const reagentsChanged = { total: 0 };
   props.reagents.forEach((reagent) => {
@@ -166,10 +166,11 @@ function countReagentsMassByGh(dstGh: number, dstVolume: number) {
     reagentsChanged.total += reagent.amount / factor;
   });
   return reagentsChanged;
-};
+}
 
 function countVolume(dstGh: number, volume: number) {
-  return volume * dstGh / props.remineral.gh;
+  console.log(props.remineral.doseVolume, volume, props.remineral.changeVolume, dstGh, props.remineral.gh);
+  return props.remineral.doseVolume * (volume / props.remineral.changeVolume) * (dstGh / props.remineral.gh);
 }
 
 function countKhByGh(gh: number): number {

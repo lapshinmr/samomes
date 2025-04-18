@@ -54,6 +54,21 @@
         :options="options"
       />
     </v-col>
+    <v-col cols="12">
+      <div class="text-h6 mb-2">
+        Общий ионный состав
+      </div>
+      <div>
+        <span
+          v-for="[ion, value] in concentrationSorted"
+          :key="ion"
+          class="mr-2"
+        >
+          <span class="font-weight-medium mr-1">{{ ion }}:</span>
+          <span>{{ format(value / remineral.tds * 100) }}%</span>
+        </span>
+      </div>
+    </v-col>
   </v-row>
 </template>
 
@@ -61,11 +76,11 @@
 import type { ChartData } from 'chart.js';
 
 const props = defineProps<{
-  remineral: InstanceType<typeof Remineral>;
+  remineral: InstanceType<typeof RemineralRecipe>;
 }>();
 
 const cationsData = computed(() => {
-  const cations = Object.entries(props.remineral.cations);
+  const cations = Object.entries(props.remineral.cations).filter(([, value]) => value[0] > 0);
   cations.sort((a, b) => b[1][0] - a[1][0]);
   const labels = cations.map(([key]) => key);
   const values = cations.map(([, value]) => value[1]);
@@ -89,7 +104,7 @@ const cationsData = computed(() => {
 });
 
 const anionsData = computed(() => {
-  const anions = Object.entries(props.remineral.anions);
+  const anions = Object.entries(props.remineral.anions).filter(([, value]) => value[0] > 0);
   anions.sort((a, b) => b[1][0] - a[1][0]);
   const labels = anions.map(([key]) => key);
   const values = anions.map(([, value]) => value[1]);
@@ -117,6 +132,16 @@ const options = computed(() => ({
   maintainAspectRatio: true,
 }));
 
+const concentrationSorted = computed(() => {
+  const result: [string, number][] = Object.entries(props.remineral.concentrationInChangeWater);
+  result.sort((a, b) => b[1] - a[1]);
+  return result;
+});
+
+const concentrationTotal = computed(() => {
+  return typedValues(props.remineral.concentrationInChangeWater)
+    .reduce((acc, value) => acc + value, 0);
+});
 </script>
 
 <style scoped lang="sass">

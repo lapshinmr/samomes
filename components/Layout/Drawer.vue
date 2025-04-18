@@ -83,13 +83,16 @@ const platform = ref('unknown');
 const browser = ref('unknown');
 
 function getPlatform() {
+  // @ts-expect-error window.opera
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  // @ts-expect-error window.MSStream
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
     return 'ios';
   }
   if (/android/i.test(userAgent)) {
     return 'android';
   }
+  // @ts-expect-error window.MSStream
   if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(userAgent) && !window.MSStream) {
     return 'macos';
   }
@@ -97,13 +100,17 @@ function getPlatform() {
 }
 
 function isChrome() {
+  // @ts-expect-error window.chrome
   const isChromium = window.chrome;
   const winNav = window.navigator;
   const vendorName = winNav?.vendor;
+  // @ts-expect-error window.opr
   const isOpera = typeof window.opr !== 'undefined';
   const isIEedge = winNav.userAgent.indexOf('Edg') > -1;
   const isGoogleChrome =
+    // @ts-expect-error winNave.userAgentData
     typeof winNav?.userAgentData !== 'undefined'
+      // @ts-expect-error winNave.userAgentData
       ? winNav.userAgentData.brands.some(
         (item) => item.brand === 'Google Chrome',
       )
@@ -145,6 +152,7 @@ onMounted(() => {
   });
   const isPWA =
     window.matchMedia('(display-mode: standalone)').matches ||
+    // @ts-expect-error window.navigator.standalone
     window.navigator.standalone === true;
   if (isPWA) {
     isPWAInstallButton.value = false;

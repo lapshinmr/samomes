@@ -282,6 +282,10 @@ export const FORMULAS = {
     name: 'Марганца глицинат 2-водный',
   },
   // EDTA
+  'C10H14N2Na2O8': {
+    solubility: 100,
+    name: 'Хелатор EDTA-Na2',
+  },
   'C10H14N2Na2O8(H2O)2': {
     solubility: 100,
     name: 'Трилон Б (хелатор EDTA-Na2)',

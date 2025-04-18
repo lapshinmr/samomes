@@ -370,7 +370,7 @@ const checkSolubilityError = (reagent: ReagentType) => {
 
 const getSolubilityErrorMessage = (reagent: ReagentType) => {
   return isLiquid.value && (reagent.amount / waterVolume.value) * 1000 > reagent.solubility
-    ? `Достигнута максимальная растворимость - ${reagent.solubility} г/л при 20°С!`
+    ? `Достигнута максимальная растворимость - ${reagent.solubility} г/л при 25°С!`
     : '';
 };
 
@@ -486,7 +486,7 @@ async function onAddRecipe () {
     snackbarStore.show('Рецепт добавлен');
     await router.push('/recipes/');
   }
-};
+}
 
 async function onEditRecipe() {
   const { valid } = await recipeForm.value.validate();

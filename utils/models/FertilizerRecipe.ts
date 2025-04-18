@@ -24,7 +24,7 @@ export default class FertilizerRecipe extends Recipe {
   constructor(args: {
     name: string;
     description?: string;
-    reagents: InstanceType<typeof Reagent>[];
+    reagents: ReagentType[];
     waterVolume?: number;
     tankVolume?: number | null;
   }) {

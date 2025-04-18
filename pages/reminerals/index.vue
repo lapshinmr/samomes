@@ -113,7 +113,7 @@ const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = use
 const { itemIndexToShare, isSharePopup, onShare, encodeUrl } = useSharePopup();
 
 const remineralModels = computed({
-  get: () => remineralsStore.remineralInstances,
+  get: () => remineralsStore.remineralModels,
   set: (value) => remineralsStore.moveReminerals(value),
 });
 

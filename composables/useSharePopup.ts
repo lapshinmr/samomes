@@ -22,7 +22,7 @@ export default () => {
     jsonString = jsonString.replace(/%/g, '%25');
     const encoded = encodeURIComponent(jsonString);
     return `${window.location.origin + window.location.pathname}share?share=${encoded}`;
-  };
+  }
 
   return {
     itemIndexToShare,

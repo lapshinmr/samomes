@@ -32,6 +32,12 @@ export const getElementToOxideRatio = (element: string): number => {
   return oxideMass / elementMass ;
 };
 
+export const getElementToIonRatio = (element: string, ion: string): number => {
+  const elementMass = new MolecularFormula(element).mass;
+  const ionMass = new MolecularFormula(ion).mass;
+  return ionMass / elementMass ;
+};
+
 export const countRatio = (concentration: Record<string, number>, el1: string, el2: string) => {
   const c1 = concentration[el1];
   const c2 = concentration[el2];

@@ -28,7 +28,7 @@
       </div>
       <div style="width: 60px;">
         <BaseNumberField
-          v-model="volume"
+          v-model="changeVolume"
           suffix="л"
           hide-details="auto"
           class="mt-0 pt-0"
@@ -54,7 +54,7 @@
       </div>
       <div style="width: 60px;">
         <BaseNumberField
-          v-model="volume"
+          v-model="changeVolume"
           suffix="л"
           hide-details="auto"
           class="mt-0 pt-0"
@@ -90,21 +90,21 @@
         hide-details="auto"
         persistent-hint
         class="mb-2 ml-2"
-        :disabled="caMgRatioDisabled"
+        :disabled="caMgRatio === null || caMgRatioDisabled"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const volume = defineModel<number>('volume');
+const changeVolume = defineModel<number>('changeVolume');
 const doseVolume = defineModel<number>('doseVolume');
 const gh = defineModel<number>('gh');
 const kh = defineModel<number>('kh');
 const caMgRatio = defineModel<number>('caMgRatio');
 
 withDefaults(defineProps<{
-  remineral: InstanceType<typeof Remineral>;
+  remineral: InstanceType<typeof RemineralRecipe>;
   khDisabled?: boolean;
   caMgRatioDisabled?: boolean;
 }>(), {

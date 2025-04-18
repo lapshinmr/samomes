@@ -26,8 +26,7 @@ export const useFertilizersStore = defineStore(
   () => {
     const fertilizers = ref<FertilizerType[]>([]);
 
-    // TODO: rename to fertilizerModels
-    const fertilizerInstances = computed(
+    const fertilizerModels = computed(
       () => fertilizers.value.map((fertilizer) => new Fertilizer(fertilizer)),
     );
 
@@ -49,7 +48,7 @@ export const useFertilizersStore = defineStore(
 
     return {
       fertilizers,
-      fertilizerInstances,
+      fertilizerModels,
       addFertilizer,
       removeFertilizer,
       editFertilizer,

@@ -1,4 +1,4 @@
-export class Dose<T extends InstanceType<typeof Recipe | typeof Fertilizer | typeof Remineral>> {
+export class Dose<T extends InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>> {
   public fertilizer: T;
   public amountWaterChange: number;
   public daysTotal: number;
@@ -35,4 +35,4 @@ export class Dose<T extends InstanceType<typeof Recipe | typeof Fertilizer | typ
     this._amountDay = value;
     this._amount = +format(this.daysTotal * value, 3);
   }
-};
+}

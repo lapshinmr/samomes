@@ -64,7 +64,7 @@ defineOptions({
 });
 
 defineProps<{
-  remineral: Remineral;
+  remineral: InstanceType<typeof RemineralRecipe>;
 }>();
 
 const requiredMixMass = ref(100);

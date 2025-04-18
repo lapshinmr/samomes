@@ -29,7 +29,7 @@ export default class Recipe {
   constructor(args: {
     name: string;
     description?: string;
-    reagents: InstanceType<typeof Reagent>[];
+    reagents: ReagentType[];
     waterVolume?: number;
   }) {
     this.name = args.name;
@@ -55,9 +55,11 @@ export default class Recipe {
     return this.reagents.reduce((sum, reagent) => sum + +reagent.amount, 0);
   }
 
-  // TODO: check the difference between recipe and remineral concentration
   // TODO: add description
   get concentrationPerReagent(): Partial<Record<FormulaKeyType, Record<IonType, number>>> {
+    /*
+      Concentration can be in g/l and g/1g units
+     */
     const result = {};
     if (this.reagents.length === 0) {
       return result;
@@ -67,10 +69,10 @@ export default class Recipe {
       const { ions, HCO3 } = reagent;
       Object.entries(ions).forEach(([ion, value]) => {
         let units: number;
-        if (this.totalVolume) {
+        if (this.isLiquid) {
           units = 1 / (this.totalVolume / ML_IN_L); // solute
         } else {
-          units = 1 / reagent.amount; // dry
+          units = 1 / this.totalMass; // dry
         }
         if (ion === 'CO3' && HCO3) {
           result[reagent.key]['HCO3'] = reagent.amount * value * units * HCO3;

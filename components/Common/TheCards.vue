@@ -61,8 +61,9 @@ import draggable from 'vuedraggable';
 
 const { t } = useI18n();
 
-const model = defineModel<(Tank | Recipe | Fertilizer | Remineral)[]>();
-
+const model = defineModel<(
+  typeof Tank | InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>
+)[]>();
 </script>
 
 <style scoped lang="sass">

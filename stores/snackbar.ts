@@ -22,12 +22,17 @@ import { ref } from 'vue';
 
 // Using the setup syntax which is more compatible with Nuxt 3
 export const useSnackbarStore = defineStore('snackbar', () => {
+  type ColorType = 'success' | 'info' | 'warning' | 'error';
+  type Optionstype = {
+    timeout?: number;
+    color?: ColorType;
+  }
   const isVisible = ref(false);
-  const message = ref('');
-  const timeout = ref(5000);
-  const color = ref('success');
+  const message = ref<string>('');
+  const timeout = ref<number>(5000);
+  const color = ref<ColorType>('success');
 
-  function show(msg, options = {}) {
+  function show(msg: string, options: Optionstype = {}) {
     message.value = msg;
     isVisible.value = true;
 
@@ -44,19 +49,19 @@ export const useSnackbarStore = defineStore('snackbar', () => {
     isVisible.value = false;
   }
 
-  function showSuccess(msg, options = {}) {
+  function showSuccess(msg: string, options: Optionstype = {}) {
     show(msg, { ...options, color: 'success' });
   }
 
-  function showError(msg, options = {}) {
+  function showError(msg: string, options: Optionstype = {}) {
     show(msg, { ...options, color: 'error' });
   }
 
-  function showWarning(msg, options = {}) {
+  function showWarning(msg: string, options: Optionstype = {}) {
     show(msg, { ...options, color: 'warning' });
   }
 
-  function showInfo(msg, options = {}) {
+  function showInfo(msg: string, options: Optionstype = {}) {
     show(msg, { ...options, color: 'info' });
   }
 

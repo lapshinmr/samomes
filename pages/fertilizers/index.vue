@@ -67,9 +67,9 @@
           <p>
             На этой странице вы можете добавить любимые фирменные удобрения с известным составом,
             чтобы система помогла подобрать дозировки и включила их в ваше персональное
-            <router-link :to="ROUTES.dosing.path">
+            <nuxt-link :to="ROUTES.dosing.path">
               расписание.
-            </router-link>
+            </nuxt-link>
           </p>
           <p>
             Даже если вы не знаете точного состава удобрения, вы можете добавить его в систему —
@@ -102,7 +102,7 @@ const snackbarStore = useSnackbarStore();
 const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
 
 const fertilizerModels = computed({
-  get: () => fertilizersStore.fertilizers,
+  get: () => fertilizersStore.fertilizerModels,
   set: (value) => fertilizersStore.moveFertilizers(value),
 });
 

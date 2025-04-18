@@ -22,14 +22,14 @@ import type { IonType } from '~/utils/types/types';
 
 export default class Fertilizer {
   public name: string;
-  public description: string;
+  public description?: string;
   public ions: Partial<Record<IonType, number>>;
   public isPercent: boolean;
   public updatedAt?: string;
 
   constructor(args: {
     name: string;
-    description: string;
+    description?: string;
     ions: Partial<Record<IonType, number>>;
     isPercent: boolean;
     updatedAt?: string;

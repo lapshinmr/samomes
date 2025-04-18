@@ -69,13 +69,12 @@ export type RecipeType = {
   isLiquid?: boolean;
   totalMass?: number;
   concentration?: Record<string, Record<string, number>>;
-  totalConcentration?: Record<string, number>;
 }
 
 export type RecipeExampleType = {
   name: string;
   description?: string;
-  reagents: { key: FormulaKeyType, amount: number }[];
+  reagents: { key: ReagentKeyType, amount: number }[];
   tankVolume?: number;
   volume?: number;
   waterVolume?: number;
@@ -87,12 +86,11 @@ export type FertilizerType = {
   ions: Partial<Record<IonType, number>>;
   isPercent: boolean;
   updatedAt?: string;
-  totalConcentration?: Record<string, number>;
 }
 
 export type RemineralType = {
   name: string;
-  description: string;
+  description?: string;
   reagents: ReagentType[];
   changeVolume: number;
   waterVolume?: number;
@@ -102,8 +100,8 @@ export type RemineralType = {
 export type RemineralExampleType = {
   name: string;
   description?: string;
-  reagents: { key: FormulaKeyType, amount: number }[]
-  changeVolume?: number;
+  reagents: { key: ReagentKeyType, amount: number }[]
+  changeVolume: number;
   waterVolume?: number;
   doseVolume?: number;
 }

@@ -24,7 +24,6 @@
         <tr>
           <th>Ион</th>
           <th>Концентрация, мг/л</th>
-          <th>Концентрация, %</th>
         </tr>
       </thead>
       <tbody>
@@ -33,8 +32,7 @@
           :key="ion"
         >
           <td>{{ ion }}</td>
-          <td>{{ format(remineral.totalElements[ion]) }}</td>
-          <td>{{ format(value * 100) }}</td>
+          <td>{{ format(value) }} ({{ format(value / concentrationTotal * 100) }}%)</td>
         </tr>
       </tbody>
     </v-table>
@@ -47,8 +45,13 @@ const props = defineProps<{
 }>();
 
 const concentrationSorted = computed(() => {
-  const result: [string, number][] = Object.entries(props.remineral.concentration);
+  const result: [string, number][] = Object.entries(props.remineral.concentrationInChangeWater);
   result.sort((a, b) => b[1] - a[1]);
   return result;
+});
+
+const concentrationTotal = computed(() => {
+  return typedValues(props.remineral.concentrationInChangeWater)
+    .reduce((acc, value) => acc + value, 0);
 });
 </script>

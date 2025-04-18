@@ -14,36 +14,15 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 defineProps<{
-  data: ChartData<'doughnut'>;
-  options: ChartOptions<'doughnut'>;
+  data: ChartData<'pie'>;
+  options: ChartOptions<'pie'>;
 }>();
-
-const centerTextPlugin = {
-  id: 'centerText',
-  beforeDraw(chart: any) { // TODO: replace any
-    const { ctx, width, height, options } = chart;
-    ctx.restore();
-    const fontSize = height * 0.1;
-    ctx.font = `${fontSize}px sans-serif`;
-    ctx.textBaseline = 'middle';
-
-    const text = options.plugins.centerText.text;
-    if (text) {
-      const textX = Math.round((width - ctx.measureText(text).width) / 2);
-      const textY = height / 2 + fontSize * 0.9;
-
-      ctx.fillText(text, textX, textY);
-      ctx.save();
-    }
-  },
-};
 
 ChartJS.register(
   ArcElement,
   Tooltip,
   Legend,
   annotationPlugin,
-  centerTextPlugin,
 );
 
 defineOptions({
