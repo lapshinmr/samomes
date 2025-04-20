@@ -294,18 +294,10 @@
                   Отмена
                 </v-btn>
                 <v-btn
-                  v-if="!isCreate && !isShare"
-                  color="primary"
-                  class="ml-2"
-                  @click="onEditRecipe"
-                >
-                  Сохранить
-                </v-btn>
-                <v-btn
                   v-if="isCreate || isShare"
                   color="primary"
                   class="ml-2"
-                  @click="onAddRecipe"
+                  v-on="isCreate || isShare ? { click: onAddRecipe } : { click: onEditRecipe }"
                 >
                   Сохранить
                 </v-btn>

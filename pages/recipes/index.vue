@@ -42,7 +42,7 @@
           v-model="recipeModels"
         >
           <template #default="{ item }">
-            <RecipesRecipe :recipe="item" />
+            <RecipesFertilizerRecipeCard :recipe="item" />
           </template>
           <template #actions="{ index }">
             <v-btn

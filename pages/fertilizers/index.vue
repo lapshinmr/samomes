@@ -42,7 +42,7 @@
           v-model="fertilizerModels"
         >
           <template #default="{ item }">
-            <RecipesRecipe :recipe="item" />
+            <FertilizersFertilizerCard :fertilizer="item" />
           </template>
           <template #actions="{ index }">
             <v-btn

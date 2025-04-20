@@ -19,51 +19,34 @@
 
 <template>
   <div>
-    <div class="mb-2">Рецепт</div>
-    <div
-      v-if="recipe.waterVolume"
-      class="d-flex justify-space-between text-body-2"
-    >
-      <span class=""> Объем удобрения </span>
-      <span> {{ recipe.waterVolume }} мл </span>
-    </div>
-    <template v-for="reagent in recipe.reagents" :key="reagent.key">
-      <div class="d-flex justify-space-between text-body-2">
-        <span>
-          {{ reagent.name }}
-        </span>
-        <span> {{ format(reagent.amount, 3) }} г </span>
-      </div>
-    </template>
-    <v-divider class="my-3" />
     <div class="d-flex justify-space-between">
-      <div class="mb-2 mb-sm-4">Состав</div>
+      <div class="mb-2">Состав</div>
       <div class="d-flex text-body-2">
         <div>
           <table>
             <tr
-              v-for="(value, ion) in recipe.concentration"
+              v-for="[ion, value] in sortObject(fertilizer.ions)"
               :key="ion + 'name'"
             >
               <td>{{ ion }}</td>
               <td class="d-flex justify-end ml-2">
                 <span>{{ format(value, 3) }}</span>
-                <span class="ml-1">{{ recipe.isLiquid ? "г/л" : "г/1г" }}</span>
+                <span class="ml-1">{{ fertilizer.isPercent ? "%" : "г/л" }}</span>
               </td>
             </tr>
           </table>
         </div>
       </div>
     </div>
-    <template v-if="recipe.description">
+    <template v-if="fertilizer.description">
       <v-divider class="my-3" />
-      <div class="d-flex flex-column">
+      <div>
         <div class="mb-3 mr-md-3">Описание</div>
         <div
           class="text-body-2"
           style="word-break: break-word; white-space: pre-wrap"
         >
-          {{ recipe.description }}
+          {{ fertilizer.description }}
         </div>
       </div>
     </template>
@@ -72,11 +55,11 @@
 
 <script lang="ts" setup>
 defineOptions({
-  name: 'Recipe',
+  name: 'FertilizerCard',
 });
 
 defineProps<{
-  recipe: InstanceType<typeof FertilizerRecipe>;
+  fertilizer: InstanceType<typeof Fertilizer>;
 }>();
 </script>
 

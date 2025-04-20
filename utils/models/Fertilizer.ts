@@ -51,19 +51,19 @@ export default class Fertilizer {
         value *= 10;
       }
       if (el === 'N') {
-        result['NO3'] = +format(value * getElementToOxideRatio(el));
+        result['NO3'] = format(value * getElementToOxideRatio(el));
       } else if (el === 'P') {
-        result['PO4'] = +format(value * getElementToOxideRatio(el));
+        result['PO4'] = format(value * getElementToOxideRatio(el));
       } else if (el === 'S') {
-        result['SO4'] = +format(value * getElementToOxideRatio(el));
+        result['SO4'] = format(value * getElementToOxideRatio(el));
       } else if (el === 'Mg') {
-        result['Mg'] = +format(value * getOxideToElementRatio(el));
+        result['Mg'] = format(value * getOxideToElementRatio(el));
       } else if (el === 'Ca') {
-        result['Ca'] = +format(value * getOxideToElementRatio(el));
+        result['Ca'] = format(value * getOxideToElementRatio(el));
       } else if (el === 'P2O5') {
-        result['PO4'] = +format(value * getOxideToElementRatio(el) * getElementToOxideRatio('P'));
+        result['PO4'] = format(value * getOxideToElementRatio(el) * getElementToOxideRatio('P'));
       } else if (el === 'K2O') {
-        result['K'] = +format(value * getOxideToElementRatio(el));
+        result['K'] = format(value * getOxideToElementRatio(el));
       } else {
         result[el] = value;
       }

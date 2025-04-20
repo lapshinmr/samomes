@@ -215,20 +215,26 @@
                 />
               </v-col>
               <v-col
-                class="text-right"
+                class="d-flex mt-2 mt-sm-4"
                 cols="12"
               >
                 <v-btn
                   v-if="isEdit && !isShare"
-                  @click="onRemoveRecipe"
+                  color="error"
+                  @click="onRemoveRemineral"
                 >
                   Удалить
                 </v-btn>
                 <v-btn
-                  v-if="!isShare"
+                  class="ml-auto"
+                  @click="$router.push('/reminerals/')"
+                >
+                  Отмена
+                </v-btn>
+                <v-btn
                   color="primary"
                   class="ml-2"
-                  v-on="isCreate ? { click: onAddRemineral } : { click: onEditRemineral }"
+                  v-on="isCreate || isShare ? { click: onAddRemineral } : { click: onEditRemineral }"
                 >
                   Сохранить
                 </v-btn>
@@ -592,7 +598,7 @@ async function onEditRemineral() {
   }
 }
 
-async function onRemoveRecipe() {
+async function onRemoveRemineral() {
   remineralsStore.removeRemineral(+remineralIndex.value);
   snackbarStore.show('Рецепт удален');
   await router.push(ROUTES.reminerals.path);

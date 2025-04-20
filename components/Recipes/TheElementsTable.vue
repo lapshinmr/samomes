@@ -99,9 +99,7 @@ const props = defineProps<{
 }>();
 
 const concentrationSorted = computed(() => {
-  const result: [string, number][] = Object.entries(props.recipe.concentration);
-  result.sort((a, b) => b[1] - a[1]);
-  return result;
+  return sortObject(props.recipe.concentration);
 });
 
 const ionsTotal = computed(() => {

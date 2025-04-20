@@ -52,3 +52,9 @@ export const sortArrayByObjectField = (array: Record<string, string>[], fieldNam
   result.sort((a, b) => a[fieldName].localeCompare(b[fieldName]));
   return result;
 };
+
+export const sortObject = (object: Record<string, number>) => {
+  const result: [string, number][] = typedEntries(object);
+  result.sort((a, b) => b[1] - a[1]);
+  return result;
+};

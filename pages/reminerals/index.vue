@@ -42,7 +42,7 @@
           v-model="remineralModels"
         >
           <template #default="{ item }">
-            <RemineralsRemineralRecipe :remineral="item" />
+            <RemineralsRemineralRecipeCard :remineral="item" />
           </template>
           <template #actions="{ index }">
             <v-btn
@@ -56,6 +56,7 @@
             </v-btn>
             <v-btn
               variant="text"
+              class="ml-auto"
               @click="onShare(index)"
             >
               Поделиться

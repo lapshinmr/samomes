@@ -121,13 +121,13 @@
           <v-textarea
             v-model="description"
             variant="underlined"
-            label="Примечание"
+            label="Описание"
             hide-details="auto"
             auto-grow
             rows="1"
             hint="Вы можете добавить дополнительные сведения к удобрению"
           />
-          <div class="d-flex justify-end">
+          <div class="d-flex mt-2 mt-sm-4">
             <v-btn
               v-if="isEdit"
               color="error"

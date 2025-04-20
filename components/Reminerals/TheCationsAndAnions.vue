@@ -60,7 +60,7 @@
       </div>
       <div>
         <span
-          v-for="[ion, value] in concentrationSorted"
+          v-for="[ion, value] in sortObject(remineral.concentrationInChangeWater)"
           :key="ion"
           class="mr-2"
         >
@@ -131,17 +131,6 @@ const options = computed(() => ({
   responsive: true,
   maintainAspectRatio: true,
 }));
-
-const concentrationSorted = computed(() => {
-  const result: [string, number][] = Object.entries(props.remineral.concentrationInChangeWater);
-  result.sort((a, b) => b[1] - a[1]);
-  return result;
-});
-
-const concentrationTotal = computed(() => {
-  return typedValues(props.remineral.concentrationInChangeWater)
-    .reduce((acc, value) => acc + value, 0);
-});
 </script>
 
 <style scoped lang="sass">
