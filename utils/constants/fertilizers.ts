@@ -33,7 +33,7 @@ export const FERTILIZERS = [
       Zn: 0.007,
       Mo: 0.000001,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-18',
   },
   // Prestige
@@ -45,7 +45,7 @@ export const FERTILIZERS = [
       K: 32.0,
       P: 1.5,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-04',
   },
   {
@@ -54,7 +54,7 @@ export const FERTILIZERS = [
     ions: {
       K: 50,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-04',
   },
   {
@@ -70,7 +70,7 @@ export const FERTILIZERS = [
       Zn: 0.002,
       Cu: 0.002,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-04',
   },
   {
@@ -80,7 +80,7 @@ export const FERTILIZERS = [
       Fe: 6,
       Mn: 1.1,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-04',
   },
   // Aquabalance
@@ -100,7 +100,7 @@ export const FERTILIZERS = [
       Cu: 0.0015,
       Mo: 0.002,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -110,7 +110,7 @@ export const FERTILIZERS = [
       Fe: 0.7,
       Mn: 0.1,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -119,7 +119,7 @@ export const FERTILIZERS = [
     ions: {
       K: 5,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -131,7 +131,7 @@ export const FERTILIZERS = [
       Ca: 0.14,
       Mg: 0.17,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -141,7 +141,7 @@ export const FERTILIZERS = [
       PO4: 0.45,
       K: 0.095,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -154,7 +154,7 @@ export const FERTILIZERS = [
       Ca: 0.14,
       Mg: 0.17,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -168,7 +168,7 @@ export const FERTILIZERS = [
       Cu: 0.003,
       Mo: 0.003,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -183,7 +183,7 @@ export const FERTILIZERS = [
       Cu: 0.003,
       Mo: 0.003,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -194,7 +194,7 @@ export const FERTILIZERS = [
       PO4: 0.5,
       Fe: 0.05,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки. Содержит макроэлементы: '
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки. Содержит макроэлементы: '
       + 'азот, фосфор, калий, кальций, магний, а так же микроэле- менты: железо, марганец,'
       + 'бор в том числе в органической форме.',
     updatedAt: '2025-03-03',
@@ -210,7 +210,7 @@ export const FERTILIZERS = [
       Cu: 0.01,
       Mo: 0.006,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -224,7 +224,7 @@ export const FERTILIZERS = [
       Cu: 0.008,
       Mo: 0.003,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -234,7 +234,7 @@ export const FERTILIZERS = [
       PO4: 0.9,
       K2O: 0.4,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -244,7 +244,7 @@ export const FERTILIZERS = [
       NO3: 10,
       K: 1.76,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
   },
   {
     name: 'Aquabalance Premium Макро комплекс NPK',
@@ -254,7 +254,7 @@ export const FERTILIZERS = [
       PO4: 0.9,
       K: 2,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -264,7 +264,7 @@ export const FERTILIZERS = [
       Fe: 1.0,
       Mn: 0.2,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -275,7 +275,7 @@ export const FERTILIZERS = [
       Fe: 0.1,
       Mn: 0.05,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
   // Aquayer
@@ -287,7 +287,7 @@ export const FERTILIZERS = [
       P: 1.20,
       K: 20.43,
     },
-    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    description: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
     updatedAt: '2025-03-03',
   },
   {
@@ -304,7 +304,7 @@ export const FERTILIZERS = [
       Zn: 0.015,
       Co: 0.007,
     },
-    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    description: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
     updatedAt: '2025-03-03',
   },
   {
@@ -314,7 +314,7 @@ export const FERTILIZERS = [
       Fe: 7.00,
       Mg: 1.3,
     },
-    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    description: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
     updatedAt: '2025-03-03',
   },
   {
@@ -323,7 +323,7 @@ export const FERTILIZERS = [
     ions: {
       K: 50,
     },
-    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    description: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
     updatedAt: '2025-03-03',
   },
   {
@@ -333,7 +333,7 @@ export const FERTILIZERS = [
       NO3: 72,
       K: 45.3,
     },
-    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    description: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
     updatedAt: '2025-03-03',
   },
   {
@@ -343,7 +343,7 @@ export const FERTILIZERS = [
       PO4: 7.2,
       K: 3,
     },
-    note: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
+    description: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
     updatedAt: '2025-03-03',
   },
   // Aquaerus
@@ -355,7 +355,7 @@ export const FERTILIZERS = [
       P: 1.20,
       K: 20.43,
     },
-    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    description: 'Это фирменное удобрение. Данные взяты c этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -372,7 +372,7 @@ export const FERTILIZERS = [
       Zn: 0.015,
       Co: 0.007,
     },
-    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    description: 'Это фирменное удобрение. Данные взяты c этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -382,7 +382,7 @@ export const FERTILIZERS = [
       Fe: 7.00,
       Mg: 1.3,
     },
-    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    description: 'Это фирменное удобрение. Данные взяты c этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -391,7 +391,7 @@ export const FERTILIZERS = [
     ions: {
       K: 50,
     },
-    note: 'Это фирменное удобрение. Данные взяты c этикетки.',
+    description: 'Это фирменное удобрение. Данные взяты c этикетки.',
     updatedAt: '2025-03-03',
   },
   {
@@ -401,7 +401,7 @@ export const FERTILIZERS = [
       NO3: 72,
       K: 45.3,
     },
-    note: 'Это фирменное удобрение. ВНИМАНИЕ! Производитель не указал содержание калия в этом удобрении. '
+    description: 'Это фирменное удобрение. ВНИМАНИЕ! Производитель не указал содержание калия в этом удобрении. '
       + 'Но в оригинальном удобрении калий присутствует. Также пользователи указывают на повышение калия в аквариуме.'
       + 'Поэтому безопаснее для аквариума будет учитывать калий как в удобрении Aquayer.',
     updatedAt: '2025-03-03',
@@ -413,7 +413,7 @@ export const FERTILIZERS = [
       PO4: 7.2,
       K: 3,
     },
-    note: 'Это фирменное удобрение. ВНИМАНИЕ! Производитель не указал содержание калия в этом удобрении. '
+    description: 'Это фирменное удобрение. ВНИМАНИЕ! Производитель не указал содержание калия в этом удобрении. '
       + 'Но в оригинальном удобрении калий присутствует. Также пользователи указывают на повышение калия в аквариуме.'
       + 'Поэтому безопаснее для аквариума будет учитывать калий как в удобрении Aquayer.',
     updatedAt: '2025-03-03',
@@ -425,7 +425,7 @@ export const FERTILIZERS = [
       N: 1.5,
       K2O: 2,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
   {
@@ -435,7 +435,7 @@ export const FERTILIZERS = [
       P2O5: 0.3,
       K2O: 0.2,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
   {
@@ -444,7 +444,7 @@ export const FERTILIZERS = [
     ions: {
       K2O: 5,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
   {
@@ -467,7 +467,7 @@ export const FERTILIZERS = [
       Na: 0.13,
       Zn: 0.0007,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
   {
@@ -479,7 +479,7 @@ export const FERTILIZERS = [
       Ca: 0.04,
       Mg: 0.04,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
   {
@@ -496,7 +496,7 @@ export const FERTILIZERS = [
       Ni: 0.000003,
       V: 0.000002,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
   {
@@ -505,7 +505,7 @@ export const FERTILIZERS = [
     ions: {
       Fe: 1,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
+    description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
   // Tropica
@@ -523,7 +523,7 @@ export const FERTILIZERS = [
       Mo: 0.002,
       Zn: 0.002,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта '
+    description: 'Это фирменное удобрение. Данные взяты с сайта '
       + 'https://tropica.com/en/plant-care/liquid-fertilisers/premium-nutrition/',
     updatedAt: '2025-03-04',
   },
@@ -543,7 +543,7 @@ export const FERTILIZERS = [
       Mo: 0.002,
       Zn: 0.002,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта '
+    description: 'Это фирменное удобрение. Данные взяты с сайта '
       + 'https://tropica.com/en/plant-care/liquid-fertilisers/specialised-nutrition/',
     updatedAt: '2025-03-04',
   },
@@ -555,7 +555,7 @@ export const FERTILIZERS = [
       PO4: 4,
       K: 25,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://dennerle.com/en/collections/plantcare',
     updatedAt: '2025-02-24',
   },
@@ -565,7 +565,7 @@ export const FERTILIZERS = [
     ions: {
       NO3: 100,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://dennerle.com/en/collections/plantcare',
     updatedAt: '2025-02-24',
   },
@@ -575,7 +575,7 @@ export const FERTILIZERS = [
     ions: {
       PO4: 10,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://dennerle.com/en/collections/plantcare',
     updatedAt: '2025-02-24',
   },
@@ -585,7 +585,7 @@ export const FERTILIZERS = [
     ions: {
       K: 50,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://dennerle.com/en/collections/plantcare',
     updatedAt: '2025-02-24',
   },
@@ -597,7 +597,7 @@ export const FERTILIZERS = [
       PO4: 2,
       K: 10,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2021-08-14',
   },
   {
@@ -613,7 +613,7 @@ export const FERTILIZERS = [
       Mo: 0.003,
       Zn: 0.003,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2021-08-14',
   },
   {
@@ -625,7 +625,7 @@ export const FERTILIZERS = [
       Ca: 0.3,
       Mg: 0.1,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -636,7 +636,7 @@ export const FERTILIZERS = [
       K: 0.5,
       Mg: 0.1,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -647,7 +647,7 @@ export const FERTILIZERS = [
       K: 2.3,
       PO4: 0.5,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -663,7 +663,7 @@ export const FERTILIZERS = [
       Zn: 0.007,
       Ni: 0.0002,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -673,7 +673,7 @@ export const FERTILIZERS = [
       Fe: 0.2,
       Mn: 0.04,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -683,7 +683,7 @@ export const FERTILIZERS = [
       NO3: 6,
       K: 2,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -694,7 +694,7 @@ export const FERTILIZERS = [
       K: 0.5,
       Mg: 0.1,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -703,7 +703,7 @@ export const FERTILIZERS = [
     ions: {
       K: 5,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -712,7 +712,7 @@ export const FERTILIZERS = [
     ions: {
       Mg: 0.3,
     },
-    note: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
+    description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
   },
   {
@@ -731,7 +731,7 @@ export const FERTILIZERS = [
       Co: 0.01,
       Cu: 0.03,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -752,7 +752,7 @@ export const FERTILIZERS = [
       Co: 0.01,
       Cu: 0.03,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -764,7 +764,7 @@ export const FERTILIZERS = [
       Fe: 1.00,
       Mn: 0.26,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -776,7 +776,7 @@ export const FERTILIZERS = [
       K: 90.77,
       N: 22.93,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -788,7 +788,7 @@ export const FERTILIZERS = [
       K: 90.77,
       P: 2.82,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -799,7 +799,7 @@ export const FERTILIZERS = [
     ions: {
       K: 90.77,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -820,7 +820,7 @@ export const FERTILIZERS = [
       Co: 0.01,
       Cu: 0.01,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -833,7 +833,7 @@ export const FERTILIZERS = [
       N: 10.71,
       P: 1.41,
     },
-    note: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
       + 'https://watersci.ru\n'
       + 'https://vk.com/watersci',
     updatedAt: '2025-02-24',
@@ -845,7 +845,7 @@ export const FERTILIZERS = [
       NO3: 100,
       K: 65,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -854,7 +854,7 @@ export const FERTILIZERS = [
     ions: {
       PO4: 10,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -863,7 +863,7 @@ export const FERTILIZERS = [
     ions: {
       K: 40,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -881,7 +881,7 @@ export const FERTILIZERS = [
       Ni: 0.01,
       Cu: 0,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -893,7 +893,7 @@ export const FERTILIZERS = [
       K: 65,
       Fe: 2,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -905,7 +905,7 @@ export const FERTILIZERS = [
       K: 16.5,
       Fe: 2,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   {
@@ -914,7 +914,7 @@ export const FERTILIZERS = [
     ions: {
       Fe: 10,
     },
-    note: 'Это фирменное удобрение. Все данные взяты с этикетки.',
+    description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-02-21',
   },
   // Tetra
@@ -930,7 +930,7 @@ export const FERTILIZERS = [
       S: 0.5,
       Na: 0.95,
     },
-    note: 'Это фирменное удобрение. Данные взяты с сайта магазина https://www.aquasabi.com/Tetra-PlantaMin',
+    description: 'Это фирменное удобрение. Данные взяты с сайта магазина https://www.aquasabi.com/Tetra-PlantaMin',
     updatedAt: '2025-03-04',
   },
   // Aqua Botanic
@@ -948,7 +948,7 @@ export const FERTILIZERS = [
       Mo: 0.02,
       Co: 0.01204,
     },
-    note: 'Рецепт взят с сайта aqua-botanic.ru'
+    description: 'Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
 ];

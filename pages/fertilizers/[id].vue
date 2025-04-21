@@ -26,7 +26,7 @@
           Новое удобрение
         </template>
         <template v-else>
-          {{ name }}
+          {{ fertilizerModel.name }}
         </template>
       </LayoutPageTitle>
 
@@ -55,15 +55,15 @@
             hide-details="auto"
           />
           <v-alert
-            v-if="updatedAt"
+            v-if="fertilizerModel.updatedAt"
             type="success"
             class="mt-2"
           >
-            Информация о составе удобрения обновлена {{ updatedAt }}
+            Информация о составе удобрения обновлена {{ fertilizerModel.updatedAt }}
             в соответствии с данными производителя.
           </v-alert>
           <v-radio-group
-            v-model="isPercent"
+            v-model="fertilizerModel.isPercent"
             :inline="$vuetify.display.smAndUp"
             class="mt-0"
             hide-details="auto"
@@ -86,8 +86,11 @@
             раз от указанных на этикетке.
             Если вы не уверены в правильности изменений, вернитесь к исходному варианту.
           </v-alert>
+          <BaseDividerWithNote class="mt-4">
+            Состав
+          </BaseDividerWithNote>
           <v-combobox
-            v-model="ionsChosen"
+            :model-value="ionsChosen"
             :items="allIons"
             item-title="ion"
             variant="underlined"
@@ -98,19 +101,22 @@
             multiple
             clearable
             :rules="[required]"
+            @update:model-value="onInputIon"
           />
           <BaseNumberField
             v-for="item in ionsChosen"
             :key="item.ion"
             v-model="item.conc"
             :label="item.ion"
-            :suffix="isPercent ? '%' : 'г/л'"
+            :suffix="fertilizerModel.isPercent ? '%' : 'г/л'"
             variant="underlined"
             hide-details="auto"
+            append-icon="mdi-delete"
             :rules="[required]"
+            @click:append="onRemoveIon(item.ion)"
           />
           <v-text-field
-            v-model="name"
+            v-model="fertilizerModel.name"
             variant="underlined"
             label="Название удобрения"
             hide-details="auto"
@@ -119,7 +125,7 @@
             class="mb-2 mt-8"
           />
           <v-textarea
-            v-model="description"
+            v-model="fertilizerModel.description"
             variant="underlined"
             label="Описание"
             hide-details="auto"
@@ -160,63 +166,90 @@ import { required } from '~/utils/validation';
 
 const router = useRouter();
 const route = useRoute();
-
 const fertilizersStore = useFertilizersStore();
 const snackbarStore = useSnackbarStore();
 
-// PAGE MATH LOGIC
+// MODEL
 const fertilizerForm = ref(null);
 const ionsChosen = ref<{ ion: IonType, conc: number }[]>([]);
-
 const fertilizerExampleChosen = ref(null);
-const isPercent = ref(false);
-const name = ref('Удобрение');
-const description = ref('');
-const updatedAt = ref(null);
 
-// TODO: come up with idea how to prevent user to choose N and NO3 simultaneously
-const allIons: { ion: IonType, conc: number }[] = ALL_IONS.map((ion: IonType) => ({ ion: ion, conc: null }));
+const fertilizerModel = reactive(new Fertilizer({
+  name: 'Удобрение',
+  description: '',
+  ions: {},
+  isPercent: false,
+  updatedAt: '',
+}));
 
-const ions = computed(() => {
-  const result: Partial<Record<IonType, number>> = {};
-  ionsChosen.value.forEach(({ ion, conc }) => {
-    result[ion] = conc;
-  });
+const isN = computed(() => {
+  return !!ionsChosen.value.find(({ ion }) => ['N', 'NO3'].includes(ion));
+});
+
+const isP = computed(() => {
+  return !!ionsChosen.value.find(({ ion }) => ['P', 'PO4', 'P2O5'].includes(ion));
+});
+
+const isK = computed(() => {
+  return !!ionsChosen.value.find(({ ion }) => ['K', 'K2O'].includes(ion));
+});
+
+const isCa = computed(() => {
+  return !!ionsChosen.value.find(({ ion }) => ['Ca', 'CaO'].includes(ion));
+});
+
+const isMg = computed(() => {
+  return !!ionsChosen.value.find(({ ion }) => ['Mg', 'MgO'].includes(ion));
+});
+
+const allIons = computed(() => {
+  const result: { ion: IonType, conc: number }[] = [];
+  for (const ion of ALL_IONS as IonType[]) {
+    if (
+      isN.value && ['N', 'NO3'].includes(ion)
+      || isP.value && ['P', 'PO4', 'P2O5'].includes(ion)
+      || isK.value && ['K', 'K2O'].includes(ion)
+      || isCa.value && ['Ca', 'CaO'].includes(ion)
+      || isMg.value && ['Mg', 'MgO'].includes(ion)
+    ) {
+      continue;
+    }
+    result.push({ ion: ion, conc: null });
+  }
   return result;
 });
 
-// TODO: check if I need computed here
-const fertilizerModel = computed(() => {
-  return new Fertilizer({
-    name: name.value,
-    description: description.value,
-    ions: { ...ions.value },
-    isPercent: isPercent.value,
-    updatedAt: updatedAt.value,
+function fillForm(fertilizer: FertilizerType) {
+  fertilizerModel.name = fertilizer.name;
+  fertilizerModel.description = fertilizer.description;
+  fertilizerModel.isPercent = fertilizer.isPercent;
+  fertilizerModel.updatedAt = fertilizer.updatedAt;
+  typedEntries(fertilizer.ions).forEach(([ion, conc]) => {
+    ionsChosen.value.push({ ion, conc });
   });
-});
-
-function resetForm() {
-  ionsChosen.value = [];
-  name.value = 'Удобрение';
-  description.value = '';
-  isPercent.value = false;
-  updatedAt.value = undefined;
 }
 
-watch(fertilizerExampleChosen, (value: FertilizerType) => {
-  if (value === null || typeof value === 'string') {
+function resetForm() {
+  fertilizerModel.name = 'Удобрение';
+  fertilizerModel.description = '';
+  fertilizerModel.isPercent = false;
+  fertilizerModel.updatedAt = undefined;
+  ionsChosen.value = [];
+  fertilizerModel.ions = {};
+}
+
+watch(fertilizerExampleChosen, (fertilizer: FertilizerType) => {
+  if (fertilizer === null || typeof fertilizer === 'string') {
     resetForm();
     return;
   }
-
   resetForm();
-  name.value = value.name;
-  description.value = value.description || '';
-  isPercent.value = value.isPercent;
-  updatedAt.value = value.updatedAt;
-  typedEntries(value.ions).forEach(([ion, conc]) => {
-    ionsChosen.value.push({ ion, conc });
+  fillForm(fertilizer);
+});
+
+watch(ionsChosen, () => {
+  ionsChosen.value.forEach(({ ion, conc }) => {
+    fertilizerModel.ions[ion] = conc;
   });
 });
 
@@ -230,17 +263,15 @@ const fertilizerIndex = computed(() => +route.params.id);
 const isUnitsChangedAlert = computed(() => {
   return fertilizerExampleChosen.value !== null
     && typeof fertilizerExampleChosen.value !== 'string'
-    && fertilizerExampleChosen.value?.isPercent !== isPercent.value;
+    && fertilizerExampleChosen.value?.isPercent !== fertilizerModel.isPercent;
 });
 
 const isExist = computed(() => {
-  return checkName(name.value) && !isEdit.value;
+  return checkName(fertilizerModel.name) && !isEdit.value;
 });
 
 const isNameExist = () => !isExist.value || 'Удобрение или рецепт с таким названием уже существует';
 
-// Watchers
-// Lifecycle hooks
 onMounted(async () => {
   if (isCreate.value) {
     return;
@@ -250,21 +281,30 @@ onMounted(async () => {
     await router.push('/fertilizers/');
     return;
   }
-
-  name.value = fertilizer.name;
-  description.value = fertilizer.description;
-  isPercent.value = fertilizer.isPercent;
-  updatedAt.value = fertilizer.updatedAt;
-  typedEntries(fertilizer.ions).forEach(([ion, conc]) => {
-    ionsChosen.value.push({ ion, conc });
-  });
+  fillForm(fertilizer);
 });
 
-// Methods
+// TODO: come up with idea how to reuse this (create own combobox component with guard?)
+function onInputIon(value: []) {
+  if (value.length > ionsChosen.value.length) {
+    const lastIon = [...value].pop();
+    // Skip if search value is a string
+    if (typeof lastIon === 'string') {
+      return;
+    }
+  }
+  ionsChosen.value = value;
+}
+
+function onRemoveIon(ion: string) {
+  const ionIndex = ionsChosen.value.findIndex((item) => item.ion === ion);
+  ionsChosen.value.splice(ionIndex, 1);
+}
+
 async function onAddFertilizer() {
   const { valid } = await fertilizerForm.value.validate();
   if (valid) {
-    fertilizersStore.addFertilizer(fertilizerModel.value.toJson());
+    fertilizersStore.addFertilizer(fertilizerModel.toJson());
     snackbarStore.show('Удобрение добавлено');
     await router.push('/fertilizers/');
   }
@@ -275,7 +315,7 @@ async function onEditFertilizer() {
   if (valid) {
     fertilizersStore.editFertilizer({
       index: fertilizerIndex.value,
-      fertilizer: fertilizerModel.value.toJson(),
+      fertilizer: fertilizerModel.toJson(),
     });
 
     snackbarStore.show('Удобрение изменено');

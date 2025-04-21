@@ -255,6 +255,8 @@ const router = useRouter();
 const snackbarStore = useSnackbarStore();
 const remineralsStore = useRemineralsStore();
 
+const { getReagents } = useReagents();
+
 // FORM FIELDS
 const remineralForm = ref(null);
 const reagentsChosen = ref<InstanceType<typeof Reagent>[]>([]);
@@ -277,14 +279,8 @@ const remineralModel = reactive(new RemineralRecipe({
   doseVolume: 10, // ml
 }));
 
-const reagents = [
-  ...Object.entries({ ...FORMULAS, ...COMPOUNDS }).map(([key, data]) => new Reagent({
-    key,
-    ...data,
-    amount: 1,
-    type: key in FORMULAS ? ReagentTypeName.FORMULA : ReagentTypeName.COMPOUND,
-  })),
-];
+const INITIAL_REAGENT_AMOUNT = 1;
+const reagents = getReagents(INITIAL_REAGENT_AMOUNT);
 
 const isReagents = computed(() => reagentsChosen.value.length > 0);
 const isReagentsAmount = computed(() => remineralModel.totalMass > 0);
@@ -483,7 +479,7 @@ watch(reagentsChosen, () => {
   }
 });
 
-function fillForm(remineral: Partial<RemineralType | RemineralExampleType>) {
+function fillForm(remineral: RemineralType | RemineralExampleType) {
   remineralModel.name = remineral.name;
   remineralModel.description = remineral.description;
   remineralModel.changeVolume = remineral.changeVolume;
@@ -499,7 +495,7 @@ const onInputRemineralExample = (remineral: RemineralExampleType) => {
     if (reagentFound) {
       reagentFound.amount = amount;
       reagentsChosen.value.push(reagentFound);
-      remineralModel.reagents.push(new Reagent({ ...reagentFound }));
+      remineralModel.reagents.push(reagentFound);
     }
   });
 
@@ -563,8 +559,12 @@ onMounted(async () => {
   reagents.forEach((reagent: InstanceType<typeof Reagent>) => {
     if (reagent.key in remineralReagents) {
       reagent.amount = remineralReagents[reagent.key].amount;
-      reagentsChosen.value.push(reagent);
-      remineralModel.reagents.push(new Reagent({ ...reagent }));
+      remineralModel.reagents.push(reagent);
+      // We need to format amount to show convenient value in the form
+      reagentsChosen.value.push(new Reagent({
+        ...reagent,
+        amount: format(reagent.amount),
+      }));
     }
   });
 
@@ -603,6 +603,10 @@ async function onRemoveRemineral() {
   snackbarStore.show('Рецепт удален');
   await router.push(ROUTES.reminerals.path);
 }
+
+definePageMeta({
+  title: 'Редактирование реминерализатора',
+});
 </script>
 
 <style lang="sass" scoped>
