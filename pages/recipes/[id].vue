@@ -70,10 +70,11 @@
             item-title="text"
             variant="underlined"
             multiple
-            clearable
             label="Реагенты"
             hint="Вы можете выбрать несколько реагентов"
             persistent-hint
+            chips
+            closable-chips
             hide-details="auto"
             :rules="[required]"
             @update:model-value="onInputReagent"
@@ -422,8 +423,8 @@ onMounted(async () => {
   if (isShare.value) {
     [recipe] = JSON.parse(decodeURIComponent(route.query.share as string));
   } else if (isCopy.value) {
-    const recipeIndex = route.query.copy as string;
-    recipe = JSON.parse(JSON.stringify({ ...recipes[recipeIndex] }));
+    const index = route.query.copy as string;
+    recipe = JSON.parse(JSON.stringify({ ...recipes[+index] }));
   } else if (!isCreate.value) {
     recipe = JSON.parse(JSON.stringify({ ...recipes[recipeIndex.value] }));
   }

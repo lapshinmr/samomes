@@ -51,7 +51,6 @@
             hint="Здесь есть большинство фирменных удобрений"
             persistent-hint
             item-title="name"
-            :return-object="true"
             hide-details="auto"
           />
           <v-alert
@@ -99,7 +98,8 @@
             persistent-hint
             hide-details="auto"
             multiple
-            clearable
+            chips
+            closable-chips
             :rules="[required]"
             @update:model-value="onInputIon"
           />
@@ -113,7 +113,6 @@
             hide-details="auto"
             append-icon="mdi-delete"
             :rules="[required]"
-            @click:append="onRemoveIon(item.ion)"
           />
           <v-text-field
             v-model="fertilizerModel.name"
@@ -294,11 +293,6 @@ function onInputIon(value: []) {
     }
   }
   ionsChosen.value = value;
-}
-
-function onRemoveIon(ion: string) {
-  const ionIndex = ionsChosen.value.findIndex((item) => item.ion === ion);
-  ionsChosen.value.splice(ionIndex, 1);
 }
 
 async function onAddFertilizer() {

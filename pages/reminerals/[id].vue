@@ -20,22 +20,41 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <LayoutBackButton :path="ROUTES.reminerals.path"/>
+      <LayoutBackButton
+        :path="ROUTES.reminerals.path"
+      >
+        <v-btn
+          v-if="!isCreate && !isShare"
+          color="primary"
+          class="ml-auto"
+          size="small"
+          @click="onCopyRemineral"
+        >
+          Скопировать
+        </v-btn>
+      </LayoutBackButton>
       <LayoutPageTitle>
-        <template v-if="isShare">
-          <p class="text-h4">
-            С вами поделились рецептом!
-          </p>
-          <p class="text-h6 font-weight-regular">
-            Посмотрите рецепт, дайте ему
-            название и напишите примечание. После этого можете сохранить его.
-          </p>
+        <template v-if="isCreate && !isCopy">
+          Новый рецепт
         </template>
-        <template v-else-if="isCreate">
-          Новый реминерализатор
+        <template v-else-if="isCopy">
+          <div class="text-h6 text-sm-h5">
+            Это копия реминерализатора {{ remineralModel.name }}
+          </div>
+          <div class="text-subtitle-1">
+            Внесите изменения и не забудьте сохранить
+          </div>
+        </template>
+        <template v-else-if="isShare">
+          <p class="text-h6 text-md-h5">
+            С вами поделились реминерализатором!
+          </p>
+          <p class="text-subtitle-1">
+            Проверьте его, дайте название и не забудьте сохранить.
+          </p>
         </template>
         <template v-else>
-          Реминерализатор {{ remineralModel.name }}
+          {{ remineralModel.name }}
         </template>
       </LayoutPageTitle>
       <v-col
@@ -50,12 +69,13 @@
             item-title="text"
             variant="underlined"
             multiple
-            clearable
             label="Реагенты"
             hint="Вы можете выбрать несколько реагентов"
             persistent-hint
             hide-details="auto"
             validate-on-blur
+            chips
+            closable-chips
             :rules="[required]"
             @update:model-value="onInputReagent"
           />
@@ -129,12 +149,6 @@
                     size="24"
                     class="mt-3 ml-2 align-self-center mr-2 cursor-pointer text-grey-darken-1"
                     @click="onLockReagent(reagent.key)"
-                  />
-                  <Icon
-                    name="mdi:delete"
-                    size="24"
-                    class="mt-3 ml-2 align-self-center mr-2 cursor-pointer text-grey-darken-1"
-                    @click="onRemoveReagent(reagent.key)"
                   />
                 </div>
               </div>
@@ -375,15 +389,6 @@ function onInputReagent(value: InstanceType<typeof Reagent>[]) {
   updateCaMgRatio();
 }
 
-function onRemoveReagent(reagentKey: string) {
-  const reagentIndex = reagentsChosen.value.findIndex((reagent) => reagent.key === reagentKey);
-  reagentsChosen.value.splice(reagentIndex, 1);
-  remineralModel.reagents.splice(reagentIndex, 1);
-  updateGh();
-  updateKh();
-  updateCaMgRatio();
-}
-
 function onLockReagent(reagentKey: string) {
   reagentsLocked.value[reagentKey] = !reagentsLocked.value[reagentKey];
 }
@@ -543,6 +548,9 @@ onMounted(async () => {
   let remineral: RemineralType;
   if (isShare.value) {
     [remineral] = JSON.parse(decodeURIComponent(route.params.query as string));
+  } else if (isCopy.value) {
+    const index = route.query.copy as string;
+    remineral = JSON.parse(JSON.stringify({ ...remineralsStore.reminerals[+index] }));
   } else if (isEdit.value) {
     remineral = JSON.parse(JSON.stringify({ ...remineralsStore.reminerals[+remineralIndex.value] }));
   }
@@ -593,15 +601,20 @@ async function onEditRemineral() {
       index: +remineralIndex.value,
       remineral: { ...remineralModel.toJson() },
     });
-    snackbarStore.show('Рецепт изменен');
+    snackbarStore.show('Реминерализатор изменен');
     await router.push(ROUTES.reminerals.path);
   }
 }
 
 async function onRemoveRemineral() {
   remineralsStore.removeRemineral(+remineralIndex.value);
-  snackbarStore.show('Рецепт удален');
+  snackbarStore.show('Реминерализатор удален');
   await router.push(ROUTES.reminerals.path);
+}
+
+async function onCopyRemineral() {
+  snackbarStore.show('Реминерализатор скопирован');
+  await router.push(`${ROUTES.reminerals.path}create/?copy=${remineralIndex.value}`);
 }
 
 definePageMeta({
