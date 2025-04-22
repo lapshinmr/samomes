@@ -19,19 +19,19 @@
 
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import RemineralRecipe from '~/utils/models/RemineralRecipe';
-import type { RemineralType } from '~/utils/types/types';
+import type { RemineralRecipeType } from '~/utils/types/types';
 
 export const useRemineralsStore = defineStore(
   'reminerals',
   () => {
-    const reminerals = ref<RemineralType[]>([]);
+    const reminerals = ref<RemineralRecipeType[]>([]);
 
     // TODO: rename to remineralModels
     const remineralModels = computed(
       () => reminerals.value.map((remineral) => new RemineralRecipe(remineral)),
     );
 
-    const addRemineral = (remineral: RemineralType) => {
+    const addRemineral = (remineral: RemineralRecipeType) => {
       reminerals.value.push(remineral);
     };
 
@@ -39,11 +39,11 @@ export const useRemineralsStore = defineStore(
       reminerals.value.splice(index, 1);
     };
 
-    const editRemineral = ({ index, remineral }: { index: number; remineral: RemineralType }) => {
+    const editRemineral = ({ index, remineral }: { index: number; remineral: RemineralRecipeType }) => {
       reminerals.value[index] = remineral;
     };
 
-    const moveReminerals = (payload: RemineralType[]) => {
+    const moveReminerals = (payload: RemineralRecipeType[]) => {
       reminerals.value = payload;
     };
 

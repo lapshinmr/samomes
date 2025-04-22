@@ -26,6 +26,7 @@ export default class Fertilizer {
   public ions: Partial<Record<IonType, number>>;
   public isPercent: boolean;
   public updatedAt?: string;
+  public isLiquid = true;
 
   constructor(args: {
     name: string;
@@ -51,19 +52,19 @@ export default class Fertilizer {
         value *= 10;
       }
       if (el === 'N') {
-        result['NO3'] = format(value * getElementToOxideRatio(el));
+        result['NO3'] = value * getElementToOxideRatio(el);
       } else if (el === 'P') {
-        result['PO4'] = format(value * getElementToOxideRatio(el));
+        result['PO4'] = value * getElementToOxideRatio(el);
       } else if (el === 'S') {
-        result['SO4'] = format(value * getElementToOxideRatio(el));
-      } else if (el === 'Mg') {
-        result['Mg'] = format(value * getOxideToElementRatio(el));
-      } else if (el === 'Ca') {
-        result['Ca'] = format(value * getOxideToElementRatio(el));
+        result['SO4'] = value * getElementToOxideRatio(el);
+      } else if (el === 'MgO') {
+        result['Mg'] = value * getOxideToElementRatio(el);
+      } else if (el === 'CaO') {
+        result['Ca'] = value * getOxideToElementRatio(el);
       } else if (el === 'P2O5') {
-        result['PO4'] = format(value * getOxideToElementRatio(el) * getElementToOxideRatio('P'));
+        result['PO4'] = value * getOxideToElementRatio(el) * getElementToOxideRatio('P');
       } else if (el === 'K2O') {
-        result['K'] = format(value * getOxideToElementRatio(el));
+        result['K'] = value * getOxideToElementRatio(el);
       } else {
         result[el] = value;
       }
@@ -77,6 +78,7 @@ export default class Fertilizer {
       description: this.description,
       ions: this.ions,
       isPercent: this.isPercent,
+      isLiquid: this.isLiquid,
       updatedAt: this.updatedAt,
     };
   }

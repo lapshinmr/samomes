@@ -59,7 +59,7 @@ export type ReagentType = {
   HCO3: number;
 }
 
-export type RecipeType = {
+export type FertilizerRecipeType = {
   name: string;
   description?: string;
   reagents: ReagentType[];
@@ -71,7 +71,7 @@ export type RecipeType = {
   concentration?: Record<string, Record<string, number>>;
 }
 
-export type RecipeExampleType = {
+export type FertilizerRecipeExampleType = {
   name: string;
   description?: string;
   reagents: { key: ReagentKeyType, amount: number }[];
@@ -86,18 +86,20 @@ export type FertilizerType = {
   ions: Partial<Record<IonType, number>>;
   isPercent: boolean;
   updatedAt?: string;
+  isLiquid: boolean;
 }
 
-export type RemineralType = {
+export type RemineralRecipeType = {
   name: string;
   description?: string;
   reagents: ReagentType[];
   changeVolume: number;
   waterVolume?: number;
   doseVolume?: number;
+  isLiquid?: boolean;
 }
 
-export type RemineralExampleType = {
+export type RemineralRecipeExampleType = {
   name: string;
   description?: string;
   reagents: { key: ReagentKeyType, amount: number }[]
@@ -106,8 +108,13 @@ export type RemineralExampleType = {
   doseVolume?: number;
 }
 
-export type DoseType<T extends RecipeType | FertilizerType | RemineralType> = T & {
+export type DoseType = {
+  fertilizer: FertilizerRecipeType | FertilizerType | RemineralRecipeType;
+  fertilizerType: 'fertilizerRecipe' | 'fertilizer' | 'remineralRecipe';
+  daysTotal: number;
   amount: number;
+  amountDay: number;
+  amountWaterChange: number;
 }
 
 export enum FertilizersRegime { EVERY_DAY, ONCE_A_WEEK, MIX }

@@ -353,13 +353,14 @@ export default class RemineralRecipe extends Recipe {
     });
   }
 
-  toJson(): RemineralType {
+  toJson(): RemineralRecipeType {
     return {
       name: this.name,
       description: this.description,
       waterVolume: this.waterVolume,
       changeVolume: this.changeVolume,
       doseVolume: this.doseVolume,
+      isLiquid: this.isLiquid,
       reagents: this.reagents.map((reagent) => ({
         ...reagent.toJson(),
       })),

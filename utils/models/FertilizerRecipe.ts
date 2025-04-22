@@ -95,12 +95,13 @@ export default class FertilizerRecipe extends Recipe {
     return Object.values(this.recipeIonUnitConcs).reduce((sum, value) => sum + value, 0);
   };
 
-  toJson(): RecipeType {
+  toJson(): FertilizerRecipeType {
     return {
       name: this.name,
       description: this.description,
       waterVolume: this.waterVolume,
       tankVolume: this.tankVolume,
+      isLiquid: this.isLiquid,
       reagents: this.reagents.map((reagent) => ({
         ...reagent.toJson(),
       })),

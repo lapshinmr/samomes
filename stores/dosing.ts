@@ -28,22 +28,38 @@ export const useDosingStore = defineStore(
     const isHardness = ref<boolean>(false);
     const fertilizersRegime = ref<FertilizersRegime>(FertilizersRegime.EVERY_DAY);
     const daysTotal = ref<number>(7);
+    const tank = ref<TankType>();
+    const doses = ref<DoseType[]>([]);
 
-    // function addTank(payload: TankType) {
-    //   tanks.value.push(payload);
-    // }
-    //
-    // function removeTank(index: number) {
-    //   tanks.value.splice(index, 1);
-    // }
-    //
-    // function editTank(payload: { tank: TankType; index: number }) {
-    //   tanks.value[payload.index] = payload.tank;
-    // }
-    //
-    // function moveTanks(payload: TankType[]) {
-    //   tanks.value = payload;
-    // }
+    const doseModels = computed(() => {
+      return doses.value.map((dose) => {
+        let fertilizer: InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>;
+        if (dose.fertilizerType === 'fertilizerRecipe') {
+          fertilizer = new FertilizerRecipe(dose.fertilizer as FertilizerRecipeType);
+        }
+        if (dose.fertilizerType === 'fertilizer') {
+          fertilizer = new Fertilizer(dose.fertilizer as FertilizerType);
+        }
+        if (dose.fertilizerType === 'remineralRecipe') {
+          fertilizer = new RemineralRecipe(dose.fertilizer as RemineralRecipeType);
+        }
+        return new Dose({
+          fertilizer: fertilizer,
+          fertilizerType: 'fertilizerRecipe',
+          daysTotal: daysTotal.value,
+          amountDay: dose.amountDay,
+          amountWaterChange: dose.amountWaterChange,
+        });
+      });
+    });
+
+    function setTank(payload: TankType) {
+      tank.value = payload;
+    }
+
+    function setWaterChangeVolume(payload: number) {
+      tank.value.waterChangeVolume = payload;
+    }
 
     function setDefaultFertilizers(value: boolean) {
       isDefaultFertilizers.value = value;
@@ -51,6 +67,11 @@ export const useDosingStore = defineStore(
 
     function setTotalMode(value: boolean) {
       isTotalMode.value = value;
+    }
+
+    function setDaysTotal(value: number) {
+      daysTotal.value = value;
+      doses.value.forEach((dose) => dose.daysTotal = value);
     }
 
     function setHardness(value: boolean) {
@@ -61,16 +82,42 @@ export const useDosingStore = defineStore(
       fertilizersRegime.value = value;
     }
 
+    function setDoses(payload: InstanceType<typeof Dose>[]) {
+      doses.value = payload.map((dose) => dose.toJson());
+    }
+
+    function updateAmountDay(value: number, index: number) {
+      doses.value[index].amountDay = value;
+    }
+
+    function updateAmount(value: number, index: number) {
+      doses.value[index].amountDay = value / daysTotal.value;
+    }
+
+    function updateAmountWaterChange(value: number, index: number) {
+      doses.value[index].amountWaterChange = value;
+    }
+
     return {
+      tank,
       isDefaultFertilizers,
       isTotalMode,
       isHardness,
       fertilizersRegime,
       daysTotal,
+      doses,
+      doseModels,
+      setTank,
+      setWaterChangeVolume,
       setDefaultFertilizers,
       setTotalMode,
+      setDaysTotal,
       setHardness,
       setFertilizersRegime,
+      setDoses,
+      updateAmount,
+      updateAmountDay,
+      updateAmountWaterChange,
     };
   },
   {

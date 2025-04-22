@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import type { RecipeExampleType } from '~/utils/types/types';
+import type { FertilizerRecipeExampleType } from '~/utils/types/types';
 
-export const RECIPES: RecipeExampleType[] = [
+export const RECIPES: FertilizerRecipeExampleType[] = [
   {
     name: 'Kuban Aquariums Нитрат',
     reagents: [

@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import type { RemineralExampleType } from '~/utils/types/types';
+import type { RemineralRecipeExampleType } from '~/utils/types/types';
 
 // TODO: change reagents structure to [{ key: string, amount: number }]?
-export const REMINERAL_RECIPES: RemineralExampleType[] = [
+export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
   {
     reagents: [
       {

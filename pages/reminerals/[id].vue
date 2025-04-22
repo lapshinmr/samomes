@@ -484,7 +484,7 @@ watch(reagentsChosen, () => {
   }
 });
 
-function fillForm(remineral: RemineralType | RemineralExampleType) {
+function fillForm(remineral: RemineralRecipeType | RemineralRecipeExampleType) {
   remineralModel.name = remineral.name;
   remineralModel.description = remineral.description;
   remineralModel.changeVolume = remineral.changeVolume;
@@ -492,7 +492,7 @@ function fillForm(remineral: RemineralType | RemineralExampleType) {
   remineralModel.doseVolume = remineral.doseVolume;
 }
 
-const onInputRemineralExample = (remineral: RemineralExampleType) => {
+const onInputRemineralExample = (remineral: RemineralRecipeExampleType) => {
   reagentsChosen.value = [];
   remineralModel.reagents = [];
   remineral.reagents.forEach(({ key, amount }) => {
@@ -545,7 +545,7 @@ onMounted(async () => {
     return;
   }
 
-  let remineral: RemineralType;
+  let remineral: RemineralRecipeType;
   if (isShare.value) {
     [remineral] = JSON.parse(decodeURIComponent(route.params.query as string));
   } else if (isCopy.value) {

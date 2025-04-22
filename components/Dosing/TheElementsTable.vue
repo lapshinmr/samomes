@@ -28,7 +28,7 @@
         class="mt-0 mb-2 mb-sm-0"
       />
     </div>
-    <v-table dense>
+    <v-table density="compact">
       <thead>
         <tr>
           <th class="pl-0 text-center">
@@ -74,7 +74,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="[ion, value] in dosing.totalElementsSorted"
+          v-for="[ion, value] in dosing.concentrationSorted"
           :key="ion"
           class="caption regular-sm"
         >
@@ -132,7 +132,10 @@
         </tr>
       </tbody>
     </v-table>
-    <CommonTheElementsRatios :concentration="dosing.totalConcentration"/>
+    <CommonTheElementsRatios
+      :concentration="dosing.concentrationTotal"
+      class="mt-8"
+    />
   </div>
 </template>
 
@@ -144,7 +147,7 @@ defineOptions({
 });
 
 defineProps<{
-  dosing: Dosing;
+  dosing: InstanceType<typeof Dosing>;
 }>();
 
 const isHardness = computed({

@@ -269,7 +269,6 @@
                 Отмена
               </v-btn>
               <v-btn
-                v-if="isCreate || isShare"
                 color="primary"
                 class="ml-2"
                 v-on="isCreate || isShare ? { click: onAddRecipe } : { click: onEditRecipe }"
@@ -287,7 +286,7 @@
 <script lang="ts" setup>
 import { useRouter, useRoute } from 'vue-router';
 import { required, positive } from '~/utils/validation';
-import type { RecipeExampleType } from '~/utils/types/types';
+import type { FertilizerRecipeExampleType } from '~/utils/types/types';
 
 const router = useRouter();
 const route = useRoute();
@@ -318,7 +317,7 @@ const recipeModel = reactive(new FertilizerRecipe(
 const isReagents = computed(() => reagentsChosen.value.length > 0);
 const isLiquid = computed(() => recipeModel.waterVolume !== null && recipeModel.waterVolume > 0);
 
-function fillForm(recipe: RecipeType | RecipeExampleType) {
+function fillForm(recipe: FertilizerRecipeType | FertilizerRecipeExampleType) {
   recipeModel.name = recipe.name;
   recipeModel.description = recipe.description;
   recipeModel.waterVolume = recipe.waterVolume;
@@ -345,7 +344,7 @@ function onInputReagent(value: InstanceType<typeof Reagent>[]) {
   recipeModel.reagents = [...reagentsChosen.value].map((reagent) => new Reagent(reagent));
 }
 
-const onInputRecipeExample = (recipe: RecipeExampleType) => {
+const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
   reagentsChosen.value = [];
   recipe.reagents.forEach(({ key, amount }) => {
     const reagentFound = reagents.find((reagent) => reagent.key === key);
@@ -419,7 +418,7 @@ onMounted(async () => {
     return;
   }
 
-  let recipe: RecipeType;
+  let recipe: FertilizerRecipeType;
   if (isShare.value) {
     [recipe] = JSON.parse(decodeURIComponent(route.query.share as string));
   } else if (isCopy.value) {
