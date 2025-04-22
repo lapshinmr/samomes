@@ -388,7 +388,7 @@ const isReagentsInfo = ref<boolean>(false);
 const isUnitConc = ref<boolean>(false);
 
 const tanks = tanksStore.tanks;
-const recipes = recipesStore.recipeModels;
+const recipes = recipesStore.fertilizerRecipeModels;
 
 const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');

@@ -4,9 +4,9 @@ export default () => {
   const remineralsStore = useRemineralsStore();
 
   function checkName(name: string) {
-    const recipesNames = recipesStore.recipes.map((item) => item.name);
+    const recipesNames = recipesStore.fertilizerRecipes.map((item) => item.name);
     const fertilizersNames = fertilizersStore.fertilizers.map((item) => item.name);
-    const remineralsNames = remineralsStore.reminerals.map((item) => item.name);
+    const remineralsNames = remineralsStore.remineralRecipes.map((item) => item.name);
 
     return recipesNames.includes(name) || fertilizersNames.includes(name) || remineralsNames.includes(name);
   }

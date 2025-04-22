@@ -550,9 +550,9 @@ onMounted(async () => {
     [remineral] = JSON.parse(decodeURIComponent(route.params.query as string));
   } else if (isCopy.value) {
     const index = route.query.copy as string;
-    remineral = JSON.parse(JSON.stringify({ ...remineralsStore.reminerals[+index] }));
+    remineral = JSON.parse(JSON.stringify({ ...remineralsStore.remineralRecipes[+index] }));
   } else if (isEdit.value) {
-    remineral = JSON.parse(JSON.stringify({ ...remineralsStore.reminerals[+remineralIndex.value] }));
+    remineral = JSON.parse(JSON.stringify({ ...remineralsStore.remineralRecipes[+remineralIndex.value] }));
   }
 
   if (Object.keys(remineral).length === 0) {

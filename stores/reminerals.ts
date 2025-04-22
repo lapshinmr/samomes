@@ -24,32 +24,32 @@ import type { RemineralRecipeType } from '~/utils/types/types';
 export const useRemineralsStore = defineStore(
   'reminerals',
   () => {
-    const reminerals = ref<RemineralRecipeType[]>([]);
+    const remineralRecipes = ref<RemineralRecipeType[]>([]);
 
     // TODO: rename to remineralModels
-    const remineralModels = computed(
-      () => reminerals.value.map((remineral) => new RemineralRecipe(remineral)),
+    const remineralRecipeModels = computed(
+      () => remineralRecipes.value.map((remineral) => new RemineralRecipe(remineral)),
     );
 
     const addRemineral = (remineral: RemineralRecipeType) => {
-      reminerals.value.push(remineral);
+      remineralRecipes.value.push(remineral);
     };
 
     const removeRemineral = (index: number) => {
-      reminerals.value.splice(index, 1);
+      remineralRecipes.value.splice(index, 1);
     };
 
     const editRemineral = ({ index, remineral }: { index: number; remineral: RemineralRecipeType }) => {
-      reminerals.value[index] = remineral;
+      remineralRecipes.value[index] = remineral;
     };
 
     const moveReminerals = (payload: RemineralRecipeType[]) => {
-      reminerals.value = payload;
+      remineralRecipes.value = payload;
     };
 
     return {
-      reminerals,
-      remineralModels,
+      remineralRecipes,
+      remineralRecipeModels,
       addRemineral,
       removeRemineral,
       editRemineral,

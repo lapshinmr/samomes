@@ -24,31 +24,31 @@ import type { FertilizerRecipeType } from '~/utils/types/types';
 export const useRecipesStore = defineStore(
   'recipes',
   () => {
-    const recipes = ref([]);
+    const fertilizerRecipes = ref([]);
 
-    const recipeModels = computed(
-      () => recipes.value.map((recipe) => new FertilizerRecipe(recipe)),
+    const fertilizerRecipeModels = computed(
+      () => fertilizerRecipes.value.map((recipe) => new FertilizerRecipe(recipe)),
     );
 
     const addRecipe = (recipe: FertilizerRecipeType) => {
-      recipes.value.push(recipe);
+      fertilizerRecipes.value.push(recipe);
     };
 
     const removeRecipe = (index: number) => {
-      recipes.value.splice(index, 1);
+      fertilizerRecipes.value.splice(index, 1);
     };
 
     const editRecipe = ({ index, recipe }: { index: number; recipe: FertilizerRecipeType }) => {
-      recipes.value[index] = recipe;
+      fertilizerRecipes.value[index] = recipe;
     };
 
     const moveRecipes = (payload: FertilizerRecipe[]) => {
-      recipes.value = payload;
+      fertilizerRecipes.value = payload;
     };
 
     return {
-      recipes,
-      recipeModels,
+      fertilizerRecipes,
+      fertilizerRecipeModels,
       addRecipe,
       removeRecipe,
       editRecipe,

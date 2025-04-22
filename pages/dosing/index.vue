@@ -85,9 +85,9 @@
 
 <script setup lang="ts">
 const { tanks } = useTanksStore();
-const { recipeModels } = useRecipesStore();
+const { fertilizerRecipeModels } = useRecipesStore();
 const { fertilizerModels } = useFertilizersStore();
-const { remineralModels } = useRemineralsStore();
+const { remineralRecipeModels } = useRemineralsStore();
 const dosingStore = useDosingStore();
 const snackbarStore = useSnackbarStore();
 
@@ -103,11 +103,11 @@ const dosingModel = computed(() => {
 const isDoses = computed(() => dosingModel.value.doses.length > 0);
 
 const allFertilizers = computed(() => {
-  const result = [...recipeModels, ...fertilizerModels, ...remineralModels];
+  const result = [...fertilizerRecipeModels, ...fertilizerModels, ...remineralRecipeModels];
   if (isDefaultFertilizers.value) {
-    const recipesNames = recipeModels.map((item) => item.name);
+    const recipesNames = fertilizerRecipeModels.map((item) => item.name);
     const fertilizersNames = fertilizerModels.map((item) => item.name);
-    const remineralsNames = remineralModels.map((item) => item.name);
+    const remineralsNames = remineralRecipeModels.map((item) => item.name);
     const defaultFertilizersFiltered = FERTILIZERS_SORTED.filter(
       (item) => ![...recipesNames, ...fertilizersNames, ...remineralsNames].includes(item.name),
     ).map((item) => new Fertilizer(item));
@@ -155,6 +155,7 @@ function onInputFertilizer(value: InstanceType<typeof Dose>[]) {
       return;
     }
   }
+  console.log(value);
   dosingStore.setDoses(value);
 }
 

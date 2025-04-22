@@ -121,12 +121,12 @@ const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = use
 const { itemIndexToShare, isSharePopup, onShare, encodeUrl } = useSharePopup();
 
 const recipeModels = computed({
-  get: () => recipesStore.recipeModels,
+  get: () => recipesStore.fertilizerRecipeModels,
   set: (value) => recipesStore.moveRecipes(value),
 });
 
 const encodedUrl = computed(() => {
-  const data = recipesStore.recipes[itemIndexToShare.value];
+  const data = recipesStore.fertilizerRecipes[itemIndexToShare.value];
   return encodeUrl(data);
 });
 

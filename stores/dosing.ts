@@ -45,7 +45,7 @@ export const useDosingStore = defineStore(
         }
         return new Dose({
           fertilizer: fertilizer,
-          fertilizerType: 'fertilizerRecipe',
+          fertilizerType: dose.fertilizerType,
           daysTotal: daysTotal.value,
           amountDay: dose.amountDay,
           amountWaterChange: dose.amountWaterChange,
