@@ -1,7 +1,7 @@
 export default () => {
   function getReagents(amount: number = 0) {
     return [
-      ...Object.entries({ ...FORMULAS, ...COMPOUNDS }).map(([key, data]) => new Reagent({
+      ...typedEntries({ ...FORMULAS, ...COMPOUNDS }).map(([key, data]) => new Reagent({
         key,
         ...data,
         amount,

@@ -39,7 +39,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="(ions, reagent) in recipe.concentration"
+          v-for="(ions, reagent) in recipe.concentrationPerReagent"
           :key="reagent"
         >
           <td class="pl-0 text-center">
@@ -85,7 +85,10 @@
         </tr>
       </tbody>
     </v-table>
-    <CommonTheElementsRatios :concentration="recipe.concentration" />
+    <CommonTheElementsRatios
+      :concentration="recipe.concentration"
+      class="mt-8"
+    />
   </div>
 </template>
 

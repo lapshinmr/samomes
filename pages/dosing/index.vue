@@ -155,7 +155,6 @@ function onInputFertilizer(value: InstanceType<typeof Dose>[]) {
       return;
     }
   }
-  console.log(value);
   dosingStore.setDoses(value);
 }
 

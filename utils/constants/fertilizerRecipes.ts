@@ -18,42 +18,40 @@
  */
 import type { FertilizerRecipeExampleType } from '~/utils/types/types';
 
-export const RECIPES: FertilizerRecipeExampleType[] = [
+export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
   {
     name: 'Kuban Aquariums Нитрат',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'KNO3', amount: 49.71 },
       { key: '(NH2)2CO', amount: 5.02 },
       { key: 'NH4NO3', amount: 6.71 },
       { key: 'C6H7KO2', amount: 0.5 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Фосфат',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'KH2PO4', amount: 7.01 },
       { key: 'C6H7KO2', amount: 0.5 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Калий',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'K2SO4', amount: 84.76 },
       { key: 'C6H7KO2', amount: 0.5 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Kuban Aquariums Микро',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'H3BO3', amount: 0.7 },
       { key: 'C10H14N2Na2O8(H2O)2', amount: 3 },
       { key: 'MgSO4(H2O)7', amount: 30 },
@@ -63,54 +61,50 @@ export const RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'AgroMicsT', amount: 11 },
       { key: 'Fe-EDTA13', amount: 5.6 },
     ],
-    volume: 1000,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
     name: 'Aqua Botanic Нитрат',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'KNO3', amount: 82.88 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Нитрат+',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'KNO3', amount: 49.71 },
       { key: '(NH2)2CO', amount: 5.02 },
       { key: 'NH4NO3', amount: 6.71 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Калиевая селитра, разбавленная мочевиной и нитратом аммония. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Фосфат',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'KH2PO4', amount: 7.01 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Калий',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'K2SO4', amount: 84.76 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
     name: 'Aqua Botanic Микро',
     reagents: [
+      { key: 'H2O', amount: 968 },
       { key: 'C6H8O7', amount: 30 },
       { key: 'FeSO4(H2O)7', amount: 10 },
       { key: 'MnSO4(H2O)5', amount: 0.5 },
@@ -124,7 +118,6 @@ export const RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'Ferovit', amount: 6 },
       { key: 'H2SO4', amount: 20 },
     ],
-    volume: 1000,
     description: `Рецепт взят с сайта aqua-botanic.ru
 (https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html):
 
@@ -154,28 +147,27 @@ export const RECIPES: FertilizerRecipeExampleType[] = [
   {
     name: 'NPK Amania.org 1:15',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'KNO3', amount: 106.45 },
       { key: 'KH2PO4', amount: 5.77 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Макро в соотношении 1 к 15. Рецепт взят с сайта amania.org',
   },
   {
     name: 'NPK Amania.org 1:15 + амидный азот',
     reagents: [
+      { key: 'H2O', amount: 1000 },
       { key: 'KNO3', amount: 53.6 },
       { key: '(NH2)2CO', amount: 16 },
       { key: 'KH2PO4', amount: 5.77 },
     ],
-    tankVolume: 100,
-    volume: 1000,
     description: 'Макро в соотношении 1 к 15. Калиевая селитра в соотношении 50 на 50 с мочевиной.'
       + ' Рецепт взят с сайта amania.org',
   },
   {
     name: 'Удо Ермолаева. МИКРО',
     reagents: [
+      { key: 'H2O', amount: 500 },
       { key: 'K2SO4', amount: 7.45 },
       { key: 'MgSO4(H2O)7', amount: 16.4 },
       { key: 'Fe2(SO4)3(H2O)9', amount: 1.45 },
@@ -186,13 +178,12 @@ export const RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'MnSO4(H2O)5', amount: 0.73 },
       { key: 'C10H14N2Na2O8', amount: 2.5 },
     ],
-    tankVolume: 100,
-    volume: 500,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Удо Ермолаева. МИКРО (gh < 7)',
     reagents: [
+      { key: 'H2O', amount: 500 },
       { key: 'K2SO4', amount: 7.45 },
       { key: 'MgSO4(H2O)7', amount: 16.4 },
       { key: 'Fe2(SO4)3(H2O)9', amount: 1.45 },
@@ -203,13 +194,12 @@ export const RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'MnSO4(H2O)5', amount: 0.73 },
       { key: 'C10H14N2Na2O8', amount: 1.75 },
     ],
-    tankVolume: 100,
-    volume: 500,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Удо Ермолаева. МИКРО (Железный купорос)',
     reagents: [
+      { key: 'H2O', amount: 500 },
       { key: 'K2SO4', amount: 7.45 },
       { key: 'MgSO4(H2O)7', amount: 16.4 },
       { key: 'FeSO4(H2O)7', amount: 1.44 },
@@ -221,52 +211,50 @@ export const RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'C10H14N2Na2O8', amount: 1.75 },
       { key: 'C14H18N3O10Na2Fe', amount: 1 },
     ],
-    tankVolume: 100,
-    volume: 500,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
     name: 'Pps-pro Macro',
     reagents: [
+      { key: 'H2O', amount: 500 },
       { key: 'K2SO4', amount: 29.3 },
       { key: 'KNO3', amount: 32.6 },
       { key: 'KH2PO4', amount: 2.9 },
       { key: 'MgSO4(H2O)7', amount: 20.2 },
     ],
-    volume: 500,
     description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
     name: 'Pps-pro Micro',
     reagents: [
+      { key: 'H2O', amount: 500 },
       { key: 'PlantexCMM', amount: 28.6 },
     ],
-    volume: 500,
     description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
     name: 'PMDD CMM',
     reagents: [
+      { key: 'H2O', amount: 500 },
       { key: 'K2SO4', amount: 33 },
       { key: 'KNO3', amount: 15 },
       { key: 'MgSO4(H2O)7', amount: 15 },
       { key: 'PlantexCMM', amount: 9.93 },
     ],
-    volume: 500,
     description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
   {
     name: 'PMDD CSM + B',
     reagents: [
+      { key: 'H2O', amount: 500 },
       { key: 'K2SO4', amount: 33 },
       { key: 'KNO3', amount: 15 },
       { key: 'MgSO4(H2O)7', amount: 15 },
       { key: 'H3BO3', amount: 0.714 },
       { key: 'PlantexCSM', amount: 9.93 },
     ],
-    volume: 500,
     description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
 ];
 
-RECIPES.sort((a, b) => a.name.localeCompare(b.name));
+FERTILIZER_RECIPES.sort((a, b) => a.name.localeCompare(b.name));

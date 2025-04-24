@@ -39,6 +39,15 @@ export default class RemineralRecipe extends Recipe {
     this.doseVolume = args.doseVolume;
   }
 
+  // We count remineralizator is liquid only if we use water reagent
+  override get isLiquid() {
+    return !!this.waterVolume;
+  }
+
+  override get isDry() {
+    return !this.isLiquid;
+  }
+
   // TODO: add description
   countGh(
     concentration: Partial<Record<IonType, number>>,
@@ -74,12 +83,12 @@ export default class RemineralRecipe extends Recipe {
   countReagentAmountByGh(reagent: InstanceType<typeof Reagent>, gh: number): number {
     let result = 0;
     if ('Ca' in reagent.ions) {
-      result = gh * GH.Ca * this.changeVolume / new MolecularFormula(reagent.key).fraction['Ca'] / 1000;
+      result = gh * GH.Ca * this.changeVolume / reagent.ions['Ca'] / 1000;
     } else if ('Mg' in reagent.ions) {
-      result = gh * GH.Mg * this.changeVolume / new MolecularFormula(reagent.key).fraction['Mg'] / 1000;
+      result = gh * GH.Mg * this.changeVolume / reagent.ions['Mg'] / 1000;
     }
     if (this.isLiquid) {
-      result *= this.waterVolume / this.doseVolume;
+      result *= this.totalVolume / this.doseVolume;
     }
     return result;
   }
@@ -91,7 +100,7 @@ export default class RemineralRecipe extends Recipe {
       result = amountCO3 / reagent.ions['CO3'] / 1000;
     }
     if (this.isLiquid) {
-      result *= this.waterVolume / this.doseVolume;
+      result *= this.totalVolume / this.doseVolume;
     }
     return result;
   }
@@ -101,11 +110,10 @@ export default class RemineralRecipe extends Recipe {
     let dosePercent = 1;
     let amount: number;
     if (this.isLiquid) {
-      // TODO: totalVolume and waterVolume ???
       amount = this.totalVolume / ML_IN_L;
       // total mass is dissolved in the whole water volume, and we need to take into account that gh depends on
       // dose volume for the liquid remineralizator
-      dosePercent = this.doseVolume / this.waterVolume;
+      dosePercent = this.doseVolume / this.totalVolume;
     } else {
       amount = this.totalMass;
     }
@@ -128,7 +136,7 @@ export default class RemineralRecipe extends Recipe {
       amount = this.totalVolume / ML_IN_L;
       // total mass is dissolved in the whole water volume, and we need to take into account that gh depends on
       // dose volume for the liquid remineralizator
-      dosePercent = this.doseVolume / this.waterVolume;
+      dosePercent = this.doseVolume / this.totalVolume;
     } else {
       amount = this.totalMass;
     }
@@ -231,11 +239,6 @@ export default class RemineralRecipe extends Recipe {
     return result;
   }
 
-  setReagentAmount(reagentKey: string, value: number) {
-    const reagent = this.reagents.find((item) => item.key === reagentKey);
-    reagent.amount = value;
-  }
-
   splitGhToCaMgAmounts(gh: number, caMgRatio: number) {
     /**
      ghCa = (concentration.Ca * amount) / (GH.Ca * volume)
@@ -272,11 +275,17 @@ export default class RemineralRecipe extends Recipe {
     const ghPrev = this.gh;
 
     this.reagents.filter((reagent) => !reagentsLocked[reagent.key]).forEach((reagent) => {
-      const ratio = (gh - ghLocked) / (ghPrev - ghLocked);
-      this.setReagentAmount(
-        reagent.key,
-        reagent.amount * ratio,
-      );
+      if (reagent.key !== 'H2O') {
+        const ratio = (gh - ghLocked) / (ghPrev - ghLocked);
+        const newReagentAmount = reagent.amount * ratio;
+        if (reagent.isLiquid && this.isLiquid) {
+          this.correctWaterVolumeByReagentAmount(newReagentAmount, reagent.amount);
+        }
+        this.setReagentAmount(
+          newReagentAmount,
+          reagent.key,
+        );
+      }
     });
   }
 
@@ -296,27 +305,27 @@ export default class RemineralRecipe extends Recipe {
       ghCa = (this.concentration.Ca * this.totalMass) / (GH.Ca * this.changeVolume) * 1000;
       ghMg = (this.concentration.Mg * this.totalMass) / (GH.Mg * this.changeVolume) * 1000;
     } else {
-      ghCa = (this.concentration.Ca * this.waterVolume / ML_IN_L) * MG_IN_G / (GH.Ca * this.changeVolume) * this.doseVolume / this.waterVolume;
-      ghMg = (this.concentration.Mg * this.waterVolume / ML_IN_L) * MG_IN_G / (GH.Mg * this.changeVolume) * this.doseVolume / this.waterVolume;
+      ghCa = (this.concentration.Ca * this.totalVolume / ML_IN_L)
+        * MG_IN_G / (GH.Ca * this.changeVolume) * this.doseVolume / this.totalVolume;
+      ghMg = (this.concentration.Mg * this.totalVolume / ML_IN_L)
+        * MG_IN_G / (GH.Mg * this.changeVolume) * this.doseVolume / this.totalVolume;
     }
     const ghPerReagent = { ...this.ghPerReagent };
-    console.log(ghCa, ghMg);
 
     this.reagents.forEach((reagent) => {
       let ratio = 1;
       if ('Ca' in reagent.ions) {
         ratio = ghPerReagent[reagent.key] / ghCa; // this is part of gh for the reagent
-        console.log(ratio, amountCaNew);
         this.setReagentAmount(
-          reagent.key,
           amountCaNew * ratio / (new MolecularFormula(reagent.key).fraction['Ca'] * 1000),
+          reagent.key,
         );
       }
       if ('Mg' in reagent.ions) {
         ratio = ghPerReagent[reagent.key] / ghMg;
         this.setReagentAmount(
-          reagent.key,
           amountMgNew * ratio / (new MolecularFormula(reagent.key).fraction['Mg'] * 1000),
+          reagent.key,
         );
       }
     });
@@ -330,7 +339,7 @@ export default class RemineralRecipe extends Recipe {
       let ratio = 1;
       if ('CO3' in reagent.ions) {
         ratio = kh / khInit;
-        this.setReagentAmount(reagent.key, reagent.amount * ratio);
+        this.setReagentAmount( reagent.amount * ratio, reagent.key);
         if ('Ca' in reagent.ions) {
           mgRatio *= ratio;
         }
@@ -342,12 +351,12 @@ export default class RemineralRecipe extends Recipe {
     this.reagents.forEach((reagent) => {
       if (!('CO3' in reagent.ions)) {
         if ('Ca' in reagent.ions) {
-          this.setReagentAmount(reagent.key, reagent.amount * caRatio);
+          this.setReagentAmount( reagent.amount * caRatio, reagent.key);
         }
       }
       if (!('CO3' in reagent.ions)) {
         if ('Mg' in reagent.ions) {
-          this.setReagentAmount(reagent.key, reagent.amount * mgRatio);
+          this.setReagentAmount( reagent.amount * mgRatio, reagent.key);
         }
       }
     });
@@ -357,7 +366,7 @@ export default class RemineralRecipe extends Recipe {
     return {
       name: this.name,
       description: this.description,
-      waterVolume: this.waterVolume,
+      totalVolume: this.totalVolume,
       changeVolume: this.changeVolume,
       doseVolume: this.doseVolume,
       isLiquid: this.isLiquid,

@@ -35,7 +35,7 @@
         md="8"
         offset-md="2"
       >
-        <v-form ref="fertilizerForm">
+        <v-form ref="fertilizerFormRef">
           <div>
             Чтобы добавить своё фирменное удобрение, воспользуйтесь формой ниже. Выберите единицы
             измерения и введите концентрации элементов, указанные на этикетке.
@@ -169,7 +169,7 @@ const fertilizersStore = useFertilizersStore();
 const snackbarStore = useSnackbarStore();
 
 // MODEL
-const fertilizerForm = ref(null);
+const fertilizerFormRef = ref(null);
 const ionsChosen = ref<{ ion: IonType, conc: number }[]>([]);
 const fertilizerExampleChosen = ref(null);
 
@@ -296,7 +296,7 @@ function onInputIon(value: []) {
 }
 
 async function onAddFertilizer() {
-  const { valid } = await fertilizerForm.value.validate();
+  const { valid } = await fertilizerFormRef.value.validate();
   if (valid) {
     fertilizersStore.addFertilizer(fertilizerModel.toJson());
     snackbarStore.show('Удобрение добавлено');
@@ -305,7 +305,7 @@ async function onAddFertilizer() {
 }
 
 async function onEditFertilizer() {
-  const { valid } = await fertilizerForm.value.validate();
+  const { valid } = await fertilizerFormRef.value.validate();
   if (valid) {
     fertilizersStore.editFertilizer({
       index: fertilizerIndex.value,

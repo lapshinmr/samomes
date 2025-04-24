@@ -33,7 +33,7 @@
       class="d-flex justify-space-between text-body-2"
     >
       <span>Вода</span>
-      <span>{{ remineral.waterVolume }} мл</span>
+      <span>{{ remineral.totalVolume }} мл</span>
     </div>
     <v-divider class="my-3" />
     <div>
@@ -56,7 +56,7 @@
         v-else
         class="text-body-2"
       >
-        <span class="font-weight-bold">{{ format(remineral.totalMass, 3) }}</span>
+        <span class="font-weight-bold">{{ format(remineral.totalMass) }}</span>
         г реминерализатора повышают в
         <span class="font-weight-bold">{{ remineral.changeVolume }}</span> л
         Gh на

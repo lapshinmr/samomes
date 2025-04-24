@@ -25,53 +25,55 @@ export default class FertilizerRecipe extends Recipe {
     name: string;
     description?: string;
     reagents: ReagentType[];
-    waterVolume?: number;
     tankVolume?: number | null;
   }) {
     super(args);
     this.tankVolume = args.tankVolume;
   }
 
-  // TODO: it's not clear method name
-  updateReagentUnitConcs(reagent: ReagentType, skipIon: string = '') {
-    Object.entries(reagent.ions).forEach(([ion, value]) => {
+  updateReagentUnitConcsByAmount(reagent: InstanceType<typeof Reagent>, skipIon: string = ''): void {
+    typedEntries(reagent.ions).forEach(([ion, value]) => {
+      const density = reagent.density ?? 1;
       if (skipIon === '' || skipIon !== ion) {
         reagent.unitConcs[ion] = format(
           // TODO: split equation to separate functions
-          (reagent.amount / this.waterVolume / this.tankVolume) * value * 1000,
+          (reagent.amount / this.totalVolume / this.tankVolume) * value * 1000 * density,
         );
       }
     });
   }
 
-  // TODO: it's not clear method name
   // TODO: add total volume and tank volume decorator?
-  updateRecipeUnitConcs(skipIon: string = '') {
+  updateRecipeUnitConcsByAmounts(skipIon: string = ''): void {
     if (!this.totalVolume || !this.tankVolume) {
       return;
     }
     this.reagents.forEach((reagent) => {
-      this.updateReagentUnitConcs(reagent, skipIon);
+      this.updateReagentUnitConcsByAmount(reagent, skipIon);
     });
   }
 
-  // TODO: it's not clear method name
-  updateAmounts(value: number, reagent: ReagentType, ion: string) {
+  updateReagentAmountsByUnitConcs(value: number, reagent: InstanceType<typeof Reagent>, ion: string): void {
     if (!this.totalVolume || !this.tankVolume) {
       return;
     }
+    const density = reagent.density ?? 1;
     reagent.unitConcs[ion] = value;
-    reagent.amount = format(
-      // TODO: split equation to separate functions
-      (reagent.unitConcs[ion] * this.tankVolume * this.waterVolume) / 1000 / reagent.ions[ion],
-    );
-    this.updateReagentUnitConcs(reagent, ion);
+    // TODO: split equation to separate functions
+    const newReagentAmount = (reagent.unitConcs[ion] * this.tankVolume * this.totalVolume)
+      / 1000 / reagent.ions[ion] / density;
+    // correct water volume
+    if (reagent.isLiquid) {
+      this.correctWaterVolumeByReagentAmount(format(newReagentAmount), reagent.amount);
+    }
+    this.setReagentAmount(format(newReagentAmount), reagent.key);
+    this.updateReagentUnitConcsByAmount(reagent, ion);
   }
 
-  countRecipeIonUnitConcs() {
-    const total: Record<string, number> = {};
-    Object.values(this.reagents).forEach((reagent) => {
-      Object.entries(reagent.unitConcs).forEach(([ion, value]) => {
+  countRecipeIonUnitConcs(): Partial<Record<IonType, number>> {
+    const total = {};
+    this.reagents.forEach((reagent) => {
+      typedEntries(reagent.unitConcs).forEach(([ion, value]) => {
         if (total[ion] === undefined) {
           total[ion] = 0;
         }
@@ -86,20 +88,19 @@ export default class FertilizerRecipe extends Recipe {
   }
 
   get recipeIonUnitConcsSorted () {
-    const result = Object.entries(this.recipeIonUnitConcs);
+    const result = typedEntries(this.recipeIonUnitConcs);
     result.sort((a, b) => b[1] - a[1]);
     return result;
   };
 
   get totalRecipeUnitConcs() {
-    return Object.values(this.recipeIonUnitConcs).reduce((sum, value) => sum + value, 0);
+    return typedValues(this.recipeIonUnitConcs).reduce((sum, value) => sum + value, 0);
   };
 
   toJson(): FertilizerRecipeType {
     return {
       name: this.name,
       description: this.description,
-      waterVolume: this.waterVolume,
       tankVolume: this.tankVolume,
       isLiquid: this.isLiquid,
       reagents: this.reagents.map((reagent) => ({

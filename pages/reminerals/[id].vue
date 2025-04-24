@@ -62,7 +62,7 @@
         md="8"
         offset-md="2"
       >
-        <v-form ref="remineralForm">
+        <v-form ref="remineralFormRef">
           <v-combobox
             :model-value="reagentsChosen"
             :items="reagents"
@@ -92,18 +92,9 @@
           />
           <v-expand-transition>
             <div v-if="isReagents">
-              <BaseDividerWithNote>
+              <BaseDividerWithNote class="my-8">
                 Реагенты
               </BaseDividerWithNote>
-              <BaseNumberField
-                :model-value="remineralModel.waterVolume"
-                label="Объем воды"
-                suffix="мл"
-                hint="Вы можете пропустить это поле, если хотите использовать сухую смесь"
-                persistent-hint
-                class="mb-2 mb-sm-4"
-                @update:model-value="onInputWaterVolume"
-              />
               <div
                 v-for="reagent in reagentsChosen"
                 :key="reagent.key"
@@ -118,7 +109,7 @@
                   :rules="[required, positive]"
                   :error="checkSolubilityError(reagent)"
                   :error-messages="getSolubilityErrorMessage(reagent)"
-                  @update:model-value="onInputReagentAmount(reagent.key, $event)"
+                  @update:model-value="onInputReagentAmount($event, reagent.key)"
                 />
                 <div class="d-flex ml-4">
                   <div style="width: 40px;">
@@ -128,7 +119,7 @@
                       class="mt-0 pt-0"
                       hide-details="auto"
                       :disabled="ghPerReagent[reagent.key] === null || reagentsLocked[reagent.key]"
-                      @update:model-value="onInputReagentGh(reagent, $event)"
+                      @update:model-value="onInputReagentGh($event, reagent)"
                     />
                   </div>
                   <div class="mx-2 align-self-end mb-1">
@@ -141,7 +132,7 @@
                       class="mt-0 pt-0"
                       hide-details="auto"
                       :disabled="khPerReagent[reagent.key] === null || reagentsLocked[reagent.key]"
-                      @update:model-value="onInputReagentKh(reagent, $event)"
+                      @update:model-value="onInputReagentKh($event, reagent)"
                     />
                   </div>
                   <Icon
@@ -173,20 +164,20 @@
                   <RemineralsTheCationsAndAnions
                     :remineral="remineralModel"
                   />
-                  <BaseDividerWithNote
-                    v-model="isTable"
-                    class="mb-4"
-                    button
-                  >
-                    Таблица с навесками
-                  </BaseDividerWithNote>
-                  <v-expand-transition>
-                    <RemineralsTheRemineralsRecipesTable
-                      v-if="isTable"
-                      :remineral="remineralModel"
-                      :reagents="reagentsChosen"
-                    />
-                  </v-expand-transition>
+                  <!--                  <BaseDividerWithNote-->
+                  <!--                    v-model="isTable"-->
+                  <!--                    class="mb-4"-->
+                  <!--                    button-->
+                  <!--                  >-->
+                  <!--                    Таблица с навесками-->
+                  <!--                  </BaseDividerWithNote>-->
+                  <!--                  <v-expand-transition>-->
+                  <!--                    <RemineralsTheRemineralsRecipesTable-->
+                  <!--                      v-if="isTable"-->
+                  <!--                      :remineral="remineralModel"-->
+                  <!--                      :reagents="reagentsChosen"-->
+                  <!--                    />-->
+                  <!--                  </v-expand-transition>-->
                   <template v-if="!remineralModel.isLiquid">
                     <BaseDividerWithNote
                       v-model="isMix"
@@ -207,7 +198,10 @@
             </div>
           </v-expand-transition>
           <v-expand-transition>
-            <v-row v-if="isReagentsAmount">
+            <v-row
+              v-if="isReagentsAmount"
+              class="my-8"
+            >
               <v-col cols="12">
                 <v-text-field
                   v-model="remineralModel.name"
@@ -272,7 +266,7 @@ const remineralsStore = useRemineralsStore();
 const { getReagents } = useReagents();
 
 // FORM FIELDS
-const remineralForm = ref(null);
+const remineralFormRef = ref(null);
 const reagentsChosen = ref<InstanceType<typeof Reagent>[]>([]);
 const ghPerReagent = reactive<Record<string, number>>({});
 const khPerReagent = reactive<Record<string, number>>({});
@@ -287,7 +281,6 @@ const remineralExampleChosen = ref(null);
 const remineralModel = reactive(new RemineralRecipe({
   name: '',
   description: '',
-  waterVolume: null,
   reagents: [],
   changeVolume: 10, // l
   doseVolume: 10, // ml
@@ -329,17 +322,6 @@ function updateAmounts() {
     const reagentFound = reagentsChosen.value.find((item) => item.key === reagent.key);
     reagentFound.amount = format(reagent.amount);
   });
-}
-
-function onInputWaterVolume(value: number) {
-  // UPDATE MODEL
-  remineralModel.waterVolume = value;
-  // UPDATE FORM
-  updateGhPerReagent();
-  updateKhPerReagent();
-  updateGh();
-  updateKh();
-  updateCaMgRatio();
 }
 
 function onInputDoseVolume(value: number) {
@@ -393,9 +375,9 @@ function onLockReagent(reagentKey: string) {
   reagentsLocked.value[reagentKey] = !reagentsLocked.value[reagentKey];
 }
 
-function onInputReagentAmount(reagentKey: string, value: number) {
+function onInputReagentAmount(value: number, reagentKey: ReagentKeyType) {
   // UPDATE MODEL
-  remineralModel.setReagentAmount(reagentKey, value);
+  remineralModel.setReagentAmount(value, reagentKey);
   // UPDATE FORM
   const reagentFound = reagentsChosen.value.find((reagent) => reagent.key === reagentKey);
   reagentFound.amount = value;
@@ -406,10 +388,11 @@ function onInputReagentAmount(reagentKey: string, value: number) {
   updateCaMgRatio();
 }
 
-function onInputReagentGh(reagent: InstanceType<typeof Reagent>, value: number) {
+function onInputReagentGh(value: number, reagent: InstanceType<typeof Reagent>) {
   // UPDATE MODEL
   const newReagentAmount = remineralModel.countReagentAmountByGh(reagent, value);
-  remineralModel.setReagentAmount(reagent.key, newReagentAmount);
+  remineralModel.setReagentAmount(newReagentAmount, reagent.key);
+  console.log(newReagentAmount);
   // UPDATE FORM
   ghPerReagent[reagent.key] = value;
   reagent.amount = format(newReagentAmount);
@@ -419,10 +402,10 @@ function onInputReagentGh(reagent: InstanceType<typeof Reagent>, value: number) 
   updateCaMgRatio();
 }
 
-function onInputReagentKh(reagent: InstanceType<typeof Reagent>, value: number) {
+function onInputReagentKh(value: number, reagent: InstanceType<typeof Reagent>) {
   // UPDATE MODEL
   const newReagentAmount = remineralModel.countReagentAmountByKh(reagent, value);
-  remineralModel.setReagentAmount(reagent.key, newReagentAmount);
+  remineralModel.setReagentAmount(newReagentAmount, reagent.key);
   // UPDATE FORM
   khPerReagent[reagent.key] = value;
   reagent.amount = format(newReagentAmount);
@@ -484,11 +467,10 @@ watch(reagentsChosen, () => {
   }
 });
 
-function fillForm(remineral: RemineralRecipeType | RemineralRecipeExampleType) {
+function fillModel(remineral: RemineralRecipeType | RemineralRecipeExampleType) {
   remineralModel.name = remineral.name;
   remineralModel.description = remineral.description;
   remineralModel.changeVolume = remineral.changeVolume;
-  remineralModel.waterVolume = remineral.waterVolume;
   remineralModel.doseVolume = remineral.doseVolume;
 }
 
@@ -503,14 +485,13 @@ const onInputRemineralExample = (remineral: RemineralRecipeExampleType) => {
       remineralModel.reagents.push(reagentFound);
     }
   });
+  fillModel(remineral);
 
   updateGh();
   updateKh();
   updateCaMgRatio();
   updateGhPerReagent();
   updateKhPerReagent();
-
-  fillForm(remineral);
 };
 
 // PAGE MANIPULATION
@@ -520,7 +501,7 @@ const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');
 const isCopy = computed(() => route.query.copy !== undefined);
 const isShare = computed(() => route.params.query === 'share');
-const isTable = ref(false);
+// const isTable = ref(false);
 const isMix = ref(false);
 const remineralIndex = computed(() => +route.params.id);
 
@@ -531,11 +512,11 @@ const isExist = computed(() => {
 const isNameExist = () => !isExist.value || 'Рецепт или удобрение с таким названием уже существует';
 
 const checkSolubilityError = (reagent: ReagentType) => {
-  return remineralModel.isLiquid && (reagent.amount / remineralModel.waterVolume) * 1000 > reagent.solubility;
+  return remineralModel.isLiquid && (reagent.amount / remineralModel.totalVolume) * 1000 > reagent.solubility;
 };
 
 const getSolubilityErrorMessage = (reagent: ReagentType) => {
-  return remineralModel.isLiquid && (reagent.amount / remineralModel.waterVolume) * 1000 > reagent.solubility
+  return remineralModel.isLiquid && (reagent.amount / remineralModel.totalVolume) * 1000 > reagent.solubility
     ? `Достигнута максимальная растворимость - ${reagent.solubility} г/л при 25°С!`
     : '';
 };
@@ -575,18 +556,17 @@ onMounted(async () => {
       }));
     }
   });
+  fillModel(remineral);
 
   updateGh();
   updateKh();
   updateCaMgRatio();
   updateGhPerReagent();
   updateKhPerReagent();
-
-  fillForm(remineral);
 });
 
 async function onAddRemineral() {
-  const { valid } = await remineralForm.value.validate();
+  const { valid } = await remineralFormRef.value.validate();
   if (valid) {
     remineralsStore.addRemineral({ ...remineralModel.toJson() });
     snackbarStore.show('Реминерализатор добавлен');
@@ -595,7 +575,7 @@ async function onAddRemineral() {
 }
 
 async function onEditRemineral() {
-  const { valid } = await remineralForm.value.validate();
+  const { valid } = await remineralFormRef.value.validate();
   if (valid) {
     remineralsStore.editRemineral({
       index: +remineralIndex.value,

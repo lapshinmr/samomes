@@ -19,8 +19,8 @@
 
 <template>
   <div>
-    <div class="d-flex align-center mb-2">
-      <div class="mr-4">
+    <div class="d-flex align-end mb-2">
+      <div class="mr-4 mb-1">
         Хочу подготовить
       </div>
       <div style="width: 60px">

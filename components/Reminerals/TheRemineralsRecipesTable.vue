@@ -169,7 +169,6 @@ function countReagentsMassByGh(dstGh: number, dstVolume: number) {
 }
 
 function countVolume(dstGh: number, volume: number) {
-  console.log(props.remineral.doseVolume, volume, props.remineral.changeVolume, dstGh, props.remineral.gh);
   return props.remineral.doseVolume * (volume / props.remineral.changeVolume) * (dstGh / props.remineral.gh);
 }
 

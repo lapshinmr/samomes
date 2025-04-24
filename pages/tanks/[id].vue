@@ -34,7 +34,7 @@
         sm="8"
         offset-sm="2"
       >
-        <v-form ref="tankForm">
+        <v-form ref="tankFormRef">
           <v-text-field
             v-model="tank.name"
             variant="underlined"
@@ -183,7 +183,7 @@ const route = useRoute();
 const router = useRouter();
 const tanksStore = useTanksStore();
 const snackbarStore = useSnackbarStore();
-const tankForm = ref(null);
+const tankFormRef = ref(null);
 
 const isVolumeInfo = ref(false);
 const tank = ref<TankType>({
@@ -263,7 +263,7 @@ function onInputWaterChangeVolume(value: number) {
 }
 
 const onAddTank = async () =>{
-  const { valid } = await tankForm.value.validate();
+  const { valid } = await tankFormRef.value.validate();
   if (valid) {
     tanksStore.addTank({ ...tankObject.value.toJson() });
     snackbarStore.showSuccess('Аквариум добавлен');
@@ -272,7 +272,7 @@ const onAddTank = async () =>{
 };
 
 const onEditTank = async () => {
-  const { valid } = await tankForm.value.validate();
+  const { valid } = await tankFormRef.value.validate();
   if (valid) {
     tanksStore.editTank({
       tank: { ...tankObject.value.toJson() },

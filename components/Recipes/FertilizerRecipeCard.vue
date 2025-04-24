@@ -21,11 +21,11 @@
   <div>
     <div class="mb-2">Рецепт</div>
     <div
-      v-if="recipe.waterVolume"
+      v-if="recipe.totalVolume"
       class="d-flex justify-space-between text-body-2"
     >
       <span class="">Объем удобрения</span>
-      <span>{{ recipe.waterVolume }} мл</span>
+      <span>{{ recipe.totalVolume }} мл</span>
     </div>
     <template v-for="reagent in recipe.reagents" :key="reagent.key">
       <div class="d-flex justify-space-between text-body-2">

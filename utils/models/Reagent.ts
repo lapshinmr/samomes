@@ -1,28 +1,51 @@
+/**
+ * Samomes
+ *
+ * Copyright (C) 2025 Mikhail Lapshin
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import MolecularFormula from '~/utils/models/MolecularFormula';
 import { getElementToIonRatio, getElementToOxideRatio } from '~/utils/funcs';
 
 export default class Reagent {
-  public key: string;
+  public key: ReagentKeyType;
   public name: string;
   public amount: number;
   public type: ReagentTypeName;
   // TODO: add more specific keys for ions
-  public unitConcs?: Record<string, number>;
+  public unitConcs?: Partial<Record<IonType, number>>;
   public solubility?: number;
   public isLiquid?: boolean;
   public HCO3: number;
-  private _ions?: Record<string, number>;
+  public density?: number;
+  public solution?: number;
+  private _ions?: Partial<Record<IonType, number>>;
 
   constructor(args: {
-    key: string;
+    key: ReagentKeyType;
     name: string;
     amount: number;
     type: ReagentTypeName;
-    unitConcs?: Record<string, number>;
-    ions?: Record<string, number>;
+    unitConcs?: Partial<Record<IonType, number>>;
+    ions?: Partial<Record<IonType, number>>;
     solubility?: number;
     isLiquid?: boolean;
     HCO3?: number;
+    density?: number;
+    solution?: number;
   }) {
     // TODO: check default values
     this.key = args.key;
@@ -33,6 +56,11 @@ export default class Reagent {
     this.solubility = args.solubility;
     this.isLiquid = args.isLiquid ?? false;
     this.HCO3 = args.HCO3;
+    this.density = args.density;
+    if (this.density) {
+      this.isLiquid = true;
+      this.solution = 1;
+    }
     this.ions = args.ions;
 
     this.initDoses();
@@ -46,9 +74,10 @@ export default class Reagent {
     return this.type === 'compound';
   }
 
-  get ions(): Record<string, number> {
+  get ions(): Partial<Record<IonType, number>> {
+    let result: Partial<Record<IonType, number>>;
     if (this.isCompound) {
-      return this._ions;
+      result = this._ions;
     } else {
       // TODO: refactoring & check if value is from formula type
       const ions = new MolecularFormula(this.key).fraction;
@@ -70,13 +99,19 @@ export default class Reagent {
       delete ions['C'];
       delete ions['N'];
       delete ions['P'];
+      delete ions['S'];
       // TODO: save H & O as H2O
       delete ions['H'];
       delete ions['O'];
-      delete ions['S'];
 
-      return ions;
+      result = ions;
     }
+    if (this.solution < 100) {
+      typedEntries(result).forEach(([ion, value]) => {
+        result[ion] *= value * this.solution;
+      });
+    }
+    return result;
   }
 
   set ions(value: Record<string, number>) {
@@ -90,7 +125,7 @@ export default class Reagent {
   get percent() {
     const output = [];
     Object.entries(this.ions).forEach(([ion, value]) => {
-      output.push(`${ion}: ${(value * 100).toFixed(2)}%`);
+      output.push(`${ion}: ${format(value * 100)}%`);
     });
     return output.join(' ');
   }

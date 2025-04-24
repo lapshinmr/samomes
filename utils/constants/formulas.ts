@@ -17,6 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 export const FORMULAS = {
+  H2O: {
+    density: 1,
+    name: 'Вода',
+  },
   KNO3: {
     solubility: 242,
     name: 'Калия нитрат',
@@ -161,7 +165,6 @@ export const FORMULAS = {
     solubility: 95.9,
     name: 'Натрия гидрокарбонат (пищевая сода)',
   },
-  // GH
   'CaSO4(H2O)2': {
     cation: { key: 'Ca', number: 1 },
     anion: { key: 'SO4', number: 1 },
@@ -199,10 +202,6 @@ export const FORMULAS = {
   H3BO3: {
     solubility: 47.2,
     name: 'Борная кислота',
-  },
-  H2SO4: {
-    density: 1.8356,
-    name: 'Серная кислота',
   },
   KI: {
     solubility: 144.5,
@@ -262,7 +261,6 @@ export const FORMULAS = {
   'C4H8FeN2O4(H2O)2': {
     name: 'Железа глицинат 2-водный',
   },
-  // Mn
   C12H22MnO14: {
     name: 'Марганца глюконат',
   },
@@ -373,5 +371,22 @@ export const FORMULAS = {
   },
   SrCl2: {
     name: 'Стронция хлорид',
+  },
+  // Liquid acid
+  H2SO4: {
+    density: 1.8356,
+    name: 'Серная кислота',
+  },
+  HNO3: {
+    density: 1.513,
+    name: 'Азотная кислота',
+  },
+  H3PO4: {
+    density: 1.685,
+    name: 'Ортофосфорная кислота',
+  },
+  C3H6O3: {
+    density: 1.25,
+    name: 'Молочная кислота',
   },
 } satisfies Record<string, FormulaObjectType>;
