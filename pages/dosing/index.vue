@@ -132,12 +132,14 @@ const allFertilizers = computed(() => {
   });
 });
 
-function onChooseTank(value: number | TankType) {
+function onChooseTank(value: number | string | TankType) {
   if (typeof value === 'number') {
     dosingStore.setTank({
       name: value.toString(),
       volume: value,
     });
+    return;
+  } else if (typeof value === 'string' || value === null) {
     return;
   }
   dosingStore.setTank({

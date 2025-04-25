@@ -475,6 +475,10 @@ function fillModel(remineral: RemineralRecipeType | RemineralRecipeExampleType) 
 }
 
 const onInputRemineralExample = (remineral: RemineralRecipeExampleType) => {
+  if (typeof remineral === 'string' || remineral === null) {
+    remineralExampleChosen.value = remineral;
+    return;
+  }
   reagentsChosen.value = [];
   remineralModel.reagents = [];
   remineral.reagents.forEach(({ key, amount }) => {

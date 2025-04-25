@@ -87,6 +87,7 @@
             label="Рецепты"
             hint="или выбрать один из рецептов"
             persistent-hint
+            hide-selected
             hide-details="auto"
             @update:model-value="onInputRecipeExample"
           />
@@ -331,7 +332,7 @@ const reagents = getReagents(INITIAL_REAGENT_AMOUNT);
 
 // MODEL
 const recipeFormRef = ref(null);
-const recipeExampleChosen = ref(null);
+const recipeExampleChosen = ref<FertilizerRecipeExampleType>(null);
 const recipeModel = reactive(new FertilizerRecipe(
   {
     name: '',
@@ -359,6 +360,10 @@ function onInputReagent(value: InstanceType<typeof Reagent>[]) {
 }
 
 const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
+  if (typeof recipe === 'string' || recipe === null) {
+    return;
+  }
+  recipeExampleChosen.value = recipe;
   recipeModel.reagents = [];
   recipe.reagents.forEach(({ key, amount }) => {
     const reagentFound = reagents.find((reagent) => reagent.key === key);
