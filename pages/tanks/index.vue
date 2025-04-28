@@ -24,7 +24,7 @@
   >
     <v-row>
       <LayoutPageTitle>
-        Аквариумы
+        {{ t('tanks.title') }}
       </LayoutPageTitle>
       <client-only>
         <v-col
@@ -34,7 +34,7 @@
           offset-md="2"
         >
           <p class="mb-8 text-h6 text-md-h5">
-            У вас еще нет ни одного аквариума
+            {{ t('tanks.noTanks') }}
           </p>
         </v-col>
         <CommonTheCards
@@ -65,24 +65,17 @@
           </template>
         </CommonTheCards>
         <BaseGuide>
-          <p>
-            {{ t('tanks.guide.paragraph1') }}
+          <p class="mb-2">
+            {{ t('tanks.hints.p1') }}
           </p>
-          <p>
-            {{ t('tanks.guide.paragraph2') }}
+          <p class="mb-2">
+            {{ t('tanks.hints.p2') }}
           </p>
-          <p>
-            {{ t('tanks.guide.paragraph3') }}
-            <NuxtLink :to="ROUTES.recipes.path">
-              {{ t('routes.recipes').toLowerCase() }}
-            </NuxtLink>
-            {{ t('common.or') }}
-            <NuxtLink :to="ROUTES.schedules.path">
-              {{ t('routes.schedules').toLowerCase() }}
-            </NuxtLink>
+          <p class="mb-2">
+            {{ t('tanks.hints.p3') }}
           </p>
-          <p>
-            {{ t('tanks.guide.paragraph4') }}
+          <p class="mb-2">
+            {{ t('tanks.hints.p4') }}
           </p>
         </BaseGuide>
       </client-only>
@@ -96,7 +89,7 @@
       v-model="isRemovePopup"
       @remove="onRemoveTankConfirmation"
     >
-      Are you sure you want to remove this tank? This action cannot be undone.
+      {{ t('tanks.removePopupContent') }}
     </PopupsTheRemovePopup>
   </v-container>
 </template>
@@ -119,7 +112,7 @@ function onAdd() {
 
 async function onRemoveTankConfirmation() {
   tanksStore.removeTank(itemIndexToRemove.value);
-  snackbarStore.showSuccess('Аквариум удален');
+  snackbarStore.showSuccess(t('tanks.page.message.tankRemoved'));
   onRemoveConfirmation();
 }
 

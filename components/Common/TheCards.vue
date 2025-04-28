@@ -35,7 +35,7 @@
                         mdi mdi-drag
                       </v-icon>
                     </template>
-                    {{ t('tanks.panels.header.pull') }}
+                    {{ t('common.pull') }}
                   </v-tooltip>
                 </div>
               </div>

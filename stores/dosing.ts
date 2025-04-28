@@ -54,7 +54,6 @@ export const useDosingStore = defineStore(
     });
 
     function setTank(payload: TankType) {
-      console.log(payload);
       tank.value = payload;
     }
 

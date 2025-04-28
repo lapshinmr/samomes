@@ -23,7 +23,7 @@
       <LayoutBackButton :path="ROUTES.tanks.path" />
       <LayoutPageTitle>
         <template v-if="isCreate">
-          Новый аквариум
+          {{ t('tanks.page.titleNew') }}
         </template>
         <template v-else>
           {{ tank.name }}
@@ -38,10 +38,10 @@
           <v-text-field
             v-model="tank.name"
             variant="underlined"
-            :label="t('tanks.dialog.name')"
+            :label="t('tanks.page.name')"
             hide-details="auto"
             clearable
-            :hint="t('tanks.dialog.nameHint')"
+            :hint="t('tanks.page.nameHint')"
             :rules="[required, isNameExist]"
           />
           <BaseDividerWithNote
@@ -49,95 +49,90 @@
             class="my-2 my-sm-4"
             button
           >
-            Подробнее об объеме
+            {{ t('tanks.page.volumeInfo.title') }}
           </BaseDividerWithNote>
           <v-expand-transition>
             <div
               v-if="isVolumeInfo"
               class="text-grey-darken-1 text-body-2 mt-8 mt-md-4 mb-0"
             >
-              Это общий объем воды, который получилось залить
-              в аквариум при запуске.
-              Он состоит из объема водяного столба, воды в грунте и внешнем фильтре за вычетом
-              всех декораций аквариума.
-              <br>
-              <br>
-              Проще всего узнать точный объем воды, измерив его при запуске аквариума с помощью емкости
-              или весов. Но если вы не знаете точное значение, то его можно
-              рассчитать с помощью формы, представленной ниже.
-              <br>
-              <br>
-              Не переживайте! Вам не обязательно знать точный объем. Погрешность в 10-20% не приведет к
-              большим ошибкам в расчетах удобрений, водорослям или чему-то плохому, т.к. в конечном итоге
-              мы не можем очень точно контролировать поглощение удобрений и опираемся на внешний вид растений.
+              <p class="mb-2">
+                {{ t('tanks.page.volumeInfo.p1') }}
+              </p>
+              <p class="mb-2">
+                {{ t('tanks.page.volumeInfo.p2') }}
+              </p>
+              <p class="mb-2">
+                {{ t('tanks.page.volumeInfo.p3') }}
+              </p>
             </div>
           </v-expand-transition>
           <BaseNumberField
             v-model="tank.volume"
             variant="underlined"
-            :label="t('tanks.dialog.volume')"
+            :label="t('common.volume')"
             :suffix="t('units.l')"
             hide-details="auto"
-            :hint="t('tanks.dialog.volumeHint')"
+            :hint="t('tanks.page.volumeHint')"
             :rules="[required]"
             class="mt-2 mt-sm-4"
           />
           <BaseDividerWithNote class="mb-3 mt-10">
-            {{ t('tanks.dialog.orSizes') }}
+            {{ t('tanks.page.orSizes') }}
           </BaseDividerWithNote>
           <BaseNumberField
             v-model="tank.length"
             variant="underlined"
-            :label="t('tanks.dialog.length')"
+            :label="t('tanks.length')"
             :suffix="t('units.cm')"
             hide-details="auto"
           />
           <BaseNumberField
             v-model="tank.width"
             variant="underlined"
-            :label="t('tanks.dialog.width')"
+            :label="t('tanks.width')"
             :suffix="t('units.cm')"
             hide-details="auto"
           />
           <BaseNumberField
             v-model="tank.height"
             variant="underlined"
-            :label="t('tanks.dialog.height')"
+            :label="t('tanks.height')"
             :suffix="t('units.cm')"
-            :hint="t('tanks.dialog.heightHint')"
+            :hint="t('tanks.heightHint')"
             hide-details="auto"
           />
           <BaseNumberField
             v-model="tank.glassThickness"
             variant="underlined"
-            :label="t('tanks.dialog.glassThickness')"
+            :label="t('tanks.glassThickness')"
             :suffix="t('units.mm')"
             hide-details="auto"
           />
           <BaseDividerWithNote class="mb-3 mt-10">
-            Дополнительные объемы
+            {{ t('tanks.page.extraVolumes') }}
           </BaseDividerWithNote>
           <BaseNumberField
             v-model="tank.filterVolume"
             variant="underlined"
-            :label="t('tanks.dialog.filter')"
+            :label="t('tanks.filterVolume')"
             :suffix="t('units.l')"
-            :hint="t('tanks.dialog.filterHint')"
+            :hint="t('tanks.page.filterVolumeHint')"
             hide-details="auto"
           />
           <BaseNumberField
             v-model="tank.soilVolume"
             variant="underlined"
-            :label="t('tanks.dialog.soil')"
+            :label="t('tanks.soilVolume')"
             :suffix="t('units.l')"
-            :hint="t('tanks.dialog.soilHint')"
+            :hint="t('tanks.page.soilVolumeHint')"
             hide-details="auto"
           />
           <div class="d-flex">
             <BaseNumberField
               :model-value="tank.waterChangePercent"
               variant="underlined"
-              :label="t('tanks.dialog.waterChange')"
+              :label="t('tanks.page.waterChangePercent')"
               suffix="%"
               hide-details="auto"
               @update:model-value="onInputWaterChangePercent"
@@ -145,7 +140,7 @@
             <BaseNumberField
               :model-value="tank.waterChangeVolume"
               variant="underlined"
-              :label="t('tanks.dialog.waterChangeVolume')"
+              :label="t('tanks.waterChangeVolume')"
               :suffix="t('units.l')"
               hide-details="auto"
               class="ml-2"
@@ -153,16 +148,17 @@
             />
           </div>
           <v-expand-transition>
-            <div class="d-flex justify-end mt-3 mt-sm-6">
+            <div class="d-flex justify-space-between mt-3 mt-sm-6">
               <v-btn
                 v-if="isEdit"
+                color="error"
                 @click="onRemoveTank"
               >
                 {{ t('buttons.remove') }}
               </v-btn>
               <v-btn
                 color="primary"
-                class="ml-2"
+                class="ml-auto"
                 v-on="isCreate ? { click: onAddTank } : { click: onEditTank }"
               >
                 {{ t('buttons.save') }}
@@ -179,6 +175,7 @@
 import type { TankType } from '~/utils/types/types';
 
 const { t } = useI18n();
+const { required } = useValidation();
 const route = useRoute();
 const router = useRouter();
 const tanksStore = useTanksStore();
@@ -211,7 +208,7 @@ const isExist = computed(() => {
   return nameFound && !isEdit.value;
 });
 
-const isNameExist = () => !isExist.value || 'Аквариум с таким названием уже существует';
+const isNameExist = () => !isExist.value || t('tanks.page.message.nameExists');
 
 onMounted(async () => {
   if (!isCreate.value) {
@@ -264,28 +261,32 @@ function onInputWaterChangeVolume(value: number) {
 
 const onAddTank = async () =>{
   const { valid } = await tankFormRef.value.validate();
-  if (valid) {
-    tanksStore.addTank({ ...tankObject.value.toJson() });
-    snackbarStore.showSuccess('Аквариум добавлен');
-    await router.push(ROUTES.tanks.path);
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  tanksStore.addTank({ ...tankObject.value.toJson() });
+  snackbarStore.showSuccess(t('tanks.page.message.tankAdded'));
+  await router.push(ROUTES.tanks.path);
 };
 
 const onEditTank = async () => {
   const { valid } = await tankFormRef.value.validate();
-  if (valid) {
-    tanksStore.editTank({
-      tank: { ...tankObject.value.toJson() },
-      index: tankIndex.value,
-    });
-    snackbarStore.showSuccess('Аквариум изменен');
-    await router.push(ROUTES.tanks.path);
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  tanksStore.editTank({
+    tank: { ...tankObject.value.toJson() },
+    index: tankIndex.value,
+  });
+  snackbarStore.showSuccess(t('tanks.page.message.tankEdited'));
+  await router.push(ROUTES.tanks.path);
 };
 
 const onRemoveTank = async () => {
   tanksStore.removeTank(tankIndex.value);
-  snackbarStore.showSuccess('Аквариум удален');
+  snackbarStore.showSuccess(t('tanks.page.message.tankRemoved'));
   await router.push(ROUTES.tanks.path);
 };
 </script>

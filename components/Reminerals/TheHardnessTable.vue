@@ -24,12 +24,13 @@
       class="d-flex mb-4"
     >
       <div class="mx-2 align-self-end mb-1">
-        <span class="font-weight-medium">{{ format(remineral.totalMass) }} г</span> смеси повышают в
+        <span class="font-weight-medium">{{ format(remineral.totalMass) }} {{ t('units.g') }}</span>
+        {{ t('reminerals.page.explanation.dry') }}
       </div>
       <div style="width: 60px;">
         <BaseNumberField
           v-model="changeVolume"
-          suffix="л"
+          :suffix="t('units.l')"
           hide-details="auto"
           class="mt-0 pt-0"
           style="flex-basis: 0;"
@@ -43,19 +44,19 @@
       <div style="width: 80px;">
         <BaseNumberField
           v-model="doseVolume"
-          suffix="мл"
+          :suffix="t('units.ml')"
           hide-details="auto"
           class="mt-0 pt-0"
           style="flex-basis: 0;"
         />
       </div>
       <div class="mx-3 align-self-end mb-1">
-        раствора повышают в
+        {{ t('reminerals.page.explanation.liquid') }}
       </div>
       <div style="width: 60px;">
         <BaseNumberField
           v-model="changeVolume"
-          suffix="л"
+          :suffix="t('units.l')"
           hide-details="auto"
           class="mt-0 pt-0"
           style="flex-basis: 0;"
@@ -97,6 +98,8 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 const changeVolume = defineModel<number>('changeVolume');
 const doseVolume = defineModel<number>('doseVolume');
 const gh = defineModel<number>('gh');

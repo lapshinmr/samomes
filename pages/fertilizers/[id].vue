@@ -23,7 +23,7 @@
       <LayoutBackButton :path="ROUTES.fertilizers.path"/>
       <LayoutPageTitle>
         <template v-if="isCreate">
-          Новое удобрение
+          {{ t('fertilizers.page.titleNew') }}
         </template>
         <template v-else>
           {{ fertilizerModel.name }}
@@ -37,18 +37,17 @@
       >
         <v-form ref="fertilizerFormRef">
           <div>
-            Чтобы добавить своё фирменное удобрение, воспользуйтесь формой ниже. Выберите единицы
-            измерения и введите концентрации элементов, указанные на этикетке.
+            {{ t('fertilizers.page.formDescription') }}
             <BaseDividerWithNote class="my-3">
-              или
+              {{ t('common.or') }}
             </BaseDividerWithNote>
           </div>
           <v-combobox
             v-model="fertilizerExampleChosen"
             :items="FERTILIZERS_SORTED"
             variant="underlined"
-            label="Выберите удобрение из списка"
-            hint="Здесь есть большинство фирменных удобрений"
+            :label="t('fertilizers.page.fertilizers')"
+            :hint="t('fertilizers.page.fertilizersHint')"
             persistent-hint
             item-title="name"
             hide-details="auto"
@@ -58,8 +57,7 @@
             type="success"
             class="mt-2"
           >
-            Информация о составе удобрения обновлена {{ fertilizerModel.updatedAt }}
-            в соответствии с данными производителя.
+            {{ t('fertilizers.page.alertInfo') }} {{ fertilizerModel.updatedAt }}
           </v-alert>
           <v-radio-group
             v-model="fertilizerModel.isPercent"
@@ -68,7 +66,7 @@
             hide-details="auto"
           >
             <v-radio
-              label="г/л"
+              :label="t('units.g/l')"
               :value="false"
             />
             <v-radio
@@ -81,20 +79,18 @@
             type="error"
             class="mt-4"
           >
-            Внимание! Вы изменили единицы измерения. Концентрации теперь отличаются в 10
-            раз от указанных на этикетке.
-            Если вы не уверены в правильности изменений, вернитесь к исходному варианту.
+            {{ t('fertilizers.page.alertWarning') }}
           </v-alert>
           <BaseDividerWithNote class="mt-4">
-            Состав
+            {{ t('fertilizers.card.ions') }}
           </BaseDividerWithNote>
           <v-combobox
             :model-value="ionsChosen"
             :items="allIons"
             item-title="ion"
             variant="underlined"
-            label="Выберите элементы из списка"
-            hint="Здесь есть все необходимые элементы"
+            :label="t('fertilizers.page.ionsInput')"
+            :hint="t('fertilizers.page.ionsInputHint')"
             persistent-hint
             hide-details="auto"
             multiple
@@ -108,7 +104,7 @@
             :key="item.ion"
             v-model="item.conc"
             :label="item.ion"
-            :suffix="fertilizerModel.isPercent ? '%' : 'г/л'"
+            :suffix="fertilizerModel.isPercent ? '%' : t('units.g/l')"
             variant="underlined"
             hide-details="auto"
             append-icon="mdi-delete"
@@ -117,20 +113,20 @@
           <v-text-field
             v-model="fertilizerModel.name"
             variant="underlined"
-            label="Название удобрения"
+            :label="t('fertilizers.page.name')"
+            :hint="t('fertilizers.page.nameHint')"
             hide-details="auto"
-            hint="* название удобрения должно быть уникальным"
             :rules="[required, isNameExist]"
             class="mb-2 mt-8"
           />
           <v-textarea
             v-model="fertilizerModel.description"
             variant="underlined"
-            label="Описание"
+            :label="t('fertilizers.page.description')"
+            :hint="t('fertilizers.page.descriptionHint')"
             hide-details="auto"
             auto-grow
             rows="1"
-            hint="Вы можете добавить дополнительные сведения к удобрению"
           />
           <div class="d-flex mt-2 mt-sm-4">
             <v-btn
@@ -138,20 +134,20 @@
               color="error"
               @click="onRemoveFertilizer"
             >
-              Удалить
+              {{ t('buttons.remove') }}
             </v-btn>
             <v-btn
               class="ml-auto"
               @click="$router.push('/fertilizers/')"
             >
-              Отмена
+              {{ t('buttons.cancel') }}
             </v-btn>
             <v-btn
               color="primary"
               class="ml-2"
               v-on="isCreate ? { click: onAddFertilizer } : { click: onEditFertilizer }"
             >
-              Сохранить
+              {{ t('buttons.save') }}
             </v-btn>
           </div>
         </v-form>
@@ -161,10 +157,11 @@
 </template>
 
 <script lang="ts" setup>
-import { required } from '~/utils/validation';
+const { t } = useI18n();
 
 const router = useRouter();
 const route = useRoute();
+const { required } = useValidation();
 const fertilizersStore = useFertilizersStore();
 const snackbarStore = useSnackbarStore();
 
@@ -174,7 +171,7 @@ const ionsChosen = ref<{ ion: IonType, conc: number }[]>([]);
 const fertilizerExampleChosen = ref(null);
 
 const fertilizerModel = reactive(new Fertilizer({
-  name: 'Удобрение',
+  name: '',
   description: '',
   ions: {},
   isPercent: false,
@@ -229,7 +226,7 @@ function fillForm(fertilizer: FertilizerType) {
 }
 
 function resetForm() {
-  fertilizerModel.name = 'Удобрение';
+  fertilizerModel.name = '';
   fertilizerModel.description = '';
   fertilizerModel.isPercent = false;
   fertilizerModel.updatedAt = undefined;
@@ -269,7 +266,7 @@ const isExist = computed(() => {
   return checkName(fertilizerModel.name) && !isEdit.value;
 });
 
-const isNameExist = () => !isExist.value || 'Удобрение или рецепт с таким названием уже существует';
+const isNameExist = () => !isExist.value || t('fertilizers.page.message.nameExists');
 
 onMounted(async () => {
   if (isCreate.value) {
@@ -277,7 +274,7 @@ onMounted(async () => {
   }
   const fertilizer = { ...fertilizersStore.fertilizers[fertilizerIndex.value] };
   if (!fertilizer) {
-    await router.push('/fertilizers/');
+    await router.push(ROUTES.fertilizers.path);
     return;
   }
   fillForm(fertilizer);
@@ -297,30 +294,33 @@ function onInputIon(value: []) {
 
 async function onAddFertilizer() {
   const { valid } = await fertilizerFormRef.value.validate();
-  if (valid) {
-    fertilizersStore.addFertilizer(fertilizerModel.toJson());
-    snackbarStore.show('Удобрение добавлено');
-    await router.push('/fertilizers/');
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  fertilizersStore.addFertilizer(fertilizerModel.toJson());
+  snackbarStore.show(t('fertilizers.page.message.fertilizerAdded'));
+  await router.push(ROUTES.fertilizers.path);
 }
 
 async function onEditFertilizer() {
   const { valid } = await fertilizerFormRef.value.validate();
-  if (valid) {
-    fertilizersStore.editFertilizer({
-      index: fertilizerIndex.value,
-      fertilizer: fertilizerModel.toJson(),
-    });
-
-    snackbarStore.show('Удобрение изменено');
-    await router.push('/fertilizers/');
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  fertilizersStore.editFertilizer({
+    index: fertilizerIndex.value,
+    fertilizer: fertilizerModel.toJson(),
+  });
+  snackbarStore.show(t('fertilizers.page.message.fertilizerEdited'));
+  await router.push(ROUTES.fertilizers.path);
 }
 
 async function onRemoveFertilizer() {
   fertilizersStore.removeFertilizer(fertilizerIndex.value);
-  snackbarStore.show('Удобрение удалено');
-  await router.push('/fertilizers/');
+  snackbarStore.show(t('fertilizers.page.message.fertilizerRemoved'));
+  await router.push(ROUTES.fertilizers.path);
 }
 
 definePageMeta({

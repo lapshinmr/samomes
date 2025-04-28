@@ -8,7 +8,7 @@
     </v-col>
     <v-col cols="2">
       <div class="text-h6 mb-4">
-        Катионы
+        {{ t('reminerals.page.cations') }}
       </div>
       <div>
         <div
@@ -19,7 +19,7 @@
           <div class="font-weight-medium">{{ ion }}</div>
           <div>
             <div>{{ format(value[0] * 100) }}%</div>
-            <div>{{ format(value[1]) }}, мг/л</div>
+            <div>{{ format(value[1]) }}, {{ t('units.mg/l') }}</div>
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
     </v-col>
     <v-col cols="2">
       <div class="text-h6 mb-4">
-        Анионы
+        {{ t('reminerals.page.anions') }}
       </div>
       <div>
         <div
@@ -43,7 +43,7 @@
           <div class="font-weight-medium">{{ ion }}</div>
           <div>
             <div>{{ format(value[0] * 100) }}%</div>
-            <div>{{ format(value[1]) }}, мг/л</div>
+            <div>{{ format(value[1]) }}, {{ t('units.mg/l') }}</div>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
     </v-col>
     <v-col cols="12">
       <div class="text-h6 mb-2">
-        Общий ионный состав
+        {{ t('reminerals.page.ionsTotal') }}
       </div>
       <div>
         <span
@@ -74,6 +74,8 @@
 
 <script setup lang="ts">
 import type { ChartData } from 'chart.js';
+
+const { t } = useI18n();
 
 const props = defineProps<{
   remineral: InstanceType<typeof RemineralRecipe>;

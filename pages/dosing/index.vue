@@ -2,7 +2,7 @@
   <v-container class="mb-12">
     <v-row>
       <LayoutPageTitle>
-        Подбор дозировок
+        {{ t('dosing.title') }}
       </LayoutPageTitle>
 
       <v-col
@@ -10,17 +10,21 @@
         md="8"
         offset-md="2"
       >
+        <div class="text-body-2 text-grey-darken-1 mb-4">
+          {{ t('dosing.doses.description') }}
+        </div>
         <v-form ref="scheduleForm">
           <v-combobox
-            v-model.number="dosingModel.tank.volume"
+            :model-value="dosingModel.tank.volume"
             :items="tanks"
             item-title="name"
             variant="underlined"
-            label="Выберите аквариум или введите объем"
+            :label="t('dosing.tankInputLabel')"
+            :hint="t('dosing.tankInputHint')"
             persistent-hint
             hide-selected
-            hint="Объем необходим для расчета дозировок"
             :rules="rulesTank"
+            class="mb-4"
             @update:model-value="onChooseTank"
           />
           <v-expand-transition>
@@ -32,43 +36,25 @@
                 :model-value="dosingStore.doseModels"
                 :items="allFertilizers"
                 variant="underlined"
-                label="Выберите удобрения"
+                :label="t('dosing.fertilizersInputLabel')"
+                :hint="t('dosing.fertilizersInputHint')"
                 item-title="fertilizer.name"
                 persistent-hint
                 multiple
                 chips
                 closable-chips
-                hint="* здесь собраны все ваши рецепты и удобрения. Нажмите
-                      «Фирменные» для просмотра полного списка."
+                class="mb-4"
                 @update:model-value="onInputFertilizer"
               />
               <v-switch
                 v-model="isDefaultFertilizers"
                 color="primary"
-                label="Фирменные"
+                :label="t('dosing.switch')"
                 class="ml-md-4 flex-shrink-0"
               />
             </div>
           </v-expand-transition>
-          <div v-if="isDoses">
-            <div class="subtitle-1 text-sm-h6 my-4">
-              Подбор дозировок
-              <v-tooltip
-                bottom
-                max-width="400"
-              >
-                <template #activator="{ props }">
-                  <v-icon v-bind="props">
-                    mdi-help-circle-outline
-                  </v-icon>
-                </template>
-                Подбирая объем выбранных рецептов, вы можете получить необходимую концентрацию элементов
-                в аквариуме. Таким образом вы можете подобрать ориентировочное значение, которое "съедают"
-                растения за заданный период времени.
-              </v-tooltip>
-            </div>
-            <DosingTheFertilizerDosesTable />
-          </div>
+          <DosingTheFertilizerDosesTable v-if="isDoses" />
           <v-expand-transition>
             <DosingTheElementsTable
               v-if="isDoses"
@@ -84,6 +70,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const { tanks } = useTanksStore();
 const { fertilizerRecipeModels } = useRecipesStore();
 const { fertilizerModels } = useFertilizersStore();
@@ -102,6 +90,7 @@ const dosingModel = computed(() => {
 
 const isDoses = computed(() => dosingModel.value.doses.length > 0);
 
+// TODO: refactor this
 const allFertilizers = computed(() => {
   const result = [...fertilizerRecipeModels, ...fertilizerModels, ...remineralRecipeModels];
   if (isDefaultFertilizers.value) {

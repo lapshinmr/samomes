@@ -120,7 +120,7 @@
           >
             <BaseNumberField
               v-model.number="customVolume"
-              suffix="л"
+              :suffix="t('units.l')"
               class="mt-0 pt-0"
               hide-details="auto"
               @update:model-value="onInputCustomVolume"
@@ -133,6 +133,8 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 defineOptions({
   name: 'TheRemineralsRecipesTable',
 });

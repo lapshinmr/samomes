@@ -24,7 +24,7 @@
   >
     <v-row>
       <LayoutPageTitle>
-        Рецепты
+        {{ t('recipes.title') }}
       </LayoutPageTitle>
       <client-only>
         <v-col
@@ -34,7 +34,7 @@
           offset-md="2"
         >
           <p class="mb-8 text-h6 text-md-h5">
-            У вас еще нет ни одного рецепта
+            {{ t('recipes.noRecipes') }}
           </p>
         </v-col>
         <CommonTheCards
@@ -59,7 +59,7 @@
               class="ml-auto"
               @click="onShare(index)"
             >
-              Поделиться
+              {{ t('buttons.share') }}
             </v-btn>
             <v-btn
               variant="text"
@@ -71,24 +71,17 @@
           </template>
         </CommonTheCards>
         <BaseGuide>
-          <p>
-            {{ t('recipes.guide.paragraph1') }}
+          <p class="mb-2">
+            {{ t('recipes.hints.p1') }}
           </p>
-          <p>
-            {{ t('recipes.guide.paragraph2') }}
+          <p class="mb-2">
+            {{ t('recipes.hints.p2') }}
           </p>
-          <p>
-            {{ t('recipes.guide.paragraph3') }}
-            <NuxtLink :to="ROUTES.recipes.path">
-              {{ t('routes.recipes').toLowerCase() }}
-            </NuxtLink>
-            {{ t('common.or') }}
-            <NuxtLink :to="ROUTES.schedules.path">
-              {{ t('routes.schedules').toLowerCase() }}
-            </NuxtLink>
+          <p class="mb-2">
+            {{ t('recipes.hints.p3') }}
           </p>
-          <p>
-            {{ t('recipes.guide.paragraph4') }}
+          <p class="mb-2">
+            {{ t('recipes.hints.p4') }}
           </p>
         </BaseGuide>
       </client-only>
@@ -107,7 +100,7 @@
       v-model="isRemovePopup"
       @remove="onRemoveRecipeConfirmation"
     >
-      Are you sure you want to remove this recipe? This action cannot be undone.
+      {{ t('recipes.removePopupContent') }}
     </PopupsTheRemovePopup>
   </v-container>
 </template>
@@ -131,12 +124,12 @@ const encodedUrl = computed(() => {
 });
 
 function onAdd() {
-  return router.push('/recipes/create/');
+  return router.push(`${ROUTES.recipes.path}create/`);
 }
 
 async function onRemoveRecipeConfirmation() {
   recipesStore.removeRecipe(itemIndexToRemove.value);
-  snackbarStore.showSuccess('Рецепт удален');
+  snackbarStore.showSuccess(t('recipes.page.message.recipeRemoved'));
   onRemoveConfirmation();
 }
 

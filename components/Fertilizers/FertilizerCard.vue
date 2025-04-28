@@ -20,7 +20,7 @@
 <template>
   <div>
     <div class="d-flex justify-space-between">
-      <div class="mb-2">Состав</div>
+      <div class="mb-2">{{ t('fertilizers.card.composition') }}</div>
       <div class="d-flex text-body-2">
         <div>
           <table>
@@ -30,8 +30,8 @@
             >
               <td>{{ ion }}</td>
               <td class="d-flex justify-end ml-2">
-                <span>{{ format(value, 3) }}</span>
-                <span class="ml-1">{{ fertilizer.isPercent ? "%" : "г/л" }}</span>
+                <span>{{ format(value) }}</span>
+                <span class="ml-1">{{ fertilizer.isPercent ? "%" : t('units.g/l') }}</span>
               </td>
             </tr>
           </table>
@@ -41,7 +41,7 @@
     <template v-if="fertilizer.description">
       <v-divider class="my-3" />
       <div>
-        <div class="mb-3 mr-md-3">Описание</div>
+        <div class="mb-3 mr-md-3">{{ t('fertilizers.card.description') }}</div>
         <div
           class="text-body-2"
           style="word-break: break-word; white-space: pre-wrap"
@@ -54,6 +54,8 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 defineOptions({
   name: 'FertilizerCard',
 });

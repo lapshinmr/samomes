@@ -20,16 +20,20 @@
 <template>
   <div>
     <div class="d-flex align-end mb-2">
-      <div class="mr-4 mb-1">
-        Хочу подготовить
+      <div class="mr-2 mb-1">
+        {{ t('reminerals.page.mix.t1') }}
       </div>
       <div style="width: 60px">
         <BaseNumberField
           v-model="requiredMixMass"
-          suffix="г"
+          :suffix="t('units.g')"
           hide-details="auto"
           class="mt-0 pt-0"
         />
+      </div>
+      .
+      <div class="ml-4 mb-1">
+        {{ t('reminerals.page.mix.t2') }}
       </div>
     </div>
     <v-table>
@@ -59,6 +63,8 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 defineOptions({
   name: 'TheRemineralsCompoundsTable',
 });

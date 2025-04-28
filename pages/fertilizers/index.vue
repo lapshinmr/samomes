@@ -24,7 +24,7 @@
   >
     <v-row>
       <LayoutPageTitle>
-        Удобрения
+        {{ t('fertilizers.title') }}
       </LayoutPageTitle>
       <client-only>
         <v-col
@@ -34,7 +34,7 @@
           offset-md="2"
         >
           <p class="mb-8 text-h6 text-md-h5">
-            У вас еще нет ни одного удобрения
+            {{ t('fertilizers.noFertilizers') }}
           </p>
         </v-col>
         <CommonTheCards
@@ -59,37 +59,32 @@
               :to="`${ROUTES.fertilizers.path}${index}/`"
               class="mr-n4"
             >
-              Открыть
+              {{ t('buttons.open') }}
             </v-btn>
           </template>
         </CommonTheCards>
         <BaseGuide>
-          <p>
-            На этой странице вы можете добавить любимые фирменные удобрения с известным составом,
-            чтобы система помогла подобрать дозировки и включила их в ваше персональное
-            <nuxt-link :to="ROUTES.dosing.path">
-              расписание.
-            </nuxt-link>
+          <p class="mb-2">
+            {{ t('fertilizers.hints.p1') }}
           </p>
-          <p>
-            Даже если вы не знаете точного состава удобрения, вы можете добавить его в систему —
-            это поможет вести учет внесений и не пропустить важные подкормки для ваших растений.
+          <p class="mb-2">
+            {{ t('fertilizers.hints.p2') }}
           </p>
-          <p>
-            Начните с нажатия на кнопку со знаком «<a @click="onAdd">плюс</a>», чтобы добавить новое удобрение.
+          <p class="mb-2">
+            {{ t('fertilizers.hints.p3') }}
           </p>
         </BaseGuide>
       </client-only>
     </v-row>
     <BaseAddButton :action="onAdd">
-      Добавить удобрение
+      {{ t('fertilizers.addButton') }}
     </BaseAddButton>
 
     <PopupsTheRemovePopup
       v-model="isRemovePopup"
       @remove="onRemoveFertilizerConfirmation"
     >
-      Are you sure you want to remove this fertilizer? This action cannot be undone.
+      {{ t('fertilizers.removePopupContent') }}
     </PopupsTheRemovePopup>
   </v-container>
 </template>
@@ -108,12 +103,12 @@ const fertilizerModels = computed({
 
 // TODO: move this to the component call
 function onAdd() {
-  router.push('/fertilizers/create/');
+  router.push(`${ROUTES.fertilizers.path}create/`);
 }
 
 async function onRemoveFertilizerConfirmation() {
   fertilizersStore.removeFertilizer(itemIndexToRemove.value);
-  snackbarStore.showSuccess('Рецепт удален');
+  snackbarStore.showSuccess(t('fertilizers.page.message.fertilizerAdded'));
   onRemoveConfirmation();
 }
 

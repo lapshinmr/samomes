@@ -61,7 +61,7 @@ export class Dosing {
         { ...value },
       ]);
     });
-    sortableResult.sort((a, b) => b[1].concentration - a[1].concentration);
+    sortableResult.sort((a, b) => b[1].concentrationTotal - a[1].concentrationTotal);
     return sortableResult;
   };
 

@@ -5,7 +5,7 @@
   >
     <v-card>
       <v-card-title>
-        Confirmation
+        {{ t('common.removePopupTitle') }}
       </v-card-title>
       <v-card-text>
         <slot />
@@ -15,13 +15,13 @@
           color="primary"
           @click="model = false"
         >
-          Cancel
+          {{ t('buttons.cancel') }}
         </v-btn>
         <v-btn
           color="error"
           @click="emit('remove')"
         >
-          Remove
+          {{ t('buttons.remove') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -29,6 +29,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const model = defineModel<boolean>();
 
 const emit = defineEmits(['remove']);

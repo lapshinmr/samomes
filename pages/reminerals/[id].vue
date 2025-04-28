@@ -30,27 +30,27 @@
           size="small"
           @click="onCopyRemineral"
         >
-          Скопировать
+          {{ t('buttons.copy') }}
         </v-btn>
       </LayoutBackButton>
       <LayoutPageTitle>
         <template v-if="isCreate && !isCopy">
-          Новый рецепт
+          {{ t('reminerals.page.titleNew') }}
         </template>
         <template v-else-if="isCopy">
           <div class="text-h6 text-sm-h5">
-            Это копия реминерализатора {{ remineralModel.name }}
+            {{ t('reminerals.page.titleNew') }} {{ remineralModel.name }}
           </div>
           <div class="text-subtitle-1">
-            Внесите изменения и не забудьте сохранить
+            {{ t('reminerals.page.subtitleCopy') }}
           </div>
         </template>
         <template v-else-if="isShare">
           <p class="text-h6 text-md-h5">
-            С вами поделились реминерализатором!
+            {{ t('reminerals.page.titleShare') }}
           </p>
           <p class="text-subtitle-1">
-            Проверьте его, дайте название и не забудьте сохранить.
+            {{ t('reminerals.page.subtitleShare') }}
           </p>
         </template>
         <template v-else>
@@ -67,10 +67,10 @@
             :model-value="reagentsChosen"
             :items="reagents"
             item-title="text"
+            :label="t('common.reagents')"
+            :hint="t('common.reagentsHint')"
             variant="underlined"
             multiple
-            label="Реагенты"
-            hint="Вы можете выбрать несколько реагентов"
             persistent-hint
             hide-details="auto"
             validate-on-blur
@@ -84,8 +84,8 @@
             :items="REMINERAL_RECIPES"
             item-title="name"
             variant="underlined"
-            label="Рецепт"
-            hint="или выбрать один из рецептов"
+            :label="t('common.recipes')"
+            :hint="t('common.recipesHint')"
             persistent-hint
             hide-details="auto"
             @update:model-value="onInputRemineralExample"
@@ -93,7 +93,7 @@
           <v-expand-transition>
             <div v-if="isReagents">
               <BaseDividerWithNote class="my-8">
-                Реагенты
+                {{ t('common.reagents') }}
               </BaseDividerWithNote>
               <div
                 v-for="reagent in reagentsChosen"
@@ -103,7 +103,7 @@
                 <BaseNumberField
                   :model-value="reagent.amount"
                   :label="reagent.text"
-                  :suffix="reagent.isLiquid ? 'мл' : 'г'"
+                  :suffix="reagent.isLiquid ? t('units.mg/l') : t('units.g')"
                   hide-details="auto"
                   :disabled="reagentsLocked[reagent.key]"
                   :rules="[required, positive]"
@@ -184,7 +184,7 @@
                       class="mb-4"
                       button
                     >
-                      Подготовка смеси
+                      {{ t('reminerals.page.mix.title') }}
                     </BaseDividerWithNote>
                     <v-expand-transition>
                       <RemineralsTheRemineralsMixTable
@@ -205,21 +205,21 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="remineralModel.name"
-                  label="Имя рецепта"
+                  :label="t('reminerals.page.name')"
+                  :hint="t('reminerals.page.nameHint')"
                   variant="underlined"
                   hide-details="auto"
-                  hint="Придумайте имя рецепта, чтобы не путать его с другими рецептами"
                   :rules="[required, isNameExist]"
                   class="mb-4"
                 />
                 <v-textarea
                   v-model="remineralModel.description"
-                  label="Примечание"
+                  :label="t('reminerals.page.description')"
+                  :hint="t('reminerals.page.descriptionHint')"
                   variant="underlined"
                   hide-details="auto"
                   auto-grow
                   rows="1"
-                  hint="Вы можете добавить дополнительные сведения к рецепту"
                 />
               </v-col>
               <v-col
@@ -231,20 +231,20 @@
                   color="error"
                   @click="onRemoveRemineral"
                 >
-                  Удалить
+                  {{ t('buttons.remove') }}
                 </v-btn>
                 <v-btn
                   class="ml-auto"
-                  @click="$router.push('/reminerals/')"
+                  @click="$router.push(ROUTES.reminerals.path)"
                 >
-                  Отмена
+                  {{ t('buttons.cancel') }}
                 </v-btn>
                 <v-btn
                   color="primary"
                   class="ml-2"
                   v-on="isCreate || isShare ? { click: onAddRemineral } : { click: onEditRemineral }"
                 >
-                  Сохранить
+                  {{ t('buttons.save') }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -256,10 +256,11 @@
 </template>
 
 <script lang="ts" setup>
-import { required, positive } from '~/utils/validation';
+const { t } = useI18n();
 
 const route = useRoute();
 const router = useRouter();
+const { required, positive } = useValidation();
 const snackbarStore = useSnackbarStore();
 const remineralsStore = useRemineralsStore();
 
@@ -352,6 +353,14 @@ function onInputChangeVolume(value: number) {
   updateCaMgRatio();
 }
 
+watch(reagentsChosen, () => {
+  // Set recipe default name by first reagent name
+  if (!remineralModel.name && reagentsChosen.value.length === 1) {
+    const reagent = reagentsChosen.value[0];
+    remineralModel.name = reagent.text;
+  }
+});
+
 function onInputReagent(value: InstanceType<typeof Reagent>[]) {
   if (value.length > reagentsChosen.value.length) {
     const lastReagent = [...value].pop();
@@ -392,7 +401,6 @@ function onInputReagentGh(value: number, reagent: InstanceType<typeof Reagent>) 
   // UPDATE MODEL
   const newReagentAmount = remineralModel.countReagentAmountByGh(reagent, value);
   remineralModel.setReagentAmount(newReagentAmount, reagent.key);
-  console.log(newReagentAmount);
   // UPDATE FORM
   ghPerReagent[reagent.key] = value;
   reagent.amount = format(newReagentAmount);
@@ -459,14 +467,6 @@ function onInputCaMgRatio(value: number) {
   updateAmounts();
 }
 
-watch(reagentsChosen, () => {
-  // Set recipe default name by first reagent name
-  if (!remineralModel.name && reagentsChosen.value.length === 1) {
-    const reagent = reagentsChosen.value[0];
-    remineralModel.name = reagent.text;
-  }
-});
-
 function fillModel(remineral: RemineralRecipeType | RemineralRecipeExampleType) {
   remineralModel.name = remineral.name;
   remineralModel.description = remineral.description;
@@ -513,7 +513,7 @@ const isExist = computed(() => {
   return checkName(remineralModel.name) && !isEdit.value;
 });
 
-const isNameExist = () => !isExist.value || 'Рецепт или удобрение с таким названием уже существует';
+const isNameExist = () => !isExist.value || t('reminerals.page.message.nameExists');
 
 const checkSolubilityError = (reagent: ReagentType) => {
   return remineralModel.isLiquid && (reagent.amount / remineralModel.totalVolume) * 1000 > reagent.solubility;
@@ -521,7 +521,7 @@ const checkSolubilityError = (reagent: ReagentType) => {
 
 const getSolubilityErrorMessage = (reagent: ReagentType) => {
   return remineralModel.isLiquid && (reagent.amount / remineralModel.totalVolume) * 1000 > reagent.solubility
-    ? `Достигнута максимальная растворимость - ${reagent.solubility} г/л при 25°С!`
+    ? `${t('validation.solubilityLimit')} - ${reagent.solubility} ${t('units.g/l')} ${t('common.for')} 25°С!`
     : '';
 };
 
@@ -555,7 +555,7 @@ onMounted(async () => {
       remineralModel.reagents.push(reagent);
       // We need to format amount to show convenient value in the form
       reagentsChosen.value.push(new Reagent({
-        ...reagent,
+        ...reagent.toJson(),
         amount: format(reagent.amount),
       }));
     }
@@ -571,33 +571,37 @@ onMounted(async () => {
 
 async function onAddRemineral() {
   const { valid } = await remineralFormRef.value.validate();
-  if (valid) {
-    remineralsStore.addRemineral({ ...remineralModel.toJson() });
-    snackbarStore.show('Реминерализатор добавлен');
-    await router.push(ROUTES.reminerals.path);
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  remineralsStore.addRemineral({ ...remineralModel.toJson() });
+  snackbarStore.show(t('reminerals.page.message.add'));
+  await router.push(ROUTES.reminerals.path);
 }
 
 async function onEditRemineral() {
   const { valid } = await remineralFormRef.value.validate();
-  if (valid) {
-    remineralsStore.editRemineral({
-      index: +remineralIndex.value,
-      remineral: { ...remineralModel.toJson() },
-    });
-    snackbarStore.show('Реминерализатор изменен');
-    await router.push(ROUTES.reminerals.path);
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  remineralsStore.editRemineral({
+    index: +remineralIndex.value,
+    remineral: { ...remineralModel.toJson() },
+  });
+  snackbarStore.show(t('reminerals.page.message.edit'));
+  await router.push(ROUTES.reminerals.path);
 }
 
 async function onRemoveRemineral() {
   remineralsStore.removeRemineral(+remineralIndex.value);
-  snackbarStore.show('Реминерализатор удален');
+  snackbarStore.show(t('reminerals.page.message.remove'));
   await router.push(ROUTES.reminerals.path);
 }
 
 async function onCopyRemineral() {
-  snackbarStore.show('Реминерализатор скопирован');
+  snackbarStore.show(t('reminerals.page.message.copy'));
   await router.push(`${ROUTES.reminerals.path}create/?copy=${remineralIndex.value}`);
 }
 

@@ -31,7 +31,7 @@ export default class Reagent {
   public isLiquid?: boolean;
   public HCO3: number;
   public density?: number;
-  public solution?: number;
+  public dilution?: number;
   private _ions?: Partial<Record<IonType, number>>;
 
   constructor(args: {
@@ -45,7 +45,8 @@ export default class Reagent {
     isLiquid?: boolean;
     HCO3?: number;
     density?: number;
-    solution?: number;
+    // TODO: add property decorator to set limits [1, 100]
+    dilution?: number;
   }) {
     // TODO: check default values
     this.key = args.key;
@@ -59,7 +60,7 @@ export default class Reagent {
     this.density = args.density;
     if (this.density) {
       this.isLiquid = true;
-      this.solution = 1;
+      this.dilution = 1;
     }
     this.ions = args.ions;
 
@@ -106,9 +107,9 @@ export default class Reagent {
 
       result = ions;
     }
-    if (this.solution < 100) {
+    if (this.dilution < 1) {
       typedEntries(result).forEach(([ion, value]) => {
-        result[ion] *= value * this.solution;
+        result[ion] *= value * this.dilution;
       });
     }
     return result;
@@ -143,6 +144,7 @@ export default class Reagent {
       amount: this.amount,
       unitConcs: this.unitConcs,
       solubility: this.solubility,
+      dilution: this.dilution,
       isLiquid: this.isLiquid,
       type: this.type,
       HCO3: this.HCO3,

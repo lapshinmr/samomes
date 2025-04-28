@@ -23,7 +23,7 @@
       <v-switch
         v-model="isHardness"
         color="primary"
-        label="Показать повышение жесткости"
+        :label="t('dosing.elementsTable.showGh')"
         hide-details="auto"
         class="mt-0 mb-2 mb-sm-0"
       />
@@ -32,44 +32,44 @@
       <thead>
         <tr>
           <th class="pl-0 text-center">
-            Элемент
+            {{ t('dosing.elementsTable.element') }}
           </th>
+          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
+            <th class="text-center">
+              {{ t('dosing.elementsTable.everyDayDose') }} <span>{{ t('units.mg/l') }}</span>
+            </th>
+            <th class="text-center">
+              {{ t('dosing.elementsTable.totalDose') }}, <span>{{ t('units.mg/l') }}</span>
+            </th>
+          </template>
+          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
+            <th class="text-center">
+              {{ t('dosing.elementsTable.inWaterChangeDose') }}, <span>{{ t('units.mg/l') }}</span>
+            </th>
+            <th class="text-center">
+              {{ t('dosing.elementsTable.everyDayDose') }}, <span>{{ t('units.mg/l') }}</span>
+            </th>
+            <th class="text-center">
+              {{ t('dosing.elementsTable.totalDose') }}, <span>{{ t('units.mg/l') }}</span>
+            </th>
+          </template>
+          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">
+            <th class="text-center">
+              {{ t('dosing.elementsTable.inWaterChangeDose') }}, <span>{{ t('units.mg/l') }}</span>
+            </th>
+            <th class="text-center">
+              {{ t('dosing.elementsTable.inDayWeekDose') }}, <span>{{ t('units.mg/l') }}</span>
+            </th>
+            <th class="text-center">
+              {{ t('dosing.elementsTable.totalDose') }}, <span>{{ t('units.mg/l') }}</span>
+            </th>
+          </template>
           <th
             v-if="isHardness"
             class="text-center"
           >
             dGh
           </th>
-          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
-            <th class="text-center">
-              Общая доза, <span>мг/л</span>
-            </th>
-            <th class="text-center">
-              В день, <span>мг/л</span>
-            </th>
-          </template>
-          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
-            <th class="text-center">
-              В подмене, <span>мг/л</span>
-            </th>
-            <th class="text-center">
-              В аквариуме, <span>мг/л</span>
-            </th>
-            <th class="text-center">
-              В день, <span>мг/л</span>
-            </th>
-          </template>
-          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">
-            <th class="text-center">
-              В подмене, <span>мг/л</span>
-            </th>
-            <th class="text-center">
-              В день/неделю, <span>мг/л</span>
-            </th>
-            <th class="text-center">
-              Общая доза, <span>мг/л</span>
-            </th>
-          </template>
         </tr>
       </thead>
       <tbody>
@@ -81,6 +81,36 @@
           <td class="pl-0 text-center">
             {{ ion }}
           </td>
+          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentrationDay) }}
+            </td>
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentration) }}
+            </td>
+          </template>
+          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentrationWaterChange) }}
+            </td>
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentrationDay) }}
+            </td>
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentration) }}
+            </td>
+          </template>
+          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentrationWaterChange) }}
+            </td>
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentrationDay) }} / {{ format(value.concentration) }}
+            </td>
+            <td class="text-center text-no-wrap">
+              {{ format(value.concentrationTotal) }}
+            </td>
+          </template>
           <td
             v-if="isHardness"
             class="text-center"
@@ -99,47 +129,19 @@
               </template>
             </template>
           </td>
-          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentration) }}
-            </td>
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentrationDay) }}
-            </td>
-          </template>
-          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentrationWaterChange) }}
-            </td>
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentration) }}
-            </td>
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentrationDay) }}
-            </td>
-          </template>
-          <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentrationWaterChange) }}
-            </td>
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentrationDay) }} / {{ format(value.concentration) }}
-            </td>
-            <td class="text-center text-no-wrap">
-              {{ format(value.concentrationTotal) }}
-            </td>
-          </template>
         </tr>
       </tbody>
     </v-table>
     <CommonTheElementsRatios
       :concentration="dosing.concentrationTotal"
+      :is-gh="isHardness"
       class="mt-8"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
 const dosingStore = useDosingStore();
 
 defineOptions({

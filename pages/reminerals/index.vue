@@ -24,7 +24,7 @@
   >
     <v-row>
       <LayoutPageTitle>
-        Реминерализаторы
+        {{ t('reminerals.title') }}
       </LayoutPageTitle>
       <client-only>
         <v-col
@@ -34,7 +34,7 @@
           offset-md="2"
         >
           <p class="mb-8 text-h6 text-md-h5">
-            У вас еще нет ни одного реминерализатора
+            {{ t('reminerals.noReminerals') }}
           </p>
         </v-col>
         <CommonTheCards
@@ -59,7 +59,7 @@
               class="ml-auto"
               @click="onShare(index)"
             >
-              Поделиться
+              {{ t('buttons.share') }}
             </v-btn>
             <v-btn
               variant="text"
@@ -71,17 +71,14 @@
           </template>
         </CommonTheCards>
         <BaseGuide>
-          <p>
-            На этой странице вы можете разработать свой собственный рецепт реминерализатора.
-            Для этого в вашем распоряжении есть реагенты, которые часто используются аквариумистами.
+          <p class="mb-2">
+            {{ t('reminerals.hints.p1') }}
           </p>
-          <p>
-            Не беспокойтесь — вы всегда можете воспользоваться готовыми рецептами, которые уже проверены
-            и успешно применяются многими аквариумистами.
+          <p class="mb-2">
+            {{ t('reminerals.hints.p2') }}
           </p>
-          <p>
-            Начните с нажатия на кнопку со знаком «плюс», чтобы добавить новый
-            реминерализатор.
+          <p class="mb-2">
+            {{ t('reminerals.hints.p3') }}
           </p>
         </BaseGuide>
       </client-only>
@@ -100,7 +97,7 @@
       v-model="isRemovePopup"
       @remove="onRemoveRemineralConfirmation"
     >
-      Are you sure you want to remove this remineral? This action cannot be undone.
+      {{ t('reminerals.removePopupContent') }}
     </PopupsTheRemovePopup>
   </v-container>
 </template>
@@ -129,7 +126,7 @@ function onAdd() {
 
 async function onRemoveRemineralConfirmation() {
   remineralsStore.removeRemineral(itemIndexToRemove.value);
-  snackbarStore.showSuccess('Реминерализатор удален');
+  snackbarStore.showSuccess(t('reminerals.page.message.remove'));
   onRemoveConfirmation();
 }
 

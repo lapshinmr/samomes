@@ -22,21 +22,21 @@
     <v-radio-group
       v-model="fertilizersRegime"
       color="primary"
-      class="my-2"
+      class="my-2 ml-n3"
       hide-details="auto"
       :inline="$vuetify.display.smAndUp"
     >
       <v-radio
-        label="Каждый день"
+        :label="t('dosing.dosesTable.regime1')"
         :value="0"
       />
       <v-radio
-        label="В подменную воду"
+        :label="t('dosing.dosesTable.regime2')"
         :value="1"
         class="mt-1 mt-sm-0"
       />
       <v-radio
-        label="Комбинированная подача"
+        :label="t('dosing.dosesTable.regime3')"
         :value="2"
         class="mt-1 mt-sm-0"
       />
@@ -56,7 +56,7 @@
           v-model="daysTotal"
           hide-details="auto"
           class="w-40"
-          label="Период"
+          :label="t('dosing.dosesTable.daysTotal')"
         />
       </div>
       <div
@@ -69,7 +69,7 @@
             v-if="isTotalMode"
             :model-value="format(dose.amount)"
             :label="dose.fertilizer.name"
-            :suffix="dose.fertilizer.isLiquid ? 'мл' : 'г'"
+            :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
             hide-details="auto"
             @update:model-value="dosingStore.updateAmount($event, index)"
           />
@@ -77,7 +77,7 @@
             v-else
             :model-value="format(dose.amountDay)"
             :label="dose.fertilizer.name"
-            :suffix="dose.fertilizer.isLiquid ? 'мл/день' : 'г/день'"
+            :suffix="dose.fertilizer.isLiquid ? t('units.ml/d') : t('units.g/d')"
             hide-details="auto"
             @update:model-value="dosingStore.updateAmountDay($event, index)"
           />
@@ -88,8 +88,8 @@
       <div class="d-flex align-start">
         <BaseNumberField
           v-model="waterChangeVolume"
-          label="Введите объем подмены"
-          hint="Это нужно для подсчета дозировки в подмене"
+          :label="t('dosing.dosesTable.waterChange')"
+          :hint="t('dosing.dosesTable.waterChangeHint')"
           persistent-hint
           class="pr-2 w-60"
         />
@@ -97,13 +97,13 @@
           v-model="daysTotal"
           hide-details="auto"
           class="w-40"
-          label="Период"
+          :label="t('dosing.dosesTable.daysTotal')"
         />
       </div>
       <div class="d-flex mt-4">
         <div class="text-subtitle-1 font-weight-medium w-100 pr-2">
           <span style="position: relative; top: 3px;">
-            Весь объем удобрений
+            {{ t('dosing.dosesTable.doseTotal') }}
           </span>
           <v-divider class="mt-1" />
         </div>
@@ -117,7 +117,7 @@
         <BaseNumberField
           :model-value="format(dose.amount)"
           :label="dose.fertilizer.name"
-          :suffix="dose.fertilizer.isLiquid ? 'мл' : 'г'"
+          :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
           hide-details="auto"
           class="pr-2"
           @update:model-value="dosingStore.updateAmount($event, index)"
@@ -128,22 +128,22 @@
       <div class="d-flex align-start">
         <BaseNumberField
           v-model="waterChangeVolume"
-          label="Введите объем подмены"
-          hint="Это нужно для подсчета дозировки в подмене"
+          :label="t('dosing.dosesTable.waterChange')"
+          :hint="t('dosing.dosesTable.waterChangeHint')"
           persistent-hint
           class="pr-2 w-60"
         />
         <BaseNumberField
           v-model="daysTotal"
           hide-details="auto"
-          label="Период"
+          :label="t('dosing.dosesTable.daysTotal')"
           class="w-40"
         />
       </div>
       <div class="d-flex">
         <div class="font-weight-medium align-self-end w-60 pr-2">
           <span style="position: relative; top: 3px;">
-            Подмена
+            {{ t('dosing.dosesTable.waterChangeTitle') }}
           </span>
           <v-divider class="mt-1" />
         </div>
@@ -159,14 +159,14 @@
         </div>
       </div>
       <div
-        v-for="(dose, index) in dosingStore.doses"
+        v-for="(dose, index) in dosingStore.doseModels"
         :key="index"
         class="d-flex justify-space-between align-center"
       >
         <BaseNumberField
           :model-value="format(dose.amountWaterChange)"
           :label="dose.fertilizer.name"
-          :suffix="dose.fertilizer.isLiquid ? 'мл' : 'г'"
+          :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
           hide-details="auto"
           class="pr-2 w-60"
           @update:model-value="dosingStore.updateAmountWaterChange($event, index)"
@@ -175,14 +175,14 @@
           <BaseNumberField
             v-if="isTotalMode"
             :model-value="format(dose.amount)"
-            :suffix="dose.fertilizer.isLiquid ? 'мл' : 'г'"
+            :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
             hide-details="auto"
             @update:model-value="dosingStore.updateAmount($event, index)"
           />
           <BaseNumberField
             v-else
             :model-value="format(dose.amountDay)"
-            :suffix="dose.fertilizer.isLiquid ? 'мл/день' : 'г/день'"
+            :suffix="dose.fertilizer.isLiquid ? t('units.ml/d') : t('units.g/d')"
             hide-details="auto"
             @update:model-value="dosingStore.updateAmountDay($event, index)"
           />
@@ -195,9 +195,12 @@
 <script lang="ts" setup>
 import { FertilizersRegime } from '~/utils/types/types';
 
-defineOptions({
-  name: 'TheFertilizersDosesTable',
-});
+const { t } = useI18n();
+
+const mode = [
+  { text: t('dosing.dosesTable.everyDay'), value: false },
+  { text: t('dosing.dosesTable.total'), value: true },
+];
 
 const dosingStore = useDosingStore();
 
@@ -221,10 +224,9 @@ const waterChangeVolume = computed({
   set(value) { dosingStore.setWaterChangeVolume(value); },
 });
 
-const mode = [
-  { text: 'Ежедневно', value: false },
-  { text: 'Всего', value: true },
-];
+defineOptions({
+  name: 'TheFertilizersDosesTable',
+});
 </script>
 
 <style lang="sass" scoped>

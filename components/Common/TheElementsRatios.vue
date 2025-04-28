@@ -1,14 +1,14 @@
 <template>
   <div class="d-flex justify-space-around mt-2 text-body-2">
     <v-text-field
-      :model-value="format(No3Po4Ratio, 3) || '—'"
+      :model-value="format(No3Po4Ratio) || '—'"
       label="NO3 / PO4"
       variant="outlined"
       readonly
       density="compact"
     />
     <v-text-field
-      :model-value="format(No3KRatio, 3) || '—'"
+      :model-value="format(No3KRatio) || '—'"
       label="NO3 / K"
       variant="outlined"
       readonly
@@ -16,15 +16,7 @@
       class="ml-2"
     />
     <v-text-field
-      :model-value="format(CaMgRatio, 3) || '—'"
-      label="Ca / Mg"
-      variant="outlined"
-      readonly
-      density="compact"
-      class="ml-2"
-    />
-    <v-text-field
-      :model-value="format(Po4BRatio, 3) || '—'"
+      :model-value="format(Po4BRatio) || '—'"
       label="PO4 / B"
       variant="outlined"
       readonly
@@ -32,8 +24,25 @@
       class="ml-2"
     />
     <v-text-field
-      :model-value="format(FeBRatio, 3) || '—'"
+      :model-value="format(FeBRatio) || '—'"
       label="Fe / B"
+      variant="outlined"
+      readonly
+      density="compact"
+      class="ml-2"
+    />
+    <v-text-field
+      :model-value="format(CaMgRatio) || '—'"
+      label="Ca / Mg"
+      variant="outlined"
+      readonly
+      density="compact"
+      class="ml-2"
+    />
+    <v-text-field
+      v-if="isGh"
+      :model-value="format(gh) || '—'"
+      label="dGh"
       variant="outlined"
       readonly
       density="compact"
@@ -47,9 +56,12 @@ defineOptions({
   name: 'TheElementsRatios',
 });
 
-const props = defineProps<{
-  concentration: Record<string, number>;
-}>();
+const props = withDefaults(defineProps<{
+  concentration: Partial<Record<IonType, number>>;
+  isGh?: boolean;
+}>(), {
+  isGh: false,
+});
 
 const No3Po4Ratio = computed(() => {
   return countRatio(props.concentration, 'NO3', 'PO4');
@@ -68,6 +80,10 @@ const Po4BRatio = computed(() => {
 });
 const FeBRatio = computed(() => {
   return countRatio(props.concentration, 'Fe', 'B');
+});
+
+const gh = computed(() => {
+  return props.concentration['Ca'] / GH['Ca'] + props.concentration['Mg'] / GH['Mg'];
 });
 </script>
 

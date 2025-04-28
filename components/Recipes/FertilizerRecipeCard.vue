@@ -19,25 +19,25 @@
 
 <template>
   <div>
-    <div class="mb-2">Рецепт</div>
+    <div class="mb-2">{{ t('recipes.card.recipe') }}</div>
     <div
       v-if="recipe.totalVolume"
       class="d-flex justify-space-between text-body-2"
     >
-      <span class="">Объем удобрения</span>
-      <span>{{ recipe.totalVolume }} мл</span>
+      <span class="">{{ t('common.volume') }}</span>
+      <span>{{ recipe.totalVolume }} {{ t('units.ml') }}</span>
     </div>
     <template v-for="reagent in recipe.reagents" :key="reagent.key">
       <div class="d-flex justify-space-between text-body-2">
         <span>
           {{ reagent.name }}
         </span>
-        <span> {{ format(reagent.amount) }} г </span>
+        <span> {{ format(reagent.amount) }} {{ t('units.g') }} </span>
       </div>
     </template>
     <v-divider class="my-3" />
     <div class="d-flex justify-space-between">
-      <div class="mb-2 mb-sm-4">Состав</div>
+      <div class="mb-2 mb-sm-4">{{ t('recipes.card.composition') }}</div>
       <div class="d-flex text-body-2">
         <div>
           <table>
@@ -47,8 +47,8 @@
             >
               <td>{{ ion }}</td>
               <td class="d-flex justify-end ml-2">
-                <span>{{ format(value, 3) }}</span>
-                <span class="ml-1">{{ recipe.isLiquid ? "г/л" : "г/1г" }}</span>
+                <span>{{ format(value) }}</span>
+                <span class="ml-1">{{ recipe.isLiquid ? t('units.g/l') : t('units.g/1g') }}</span>
               </td>
             </tr>
           </table>
@@ -58,7 +58,7 @@
     <template v-if="recipe.description">
       <v-divider class="my-3" />
       <div>
-        <div class="mb-3 mr-md-3">Описание</div>
+        <div class="mb-3 mr-md-3">{{ t('recipes.card.description') }}</div>
         <div
           class="text-body-2"
           style="word-break: break-word; white-space: pre-wrap"
@@ -71,6 +71,8 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 defineOptions({
   name: 'FertilizerRecipeCard',
 });

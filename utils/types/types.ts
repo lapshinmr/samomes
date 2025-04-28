@@ -77,6 +77,7 @@ export type ReagentType = {
   isLiquid?: boolean;
   HCO3?: number;
   density?: number;
+  dilution?: number;
 }
 
 export type FertilizerRecipeType = {

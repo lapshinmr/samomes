@@ -28,27 +28,27 @@
           size="small"
           @click="onCopyRecipe"
         >
-          Скопировать
+          {{ t('buttons.copy')}}
         </v-btn>
       </LayoutBackButton>
       <LayoutPageTitle>
         <template v-if="isCreate && !isCopy">
-          Новый рецепт
+          {{ t('recipes.page.titleNew') }}
         </template>
         <template v-else-if="isCopy">
           <div class="text-h6 text-sm-h5">
-            Это копия рецепта {{ recipeModel.name }}
+            {{ t('recipes.page.titleCopy') }} {{ recipeModel.name }}
           </div>
           <div class="text-subtitle-1">
-            Внесите изменения и не забудьте сохранить
+            {{ t('recipes.page.subtitleCopy') }}
           </div>
         </template>
         <template v-else-if="isShare">
           <p class="text-h6 text-md-h5">
-            С вами поделились рецептом!
+            {{ t('recipes.page.titleShare') }}
           </p>
           <p class="text-subtitle-1">
-            Проверьте его, дайте название и не забудьте сохранить.
+            {{ t('recipes.page.subtitleShare') }}
           </p>
         </template>
         <template v-else>
@@ -70,8 +70,8 @@
             item-title="text"
             variant="underlined"
             multiple
-            label="Реагенты"
-            hint="Вы можете выбрать несколько реагентов"
+            :label="t('common.reagents')"
+            :hint="t('common.reagentsHint')"
             persistent-hint
             chips
             closable-chips
@@ -84,8 +84,8 @@
             :items="FERTILIZER_RECIPES"
             item-title="name"
             variant="underlined"
-            label="Рецепты"
-            hint="или выбрать один из рецептов"
+            :label="t('common.recipes')"
+            :hint="t('common.recipesHint')"
             persistent-hint
             hide-selected
             hide-details="auto"
@@ -97,7 +97,7 @@
               button
               class="my-8"
             >
-              Реагенты
+              {{ t('common.reagents') }}
             </BaseDividerWithNote>
             <v-expand-transition>
               <div
@@ -114,8 +114,7 @@
                   </div>
                 </template>
                 <div class="mt-2 mt-sm-4 text-body-2 text-grey-darken-1">
-                  В аквариумистике концентрации азота и фосфора измеряются в форме нитратов (NO₃⁻) и фосфатов
-                  (PO₄³⁻), так как это основные соединения этих элементов, встречающиеся в аквариумах.
+                  {{ t('recipes.page.reagentsDescription') }}
                 </div>
               </div>
             </v-expand-transition>
@@ -130,7 +129,7 @@
                 <BaseNumberField
                   :model-value="reagent.amount"
                   :label="reagent.text"
-                  :suffix="reagent.isLiquid ? 'мл' : 'г'"
+                  :suffix="reagent.isLiquid ? t('units.ml') : t('units.g')"
                   hide-details="auto"
                   class="mb-2 mb-sm-4"
                   :rules="[required, positive]"
@@ -143,8 +142,8 @@
                   style="width: 100px;"
                 >
                   <BaseNumberField
-                    :model-value="reagent.solution * 100"
-                    label="Разбавление"
+                    :model-value="reagent.dilution * 100"
+                    :label="t('recipes.page.dilution')"
                     suffix="%"
                     class="ml-2"
                     hide-details="auto"
@@ -159,13 +158,10 @@
                 >
                   <BaseNumberField
                     :model-value="recipeModel.totalVolume"
-                    label="Общий объем удобрения"
-                    suffix="мл"
+                    :label="t('recipes.page.totalVolume')"
+                    :suffix="t('units.ml')"
                     variant="outlined"
-                    :hint="recipeModel.isSeveralLiquidReagents
-                      ? 'Если под объемом воды вы имели ввиду общий объем, то введите его здесь и калькулятор сам '
-                        + 'рассчитает нужный объем воды'
-                      : ''"
+                    :hint="recipeModel.isSeveralLiquidReagents ? t('recipes.page.totalVolumeHint') : ''"
                     persistent-hint="auto"
                     @update:model-value="onInputTotalVolume"
                   />
@@ -179,7 +175,7 @@
               button
               class="my-8"
             >
-              Рассчитать массы через удельный прирост концентрации
+              {{ t('recipes.page.unitConcTitle') }}
               <v-tooltip
                 location="bottom"
                 max-width="400"
@@ -189,12 +185,7 @@
                     mdi-help-circle-outline
                   </v-icon>
                 </template>
-                Удельный прирост концентрации - это величина, на которую повысится концентрация элемента
-                в аквариуме при внесении 1 мл удобрения.
-                Например, вы хотите сделать макроудобрение с нитратом.
-                И для удобства введения его в аквариум вы бы хотели, чтобы
-                при каждом вводимом 1 мл удобрения концентрация нитрата повышалась на 0.5 мг/л / мл.
-                0.5 мг/л / мл - это удельный прирост концентрации.
+                {{ t('recipes.page.unitConcDescription') }}
               </v-tooltip>
             </BaseDividerWithNote>
           </div>
@@ -205,10 +196,10 @@
                 :items="tanks"
                 item-title="name"
                 variant="underlined"
-                label="Выберите аквариум или введите объем"
+                :label="t('recipes.page.tankInputLabel')"
                 persistent-hint
                 hide-selected
-                suffix="л"
+                :suffix="t('units.l')"
                 class="mb-2 mb-sm-4"
                 @update:model-value="onTankVolumeInput"
               />
@@ -233,7 +224,7 @@
                         <BaseNumberField
                           v-model.number="reagent.unitConcs[ion]"
                           :label="ion"
-                          suffix="мг/л / мл"
+                          :suffix="t('units.mg/l / ml')"
                           hide-details="auto"
                           @update:model-value="inputIonUnitConc($event, reagent, ion)"
                         />
@@ -243,7 +234,7 @@
                   <v-row>
                     <v-col cols="12">
                       <div class="font-weight-medium">
-                        Удельный прирост концентрации, мг/л / мл
+                        {{ t('recipes.page.unitConc') }}, {{ t('units.mg/l / ml')}}
                       </div>
                       <div class="d-flex">
                         <div
@@ -265,47 +256,45 @@
             </div>
           </v-expand-transition>
           <div v-if="recipeModel.isReagents">
-            <RecipesTheElementsTable
-              :recipe="recipeModel"
-            />
+            <RecipesTheElementsTable :recipe="recipeModel" />
             <v-text-field
               v-model="recipeModel.name"
               variant="underlined"
-              label="Название рецепта"
+              :label="t('recipes.page.name')"
+              :hint="t('recipes.page.nameHint')"
               hide-details="auto"
-              hint="* название рецепта должно быть уникальным"
               class="mb-2 mb-sm-4"
               :rules="[required, isNameExist]"
             />
             <v-textarea
               v-model="recipeModel.description"
               variant="underlined"
-              label="Описание"
+              :label="t('recipes.page.description')"
               hide-details="auto"
               auto-grow
               rows="1"
-              hint="Вы можете добавить дополнительные сведения к рецепту"
+              :hint="t('recipes.page.descriptionHint')"
             />
-            <div class="d-flex mt-2 mt-sm-4">
+            <div class="d-flex mt-3 mt-sm-6">
               <v-btn
                 v-if="!isCreate && !isShare"
                 color="error"
                 @click="onRemoveRecipe"
               >
-                Удалить
+                {{ t('buttons.remove') }}
               </v-btn>
               <v-btn
                 class="ml-auto"
-                @click="$router.push('/recipes/')"
+                @click="$router.push(ROUTES.recipes.path)"
               >
-                Отмена
+                {{ t('buttons.cancel') }}
               </v-btn>
               <v-btn
                 color="primary"
                 class="ml-2"
                 v-on="isCreate || isShare ? { click: onAddRecipe } : { click: onEditRecipe }"
               >
-                Сохранить
+                {{ t('buttons.save') }}
               </v-btn>
             </div>
           </div>
@@ -317,9 +306,10 @@
 
 <script lang="ts" setup>
 import { useRouter, useRoute } from 'vue-router';
-import { required, positive } from '~/utils/validation';
 import type { FertilizerRecipeExampleType } from '~/utils/types/types';
 
+const { t } = useI18n();
+const { required, positive } = useValidation();
 const router = useRouter();
 const route = useRoute();
 const snackbarStore = useSnackbarStore();
@@ -342,11 +332,13 @@ const recipeModel = reactive(new FertilizerRecipe(
   },
 ));
 
-function fillForm(recipe: FertilizerRecipeType | FertilizerRecipeExampleType) {
-  recipeModel.name = recipe.name;
-  recipeModel.description = recipe.description;
-  recipeModel.tankVolume = recipe.tankVolume;
-}
+watch(() => recipeModel.reagents, () => {
+  // Set recipe default name by first reagent name
+  if (!recipeModel.name && recipeModel.reagents.length === 1) {
+    const reagent = recipeModel.reagents[0];
+    recipeModel.name = reagent.text;
+  }
+});
 
 function onInputReagent(value: InstanceType<typeof Reagent>[]) {
   if (value.length > recipeModel.reagents.length) {
@@ -357,6 +349,12 @@ function onInputReagent(value: InstanceType<typeof Reagent>[]) {
     }
   }
   recipeModel.reagents = value;
+}
+
+function fillModel(recipe: FertilizerRecipeType | FertilizerRecipeExampleType) {
+  recipeModel.name = recipe.name;
+  recipeModel.description = recipe.description;
+  recipeModel.tankVolume = recipe.tankVolume;
 }
 
 const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
@@ -372,7 +370,7 @@ const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
       recipeModel.reagents.push(reagentFound);
     }
   });
-  fillForm(recipe);
+  fillModel(recipe);
 };
 
 function onInputReagentAmount(value: number, reagent: InstanceType<typeof Reagent>) {
@@ -382,7 +380,7 @@ function onInputReagentAmount(value: number, reagent: InstanceType<typeof Reagen
 }
 
 function onInputReagentSolution(value: number, reagent: InstanceType<typeof Reagent>) {
-  reagent.solution = value / 100;
+  reagent.dilution = value / 100;
   recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
@@ -425,7 +423,7 @@ const isExist = computed(() => {
   return checkName(recipeModel.name) && !isEdit.value;
 });
 
-const isNameExist = () => !isExist.value || 'Рецепт или удобрение с таким названием уже существует';
+const isNameExist = () => !isExist.value || t('recipes.page.nameExists');
 
 const checkSolubilityError = (reagent: ReagentType) => {
   return recipeModel.isLiquid && (reagent.amount / recipeModel.totalVolume) * 1000 > reagent.solubility;
@@ -433,7 +431,7 @@ const checkSolubilityError = (reagent: ReagentType) => {
 
 const getSolubilityErrorMessage = (reagent: ReagentType) => {
   return recipeModel.isLiquid && (reagent.amount / recipeModel.totalVolume) * 1000 > reagent.solubility
-    ? `Достигнута максимальная растворимость - ${reagent.solubility} г/л при 25°С!`
+    ? `${t('validation.solubilityLimit')} - ${reagent.solubility} ${t('units.g/l')} ${t('common.for')} 25°С!`
     : '';
 };
 
@@ -453,7 +451,7 @@ onMounted(async () => {
   }
 
   if (Object.keys(recipe).length === 0) {
-    await router.push('/recipes/');
+    await router.push(ROUTES.recipes.path);
     return;
   }
 
@@ -467,40 +465,43 @@ onMounted(async () => {
       recipeModel.reagents.push(reagent);
     }
   });
-  fillForm(recipe);
+  fillModel(recipe);
 });
 
 async function onAddRecipe () {
   const { valid } = await recipeFormRef.value.validate();
-  if (valid) {
-    recipesStore.addRecipe({ ...recipeModel.toJson() });
-    snackbarStore.show('Рецепт добавлен');
-    await router.push('/recipes/');
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  recipesStore.addRecipe({ ...recipeModel.toJson() });
+  snackbarStore.show(t('recipes.page.message.recipeAdded'));
+  await router.push(ROUTES.recipes.path);
 }
 
 async function onEditRecipe() {
   const { valid } = await recipeFormRef.value.validate();
-  if (valid) {
-    recipesStore.editRecipe({
-      index: recipeIndex.value,
-      recipe: recipeModel.toJson(),
-    });
-
-    snackbarStore.show('Рецепт изменен');
-    await router.push('/recipes/');
+  if (!valid) {
+    snackbarStore.showWarning(t('common.isFormErrors'));
+    return;
   }
+  recipesStore.editRecipe({
+    index: recipeIndex.value,
+    recipe: recipeModel.toJson(),
+  });
+  snackbarStore.show(t('recipes.page.message.recipeEdited'));
+  await router.push(ROUTES.recipes.path);
 }
 
 async function onRemoveRecipe() {
   recipesStore.removeRecipe(recipeIndex.value);
-  snackbarStore.show('Рецепт удален');
-  await router.push('/recipes/');
+  snackbarStore.show(t('recipes.page.message.recipeRemoved'));
+  await router.push(ROUTES.recipes.path);
 }
 
 async function onCopyRecipe() {
-  snackbarStore.show('Рецепт скопирован');
-  await router.push(`/recipes/create/?copy=${recipeIndex.value}`);
+  snackbarStore.show(t('recipes.page.message.recipeCopied'));
+  await router.push(`${ROUTES.recipes.path}create/?copy=${recipeIndex.value}`);
 }
 
 definePageMeta({

@@ -43,36 +43,36 @@ export const ROUTES = {
     path: '/dosing/',
     icon: 'game-icons:settings-knobs',
   },
-  remineralization: {
-    key: 'remineralization',
-    path: '/remineralization/',
-    icon: 'game-icons:full-metal-bucket-handle',
-  },
-  schedules: {
-    key: 'schedules',
-    path: '/schedules/',
-    icon: 'game-icons:toggles',
-  },
-  dynamics: {
-    key: 'dynamics',
-    path: '/dynamics/',
-    icon: 'game-icons:chart',
-  },
-  articles: {
-    key: 'articles',
-    path: '/articles/',
-    icon: 'game-icons:bookmarklet',
-  },
-  settings: {
-    key: 'settings',
-    path: '/settings/',
-    icon: 'game-icons:cog',
-  },
-  about: {
-    key: 'about',
-    path: '/about/',
-    icon: 'mdi:info-outline',
-  },
+  // remineralization: {
+  //   key: 'remineralization',
+  //   path: '/remineralization/',
+  //   icon: 'game-icons:full-metal-bucket-handle',
+  // },
+  // schedules: {
+  //   key: 'schedules',
+  //   path: '/schedules/',
+  //   icon: 'game-icons:toggles',
+  // },
+  // dynamics: {
+  //   key: 'dynamics',
+  //   path: '/dynamics/',
+  //   icon: 'game-icons:chart',
+  // },
+  // articles: {
+  //   key: 'articles',
+  //   path: '/articles/',
+  //   icon: 'game-icons:bookmarklet',
+  // },
+  // settings: {
+  //   key: 'settings',
+  //   path: '/settings/',
+  //   icon: 'game-icons:cog',
+  // },
+  // about: {
+  //   key: 'about',
+  //   path: '/about/',
+  //   icon: 'mdi:info-outline',
+  // },
 };
 
 export const DRAG_OPTIONS = {

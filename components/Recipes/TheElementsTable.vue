@@ -23,7 +23,7 @@
       <thead>
         <tr>
           <th class="pl-0 text-center">
-            Реагент
+            {{ t('common.reagent') }}
           </th>
           <th
             v-for="([ion], index) in concentrationSorted"
@@ -32,7 +32,7 @@
             :class="{'pr-0': index === ionsTotal - 1}"
           >
             <div style="white-space: nowrap;">
-              {{ ion }}, {{ recipe.isLiquid ? 'г/л' : 'г/1г' }}
+              {{ ion }}, {{ recipe.isLiquid ? t('units.g/l') : t('units.g/1g') }}
             </div>
           </th>
         </tr>
@@ -52,7 +52,7 @@
             :class="{'pr-0': index === ionsTotal - 1}"
           >
             <template v-if="ions[ion]">
-              {{ format(ions[ion], 3) }}
+              {{ format(ions[ion]) }}
               <template v-if="ions[ion] / value < 1">
                 ({{ format(ions[ion] / value * 100, 1) }}%)
               </template>
@@ -64,7 +64,7 @@
         </tr>
         <tr class="font-weight-medium">
           <td class="pl-0 text-center">
-            Сумма
+            {{ t('common.sum') }}
           </td>
           <template
             v-for="([ion, value], index) in concentrationSorted"
@@ -93,6 +93,8 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 defineOptions({
   name: 'TheElementsTable',
 });
