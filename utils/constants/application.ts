@@ -20,27 +20,22 @@
 export const ROUTES = {
   tanks: {
     key: 'tanks',
-    path: '/tanks/',
     icon: 'game-icons:aquarium',
   },
   recipes: {
     key: 'recipes',
-    path: '/recipes/',
     icon: 'game-icons:fizzing-flask',
   },
   fertilizers: {
     key: 'fertilizers',
-    path: '/fertilizers/',
     icon: 'game-icons:liquid-soap',
   },
   reminerals: {
     key: 'reminerals',
-    path: '/reminerals/',
     icon: 'game-icons:powder',
   },
   dosing: {
     key: 'dosing',
-    path: '/dosing/',
     icon: 'game-icons:settings-knobs',
   },
   // remineralization: {
@@ -73,7 +68,14 @@ export const ROUTES = {
   //   path: '/about/',
   //   icon: 'mdi:info-outline',
   // },
+} satisfies {
+  [prop: string]: {
+    key: string;
+    icon: string;
+  }
 };
+
+export type RouteType = keyof typeof ROUTES;
 
 export const DRAG_OPTIONS = {
   animation: 200,

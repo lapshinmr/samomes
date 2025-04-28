@@ -95,16 +95,16 @@
         class="section section--tanks"
       >
         <nuxt-link
-          :to="ROUTES.tanks.path"
+          :to="appRoutes.tanks.path"
           class="section__icon-link"
         >
           <Icon
-            :name="ROUTES.tanks.icon"
+            :name="appRoutes.tanks.icon"
             class="section__icon text-blue"
           />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link :to="ROUTES.tanks.path">
+          <nuxt-link :to="appRoutes.tanks.path">
             <h2 class="section__title">
               Аквариумы
             </h2>
@@ -135,16 +135,16 @@
         class="section section--recipes"
       >
         <nuxt-link
-          :to="ROUTES.recipes.path"
+          :to="appRoutes.recipes.path"
           class="section__icon-link"
         >
           <Icon
             class="section__icon text-green"
-            :name="ROUTES.recipes.icon"
+            :name="appRoutes.recipes.icon"
           />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link :to="ROUTES.recipes.path">
+          <nuxt-link :to="appRoutes.recipes.path">
             <h2 class="section__title">
               Рецепты
             </h2>
@@ -178,16 +178,16 @@
         class="section section--fertilizers"
       >
         <nuxt-link
-          :to="ROUTES.fertilizers.path"
+          :to="appRoutes.fertilizers.path"
           class="section__icon-link"
         >
           <Icon
             class="section__icon text-purple"
-            :name="ROUTES.fertilizers.icon"
+            :name="appRoutes.fertilizers.icon"
           />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link :to="ROUTES.fertilizers.path">
+          <nuxt-link :to="appRoutes.fertilizers.path">
             <h2 class="section__title">
               Удобрения
             </h2>
@@ -208,56 +208,56 @@
           </div>
         </div>
       </v-col>
-<!--      <v-col-->
-<!--        cols="12"-->
-<!--        sm="10"-->
-<!--        offset-sm="1"-->
-<!--        class="section section&#45;&#45;schedules"-->
-<!--      >-->
-<!--        <nuxt-link-->
-<!--          :to="ROUTES.schedules.path"-->
-<!--          class="section__icon-link"-->
-<!--        >-->
-<!--          <Icon-->
-<!--            class="section__icon text-teal"-->
-<!--            :name="ROUTES.schedules.icon"-->
-<!--          />-->
-<!--        </nuxt-link>-->
-<!--        <div class="section__content">-->
-<!--          <nuxt-link :to="ROUTES.schedules.path">-->
-<!--            <h2 class="section__title">-->
-<!--              Расписание-->
-<!--            </h2>-->
-<!--          </nuxt-link>-->
-<!--          <div class="section__text">-->
-<!--            <p class="font-italic">-->
-<!--              Сердце нашего сервиса-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              Страница "Расписание" — это, пожалуй, самая важная часть всего сервиса.-->
-<!--              Она одинаково полезна как приверженцам самодельных составов, так и любителям фирменных удобрений.-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              Здесь вы можете:-->
-<!--            </p>-->
-<!--            <ul>-->
-<!--              <li>-->
-<!--                рассчитать точные дозировки удобрений для каждого из ваших аквариумов-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                составить персонализированное расписание внесения на неделю вперед-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                отслеживать процесс внесения через удобный интерактивный виджет-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--            <p>-->
-<!--              Система поддерживает различные типы расписаний внесения удобрений, позволяя настроить график-->
-<!--              именно под ваши потребности и режим обслуживания аквариума.-->
-<!--            </p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </v-col>-->
+      <!--      <v-col-->
+      <!--        cols="12"-->
+      <!--        sm="10"-->
+      <!--        offset-sm="1"-->
+      <!--        class="section section&#45;&#45;schedules"-->
+      <!--      >-->
+      <!--        <nuxt-link-->
+      <!--          :to="appRoutes.schedules.path"-->
+      <!--          class="section__icon-link"-->
+      <!--        >-->
+      <!--          <Icon-->
+      <!--            class="section__icon text-teal"-->
+      <!--            :name="appRoutes.schedules.icon"-->
+      <!--          />-->
+      <!--        </nuxt-link>-->
+      <!--        <div class="section__content">-->
+      <!--          <nuxt-link :to="appRoutes.schedules.path">-->
+      <!--            <h2 class="section__title">-->
+      <!--              Расписание-->
+      <!--            </h2>-->
+      <!--          </nuxt-link>-->
+      <!--          <div class="section__text">-->
+      <!--            <p class="font-italic">-->
+      <!--              Сердце нашего сервиса-->
+      <!--            </p>-->
+      <!--            <p>-->
+      <!--              Страница "Расписание" — это, пожалуй, самая важная часть всего сервиса.-->
+      <!--              Она одинаково полезна как приверженцам самодельных составов, так и любителям фирменных удобрений.-->
+      <!--            </p>-->
+      <!--            <p>-->
+      <!--              Здесь вы можете:-->
+      <!--            </p>-->
+      <!--            <ul>-->
+      <!--              <li>-->
+      <!--                рассчитать точные дозировки удобрений для каждого из ваших аквариумов-->
+      <!--              </li>-->
+      <!--              <li>-->
+      <!--                составить персонализированное расписание внесения на неделю вперед-->
+      <!--              </li>-->
+      <!--              <li>-->
+      <!--                отслеживать процесс внесения через удобный интерактивный виджет-->
+      <!--              </li>-->
+      <!--            </ul>-->
+      <!--            <p>-->
+      <!--              Система поддерживает различные типы расписаний внесения удобрений, позволяя настроить график-->
+      <!--              именно под ваши потребности и режим обслуживания аквариума.-->
+      <!--            </p>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </v-col>-->
       <v-col
         cols="12"
         sm="10"
@@ -265,16 +265,16 @@
         class="section section--reminerals"
       >
         <nuxt-link
-          :to="ROUTES.reminerals.path"
+          :to="appRoutes.reminerals.path"
           class="section__icon-link"
         >
           <Icon
             class="section__icon text-blue-gray"
-            :name="ROUTES.reminerals.icon"
+            :name="appRoutes.reminerals.icon"
           />
         </nuxt-link>
         <div class="section__content">
-          <nuxt-link :to="ROUTES.reminerals.path">
+          <nuxt-link :to="appRoutes.reminerals.path">
             <h2 class="section__title">
               Реминерализаторы
             </h2>
@@ -297,82 +297,82 @@
           </div>
         </div>
       </v-col>
-<!--      <v-col-->
-<!--        cols="12"-->
-<!--        sm="10"-->
-<!--        offset-sm="1"-->
-<!--        class="section section&#45;&#45;remineralization"-->
-<!--      >-->
-<!--        <nuxt-link-->
-<!--          :to="ROUTES.remineralization.path"-->
-<!--          class="section__icon-link"-->
-<!--        >-->
-<!--          <Icon-->
-<!--            class="section__icon text-blue"-->
-<!--            :name="ROUTES.remineralization.icon"-->
-<!--          />-->
-<!--        </nuxt-link>-->
-<!--        <div class="section__content">-->
-<!--          <nuxt-link :to="ROUTES.remineralization.path">-->
-<!--            <h2 class="section__title">-->
-<!--              Водоподготовка-->
-<!--            </h2>-->
-<!--          </nuxt-link>-->
-<!--          <div class="section__text">-->
-<!--            <p class="font-italic">-->
-<!--              Управление жесткостью воды (gH и kH)-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              В этом разделе вы можете точно настроить параметры постоянной (gH) и временной (kH)-->
-<!--              жесткости воды для вашего аквариума. Сервис предлагает гибкие возможности,-->
-<!--              использования фирменных реминерализаторов с известным составом, а так же применение своих-->
-<!--              собственных рецептов.-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              Этот инструмент особенно ценен для аквариумистов, которые разбавляют водопроводную воду осмосом,-->
-<!--              позволяя достичь идеальных параметров воды для конкретных видов рыб и растений.-->
-<!--            </p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </v-col>-->
-<!--      <v-col-->
-<!--        cols="12"-->
-<!--        sm="10"-->
-<!--        offset-sm="1"-->
-<!--        class="section section&#45;&#45;dynamics"-->
-<!--      >-->
-<!--        <nuxt-link-->
-<!--          :to="ROUTES.dynamics.path"-->
-<!--          class="section__icon-link"-->
-<!--        >-->
-<!--          <Icon-->
-<!--            class="section__icon text-orange"-->
-<!--            :name="ROUTES.dynamics.icon"-->
-<!--          />-->
-<!--        </nuxt-link>-->
-<!--        <div class="section__content">-->
-<!--          <nuxt-link :to="ROUTES.dynamics.path">-->
-<!--            <h2 class="section__title">-->
-<!--              Динамика-->
-<!--            </h2>-->
-<!--          </nuxt-link>-->
-<!--          <div class="section__text">-->
-<!--            <p class="font-italic">-->
-<!--              Что такое динамика элементов?-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              Динамика — это анализ процессов изменения и достижения равновесной концентрации питательных-->
-<!--              элементов в вашем аквариуме. Основываясь на вашем режиме подмен воды и графике внесения-->
-<!--              удобрений, система рассчитывает временные зависимости концентраций всех важных элементов.-->
-<!--            </p>-->
-<!--            <p>-->
-<!--              Такой расчет позволяет видеть более детальную картину состояния аквариума.-->
-<!--              А для таких элементов как калий, можно рассчитать-->
-<!--              довольно точную равновесную концентрацию и сэкономить время и деньги на тестах.-->
-<!--            </p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </v-col>-->
+      <!--      <v-col-->
+      <!--        cols="12"-->
+      <!--        sm="10"-->
+      <!--        offset-sm="1"-->
+      <!--        class="section section&#45;&#45;remineralization"-->
+      <!--      >-->
+      <!--        <nuxt-link-->
+      <!--          :to="appRoutes.remineralization.path"-->
+      <!--          class="section__icon-link"-->
+      <!--        >-->
+      <!--          <Icon-->
+      <!--            class="section__icon text-blue"-->
+      <!--            :name="appRoutes.remineralization.icon"-->
+      <!--          />-->
+      <!--        </nuxt-link>-->
+      <!--        <div class="section__content">-->
+      <!--          <nuxt-link :to="appRoutes.remineralization.path">-->
+      <!--            <h2 class="section__title">-->
+      <!--              Водоподготовка-->
+      <!--            </h2>-->
+      <!--          </nuxt-link>-->
+      <!--          <div class="section__text">-->
+      <!--            <p class="font-italic">-->
+      <!--              Управление жесткостью воды (gH и kH)-->
+      <!--            </p>-->
+      <!--            <p>-->
+      <!--              В этом разделе вы можете точно настроить параметры постоянной (gH) и временной (kH)-->
+      <!--              жесткости воды для вашего аквариума. Сервис предлагает гибкие возможности,-->
+      <!--              использования фирменных реминерализаторов с известным составом, а так же применение своих-->
+      <!--              собственных рецептов.-->
+      <!--            </p>-->
+      <!--            <p>-->
+      <!--              Этот инструмент особенно ценен для аквариумистов, которые разбавляют водопроводную воду осмосом,-->
+      <!--              позволяя достичь идеальных параметров воды для конкретных видов рыб и растений.-->
+      <!--            </p>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </v-col>-->
+      <!--      <v-col-->
+      <!--        cols="12"-->
+      <!--        sm="10"-->
+      <!--        offset-sm="1"-->
+      <!--        class="section section&#45;&#45;dynamics"-->
+      <!--      >-->
+      <!--        <nuxt-link-->
+      <!--          :to="appRoutes.dynamics.path"-->
+      <!--          class="section__icon-link"-->
+      <!--        >-->
+      <!--          <Icon-->
+      <!--            class="section__icon text-orange"-->
+      <!--            :name="appRoutes.dynamics.icon"-->
+      <!--          />-->
+      <!--        </nuxt-link>-->
+      <!--        <div class="section__content">-->
+      <!--          <nuxt-link :to="appRoutes.dynamics.path">-->
+      <!--            <h2 class="section__title">-->
+      <!--              Динамика-->
+      <!--            </h2>-->
+      <!--          </nuxt-link>-->
+      <!--          <div class="section__text">-->
+      <!--            <p class="font-italic">-->
+      <!--              Что такое динамика элементов?-->
+      <!--            </p>-->
+      <!--            <p>-->
+      <!--              Динамика — это анализ процессов изменения и достижения равновесной концентрации питательных-->
+      <!--              элементов в вашем аквариуме. Основываясь на вашем режиме подмен воды и графике внесения-->
+      <!--              удобрений, система рассчитывает временные зависимости концентраций всех важных элементов.-->
+      <!--            </p>-->
+      <!--            <p>-->
+      <!--              Такой расчет позволяет видеть более детальную картину состояния аквариума.-->
+      <!--              А для таких элементов как калий, можно рассчитать-->
+      <!--              довольно точную равновесную концентрацию и сэкономить время и деньги на тестах.-->
+      <!--            </p>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </v-col>-->
       <v-col
         cols="12"
         sm="10"
@@ -418,6 +418,8 @@
 </template>
 
 <script lang="ts" setup>
+const { appRoutes } = useAppRoutes();
+
 const isVKVisible = ref<boolean>(false);
 
 watch(isVKVisible, (value) => {

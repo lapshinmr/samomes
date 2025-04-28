@@ -57,7 +57,7 @@
             <v-btn
               variant="text"
               right
-              :to="`${ROUTES.tanks.path}${index}/`"
+              :to="`${appRoutes.tanks.path}${index}/`"
               class="mr-n4"
             >
               {{ t('buttons.open') }}
@@ -96,6 +96,7 @@
 
 <script lang="ts" setup>
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 const router = useRouter();
 const tanksStore = useTanksStore();
 const snackbarStore = useSnackbarStore();

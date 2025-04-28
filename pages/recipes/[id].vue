@@ -20,7 +20,7 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <LayoutBackButton :path="ROUTES.recipes.path">
+      <LayoutBackButton :path="appRoutes.recipes.path">
         <v-btn
           v-if="!isCreate && !isShare"
           color="primary"
@@ -285,7 +285,7 @@
               </v-btn>
               <v-btn
                 class="ml-auto"
-                @click="$router.push(ROUTES.recipes.path)"
+                @click="$router.push(appRoutes.recipes.path)"
               >
                 {{ t('buttons.cancel') }}
               </v-btn>
@@ -309,6 +309,7 @@ import { useRouter, useRoute } from 'vue-router';
 import type { FertilizerRecipeExampleType } from '~/utils/types/types';
 
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 const { required, positive } = useValidation();
 const router = useRouter();
 const route = useRoute();
@@ -451,7 +452,7 @@ onMounted(async () => {
   }
 
   if (Object.keys(recipe).length === 0) {
-    await router.push(ROUTES.recipes.path);
+    await router.push(appRoutes.value.recipes.path);
     return;
   }
 
@@ -476,7 +477,7 @@ async function onAddRecipe () {
   }
   recipesStore.addRecipe({ ...recipeModel.toJson() });
   snackbarStore.show(t('recipes.page.message.recipeAdded'));
-  await router.push(ROUTES.recipes.path);
+  await router.push(appRoutes.value.recipes.path);
 }
 
 async function onEditRecipe() {
@@ -490,18 +491,18 @@ async function onEditRecipe() {
     recipe: recipeModel.toJson(),
   });
   snackbarStore.show(t('recipes.page.message.recipeEdited'));
-  await router.push(ROUTES.recipes.path);
+  await router.push(appRoutes.value.recipes.path);
 }
 
 async function onRemoveRecipe() {
   recipesStore.removeRecipe(recipeIndex.value);
   snackbarStore.show(t('recipes.page.message.recipeRemoved'));
-  await router.push(ROUTES.recipes.path);
+  await router.push(appRoutes.value.recipes.path);
 }
 
 async function onCopyRecipe() {
   snackbarStore.show(t('recipes.page.message.recipeCopied'));
-  await router.push(`${ROUTES.recipes.path}create/?copy=${recipeIndex.value}`);
+  await router.push(`${appRoutes.value.recipes.path}create/?copy=${recipeIndex.value}`);
 }
 
 definePageMeta({

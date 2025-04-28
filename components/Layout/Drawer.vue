@@ -22,9 +22,9 @@
     <div class="d-flex flex-column justify-between fill-height">
       <v-list class="pt-0">
         <v-list-item
-          v-for="route in ROUTES"
+          v-for="route in appRoutes"
           :key="route.icon"
-          :to="`${route.path}`"
+          :to="route.path"
         >
           <template #prepend>
             <Icon
@@ -73,6 +73,7 @@
 import PWAPopup from '~/components/Popups/PWAPopup.vue';
 
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 
 const model = defineModel<boolean>();
 

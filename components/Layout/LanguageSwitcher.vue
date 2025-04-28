@@ -33,22 +33,23 @@ defineOptions({
   name: 'LanguageSwitcher',
 });
 
+const localeObject = locales.value.find((item) => item.code === locale.value);
+
 const curLocale = ref({
-  code: 'ru',
-  name: 'Ru',
-})
+  code: localeObject.code || 'ru',
+  name: localeObject.name || 'Ru',
+});
 
 const availableLocales = computed(() => {
-  return locales.value.filter(i => i.code !== locale.value)
-})
+  return locales.value.filter((i) => i.code !== locale.value);
+});
 
 const toggleLocale = async () => {
   const availableLocale = availableLocales.value[0];
-  setLocale(availableLocale.code);
-  curLocale.value.code = availableLocale.code as string;
-  curLocale.value.name = availableLocale.name as string;
+  await setLocale(availableLocale.code);
+  curLocale.value.code = availableLocale.code;
+  curLocale.value.name = availableLocale.name;
 };
-
 
 defineEmits(['update:modelValue']);
 </script>

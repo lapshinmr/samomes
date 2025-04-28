@@ -20,7 +20,7 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <LayoutBackButton :path="ROUTES.fertilizers.path"/>
+      <LayoutBackButton :path="appRoutes.fertilizers.path"/>
       <LayoutPageTitle>
         <template v-if="isCreate">
           {{ t('fertilizers.page.titleNew') }}
@@ -161,6 +161,7 @@ const { t } = useI18n();
 
 const router = useRouter();
 const route = useRoute();
+const { appRoutes } = useAppRoutes();
 const { required } = useValidation();
 const fertilizersStore = useFertilizersStore();
 const snackbarStore = useSnackbarStore();
@@ -274,7 +275,7 @@ onMounted(async () => {
   }
   const fertilizer = { ...fertilizersStore.fertilizers[fertilizerIndex.value] };
   if (!fertilizer) {
-    await router.push(ROUTES.fertilizers.path);
+    await router.push(appRoutes.value.fertilizers.path);
     return;
   }
   fillForm(fertilizer);
@@ -300,7 +301,7 @@ async function onAddFertilizer() {
   }
   fertilizersStore.addFertilizer(fertilizerModel.toJson());
   snackbarStore.show(t('fertilizers.page.message.fertilizerAdded'));
-  await router.push(ROUTES.fertilizers.path);
+  await router.push(appRoutes.value.fertilizers.path);
 }
 
 async function onEditFertilizer() {
@@ -314,13 +315,13 @@ async function onEditFertilizer() {
     fertilizer: fertilizerModel.toJson(),
   });
   snackbarStore.show(t('fertilizers.page.message.fertilizerEdited'));
-  await router.push(ROUTES.fertilizers.path);
+  await router.push(appRoutes.value.fertilizers.path);
 }
 
 async function onRemoveFertilizer() {
   fertilizersStore.removeFertilizer(fertilizerIndex.value);
   snackbarStore.show(t('fertilizers.page.message.fertilizerRemoved'));
-  await router.push(ROUTES.fertilizers.path);
+  await router.push(appRoutes.value.fertilizers.path);
 }
 
 definePageMeta({

@@ -21,7 +21,7 @@
   <v-container class="mb-12">
     <v-row>
       <LayoutBackButton
-        :path="ROUTES.reminerals.path"
+        :path="appRoutes.reminerals.path"
       >
         <v-btn
           v-if="!isCreate && !isShare"
@@ -235,7 +235,7 @@
                 </v-btn>
                 <v-btn
                   class="ml-auto"
-                  @click="$router.push(ROUTES.reminerals.path)"
+                  @click="$router.push(appRoutes.reminerals.path)"
                 >
                   {{ t('buttons.cancel') }}
                 </v-btn>
@@ -257,6 +257,7 @@
 
 <script lang="ts" setup>
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 
 const route = useRoute();
 const router = useRouter();
@@ -541,7 +542,7 @@ onMounted(async () => {
   }
 
   if (Object.keys(remineral).length === 0) {
-    await router.push(ROUTES.reminerals.path);
+    await router.push(appRoutes.value.reminerals.path);
     return;
   }
 
@@ -577,7 +578,7 @@ async function onAddRemineral() {
   }
   remineralsStore.addRemineral({ ...remineralModel.toJson() });
   snackbarStore.show(t('reminerals.page.message.add'));
-  await router.push(ROUTES.reminerals.path);
+  await router.push(appRoutes.value.reminerals.path);
 }
 
 async function onEditRemineral() {
@@ -591,18 +592,18 @@ async function onEditRemineral() {
     remineral: { ...remineralModel.toJson() },
   });
   snackbarStore.show(t('reminerals.page.message.edit'));
-  await router.push(ROUTES.reminerals.path);
+  await router.push(appRoutes.value.reminerals.path);
 }
 
 async function onRemoveRemineral() {
   remineralsStore.removeRemineral(+remineralIndex.value);
   snackbarStore.show(t('reminerals.page.message.remove'));
-  await router.push(ROUTES.reminerals.path);
+  await router.push(appRoutes.value.reminerals.path);
 }
 
 async function onCopyRemineral() {
   snackbarStore.show(t('reminerals.page.message.copy'));
-  await router.push(`${ROUTES.reminerals.path}create/?copy=${remineralIndex.value}`);
+  await router.push(`${appRoutes.value.reminerals.path}create/?copy=${remineralIndex.value}`);
 }
 
 definePageMeta({

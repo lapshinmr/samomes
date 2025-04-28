@@ -63,7 +63,7 @@
             </v-btn>
             <v-btn
               variant="text"
-              :to="`${ROUTES.recipes.path}${index}/`"
+              :to="`${appRoutes.recipes.path}${index}/`"
               class="mr-n4"
             >
               {{ t('buttons.open') }}
@@ -108,6 +108,7 @@
 <script lang="ts" setup>
 const router = useRouter();
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 const recipesStore = useRecipesStore();
 const snackbarStore = useSnackbarStore();
 const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
@@ -124,7 +125,7 @@ const encodedUrl = computed(() => {
 });
 
 function onAdd() {
-  return router.push(`${ROUTES.recipes.path}create/`);
+  return router.push(`${appRoutes.value.recipes.path}create/`);
 }
 
 async function onRemoveRecipeConfirmation() {

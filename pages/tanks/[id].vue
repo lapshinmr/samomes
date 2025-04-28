@@ -20,7 +20,7 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <LayoutBackButton :path="ROUTES.tanks.path" />
+      <LayoutBackButton :path="appRoutes.tanks.path" />
       <LayoutPageTitle>
         <template v-if="isCreate">
           {{ t('tanks.page.titleNew') }}
@@ -175,6 +175,7 @@
 import type { TankType } from '~/utils/types/types';
 
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 const { required } = useValidation();
 const route = useRoute();
 const router = useRouter();
@@ -267,7 +268,7 @@ const onAddTank = async () =>{
   }
   tanksStore.addTank({ ...tankObject.value.toJson() });
   snackbarStore.showSuccess(t('tanks.page.message.tankAdded'));
-  await router.push(ROUTES.tanks.path);
+  await router.push(appRoutes.value.tanks.path);
 };
 
 const onEditTank = async () => {
@@ -281,13 +282,13 @@ const onEditTank = async () => {
     index: tankIndex.value,
   });
   snackbarStore.showSuccess(t('tanks.page.message.tankEdited'));
-  await router.push(ROUTES.tanks.path);
+  await router.push(appRoutes.value.tanks.path);
 };
 
 const onRemoveTank = async () => {
   tanksStore.removeTank(tankIndex.value);
   snackbarStore.showSuccess(t('tanks.page.message.tankRemoved'));
-  await router.push(ROUTES.tanks.path);
+  await router.push(appRoutes.value.tanks.path);
 };
 </script>
 

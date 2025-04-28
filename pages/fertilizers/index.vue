@@ -56,7 +56,7 @@
             </v-btn>
             <v-btn
               variant="text"
-              :to="`${ROUTES.fertilizers.path}${index}/`"
+              :to="`${appRoutes.fertilizers.path}${index}/`"
               class="mr-n4"
             >
               {{ t('buttons.open') }}
@@ -91,6 +91,7 @@
 
 <script lang="ts" setup>
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 const router = useRouter();
 const fertilizersStore = useFertilizersStore();
 const snackbarStore = useSnackbarStore();
@@ -103,7 +104,7 @@ const fertilizerModels = computed({
 
 // TODO: move this to the component call
 function onAdd() {
-  router.push(`${ROUTES.fertilizers.path}create/`);
+  router.push(`${appRoutes.value.fertilizers.path}create/`);
 }
 
 async function onRemoveFertilizerConfirmation() {

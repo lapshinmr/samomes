@@ -63,7 +63,7 @@
             </v-btn>
             <v-btn
               variant="text"
-              :to="`${ROUTES.reminerals.path}${index}/`"
+              :to="`${appRoutes.reminerals.path}${index}/`"
               class="mr-n4"
             >
               {{ t('buttons.open') }}
@@ -105,6 +105,7 @@
 <script lang="ts" setup>
 const router = useRouter();
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 const remineralsStore = useRemineralsStore();
 const snackbarStore = useSnackbarStore();
 const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
