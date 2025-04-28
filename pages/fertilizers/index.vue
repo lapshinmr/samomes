@@ -99,7 +99,7 @@ const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = use
 
 const fertilizerModels = computed({
   get: () => fertilizersStore.fertilizerModels,
-  set: (value) => fertilizersStore.moveFertilizers(value),
+  set: (value) => fertilizersStore.moveFertilizers(value.map((item) => item.toJson())),
 });
 
 // TODO: move this to the component call

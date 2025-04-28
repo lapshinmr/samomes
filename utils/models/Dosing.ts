@@ -2,13 +2,13 @@ export class Dosing {
   public doses: InstanceType<typeof Dose>[];
   public fertilizersRegime: FertilizersRegime;
   public daysTotal: number;
-  public tank: Partial<TankType> = {};
+  public tank: TankType;
 
   constructor(
     doses: InstanceType<typeof Dose>[],
     fertilizersRegime: FertilizersRegime,
     daysTotal: number,
-    tank: Partial<TankType> = {},
+    tank: TankType,
   ) {
     this.doses = doses;
     this.fertilizersRegime = fertilizersRegime;

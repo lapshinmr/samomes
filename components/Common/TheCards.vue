@@ -7,8 +7,8 @@
     <v-expansion-panels multiple>
       <draggable
         v-model="model"
-        tag="transition-group"
-        :component-data="{ name:'fade' }"
+        item-key="name"
+        :component-data="{ name: 'fade', class: 'w-100' }"
         v-bind="DRAG_OPTIONS"
         handle=".handle"
       >
@@ -62,7 +62,7 @@ import draggable from 'vuedraggable';
 const { t } = useI18n();
 
 const model = defineModel<(
-  typeof Tank | InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>
+  TankType | InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>
 )[]>();
 </script>
 

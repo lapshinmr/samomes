@@ -20,19 +20,12 @@
 <template>
   <div>
     <div class="mb-2">{{ t('recipes.card.recipe') }}</div>
-    <div
-      v-if="recipe.totalVolume"
-      class="d-flex justify-space-between text-body-2"
-    >
-      <span class="">{{ t('common.volume') }}</span>
-      <span>{{ recipe.totalVolume }} {{ t('units.ml') }}</span>
-    </div>
     <template v-for="reagent in recipe.reagents" :key="reagent.key">
       <div class="d-flex justify-space-between text-body-2">
         <span>
           {{ reagent.name }}
         </span>
-        <span> {{ format(reagent.amount) }} {{ t('units.g') }} </span>
+        <span> {{ format(reagent.amount) }} {{ reagent.isLiquid ? t('units.ml') : t('units.g') }} </span>
       </div>
     </template>
     <v-divider class="my-3" />

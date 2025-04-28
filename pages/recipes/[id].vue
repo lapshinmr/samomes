@@ -147,7 +147,7 @@
                     suffix="%"
                     class="ml-2"
                     hide-details="auto"
-                    @update:model-value="onInputReagentSolution($event, reagent)"
+                    @update:model-value="onInputReagentDilution($event, reagent)"
                   />
                 </div>
               </div>
@@ -192,7 +192,7 @@
           <v-expand-transition>
             <div v-if="isUnitConc && recipeModel.isLiquid">
               <v-combobox
-                v-model.number="recipeModel.tankVolume"
+                v-model="tankChosen"
                 :items="tanks"
                 item-title="name"
                 variant="underlined"
@@ -201,7 +201,7 @@
                 hide-selected
                 :suffix="t('units.l')"
                 class="mb-2 mb-sm-4"
-                @update:model-value="onTankVolumeInput"
+                @update:model-value="onTankInput"
               />
               <v-expand-transition>
                 <div v-if="recipeModel.tankVolume">
@@ -320,6 +320,7 @@ const tanksStore = useTanksStore();
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;
 const reagents = getReagents(INITIAL_REAGENT_AMOUNT);
+const tankChosen = ref<TankType>();
 
 // MODEL
 const recipeFormRef = ref(null);
@@ -356,6 +357,10 @@ function fillModel(recipe: FertilizerRecipeType | FertilizerRecipeExampleType) {
   recipeModel.name = recipe.name;
   recipeModel.description = recipe.description;
   recipeModel.tankVolume = recipe.tankVolume;
+  tankChosen.value = {
+    name: recipe.tankVolume.toString(),
+    volume: recipe.tankVolume,
+  };
 }
 
 const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
@@ -380,7 +385,7 @@ function onInputReagentAmount(value: number, reagent: InstanceType<typeof Reagen
   recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
-function onInputReagentSolution(value: number, reagent: InstanceType<typeof Reagent>) {
+function onInputReagentDilution(value: number, reagent: InstanceType<typeof Reagent>) {
   reagent.dilution = value / 100;
   recipeModel.updateRecipeUnitConcsByAmounts();
 }
@@ -390,10 +395,17 @@ function onInputTotalVolume(value: number) {
   recipeModel.setReagentAmount(waterVolume, 'H2O');
 }
 
-function onTankVolumeInput(value: number | TankType) {
+function onTankInput(value: number | string | TankType) {
   if (typeof value === 'number') {
+    tankChosen.value = {
+      name: value.toString(),
+      volume: value,
+    };
     recipeModel.tankVolume = +value;
+  } else if (typeof value === 'string' || value === null) {
+    return;
   } else {
+    tankChosen.value = value;
     recipeModel.tankVolume = value.volume;
   }
   recipeModel.updateRecipeUnitConcsByAmounts();

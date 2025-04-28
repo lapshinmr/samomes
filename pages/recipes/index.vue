@@ -116,7 +116,7 @@ const { itemIndexToShare, isSharePopup, onShare, encodeUrl } = useSharePopup();
 
 const recipeModels = computed({
   get: () => recipesStore.fertilizerRecipeModels,
-  set: (value) => recipesStore.moveRecipes(value),
+  set: (value) => recipesStore.moveRecipes(value.map((item) => item.toJson())),
 });
 
 const encodedUrl = computed(() => {

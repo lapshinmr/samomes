@@ -113,7 +113,7 @@ const { itemIndexToShare, isSharePopup, onShare, encodeUrl } = useSharePopup();
 
 const remineralModels = computed({
   get: () => remineralsStore.remineralRecipeModels,
-  set: (value) => remineralsStore.moveReminerals(value),
+  set: (value) => remineralsStore.moveReminerals(value.map((item) => item.toJson())),
 });
 
 const encodedUrl = computed(() => {

@@ -22,7 +22,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 export const useTanksStore = defineStore(
   'tanks',
   () => {
-    const tanks = ref([]);
+    const tanks = ref<TankType[]>([]);
 
     function addTank(payload: TankType) {
       tanks.value.push(payload);

@@ -19,7 +19,9 @@
 
 <template>
   <v-app>
-    <LayoutDrawer v-model="isDrawer" />
+    <client-only>
+      <LayoutDrawer v-model="isDrawer" />
+    </client-only>
 
     <v-app-bar
       color="primary"

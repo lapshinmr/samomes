@@ -35,7 +35,7 @@ export const useDrawerStore = defineStore('drawer', () => {
     isOpen.value = false;
   }
 
-  function set(value) {
+  function set(value: boolean) {
     isOpen.value = value;
   }
 
@@ -44,6 +44,6 @@ export const useDrawerStore = defineStore('drawer', () => {
     toggle,
     open,
     close,
-    set
+    set,
   };
 });

@@ -15,7 +15,7 @@
         </div>
         <v-form ref="scheduleForm">
           <v-combobox
-            :model-value="dosingModel.tank.volume"
+            :model-value="dosingModel.tank"
             :items="tanks"
             item-title="name"
             variant="underlined"
