@@ -23,9 +23,11 @@
     <template v-for="reagent in recipe.reagents" :key="reagent.key">
       <div class="d-flex justify-space-between text-body-2">
         <span>
-          {{ reagent.name }}
+          {{ reagent.name }} {{ reagent.dilution < 1 ? `${reagent.dilution * 100}%` : '' }}
         </span>
-        <span> {{ format(reagent.amount) }} {{ reagent.isLiquid ? t('units.ml') : t('units.g') }} </span>
+        <span class="flex-shrink-0 ml-1">
+          {{ format(reagent.amount) }} {{ reagent.isLiquid ? t('units.ml') : t('units.g') }}
+        </span>
       </div>
     </template>
     <v-divider class="my-3" />

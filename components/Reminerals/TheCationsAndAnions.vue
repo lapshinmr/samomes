@@ -7,7 +7,7 @@
       TDS ~{{ format(remineral.tds) }} ppm
     </v-col>
     <v-col
-      cols="4"
+      cols="5"
       sm="2"
     >
       <div class="text-h6 mb-4">
@@ -20,7 +20,7 @@
           class="d-flex justify-space-between mb-3 text-body-2"
         >
           <div class="font-weight-medium">{{ ion }}</div>
-          <div>
+          <div class="text-right">
             <div>{{ format(value[0] * 100) }}%</div>
             <div>{{ format(value[1]) }}, {{ t('units.mg/l') }}</div>
           </div>
@@ -28,7 +28,7 @@
       </div>
     </v-col>
     <v-col
-      cols="8"
+      cols="7"
       sm="4"
     >
       <BasePieChart
@@ -37,7 +37,7 @@
       />
     </v-col>
     <v-col
-      cols="4"
+      cols="5"
       sm="2"
     >
       <div class="text-h6 mb-4">
@@ -50,7 +50,7 @@
           class="d-flex justify-space-between mb-3 text-body-2"
         >
           <div class="font-weight-medium">{{ ion }}</div>
-          <div>
+          <div class="text-right">
             <div>{{ format(value[0] * 100) }}%</div>
             <div>{{ format(value[1]) }}, {{ t('units.mg/l') }}</div>
           </div>
@@ -58,7 +58,7 @@
       </div>
     </v-col>
     <v-col
-      cols="8"
+      cols="7"
       sm="4"
     >
       <BasePieChart
@@ -70,7 +70,7 @@
       <div class="text-h6 mb-2">
         {{ t('reminerals.page.ionsTotal') }}
       </div>
-      <div>
+      <div class="d-flex flex-wrap">
         <span
           v-for="[ion, value] in sortObject(remineral.concentrationInChangeWater)"
           :key="ion"

@@ -55,12 +55,15 @@ export default class Reagent {
     this.unitConcs = args.unitConcs || {};
     this.solubility = args.solubility;
     this.isLiquid = args.isLiquid ?? false;
-    this.HCO3 = args.HCO3;
     this.density = args.density;
-    if (this.density || this.isLiquid) {
+    if (this.density) {
       this.isLiquid = true;
-      this.dilution = 1;
     }
+    if (this.isLiquid) {
+      // TODO: save dilution with [1, 100] value
+      this.dilution = args.dilution || 1;
+    }
+    this.HCO3 = args.HCO3;
     this.ions = args.ions;
 
     this.initDoses();

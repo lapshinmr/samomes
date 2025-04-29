@@ -102,15 +102,15 @@
                 v-if="isReagentsInfo"
                 class="text-grey-darken-1 mt-6 mb-4"
               >
-                <template
+                <div
                   v-for="reagent in recipeModel.reagents"
                   :key="reagent.key"
+                  class="d-flex flex-column flex-sm-row justify-space-between
+                    align-sm-center text-body-1 mb-2 mb-sm-0 text-body-2"
                 >
-                  <div class="d-flex justify-space-between text-body-1">
-                    <div>{{ reagent.text }}</div>
-                    <div>{{ reagent.percent }}</div>
-                  </div>
-                </template>
+                  <div>{{ reagent.text }}</div>
+                  <div>{{ reagent.percent }}</div>
+                </div>
                 <div class="mt-2 mt-sm-4 text-body-2">
                   {{ t('recipes.page.reagentsDescription') }}
                 </div>
@@ -256,7 +256,10 @@
             <BaseDividerWithNote class="mt-10 mb-4">
               Концентрация элементов
             </BaseDividerWithNote>
-            <RecipesTheElementsTable :recipe="recipeModel" />
+            <RecipesTheElementsTable
+              :recipe="recipeModel"
+              class="mb-10"
+            />
             <v-text-field
               v-model="recipeModel.name"
               variant="underlined"
@@ -474,6 +477,7 @@ onMounted(async () => {
   reagents.forEach((reagent: InstanceType<typeof Reagent>) => {
     if (reagent.key in recipeReagents) {
       reagent.amount = recipeReagents[reagent.key].amount;
+      reagent.dilution = recipeReagents[reagent.key].dilution;
       recipeModel.reagents.push(reagent);
     }
   });

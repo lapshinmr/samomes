@@ -23,7 +23,7 @@
     sm="8"
     offset-sm="2"
   >
-    <h1 class="text-h4 text-sm-h4 mt-md-4 d-flex justify-space-between my-6 mt-sm-0">
+    <h1 class="text-h5 text-sm-h4 mt-md-4 d-flex justify-space-between my-4 my-sm-6 mt-sm-0">
       <slot />
     </h1>
   </v-col>

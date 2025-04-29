@@ -26,11 +26,13 @@
       class="d-flex justify-space-between text-body-2"
     >
       <span>{{ reagent.name }}</span>
-      <span>{{ format(reagent.amount) }} {{ reagent.isLiquid ? t('units.ml') : t('units.g') }}</span>
+      <span class="flex-shrink-0 ml-1">
+        {{ format(reagent.amount) }} {{ reagent.isLiquid ? t('units.ml') : t('units.g') }}
+      </span>
     </div>
     <v-divider class="my-3" />
     <div>
-      <div class="mb-2 mr-sm-4">{{ t('reminerals.card.explanation') }}</div>
+      <div class="mb-2 mr-sm-4">{{ t('reminerals.card.explanationTitle') }}</div>
       <div
         v-if="remineral.isLiquid"
         class="text-body-2"

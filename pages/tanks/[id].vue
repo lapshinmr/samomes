@@ -74,7 +74,7 @@
             :suffix="t('units.l')"
             hide-details="auto"
             :hint="t('tanks.page.volumeHint')"
-            :rules="[required]"
+            :rules="[required, positive]"
           />
           <BaseDividerWithNote class="mb-3 mt-10">
             {{ t('tanks.page.orSizes') }}
@@ -175,7 +175,7 @@ import type { TankType } from '~/utils/types/types';
 
 const { t } = useI18n();
 const { appRoutes } = useAppRoutes();
-const { required } = useValidation();
+const { required, positive } = useValidation();
 const route = useRoute();
 const router = useRouter();
 const tanksStore = useTanksStore();
@@ -221,19 +221,15 @@ onMounted(async () => {
   }
 });
 
-const paramsForWatching = computed(() =>
-  `
-    ${tank.value.length}
-    ${tank.value.width}
-    ${tank.value.height}
-    ${tank.value.glassThickness}
-    ${tank.value.filterVolume}
-    ${tank.value.soilVolume}
-  `,
-);
-
 watch(
-  paramsForWatching,
+  [
+    () => tank.value.length,
+    () => tank.value.width,
+    () => tank.value.height,
+    () => tank.value.glassThickness,
+    () => tank.value.filterVolume,
+    () => tank.value.soilVolume,
+  ],
   () => {
     tank.value.volume = tankObject.value.countVolume();
   },

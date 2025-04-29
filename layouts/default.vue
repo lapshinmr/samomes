@@ -46,7 +46,6 @@
           </a>
         </div>
       </v-app-bar-title>
-      <v-spacer />
       <LayoutLanguageSwitcher />
       <v-app-bar-nav-icon @click="drawerStore.toggle" />
     </v-app-bar>

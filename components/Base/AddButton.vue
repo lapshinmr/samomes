@@ -26,12 +26,12 @@
         dark
         fab
         icon="mdi-plus"
-        position="absolute"
-        style="right: 16px; bottom: 32px;"
+        position="fixed"
+        :style="`right: calc(${ isOpen ? '255px' : '0px' } + 16px); bottom: 16px; transition: 0.2s;`"
         @click="action"
       />
     </template>
-    <span><slot /></span>
+    <slot />
   </v-tooltip>
 </template>
 
@@ -46,6 +46,8 @@ defineProps({
     default: null,
   },
 });
+
+const { isOpen } = storeToRefs(useDrawerStore());
 </script>
 
 <style lang="sass" scoped>

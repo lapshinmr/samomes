@@ -41,12 +41,14 @@
               </div>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <slot :item="element"/>
-              <div class="d-flex justify-space-between mt-4">
-                <slot
-                  name="actions"
-                  :index="index"
-                />
+              <div class="mx-n3 mx-sm-0">
+                <slot :item="element"/>
+                <div class="d-flex justify-space-between mt-4">
+                  <slot
+                    name="actions"
+                    :index="index"
+                  />
+                </div>
               </div>
             </v-expansion-panel-text>
           </v-expansion-panel>
