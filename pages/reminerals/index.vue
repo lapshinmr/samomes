@@ -25,18 +25,17 @@
     <v-row>
       <LayoutPageTitle>
         {{ t('reminerals.title') }}
+        <BaseAddButton :action="onAdd">
+          {{ t('reminerals.addButton') }}
+        </BaseAddButton>
       </LayoutPageTitle>
       <client-only>
-        <v-col
+        <LayoutPageSubtitle
           v-if="remineralModels.length === 0"
-          cols="12"
-          md="8"
-          offset-md="2"
+          class="mb-16"
         >
-          <p class="mb-8 text-h6 text-md-h5">
-            {{ t('reminerals.noReminerals') }}
-          </p>
-        </v-col>
+          {{ t('reminerals.noReminerals') }}
+        </LayoutPageSubtitle>
         <CommonTheCards
           v-else
           v-model="remineralModels"
@@ -83,10 +82,6 @@
         </BaseGuide>
       </client-only>
     </v-row>
-
-    <BaseAddButton :action="onAdd">
-      {{ t('reminerals.addButton') }}
-    </BaseAddButton>
 
     <PopupsTheSharePopup
       v-model="isSharePopup"

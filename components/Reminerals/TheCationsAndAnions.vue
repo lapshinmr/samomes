@@ -1,12 +1,15 @@
 <template>
-  <v-row class="my-8">
+  <v-row>
     <v-col
       cols="12"
       class="text-h6 text-center"
     >
       TDS ~{{ format(remineral.tds) }} ppm
     </v-col>
-    <v-col cols="2">
+    <v-col
+      cols="4"
+      sm="2"
+    >
       <div class="text-h6 mb-4">
         {{ t('reminerals.page.cations') }}
       </div>
@@ -24,13 +27,19 @@
         </div>
       </div>
     </v-col>
-    <v-col cols="4">
+    <v-col
+      cols="8"
+      sm="4"
+    >
       <BasePieChart
         :data="cationsData"
         :options="options"
       />
     </v-col>
-    <v-col cols="2">
+    <v-col
+      cols="4"
+      sm="2"
+    >
       <div class="text-h6 mb-4">
         {{ t('reminerals.page.anions') }}
       </div>
@@ -48,7 +57,10 @@
         </div>
       </div>
     </v-col>
-    <v-col cols="4">
+    <v-col
+      cols="8"
+      sm="4"
+    >
       <BasePieChart
         :data="anionsData"
         :options="options"

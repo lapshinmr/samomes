@@ -38,7 +38,7 @@
         <v-form ref="fertilizerFormRef">
           <div>
             {{ t('fertilizers.page.formDescription') }}
-            <BaseDividerWithNote class="my-3">
+            <BaseDividerWithNote class="mb-3 mt-10">
               {{ t('common.or') }}
             </BaseDividerWithNote>
           </div>
@@ -59,10 +59,14 @@
           >
             {{ t('fertilizers.page.alertInfo') }} {{ fertilizerModel.updatedAt }}
           </v-alert>
+          <BaseDividerWithNote class="mt-10 mb-3">
+            {{ t('fertilizers.card.composition') }}
+          </BaseDividerWithNote>
           <v-radio-group
             v-model="fertilizerModel.isPercent"
-            :inline="$vuetify.display.smAndUp"
-            class="mt-0"
+            inline
+            color="primary"
+            class="mt-3 ml-n2"
             hide-details="auto"
           >
             <v-radio
@@ -81,9 +85,6 @@
           >
             {{ t('fertilizers.page.alertWarning') }}
           </v-alert>
-          <BaseDividerWithNote class="mt-4">
-            {{ t('fertilizers.card.ions') }}
-          </BaseDividerWithNote>
           <v-combobox
             :model-value="ionsChosen"
             :items="allIons"
@@ -97,6 +98,7 @@
             chips
             closable-chips
             :rules="[required]"
+            class="mb-4"
             @update:model-value="onInputIon"
           />
           <BaseNumberField
@@ -106,9 +108,12 @@
             :label="item.ion"
             :suffix="fertilizerModel.isPercent ? '%' : t('units.g/l')"
             variant="underlined"
+            persistent-placeholder
+            placeholder="0"
             hide-details="auto"
             append-icon="mdi-delete"
             :rules="[required]"
+            class="mb-2"
           />
           <v-text-field
             v-model="fertilizerModel.name"
@@ -128,7 +133,7 @@
             auto-grow
             rows="1"
           />
-          <div class="d-flex mt-2 mt-sm-4">
+          <div class="d-flex mt-10">
             <v-btn
               v-if="isEdit"
               color="error"

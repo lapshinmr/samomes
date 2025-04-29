@@ -18,35 +18,23 @@
 -->
 
 <template>
-  <v-tooltip location="left">
-    <template #activator="{ props }">
-      <v-btn
-        v-bind="props"
-        color="primary"
-        dark
-        fab
-        icon="mdi-plus"
-        position="absolute"
-        style="right: 16px; bottom: 32px;"
-        @click="action"
-      />
-    </template>
-    <span><slot /></span>
-  </v-tooltip>
+  <v-col
+    cols="12"
+    sm="8"
+    offset-sm="2"
+  >
+    <p class="text-h6 text-sm-h5 font-weight-regular">
+      <slot />
+    </p>
+  </v-col>
 </template>
 
 <script setup>
 defineOptions({
-  name: 'AddButton',
-});
-
-defineProps({
-  action: {
-    type: Function,
-    default: null,
-  },
+  name: 'PageSubtitle',
 });
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
+
 </style>

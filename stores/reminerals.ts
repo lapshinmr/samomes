@@ -26,7 +26,6 @@ export const useRemineralsStore = defineStore(
   () => {
     const remineralRecipes = ref<RemineralRecipeType[]>([]);
 
-    // TODO: rename to remineralModels
     const remineralRecipeModels = computed(
       () => remineralRecipes.value.map((remineral) => new RemineralRecipe(remineral)),
     );
@@ -47,6 +46,10 @@ export const useRemineralsStore = defineStore(
       remineralRecipes.value = payload;
     };
 
+    function resetReminerals() {
+      remineralRecipes.value = [];
+    }
+
     return {
       remineralRecipes,
       remineralRecipeModels,
@@ -54,6 +57,7 @@ export const useRemineralsStore = defineStore(
       removeRemineral,
       editRemineral,
       moveReminerals,
+      resetReminerals,
     };
   },
   {

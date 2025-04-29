@@ -41,7 +41,7 @@
               alt="Main logotype NPK"
             />
             <span class="ml-1">
-              Самомес
+              {{ t('home') }}
             </span>
           </a>
         </div>
@@ -68,6 +68,8 @@
 
 <script lang="ts" setup>
 import { useRouter, useRoute } from 'vue-router';
+
+const { t } = useI18n();
 
 const drawerStore = useDrawerStore();
 const snackbarStore = useSnackbarStore();

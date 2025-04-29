@@ -48,7 +48,6 @@ export default class Reagent {
     // TODO: add property decorator to set limits [1, 100]
     dilution?: number;
   }) {
-    // TODO: check default values
     this.key = args.key;
     this.name = args.name;
     this.amount = args.amount;
@@ -58,7 +57,7 @@ export default class Reagent {
     this.isLiquid = args.isLiquid ?? false;
     this.HCO3 = args.HCO3;
     this.density = args.density;
-    if (this.density) {
+    if (this.density || this.isLiquid) {
       this.isLiquid = true;
       this.dilution = 1;
     }
@@ -78,7 +77,7 @@ export default class Reagent {
   get ions(): Partial<Record<IonType, number>> {
     let result: Partial<Record<IonType, number>>;
     if (this.isCompound) {
-      result = this._ions;
+      result = { ...this._ions };
     } else {
       // TODO: refactoring & check if value is from formula type
       const ions = new MolecularFormula(this.key).fraction;
@@ -109,7 +108,7 @@ export default class Reagent {
     }
     if (this.dilution < 1) {
       typedEntries(result).forEach(([ion, value]) => {
-        result[ion] *= value * this.dilution;
+        result[ion] = value * this.dilution;
       });
     }
     return result;

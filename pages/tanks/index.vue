@@ -27,18 +27,14 @@
         {{ t('tanks.title') }}
       </LayoutPageTitle>
       <client-only>
-        <v-col
+        <LayoutPageSubtitle
           v-if="tankModels.length === 0"
-          cols="12"
-          md="8"
-          offset-md="2"
+          class="mb-16"
         >
-          <p class="mb-8 text-h6 text-md-h5">
-            {{ t('tanks.noTanks') }}
-          </p>
-        </v-col>
+          {{ t('tanks.noTanks') }}
+        </LayoutPageSubtitle>
         <CommonTheCards
-          v-else
+          v-if="tankModels.length > 0"
           v-model="tankModels"
         >
           <template #default="{ item }">

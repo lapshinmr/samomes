@@ -31,7 +31,7 @@
           class="mt-0 pt-0"
         />
       </div>
-      .
+      ,
       <div class="ml-4 mb-1">
         {{ t('reminerals.page.mix.t2') }}
       </div>

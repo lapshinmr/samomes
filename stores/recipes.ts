@@ -46,6 +46,10 @@ export const useRecipesStore = defineStore(
       fertilizerRecipes.value = payload;
     };
 
+    function resetRecipes() {
+      fertilizerRecipes.value = [];
+    }
+
     return {
       fertilizerRecipes,
       fertilizerRecipeModels,
@@ -53,6 +57,7 @@ export const useRecipesStore = defineStore(
       removeRecipe,
       editRecipe,
       moveRecipes,
+      resetRecipes,
     };
   },
   {

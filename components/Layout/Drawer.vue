@@ -37,12 +37,12 @@
             {{ t(`routes.${route.key}`) }}
           </v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="isPWAInstallButton" @click="install">
-          <template #prepend>
-            <v-icon>mdi mdi-download</v-icon>
-          </template>
-          <v-list-item-title> Установить </v-list-item-title>
-        </v-list-item>
+        <!--        <v-list-item v-if="isPWAInstallButton" @click="install">-->
+        <!--          <template #prepend>-->
+        <!--            <v-icon>mdi mdi-download</v-icon>-->
+        <!--          </template>-->
+        <!--          <v-list-item-title> Установить </v-list-item-title>-->
+        <!--        </v-list-item>-->
       </v-list>
       <div class="d-flex justify-space-around mt-auto pa-4 text-grey-darken-1">
         <a href="https://vk.com/samomes" target="_blank">

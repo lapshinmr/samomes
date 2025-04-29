@@ -10,7 +10,7 @@
         md="8"
         offset-md="2"
       >
-        <div class="text-body-2 text-grey-darken-1 mb-4">
+        <div class="text-body-2 text-grey-darken-1 mb-8">
           {{ t('dosing.doses.description') }}
         </div>
         <v-form ref="scheduleForm">
@@ -29,7 +29,7 @@
           />
           <v-expand-transition>
             <div
-              v-if="dosingModel.tank.volume"
+              v-if="dosingModel.tank?.volume"
               class="d-flex flex-column flex-md-row align-md-center"
             >
               <v-combobox

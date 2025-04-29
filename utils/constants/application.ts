@@ -58,11 +58,10 @@ export const ROUTES = {
   //   path: '/articles/',
   //   icon: 'game-icons:bookmarklet',
   // },
-  // settings: {
-  //   key: 'settings',
-  //   path: '/settings/',
-  //   icon: 'game-icons:cog',
-  // },
+  settings: {
+    key: 'settings',
+    icon: 'game-icons:cog',
+  },
   // about: {
   //   key: 'about',
   //   path: '/about/',

@@ -151,7 +151,7 @@ export default {
       dilution: 'Dilution',
       totalVolume: 'Total fertilizer volume',
       totalVolumeHint: 'If by water volume you meant total volume, then enter it here and the calculator will calculate the required water volume for you',
-      unitConcTitle: 'Calculate masses through specific concentration increase',
+      unitConcTitle: 'Specific concentration increase',
       unitConcDescription: 'Specific concentration increase is the amount by which the concentration of an element in the aquarium will increase when 1 ml of fertilizer is added. For example, you want to make a macro fertilizer with nitrate. And for ease of introduction into the aquarium, you would like that with each 1 ml of fertilizer added, the nitrate concentration increases by 0.5 mg/l. 0.5 mg/l / ml is the specific concentration increase.',
       unitConc: 'Specific concentration increase',
       tankInputLabel: 'Select an aquarium or enter volume',
@@ -293,5 +293,11 @@ export default {
       everyDayDose: 'Per day',
       inDayWeekDose: 'Per day/week',
     },
+    smallValue: 'small',
+  },
+  settings: {
+    title: 'Settings',
+    resetData: 'Data reset',
+    allData: 'All data',
   },
 };

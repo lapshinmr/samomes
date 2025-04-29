@@ -83,32 +83,32 @@
           </td>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
             <td class="text-center text-no-wrap">
-              {{ format(value.concentrationDay) }}
+              {{ smallNumber(format(value.concentrationDay)) }}
             </td>
             <td class="text-center text-no-wrap">
-              {{ format(value.concentration) }}
+              {{ smallNumber(format(value.concentration)) }}
             </td>
           </template>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
             <td class="text-center text-no-wrap">
-              {{ format(value.concentrationWaterChange) }}
+              {{ smallNumber(format(value.concentrationWaterChange)) }}
             </td>
             <td class="text-center text-no-wrap">
-              {{ format(value.concentrationDay) }}
+              {{ smallNumber(format(value.concentrationDay)) }}
             </td>
             <td class="text-center text-no-wrap">
-              {{ format(value.concentration) }}
+              {{ smallNumber(format(value.concentration)) }}
             </td>
           </template>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">
             <td class="text-center text-no-wrap">
-              {{ format(value.concentrationWaterChange) }}
+              {{ smallNumber(format(value.concentrationWaterChange)) }}
             </td>
             <td class="text-center text-no-wrap">
-              {{ format(value.concentrationDay) }} / {{ format(value.concentration) }}
+              {{ smallNumber(format(value.concentrationDay)) }} / {{ smallNumber(format(value.concentration)) }}
             </td>
             <td class="text-center text-no-wrap">
-              {{ format(value.concentrationTotal) }}
+              {{ smallNumber(format(value.concentrationTotal)) }}
             </td>
           </template>
           <td
@@ -160,6 +160,13 @@ const isHardness = computed({
     dosingStore.setHardness(isHardness);
   },
 });
+
+function smallNumber(value: number) {
+  if (value < 0.001 && value !== 0) {
+    return t('dosing.smallValue');
+  }
+  return value;
+}
 </script>
 
 <style scoped>

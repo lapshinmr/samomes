@@ -77,6 +77,7 @@
             chips
             closable-chips
             :rules="[required]"
+            class="mb-2"
             @update:model-value="onInputReagent"
           />
           <v-combobox
@@ -92,7 +93,7 @@
           />
           <v-expand-transition>
             <div v-if="isReagents">
-              <BaseDividerWithNote class="my-8">
+              <BaseDividerWithNote class="mt-10 mb-3">
                 {{ t('common.reagents') }}
               </BaseDividerWithNote>
               <div
@@ -103,7 +104,7 @@
                 <BaseNumberField
                   :model-value="reagent.amount"
                   :label="reagent.text"
-                  :suffix="reagent.isLiquid ? t('units.mg/l') : t('units.g')"
+                  :suffix="reagent.isLiquid ? t('units.ml') : t('units.g')"
                   hide-details="auto"
                   :disabled="reagentsLocked[reagent.key]"
                   :rules="[required, positive]"
@@ -163,6 +164,7 @@
                 <div v-if="isReagentsAmount">
                   <RemineralsTheCationsAndAnions
                     :remineral="remineralModel"
+                    class="mt-4"
                   />
                   <!--                  <BaseDividerWithNote-->
                   <!--                    v-model="isTable"-->
@@ -178,10 +180,10 @@
                   <!--                      :reagents="reagentsChosen"-->
                   <!--                    />-->
                   <!--                  </v-expand-transition>-->
-                  <template v-if="!remineralModel.isLiquid">
+                  <template v-if="!remineralModel.isLiquid && !isLiquidReagents">
                     <BaseDividerWithNote
                       v-model="isMix"
-                      class="mb-4"
+                      class="mt-10 mb-3"
                       button
                     >
                       {{ t('reminerals.page.mix.title') }}
@@ -200,7 +202,7 @@
           <v-expand-transition>
             <v-row
               v-if="isReagentsAmount"
-              class="my-8"
+              class="mt-4"
             >
               <v-col cols="12">
                 <v-text-field
@@ -223,7 +225,7 @@
                 />
               </v-col>
               <v-col
-                class="d-flex mt-2 mt-sm-4"
+                class="d-flex mt-10"
                 cols="12"
               >
                 <v-btn
@@ -292,6 +294,7 @@ const INITIAL_REAGENT_AMOUNT = 1;
 const reagents = getReagents(INITIAL_REAGENT_AMOUNT);
 
 const isReagents = computed(() => reagentsChosen.value.length > 0);
+const isLiquidReagents = computed(() => reagentsChosen.value.some((reagent) => reagent.isLiquid));
 const isReagentsAmount = computed(() => remineralModel.totalMass > 0);
 const isLocked = computed(() => Object.values(reagentsLocked.value).some((item) => item === true));
 

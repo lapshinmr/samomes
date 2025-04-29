@@ -25,18 +25,17 @@
     <v-row>
       <LayoutPageTitle>
         {{ t('fertilizers.title') }}
+        <BaseAddButton :action="onAdd">
+          {{ t('fertilizers.addButton') }}
+        </BaseAddButton>
       </LayoutPageTitle>
       <client-only>
-        <v-col
+        <LayoutPageSubtitle
           v-if="fertilizerModels.length === 0"
-          cols="12"
-          md="8"
-          offset-md="2"
+          class="mb-16"
         >
-          <p class="mb-8 text-h6 text-md-h5">
-            {{ t('fertilizers.noFertilizers') }}
-          </p>
-        </v-col>
+          {{ t('fertilizers.noFertilizers') }}
+        </LayoutPageSubtitle>
         <CommonTheCards
           v-else
           v-model="fertilizerModels"
@@ -76,9 +75,6 @@
         </BaseGuide>
       </client-only>
     </v-row>
-    <BaseAddButton :action="onAdd">
-      {{ t('fertilizers.addButton') }}
-    </BaseAddButton>
 
     <PopupsTheRemovePopup
       v-model="isRemovePopup"

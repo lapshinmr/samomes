@@ -40,12 +40,17 @@ export const useTanksStore = defineStore(
       tanks.value = payload;
     }
 
+    function resetTanks() {
+      tanks.value = [];
+    }
+
     return {
       tanks,
       addTank,
       removeTank,
       editTank,
       moveTanks,
+      resetTanks,
     };
   },
   {

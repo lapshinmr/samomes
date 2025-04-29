@@ -16,3 +16,4 @@ export const format = (value: string | number, precision: number | undefined = 3
   const formatter = new Intl.NumberFormat('en-US', options);
   return +formatter.format(num);
 };
+

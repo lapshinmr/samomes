@@ -60,10 +60,7 @@
         md="8"
         offset-md="2"
       >
-        <v-form
-          ref="recipeFormRef"
-          class="mt-8"
-        >
+        <v-form ref="recipeFormRef">
           <v-combobox
             :model-value="recipeModel.reagents"
             :items="reagents"
@@ -77,6 +74,7 @@
             closable-chips
             hide-details="auto"
             :rules="[required]"
+            class="mb-2"
             @update:model-value="onInputReagent"
           />
           <v-combobox
@@ -95,25 +93,25 @@
             <BaseDividerWithNote
               v-model="isReagentsInfo"
               button
-              class="my-8"
+              class="mt-6"
             >
               {{ t('common.reagents') }}
             </BaseDividerWithNote>
             <v-expand-transition>
               <div
                 v-if="isReagentsInfo"
-                class="mt-3"
+                class="text-grey-darken-1 mt-6 mb-4"
               >
                 <template
                   v-for="reagent in recipeModel.reagents"
                   :key="reagent.key"
                 >
-                  <div class="d-flex justify-space-between caption text-body-2">
+                  <div class="d-flex justify-space-between text-body-1">
                     <div>{{ reagent.text }}</div>
                     <div>{{ reagent.percent }}</div>
                   </div>
                 </template>
-                <div class="mt-2 mt-sm-4 text-body-2 text-grey-darken-1">
+                <div class="mt-2 mt-sm-4 text-body-2">
                   {{ t('recipes.page.reagentsDescription') }}
                 </div>
               </div>
@@ -138,7 +136,7 @@
                   @update:model-value="onInputReagentAmount($event, reagent)"
                 />
                 <div
-                  v-if="reagent.isLiquid && reagent.key !== 'H2O'"
+                  v-if="reagent.isLiquid && reagent.key !== 'H2O' && reagent.type !== ReagentTypeName.COMPOUND"
                   style="width: 100px;"
                 >
                   <BaseNumberField
@@ -192,7 +190,7 @@
           <v-expand-transition>
             <div v-if="isUnitConc && recipeModel.isLiquid">
               <v-combobox
-                v-model="tankChosen"
+                v-model.number="tankChosen"
                 :items="tanks"
                 item-title="name"
                 variant="underlined"
@@ -200,19 +198,18 @@
                 persistent-hint
                 hide-selected
                 :suffix="t('units.l')"
-                class="mb-2 mb-sm-4"
                 @update:model-value="onTankInput"
               />
               <v-expand-transition>
                 <div v-if="recipeModel.tankVolume">
                   <v-row
-                    v-for="reagent in recipeModel.reagents"
+                    v-for="reagent in recipeModel.reagents.filter((item) => item.key !== 'H2O')"
                     :key="reagent.key"
                     class="mb-3"
                   >
                     <v-col
                       cols="12"
-                      class="font-weight-medium pb-1"
+                      class="font-weight-regular pb-1"
                     >
                       {{ reagent.text }}
                     </v-col>
@@ -233,16 +230,16 @@
                   </v-row>
                   <v-row>
                     <v-col cols="12">
-                      <div class="font-weight-medium">
-                        {{ t('recipes.page.unitConc') }}, {{ t('units.mg/l / ml')}}
+                      <div class="font-weight-medium mb-2">
+                        Всего, {{ t('units.mg/l / ml') }}:
                       </div>
                       <div class="d-flex">
                         <div
                           v-for="[ion, value] in recipeModel.recipeIonUnitConcsSorted"
                           :key="ion"
-                          class="d-flex justify-space-between mr-3"
+                          class="d-flex justify-space-between mr-2"
                         >
-                          <div>{{ ion }}:</div>
+                          <div class="font-weight-medium mr-1">{{ ion }}:</div>
                           <div class="ml-2">
                             {{ format(value) }}
                             ({{ format(value / recipeModel.totalRecipeUnitConcs * 100) }}%)
@@ -256,6 +253,9 @@
             </div>
           </v-expand-transition>
           <div v-if="recipeModel.isReagents">
+            <BaseDividerWithNote class="mt-10 mb-4">
+              Концентрация элементов
+            </BaseDividerWithNote>
             <RecipesTheElementsTable :recipe="recipeModel" />
             <v-text-field
               v-model="recipeModel.name"
@@ -275,7 +275,7 @@
               rows="1"
               :hint="t('recipes.page.descriptionHint')"
             />
-            <div class="d-flex mt-3 mt-sm-6">
+            <div class="d-flex mt-10">
               <v-btn
                 v-if="!isCreate && !isShare"
                 color="error"
@@ -361,6 +361,7 @@ function fillModel(recipe: FertilizerRecipeType | FertilizerRecipeExampleType) {
     name: recipe.tankVolume.toString(),
     volume: recipe.tankVolume,
   };
+  recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
 const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
@@ -395,15 +396,13 @@ function onInputTotalVolume(value: number) {
   recipeModel.setReagentAmount(waterVolume, 'H2O');
 }
 
-function onTankInput(value: number | string | TankType) {
+function onTankInput(value: number | TankType) {
   if (typeof value === 'number') {
     tankChosen.value = {
       name: value.toString(),
       volume: value,
     };
     recipeModel.tankVolume = +value;
-  } else if (typeof value === 'string' || value === null) {
-    return;
   } else {
     tankChosen.value = value;
     recipeModel.tankVolume = value.volume;

@@ -28,6 +28,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'NH4NO3', amount: 6.71 },
       { key: 'C6H7KO2', amount: 0.5 },
     ],
+    tankVolume: 100,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
@@ -37,6 +38,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'KH2PO4', amount: 7.01 },
       { key: 'C6H7KO2', amount: 0.5 },
     ],
+    tankVolume: 100,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
@@ -46,6 +48,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'K2SO4', amount: 84.76 },
       { key: 'C6H7KO2', amount: 0.5 },
     ],
+    tankVolume: 100,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
@@ -61,6 +64,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'AgroMicsT', amount: 11 },
       { key: 'Fe-EDTA13', amount: 5.6 },
     ],
+    tankVolume: 100,
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
@@ -69,6 +73,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'H2O', amount: 1000 },
       { key: 'KNO3', amount: 82.88 },
     ],
+    tankVolume: 100,
     description: 'Чистая калиевая селитра. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -80,6 +85,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: '(NH2)2CO', amount: 5.02 },
       { key: 'NH4NO3', amount: 6.71 },
     ],
+    tankVolume: 100,
     description: 'Калиевая селитра, разбавленная мочевиной и нитратом аммония. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -89,6 +95,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'H2O', amount: 1000 },
       { key: 'KH2PO4', amount: 7.01 },
     ],
+    tankVolume: 100,
     description: 'Чистый монофосфат калия. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -98,6 +105,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'H2O', amount: 1000 },
       { key: 'K2SO4', amount: 84.76 },
     ],
+    tankVolume: 100,
     description: 'Чистый сульфат калия. Рецепт взят с сайта aqua-botanic.ru'
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
@@ -151,6 +159,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'KNO3', amount: 106.45 },
       { key: 'KH2PO4', amount: 5.77 },
     ],
+    tankVolume: 100,
     description: 'Макро в соотношении 1 к 15. Рецепт взят с сайта amania.org',
   },
   {
@@ -161,6 +170,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: '(NH2)2CO', amount: 16 },
       { key: 'KH2PO4', amount: 5.77 },
     ],
+    tankVolume: 100,
     description: 'Макро в соотношении 1 к 15. Калиевая селитра в соотношении 50 на 50 с мочевиной.'
       + ' Рецепт взят с сайта amania.org',
   },
@@ -178,6 +188,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'MnSO4(H2O)5', amount: 0.73 },
       { key: 'C10H14N2Na2O8', amount: 2.5 },
     ],
+    tankVolume: 100,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
@@ -194,6 +205,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'MnSO4(H2O)5', amount: 0.73 },
       { key: 'C10H14N2Na2O8', amount: 1.75 },
     ],
+    tankVolume: 100,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
@@ -211,6 +223,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'C10H14N2Na2O8', amount: 1.75 },
       { key: 'C14H18N3O10Na2Fe', amount: 1 },
     ],
+    tankVolume: 100,
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {

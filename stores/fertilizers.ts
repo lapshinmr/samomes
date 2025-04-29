@@ -46,6 +46,10 @@ export const useFertilizersStore = defineStore(
       fertilizers.value = payload;
     };
 
+    function resetFertilizers() {
+      fertilizers.value = [];
+    }
+
     return {
       fertilizers,
       fertilizerModels,
@@ -53,6 +57,7 @@ export const useFertilizersStore = defineStore(
       removeFertilizer,
       editFertilizer,
       moveFertilizers,
+      resetFertilizers,
     };
   },
   {

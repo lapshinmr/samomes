@@ -46,7 +46,7 @@
           />
           <BaseDividerWithNote
             v-model="isVolumeInfo"
-            class="my-2 my-sm-4"
+            class="mt-6"
             button
           >
             {{ t('tanks.page.volumeInfo.title') }}
@@ -54,7 +54,7 @@
           <v-expand-transition>
             <div
               v-if="isVolumeInfo"
-              class="text-grey-darken-1 text-body-2 mt-8 mt-md-4 mb-0"
+              class="text-grey-darken-1 text-body-2 mt-6 mb-0"
             >
               <p class="mb-2">
                 {{ t('tanks.page.volumeInfo.p1') }}
@@ -75,7 +75,6 @@
             hide-details="auto"
             :hint="t('tanks.page.volumeHint')"
             :rules="[required]"
-            class="mt-2 mt-sm-4"
           />
           <BaseDividerWithNote class="mb-3 mt-10">
             {{ t('tanks.page.orSizes') }}
@@ -148,7 +147,7 @@
             />
           </div>
           <v-expand-transition>
-            <div class="d-flex justify-space-between mt-3 mt-sm-6">
+            <div class="d-flex justify-space-between mt-10">
               <v-btn
                 v-if="isEdit"
                 color="error"
