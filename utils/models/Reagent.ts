@@ -25,7 +25,6 @@ export default class Reagent {
   public name: string;
   public amount: number;
   public type: ReagentTypeName;
-  // TODO: add more specific keys for ions
   public unitConcs?: Partial<Record<IonType, number>>;
   public solubility?: number;
   public isLiquid?: boolean;
@@ -60,8 +59,7 @@ export default class Reagent {
       this.isLiquid = true;
     }
     if (this.isLiquid) {
-      // TODO: save dilution with [1, 100] value
-      this.dilution = args.dilution || 1;
+      this.dilution = args.dilution || 100;
     }
     this.HCO3 = args.HCO3;
     this.ions = args.ions;
@@ -109,9 +107,9 @@ export default class Reagent {
 
       result = ions;
     }
-    if (this.dilution < 1) {
+    if (this.dilution < 100) {
       typedEntries(result).forEach(([ion, value]) => {
-        result[ion] = value * this.dilution;
+        result[ion] = value * this.dilution / 100;
       });
     }
     return result;

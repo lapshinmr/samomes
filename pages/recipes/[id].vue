@@ -140,7 +140,7 @@
                   style="width: 100px;"
                 >
                   <BaseNumberField
-                    :model-value="reagent.dilution * 100"
+                    :model-value="reagent.dilution"
                     :label="t('recipes.page.dilution')"
                     suffix="%"
                     class="ml-2"
@@ -390,7 +390,7 @@ function onInputReagentAmount(value: number, reagent: InstanceType<typeof Reagen
 }
 
 function onInputReagentDilution(value: number, reagent: InstanceType<typeof Reagent>) {
-  reagent.dilution = value / 100;
+  reagent.dilution = value;
   recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
