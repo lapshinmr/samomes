@@ -28,7 +28,6 @@ export default defineNuxtConfig({
           name: 'description',
           content: 'Самомес — это калькулятор рецептов удобрений для растительного аквариума, удобный способ расчета дозировок удобрений и составления расписания на неделю.',
         },
-        { name: 'author', content: 'Михаил Лапшин' },
         { property: 'og:title', content: 'Samomes' },
         { property: 'og:site_name', content: 'Samomes' },
         {

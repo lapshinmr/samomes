@@ -253,7 +253,7 @@ watch(ionsChosen, () => {
   ionsChosen.value.forEach(({ ion, conc }) => {
     fertilizerModel.ions[ion] = conc;
   });
-});
+}, { deep: true });
 
 // PAGE MANIPULATION
 const { checkName } = useNameExist();
