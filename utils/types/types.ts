@@ -34,6 +34,7 @@ export type IonType = ElementType | OxideType | CarbonatesType | AnionType;
 export type TankType = {
   name: string;
   volume: number;
+  volumeTotal?: number;
   length?: number;
   width?: number;
   height?: number;
@@ -41,7 +42,6 @@ export type TankType = {
   waterChangePercent?: number;
   waterChangeVolume?: number;
   filterVolume?: number;
-  soilVolume?: number;
 };
 
 export type FormulaKeyType = keyof typeof FORMULAS;

@@ -1,53 +1,60 @@
 <template>
-  <div class="d-flex align-center">
-    <v-divider />
-    <div class="mx-3 flex-shrink-0">
+  <div>
+    <div class="d-flex align-center">
+      <v-divider v-if="dividers"/>
       <div
-        v-if="button"
-        class="cursor-pointer"
-        @click="emit('update:modelValue', !modelValue)"
+        class="flex-shrink-0"
+        :class="{
+          'mx-3': dividers,
+        }"
       >
-        <slot />
-        <v-icon
-          icon="mdi-chevron-down"
-          class="transition"
-          :class="{
-            'rotate-180': modelValue,
-          }"
-        />
+        <div
+          v-if="button"
+          class="cursor-pointer"
+          @click="emit('update:modelValue', !modelValue)"
+        >
+          <slot />
+          <v-icon
+            icon="mdi-chevron-down"
+            class="transition"
+            :class="{
+              'rotate-180': modelValue,
+            }"
+          />
+        </div>
+        <template v-else>
+          <slot />
+        </template>
       </div>
-      <template v-else>
-        <slot />
-      </template>
+      <v-divider v-if="dividers"/>
     </div>
-    <v-divider />
+    <v-expand-transition>
+      <div
+        v-if="modelValue"
+        class="mt-4"
+      >
+        <slot name="content" />
+      </div>
+    </v-expand-transition>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(
+withDefaults(
   defineProps<{
     modelValue?: boolean;
     button?: boolean;
+    dividers?: boolean;
   }>(),
   {
     modelValue: false,
     button: false,
+    dividers: true,
   },
 );
 
 const emit = defineEmits(['update:modelValue']);
 
-// const style = computed(() => {
-//   let result = 'transition: 0.2s;';
-//   if (props.modelValue) {
-//     result += ' transform: rotate(180)';
-//   } else {
-//     result += ' transform: rotate(0)';
-//   }
-//   return result;
-// });
-//
 defineOptions({
   name: 'BaseDividerWithNote',
 });

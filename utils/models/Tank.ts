@@ -10,7 +10,6 @@ export default class Tank {
   public waterChangePercent?: number;
   public waterChangeVolume?: number;
   public filterVolume?: number;
-  public soilVolume?: number;
 
   constructor(args: {
     name: string;
@@ -22,7 +21,6 @@ export default class Tank {
     waterChangePercent?: number;
     waterChangeVolume?: number;
     filterVolume?: number;
-    soilVolume?: number;
   }) {
     this.name = args.name;
     this.volume = args.volume;
@@ -33,30 +31,35 @@ export default class Tank {
     this.waterChangePercent = args.waterChangePercent;
     this.waterChangeVolume = args.waterChangeVolume;
     this.filterVolume = args.filterVolume;
-    this.soilVolume = args.soilVolume;
   }
 
-  countVolume(): number {
+  get volumeSize(): number {
     let volume = 0;
     if (this.length && this.height && this.width) {
       const glassThicknessCm = this.glassThickness / 10;
       const cleanLength = this.length - 2 * glassThicknessCm;
       const cleanWidth = this.width - 2 * glassThicknessCm;
-      volume += cleanLength * cleanWidth * this.height / 1000;
+      volume = cleanLength * cleanWidth * this.height / 1000;
     }
-    if (this.soilVolume) {
-      volume += this.soilVolume;
+    return volume;
+  }
+
+  get volumeTotal(): number {
+    let volume = this.volume ?? 0;
+    if (this.volumeSize) {
+      volume = this.volumeSize;
     }
     if (this.filterVolume) {
       volume += this.filterVolume;
     }
-    return +format(volume, 3);
+    return volume;
   }
 
   toJson(): TankType {
     return {
       name: this.name,
       volume: this.volume,
+      volumeTotal: this.volumeTotal,
       length: this.length,
       width: this.width,
       height: this.height,
@@ -64,7 +67,6 @@ export default class Tank {
       waterChangePercent: this.waterChangePercent,
       waterChangeVolume: this.waterChangeVolume,
       filterVolume: this.filterVolume,
-      soilVolume: this.soilVolume,
     };
   }
 };

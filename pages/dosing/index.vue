@@ -72,12 +72,14 @@
 <script setup lang="ts">
 const { t } = useI18n();
 
-const { tanks } = useTanksStore();
+const tanksStore = useTanksStore();
 const { fertilizerRecipeModels } = useRecipesStore();
 const { fertilizerModels } = useFertilizersStore();
 const { remineralRecipeModels } = useRemineralsStore();
 const dosingStore = useDosingStore();
 const snackbarStore = useSnackbarStore();
+
+const tanks = tanksStore.tankModels.map((item) => item.toJson());
 
 const dosingModel = computed(() => {
   return new Dosing(
@@ -133,7 +135,7 @@ function onChooseTank(value: number | string | TankType) {
   }
   dosingStore.setTank({
     name: value.name,
-    volume: value.volume,
+    volume: value.volumeTotal,
     waterChangeVolume: value.waterChangeVolume,
   });
 }

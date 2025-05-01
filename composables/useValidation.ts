@@ -24,7 +24,7 @@ export default () => {
     if (typeof value === 'number' && value >= 0) {
       return true;
     }
-    return 'Only positive or zero number';
+    return t('validation.positiveOrZero');
   };
 
   const positiveOrEmpty = (value: number | string | null): boolean | string => {
@@ -35,7 +35,7 @@ export default () => {
     } else if (value === null) {
       return true;
     }
-    return 'Only positive or empty value';
+    return t('validation.positiveOrEmpty');
   };
 
   return {

@@ -408,7 +408,7 @@ function onTankInput(value: number | TankType) {
     recipeModel.tankVolume = +value;
   } else {
     tankChosen.value = value;
-    recipeModel.tankVolume = value.volume;
+    recipeModel.tankVolume = value.volumeTotal;
   }
   recipeModel.updateRecipeUnitConcsByAmounts();
 }
@@ -424,7 +424,7 @@ const { checkName } = useNameExist();
 const isReagentsInfo = ref<boolean>(false);
 const isUnitConc = ref<boolean>(false);
 
-const tanks = tanksStore.tanks;
+const tanks = tanksStore.tankModels.map((item) => item.toJson());
 const recipes = recipesStore.fertilizerRecipeModels;
 
 const isCreate = computed(() => route.params.id === 'create');

@@ -3,8 +3,8 @@
     <div class="mb-2">{{ t('tanks.card.title') }}</div>
     <div class="text-body-2">
       <div class="d-flex justify-space-between">
-        <div>{{ t('common.volume') }}</div>
-        <div>{{ format(tank.volume) }} {{ t('units.l') }}</div>
+        <div>{{ t('tanks.page.volume') }}</div>
+        <div>{{ format(tank.volume || tank.volumeSize) }} {{ t('units.l') }}</div>
       </div>
       <template v-if="tank.length">
         <div class="d-flex justify-space-between">
@@ -32,13 +32,6 @@
         <div>{{ format(tank.filterVolume) }} {{ t('units.l') }}</div>
       </div>
       <div
-        v-if="tank.soilVolume"
-        class="d-flex justify-space-between"
-      >
-        <div>{{ t('tanks.soilVolume') }}</div>
-        <div>{{ format(tank.soilVolume) }} {{ t('units.l') }}</div>
-      </div>
-      <div
         v-if="tank.waterChangeVolume"
         class="d-flex justify-space-between"
       >
@@ -56,7 +49,7 @@
 const { t } = useI18n();
 
 defineProps<{
-  tank: TankType;
+  tank: InstanceType<typeof Tank>;
 }>();
 </script>
 

@@ -99,8 +99,8 @@ const snackbarStore = useSnackbarStore();
 const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
 
 const tankModels = computed({
-  get: () => tanksStore.tanks,
-  set: (value) => tanksStore.moveTanks(value),
+  get: () => tanksStore.tankModels,
+  set: (value) => tanksStore.moveTanks(value.map((item) => item.toJson())),
 });
 
 function onAdd() {
