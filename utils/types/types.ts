@@ -63,7 +63,6 @@ export type CompoundObjectType = {
 
 export type ReagentKeyType = FormulaKeyType | CompoundKeyType;
 
-// TODO: update eslint to fix this issue
 export enum ReagentTypeName { FORMULA = 'formula', COMPOUND = 'compound' }
 
 export type ReagentType = {
@@ -125,9 +124,15 @@ export type RemineralRecipeExampleType = {
   doseVolume?: number;
 }
 
+export enum DoseFertilizerType {
+  fertilizerRecipe = 'fertilizerRecipe',
+  fertilizer = 'fertilizer',
+  remineralRecipe = 'remineralRecipe',
+}
+
 export type DoseType = {
   fertilizer: FertilizerRecipeType | FertilizerType | RemineralRecipeType;
-  fertilizerType: 'fertilizerRecipe' | 'fertilizer' | 'remineralRecipe';
+  fertilizerType: DoseFertilizerType;
   daysTotal: number;
   amount: number;
   amountDay: number;

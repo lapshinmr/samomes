@@ -20,7 +20,6 @@
 export default class FertilizerRecipe extends Recipe {
   public tankVolume?: number;
 
-  // TODO: add shortcuts
   constructor(args: {
     name: string;
     description?: string;

@@ -1,14 +1,15 @@
+import type { DoseFertilizerType } from '~/utils/types/types';
+
 export class Dose {
   public fertilizer: InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>;
-  // TODO: move type
-  public fertilizerType: 'fertilizerRecipe' | 'fertilizer' | 'remineralRecipe';
+  public fertilizerType: DoseFertilizerType;
   public daysTotal: number;
   public amountDay?: number;
   public amountWaterChange?: number;
 
   constructor(args: {
     fertilizer: InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>;
-    fertilizerType: 'fertilizerRecipe' | 'fertilizer' | 'remineralRecipe';
+    fertilizerType: DoseFertilizerType;
     daysTotal: number;
     amountDay?: number;
     amountWaterChange?: number;

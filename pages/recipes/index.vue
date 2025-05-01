@@ -25,9 +25,6 @@
     <v-row>
       <LayoutPageTitle>
         {{ t('recipes.title') }}
-        <BaseAddButton :action="onAdd">
-          {{ t('recipes.addButton') }}
-        </BaseAddButton>
       </LayoutPageTitle>
       <client-only>
         <LayoutPageSubtitle
@@ -85,6 +82,10 @@
         </BaseGuide>
       </client-only>
     </v-row>
+
+    <BaseAddButton :action="onAdd">
+      {{ t('recipes.addButton') }}
+    </BaseAddButton>
 
     <PopupsTheSharePopup
       v-model="isSharePopup"

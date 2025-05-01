@@ -192,11 +192,11 @@ export const FORMULAS = {
   'Ca(C6H11O7)2': {
     cation: { key: 'Ca', number: 1 },
     anion: { key: 'C6H11O7', number: 2 },
-    solubility: 100, // TODO: fill
+    solubility: 35,
     name: 'Кальция глюконат',
   },
   C6H6O7Mg: {
-    solubility: 1000, // TODO: fill
+    solubility: 200,
     name: 'Магния цитрат',
   },
   H3BO3: {

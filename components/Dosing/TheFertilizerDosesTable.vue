@@ -113,7 +113,6 @@
         :key="index"
         class="d-flex justify-space-between align-center"
       >
-        <!-- TODO: change dose.amount to dose.amountWaterChange? -->
         <BaseNumberField
           :model-value="format(dose.amount)"
           :label="dose.fertilizer.name"

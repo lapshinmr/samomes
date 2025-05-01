@@ -70,6 +70,8 @@
 </template>
 
 <script setup lang="ts">
+import { DoseFertilizerType } from '~/utils/types/types';
+
 const { t } = useI18n();
 
 const tanksStore = useTanksStore();
@@ -105,15 +107,15 @@ const allFertilizers = computed(() => {
     result.push(...defaultFertilizersFiltered);
   }
   return result.map((item) => {
-    let fertilizerType: 'fertilizerRecipe' | 'fertilizer' | 'remineralRecipe';
+    let fertilizerType: DoseFertilizerType;
     if (item instanceof FertilizerRecipe) {
-      fertilizerType = 'fertilizerRecipe';
+      fertilizerType = DoseFertilizerType.fertilizerRecipe;
     }
     if (item instanceof Fertilizer) {
-      fertilizerType = 'fertilizer';
+      fertilizerType = DoseFertilizerType.fertilizer;
     }
     if (item instanceof RemineralRecipe) {
-      fertilizerType = 'remineralRecipe';
+      fertilizerType = DoseFertilizerType.remineralRecipe;
     }
     return new Dose({
       fertilizer: item,

@@ -2,6 +2,12 @@
 import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt([
+  {
+    ignores: [
+      '_old_code',
+      'static',
+    ],
+  },
   // Include Nuxt's default ESLint configuration
 
   // Apply Airbnb-like rules directly
@@ -15,7 +21,7 @@ export default withNuxt([
       'indent': ['error', 2],
       'comma-dangle': ['error', 'always-multiline'],
       'no-unused-vars': 'error',
-      'no-console': 'warn',
+      'no-console': 'error',
       'no-debugger': 'error',
       'prefer-const': 'error',
       'arrow-parens': ['error', 'always'],

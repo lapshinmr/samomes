@@ -413,7 +413,6 @@ function onTankInput(value: number | TankType) {
   recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
-// TODO: fix bug with changing unit conc of other reagents
 function inputIonUnitConc(value: number, reagent: InstanceType<typeof Reagent>, ion: string) {
   recipeModel.updateReagentAmountsByUnitConcs(value, reagent, ion);
 }

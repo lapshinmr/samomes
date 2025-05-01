@@ -2,12 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-04-29',
 
-  devtools: { enabled: false },
+  devtools: { enabled: true },
 
-  devServer: {
-    host: '0.0.0.0',
-    port: 3000,
-  },
+  // devServer: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  // },
 
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
@@ -102,5 +102,9 @@ export default defineNuxtConfig({
   piniaPluginPersistedstate: {
     storage: 'localStorage',
     debug: true,
+  },
+
+  eslint: {
+    checker: true,
   },
 });

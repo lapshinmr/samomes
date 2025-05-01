@@ -25,9 +25,6 @@
     <v-row>
       <LayoutPageTitle>
         {{ t('fertilizers.title') }}
-        <BaseAddButton :action="onAdd">
-          {{ t('fertilizers.addButton') }}
-        </BaseAddButton>
       </LayoutPageTitle>
       <client-only>
         <LayoutPageSubtitle
@@ -76,6 +73,10 @@
       </client-only>
     </v-row>
 
+    <BaseAddButton :action="onAdd">
+      {{ t('fertilizers.addButton') }}
+    </BaseAddButton>
+
     <PopupsTheRemovePopup
       v-model="isRemovePopup"
       @remove="onRemoveFertilizerConfirmation"
@@ -98,7 +99,6 @@ const fertilizerModels = computed({
   set: (value) => fertilizersStore.moveFertilizers(value.map((item) => item.toJson())),
 });
 
-// TODO: move this to the component call
 function onAdd() {
   router.push(`${appRoutes.value.fertilizers.path}create/`);
 }

@@ -18,7 +18,6 @@
  */
 import type { RemineralRecipeExampleType } from '~/utils/types/types';
 
-// TODO: change reagents structure to [{ key: string, amount: number }]?
 export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
   {
     reagents: [
