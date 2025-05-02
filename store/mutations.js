@@ -145,4 +145,7 @@ export default {
     state.snackbarMessage = '';
     state.isSnackbar = false;
   },
+  SNACKBAR_SURVEY_HIDE(state) {
+    state.isSnackbarSurvey = false;
+  },
 };

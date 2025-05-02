@@ -329,7 +329,7 @@ export default {
       const result = [...this.recipes, ...this.fertilizers];
       if (this.isDefaultFertilizers) {
         const recipesNames = this.recipes.map((item) => item.name);
-        const fertilizersNames = this.recipes.map((item) => item.name);
+        const fertilizersNames = this.fertilizers.map((item) => item.name);
         const defaultFertilizersFiltered = this.defaultFertilizers.filter(
           (item) => ![...recipesNames, ...fertilizersNames].includes(item.name),
         );

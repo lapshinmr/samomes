@@ -113,29 +113,29 @@
                         <div>{{ $t('tanks.dialog.glassThickness') }}</div>
                         <div>{{ tank.glassThickness }} {{ $t('units.mm') }}</div>
                       </div>
-                      <div
-                        v-if="tank.filter"
-                        class="d-flex justify-space-between"
-                      >
-                        <div>{{ $t('tanks.dialog.filter') }}</div>
-                        <div>{{ tank.filter | precision(1) }} {{ $t('units.l') }}</div>
-                      </div>
-                      <div
-                        v-if="tank.soil"
-                        class="d-flex justify-space-between"
-                      >
-                        <div>{{ $t('tanks.dialog.soil') }}</div>
-                        <div>{{ tank.soil | precision(1) }} {{ $t('units.l') }}</div>
-                      </div>
-                      <div
-                        v-if="tank.waterChangeVolume"
-                        class="d-flex justify-space-between"
-                      >
-                        <div>{{ $t('tanks.dialog.waterChange') }}</div>
-                        <div>
-                          {{ tank.waterChangeVolume | precision(1) }} {{ $t('units.l') }} —
-                          {{ tank.waterChangeVolume / tank.volume * 100 | precision(1) }}%
-                        </div>
+                    </div>
+                    <div
+                      v-if="tank.filter"
+                      class="d-flex justify-space-between"
+                    >
+                      <div>{{ $t('tanks.dialog.filter') }}</div>
+                      <div>{{ tank.filter | precision(1) }} {{ $t('units.l') }}</div>
+                    </div>
+                    <div
+                      v-if="tank.soil"
+                      class="d-flex justify-space-between"
+                    >
+                      <div>{{ $t('tanks.dialog.soil') }}</div>
+                      <div>{{ tank.soil | precision(1) }} {{ $t('units.l') }}</div>
+                    </div>
+                    <div
+                      v-if="tank.waterChangeVolume"
+                      class="d-flex justify-space-between"
+                    >
+                      <div>{{ $t('tanks.dialog.waterChange') }}</div>
+                      <div>
+                        {{ tank.waterChangeVolume | precision(1) }} {{ $t('units.l') }} —
+                        {{ tank.waterChangeVolume / tank.volume * 100 | precision(1) }}%
                       </div>
                     </div>
                     <div

@@ -61,6 +61,27 @@
           {{ snackbarMessage }}
         </div>
       </v-snackbar>
+      <v-snackbar
+        v-model="isSnackbarSurvey"
+        timeout="-1"
+      >
+        Добрый день, уважаемые аквариумисты! Мы активно работаем над развитием проекта Самомес и нуждаемся
+        в вашем мнении для создания действительно полезного инструмента. Пожалуйста, уделите 10-15 минут
+        на заполнение анкеты — ваш опыт и обратная связь помогут нам сделать приложение гораздо
+        удобнее для ежедневных аквариумных задач. Каждый ответ важен для улучшения функциональности
+        проекта! Анкета находится
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdJlrrrSV3-3nhZiDwYtaHagd90AiYlpjBionV19XPPuI6wDQ/formResponse">здесь</a>.
+        <template #action="{ attrs }">
+          <v-btn
+            color="pink"
+            text
+            v-bind="attrs"
+            @click="isSnackbarSurvey = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-main>
   </v-app>
 </template>
@@ -112,14 +133,22 @@ export default {
         this.SNACKBAR_HIDE();
       },
     },
+    isSnackbarSurvey: {
+      get() {
+        return this.$store.state.isSnackbarSurvey;
+      },
+      set() {
+        this.SNACKBAR_SURVEY_HIDE();
+      },
+    },
   },
   methods: {
     ...mapMutations([
       'DRAWER_SET',
       'SNACKBAR_HIDE',
+      'SNACKBAR_SURVEY_HIDE',
       'FERTILIZER_ADD',
       'RECIPE_REMOVE',
-      'GUIDE_RESET',
     ]),
   },
 };
