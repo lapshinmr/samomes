@@ -35,6 +35,7 @@ export default {
     recipes: 'Рецепты',
     recipesHint: 'или выбрать один из рецептов',
     sum: 'Сумма',
+    total: 'Сумма',
     isFormErrors: 'Форма содержит ошибки. Исправьте их, чтобы продолжить',
   },
   validation: {
@@ -134,6 +135,10 @@ export default {
         isFormErrors: 'Нужно добавить название и объем',
       },
     },
+  },
+  reagents: {
+    nameExists: 'Реагент с таким именем уже существует',
+    formulaExists: 'Такая формула уже существует',
   },
   recipes: {
     title: 'Рецепты',

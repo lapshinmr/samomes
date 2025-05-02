@@ -62,6 +62,7 @@ export type CompoundObjectType = {
 }
 
 export type ReagentKeyType = FormulaKeyType | CompoundKeyType;
+export type OwnReagentType = { type: ReagentTypeName } & { key: string } & (FormulaObjectType | CompoundObjectType);
 
 export enum ReagentTypeName { FORMULA = 'formula', COMPOUND = 'compound' }
 

@@ -35,6 +35,7 @@ export default {
     recipes: 'Recipes',
     recipesHint: 'or choose one of the recipes',
     sum: 'Sum',
+    total: 'Total',
     isFormErrors: 'The form contains errors. Please correct them to continue.',
   },
   validation: {
@@ -134,6 +135,10 @@ export default {
         isFormErrors: 'Name and volume are required fields',
       },
     },
+  },
+  reagents: {
+    nameExists: 'Reagent with this name already exists',
+    formulaExists: 'This formula already exists',
   },
   recipes: {
     title: 'Recipes',

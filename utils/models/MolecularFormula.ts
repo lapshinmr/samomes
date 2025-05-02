@@ -5,7 +5,12 @@ import { ELEMENTS } from '~/utils/constants/elements';
 export default class MolecularFormula {
   readonly formulaInit: string;
   constructor(formula: string) {
-    this.formulaInit = formula;
+    try {
+      const formulaReplaced = MolecularFormula.replaceSupAndSub(formula);
+      this.formulaInit = MolecularFormula.cleanParentheses(formulaReplaced);
+    } catch {
+      throw new Error('Error format');
+    }
   }
 
   static replaceSupAndSub(formula: string): string {
@@ -43,13 +48,8 @@ export default class MolecularFormula {
     return percent;
   }
 
-  get formula(): string {
-    return MolecularFormula.replaceSupAndSub(this.formulaInit);
-  }
-
   get composition(): Record<string, number> {
-    const formulaCleaned = MolecularFormula.cleanParentheses(this.formula);
-    return MolecularFormula.formulaToJson(formulaCleaned);
+    return MolecularFormula.formulaToJson(this.formulaInit);
   }
 
   get simplifiedFormula(): string {
@@ -131,7 +131,6 @@ export default class MolecularFormula {
     }
     const innerGroup = MolecularFormula.getParenthesisGroups(formula)[0];
     const [startIndex, stopIndex] = innerGroup;
-
     let c = '';
     let i = 1;
     while (MolecularFormula.isNumber(formula[stopIndex + i])) {

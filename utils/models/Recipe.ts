@@ -40,7 +40,7 @@ export default class Recipe {
   }
 
   get waterVolume(): number {
-    return this.reagents.find((reagent) => reagent.key === 'H2O')?.amount;
+    return this.reagents.find((reagent) => reagent.key === 'H2O')?.amount ?? 0;
   }
 
   get isReagents(): boolean {

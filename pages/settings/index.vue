@@ -78,6 +78,11 @@
         <!--        </div>-->
         <!--        <v-divider class="my-5" />-->
         <div class="text-h5 mb-8">
+          {{ t('common.reagents') }}
+        </div>
+        <SettingsTheReagentsTable class="mb-10" />
+
+        <div class="text-h5 mb-8">
           {{ t('settings.resetData') }}
         </div>
         <div class="d-flex justify-space-between mb-3">
@@ -88,6 +93,18 @@
             color="red"
             :disabled="tanksStore.tanks.length === 0"
             @click="tanksStore.resetTanks()"
+          >
+            {{ t('buttons.remove') }}
+          </v-btn>
+        </div>
+        <div class="d-flex justify-space-between mb-3">
+          <div>
+            {{ t('common.reagents') }} ({{ reagentsStore.reagents.length }})
+          </div>
+          <v-btn
+            color="red"
+            :disabled="reagentsStore.reagents.length === 0"
+            @click="reagentsStore.resetReagents()"
           >
             {{ t('buttons.remove') }}
           </v-btn>
@@ -175,6 +192,7 @@ defineOptions({
 const { t } = useI18n();
 
 const tanksStore = useTanksStore();
+const reagentsStore = useReagentsStore();
 const recipesStore = useRecipesStore();
 const fertilizersStore = useFertilizersStore();
 const remineralsStore = useRemineralsStore();
@@ -252,6 +270,7 @@ const dosingStore = useDosingStore();
 
 function removeAll() {
   tanksStore.resetTanks();
+  reagentsStore.resetReagents();
   recipesStore.resetRecipes();
   fertilizersStore.resetFertilizers();
   remineralsStore.resetReminerals();

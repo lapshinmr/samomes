@@ -111,7 +111,6 @@
             persistent-placeholder
             placeholder="0"
             hide-details="auto"
-            append-icon="mdi-delete"
             :rules="[required]"
             class="mb-2"
           />

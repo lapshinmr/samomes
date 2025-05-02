@@ -77,6 +77,12 @@
             class="mb-2"
             @update:model-value="onInputReagent"
           />
+          <div
+            class="d-flex justify-end text-blue cursor-pointer"
+            @click="isAddReagentPopup = true;"
+          >
+            + добавить реагент
+          </div>
           <v-combobox
             v-model="recipeExampleChosen"
             :items="FERTILIZER_RECIPES"
@@ -231,7 +237,7 @@
                   <v-row>
                     <v-col cols="12">
                       <div class="font-weight-medium mb-2">
-                        Всего, {{ t('units.mg/l / ml') }}:
+                        {{ t('common.total') }}, {{ t('units.mg/l / ml') }}:
                       </div>
                       <div class="d-flex">
                         <div
@@ -304,6 +310,10 @@
         </v-form>
       </v-col>
     </v-row>
+
+    <PopupsTheAddReagentPopup
+      v-model="isAddReagentPopup"
+    />
   </v-container>
 </template>
 
@@ -317,12 +327,14 @@ const { required, positive } = useValidation();
 const router = useRouter();
 const route = useRoute();
 const snackbarStore = useSnackbarStore();
+const reagentsStore = useReagentsStore();
 const recipesStore = useRecipesStore();
 const tanksStore = useTanksStore();
 
 const { getReagents } = useReagents();
+const isAddReagentPopup = ref(false);
 const INITIAL_REAGENT_AMOUNT = 0;
-const reagents = getReagents(INITIAL_REAGENT_AMOUNT);
+let reagents = getReagents(INITIAL_REAGENT_AMOUNT);
 const tankChosen = ref<TankType>();
 
 // MODEL
@@ -344,6 +356,10 @@ watch(() => recipeModel.reagents, () => {
     recipeModel.name = reagent.text;
   }
 });
+
+watch(() => reagentsStore.reagents, () => {
+  reagents = getReagents(INITIAL_REAGENT_AMOUNT);
+}, { deep: true });
 
 function onInputReagent(value: InstanceType<typeof Reagent>[]) {
   if (value.length > recipeModel.reagents.length) {
