@@ -70,7 +70,10 @@
         на заполнение анкеты — ваш опыт и обратная связь помогут нам сделать приложение гораздо
         удобнее для ежедневных аквариумных задач. Каждый ответ важен для улучшения функциональности
         проекта! Анкета находится
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdJlrrrSV3-3nhZiDwYtaHagd90AiYlpjBionV19XPPuI6wDQ/formResponse">здесь</a>.
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdJlrrrSV3-3nhZiDwYtaHagd90AiYlpjBionV19XPPuI6wDQ/formResponse"
+          target="_blank"
+        >здесь</a>.
         <template #action="{ attrs }">
           <v-btn
             color="pink"
