@@ -25,7 +25,7 @@
                   <v-col>
                     <v-text-field
                       v-model="formula"
-                      label="Введите формулу"
+                      label="Введите формулу *"
                       variant="underlined"
                       :error="isFormulaError"
                       :error-messages="getFormulaErrorMessage(isFormulaError)"
@@ -65,32 +65,41 @@
                         v-if="isLiquid"
                         v-model="density"
                         label="Введите плотность"
-                        hint="Например, плотность воды равна 1"
+                        hint="Например, плотность воды равна 1 г/см3"
                         :rules="[required]"
                       />
                     </v-expand-transition>
                     <v-text-field
                       v-model="name"
-                      label="Введите название"
+                      label="Введите название *"
                       variant="underlined"
                       :rules="[required, isNameExist]"
                     />
-                    <v-text-field
-                      v-model="cation"
-                      label="Катион"
-                      variant="underlined"
-                    />
-                    <v-text-field
-                      v-model="anion"
-                      label="Анион"
-                      variant="underlined"
-                    />
-                    <v-select
-                      v-model="HCO3"
-                      :items="[1, 2]"
-                      label="Количество гидрокарбонатов"
-                      variant="underlined"
-                    />
+                    <!--                    <v-text-field-->
+                    <!--                      v-model="cation"-->
+                    <!--                      label="Катион"-->
+                    <!--                      variant="underlined"-->
+                    <!--                    />-->
+                    <!--                    <v-text-field-->
+                    <!--                      v-model="anion"-->
+                    <!--                      label="Анион"-->
+                    <!--                      variant="underlined"-->
+                    <!--                    />-->
+                    <v-expand-transition>
+                      <BaseNumberField
+                        v-if="!isLiquid"
+                        v-model="solubility"
+                        label="Введите значение растворимости"
+                        hint="Обычно растворимость берется для 25°С в литре воды"
+                        :rules="[required]"
+                      />
+                    </v-expand-transition>
+                    <!--                    <v-select-->
+                    <!--                      v-model="HCO3"-->
+                    <!--                      :items="[1, 2]"-->
+                    <!--                      label="Количество гидрокарбонатов"-->
+                    <!--                      variant="underlined"-->
+                    <!--                    />-->
                   </v-col>
                 </v-row>
               </v-form>
@@ -196,14 +205,15 @@ const reagentCompoundFormRef = ref();
 
 // COMMON
 const name = ref<string>();
-const isLiquid = ref<boolean>(false);
+const isLiquid = ref<boolean>();
 
 // FORMULA
 const formula = ref<string>();
 const density = ref<number>();
-const cation = ref<CationType>();
-const anion = ref<AnionType>();
-const HCO3 = ref<number>();
+// const cation = ref<CationType>();
+// const anion = ref<AnionType>();
+// const HCO3 = ref<number>();
+const solubility = ref<number>();
 const formulaModel = ref<InstanceType<typeof MolecularFormula>>();
 const isFormulaError = ref<boolean>(false);
 
@@ -262,9 +272,10 @@ async function onAddReagent() {
       name: name.value,
       isLiquid: isLiquid.value,
       density: density.value,
-      cation: { key: cation.value, number: 1 },
-      anion: { key: anion.value, number: 1 },
-      HCO3: HCO3.value,
+      solubility: solubility.value,
+      // cation: { key: cation.value, number: 1 },
+      // anion: { key: anion.value, number: 1 },
+      // HCO3: HCO3.value,
     });
     reagentFormulaFormRef.value.reset();
   } else if (tab.value === ReagentTypeName.COMPOUND) {

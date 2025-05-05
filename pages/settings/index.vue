@@ -103,7 +103,7 @@
           </div>
           <v-btn
             color="red"
-            :disabled="reagentsStore.reagents.length === 0"
+            :disabled="reagentsStore.isReagents"
             @click="reagentsStore.resetReagents()"
           >
             {{ t('buttons.remove') }}

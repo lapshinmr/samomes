@@ -22,30 +22,33 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 export const useReagentsStore = defineStore(
   'reagents',
   () => {
-    // TODO: переделать структуру на такую же как у всех формул и составов
-    const reagents = ref<OwnReagentType[]>([]);
+    const reagents = ref<Record<string, OwnReagentType>>({});
+
+    const isReagents = computed(() => {
+      return Object.entries(reagents.value).length > 0;
+    });
 
     const addReagent = (reagent: OwnReagentType) => {
-      reagents.value.push(reagent);
+      reagents.value[reagent.key] = reagent;
     };
 
-    const removeReagent = (index: number) => {
-      reagents.value.splice(index, 1);
+    const removeReagent = (reagentKey: string) => {
+      reagents.value = Object.fromEntries(
+        Object.entries(reagents.value).filter(([key]) => key !== reagentKey),
+      );
     };
 
-    const editReagent = ({ index, reagent }: {
-      index: number;
-      reagent: OwnReagentType;
-    }) => {
-      reagents.value[index] = reagent;
+    const editReagent = (reagent: OwnReagentType) => {
+      reagents.value[reagent.key] = reagent;
     };
 
     function resetReagents() {
-      reagents.value = [];
+      reagents.value = {};
     }
 
     return {
       reagents,
+      isReagents,
       addReagent,
       removeReagent,
       editReagent,

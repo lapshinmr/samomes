@@ -91,7 +91,7 @@ export default class Reagent {
       if (ions['S']) {
         ions['SO4'] = ions['S'] * getElementToOxideRatio('S');
       }
-      if (ions['C'] && FORMULAS[this.key].HCO3) {
+      if (ions['C'] && FORMULAS[this.key]?.HCO3) {
         ions['CO3'] = ions['C'] * getElementToOxideRatio('C');
       }
       if (ions['C'] && FORMULAS[this.key]?.anion?.key === 'C6H11O7' ) {
