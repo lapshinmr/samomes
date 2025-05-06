@@ -1787,6 +1787,28 @@ export default {
     },
     name: 'Кобальт сернокислый (II) 7-водный',
   },
+  'CoCl2(H2O)6': {
+    ions: {
+      Co: {
+        isNeeded: true,
+        count: 1,
+      },
+      Cl: {
+        isNeeded: true,
+        count: 2,
+      },
+      O: {
+        isNeeded: false,
+        count: 6,
+      },
+      H: {
+        isNeeded: false,
+        count: 12,
+      },
+    },
+    solubilityLimit: 500,
+    name: 'Кобальт хлористый 6-водный',
+  },
   'Ca(CH3COO)2': {
     ions: {
       Ca: {
