@@ -27,12 +27,15 @@
         {{ t('fertilizers.title') }}
       </LayoutPageTitle>
       <client-only>
-        <LayoutPageSubtitle
+        <LayoutPageSubtitle v-if="fertilizerModels.length === 0">
+          {{ t('fertilizers.noFertilizers') }}
+        </LayoutPageSubtitle>
+        <LayoutPageText
           v-if="fertilizerModels.length === 0"
           class="mb-16"
         >
-          {{ t('fertilizers.noFertilizers') }}
-        </LayoutPageSubtitle>
+          {{ t('fertilizers.hints.p3') }}
+        </LayoutPageText>
         <CommonTheCards
           v-else
           v-model="fertilizerModels"
@@ -55,7 +58,7 @@
               :to="`${appRoutes.fertilizers.path}${index}/`"
               class="mr-n4"
             >
-              {{ t('buttons.open') }}
+              {{ t('buttons.edit') }}
             </v-btn>
           </template>
         </CommonTheCards>
@@ -65,9 +68,6 @@
           </p>
           <p class="mb-2">
             {{ t('fertilizers.hints.p2') }}
-          </p>
-          <p class="mb-2">
-            {{ t('fertilizers.hints.p3') }}
           </p>
         </BaseGuide>
       </client-only>

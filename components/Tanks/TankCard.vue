@@ -4,26 +4,8 @@
     <div class="text-body-2">
       <div class="d-flex justify-space-between">
         <div>{{ t('tanks.page.volume') }}</div>
-        <div>{{ format(tank.volume || tank.volumeSize) }} {{ t('units.l') }}</div>
+        <div>{{ format(tank.volume) }} {{ t('units.l') }}</div>
       </div>
-      <template v-if="tank.length">
-        <div class="d-flex justify-space-between">
-          <div>{{ t('tanks.length') }}</div>
-          <div>{{ format(tank.length) }} {{ t('units.cm') }}</div>
-        </div>
-        <div class="d-flex justify-space-between">
-          <div>{{ t('tanks.width') }}</div>
-          <div>{{ format(tank.width) }} {{ t('units.cm') }}</div>
-        </div>
-        <div class="d-flex justify-space-between">
-          <div>{{ t('tanks.height') }}</div>
-          <div>{{ format(tank.height) }} {{ t('units.cm') }}</div>
-        </div>
-        <div class="d-flex justify-space-between">
-          <div>{{ t('tanks.glassThickness') }}</div>
-          <div>{{ tank.glassThickness }} {{ t('units.mm') }}</div>
-        </div>
-      </template>
       <div
         v-if="tank.filterVolume"
         class="d-flex justify-space-between"

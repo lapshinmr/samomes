@@ -56,6 +56,7 @@
         v-model="isSnackbar"
         :color="snackbarStore.color"
         :timeout="snackbarStore.timeout"
+        location="top"
       >
         <div>
           {{ snackbarStore.message }}

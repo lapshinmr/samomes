@@ -27,12 +27,15 @@
         {{ t('reminerals.title') }}
       </LayoutPageTitle>
       <client-only>
-        <LayoutPageSubtitle
+        <LayoutPageSubtitle v-if="remineralModels.length === 0">
+          {{ t('reminerals.noReminerals') }}
+        </LayoutPageSubtitle>
+        <LayoutPageText
           v-if="remineralModels.length === 0"
           class="mb-16"
         >
-          {{ t('reminerals.noReminerals') }}
-        </LayoutPageSubtitle>
+          {{ t('reminerals.hints.p3') }}
+        </LayoutPageText>
         <CommonTheCards
           v-else
           v-model="remineralModels"
@@ -62,7 +65,7 @@
               :to="`${appRoutes.reminerals.path}${index}/`"
               class="mr-n4"
             >
-              {{ t('buttons.open') }}
+              {{ t('buttons.edit') }}
             </v-btn>
           </template>
         </CommonTheCards>
@@ -72,9 +75,6 @@
           </p>
           <p class="mb-2">
             {{ t('reminerals.hints.p2') }}
-          </p>
-          <p class="mb-2">
-            {{ t('reminerals.hints.p3') }}
           </p>
         </BaseGuide>
       </client-only>

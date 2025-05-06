@@ -35,10 +35,6 @@ export type TankType = {
   name: string;
   volume: number;
   volumeTotal?: number;
-  length?: number;
-  width?: number;
-  height?: number;
-  glassThickness?: number;
   waterChangePercent?: number;
   waterChangeVolume?: number;
   filterVolume?: number;

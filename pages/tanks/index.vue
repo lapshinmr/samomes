@@ -27,12 +27,15 @@
         {{ t('tanks.title') }}
       </LayoutPageTitle>
       <client-only>
-        <LayoutPageSubtitle
+        <LayoutPageSubtitle v-if="tankModels.length === 0">
+          {{ t('tanks.noTanks') }}
+        </LayoutPageSubtitle>
+        <LayoutPageText
           v-if="tankModels.length === 0"
           class="mb-16"
         >
-          {{ t('tanks.noTanks') }}
-        </LayoutPageSubtitle>
+          {{ t('tanks.hints.p4') }}
+        </LayoutPageText>
         <CommonTheCards
           v-if="tankModels.length > 0"
           v-model="tankModels"
@@ -56,7 +59,7 @@
               :to="`${appRoutes.tanks.path}${index}/`"
               class="mr-n4"
             >
-              {{ t('buttons.open') }}
+              {{ t('buttons.edit') }}
             </v-btn>
           </template>
         </CommonTheCards>
@@ -69,9 +72,6 @@
           </p>
           <p class="mb-2">
             {{ t('tanks.hints.p3') }}
-          </p>
-          <p class="mb-2">
-            {{ t('tanks.hints.p4') }}
           </p>
         </BaseGuide>
       </client-only>

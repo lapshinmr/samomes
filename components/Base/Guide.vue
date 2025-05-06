@@ -22,6 +22,9 @@
     md="8"
     offset-md="2"
     class="text-grey"
+    :class="{
+      'd-none': smAndDown,
+    }"
   >
     <v-divider class="my-2 my-md-4" />
     <slot />
@@ -32,6 +35,8 @@
 defineOptions({
   name: 'Guide',
 });
+
+const { smAndDown } = useDisplay();
 </script>
 
 <style scoped>

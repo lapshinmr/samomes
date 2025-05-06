@@ -27,12 +27,15 @@
         {{ t('recipes.title') }}
       </LayoutPageTitle>
       <client-only>
-        <LayoutPageSubtitle
+        <LayoutPageSubtitle v-if="recipeModels.length === 0">
+          {{ t('recipes.noRecipes') }}
+        </LayoutPageSubtitle>
+        <LayoutPageText
           v-if="recipeModels.length === 0"
           class="mb-16"
         >
-          {{ t('recipes.noRecipes') }}
-        </LayoutPageSubtitle>
+          {{ t('recipes.hints.p4') }}
+        </LayoutPageText>
         <CommonTheCards
           v-else
           v-model="recipeModels"
@@ -62,7 +65,7 @@
               :to="`${appRoutes.recipes.path}${index}/`"
               class="mr-n4"
             >
-              {{ t('buttons.open') }}
+              {{ t('buttons.edit') }}
             </v-btn>
           </template>
         </CommonTheCards>
@@ -75,9 +78,6 @@
           </p>
           <p class="mb-2">
             {{ t('recipes.hints.p3') }}
-          </p>
-          <p class="mb-2">
-            {{ t('recipes.hints.p4') }}
           </p>
         </BaseGuide>
       </client-only>

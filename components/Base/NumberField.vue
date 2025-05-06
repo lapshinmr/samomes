@@ -23,7 +23,11 @@
     variant="underlined"
     @update:model-value="onInput"
     @click:append="$emit('click:append', $event)"
-  />
+  >
+    <template v-for="(_, name) in $slots" #[name]="slotData">
+      <slot :name="name" v-bind="slotData || {}" />
+    </template>
+  </v-text-field>
 </template>
 
 <script lang="ts" setup>
@@ -44,7 +48,11 @@ const emit = defineEmits(['update:modelValue', 'click:append']);
 function onInput(value: string | number) {
   let valueReplaced = value;
   if (typeof value === 'string') {
-    valueReplaced = +(value.replace(',', '.').replace(/[^0-9,.]/g, ''));
+    valueReplaced = +(
+      value
+        .replace(',', '.')
+        .replace(/[^0-9,.]/g, '')
+    );
   }
   emit('update:modelValue', valueReplaced);
 }

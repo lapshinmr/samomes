@@ -25,11 +25,16 @@
         color="primary"
         dark
         fab
-        icon="mdi-plus"
+        rounded="xl"
         position="fixed"
-        :style="`right: calc(${ isOpen ? '255px' : '0px' } + 16px); bottom: 16px; transition: 0.2s;`"
+        :style="style"
         @click="action"
-      />
+      >
+        <Icon
+          name="mdi:plus"
+        />
+        {{ t('buttons.add') }}
+      </v-btn>
     </template>
     <slot />
   </v-tooltip>
@@ -47,7 +52,20 @@ defineProps({
   },
 });
 
+const { t } = useI18n();
+const { smAndUp } = useDisplay();
+
 const { isOpen } = storeToRefs(useDrawerStore());
+
+const style = computed(() => {
+  let style = 'transition: 0.2s; z-index: 999;';
+  if (smAndUp.value) {
+    style += ` right: calc(${ isOpen ? '255px' : '0px' } + 16px); bottom: 128px;`;
+  } else {
+    style += ' right: 16px; bottom: 16px;';
+  }
+  return style;
+});
 </script>
 
 <style lang="sass" scoped>

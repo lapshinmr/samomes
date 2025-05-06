@@ -35,175 +35,109 @@
         offset-sm="2"
       >
         <v-form ref="tankFormRef">
-          <BaseDividerWithNote
-            :model-value="isStep1"
-            class="mb-6"
-            :button="!isStep1"
-            :dividers="false"
-            @update:model-value="toggleSection(STEPS.FIRST)"
+          <BaseDividerWithNote class="mt-10 mb-4">
+            {{ t('tanks.page.sectionTitle1') }}
+          </BaseDividerWithNote>
+          <v-text-field
+            v-model="tank.name"
+            variant="underlined"
+            :label="t('tanks.page.name')"
+            hide-details="auto"
+            clearable
+            :hint="t('tanks.page.nameHint')"
+            :rules="[required, isNameExist]"
+            class="mb-4"
+          />
+          <BaseNumberField
+            v-model="tank.volume"
+            variant="underlined"
+            :label="t('tanks.page.volume')"
+            :suffix="t('units.l')"
+            persistent-hint
+            :hint="t('tanks.page.volumeHint')"
+            :rules="[positiveOrEmpty]"
           >
-            <span class="text-h6">
-              {{ t('tanks.page.sectionTitle1') }}
-            </span>
-            <template #content>
-              <v-text-field
-                v-model="tank.name"
-                variant="underlined"
-                :label="t('tanks.page.name')"
-                hide-details="auto"
-                clearable
-                :hint="t('tanks.page.nameHint')"
-                :rules="[isNameExist]"
-                class="mb-4"
-              />
-              <BaseNumberField
-                v-model="tank.volume"
-                variant="underlined"
-                :label="t('tanks.page.volume')"
-                :suffix="t('units.l')"
-                hide-details="auto"
-                :hint="t('tanks.page.volumeHint')"
-                :rules="[positiveOrEmpty]"
-              />
-              <BaseDividerWithNote
-                v-model="isVolumeInfo"
-                class="mt-6"
-                button
+            <template #append>
+              <v-btn
+                color="primary"
+                size="small"
+                @click="isCalculateVolumePopup = true;"
               >
-                {{ t('tanks.page.volumeInfo.title') }}
-                <template #content>
-                  <div class="text-grey-darken-1 text-body-2">
-                    <p class="mb-2">
-                      {{ t('tanks.page.volumeInfo.p1') }}
-                    </p>
-                    <p class="mb-2">
-                      {{ t('tanks.page.volumeInfo.p2') }}
-                    </p>
-                    <p class="mb-2">
-                      {{ t('tanks.page.volumeInfo.p3') }}
-                    </p>
-                    <p class="mb-2">
-                      {{ t('tanks.page.volumeInfo.p4') }}
-                    </p>
-                  </div>
-                </template>
-              </BaseDividerWithNote>
-              <div class="d-flex justify-end">
-                <v-btn
-                  size="small"
-                  class="mt-4"
-                  @click="toggleSection(STEPS.SECOND)"
+                Рассчитать
+              </v-btn>
+            </template>
+            <template #message="{ message }">
+              <div class="d-flex align-center">
+                <span>
+                  {{ message }}
+                </span>
+                <v-tooltip
+                  location="bottom"
+                  max-width="400"
+                  open-on-click
+                  open-on-hover
                 >
-                  {{ t('tanks.page.volumeSkip') }}
-                </v-btn>
+                  <template #activator="{ props }">
+                    <Icon
+                      v-bind="props"
+                      name="mdi-help-circle-outline"
+                      size="14"
+                      class="ml-1"
+                    />
+                  </template>
+                  <p class="mb-2">
+                    {{ t('tanks.page.volumeInfo.p1') }}
+                  </p>
+                  <p class="mb-2">
+                    {{ t('tanks.page.volumeInfo.p2') }}
+                  </p>
+                  <p class="mb-2">
+                    {{ t('tanks.page.volumeInfo.p3') }}
+                  </p>
+                  <p class="mb-2">
+                    {{ t('tanks.page.volumeInfo.p4') }}
+                  </p>
+                </v-tooltip>
               </div>
             </template>
+          </BaseNumberField>
+          <BaseDividerWithNote class="mt-15 mb-4">
+            {{ t('tanks.page.sectionTitle3') }}
           </BaseDividerWithNote>
-          <BaseDividerWithNote
-            :model-value="isStep2"
-            class="my-6"
-            :button="!isStep2"
-            :dividers="false"
-            @update:model-value="toggleSection(1)"
-          >
-            <span class="text-h6">
-              {{ t('tanks.page.sectionTitle2') }}
-            </span>
-            <template #content>
-              <p class="mb-4 text-grey-darken-1">
-                {{ t('tanks.page.sectionDescription2') }}
-              </p>
-              <BaseNumberField
-                v-model="tank.length"
-                variant="underlined"
-                :label="t('tanks.length')"
-                :suffix="t('units.cm')"
-                hide-details="auto"
-                class="mb-2"
-                :rules="[positiveOrEmpty]"
-              />
-              <BaseNumberField
-                v-model="tank.width"
-                variant="underlined"
-                :label="t('tanks.width')"
-                :suffix="t('units.cm')"
-                hide-details="auto"
-                class="mb-2"
-                :rules="[positiveOrEmpty]"
-              />
-              <BaseNumberField
-                v-model="tank.height"
-                variant="underlined"
-                :label="t('tanks.height')"
-                :suffix="t('units.cm')"
-                :hint="t('tanks.page.heightHint')"
-                persistent-hint
-                class="mb-2"
-                :rules="[positiveOrEmpty]"
-              />
-              <BaseNumberField
-                v-model="tank.glassThickness"
-                variant="underlined"
-                :label="t('tanks.glassThickness')"
-                :suffix="t('units.mm')"
-                hide-details="auto"
-                class="mb-4"
-                :rules="[positiveOrEmpty]"
-              />
-              <div class="font-weight-medium">
-                {{ t('tanks.page.volumeCount') }}: {{ tankModel.volumeSize.toFixed(2) }} {{ t('units.l') }}
-              </div>
-            </template>
-          </BaseDividerWithNote>
-          <BaseDividerWithNote
-            :model-value="isStep3"
-            class="my-6"
-            :button="!isStep3"
-            :dividers="false"
-            @update:model-value="toggleSection(STEPS.THIRD)"
-          >
-            <span class="text-h6">
-              {{ t('tanks.page.sectionTitle3') }}
-            </span>
-            <template #content>
-              <p class="mb-4">
-                {{ t('tanks.page.sectionDescription3') }}
-              </p>
-              <BaseNumberField
-                v-model="tank.filterVolume"
-                variant="underlined"
-                :label="t('tanks.filterVolume')"
-                :suffix="t('units.l')"
-                :hint="t('tanks.page.filterVolumeHint')"
-                hide-details="auto"
-                :rules="[positiveOrEmpty]"
-              />
-              <div class="d-flex mb-4">
-                <BaseNumberField
-                  :model-value="tank.waterChangePercent"
-                  variant="underlined"
-                  :label="t('tanks.page.waterChangePercent')"
-                  suffix="%"
-                  hide-details="auto"
-                  :rules="[positiveOrEmpty]"
-                  @update:model-value="onInputWaterChangePercent"
-                />
-                <BaseNumberField
-                  :model-value="tank.waterChangeVolume"
-                  variant="underlined"
-                  :label="t('tanks.waterChangeVolume')"
-                  :suffix="t('units.l')"
-                  hide-details="auto"
-                  class="ml-2"
-                  :rules="[positiveOrEmpty]"
-                  @update:model-value="onInputWaterChangeVolume"
-                />
-              </div>
-              <div class="font-weight-medium">
-                {{ t('tanks.page.volumeWithFilter') }}: {{ tankModel.volumeTotal.toFixed(2) }} {{ t('units.l') }}
-              </div>
-            </template>
-          </BaseDividerWithNote>
+          <BaseNumberField
+            v-model="tank.filterVolume"
+            variant="underlined"
+            :label="t('tanks.filterVolume')"
+            :suffix="t('units.l')"
+            :hint="t('tanks.page.filterVolumeHint')"
+            hide-details="auto"
+            :rules="[positiveOrEmpty]"
+          />
+          <div class="d-flex mb-4">
+            <BaseNumberField
+              :model-value="tank.waterChangePercent"
+              variant="underlined"
+              :label="t('tanks.page.waterChangePercent')"
+              suffix="%"
+              hide-details="auto"
+              :rules="[positiveOrEmpty]"
+              @update:model-value="onInputWaterChangePercent"
+            />
+            <BaseNumberField
+              :model-value="tank.waterChangeVolume"
+              variant="underlined"
+              :label="t('tanks.waterChangeVolume')"
+              :suffix="t('units.l')"
+              hide-details="auto"
+              class="ml-2"
+              :rules="[positiveOrEmpty]"
+              @update:model-value="onInputWaterChangeVolume"
+            />
+          </div>
+          <div class="d-flex justify-space-between justify-sm-start font-weight-medium mt-10">
+            <span>{{ t('tanks.page.volumeWithFilter') }}:</span>
+            <span class="ml-4">{{ format(tankModel.volumeTotal, 4) }} {{ t('units.l') }}</span>
+          </div>
           <div class="d-flex justify-space-between mt-10">
             <v-btn
               v-if="isEdit"
@@ -223,6 +157,10 @@
         </v-form>
       </v-col>
     </v-row>
+    <PopupsTheCalculateTankVolumePopup
+      v-model="isCalculateVolumePopup"
+      @save="onVolumeSave"
+    />
   </v-container>
 </template>
 
@@ -230,7 +168,7 @@
 import type { TankType } from '~/utils/types/types';
 
 const { t } = useI18n();
-const { positiveOrEmpty } = useValidation();
+const { required, positiveOrEmpty } = useValidation();
 const { appRoutes } = useAppRoutes();
 const route = useRoute();
 const router = useRouter();
@@ -238,22 +176,12 @@ const tanksStore = useTanksStore();
 const snackbarStore = useSnackbarStore();
 const tankFormRef = ref(null);
 
-enum STEPS {
-  FIRST = 0,
-  SECOND = 1,
-  THIRD = 2,
-}
-const isStep1 = ref(true);
-const isStep2 = ref(false);
-const isStep3 = ref(false);
 const isVolumeInfo = ref(false);
+const isCalculateVolumePopup = ref(false);
+
 const tank = ref<TankType>({
   name: null,
   volume: null,
-  length: null,
-  width: null,
-  height: null,
-  glassThickness: null,
   waterChangePercent: null,
   waterChangeVolume: null,
   filterVolume: null,
@@ -284,20 +212,8 @@ onMounted(async () => {
   }
 });
 
-function toggleSection(step: STEPS) {
-  if (step === 0) {
-    isStep1.value = true;
-    isStep2.value = false;
-    isStep3.value = false;
-  } else if (step === 1) {
-    isStep1.value = false;
-    isStep2.value = true;
-    isStep3.value = false;
-  } else if (step === 2) {
-    isStep1.value = false;
-    isStep2.value = false;
-    isStep3.value = true;
-  }
+function onVolumeSave(value: number) {
+  tank.value.volume = value;
 }
 
 function onInputWaterChangePercent(value: number) {

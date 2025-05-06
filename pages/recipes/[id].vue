@@ -139,7 +139,20 @@
                   :error="checkSolubilityError(reagent)"
                   :error-messages="getSolubilityErrorMessage(reagent)"
                   @update:model-value="onInputReagentAmount($event, reagent)"
-                />
+                >
+                  <template
+                    v-if="reagent.key === 'C10H14N2Na2O8(H2O)2'"
+                    #append
+                  >
+                    <v-btn
+                      color="primary"
+                      size="small"
+                      @click="isAddChelatorPopup = true;"
+                    >
+                      Рассчитать
+                    </v-btn>
+                  </template>
+                </BaseNumberField>
                 <div
                   v-if="reagent.isLiquid && reagent.key !== 'H2O' && reagent.type !== ReagentTypeName.COMPOUND"
                   style="width: 100px;"
@@ -152,13 +165,6 @@
                     hide-details="auto"
                     @update:model-value="onInputReagentDilution($event, reagent)"
                   />
-                </div>
-                <div
-                  v-if="reagent.key === 'C10H14N2Na2O8(H2O)2'"
-                  class="d-flex justify-end text-blue cursor-pointer ml-2"
-                  @click="isAddChelatorPopup = true;"
-                >
-                  Рассчитать
                 </div>
               </div>
               <v-expand-transition>
@@ -186,18 +192,27 @@
               button
               class="mt-10 mb-4"
             >
-              {{ t('recipes.page.unitConcTitle') }}
-              <v-tooltip
-                location="bottom"
-                max-width="400"
-              >
-                <template #activator="{ props }">
-                  <v-icon v-bind="props">
-                    mdi-help-circle-outline
-                  </v-icon>
-                </template>
-                {{ t('recipes.page.unitConcDescription') }}
-              </v-tooltip>
+              <div class="d-inline-flex align-center">
+                <span>
+                  {{ t('recipes.page.unitConcTitle') }}
+                </span>
+                <v-tooltip
+                  location="bottom"
+                  max-width="400"
+                  open-on-click
+                  open-on-hover
+                >
+                  <template #activator="{ props }">
+                    <Icon
+                      name="mdi-help-circle-outline"
+                      size="18"
+                      class="ml-1"
+                      v-bind="props"
+                    />
+                  </template>
+                  {{ t('recipes.page.unitConcDescription') }}
+                </v-tooltip>
+              </div>
             </BaseDividerWithNote>
           </div>
           <v-expand-transition>

@@ -23,15 +23,15 @@
     sm="8"
     offset-sm="2"
   >
-    <h1 class="text-h5 text-sm-h4 mt-md-4 d-flex justify-space-between mt-4 my-sm-6 mt-sm-0">
+    <p class="text-sm-h6 font-weight-regular">
       <slot />
-    </h1>
+    </p>
   </v-col>
 </template>
 
 <script setup>
 defineOptions({
-  name: 'PageTitle',
+  name: 'PageSubtitle',
 });
 </script>
 
