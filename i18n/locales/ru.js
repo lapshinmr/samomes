@@ -81,6 +81,7 @@ export default {
     remove: 'Удалить',
     copy: 'Скопировать',
     share: 'Поделиться',
+    reset: 'Сброс',
   },
   tanks: {
     title: 'Аквариумы',
@@ -293,7 +294,7 @@ export default {
       regime3: 'Комбинированная подача',
       daysTotal: 'Период',
       waterChange: 'Введите объем подмены',
-      waterChangeHint: 'Это нужно для подсчета дозировки в подмене',
+      waterChangeHint: 'Объем необходим для расчета дозировки в подмене',
       doseTotal: 'Весь объем удобрений',
       waterChangeTitle: 'Подмена',
       everyDay: 'Ежедневно',

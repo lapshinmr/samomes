@@ -243,6 +243,10 @@ export const FORMULAS = {
     solubility: 263,
     name: 'Железный купорос 7-водный',
   },
+  FeCl3: {
+    solubility: 919,
+    name: 'Железа трихлорид',
+  },
   C12H22FeO14: {
     name: 'Железа глюконат',
   },
@@ -279,15 +283,6 @@ export const FORMULAS = {
   'C4H8MnN2O4(H2O)2': {
     name: 'Марганца глицинат 2-водный',
   },
-  // EDTA
-  'C10H14N2Na2O8': {
-    solubility: 100,
-    name: 'Хелатор EDTA-Na2',
-  },
-  'C10H14N2Na2O8(H2O)2': {
-    solubility: 100,
-    name: 'Трилон Б (хелатор EDTA-Na2)',
-  },
   'C10H12N2Na2O8Ca(H2O)2': {
     solubility: 700,
     name: 'ЭДТА Кальций 10% 2-водный',
@@ -312,7 +307,6 @@ export const FORMULAS = {
     solubility: 250,
     name: 'Железо ЭДТА 13% 3-водный',
   },
-  // DTPA
   C14H18N3O10Na2Fe: {
     solubility: 110,
     name: 'Железа DTPA 11%',
@@ -388,5 +382,10 @@ export const FORMULAS = {
   C3H6O3: {
     density: 1.25,
     name: 'Молочная кислота',
+  },
+  // CHELATORS
+  'C10H14N2Na2O8(H2O)2': {
+    solubility: 100,
+    name: 'Трилон Б (хелатор EDTA-Na2)',
   },
 } satisfies Record<string, FormulaObjectType>;

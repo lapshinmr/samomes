@@ -38,35 +38,30 @@ export const ROUTES = {
     key: 'dosing',
     icon: 'game-icons:settings-knobs',
   },
-  // remineralization: {
-  //   key: 'remineralization',
-  //   path: '/remineralization/',
-  //   icon: 'game-icons:full-metal-bucket-handle',
-  // },
-  // schedules: {
-  //   key: 'schedules',
-  //   path: '/schedules/',
-  //   icon: 'game-icons:toggles',
-  // },
-  // dynamics: {
-  //   key: 'dynamics',
-  //   path: '/dynamics/',
-  //   icon: 'game-icons:chart',
-  // },
-  // articles: {
-  //   key: 'articles',
-  //   path: '/articles/',
-  //   icon: 'game-icons:bookmarklet',
-  // },
+  remineralization: {
+    key: 'remineralization',
+    icon: 'game-icons:full-metal-bucket-handle',
+  },
+  schedules: {
+    key: 'schedules',
+    icon: 'game-icons:toggles',
+  },
+  dynamics: {
+    key: 'dynamics',
+    icon: 'game-icons:chart',
+  },
+  articles: {
+    key: 'articles',
+    icon: 'game-icons:bookmarklet',
+  },
   settings: {
     key: 'settings',
     icon: 'game-icons:cog',
   },
-  // about: {
-  //   key: 'about',
-  //   path: '/about/',
-  //   icon: 'mdi:info-outline',
-  // },
+  about: {
+    key: 'about',
+    icon: 'mdi:info-outline',
+  },
 } satisfies {
   [prop: string]: {
     key: string;

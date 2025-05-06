@@ -19,153 +19,140 @@
 
         <v-tabs-window v-model="tab">
           <v-tabs-window-item :value="ReagentTypeName.FORMULA">
-            <v-container fluid>
-              <v-form ref="reagentFormulaFormRef">
-                <v-row>
-                  <v-col>
-                    <v-text-field
-                      v-model="formula"
-                      label="Введите формулу *"
-                      variant="underlined"
-                      :error="isFormulaError"
-                      :error-messages="getFormulaErrorMessage(isFormulaError)"
-                      :rules="[required, isFormulaExist]"
-                      hide-details="auto"
-                    />
-                    <div
-                      v-if="formulaModel !== undefined"
-                      class="mt-4"
-                    >
-                      <span
-                        v-for="[ion, fraction] in Object.entries(formulaModel.fraction)"
-                        :key="ion"
-                      >
-                        {{ ion }}: {{ format(fraction * 100) }}%
-                      </span>
-                    </div>
-                    <v-radio-group
-                      v-model="isLiquid"
-                      inline
-                      color="primary"
-                      class="mt-3 ml-n2"
-                      hide-details="auto"
-                      :rules="[required]"
-                    >
-                      <v-radio
-                        label="Порошок"
-                        :value="false"
-                      />
-                      <v-radio
-                        label="Жидкость"
-                        :value="true"
-                      />
-                    </v-radio-group>
-                    <v-expand-transition>
-                      <BaseNumberField
-                        v-if="isLiquid"
-                        v-model="density"
-                        label="Введите плотность"
-                        hint="Например, плотность воды равна 1 г/см3"
-                        :rules="[required]"
-                      />
-                    </v-expand-transition>
-                    <v-text-field
-                      v-model="name"
-                      label="Введите название *"
-                      variant="underlined"
-                      :rules="[required, isNameExist]"
-                    />
-                    <!--                    <v-text-field-->
-                    <!--                      v-model="cation"-->
-                    <!--                      label="Катион"-->
-                    <!--                      variant="underlined"-->
-                    <!--                    />-->
-                    <!--                    <v-text-field-->
-                    <!--                      v-model="anion"-->
-                    <!--                      label="Анион"-->
-                    <!--                      variant="underlined"-->
-                    <!--                    />-->
-                    <v-expand-transition>
-                      <BaseNumberField
-                        v-if="!isLiquid"
-                        v-model="solubility"
-                        label="Введите значение растворимости"
-                        hint="Обычно растворимость берется для 25°С в литре воды"
-                        :rules="[required]"
-                      />
-                    </v-expand-transition>
-                    <!--                    <v-select-->
-                    <!--                      v-model="HCO3"-->
-                    <!--                      :items="[1, 2]"-->
-                    <!--                      label="Количество гидрокарбонатов"-->
-                    <!--                      variant="underlined"-->
-                    <!--                    />-->
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-container>
+            <v-form ref="reagentFormulaFormRef">
+              <v-text-field
+                v-model="formula"
+                label="Введите формулу *"
+                variant="underlined"
+                :error="isFormulaError"
+                :error-messages="getFormulaErrorMessage(isFormulaError)"
+                :rules="[required, isFormulaExist]"
+                hide-details="auto"
+              />
+              <div
+                v-if="formulaModel !== undefined"
+                class="mt-4"
+              >
+                <span
+                  v-for="[ion, fraction] in Object.entries(formulaModel.fraction)"
+                  :key="ion"
+                >
+                  {{ ion }}: {{ format(fraction * 100) }}%
+                </span>
+              </div>
+              <v-radio-group
+                v-model="isLiquid"
+                inline
+                color="primary"
+                class="mt-3 ml-n2"
+                hide-details="auto"
+                :rules="[required]"
+              >
+                <v-radio
+                  label="Порошок"
+                  :value="false"
+                />
+                <v-radio
+                  label="Жидкость"
+                  :value="true"
+                />
+              </v-radio-group>
+              <v-expand-transition>
+                <BaseNumberField
+                  v-if="isLiquid"
+                  v-model="density"
+                  label="Введите плотность"
+                  hint="Например, плотность воды равна 1 г/см3"
+                  :rules="[required]"
+                />
+              </v-expand-transition>
+              <v-text-field
+                v-model="name"
+                label="Введите название *"
+                variant="underlined"
+                :rules="[required, isNameExist]"
+              />
+              <!--                    <v-text-field-->
+              <!--                      v-model="cation"-->
+              <!--                      label="Катион"-->
+              <!--                      variant="underlined"-->
+              <!--                    />-->
+              <!--                    <v-text-field-->
+              <!--                      v-model="anion"-->
+              <!--                      label="Анион"-->
+              <!--                      variant="underlined"-->
+              <!--                    />-->
+              <v-expand-transition>
+                <BaseNumberField
+                  v-if="!isLiquid"
+                  v-model="solubility"
+                  label="Введите значение растворимости"
+                  hint="Обычно растворимость берется для 25°С в литре воды"
+                />
+              </v-expand-transition>
+              <!--                    <v-select-->
+              <!--                      v-model="HCO3"-->
+              <!--                      :items="[1, 2]"-->
+              <!--                      label="Количество гидрокарбонатов"-->
+              <!--                      variant="underlined"-->
+              <!--                    />-->
+            </v-form>
           </v-tabs-window-item>
           <v-tabs-window-item :value="ReagentTypeName.COMPOUND">
-            <v-container fluid>
-              <v-form ref="reagentCompoundFormRef">
-                <v-row>
-                  <v-col>
-                    <v-text-field
-                      v-model="name"
-                      label="Введите название"
-                      variant="underlined"
-                      :rules="[required, isNameExist]"
-                    />
-                    <v-radio-group
-                      v-model="isLiquid"
-                      inline
-                      color="primary"
-                      class="mt-3 ml-n2"
-                      hide-details="auto"
-                      :rules="[required]"
-                    >
-                      <v-radio
-                        label="Порошок"
-                        :value="false"
-                      />
-                      <v-radio
-                        label="Жидкость"
-                        :value="true"
-                      />
-                    </v-radio-group>
-                    <v-combobox
-                      :model-value="ionsChosen"
-                      :items="allIons"
-                      item-title="ion"
-                      variant="underlined"
-                      :label="t('fertilizers.page.ionsInput')"
-                      :hint="t('fertilizers.page.ionsInputHint')"
-                      persistent-hint
-                      hide-details="auto"
-                      multiple
-                      chips
-                      closable-chips
-                      :rules="[required]"
-                      class="mb-4"
-                      @update:model-value="onInputIon"
-                    />
-                    <BaseNumberField
-                      v-for="item in ionsChosen"
-                      :key="item.ion"
-                      v-model="item.conc"
-                      :label="item.ion"
-                      suffix="%"
-                      variant="underlined"
-                      persistent-placeholder
-                      placeholder="0"
-                      hide-details="auto"
-                      :rules="[required, positive]"
-                      class="mb-2"
-                    />
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-container>
+            <v-form ref="reagentCompoundFormRef">
+              <v-text-field
+                v-model="name"
+                label="Введите название"
+                variant="underlined"
+                :rules="[required, isNameExist]"
+              />
+              <v-radio-group
+                v-model="isLiquid"
+                inline
+                color="primary"
+                class="mt-3 ml-n2"
+                hide-details="auto"
+                :rules="[required]"
+              >
+                <v-radio
+                  label="Порошок"
+                  :value="false"
+                />
+                <v-radio
+                  label="Жидкость"
+                  :value="true"
+                />
+              </v-radio-group>
+              <v-combobox
+                :model-value="ionsChosen"
+                :items="allIons"
+                item-title="ion"
+                variant="underlined"
+                :label="t('fertilizers.page.ionsInput')"
+                :hint="t('fertilizers.page.ionsInputHint')"
+                persistent-hint
+                hide-details="auto"
+                multiple
+                chips
+                closable-chips
+                :rules="[required]"
+                class="mb-4"
+                @update:model-value="onInputIon"
+              />
+              <BaseNumberField
+                v-for="item in ionsChosen"
+                :key="item.ion"
+                v-model="item.conc"
+                :label="item.ion"
+                suffix="%"
+                variant="underlined"
+                persistent-placeholder
+                placeholder="0"
+                hide-details="auto"
+                :rules="[required, positive]"
+                class="mb-2"
+              />
+            </v-form>
           </v-tabs-window-item>
         </v-tabs-window>
       </v-card-text>
@@ -193,7 +180,7 @@
 <script setup lang="ts">
 const model = defineModel<boolean>();
 
-const { required, positive } = useValidation();
+const { required, positive, positiveOrEmpty } = useValidation();
 const { checkName } = useReagents();
 const { t } = useI18n();
 const reagentsStore = useReagentsStore();

@@ -81,6 +81,7 @@ export default {
     remove: 'Remove',
     copy: 'Copy',
     share: 'Share',
+    reset: 'Reset',
   },
   tanks: {
     title: 'Tanks',
@@ -293,7 +294,7 @@ export default {
       regime3: 'Combined feeding',
       daysTotal: 'Period',
       waterChange: 'Enter water change volume',
-      waterChangeHint: 'This is needed to calculate dosage in water change',
+      waterChangeHint: 'Volume is required to calculate dosage in water change',
       doseTotal: 'Total fertilizer volume',
       waterChangeTitle: 'Water change',
       everyDay: 'Daily',

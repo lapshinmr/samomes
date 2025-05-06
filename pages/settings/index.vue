@@ -275,7 +275,7 @@ function removeAll() {
   fertilizersStore.resetFertilizers();
   remineralsStore.resetReminerals();
   dosingStore.resetDosing();
-};
+}
 </script>
 
 <style lang="sass" scoped>

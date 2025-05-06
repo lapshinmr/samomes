@@ -57,6 +57,7 @@
           hide-details="auto"
           class="w-40"
           :label="t('dosing.dosesTable.daysTotal')"
+          :rules="[positive]"
         />
       </div>
       <div
@@ -92,12 +93,15 @@
           :hint="t('dosing.dosesTable.waterChangeHint')"
           persistent-hint
           class="pr-2 w-60"
+          validate-on="eager"
+          :rules="[required, positive]"
         />
         <BaseNumberField
           v-model="daysTotal"
           hide-details="auto"
           class="w-40"
           :label="t('dosing.dosesTable.daysTotal')"
+          :rules="[positive]"
         />
       </div>
       <div class="d-flex mt-4">
@@ -119,6 +123,7 @@
           :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
           hide-details="auto"
           class="pr-2"
+          :disabled="!waterChangeVolume"
           @update:model-value="dosingStore.updateAmount($event, index)"
         />
       </div>
@@ -131,12 +136,15 @@
           :hint="t('dosing.dosesTable.waterChangeHint')"
           persistent-hint
           class="pr-2 w-60"
+          validate-on="eager"
+          :rules="[required, positive]"
         />
         <BaseNumberField
           v-model="daysTotal"
           hide-details="auto"
           :label="t('dosing.dosesTable.daysTotal')"
           class="w-40"
+          :rules="[positive]"
         />
       </div>
       <div class="d-flex">
@@ -168,6 +176,7 @@
           :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
           hide-details="auto"
           class="pr-2 w-60"
+          :disabled="!waterChangeVolume"
           @update:model-value="dosingStore.updateAmountWaterChange($event, index)"
         />
         <div class="d-flex w-40">
@@ -195,6 +204,7 @@
 import { FertilizersRegime } from '~/utils/types/types';
 
 const { t } = useI18n();
+const { required, positive } = useValidation();
 
 const mode = [
   { text: t('dosing.dosesTable.everyDay'), value: false },

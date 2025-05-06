@@ -81,7 +81,7 @@
             class="d-flex justify-end text-blue cursor-pointer"
             @click="isAddReagentPopup = true;"
           >
-            + добавить реагент
+            Нет нужного реагента?
           </div>
           <v-combobox
             v-model="recipeExampleChosen"
@@ -99,7 +99,7 @@
             <BaseDividerWithNote
               v-model="isReagentsInfo"
               button
-              class="mt-6"
+              class="mt-10 mb-4"
             >
               {{ t('common.reagents') }}
             </BaseDividerWithNote>
@@ -128,14 +128,13 @@
               <div
                 v-for="reagent in recipeModel.reagents"
                 :key="reagent.key"
-                class="d-flex"
+                class="d-flex align-center mb-2"
               >
                 <BaseNumberField
                   :model-value="reagent.amount"
                   :label="reagent.text"
                   :suffix="reagent.isLiquid ? t('units.ml') : t('units.g')"
                   hide-details="auto"
-                  class="mb-2 mb-sm-4"
                   :rules="[required, positive]"
                   :error="checkSolubilityError(reagent)"
                   :error-messages="getSolubilityErrorMessage(reagent)"
@@ -154,11 +153,18 @@
                     @update:model-value="onInputReagentDilution($event, reagent)"
                   />
                 </div>
+                <div
+                  v-if="reagent.key === 'C10H14N2Na2O8(H2O)2'"
+                  class="d-flex justify-end text-blue cursor-pointer ml-2"
+                  @click="isAddChelatorPopup = true;"
+                >
+                  Рассчитать
+                </div>
               </div>
               <v-expand-transition>
                 <div
                   v-if="recipeModel.isSeveralLiquidReagents"
-                  class="mt-4"
+                  class="mt-8"
                 >
                   <BaseNumberField
                     :model-value="recipeModel.totalVolume"
@@ -167,6 +173,7 @@
                     variant="outlined"
                     :hint="recipeModel.isSeveralLiquidReagents ? t('recipes.page.totalVolumeHint') : ''"
                     persistent-hint="auto"
+                    class="mt-4"
                     @update:model-value="onInputTotalVolume"
                   />
                 </div>
@@ -177,7 +184,7 @@
             <BaseDividerWithNote
               v-model="isUnitConc"
               button
-              class="my-8"
+              class="mt-10 mb-4"
             >
               {{ t('recipes.page.unitConcTitle') }}
               <v-tooltip
@@ -314,6 +321,12 @@
     <PopupsTheAddReagentPopup
       v-model="isAddReagentPopup"
     />
+
+    <PopupsTheAddChelatorPopup
+      v-model="isAddChelatorPopup"
+      :recipe="recipeModel"
+      @save="onSetChelatorAmount"
+    />
   </v-container>
 </template>
 
@@ -332,7 +345,6 @@ const recipesStore = useRecipesStore();
 const tanksStore = useTanksStore();
 
 const { getReagents } = useReagents();
-const isAddReagentPopup = ref(false);
 const INITIAL_REAGENT_AMOUNT = 0;
 let reagents = getReagents(INITIAL_REAGENT_AMOUNT);
 const tankChosen = ref<TankType>();
@@ -448,6 +460,9 @@ const isCopy = computed(() => route.query.copy !== undefined);
 const isShare = computed(() => route.query.share !== undefined);
 const recipeIndex = computed(() => +route.params.id);
 
+const isAddReagentPopup = ref(false);
+const isAddChelatorPopup = ref(false);
+
 // Validation
 const isExist = computed(() => {
   return checkName(recipeModel.name) && !isEdit.value;
@@ -533,6 +548,10 @@ async function onRemoveRecipe() {
 async function onCopyRecipe() {
   snackbarStore.show(t('recipes.page.message.recipeCopied'));
   await router.push(`${appRoutes.value.recipes.path}create/?copy=${recipeIndex.value}`);
+}
+
+async function onSetChelatorAmount(value: number) {
+  recipeModel.setReagentAmount(value, 'C10H14N2Na2O8(H2O)2');
 }
 
 definePageMeta({

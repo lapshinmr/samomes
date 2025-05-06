@@ -3,6 +3,12 @@
     <v-row>
       <LayoutPageTitle>
         {{ t('dosing.title') }}
+        <v-btn
+          color="primary"
+          @click="onReset"
+        >
+          {{ t('buttons.reset') }}
+        </v-btn>
       </LayoutPageTitle>
 
       <v-col
@@ -151,6 +157,10 @@ function onInputFertilizer(value: InstanceType<typeof Dose>[]) {
     }
   }
   dosingStore.setDoses(value);
+}
+
+function onReset() {
+  dosingStore.resetDosing();
 }
 
 const isDefaultFertilizers = computed({
