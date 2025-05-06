@@ -94,19 +94,19 @@
             :disabled="tanksStore.tanks.length === 0"
             @click="tanksStore.resetTanks()"
           >
-            {{ t('buttons.remove') }}
+            {{ t('buttons.reset') }}
           </v-btn>
         </div>
         <div class="d-flex justify-space-between mb-3">
           <div>
-            {{ t('common.reagents') }} ({{ reagentsStore.reagents.length }})
+            {{ t('common.reagents') }} ({{ reagentsStore.reagentsTotal }})
           </div>
           <v-btn
             color="red"
-            :disabled="reagentsStore.isReagents"
+            :disabled="!reagentsStore.isReagents"
             @click="reagentsStore.resetReagents()"
           >
-            {{ t('buttons.remove') }}
+            {{ t('buttons.reset') }}
           </v-btn>
         </div>
         <div class="d-flex justify-space-between mb-3">
@@ -118,7 +118,7 @@
             :disabled="recipesStore.fertilizerRecipes.length === 0"
             @click="recipesStore.resetRecipes()"
           >
-            {{ t('buttons.remove') }}
+            {{ t('buttons.reset') }}
           </v-btn>
         </div>
         <div class="d-flex justify-space-between mb-3">
@@ -130,7 +130,7 @@
             :disabled="fertilizersStore.fertilizers.length === 0"
             @click="fertilizersStore.resetFertilizers()"
           >
-            {{ t('buttons.remove') }}
+            {{ t('buttons.reset') }}
           </v-btn>
         </div>
         <!--        <div class="d-flex justify-space-between mb-3">-->
@@ -154,7 +154,7 @@
             :disabled="remineralsStore.resetReminerals.length === 0"
             @click="remineralsStore.resetReminerals()"
           >
-            {{ t('buttons.remove') }}
+            {{ t('buttons.reset') }}
           </v-btn>
         </div>
         <div class="d-flex justify-space-between mb-3">
@@ -165,7 +165,7 @@
             color="red"
             @click="dosingStore.resetDosing()"
           >
-            {{ t('buttons.remove') }}
+            {{ t('buttons.reset') }}
           </v-btn>
         </div>
         <div class="d-flex justify-space-between">
@@ -174,9 +174,9 @@
           </div>
           <v-btn
             color="red"
-            @click="removeAll"
+            @click="resetAll"
           >
-            {{ t('buttons.remove') }}
+            {{ t('buttons.reset') }}
           </v-btn>
         </div>
       </v-col>
@@ -268,7 +268,7 @@ const dosingStore = useDosingStore();
 //   }
 // },
 
-function removeAll() {
+function resetAll() {
   tanksStore.resetTanks();
   reagentsStore.resetReagents();
   recipesStore.resetRecipes();

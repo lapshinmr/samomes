@@ -28,6 +28,10 @@ export const useReagentsStore = defineStore(
       return Object.entries(reagents.value).length > 0;
     });
 
+    const reagentsTotal = computed(() => {
+      return Object.entries(reagents.value).length;
+    });
+
     const addReagent = (reagent: OwnReagentType) => {
       reagents.value[reagent.key] = reagent;
     };
@@ -49,6 +53,7 @@ export const useReagentsStore = defineStore(
     return {
       reagents,
       isReagents,
+      reagentsTotal,
       addReagent,
       removeReagent,
       editReagent,
