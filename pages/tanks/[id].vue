@@ -69,7 +69,7 @@
             :suffix="t('units.l')"
             persistent-hint
             :hint="t('tanks.page.volumeHint')"
-            :rules="[required, positiveOrEmpty]"
+            :rules="[required]"
           >
             <template #append>
               <v-btn
@@ -125,7 +125,7 @@
             :suffix="t('units.l')"
             :hint="t('tanks.page.filterVolumeHint')"
             hide-details="auto"
-            :rules="[positiveOrEmpty]"
+            :rules="[positiveOrZero]"
           />
           <div class="d-flex mb-4">
             <BaseNumberField
@@ -134,7 +134,7 @@
               :label="t('tanks.page.waterChangePercent')"
               suffix="%"
               hide-details="auto"
-              :rules="[positiveOrEmpty]"
+              :rules="[positiveOrZero]"
               @update:model-value="onInputWaterChangePercent"
             />
             <BaseNumberField
@@ -144,7 +144,7 @@
               :suffix="t('units.l')"
               hide-details="auto"
               class="ml-2"
-              :rules="[positiveOrEmpty]"
+              :rules="[positiveOrZero]"
               @update:model-value="onInputWaterChangeVolume"
             />
           </div>
@@ -182,7 +182,7 @@
 import type { TankType } from '~/utils/types/types';
 
 const { t } = useI18n();
-const { required, positiveOrEmpty } = useValidation();
+const { required, positiveOrZero } = useValidation();
 const { appRoutes } = useAppRoutes();
 const route = useRoute();
 const router = useRouter();
