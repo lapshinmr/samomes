@@ -20,6 +20,20 @@
 <template>
   <v-container class="mb-12">
     <v-row>
+      <v-col
+        sm="8"
+        offset-sm="2"
+        align="end"
+      >
+        <v-btn
+          href="https://t.me/samomes_calculator_chat"
+          target="_blank"
+          color="warning"
+          size="small"
+        >
+          Сообщить о проблеме
+        </v-btn>
+      </v-col>
       <LayoutBackButton :path="appRoutes.recipes.path">
         <v-btn
           v-if="!isCreate && !isShare"
@@ -68,12 +82,11 @@
             variant="underlined"
             multiple
             :label="t('common.reagents')"
-            :hint="t('common.reagentsHint')"
+            :hint="recipeModel.isWater ? t('recipes.page.reagentsHintWater') : t('recipes.page.reagentsHint')"
             persistent-hint
             chips
             closable-chips
             hide-details="auto"
-            :rules="[required]"
             class="mb-2"
             @update:model-value="onInputReagent"
           />
@@ -89,7 +102,7 @@
             item-title="name"
             variant="underlined"
             :label="t('common.recipes')"
-            :hint="t('common.recipesHint')"
+            :hint="t('recipes.page.recipesHint')"
             persistent-hint
             hide-selected
             hide-details="auto"
@@ -141,7 +154,7 @@
                   @update:model-value="onInputReagentAmount($event, reagent)"
                 >
                   <template
-                    v-if="reagent.key === 'C10H14N2Na2O8(H2O)2'"
+                    v-if="reagent.key === TrilonB"
                     #append
                   >
                     <v-btn
@@ -231,7 +244,7 @@
               <v-expand-transition>
                 <div v-if="recipeModel.tankVolume">
                   <v-row
-                    v-for="reagent in recipeModel.reagents.filter((item) => item.key !== 'H2O')"
+                    v-for="reagent in recipeModel.reagents.filter((item) => item.key !== H2O)"
                     :key="reagent.key"
                     class="mb-3"
                   >
@@ -245,7 +258,11 @@
                       v-for="(_, ion) in reagent.ions"
                       :key="reagent.key + ion"
                     >
-                      <v-col class="py-0">
+                      <v-col
+                        :cols="reagent.ionsTotal >= 2 ? '6' : ''"
+                        :sm="reagent.ionsTotal > 3 ? '4' : ''"
+                        class="py-0"
+                      >
                         <BaseNumberField
                           v-model.number="reagent.unitConcs[ion]"
                           :label="ion"
@@ -261,7 +278,7 @@
                       <div class="font-weight-medium mb-2">
                         {{ t('common.total') }}, {{ t('units.mg/l / ml') }}:
                       </div>
-                      <div class="d-flex">
+                      <div class="d-flex flex-wrap">
                         <div
                           v-for="[ion, value] in recipeModel.recipeIonUnitConcsSorted"
                           :key="ion"
@@ -362,6 +379,9 @@ const tanksStore = useTanksStore();
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;
 let reagents = getReagents(INITIAL_REAGENT_AMOUNT);
+const reagentH2O = reagents.find((reagent) => reagent.key === H2O);
+reagentH2O.amount = 500;
+
 const tankChosen = ref<TankType>();
 
 // MODEL
@@ -372,14 +392,14 @@ const recipeModel = reactive(new FertilizerRecipe(
     name: '',
     description: '',
     tankVolume: null,
-    reagents: [],
+    reagents: [reagentH2O],
   },
 ));
 
 watch(() => recipeModel.reagents, () => {
   // Set recipe default name by first reagent name
-  if (!recipeModel.name && recipeModel.reagents.length === 1) {
-    const reagent = recipeModel.reagents[0];
+  if (!recipeModel.name && recipeModel.reagents.length > 1) {
+    const reagent = recipeModel.reagents[1];
     recipeModel.name = reagent.text;
   }
 });
@@ -391,7 +411,7 @@ watch(() => reagentsStore.reagents, () => {
 function onInputReagent(value: InstanceType<typeof Reagent>[]) {
   if (value.length > recipeModel.reagents.length) {
     const lastReagent = [...value].pop();
-    // Skip if search value is a string
+    // Skip if the search value is a string
     if (typeof lastReagent === 'string') {
       return;
     }

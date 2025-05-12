@@ -20,6 +20,20 @@
 <template>
   <v-container class="mb-12">
     <v-row>
+      <v-col
+        sm="8"
+        offset-sm="2"
+        align="end"
+      >
+        <v-btn
+          href="https://t.me/samomes_calculator_chat"
+          target="_blank"
+          color="warning"
+          size="small"
+        >
+          Сообщить о проблеме
+        </v-btn>
+      </v-col>
       <LayoutBackButton :path="appRoutes.tanks.path" />
       <LayoutPageTitle>
         <template v-if="isCreate">
@@ -55,7 +69,7 @@
             :suffix="t('units.l')"
             persistent-hint
             :hint="t('tanks.page.volumeHint')"
-            :rules="[positiveOrEmpty]"
+            :rules="[required, positiveOrEmpty]"
           >
             <template #append>
               <v-btn
@@ -176,7 +190,6 @@ const tanksStore = useTanksStore();
 const snackbarStore = useSnackbarStore();
 const tankFormRef = ref(null);
 
-const isVolumeInfo = ref(false);
 const isCalculateVolumePopup = ref(false);
 
 const tank = ref<TankType>({
@@ -237,7 +250,8 @@ function onInputWaterChangeVolume(value: number) {
 }
 
 const onAddTank = async () =>{
-  const valid = tankModel.value.volumeTotal;
+
+  const { valid } = await tankFormRef.value.validate();
   if (!valid) {
     snackbarStore.showWarning(t('tanks.page.message.isFormErrors'));
     return;

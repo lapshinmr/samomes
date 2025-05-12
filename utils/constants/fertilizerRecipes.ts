@@ -126,6 +126,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       { key: 'Ferovit', amount: 6 },
       { key: 'H2SO4', amount: 20 },
     ],
+    tankVolume: 100,
     description: `Рецепт взят с сайта aqua-botanic.ru
 (https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html):
 

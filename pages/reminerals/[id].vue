@@ -20,9 +20,21 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <LayoutBackButton
-        :path="appRoutes.reminerals.path"
+      <v-col
+        sm="8"
+        offset-sm="2"
+        align="end"
       >
+        <v-btn
+          href="https://t.me/samomes_calculator_chat"
+          target="_blank"
+          color="warning"
+          size="small"
+        >
+          Сообщить о проблеме
+        </v-btn>
+      </v-col>
+      <LayoutBackButton :path="appRoutes.reminerals.path">
         <v-btn
           v-if="!isCreate && !isShare"
           color="primary"
@@ -68,7 +80,7 @@
             :items="reagents"
             item-title="text"
             :label="t('common.reagents')"
-            :hint="t('common.reagentsHint')"
+            :hint="t('reminerals.page.reagentsHint')"
             variant="underlined"
             multiple
             persistent-hint
@@ -86,7 +98,7 @@
             item-title="name"
             variant="underlined"
             :label="t('common.recipes')"
-            :hint="t('common.recipesHint')"
+            :hint="t('reminerals.page.recipesHint')"
             persistent-hint
             hide-details="auto"
             @update:model-value="onInputRemineralExample"
@@ -162,6 +174,18 @@
               />
               <v-expand-transition>
                 <div v-if="isReagentsAmount">
+                  <template v-if="remineralModel.isLiquid">
+                    <BaseDividerWithNote class="my-4">
+                      Концентрация раствора
+                    </BaseDividerWithNote>
+                    <RemineralsTheElementsTable
+                      :remineral="remineralModel"
+                      class="mb-10"
+                    />
+                  </template>
+                  <BaseDividerWithNote class="my-4">
+                    Концентрация в подменной воде
+                  </BaseDividerWithNote>
                   <RemineralsTheCationsAndAnions
                     :remineral="remineralModel"
                     class="mt-4"

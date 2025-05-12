@@ -43,6 +43,10 @@ export default class Recipe {
     return this.reagents.find((reagent) => reagent.key === 'H2O')?.amount ?? 0;
   }
 
+  get isWater(): boolean {
+    return this.waterVolume > 0;
+  }
+
   get isReagents(): boolean {
     return this.reagents.length > 0;
   }

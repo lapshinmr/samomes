@@ -1,6 +1,20 @@
 <template>
   <v-container class="mb-12">
     <v-row>
+      <v-col
+        sm="8"
+        offset-sm="2"
+        align="end"
+      >
+        <v-btn
+          href="https://t.me/samomes_calculator_chat"
+          target="_blank"
+          color="warning"
+          size="small"
+        >
+          Сообщить о проблеме
+        </v-btn>
+      </v-col>
       <LayoutPageTitle>
         {{ t('dosing.title') }}
         <v-btn
@@ -21,7 +35,7 @@
         </div>
         <v-form ref="scheduleForm">
           <v-combobox
-            :model-value="dosingModel.tank"
+            v-model.number="dosingModel.tank"
             :items="tanks"
             item-title="name"
             variant="underlined"
@@ -69,6 +83,36 @@
               :dosing="dosingModel"
             />
           </v-expand-transition>
+          <v-alert
+            v-if="isDoses"
+            class="my-10"
+            type="info"
+            color="green-lighten-1"
+            icon="mdi-account-question"
+          >
+            <p class="mb-2">
+              Оцените, пожалуйста, изменения на странице подбора дозировок, заполнив анкету
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSf9gC2eSNPXKOmSQXtqTWksVvUHZN7QPKIzizHy_QKyquAdUg/viewform?usp=header"
+                target="_blank"
+                class="text-underlined"
+              >
+                здесь
+              </a> (количество заполнений анкеты не ограничено).
+            </p>
+            <p>
+              Если при использовании сайта у вас возникли трудности или непонятные моменты, обязательно
+              сообщите нам через
+              <a
+                href="https://t.me/samomes_calculator"
+                target="_blank"
+              >
+                телеграм-канал
+              </a>
+              личные сообщения в телеграм автору проекта (@lapshinmr).
+              Мы постараемся сделать сервис доступнее и удобнее.
+            </p>
+          </v-alert>
         </v-form>
       </v-col>
     </v-row>

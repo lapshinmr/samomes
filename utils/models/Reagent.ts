@@ -119,6 +119,10 @@ export default class Reagent {
     this._ions = value;
   }
 
+  get ionsTotal(): number {
+    return Object.keys(this.ions).length;
+  }
+
   get text() {
     return this.isFormula ? `${this.name} - ${this.key}` : this.name;
   }

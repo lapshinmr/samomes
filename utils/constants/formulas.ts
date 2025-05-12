@@ -16,8 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+export const H2O = 'H2O';
+export const TrilonB = 'C10H14N2Na2O8(H2O)2';
+
 export const FORMULAS = {
-  H2O: {
+  [H2O]: {
     density: 1,
     name: 'Вода',
   },
@@ -384,7 +387,7 @@ export const FORMULAS = {
     name: 'Молочная кислота',
   },
   // CHELATORS
-  'C10H14N2Na2O8(H2O)2': {
+  [TrilonB]: {
     solubility: 100,
     name: 'Трилон Б (хелатор EDTA-Na2)',
   },
