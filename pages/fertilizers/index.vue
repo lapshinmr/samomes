@@ -23,19 +23,19 @@
     class="mb-12 position-relative"
   >
     <v-row>
-      <LayoutPageTitle>
+      <PageTitle>
         {{ t('fertilizers.title') }}
-      </LayoutPageTitle>
+      </PageTitle>
       <client-only>
-        <LayoutPageSubtitle v-if="fertilizerModels.length === 0">
+        <PageSubtitle v-if="fertilizerModels.length === 0">
           {{ t('fertilizers.noFertilizers') }}
-        </LayoutPageSubtitle>
-        <LayoutPageText
+        </PageSubtitle>
+        <PageText
           v-if="fertilizerModels.length === 0"
           class="mb-16"
         >
           {{ t('fertilizers.hints.p3') }}
-        </LayoutPageText>
+        </PageText>
         <v-col
           sm="8"
           offset-sm="2"
@@ -71,12 +71,12 @@
             </p>
           </v-alert>
         </v-col>
-        <CommonTheCards
+        <TheCards
           v-if="fertilizerModels.length !== 0"
           v-model="fertilizerModels"
         >
           <template #default="{ item }">
-            <FertilizersFertilizerCard :fertilizer="item" />
+            <FertilizerCard :fertilizer="item" />
           </template>
           <template #actions="{ index }">
             <v-btn
@@ -96,28 +96,28 @@
               {{ t('buttons.edit') }}
             </v-btn>
           </template>
-        </CommonTheCards>
-        <BaseGuide>
+        </TheCards>
+        <Guide>
           <p class="mb-2">
             {{ t('fertilizers.hints.p1') }}
           </p>
           <p class="mb-2">
             {{ t('fertilizers.hints.p2') }}
           </p>
-        </BaseGuide>
+        </Guide>
       </client-only>
     </v-row>
 
-    <BaseAddButton :action="onAdd">
+    <AddButton :action="onAdd">
       {{ t('fertilizers.addButton') }}
-    </BaseAddButton>
+    </AddButton>
 
-    <PopupsTheRemovePopup
+    <TheRemovePopup
       v-model="isRemovePopup"
       @remove="onRemoveFertilizerConfirmation"
     >
       {{ t('fertilizers.removePopupContent') }}
-    </PopupsTheRemovePopup>
+    </TheRemovePopup>
   </v-container>
 </template>
 

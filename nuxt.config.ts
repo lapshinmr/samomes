@@ -26,13 +26,15 @@ export default defineNuxtConfig({
         { name: 'apple-mobile-web-app-title', content: 'Samomes' },
         {
           name: 'description',
-          content: 'Самомес — это калькулятор рецептов удобрений для растительного аквариума, удобный способ расчета дозировок удобрений и составления расписания на неделю.',
+          content: 'Самомес — это калькулятор рецептов удобрений для растительного аквариума, удобный ' +
+            'способ расчета дозировок удобрений и составления расписания на неделю.',
         },
         { property: 'og:title', content: 'Samomes' },
         { property: 'og:site_name', content: 'Samomes' },
         {
           property: 'og:description',
-          content: 'Самомес — это калькулятор рецептов удобрений для растительного аквариума, удобный способ расчета дозировок удобрений и составления расписания на неделю.',
+          content: 'Самомес — это калькулятор рецептов удобрений для растительного аквариума, удобный ' +
+            'способ расчета дозировок удобрений и составления расписания на неделю.',
         },
         { property: 'og:image', content: '/og_image.png' },
         { property: 'og:type', content: 'website' },
@@ -75,6 +77,13 @@ export default defineNuxtConfig({
       'utils/**',
     ],
   },
+
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
 
   typescript: {
     strict: false,

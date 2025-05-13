@@ -23,19 +23,19 @@
     class="mb-12 position-relative"
   >
     <v-row>
-      <LayoutPageTitle>
+      <PageTitle>
         {{ t('recipes.title') }}
-      </LayoutPageTitle>
+      </PageTitle>
       <client-only>
-        <LayoutPageSubtitle v-if="recipeModels.length === 0">
+        <PageSubtitle v-if="recipeModels.length === 0">
           {{ t('recipes.noRecipes') }}
-        </LayoutPageSubtitle>
-        <LayoutPageText
+        </PageSubtitle>
+        <PageText
           v-if="recipeModels.length === 0"
           class="mb-16"
         >
           {{ t('recipes.hints.p4') }}
-        </LayoutPageText>
+        </PageText>
         <v-col
           sm="8"
           offset-sm="2"
@@ -71,12 +71,12 @@
             </p>
           </v-alert>
         </v-col>
-        <CommonTheCards
+        <TheCards
           v-if="recipeModels.length !== 0"
           v-model="recipeModels"
         >
           <template #default="{ item }">
-            <RecipesFertilizerRecipeCard :recipe="item" />
+            <FertilizerRecipeCard :recipe="item" />
           </template>
           <template #actions="{ index }">
             <v-btn
@@ -103,8 +103,8 @@
               {{ t('buttons.edit') }}
             </v-btn>
           </template>
-        </CommonTheCards>
-        <BaseGuide>
+        </TheCards>
+        <Guide>
           <p class="mb-2">
             {{ t('recipes.hints.p1') }}
           </p>
@@ -114,25 +114,25 @@
           <p class="mb-2">
             {{ t('recipes.hints.p3') }}
           </p>
-        </BaseGuide>
+        </Guide>
       </client-only>
     </v-row>
 
-    <BaseAddButton :action="onAdd">
+    <AddButton :action="onAdd">
       {{ t('recipes.addButton') }}
-    </BaseAddButton>
+    </AddButton>
 
-    <PopupsTheSharePopup
+    <TheSharePopup
       v-model="isSharePopup"
       :url="encodedUrl"
     />
 
-    <PopupsTheRemovePopup
+    <TheRemovePopup
       v-model="isRemovePopup"
       @remove="onRemoveRecipeConfirmation"
     >
       {{ t('recipes.removePopupContent') }}
-    </PopupsTheRemovePopup>
+    </TheRemovePopup>
   </v-container>
 </template>
 

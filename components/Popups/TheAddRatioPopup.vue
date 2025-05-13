@@ -25,9 +25,14 @@
             :rules="[required, isIon]"
             persistent-hint
           />
-          <div class="mt-6">
-            Результат: {{ format(ratio) || '—' }}
-          </div>
+          <v-expand-transition>
+            <div
+              v-if="ratio !== null"
+              class="mt-6"
+            >
+              Соотношение равно <span class="font-weight-medium">{{ format(ratio) || '—' }}</span>
+            </div>
+          </v-expand-transition>
         </v-form>
       </v-card-text>
       <v-divider />

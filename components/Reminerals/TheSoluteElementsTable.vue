@@ -68,7 +68,7 @@
 const { t } = useI18n();
 
 defineOptions({
-  name: 'TheElementsTable',
+  name: 'TheSoluteElementsTable',
 });
 
 const props = defineProps<{

@@ -34,7 +34,7 @@
           Сообщить о проблеме
         </v-btn>
       </v-col>
-      <LayoutBackButton :path="appRoutes.reminerals.path">
+      <BackButton :path="appRoutes.reminerals.path">
         <v-btn
           v-if="!isCreate && !isShare"
           color="primary"
@@ -44,8 +44,8 @@
         >
           {{ t('buttons.copy') }}
         </v-btn>
-      </LayoutBackButton>
-      <LayoutPageTitle>
+      </BackButton>
+      <PageTitle>
         <template v-if="isCreate && !isCopy">
           {{ t('reminerals.page.titleNew') }}
         </template>
@@ -68,7 +68,7 @@
         <template v-else>
           {{ remineralModel.name }}
         </template>
-      </LayoutPageTitle>
+      </PageTitle>
       <v-col
         cols="12"
         md="8"
@@ -105,15 +105,15 @@
           />
           <v-expand-transition>
             <div v-if="isReagents">
-              <BaseDividerWithNote class="mt-10 mb-3">
+              <DividerWithNote class="mt-10 mb-3">
                 {{ t('common.reagents') }}
-              </BaseDividerWithNote>
+              </DividerWithNote>
               <div
                 v-for="reagent in reagentsChosen"
                 :key="reagent.key"
                 class="d-flex mb-4"
               >
-                <BaseNumberField
+                <NumberField
                   :model-value="reagent.amount"
                   :label="reagent.text"
                   :suffix="reagent.isLiquid ? t('units.ml') : t('units.g')"
@@ -126,7 +126,7 @@
                 />
                 <div class="d-flex ml-4">
                   <div style="width: 40px;">
-                    <BaseNumberField
+                    <NumberField
                       :model-value="ghPerReagent[reagent.key]"
                       label="Gh"
                       class="mt-0 pt-0"
@@ -139,7 +139,7 @@
                     /
                   </div>
                   <div style="width: 40px;">
-                    <BaseNumberField
+                    <NumberField
                       :model-value="khPerReagent[reagent.key]"
                       label="Kh"
                       class="mt-0 pt-0"
@@ -156,7 +156,7 @@
                   />
                 </div>
               </div>
-              <RemineralsTheHardnessTable
+              <TheHardnessTable
                 :change-volume="remineralModel.changeVolume"
                 :dose-volume="remineralModel.doseVolume"
                 :gh="gh"
@@ -175,28 +175,28 @@
               <v-expand-transition>
                 <div v-if="isReagentsAmount">
                   <template v-if="remineralModel.isLiquid">
-                    <BaseDividerWithNote class="my-4">
+                    <DividerWithNote class="my-4">
                       Концентрация раствора
-                    </BaseDividerWithNote>
-                    <RemineralsTheElementsTable
+                    </DividerWithNote>
+                    <TheSoluteElementsTable
                       :remineral="remineralModel"
                       class="mb-10"
                     />
                   </template>
-                  <BaseDividerWithNote class="my-4">
+                  <DividerWithNote class="my-4">
                     Концентрация в подменной воде
-                  </BaseDividerWithNote>
-                  <RemineralsTheCationsAndAnions
+                  </DividerWithNote>
+                  <TheCationsAndAnions
                     :remineral="remineralModel"
                     class="mt-4"
                   />
-                  <!--                  <BaseDividerWithNote-->
+                  <!--                  <DividerWithNote-->
                   <!--                    v-model="isTable"-->
                   <!--                    class="mb-4"-->
                   <!--                    button-->
                   <!--                  >-->
                   <!--                    Таблица с навесками-->
-                  <!--                  </BaseDividerWithNote>-->
+                  <!--                  </DividerWithNote>-->
                   <!--                  <v-expand-transition>-->
                   <!--                    <RemineralsTheRemineralsRecipesTable-->
                   <!--                      v-if="isTable"-->
@@ -205,15 +205,15 @@
                   <!--                    />-->
                   <!--                  </v-expand-transition>-->
                   <template v-if="!remineralModel.isLiquid && !isLiquidReagents">
-                    <BaseDividerWithNote
+                    <DividerWithNote
                       v-model="isMix"
                       class="mt-10 mb-3"
                       button
                     >
                       {{ t('reminerals.page.mix.title') }}
-                    </BaseDividerWithNote>
+                    </DividerWithNote>
                     <v-expand-transition>
-                      <RemineralsTheRemineralsMixTable
+                      <TheRemineralsMixTable
                         v-if="isMix"
                         :remineral="remineralModel"
                       />

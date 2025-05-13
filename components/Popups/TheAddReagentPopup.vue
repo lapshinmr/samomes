@@ -58,7 +58,7 @@
                 />
               </v-radio-group>
               <v-expand-transition>
-                <BaseNumberField
+                <NumberField
                   v-if="isLiquid"
                   v-model="density"
                   label="Введите плотность"
@@ -83,7 +83,7 @@
               <!--                      variant="underlined"-->
               <!--                    />-->
               <v-expand-transition>
-                <BaseNumberField
+                <NumberField
                   v-if="!isLiquid"
                   v-model="solubility"
                   label="Введите значение растворимости"
@@ -139,7 +139,7 @@
                 class="mb-4"
                 @update:model-value="onInputIon"
               />
-              <BaseNumberField
+              <NumberField
                 v-for="item in ionsChosen"
                 :key="item.ion"
                 v-model="item.conc"
@@ -180,7 +180,7 @@
 <script setup lang="ts">
 const model = defineModel<boolean>();
 
-const { required, positive, positiveOrEmpty } = useValidation();
+const { required, positive } = useValidation();
 const { checkName } = useReagents();
 const { t } = useI18n();
 const reagentsStore = useReagentsStore();

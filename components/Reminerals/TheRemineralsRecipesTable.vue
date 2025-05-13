@@ -90,7 +90,7 @@
         <td>
           <div class="d-flex align-center">
             <div style="width: 40px;">
-              <BaseNumberField
+              <NumberField
                 v-model.number="customGh"
                 placeholder="Gh"
                 class="mt-0 pt-0"
@@ -102,7 +102,7 @@
               /
             </div>
             <div style="width: 40px;">
-              <BaseNumberField
+              <NumberField
                 v-model.number="customKh"
                 placeholder="Kh"
                 :disabled="customKh === 0"
@@ -118,7 +118,7 @@
             class="d-flex align-center"
             style="width: 60px"
           >
-            <BaseNumberField
+            <NumberField
               v-model.number="customVolume"
               :suffix="t('units.l')"
               class="mt-0 pt-0"

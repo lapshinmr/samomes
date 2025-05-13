@@ -24,7 +24,7 @@
         {{ t('reminerals.page.mix.t1') }}
       </div>
       <div style="width: 60px">
-        <BaseNumberField
+        <NumberField
           v-model="requiredMixMass"
           :suffix="t('units.g')"
           hide-details="auto"

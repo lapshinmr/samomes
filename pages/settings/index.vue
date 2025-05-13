@@ -20,9 +20,9 @@
 <template>
   <v-container>
     <v-row>
-      <LayoutPageTitle>
+      <PageTitle>
         {{ t('settings.title') }}
-      </LayoutPageTitle>
+      </PageTitle>
       <v-col
         cols="12"
         md="8"

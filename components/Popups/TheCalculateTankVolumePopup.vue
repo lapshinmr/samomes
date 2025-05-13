@@ -9,7 +9,7 @@
       </v-card-title>
       <v-card-text>
         <v-form ref="tankVolumeFormRef">
-          <BaseNumberField
+          <NumberField
             v-model="tankEdit.length"
             variant="underlined"
             :label="t('tanks.page.length')"
@@ -18,7 +18,7 @@
             class="mb-2"
             :rules="[required, positive]"
           />
-          <BaseNumberField
+          <NumberField
             v-model="tankEdit.width"
             variant="underlined"
             :label="t('tanks.page.width')"
@@ -27,7 +27,7 @@
             class="mb-2"
             :rules="[required]"
           />
-          <BaseNumberField
+          <NumberField
             v-model="tankEdit.height"
             variant="underlined"
             :label="t('tanks.page.height')"
@@ -37,7 +37,7 @@
             class="mb-2"
             :rules="[required, positive]"
           />
-          <BaseNumberField
+          <NumberField
             v-model="tankEdit.glassThickness"
             variant="underlined"
             :label="t('tanks.page.glassThickness')"

@@ -23,9 +23,9 @@
     class="mb-12 position-relative"
   >
     <v-row>
-      <LayoutPageTitle>
+      <PageTitle>
         Страница находится в разработке
-      </LayoutPageTitle>
+      </PageTitle>
     </v-row>
   </v-container>
 </template>

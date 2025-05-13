@@ -20,7 +20,7 @@
 <template>
   <v-app>
     <client-only>
-      <LayoutDrawer v-model="isDrawer" />
+      <Drawer v-model="isDrawer" />
     </client-only>
 
     <v-app-bar
@@ -46,7 +46,7 @@
           </a>
         </div>
       </v-app-bar-title>
-      <LayoutLanguageSwitcher />
+      <LanguageSwitcher />
       <v-app-bar-nav-icon @click="drawerStore.toggle" />
     </v-app-bar>
 

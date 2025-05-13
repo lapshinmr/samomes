@@ -56,7 +56,7 @@ withDefaults(
 const emit = defineEmits(['update:modelValue']);
 
 defineOptions({
-  name: 'BaseDividerWithNote',
+  name: 'DividerWithNote',
 });
 </script>
 

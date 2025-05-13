@@ -132,7 +132,7 @@
         </tr>
       </tbody>
     </v-table>
-    <CommonTheElementsRatios
+    <TheElementsRatios
       :concentration="dosing.concentrationTotal"
       :is-gh="isHardness"
       class="mt-8"

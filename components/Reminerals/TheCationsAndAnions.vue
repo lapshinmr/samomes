@@ -31,7 +31,7 @@
       cols="7"
       sm="4"
     >
-      <BasePieChart
+      <PieChart
         :data="cationsData"
         :options="options"
       />
@@ -61,7 +61,7 @@
       cols="7"
       sm="4"
     >
-      <BasePieChart
+      <PieChart
         :data="anionsData"
         :options="options"
       />

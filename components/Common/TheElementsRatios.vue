@@ -65,7 +65,7 @@
     >
       Нет нужного соотношения?
     </div>
-    <PopupsTheAddRatioPopup
+    <TheAddRatioPopup
       v-model="isAddRatioPopup"
       :concentration="props.concentration"
       @save="onAddElements"

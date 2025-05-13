@@ -23,25 +23,25 @@
     class="mb-12 position-relative"
   >
     <v-row>
-      <LayoutPageTitle>
+      <PageTitle>
         {{ t('tanks.title') }}
-      </LayoutPageTitle>
+      </PageTitle>
       <client-only>
-        <LayoutPageSubtitle v-if="tankModels.length === 0">
+        <PageSubtitle v-if="tankModels.length === 0">
           {{ t('tanks.noTanks') }}
-        </LayoutPageSubtitle>
-        <LayoutPageText
+        </PageSubtitle>
+        <PageText
           v-if="tankModels.length === 0"
           class="mb-16"
         >
           {{ t('tanks.hints.p4') }}
-        </LayoutPageText>
-        <CommonTheCards
+        </PageText>
+        <TheCards
           v-if="tankModels.length > 0"
           v-model="tankModels"
         >
           <template #default="{ item }">
-            <TanksTankCard :tank="item" />
+            <TankCard :tank="item" />
           </template>
           <template #actions="{ index }">
             <v-btn
@@ -62,8 +62,8 @@
               {{ t('buttons.edit') }}
             </v-btn>
           </template>
-        </CommonTheCards>
-        <BaseGuide>
+        </TheCards>
+        <Guide>
           <p class="mb-2">
             {{ t('tanks.hints.p1') }}
           </p>
@@ -73,20 +73,20 @@
           <p class="mb-2">
             {{ t('tanks.hints.p3') }}
           </p>
-        </BaseGuide>
+        </Guide>
       </client-only>
     </v-row>
 
-    <BaseAddButton :action="onAdd">
+    <AddButton :action="onAdd">
       {{ t('tanks.addButton') }}
-    </BaseAddButton>
+    </AddButton>
 
-    <PopupsTheRemovePopup
+    <TheRemovePopup
       v-model="isRemovePopup"
       @remove="onRemoveTankConfirmation"
     >
       {{ t('tanks.removePopupContent') }}
-    </PopupsTheRemovePopup>
+    </TheRemovePopup>
   </v-container>
 </template>
 

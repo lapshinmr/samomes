@@ -34,7 +34,7 @@
           Сообщить о проблеме
         </v-btn>
       </v-col>
-      <LayoutBackButton :path="appRoutes.recipes.path">
+      <BackButton :path="appRoutes.recipes.path">
         <v-btn
           v-if="!isCreate && !isShare"
           color="primary"
@@ -44,8 +44,8 @@
         >
           {{ t('buttons.copy')}}
         </v-btn>
-      </LayoutBackButton>
-      <LayoutPageTitle>
+      </BackButton>
+      <PageTitle>
         <template v-if="isCreate && !isCopy">
           {{ t('recipes.page.titleNew') }}
         </template>
@@ -68,7 +68,7 @@
         <template v-else>
           {{ recipeModel.name }}
         </template>
-      </LayoutPageTitle>
+      </PageTitle>
       <v-col
         cols="12"
         md="8"
@@ -109,13 +109,13 @@
             @update:model-value="onInputRecipeExample"
           />
           <div v-if="recipeModel.isReagents">
-            <BaseDividerWithNote
+            <DividerWithNote
               v-model="isReagentsInfo"
               button
               class="mt-10 mb-4"
             >
               {{ t('common.reagents') }}
-            </BaseDividerWithNote>
+            </DividerWithNote>
             <v-expand-transition>
               <div
                 v-if="isReagentsInfo"
@@ -143,7 +143,7 @@
                 :key="reagent.key"
                 class="d-flex align-center mb-2"
               >
-                <BaseNumberField
+                <NumberField
                   :model-value="reagent.amount"
                   :label="reagent.text"
                   :suffix="reagent.isLiquid ? t('units.ml') : t('units.g')"
@@ -165,12 +165,12 @@
                       Рассчитать
                     </v-btn>
                   </template>
-                </BaseNumberField>
+                </NumberField>
                 <div
                   v-if="reagent.isLiquid && reagent.key !== H2O && reagent.type !== ReagentTypeName.COMPOUND"
                   style="width: 100px;"
                 >
-                  <BaseNumberField
+                  <NumberField
                     :model-value="reagent.dilution"
                     :label="t('recipes.page.dilution')"
                     suffix="%"
@@ -185,7 +185,7 @@
                   v-if="recipeModel.isSeveralLiquidReagents"
                   class="mt-8"
                 >
-                  <BaseNumberField
+                  <NumberField
                     :model-value="recipeModel.totalVolume"
                     :label="t('recipes.page.totalVolume')"
                     :suffix="t('units.ml')"
@@ -200,7 +200,7 @@
             </div>
           </v-expand-transition>
           <div v-if="recipeModel.isLiquid">
-            <BaseDividerWithNote
+            <DividerWithNote
               v-model="isUnitConc"
               button
               class="mt-10 mb-4"
@@ -226,7 +226,7 @@
                   {{ t('recipes.page.unitConcDescription') }}
                 </v-tooltip>
               </div>
-            </BaseDividerWithNote>
+            </DividerWithNote>
           </div>
           <v-expand-transition>
             <div v-if="isUnitConc && recipeModel.isLiquid">
@@ -263,7 +263,7 @@
                         :sm="reagent.ionsTotal > 3 ? '4' : ''"
                         class="py-0"
                       >
-                        <BaseNumberField
+                        <NumberField
                           v-model.number="reagent.unitConcs[ion]"
                           :label="ion"
                           :suffix="t('units.mg/l / ml')"
@@ -298,10 +298,10 @@
             </div>
           </v-expand-transition>
           <div v-if="recipeModel.isReagents">
-            <BaseDividerWithNote class="mt-10 mb-4">
+            <DividerWithNote class="mt-10 mb-4">
               Концентрация элементов
-            </BaseDividerWithNote>
-            <RecipesTheElementsTable
+            </DividerWithNote>
+            <TheRecipeElementsTable
               :recipe="recipeModel"
               class="mb-10"
             />
@@ -350,11 +350,11 @@
       </v-col>
     </v-row>
 
-    <PopupsTheAddReagentPopup
+    <TheAddReagentPopup
       v-model="isAddReagentPopup"
     />
 
-    <PopupsTheAddChelatorPopup
+    <TheAddChelatorPopup
       v-model="isAddChelatorPopup"
       :recipe="recipeModel"
       @save="onSetChelatorAmount"

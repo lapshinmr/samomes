@@ -34,24 +34,24 @@
           Сообщить о проблеме
         </v-btn>
       </v-col>
-      <LayoutBackButton :path="appRoutes.tanks.path" />
-      <LayoutPageTitle>
+      <BackButton :path="appRoutes.tanks.path" />
+      <PageTitle>
         <template v-if="isCreate">
           {{ t('tanks.page.titleNew') }}
         </template>
         <template v-else>
           {{ tank.name }}
         </template>
-      </LayoutPageTitle>
+      </PageTitle>
       <v-col
         cols="12"
         sm="8"
         offset-sm="2"
       >
         <v-form ref="tankFormRef">
-          <BaseDividerWithNote class="mt-10 mb-4">
+          <DividerWithNote class="mt-10 mb-4">
             {{ t('tanks.page.sectionTitle1') }}
-          </BaseDividerWithNote>
+          </DividerWithNote>
           <v-text-field
             v-model="tank.name"
             variant="underlined"
@@ -62,7 +62,7 @@
             :rules="[required, isNameExist]"
             class="mb-4"
           />
-          <BaseNumberField
+          <NumberField
             v-model="tank.volume"
             variant="underlined"
             :label="t('tanks.page.volume')"
@@ -114,11 +114,11 @@
                 </v-tooltip>
               </div>
             </template>
-          </BaseNumberField>
-          <BaseDividerWithNote class="mt-15 mb-4">
+          </NumberField>
+          <DividerWithNote class="mt-15 mb-4">
             {{ t('tanks.page.sectionTitle3') }}
-          </BaseDividerWithNote>
-          <BaseNumberField
+          </DividerWithNote>
+          <NumberField
             v-model="tank.filterVolume"
             variant="underlined"
             :label="t('tanks.filterVolume')"
@@ -128,7 +128,7 @@
             :rules="[positiveOrEmpty]"
           />
           <div class="d-flex mb-4">
-            <BaseNumberField
+            <NumberField
               :model-value="tank.waterChangePercent"
               variant="underlined"
               :label="t('tanks.page.waterChangePercent')"
@@ -137,7 +137,7 @@
               :rules="[positiveOrEmpty]"
               @update:model-value="onInputWaterChangePercent"
             />
-            <BaseNumberField
+            <NumberField
               :model-value="tank.waterChangeVolume"
               variant="underlined"
               :label="t('tanks.waterChangeVolume')"
@@ -171,7 +171,7 @@
         </v-form>
       </v-col>
     </v-row>
-    <PopupsTheCalculateTankVolumePopup
+    <TheCalculateTankVolumePopup
       v-model="isCalculateVolumePopup"
       @save="onVolumeSave"
     />

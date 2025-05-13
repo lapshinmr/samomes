@@ -52,7 +52,7 @@
           class="w-60 pr-2"
           hide-details="auto"
         />
-        <BaseNumberField
+        <NumberField
           v-model="daysTotal"
           hide-details="auto"
           class="w-40"
@@ -66,7 +66,7 @@
         class="d-flex justify-space-between align-center"
       >
         <div class="d-flex w-100">
-          <BaseNumberField
+          <NumberField
             v-if="isTotalMode"
             :model-value="format(dose.amount)"
             :label="dose.fertilizer.name"
@@ -74,7 +74,7 @@
             hide-details="auto"
             @update:model-value="dosingStore.updateAmount($event, index)"
           />
-          <BaseNumberField
+          <NumberField
             v-else
             :model-value="format(dose.amountDay)"
             :label="dose.fertilizer.name"
@@ -87,7 +87,7 @@
     </template>
     <template v-else-if="fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
       <div class="d-flex align-start">
-        <BaseNumberField
+        <NumberField
           v-model="waterChangeVolume"
           :label="t('dosing.dosesTable.waterChange')"
           :hint="t('dosing.dosesTable.waterChangeHint')"
@@ -96,7 +96,7 @@
           validate-on="eager"
           :rules="[required, positive]"
         />
-        <BaseNumberField
+        <NumberField
           v-model="daysTotal"
           hide-details="auto"
           class="w-40"
@@ -117,7 +117,7 @@
         :key="index"
         class="d-flex justify-space-between align-center"
       >
-        <BaseNumberField
+        <NumberField
           :model-value="format(dose.amount)"
           :label="dose.fertilizer.name"
           :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
@@ -130,7 +130,7 @@
     </template>
     <template v-else-if="fertilizersRegime === FertilizersRegime.MIX">
       <div class="d-flex align-start">
-        <BaseNumberField
+        <NumberField
           v-model="waterChangeVolume"
           :label="t('dosing.dosesTable.waterChange')"
           :hint="t('dosing.dosesTable.waterChangeHint')"
@@ -139,7 +139,7 @@
           validate-on="eager"
           :rules="[required, positive]"
         />
-        <BaseNumberField
+        <NumberField
           v-model="daysTotal"
           hide-details="auto"
           :label="t('dosing.dosesTable.daysTotal')"
@@ -170,7 +170,7 @@
         :key="index"
         class="d-flex justify-space-between align-center"
       >
-        <BaseNumberField
+        <NumberField
           :model-value="format(dose.amountWaterChange)"
           :label="dose.fertilizer.name"
           :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
@@ -180,14 +180,14 @@
           @update:model-value="dosingStore.updateAmountWaterChange($event, index)"
         />
         <div class="d-flex w-40">
-          <BaseNumberField
+          <NumberField
             v-if="isTotalMode"
             :model-value="format(dose.amount)"
             :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
             hide-details="auto"
             @update:model-value="dosingStore.updateAmount($event, index)"
           />
-          <BaseNumberField
+          <NumberField
             v-else
             :model-value="format(dose.amountDay)"
             :suffix="dose.fertilizer.isLiquid ? t('units.ml/d') : t('units.g/d')"

@@ -28,7 +28,7 @@
         {{ t('reminerals.page.explanation.dry') }}
       </div>
       <div style="width: 60px;">
-        <BaseNumberField
+        <NumberField
           v-model="changeVolume"
           :suffix="t('units.l')"
           hide-details="auto"
@@ -42,7 +42,7 @@
       class="d-flex mb-4"
     >
       <div style="width: 80px;">
-        <BaseNumberField
+        <NumberField
           v-model="doseVolume"
           :suffix="t('units.ml')"
           hide-details="auto"
@@ -54,7 +54,7 @@
         {{ t('reminerals.page.explanation.liquid') }}
       </div>
       <div style="width: 60px;">
-        <BaseNumberField
+        <NumberField
           v-model="changeVolume"
           :suffix="t('units.l')"
           hide-details="auto"
@@ -64,7 +64,7 @@
       </div>
     </div>
     <div class="d-flex">
-      <BaseNumberField
+      <NumberField
         v-model="gh"
         label="Gh"
         suffix="dGh"
@@ -74,7 +74,7 @@
         class="mb-2"
         :disabled="gh === null"
       />
-      <BaseNumberField
+      <NumberField
         v-model="kh"
         label="Kh"
         suffix="dKh"
@@ -84,7 +84,7 @@
         class="mb-2 ml-2"
         :disabled="kh === null || khDisabled"
       />
-      <BaseNumberField
+      <NumberField
         v-model="caMgRatio"
         label="Ca / Mg"
         variant="outlined"

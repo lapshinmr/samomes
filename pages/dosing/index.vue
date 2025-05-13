@@ -15,7 +15,7 @@
           Сообщить о проблеме
         </v-btn>
       </v-col>
-      <LayoutPageTitle>
+      <PageTitle>
         {{ t('dosing.title') }}
         <v-btn
           color="primary"
@@ -23,7 +23,7 @@
         >
           {{ t('buttons.reset') }}
         </v-btn>
-      </LayoutPageTitle>
+      </PageTitle>
 
       <v-col
         cols="12"
@@ -74,9 +74,9 @@
               />
             </div>
           </v-expand-transition>
-          <DosingTheFertilizerDosesTable v-if="dosingModel.isDoses" />
+          <TheFertilizerDosesTable v-if="dosingModel.isDoses" />
           <v-expand-transition>
-            <DosingTheElementsTable
+            <TheDosingElementsTable
               v-if="dosingModel.isDoses"
               is-helpful-info
               is-switchers
@@ -173,7 +173,7 @@ const allFertilizers = computed(() => {
       fertilizerType: DoseFertilizerType.fertilizer,
       daysTotal: dosingStore.daysTotal,
     })),
-  ]
+  ];
 });
 
 function onChooseTank(value: number | string | TankType) {

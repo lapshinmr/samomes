@@ -34,15 +34,15 @@
           Сообщить о проблеме
         </v-btn>
       </v-col>
-      <LayoutBackButton :path="appRoutes.fertilizers.path"/>
-      <LayoutPageTitle>
+      <BackButton :path="appRoutes.fertilizers.path"/>
+      <PageTitle>
         <template v-if="isCreate">
           {{ t('fertilizers.page.titleNew') }}
         </template>
         <template v-else>
           {{ fertilizerModel.name }}
         </template>
-      </LayoutPageTitle>
+      </PageTitle>
 
       <v-col
         cols="12"
@@ -52,9 +52,9 @@
         <v-form ref="fertilizerFormRef">
           <div>
             {{ t('fertilizers.page.formDescription') }}
-            <BaseDividerWithNote class="mb-3 mt-10">
+            <DividerWithNote class="mb-3 mt-10">
               {{ t('common.or') }}
-            </BaseDividerWithNote>
+            </DividerWithNote>
           </div>
           <v-combobox
             v-model="fertilizerExampleChosen"
@@ -73,9 +73,9 @@
           >
             {{ t('fertilizers.page.alertInfo') }} {{ fertilizerModel.updatedAt }}
           </v-alert>
-          <BaseDividerWithNote class="mt-10 mb-3">
+          <DividerWithNote class="mt-10 mb-3">
             {{ t('fertilizers.card.composition') }}
-          </BaseDividerWithNote>
+          </DividerWithNote>
           <v-radio-group
             v-model="fertilizerModel.isPercent"
             inline
@@ -115,7 +115,7 @@
             class="mb-4"
             @update:model-value="onInputIon"
           />
-          <BaseNumberField
+          <NumberField
             v-for="item in ionsChosen"
             :key="item.ion"
             v-model="item.conc"

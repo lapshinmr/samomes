@@ -85,7 +85,7 @@
         </tr>
       </tbody>
     </v-table>
-    <CommonTheElementsRatios
+    <TheElementsRatios
       :concentration="recipe.concentration"
       class="mt-8"
     />

@@ -23,19 +23,19 @@
     class="mb-12 position-relative"
   >
     <v-row>
-      <LayoutPageTitle>
+      <PageTitle>
         {{ t('reminerals.title') }}
-      </LayoutPageTitle>
+      </PageTitle>
       <client-only>
-        <LayoutPageSubtitle v-if="remineralModels.length === 0">
+        <PageSubtitle v-if="remineralModels.length === 0">
           {{ t('reminerals.noReminerals') }}
-        </LayoutPageSubtitle>
-        <LayoutPageText
+        </PageSubtitle>
+        <PageText
           v-if="remineralModels.length === 0"
           class="mb-16"
         >
           {{ t('reminerals.hints.p3') }}
-        </LayoutPageText>
+        </PageText>
         <v-col
           sm="8"
           offset-sm="2"
@@ -71,12 +71,12 @@
             </p>
           </v-alert>
         </v-col>
-        <CommonTheCards
+        <TheCards
           v-if="remineralModels.length !== 0"
           v-model="remineralModels"
         >
           <template #default="{ item }">
-            <RemineralsRemineralRecipeCard :remineral="item" />
+            <RemineralRecipeCard :remineral="item" />
           </template>
           <template #actions="{ index }">
             <v-btn
@@ -103,33 +103,33 @@
               {{ t('buttons.edit') }}
             </v-btn>
           </template>
-        </CommonTheCards>
-        <BaseGuide>
+        </TheCards>
+        <Guide>
           <p class="mb-2">
             {{ t('reminerals.hints.p1') }}
           </p>
           <p class="mb-2">
             {{ t('reminerals.hints.p2') }}
           </p>
-        </BaseGuide>
+        </Guide>
       </client-only>
     </v-row>
 
-    <BaseAddButton :action="onAdd">
+    <AddButton :action="onAdd">
       {{ t('reminerals.addButton') }}
-    </BaseAddButton>
+    </AddButton>
 
-    <PopupsTheSharePopup
+    <TheSharePopup
       v-model="isSharePopup"
       :url="encodedUrl"
     />
 
-    <PopupsTheRemovePopup
+    <TheRemovePopup
       v-model="isRemovePopup"
       @remove="onRemoveRemineralConfirmation"
     >
       {{ t('reminerals.removePopupContent') }}
-    </PopupsTheRemovePopup>
+    </TheRemovePopup>
   </v-container>
 </template>
 

@@ -65,12 +65,11 @@
         </a>
       </div>
     </div>
-    <PWAPopup v-model="isPWAPopup" :platform="platform" :browser="browser" />
+    <ThePWAPopup v-model="isPWAPopup" :platform="platform" :browser="browser" />
   </v-navigation-drawer>
 </template>
 
 <script lang="ts" setup>
-import PWAPopup from '~/components/Popups/PWAPopup.vue';
 
 const { t } = useI18n();
 const { appRoutes } = useAppRoutes();

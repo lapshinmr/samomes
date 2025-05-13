@@ -18,7 +18,7 @@
             class="d-flex align-center"
           >
             <template v-if="!['C10H14N2Na2O8(H2O)2', 'H2O'].includes(reagent.key)">
-              <BaseNumberField
+              <NumberField
                 :model-value="reagent.amount"
                 :label="reagent.text"
                 :suffix="reagent.isLiquid ? t('units.ml') : t('units.g')"
@@ -58,14 +58,14 @@
                 :value="15"
               />
             </v-radio-group>
-            <BaseNumberField
+            <NumberField
               v-model="chelatorAmountIncrease"
               label="Другое значение"
               suffix="%"
               hide-details="auto"
             />
           </div>
-          <BaseNumberField
+          <NumberField
             v-model="chelatorAmount"
             label="Расчетное количество Трилона Б (EDTA-Na2)"
             :suffix="t('units.g')"
