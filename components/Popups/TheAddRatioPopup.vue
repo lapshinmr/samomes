@@ -73,7 +73,7 @@ const firstElement = ref<string>();
 const secondElement = ref<string>();
 
 const ratio = computed(() => {
-  return countRatio(props.concentration, firstElement.value, secondElement.value);
+  return RemineralRecipe.countRatio(props.concentration, firstElement.value, secondElement.value);
 });
 
 async function onAddElements() {

@@ -38,15 +38,6 @@ export const getElementToIonRatio = (element: string, ion: string): number => {
   return ionMass / elementMass ;
 };
 
-export const countRatio = (concentration: Record<string, number>, el1: string, el2: string) => {
-  const c1 = concentration[el1];
-  const c2 = concentration[el2];
-  if (c1 && c2) {
-    return c1 / c2;
-  }
-  return null;
-};
-
 export const sortArrayByObjectField = (array: Record<string, string>[], fieldName: string) => {
   const result = [...array];
   result.sort((a, b) => a[fieldName].localeCompare(b[fieldName]));

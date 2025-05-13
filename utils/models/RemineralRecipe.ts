@@ -17,14 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { GH, KH_RATIO } from '~/utils/constants/hardness';
 import { MG_IN_G, ML_IN_L } from '~/utils/constants/units';
-import { countRatio } from '~/utils/funcs';
 import { typedEntries, typedValues } from '~/utils/utils';
 
 export default class RemineralRecipe extends Recipe {
   public changeVolume: number;
   public doseVolume?: number;
+  static GH = {
+    Mg: 4.346,
+    Ca: 7.144,
+  };
+  static KH_RATIO = 2.804; // 1 °dH = 0.357 mmol/l HCO₃⁻
 
   constructor(args: RemineralRecipeType) {
     super(args);
@@ -41,21 +44,54 @@ export default class RemineralRecipe extends Recipe {
     return !this.isLiquid;
   }
 
-  // TODO: add description
-  countGh(
-    concentration: Partial<Record<IonType, number>>,
-    amount: number,
-    volume: number,
+  static countRatio = (concentration: Record<string, number>, el1: string, el2: string) => {
+    const c1 = concentration[el1];
+    const c2 = concentration[el2];
+    if (c1 && c2) {
+      return c1 / c2;
+    }
+    return null;
+  };
+
+  static countCaGh(concentrationCa: number, amount: number, volume: number) {
+    /**
+     * If concentration is in percent, then the amount is mass.
+     * If concentration is in g/l, then the amount is volume in L.
+     */
+    return concentrationCa * amount * MG_IN_G / (RemineralRecipe.GH.Ca * volume);
+  }
+
+  static countMgGh(concentrationMg: number, amount: number, volume: number) {
+    /**
+     * If concentration is in percent, then the amount is mass.
+     * If concentration is in g/l, then the amount is volume in L.
+     */
+    return concentrationMg * amount * MG_IN_G / (RemineralRecipe.GH.Mg * volume);
+  }
+
+  static countGh(
+    concentration: IonsType,
+    amount: number = 1,
+    volume: number = 1,
   ) {
-    // amount is g for dry and ml for liquid
+    /**
+     * Calculates the General Hardness (GH) of water based on the concentration of calcium (Ca)
+     * and magnesium (Mg) ions, the amount of substance, and the volume.
+     *
+     * @param {IonsType} concentration - An object containing the concentrations
+     * of ions (e.g., Ca, Mg) in the substance. Concentration can be in percent or in g/l. If g/l then volume and amount
+     * should be equal to 1
+     * @param {number} [amount=1] - The amount of the substance being measured. Unit is grams for solids
+     * and milliliters for liquids.
+     * @param {number} [volume=1] - The volume of the solution in liters.
+     * @return {number|null} The calculated GH value, or null if GH cannot be computed.
+     */
     let gh = null;
     if ('Ca' in concentration) {
-      // TODO: move to the separate method
-      gh = (gh ?? 0) + (concentration.Ca * amount) / (GH.Ca * volume) * MG_IN_G;
+      gh = (gh ?? 0) + RemineralRecipe.countCaGh(concentration.Ca, amount, volume);
     }
     if ('Mg' in concentration) {
-      // TODO: move to the separate method
-      gh = (gh ?? 0) + (concentration.Mg * amount) / (GH.Mg * volume) * MG_IN_G;
+      gh = (gh ?? 0) + RemineralRecipe.countMgGh(concentration.Mg, amount, volume);
     }
     return gh;
   }
@@ -67,8 +103,9 @@ export default class RemineralRecipe extends Recipe {
   ) {
     let kh = null;
     if ('HCO3' in concentration) {
-      // TODO: add formula description
-      kh = (concentration.HCO3 / (volume * new MolecularFormula('CO3').mass)) * KH_RATIO * amount * MG_IN_G;
+      // concentration.HCO3 is equal to concentration.CO3 multiplied to HCO3 number in the formula with CO2 injection
+      const nHCO3 = concentration.HCO3 * amount / new MolecularFormula('CO3').mass;
+      kh = nHCO3 * MG_IN_G * RemineralRecipe.KH_RATIO / volume;
     }
     return kh;
   }
@@ -76,9 +113,9 @@ export default class RemineralRecipe extends Recipe {
   countReagentAmountByGh(reagent: InstanceType<typeof Reagent>, gh: number): number {
     let result = 0;
     if ('Ca' in reagent.ions) {
-      result = gh * GH.Ca * this.changeVolume / reagent.ions['Ca'] / 1000;
+      result = gh * RemineralRecipe.GH.Ca * this.changeVolume / (reagent.ions['Ca'] * MG_IN_G);
     } else if ('Mg' in reagent.ions) {
-      result = gh * GH.Mg * this.changeVolume / reagent.ions['Mg'] / 1000;
+      result = gh * RemineralRecipe.GH.Mg * this.changeVolume / (reagent.ions['Mg'] * MG_IN_G);
     }
     if (this.isLiquid) {
       result *= this.totalVolume / this.doseVolume;
@@ -89,8 +126,9 @@ export default class RemineralRecipe extends Recipe {
   countReagentAmountByKh(reagent: InstanceType<typeof Reagent>, kh: number): number {
     let result = 0;
     if ('CO3' in reagent.ions) {
-      const amountCO3 = kh * this.changeVolume * new MolecularFormula('CO3').mass / (KH_RATIO * reagent.HCO3);
-      result = amountCO3 / reagent.ions['CO3'] / 1000;
+      const amountCO3 = kh * this.changeVolume * new MolecularFormula('CO3').mass
+        / (RemineralRecipe.KH_RATIO * reagent.HCO3);
+      result = amountCO3 / (reagent.ions['CO3'] * MG_IN_G);
     }
     if (this.isLiquid) {
       result *= this.totalVolume / this.doseVolume;
@@ -111,7 +149,7 @@ export default class RemineralRecipe extends Recipe {
       amount = this.totalMass;
     }
     this.reagents.forEach((reagent) => {
-      const gh = this.countGh(
+      const gh = RemineralRecipe.countGh(
         this.concentrationPerReagent[reagent.key],
         amount,
         this.changeVolume,
@@ -165,7 +203,7 @@ export default class RemineralRecipe extends Recipe {
   }
 
   get caMgRatio(): number {
-    return countRatio(this.concentration, 'Ca', 'Mg');
+    return RemineralRecipe.countRatio(this.concentration, 'Ca', 'Mg');
   }
 
   get concentrationInChangeWater(): Partial<Record<IonType, number>> {
@@ -250,7 +288,7 @@ export default class RemineralRecipe extends Recipe {
      Result
      amountMg = gh * volume / (caMgRatio / GH.Ca + 1 / GH.Mg)
      **/
-    const amountMg = gh * this.changeVolume / (caMgRatio / GH.Ca + 1 / GH.Mg);
+    const amountMg = gh * this.changeVolume / (caMgRatio / RemineralRecipe.GH.Ca + 1 / RemineralRecipe.GH.Mg);
     const amountCa = amountMg * caMgRatio;
     return [amountCa, amountMg];
   }
@@ -268,7 +306,7 @@ export default class RemineralRecipe extends Recipe {
     const ghPrev = this.gh;
 
     this.reagents.filter((reagent) => !reagentsLocked[reagent.key]).forEach((reagent) => {
-      if (reagent.key !== 'H2O') {
+      if (reagent.key !== H2O) {
         const ratio = (gh - ghLocked) / (ghPrev - ghLocked);
         const newReagentAmount = reagent.amount * ratio;
         if (reagent.isLiquid && this.isLiquid) {
@@ -295,13 +333,11 @@ export default class RemineralRecipe extends Recipe {
     let ghCa: number;
     let ghMg: number;
     if (this.isDry) {
-      ghCa = (this.concentration.Ca * this.totalMass) / (GH.Ca * this.changeVolume) * 1000;
-      ghMg = (this.concentration.Mg * this.totalMass) / (GH.Mg * this.changeVolume) * 1000;
+      ghCa = RemineralRecipe.countCaGh(this.concentration.Ca, this.totalMass, this.changeVolume);
+      ghMg = RemineralRecipe.countMgGh(this.concentration.Mg, this.totalMass, this.changeVolume);
     } else {
-      ghCa = (this.concentration.Ca * this.totalVolume / ML_IN_L)
-        * MG_IN_G / (GH.Ca * this.changeVolume) * this.doseVolume / this.totalVolume;
-      ghMg = (this.concentration.Mg * this.totalVolume / ML_IN_L)
-        * MG_IN_G / (GH.Mg * this.changeVolume) * this.doseVolume / this.totalVolume;
+      ghCa = RemineralRecipe.countCaGh(this.concentration.Ca, this.doseVolume / ML_IN_L, this.changeVolume);
+      ghMg = RemineralRecipe.countMgGh(this.concentration.Mg, this.doseVolume / ML_IN_L, this.changeVolume);
     }
     const ghPerReagent = { ...this.ghPerReagent };
 

@@ -115,17 +115,17 @@
             v-if="isHardness"
             class="text-center"
           >
-            <template v-if="ion in GH">
+            <template v-if="ion in RemineralRecipe.GH">
               <template
                 v-if="[
                   FertilizersRegime.ONCE_A_WEEK,
                   FertilizersRegime.EVERY_DAY
                 ].includes(dosingStore.fertilizersRegime)"
               >
-                +{{ format(value.concentration / GH[ion]) }}
+                +{{ format(value.concentration / RemineralRecipe.GH[ion]) }}
               </template>
               <template v-if="FertilizersRegime.MIX === dosingStore.fertilizersRegime">
-                +{{ format(value.concentrationTotal / GH[ion]) }}
+                +{{ format(value.concentrationTotal / RemineralRecipe.GH[ion]) }}
               </template>
             </template>
           </td>

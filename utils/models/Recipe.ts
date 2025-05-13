@@ -98,8 +98,8 @@ export default class Recipe {
     return result;
   }
 
-  get concentration(): Partial<Record<IonType, number>> {
-    const result = {};
+  get concentration(): IonsType {
+    const result: IonsType = {};
     this.reagents.forEach((reagent) => {
       typedEntries(this.concentrationPerReagent[reagent.key]).forEach(([ion, value]) => {
         if (!result[ion]) {

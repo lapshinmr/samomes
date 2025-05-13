@@ -89,28 +89,28 @@ const isAddRatioPopup = ref<boolean>(false);
 const elements = ref<[string, string][]>([]);
 
 const No3Po4Ratio = computed(() => {
-  return countRatio(props.concentration, 'NO3', 'PO4');
+  return RemineralRecipe.countRatio(props.concentration, 'NO3', 'PO4');
 });
 
 const No3KRatio = computed(() => {
-  return countRatio(props.concentration, 'NO3', 'K');
+  return RemineralRecipe.countRatio(props.concentration, 'NO3', 'K');
 });
 
 const CaMgRatio = computed(() => {
-  return countRatio(props.concentration, 'Ca', 'Mg');
+  return RemineralRecipe.countRatio(props.concentration, 'Ca', 'Mg');
 });
 
 const FeMnRatio = computed(() => {
-  return countRatio(props.concentration, 'Fe', 'Mn');
+  return RemineralRecipe.countRatio(props.concentration, 'Fe', 'Mn');
 });
 
 const gh = computed(() => {
-  return props.concentration['Ca'] / GH['Ca'] + props.concentration['Mg'] / GH['Mg'];
+  return RemineralRecipe.countGh(props.concentration);
 });
 
 const elementsAndRatios = computed(() => {
   return elements.value.map(
-    ([el1, el2]) => [el1, el2, countRatio(props.concentration, el1, el2)]);
+    ([el1, el2]) => [el1, el2, RemineralRecipe.countRatio(props.concentration, el1, el2)]);
 });
 
 function onAddElements(value: [string, string]) {
