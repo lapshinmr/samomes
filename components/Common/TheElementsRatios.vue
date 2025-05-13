@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex ga-2 flex-column flex-sm-row text-body-2">
-    <div class="d-flex ga-2 flex-grow-1">
+  <div class="text-body-2">
+    <div class="d-flex flex-wrap ga-2">
       <v-text-field
         :model-value="format(No3Po4Ratio) || '—'"
         label="NO3 / PO4"
@@ -8,6 +8,7 @@
         readonly
         density="compact"
         hide-details="auto"
+        style="min-width: 100px;"
       />
       <v-text-field
         :model-value="format(No3KRatio) || '—'"
@@ -16,24 +17,16 @@
         readonly
         density="compact"
         hide-details="auto"
+        style="min-width: 100px;"
       />
       <v-text-field
-        :model-value="format(Po4BRatio) || '—'"
-        label="PO4 / B"
+        :model-value="format(FeMnRatio) || '—'"
+        label="Fe / Mn"
         variant="outlined"
         readonly
         density="compact"
         hide-details="auto"
-      />
-    </div>
-    <div class="d-flex ga-2 flex-grow-1">
-      <v-text-field
-        :model-value="format(FeBRatio) || '—'"
-        label="Fe / B"
-        variant="outlined"
-        readonly
-        density="compact"
-        hide-details="auto"
+        style="min-width: 100px;"
       />
       <v-text-field
         :model-value="format(CaMgRatio) || '—'"
@@ -42,6 +35,7 @@
         readonly
         density="compact"
         hide-details="auto"
+        style="min-width: 100px;"
       />
       <v-text-field
         v-if="isGh"
@@ -51,8 +45,31 @@
         readonly
         density="compact"
         hide-details="auto"
+        style="min-width: 100px;"
+      />
+      <v-text-field
+        v-for="([el1, el2, ratio], index) in elementsAndRatios"
+        :key="`${el1}_${el2}_${index}`"
+        :model-value="format(ratio) || '—'"
+        :label="`${el1} / ${el2}`"
+        variant="outlined"
+        readonly
+        density="compact"
+        hide-details="auto"
+        style="min-width: 100px;"
       />
     </div>
+    <div
+      class="d-flex justify-end text-blue cursor-pointer mt-4"
+      @click="isAddRatioPopup = true;"
+    >
+      Нет нужного соотношения?
+    </div>
+    <PopupsTheAddRatioPopup
+      v-model="isAddRatioPopup"
+      :concentration="props.concentration"
+      @save="onAddElements"
+    />
   </div>
 </template>
 
@@ -62,11 +79,14 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<{
-  concentration: Partial<Record<IonType, number>>;
+  concentration: IonsType;
   isGh?: boolean;
 }>(), {
   isGh: false,
 });
+
+const isAddRatioPopup = ref<boolean>(false);
+const elements = ref<[string, string][]>([]);
 
 const No3Po4Ratio = computed(() => {
   return countRatio(props.concentration, 'NO3', 'PO4');
@@ -80,16 +100,22 @@ const CaMgRatio = computed(() => {
   return countRatio(props.concentration, 'Ca', 'Mg');
 });
 
-const Po4BRatio = computed(() => {
-  return countRatio(props.concentration, 'PO4', 'B');
-});
-const FeBRatio = computed(() => {
-  return countRatio(props.concentration, 'Fe', 'B');
+const FeMnRatio = computed(() => {
+  return countRatio(props.concentration, 'Fe', 'Mn');
 });
 
 const gh = computed(() => {
   return props.concentration['Ca'] / GH['Ca'] + props.concentration['Mg'] / GH['Mg'];
 });
+
+const elementsAndRatios = computed(() => {
+  return elements.value.map(
+    ([el1, el2]) => [el1, el2, countRatio(props.concentration, el1, el2)]);
+});
+
+function onAddElements(value: [string, string]) {
+  elements.value.push(value);
+}
 </script>
 
 <style scoped lang="sass">

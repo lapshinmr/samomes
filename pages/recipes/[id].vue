@@ -167,7 +167,7 @@
                   </template>
                 </BaseNumberField>
                 <div
-                  v-if="reagent.isLiquid && reagent.key !== 'H2O' && reagent.type !== ReagentTypeName.COMPOUND"
+                  v-if="reagent.isLiquid && reagent.key !== H2O && reagent.type !== ReagentTypeName.COMPOUND"
                   style="width: 100px;"
                 >
                   <BaseNumberField
