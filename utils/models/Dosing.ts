@@ -16,6 +16,10 @@ export class Dosing {
     this.tank = tank;
   }
 
+  get isDoses(): boolean {
+    return this.doses.length > 0;
+  }
+
   get concentration(): Partial<Record<IonType, Record<string, number>>> {
     const result = {};
     this.doses.forEach((dose) => {
@@ -57,22 +61,20 @@ export class Dosing {
   };
 
   get concentrationSorted(): [string, Record<string, number>][] {
-    const sortableResult = [];
+    const result = [];
     Object.entries(this.concentration).forEach(([ion, value]) => {
-      sortableResult.push([
+      result.push([
         ion,
         { ...value },
       ]);
     });
-    sortableResult.sort((a, b) => b[1].concentrationTotal - a[1].concentrationTotal);
-    return sortableResult;
+    result.sort((a, b) => b[1].concentrationTotal - a[1].concentrationTotal);
+    return result;
   };
 
   get concentrationTotal(): Record<string, number> {
-    const result = {};
-    Object.entries(this.concentration).forEach(([ion, value]) => {
-      result[ion] = value.concentrationTotal;
-    });
-    return result;
+    return Object.fromEntries(
+      Object.entries(this.concentration).map(([ion, value]) => [ion, value.concentrationTotal]),
+    );
   }
 }

@@ -7,13 +7,7 @@ export default class Tank {
   public waterChangeVolume?: number;
   public filterVolume?: number;
 
-  constructor(args: {
-    name: string;
-    volume?: number;
-    waterChangePercent?: number;
-    waterChangeVolume?: number;
-    filterVolume?: number;
-  }) {
+  constructor(args: TankType) {
     this.name = args.name;
     this.volume = args.volume;
     this.waterChangePercent = args.waterChangePercent;

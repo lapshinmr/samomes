@@ -26,14 +26,7 @@ export default class RemineralRecipe extends Recipe {
   public changeVolume: number;
   public doseVolume?: number;
 
-  constructor(args: {
-    name: string;
-    description?: string;
-    reagents: ReagentType[];
-    waterVolume?: number;
-    changeVolume: number;
-    doseVolume?: number;
-  }) {
+  constructor(args: RemineralRecipeType) {
     super(args);
     this.changeVolume = args.changeVolume;
     this.doseVolume = args.doseVolume;
@@ -369,7 +362,6 @@ export default class RemineralRecipe extends Recipe {
       totalVolume: this.totalVolume,
       changeVolume: this.changeVolume,
       doseVolume: this.doseVolume,
-      isLiquid: this.isLiquid,
       reagents: this.reagents.map((reagent) => ({
         ...reagent.toJson(),
       })),

@@ -21,37 +21,25 @@ import MolecularFormula from '~/utils/models/MolecularFormula';
 import { getElementToIonRatio, getElementToOxideRatio } from '~/utils/funcs';
 
 export default class Reagent {
-  public key: ReagentKeyType;
-  public name: string;
+  public readonly key: ReagentKeyType;
+  public readonly name: string;
+  public readonly type: ReagentTypeName;
+  public readonly isLiquid?: boolean;
+  public readonly HCO3: number;
+  public readonly density?: number;
   public amount: number;
-  public type: ReagentTypeName;
   public unitConcs?: Partial<Record<IonType, number>>;
   public solubility?: number;
-  public isLiquid?: boolean;
-  public HCO3: number;
-  public density?: number;
+  // TODO: add property decorator to set limits [1, 100]
   public dilution?: number;
   private _ions?: Partial<Record<IonType, number>>;
 
-  constructor(args: {
-    key: ReagentKeyType;
-    name: string;
-    amount: number;
-    type: ReagentTypeName;
-    unitConcs?: Partial<Record<IonType, number>>;
-    ions?: Partial<Record<IonType, number>>;
-    solubility?: number;
-    isLiquid?: boolean;
-    HCO3?: number;
-    density?: number;
-    // TODO: add property decorator to set limits [1, 100]
-    dilution?: number;
-  }) {
+  constructor(args: ReagentType) {
     this.key = args.key;
     this.name = args.name;
     this.amount = args.amount;
     this.type = args.type;
-    this.unitConcs = args.unitConcs || {};
+    this.unitConcs = args.unitConcs ?? {};
     this.solubility = args.solubility;
     this.isLiquid = args.isLiquid ?? false;
     this.density = args.density;
@@ -75,8 +63,8 @@ export default class Reagent {
     return this.type === 'compound';
   }
 
-  get ions(): Partial<Record<IonType, number>> {
-    let result: Partial<Record<IonType, number>>;
+  get ions(): IonsType {
+    let result: IonsType;
     if (this.isCompound) {
       result = { ...this._ions };
     } else {

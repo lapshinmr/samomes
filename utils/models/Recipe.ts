@@ -25,11 +25,7 @@ export default class Recipe {
   public description?: string;
   public reagents: InstanceType<typeof Reagent>[] = [];
 
-  constructor(args: {
-    name: string;
-    description?: string;
-    reagents: ReagentType[];
-  }) {
+  constructor(args: RecipeType) {
     this.name = args.name;
     this.description = args.description;
     this.reagents = args.reagents.map((reagent) => new Reagent({ ...reagent })) || [];

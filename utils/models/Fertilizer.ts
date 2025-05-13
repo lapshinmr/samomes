@@ -18,23 +18,16 @@
  */
 
 import { getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
-import type { IonType } from '~/utils/types/types';
 
 export default class Fertilizer {
   public name: string;
   public description?: string;
-  public ions: Partial<Record<IonType, number>>;
+  public ions: IonsType;
   public isPercent: boolean;
   public updatedAt?: string;
   public isLiquid = true;
 
-  constructor(args: {
-    name: string;
-    description?: string;
-    ions: Partial<Record<IonType, number>>;
-    isPercent: boolean;
-    updatedAt?: string;
-  }) {
+  constructor(args: FertilizerType) {
     this.name = args.name;
     this.description = args.description;
     this.ions = args.ions;
@@ -42,7 +35,7 @@ export default class Fertilizer {
     this.updatedAt = args.updatedAt;
   }
 
-  get concentration(): Partial<Record<IonType, number>> {
+  get concentration(): IonsType {
     const result = {};
     Object.entries(this.ions).forEach(([el, value]) => {
       if (!value) {

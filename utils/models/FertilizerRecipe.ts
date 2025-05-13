@@ -20,12 +20,7 @@
 export default class FertilizerRecipe extends Recipe {
   public tankVolume?: number;
 
-  constructor(args: {
-    name: string;
-    description?: string;
-    reagents: ReagentType[];
-    tankVolume?: number | null;
-  }) {
+  constructor(args: FertilizerRecipeType) {
     super(args);
     this.tankVolume = args.tankVolume;
   }
@@ -101,7 +96,6 @@ export default class FertilizerRecipe extends Recipe {
       name: this.name,
       description: this.description,
       tankVolume: this.tankVolume,
-      isLiquid: this.isLiquid,
       reagents: this.reagents.map((reagent) => ({
         ...reagent.toJson(),
       })),

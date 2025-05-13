@@ -74,17 +74,17 @@
               />
             </div>
           </v-expand-transition>
-          <DosingTheFertilizerDosesTable v-if="isDoses" />
+          <DosingTheFertilizerDosesTable v-if="dosingModel.isDoses" />
           <v-expand-transition>
             <DosingTheElementsTable
-              v-if="isDoses"
+              v-if="dosingModel.isDoses"
               is-helpful-info
               is-switchers
               :dosing="dosingModel"
             />
           </v-expand-transition>
           <v-alert
-            v-if="isDoses"
+            v-if="dosingModel.isDoses"
             class="my-10"
             type="info"
             color="green-lighten-1"
@@ -125,9 +125,9 @@ import { DoseFertilizerType } from '~/utils/types/types';
 const { t } = useI18n();
 
 const tanksStore = useTanksStore();
-const { fertilizerRecipeModels } = useRecipesStore();
-const { fertilizerModels } = useFertilizersStore();
-const { remineralRecipeModels } = useRemineralsStore();
+const { fertilizerRecipes } = useRecipesStore();
+const { fertilizers } = useFertilizersStore();
+const { remineralRecipes } = useRemineralsStore();
 const dosingStore = useDosingStore();
 const snackbarStore = useSnackbarStore();
 
@@ -142,37 +142,38 @@ const dosingModel = computed(() => {
   );
 });
 
-const isDoses = computed(() => dosingModel.value.doses.length > 0);
-
-// TODO: refactor this
 const allFertilizers = computed(() => {
-  const result = [...fertilizerRecipeModels, ...fertilizerModels, ...remineralRecipeModels];
+  let defaultFertilizersFiltered = [];
   if (isDefaultFertilizers.value) {
-    const recipesNames = fertilizerRecipeModels.map((item) => item.name);
-    const fertilizersNames = fertilizerModels.map((item) => item.name);
-    const remineralsNames = remineralRecipeModels.map((item) => item.name);
-    const defaultFertilizersFiltered = FERTILIZERS_SORTED.filter(
+    const recipesNames = fertilizerRecipes.map((item) => item.name);
+    const fertilizersNames = fertilizers.map((item) => item.name);
+    const remineralsNames = remineralRecipes.map((item) => item.name);
+    defaultFertilizersFiltered = FERTILIZERS_SORTED.filter(
       (item) => ![...recipesNames, ...fertilizersNames, ...remineralsNames].includes(item.name),
-    ).map((item) => new Fertilizer(item));
-    result.push(...defaultFertilizersFiltered);
+    );
   }
-  return result.map((item) => {
-    let fertilizerType: DoseFertilizerType;
-    if (item instanceof FertilizerRecipe) {
-      fertilizerType = DoseFertilizerType.fertilizerRecipe;
-    }
-    if (item instanceof Fertilizer) {
-      fertilizerType = DoseFertilizerType.fertilizer;
-    }
-    if (item instanceof RemineralRecipe) {
-      fertilizerType = DoseFertilizerType.remineralRecipe;
-    }
-    return new Dose({
+  return [
+    ...fertilizerRecipes.map((item) => new Dose({
       fertilizer: item,
-      fertilizerType,
+      fertilizerType: DoseFertilizerType.fertilizerRecipe,
       daysTotal: dosingStore.daysTotal,
-    });
-  });
+    })),
+    ...fertilizers.map((item) => new Dose({
+      fertilizer: item,
+      fertilizerType: DoseFertilizerType.fertilizer,
+      daysTotal: dosingStore.daysTotal,
+    })),
+    ...remineralRecipes.map((item) => new Dose({
+      fertilizer: item,
+      fertilizerType: DoseFertilizerType.remineralRecipe,
+      daysTotal: dosingStore.daysTotal,
+    })),
+    ...defaultFertilizersFiltered.map((item) => new Dose({
+      fertilizer: item,
+      fertilizerType: DoseFertilizerType.fertilizer,
+      daysTotal: dosingStore.daysTotal,
+    })),
+  ]
 });
 
 function onChooseTank(value: number | string | TankType) {

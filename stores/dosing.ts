@@ -32,25 +32,13 @@ export const useDosingStore = defineStore(
     const doses = ref<DoseType[]>([]);
 
     const doseModels = computed(() => {
-      return doses.value.map((dose) => {
-        let fertilizer: InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>;
-        if (dose.fertilizerType === 'fertilizerRecipe') {
-          fertilizer = new FertilizerRecipe(dose.fertilizer as FertilizerRecipeType);
-        }
-        if (dose.fertilizerType === 'fertilizer') {
-          fertilizer = new Fertilizer(dose.fertilizer as FertilizerType);
-        }
-        if (dose.fertilizerType === 'remineralRecipe') {
-          fertilizer = new RemineralRecipe(dose.fertilizer as RemineralRecipeType);
-        }
-        return new Dose({
-          fertilizer: fertilizer,
-          fertilizerType: dose.fertilizerType,
-          daysTotal: daysTotal.value,
-          amountDay: dose.amountDay,
-          amountWaterChange: dose.amountWaterChange,
-        });
-      });
+      return doses.value.map((dose) => new Dose({
+        fertilizer: dose.fertilizer,
+        fertilizerType: dose.fertilizerType,
+        daysTotal: daysTotal.value,
+        amountDay: dose.amountDay,
+        amountWaterChange: dose.amountWaterChange,
+      }));
     });
 
     function setTank(payload: TankType) {

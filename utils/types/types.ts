@@ -30,14 +30,15 @@ export type CationType = typeof CATIONS[number]
 export type AnionType = typeof ANIONS[number]
 
 export type IonType = ElementType | OxideType | CarbonatesType | AnionType;
+export type IonsType = Partial<Record<IonType, number>>;
 
 export type TankType = {
   name: string;
   volume: number;
-  volumeTotal?: number;
   waterChangePercent?: number;
   waterChangeVolume?: number;
   filterVolume?: number;
+  volumeTotal?: number;
 };
 
 export type FormulaKeyType = keyof typeof FORMULAS;
@@ -76,13 +77,15 @@ export type ReagentType = {
   dilution?: number;
 }
 
-export type FertilizerRecipeType = {
+export type RecipeType = {
   name: string;
   description?: string;
   reagents: ReagentType[];
-  tankVolume?: number;
   totalVolume?: number;
-  isLiquid?: boolean;
+}
+
+export type FertilizerRecipeType = RecipeType & {
+  tankVolume?: number;
   totalMass?: number;
 }
 
@@ -99,17 +102,12 @@ export type FertilizerType = {
   ions: Partial<Record<IonType, number>>;
   isPercent: boolean;
   updatedAt?: string;
-  isLiquid: boolean;
+  isLiquid?: boolean;
 }
 
-export type RemineralRecipeType = {
-  name: string;
-  description?: string;
-  reagents: ReagentType[];
+export type RemineralRecipeType = RecipeType & {
   changeVolume: number;
-  totalVolume?: number;
   doseVolume?: number;
-  isLiquid?: boolean;
 }
 
 export type RemineralRecipeExampleType = {
@@ -131,9 +129,8 @@ export type DoseType = {
   fertilizer: FertilizerRecipeType | FertilizerType | RemineralRecipeType;
   fertilizerType: DoseFertilizerType;
   daysTotal: number;
-  amount: number;
-  amountDay: number;
-  amountWaterChange: number;
+  amountDay?: number;
+  amountWaterChange?: number;
 }
 
 export enum FertilizersRegime { EVERY_DAY, ONCE_A_WEEK, MIX }
