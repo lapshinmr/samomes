@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 export const H2O = 'H2O';
+export const HCO3 = 'HCO3';
 export const TrilonB = 'C10H14N2Na2O8(H2O)2';
 
 export const FORMULAS = {

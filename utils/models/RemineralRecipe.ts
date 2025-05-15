@@ -55,7 +55,7 @@ export default class RemineralRecipe extends Recipe {
 
   static countCaGh(concentrationCa: number, amount: number, volume: number) {
     /**
-     * If concentration is in percent, then the amount is mass.
+     * If concentration is in percent, then the amount is mass in g and volume in L.
      * If concentration is in g/l, then the amount is volume in L.
      */
     return concentrationCa * amount * MG_IN_G / (RemineralRecipe.GH.Ca * volume);
@@ -63,7 +63,7 @@ export default class RemineralRecipe extends Recipe {
 
   static countMgGh(concentrationMg: number, amount: number, volume: number) {
     /**
-     * If concentration is in percent, then the amount is mass.
+     * If concentration is in percent, then the amount is mass in g and volume in L.
      * If concentration is in g/l, then the amount is volume in L.
      */
     return concentrationMg * amount * MG_IN_G / (RemineralRecipe.GH.Mg * volume);
@@ -206,15 +206,18 @@ export default class RemineralRecipe extends Recipe {
     return RemineralRecipe.countRatio(this.concentration, 'Ca', 'Mg');
   }
 
+  get concentrationWithoutHCO3(): Partial<Record<IonType, number>> {
+    return Object.fromEntries(
+      Object.entries(this.concentration).filter(([ion, ]) => ion !== HCO3));
+  };
+
   get concentrationInChangeWater(): Partial<Record<IonType, number>> {
     const result = {};
-    Object.entries(this.concentration).forEach(([ion, value]) => {
-      if (ion !== 'HCO3') {
-        if (this.isDry) {
-          result[ion] = value * this.totalMass * ML_IN_L / this.changeVolume;
-        } else {
-          result[ion] = value * this.doseVolume / this.changeVolume;
-        }
+    Object.entries(this.concentrationWithoutHCO3).forEach(([ion, value]) => {
+      if (this.isDry) {
+        result[ion] = value * this.totalMass * ML_IN_L / this.changeVolume;
+      } else {
+        result[ion] = value * this.doseVolume / this.changeVolume;
       }
     });
     return result;

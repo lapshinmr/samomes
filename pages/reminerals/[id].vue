@@ -174,15 +174,13 @@
               />
               <v-expand-transition>
                 <div v-if="isReagentsAmount">
-                  <template v-if="remineralModel.isLiquid">
-                    <DividerWithNote class="my-4">
-                      Концентрация раствора
-                    </DividerWithNote>
-                    <TheSoluteElementsTable
-                      :remineral="remineralModel"
-                      class="mb-10"
-                    />
-                  </template>
+                  <DividerWithNote class="my-4">
+                    Концентрация {{ remineralModel.isLiquid ? 'раствора' : 'смеси' }}
+                  </DividerWithNote>
+                  <TheSoluteElementsTable
+                    :remineral="remineralModel"
+                    class="mb-10"
+                  />
                   <DividerWithNote class="my-4">
                     Концентрация в подменной воде
                   </DividerWithNote>

@@ -77,21 +77,40 @@
             {{ t('fertilizers.card.composition') }}
           </DividerWithNote>
           <v-radio-group
-            v-model="fertilizerModel.isPercent"
+            v-model="fertilizerModel.isLiquid"
             inline
             color="primary"
             class="mt-3 ml-n2"
             hide-details="auto"
           >
             <v-radio
-              :label="t('units.g/l')"
-              :value="false"
-            />
-            <v-radio
-              label="%"
+              :label="t('common.liquid')"
               :value="true"
             />
+            <v-radio
+              :label="t('common.dry')"
+              :value="false"
+            />
           </v-radio-group>
+          <v-expand-transition>
+            <v-radio-group
+              v-if="fertilizerModel.isLiquid"
+              v-model="fertilizerModel.isPercent"
+              inline
+              color="primary"
+              class="mt-3 ml-n2"
+              hide-details="auto"
+            >
+              <v-radio
+                :label="t('units.g/l')"
+                :value="false"
+              />
+              <v-radio
+                label="%"
+                :value="true"
+              />
+            </v-radio-group>
+          </v-expand-transition>
           <v-alert
             v-if="isUnitsChangedAlert"
             type="error"
@@ -193,7 +212,8 @@ const fertilizerModel = reactive(new Fertilizer({
   name: '',
   description: '',
   ions: {},
-  isPercent: false,
+  isLiquid: true,
+  isPercent: true,
   updatedAt: '',
 }));
 

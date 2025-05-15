@@ -90,7 +90,7 @@
             </v-btn>
             <v-btn
               variant="text"
-              class="ml-auto"
+              class="ml-sm-auto px-1 px-sm-4"
               @click="onShare(index)"
             >
               {{ t('buttons.share') }}

@@ -104,8 +104,9 @@ const FeMnRatio = computed(() => {
   return RemineralRecipe.countRatio(props.concentration, 'Fe', 'Mn');
 });
 
+// TODO: refactor this place around units
 const gh = computed(() => {
-  return RemineralRecipe.countGh(props.concentration);
+  return RemineralRecipe.countGh(props.concentration, 1 / MG_IN_G);
 });
 
 const elementsAndRatios = computed(() => {

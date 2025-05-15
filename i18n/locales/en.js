@@ -38,6 +38,8 @@ export default {
     sum: 'Sum',
     total: 'Total',
     isFormErrors: 'The form contains errors. Please correct them to continue.',
+    dry: 'Dry',
+    liquid: 'Liquid',
   },
   validation: {
     required: 'Required field',
@@ -69,7 +71,7 @@ export default {
     'mg/l': 'mg/L',
     'g/l': 'g/L',
     'mg/l / ml': 'mg/L / mL',
-    'g/1g': 'g/1g',
+    'g/1g': '%',
     'ml/d': 'ml/day',
     'g/d': 'g/day',
   },

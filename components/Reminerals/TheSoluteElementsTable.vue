@@ -76,11 +76,11 @@ const props = defineProps<{
 }>();
 
 const concentrationSorted = computed(() => {
-  return sortObject(props.remineral.concentration);
+  return sortObject(props.remineral.concentrationWithoutHCO3);
 });
 
 const ionsTotal = computed(() => {
-  return Object.keys(props.remineral.concentration).length;
+  return Object.keys(props.remineral.concentrationWithoutHCO3).length;
 });
 </script>
 

@@ -31,6 +31,7 @@ export default class Fertilizer {
     this.name = args.name;
     this.description = args.description;
     this.ions = args.ions;
+    this.isLiquid = args.isLiquid;
     this.isPercent = args.isPercent;
     this.updatedAt = args.updatedAt;
   }
@@ -41,8 +42,10 @@ export default class Fertilizer {
       if (!value) {
         return;
       }
-      if (this.isPercent) {
+      if (this.isLiquid && this.isPercent) {
         value *= 10;
+      } else if (!this.isLiquid && this.isPercent) {
+        value /= 100;
       }
       if (el === 'N') {
         result['NO3'] = value * getElementToOxideRatio(el);
