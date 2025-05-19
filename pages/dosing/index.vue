@@ -33,95 +33,95 @@
         <div class="text-body-2 text-grey-darken-1 mb-8">
           {{ t('dosing.doses.description') }}
         </div>
-        <v-form ref="scheduleForm">
-          <v-combobox
-            v-model.number="dosingModel.tank"
-            :items="tanks"
-            item-title="name"
-            variant="underlined"
-            :label="t('dosing.tankInputLabel')"
-            :hint="t('dosing.tankInputHint')"
-            persistent-hint
-            hide-selected
-            :rules="rulesTank"
-            class="mb-4"
-            @update:model-value="onChooseTank"
-          />
-          <v-expand-transition>
-            <div
-              v-if="dosingModel.tank?.volume"
-              class="d-flex flex-column flex-md-row align-md-center"
-            >
-              <v-combobox
-                :model-value="dosingStore.doseModels"
-                :items="allFertilizers"
-                variant="underlined"
-                :label="t('dosing.fertilizersInputLabel')"
-                :hint="t('dosing.fertilizersInputHint')"
-                item-title="fertilizer.name"
-                persistent-hint
-                multiple
-                chips
-                closable-chips
-                class="mb-4"
-                @update:model-value="onInputFertilizer"
-              />
-              <v-switch
-                v-model="isDefaultFertilizers"
-                color="primary"
-                :label="t('dosing.switch')"
-                class="ml-md-4 flex-shrink-0"
-              />
-            </div>
-          </v-expand-transition>
-          <TheFertilizerDosesTable v-if="dosingModel.isDoses" />
-          <v-expand-transition>
-            <TheDosingElementsTable
-              v-if="dosingModel.isDoses"
-              is-helpful-info
-              is-switchers
-              :dosing="dosingModel"
+        <client-only>
+          <v-form ref="scheduleForm">
+            <v-combobox
+              v-model.number="dosingModel.tank"
+              :items="tanks"
+              item-title="name"
+              variant="underlined"
+              :label="t('dosing.tankInputLabel')"
+              :hint="t('dosing.tankInputHint')"
+              persistent-hint
+              hide-selected
+              :rules="rulesTank"
+              class="mb-4"
+              @update:model-value="onChooseTank"
             />
-          </v-expand-transition>
-          <v-alert
-            v-if="dosingModel.isDoses"
-            class="my-10"
-            type="info"
-            color="green-lighten-1"
-            icon="mdi-help-circle"
-          >
-            <p class="mb-2">
-              Оцените, пожалуйста, изменения на странице подбора дозировок, заполнив анкету
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSf9gC2eSNPXKOmSQXtqTWksVvUHZN7QPKIzizHy_QKyquAdUg/viewform?usp=header"
-                target="_blank"
-                class="text-underlined"
+            <v-expand-transition>
+              <div
+                v-if="dosingModel.tank?.volume"
+                class="d-flex flex-column flex-md-row align-sm-center"
               >
-                здесь
-              </a> (количество заполнений анкеты не ограничено).
-            </p>
-            <p>
-              Если при использовании сайта у вас возникли трудности или непонятные моменты, обязательно
-              сообщите нам через
-              <a
-                href="https://t.me/samomes_calculator"
-                target="_blank"
-              >
-                телеграм-канал
-              </a>
-              или личные сообщения в телеграм автору проекта (@lapshinmr).
-              Мы постараемся сделать сервис доступнее и удобнее.
-            </p>
-          </v-alert>
-        </v-form>
+                <v-combobox
+                  :model-value="dosingStore.doseModels"
+                  :items="allFertilizers"
+                  variant="underlined"
+                  :label="t('dosing.fertilizersInputLabel')"
+                  :hint="t('dosing.fertilizersInputHint')"
+                  item-title="fertilizer.name"
+                  persistent-hint
+                  multiple
+                  chips
+                  closable-chips
+                  class="mb-4"
+                  @update:model-value="onInputFertilizer"
+                />
+                <v-switch
+                  v-model="isDefaultFertilizers"
+                  color="primary"
+                  :label="t('dosing.switch')"
+                  class="ml-md-4 flex-shrink-0"
+                />
+              </div>
+            </v-expand-transition>
+            <TheFertilizerDosesTable v-if="dosingModel.isDoses" />
+            <v-expand-transition>
+              <TheDosingElementsTable
+                v-if="dosingModel.isDoses"
+                is-helpful-info
+                is-switchers
+                :dosing="dosingModel"
+              />
+            </v-expand-transition>
+            <v-alert
+              v-if="dosingModel.isDoses"
+              class="my-10"
+              type="info"
+              color="green-lighten-1"
+              icon="mdi-help-circle"
+            >
+              <p class="mb-2">
+                Оцените, пожалуйста, изменения на странице подбора дозировок, заполнив анкету
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSf9gC2eSNPXKOmSQXtqTWksVvUHZN7QPKIzizHy_QKyquAdUg/viewform?usp=header"
+                  target="_blank"
+                  class="text-underlined"
+                >
+                  здесь
+                </a> (количество заполнений анкеты не ограничено).
+              </p>
+              <p>
+                Если при использовании сайта у вас возникли трудности или непонятные моменты, обязательно
+                сообщите нам через
+                <a
+                  href="https://t.me/samomes_calculator"
+                  target="_blank"
+                >
+                  телеграм-канал
+                </a>
+                или личные сообщения в телеграм автору проекта (@lapshinmr).
+                Мы постараемся сделать сервис доступнее и удобнее.
+              </p>
+            </v-alert>
+          </v-form>
+        </client-only>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { DoseFertilizerType } from '~/utils/types/types';
-
 const { t } = useI18n();
 
 const tanksStore = useTanksStore();

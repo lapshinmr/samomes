@@ -19,13 +19,25 @@
 
 import { getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
 
+// TODO: try this and delete
+// function Logger(target, ctx) {
+//   console.log('Logger', target, ctx);
+// }
+//
+// @Logger
 export default class Fertilizer {
-  public name: string;
-  public description?: string;
-  public ions: IonsType;
-  public isPercent: boolean;
-  public updatedAt?: string;
-  public isLiquid = true;
+  name: string;
+  description?: string;
+  ions: IonsType;
+  isPercent: boolean;
+  updatedAt?: string;
+  isLiquid = true;
+  hardness?: {
+    gh: number;
+    kh: number;
+    amount: number;
+    volume: number;
+  };
 
   constructor(args: FertilizerType) {
     this.name = args.name;
@@ -34,6 +46,7 @@ export default class Fertilizer {
     this.isLiquid = args.isLiquid;
     this.isPercent = args.isPercent;
     this.updatedAt = args.updatedAt;
+    this.hardness = { ...args.hardness };
   }
 
   get concentration(): IonsType {
@@ -76,6 +89,7 @@ export default class Fertilizer {
       isPercent: this.isPercent,
       isLiquid: this.isLiquid,
       updatedAt: this.updatedAt,
+      hardness: this.hardness,
     };
   }
 }

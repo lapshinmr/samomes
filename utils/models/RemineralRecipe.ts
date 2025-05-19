@@ -53,6 +53,7 @@ export default class RemineralRecipe extends Recipe {
     return null;
   };
 
+  // TODO: investigate how to split liquid and dry concentrations
   static countCaGh(concentrationCa: number, amount: number, volume: number) {
     /**
      * If concentration is in percent, then the amount is mass in g and volume in L.
@@ -96,10 +97,10 @@ export default class RemineralRecipe extends Recipe {
     return gh;
   }
 
-  countKh(
+  static countKh(
     concentration: Partial<Record<IonType, number>>,
-    amount: number,
-    volume: number,
+    amount: number = 1,
+    volume: number = 1,
   ) {
     let kh = null;
     if ('HCO3' in concentration) {
@@ -172,7 +173,7 @@ export default class RemineralRecipe extends Recipe {
       amount = this.totalMass;
     }
     this.reagents.forEach((reagent) => {
-      const kh = this.countKh(
+      const kh = RemineralRecipe.countKh(
         this.concentrationPerReagent[reagent.key],
         amount,
         this.changeVolume,

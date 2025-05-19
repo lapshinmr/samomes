@@ -18,7 +18,7 @@
  */
 
 import MolecularFormula from '~/utils/models/MolecularFormula';
-import { getElementToIonRatio, getElementToOxideRatio } from '~/utils/funcs';
+import { getElementToIonRatio, getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
 
 export default class Reagent {
   public readonly key: ReagentKeyType;
@@ -63,10 +63,35 @@ export default class Reagent {
     return this.type === 'compound';
   }
 
+  // TODO: refactor this place
   get ions(): IonsType {
     let result: IonsType;
     if (this.isCompound) {
-      result = { ...this._ions };
+      // result = { ...this._ions };
+      const ions = {};
+      typedEntries(this._ions).forEach(([el, value]) => {
+        if (!value) {
+          return;
+        }
+        if (el === 'N') {
+          ions['NO3'] = value * getElementToOxideRatio(el);
+        } else if (el === 'P') {
+          ions['PO4'] = value * getElementToOxideRatio(el);
+        } else if (el === 'S') {
+          ions['SO4'] = value * getElementToOxideRatio(el);
+        } else if (el === 'MgO') {
+          ions['Mg'] = value * getOxideToElementRatio(el);
+        } else if (el === 'CaO') {
+          ions['Ca'] = value * getOxideToElementRatio(el);
+        } else if (el === 'P2O5') {
+          ions['PO4'] = value * getOxideToElementRatio(el) * getElementToOxideRatio('P');
+        } else if (el === 'K2O') {
+          ions['K'] = value * getOxideToElementRatio(el);
+        } else {
+          ions[el] = value;
+        }
+      });
+      result = ions;
     } else {
       // TODO: refactoring & check if value is from formula type
       const ions = new MolecularFormula(this.key).fraction;
@@ -85,16 +110,16 @@ export default class Reagent {
       if (ions['C'] && FORMULAS[this.key]?.anion?.key === 'C6H11O7' ) {
         ions['C6H11O7'] = ions['C'] * getElementToIonRatio('C12', 'C12H22O14');
       }
-      delete ions['C'];
-      delete ions['N'];
-      delete ions['P'];
-      delete ions['S'];
-      // TODO: save H & O as H2O
-      delete ions['H'];
-      delete ions['O'];
-
       result = ions;
     }
+    delete result['C'];
+    delete result['N'];
+    delete result['P'];
+    delete result['S'];
+    // TODO: save H & O as H2O
+    delete result['H'];
+    delete result['O'];
+
     if (this.dilution < 100) {
       typedEntries(result).forEach(([ion, value]) => {
         result[ion] = value * this.dilution / 100;

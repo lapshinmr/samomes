@@ -1,11 +1,12 @@
 import type { DoseFertilizerType } from '~/utils/types/types';
 
 export class Dose {
-  public readonly fertilizer: InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>;
-  public readonly fertilizerType: DoseFertilizerType;
-  public daysTotal: number;
-  public amountDay?: number;
-  public amountWaterChange?: number;
+  // TODO: why fertilizer has any type?
+  readonly fertilizer: InstanceType<typeof FertilizerRecipe | typeof Fertilizer | typeof RemineralRecipe>;
+  readonly fertilizerType: DoseFertilizerType;
+  daysTotal: number;
+  amountDay?: number;
+  amountWaterChange?: number;
 
   constructor(args: DoseType) {
     this.fertilizerType = args.fertilizerType;

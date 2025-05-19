@@ -103,6 +103,12 @@ export type FertilizerType = {
   isPercent: boolean;
   updatedAt?: string;
   isLiquid?: boolean;
+  hardness?: {
+    gh: number;
+    kh: number;
+    amount: number;
+    volume: number;
+  };
 }
 
 export type RemineralRecipeType = RecipeType & {
@@ -134,4 +140,10 @@ export type DoseType = {
 }
 
 export enum FertilizersRegime { EVERY_DAY, ONCE_A_WEEK, MIX }
+
+export enum RemineralizationTypes {
+  REM,
+  TAP,
+  MIX,
+}
 

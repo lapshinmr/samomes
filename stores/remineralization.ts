@@ -18,55 +18,61 @@
  */
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
+import type { RemineralizationTypes } from '~/utils/types/types';
 
-export const useDosingStore = defineStore(
-  'dosing',
+export const useRemineralizationStore = defineStore(
+  'remineralization',
   () => {
-    const isDefaultFertilizers = ref<boolean>(false);
-    const isTotalMode = ref<boolean>(false);
-    const isHardness = ref<boolean>(false);
-    const fertilizersRegime = ref<FertilizersRegime>(FertilizersRegime.EVERY_DAY);
-    const daysTotal = ref<number>(7);
     const tank = ref<TankType>();
+    const remineralizationType = ref();
+    const isTests = ref<boolean>(false);
+    const osmosisChangePercent = ref();
+    const isDefaultFertilizers = ref<boolean>(false);
     const doses = ref<DoseType[]>([]);
 
     const doseModels = computed(() => {
       return doses.value.map((dose) => new Dose({
         fertilizer: dose.fertilizer,
         fertilizerType: dose.fertilizerType,
-        daysTotal: daysTotal.value,
+        daysTotal: 1,
         amountDay: dose.amountDay,
         amountWaterChange: dose.amountWaterChange,
       }));
+    });
+
+    const osmosisChangeVolume = computed(() => {
+      const decimalToPercent = 100;
+      return tank.value.volume
+        * (tank.value.waterChangePercent / decimalToPercent)
+        * (osmosisChangePercent.value / decimalToPercent);
     });
 
     function setTank(payload: TankType) {
       tank.value = payload;
     }
 
+    function setRemineralizationType(payload: RemineralizationTypes) {
+      remineralizationType.value = payload;
+    }
+
+    function setIsTests(payload: boolean) {
+      isTests.value = payload;
+    }
+
     function setWaterChangeVolume(payload: number) {
       tank.value.waterChangeVolume = payload;
     }
 
+    function setWaterChangePercent(payload: number) {
+      tank.value.waterChangePercent = payload;
+    }
+
+    function setOsmosisChangePercent(payload: number) {
+      osmosisChangePercent.value = payload;
+    }
+
     function setDefaultFertilizers(value: boolean) {
       isDefaultFertilizers.value = value;
-    }
-
-    function setTotalMode(value: boolean) {
-      isTotalMode.value = value;
-    }
-
-    function setDaysTotal(value: number) {
-      daysTotal.value = value;
-      doses.value.forEach((dose) => dose.daysTotal = value);
-    }
-
-    function setHardness(value: boolean) {
-      isHardness.value = value;
-    }
-
-    function setFertilizersRegime(value: FertilizersRegime) {
-      fertilizersRegime.value = value;
     }
 
     function setDoses(payload: InstanceType<typeof Dose>[]) {
@@ -77,45 +83,24 @@ export const useDosingStore = defineStore(
       doses.value[index].amountDay = value;
     }
 
-    function updateAmount(value: number, index: number) {
-      doses.value[index].amountDay = value / daysTotal.value;
-    }
-
-    function updateAmountWaterChange(value: number, index: number) {
-      doses.value[index].amountWaterChange = value;
-    }
-
-    function resetDosing() {
-      isDefaultFertilizers.value = false;
-      isTotalMode.value = false;
-      isHardness.value = false;
-      fertilizersRegime.value = FertilizersRegime.EVERY_DAY;
-      daysTotal.value = 7;
-      tank.value = null;
-      doses.value = [];
-    }
-
     return {
       tank,
+      remineralizationType,
+      isTests,
+      osmosisChangePercent,
+      osmosisChangeVolume,
       isDefaultFertilizers,
-      isTotalMode,
-      isHardness,
-      fertilizersRegime,
-      daysTotal,
       doses,
       doseModels,
       setTank,
+      setRemineralizationType,
+      setIsTests,
       setWaterChangeVolume,
+      setWaterChangePercent,
+      setOsmosisChangePercent,
       setDefaultFertilizers,
-      setTotalMode,
-      setDaysTotal,
-      setHardness,
-      setFertilizersRegime,
       setDoses,
-      updateAmount,
       updateAmountDay,
-      updateAmountWaterChange,
-      resetDosing,
     };
   },
   {

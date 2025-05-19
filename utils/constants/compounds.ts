@@ -205,4 +205,33 @@ export const COMPOUNDS = {
     isLiquid: true,
     name: 'Кальция глюконат 10% в ампулах (Фармак)',
   },
+  BrexilFe: {
+    ions: {
+      Fe: 0.1,
+    },
+    name: 'Brexil Fe 10%',
+  },
+  BrexilMn: {
+    ions: {
+      Mn: 0.1,
+    },
+    name: 'Brexil Mn 10%',
+  },
+  BrexilMg: {
+    ions: {
+      MgO: 0.08,
+    },
+    name: 'Brexil MgO 8% (Valagro)',
+  },
+  BrexilCombi: {
+    ions: {
+      Fe: 0.068,
+      Mn: 0.026,
+      B: 0.009,
+      Zn: 0.011,
+      Cu: 0.003,
+      Mo: 0.002,
+    },
+    name: 'Brexil Combi',
+  },
 } satisfies Record<string, CompoundObjectType>;

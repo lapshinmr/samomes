@@ -278,6 +278,56 @@ export const FERTILIZERS = [
     description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
     updatedAt: '2025-03-03',
   },
+  {
+    name: 'Aquabalance GH-бустер',
+    isPercent: true,
+    isLiquid: false,
+    ions: {
+      Ca: 17.2,
+      Mg: 4.3,
+    },
+    hardness: {
+      gh: 3.5,
+      kh: 0,
+      amount: 14,
+      volume: 100,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Aqua-бустер',
+    isPercent: true,
+    isLiquid: false,
+    ions: {
+      Ca: 15,
+      Mg: 4.3,
+    },
+    hardness: {
+      gh: 4.5,
+      kh: 2.25,
+      amount: 7,
+      volume: 50,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Gh-кальций',
+    isPercent: false,
+    isLiquid: true,
+    ions: {
+      Ca: 50,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Aquabalance Gh-магний',
+    isPercent: false,
+    isLiquid: true,
+    ions: {
+      Mg: 50,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
   // Aquayer
   {
     name: 'Aquayer Макро+',
@@ -345,6 +395,22 @@ export const FERTILIZERS = [
     },
     description: 'Это фирменное удобрение. Данные взяты на сайте производителя https://aquayer.com',
     updatedAt: '2025-03-03',
+  },
+  {
+    name: 'Aquayer Remineral GH/KH+',
+    isPercent: true,
+    isLiquid: false,
+    ions: {
+      Ca: 17.7,
+      Mg: 5.5,
+    },
+    hardness: {
+      gh: 3,
+      kh: 2,
+      amount: 4,
+      volume: 50,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   // Aquaerus
   {
@@ -508,6 +574,25 @@ export const FERTILIZERS = [
     description: 'Это фирменное удобрение. Данные взяты с сайта https://seachem.com/planted.php',
     updatedAt: '2025-03-04',
   },
+  {
+    name: 'Seachem Equilibrium',
+    isPercent: true,
+    isLiquid: false,
+    ions: {
+      K2O: 23,
+      Ca: 8.06,
+      Mg: 2.41,
+      Fe: 0.11,
+      Mn: 0.06,
+    },
+    hardness: {
+      gh: 3,
+      kh: 0,
+      amount: 16,
+      volume: 80,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
   // Tropica
   {
     name: 'Tropica Premium Nutrition',
@@ -617,6 +702,21 @@ export const FERTILIZERS = [
     updatedAt: '2021-08-14',
   },
   {
+    name: 'Dennerle Osmose ReMineral+',
+    isPercent: true,
+    ions: {
+      // Ca: 45.5,
+      // Mg: 9.5,
+    },
+    hardness: {
+      gh: 2,
+      kh: 1.3,
+      amount: 10,
+      volume: 100,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
     name: 'Аквапозитив Азот+',
     isPercent: true,
     ions: {
@@ -714,6 +814,38 @@ export const FERTILIZERS = [
     },
     description: 'Это фирменное удобрение. Данные взяты https://vk.com/akvapozitiv',
     updatedAt: '2025-03-04',
+  },
+  {
+    name: 'Аквапозитив GH+',
+    isPercent: true,
+    isLiquid: false,
+    ions: {
+      Ca: 14,
+      Mg: 3.5,
+    },
+    hardness: {
+      gh: 6,
+      kh: 0,
+      amount: 2,
+      volume: 10,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
+  },
+  {
+    name: 'Аквапозитив GH/KH+',
+    isPercent: true,
+    isLiquid: false,
+    ions: {
+      Ca: 13.8,
+      Mg: 3.4,
+    },
+    hardness: {
+      gh: 8,
+      kh: 3,
+      amount: 3,
+      volume: 10,
+    },
+    description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
     name: 'WaterSci Micro XL для осмоса',
@@ -839,6 +971,44 @@ export const FERTILIZERS = [
     updatedAt: '2025-02-24',
   },
   {
+    name: 'WaterSci Remineral Gh+',
+    isPercent: false,
+    isLiquid: true,
+    ions: {
+      Ca: 27.54,
+      Mg: 6.48,
+    },
+    hardness: {
+      gh: 8,
+      kh: 0,
+      amount: 1,
+      volume: 1,
+    },
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
+  },
+  {
+    name: 'WaterSci Remineral Kh+',
+    isPercent: false,
+    isLiquid: true,
+    ions: {
+      K: 7.65,
+      Na: 26.23,
+      SO4: 9.4,
+      CO3: 68.4,
+    },
+    hardness: {
+      gh: 0,
+      kh: 4,
+      amount: 1,
+      volume: 1,
+    },
+    description: 'Это фирменное удобрение. Все данные взяты из официальных источников:\n'
+      + 'https://watersci.ru\n'
+      + 'https://vk.com/watersci',
+  },
+  {
     name: 'Easy Life: Nitro',
     isPercent: false,
     ions: {
@@ -933,25 +1103,7 @@ export const FERTILIZERS = [
     description: 'Это фирменное удобрение. Данные взяты с сайта магазина https://www.aquasabi.com/Tetra-PlantaMin',
     updatedAt: '2025-03-04',
   },
-  // Aqua Botanic
-  {
-    name: 'Aqua Botanic Micro',
-    isPercent: false,
-    ions: {
-      K: 4,
-      Fe: 2.67,
-      Mg: 1.1,
-      Mn: 0.3,
-      Zn: 0.17,
-      B: 0.1,
-      Cu: 0.05,
-      Mo: 0.02,
-      Co: 0.01204,
-    },
-    description: 'Рецепт взят с сайта aqua-botanic.ru'
-      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
-  },
-];
+] satisfies FertilizerType[];
 
 export const FERTILIZERS_SORTED = FERTILIZERS
   .sort((a, b) => a.name.localeCompare(b.name));

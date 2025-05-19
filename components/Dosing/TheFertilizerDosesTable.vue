@@ -201,8 +201,6 @@
 </template>
 
 <script lang="ts" setup>
-import { FertilizersRegime } from '~/utils/types/types';
-
 const { t } = useI18n();
 const { required, positive } = useValidation();
 

@@ -147,6 +147,55 @@
             :rules="[required]"
             class="mb-2"
           />
+          <DividerWithNote
+            v-model="isRemineral"
+            button
+            class="mt-10 mb-3"
+          >
+            Реминерализатор
+          </DividerWithNote>
+          <v-expand-transition>
+
+            <v-row
+              v-if="isRemineral"
+              class="d-flex flex-wrap mb-2"
+            >
+              <v-col cols="12">
+                Введите значения с этикетки
+              </v-col>
+              <v-col cols="6">
+                <number-field
+                  v-model="fertilizerModel.hardness.gh"
+                  label="Введите Gh"
+                  suffix="dGh"
+                  hint="Заявленное производителем значение"
+                  hide-details="auto"
+                />
+                <number-field
+                  v-model="fertilizerModel.hardness.amount"
+                  label="Количество"
+                  hint="Необходимое количество реминерализатора, для повышения жесткости на заявленное значение"
+                  :suffix="fertilizerModel.isLiquid ? 'мл' : 'г'"
+                  hide-details="auto"
+                />
+              </v-col>
+              <v-col cols="6">
+                <number-field
+                  v-model="fertilizerModel.hardness.kh"
+                  label="Введите Kh"
+                  suffix="dKh"
+                  hide-details="auto"
+                />
+                <number-field
+                  v-model="fertilizerModel.hardness.volume"
+                  label="Введите объем"
+                  hint="Объем, на который рассчитан состав"
+                  suffix="л"
+                  hide-details="auto"
+                />
+              </v-col>
+            </v-row>
+          </v-expand-transition>
           <v-text-field
             v-model="fertilizerModel.name"
             variant="underlined"
@@ -207,6 +256,7 @@ const snackbarStore = useSnackbarStore();
 const fertilizerFormRef = ref(null);
 const ionsChosen = ref<{ ion: IonType, conc: number }[]>([]);
 const fertilizerExampleChosen = ref(null);
+const isRemineral = ref(false);
 
 const fertilizerModel = reactive(new Fertilizer({
   name: '',
@@ -215,6 +265,12 @@ const fertilizerModel = reactive(new Fertilizer({
   isLiquid: true,
   isPercent: true,
   updatedAt: '',
+  hardness: {
+    gh: null,
+    kh: null,
+    amount: null,
+    volume: null,
+  },
 }));
 
 const isN = computed(() => {
@@ -258,7 +314,12 @@ function fillForm(fertilizer: FertilizerType) {
   fertilizerModel.name = fertilizer.name;
   fertilizerModel.description = fertilizer.description;
   fertilizerModel.isPercent = fertilizer.isPercent;
+  fertilizerModel.isLiquid = fertilizer.isLiquid;
   fertilizerModel.updatedAt = fertilizer.updatedAt;
+  fertilizerModel.hardness = { ...fertilizer.hardness };
+  if (fertilizer.hardness) {
+    isRemineral.value = true;
+  }
   typedEntries(fertilizer.ions).forEach(([ion, conc]) => {
     ionsChosen.value.push({ ion, conc });
   });
