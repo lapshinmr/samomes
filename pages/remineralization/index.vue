@@ -228,7 +228,7 @@
                     :model-value="format(remineralizationModel.countWaterChangeGh(
                       ghWaterChange, remineralizationStore.osmosisChangePercent))"
                     label="Gh в подмене"
-                    suffix="dGh"
+                    suffix="Gh"
                     hide-details="auto"
                     readonly
                     variant="outlined"
@@ -241,7 +241,7 @@
                     :model-value="format(remineralizationModel.countTotalGh(
                       ghInit, ghWaterChange, remineralizationStore.osmosisChangePercent))"
                     label="Gh в аквариуме"
-                    suffix="dGh"
+                    suffix="Gh"
                     hide-details="auto"
                     readonly
                     variant="outlined"
@@ -255,7 +255,7 @@
                     :model-value="format(remineralizationModel.countWaterChangeKh(
                       khWaterChange, remineralizationStore.osmosisChangePercent))"
                     label="Kh в подмене"
-                    suffix="dKh"
+                    suffix="Kh"
                     hide-details="auto"
                     readonly
                     variant="outlined"
@@ -267,7 +267,7 @@
                     :model-value="format(remineralizationModel.countTotalKh(
                       khInit, khWaterChange, remineralizationStore.osmosisChangePercent))"
                     label="Kh в аквариуме"
-                    suffix="dKh"
+                    suffix="Kh"
                     hide-details="auto"
                     readonly
                     variant="outlined"
@@ -333,6 +333,7 @@ const isDefaultFertilizers = computed({
   },
 });
 
+// TODO: move to composables
 const allFertilizers = computed(() => {
   let defaultFertilizersFiltered = [];
   if (isDefaultFertilizers.value) {
@@ -390,6 +391,7 @@ const isTests = computed({
   },
 });
 
+// TODO: move to composables
 function onChooseTank(value: number | string | TankType) {
   if (typeof value === 'number') {
     remineralizationStore.setTank({

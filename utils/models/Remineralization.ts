@@ -1,6 +1,6 @@
 export class Remineralization {
-  public doses: InstanceType<typeof Dose>[];
-  public tank: TankType;
+  doses: InstanceType<typeof Dose>[];
+  tank: TankType;
 
   constructor(
     doses: InstanceType<typeof Dose>[],
@@ -22,17 +22,14 @@ export class Remineralization {
     this.doses.forEach((dose) => {
       let gh;
       let kh;
-      console.log(dose);
       if ('hardness' in dose.fertilizer && (dose.fertilizer.hardness?.gh || dose.fertilizer.hardness?.kh)) {
-        console.log('+');
-        // Hardness by unit hardness: hardness * volume / amount
+        // Unit hardness: hardness * volume / amount
         const hardness = dose.fertilizer.hardness;
         gh = hardness.gh * dose.amount * hardness.volume / (hardness.amount * this.tank.waterChangeVolume);
         kh = hardness.kh * dose.amount * hardness.volume / (hardness.amount * this.tank.waterChangeVolume);
       } else {
         gh = RemineralRecipe.countGh(dose.fertilizer.concentration, dose.amount, this.tank.waterChangeVolume) ?? 0;
         kh = RemineralRecipe.countKh(dose.fertilizer.concentration, dose.amount, this.tank.waterChangeVolume) ?? 0;
-        console.log('gh', gh, 'kh', kh);
         if ((dose.fertilizer.isLiquid)) {
           gh /= MG_IN_G;
           kh /= MG_IN_G;
@@ -43,22 +40,6 @@ export class Remineralization {
     });
     return result;
   };
-
-  // get concentrationWaterChange(): IonsType {
-  //   const result = {};
-  //   this.doses.forEach((dose) => {
-  //     typedEntries(dose.fertilizer.concentration).forEach(([ion, value]) => {
-  //       if (!(ion in result)) {
-  //         result[ion] = 0;
-  //       }
-  //       result[ion] += value * dose.amount / this.tank.waterChangeVolume;
-  //       if ((!dose.fertilizer.isLiquid)) {
-  //         result[ion] *= MG_IN_G;
-  //       }
-  //     });
-  //   });
-  //   return result;
-  // };
 
   countWaterChangeGh(ghWaterChange: number, osmosisChangePercent: number) {
     const ghFromChangeWater = (ghWaterChange * (1 - osmosisChangePercent / 100));

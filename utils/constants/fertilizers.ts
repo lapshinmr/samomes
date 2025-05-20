@@ -315,7 +315,7 @@ export const FERTILIZERS = [
     isPercent: false,
     isLiquid: true,
     ions: {
-      Ca: 50,
+      Ca: 75,
     },
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
@@ -324,7 +324,7 @@ export const FERTILIZERS = [
     isPercent: false,
     isLiquid: true,
     ions: {
-      Mg: 50,
+      Mg: 75,
     },
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },

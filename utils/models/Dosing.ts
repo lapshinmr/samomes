@@ -1,8 +1,8 @@
 export class Dosing {
-  public doses: InstanceType<typeof Dose>[];
-  public fertilizersRegime: FertilizersRegime;
-  public daysTotal: number;
-  public tank: TankType;
+  doses: InstanceType<typeof Dose>[];
+  fertilizersRegime: FertilizersRegime;
+  daysTotal: number;
+  tank: TankType;
 
   constructor(
     doses: InstanceType<typeof Dose>[],

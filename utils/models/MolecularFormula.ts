@@ -4,6 +4,7 @@ import { ELEMENTS } from '~/utils/constants/elements';
 
 export default class MolecularFormula {
   readonly formulaInit: string;
+
   constructor(formula: string) {
     try {
       const formulaReplaced = MolecularFormula.replaceSupAndSub(formula);

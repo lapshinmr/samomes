@@ -67,7 +67,7 @@
       <NumberField
         v-model="gh"
         label="Gh"
-        suffix="dGh"
+        suffix="Gh"
         variant="outlined"
         hide-details="auto"
         persistent-hint
@@ -77,7 +77,7 @@
       <NumberField
         v-model="kh"
         label="Kh"
-        suffix="dKh"
+        suffix="Kh"
         variant="outlined"
         hide-details="auto"
         persistent-hint

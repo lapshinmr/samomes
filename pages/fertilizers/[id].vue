@@ -167,7 +167,7 @@
                 <number-field
                   v-model="fertilizerModel.hardness.gh"
                   label="Введите Gh"
-                  suffix="dGh"
+                  suffix="Gh"
                   hint="Заявленное производителем значение"
                   hide-details="auto"
                 />
@@ -183,7 +183,7 @@
                 <number-field
                   v-model="fertilizerModel.hardness.kh"
                   label="Введите Kh"
-                  suffix="dKh"
+                  suffix="Kh"
                   hide-details="auto"
                 />
                 <number-field

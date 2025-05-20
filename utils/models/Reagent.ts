@@ -21,17 +21,17 @@ import MolecularFormula from '~/utils/models/MolecularFormula';
 import { getElementToIonRatio, getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
 
 export default class Reagent {
-  public readonly key: ReagentKeyType;
-  public readonly name: string;
-  public readonly type: ReagentTypeName;
-  public readonly isLiquid?: boolean;
-  public readonly HCO3: number;
-  public readonly density?: number;
-  public amount: number;
-  public unitConcs?: Partial<Record<IonType, number>>;
-  public solubility?: number;
+  readonly key: ReagentKeyType;
+  readonly name: string;
+  readonly type: ReagentTypeName;
+  readonly isLiquid?: boolean;
+  readonly HCO3: number;
+  readonly density?: number;
+  amount: number;
+  unitConcs?: Partial<Record<IonType, number>>;
+  solubility?: number;
   // TODO: add property decorator to set limits [1, 100]
-  public dilution?: number;
+  dilution?: number;
   private _ions?: Partial<Record<IonType, number>>;
 
   constructor(args: ReagentType) {
@@ -67,7 +67,6 @@ export default class Reagent {
   get ions(): IonsType {
     let result: IonsType;
     if (this.isCompound) {
-      // result = { ...this._ions };
       const ions = {};
       typedEntries(this._ions).forEach(([el, value]) => {
         if (!value) {

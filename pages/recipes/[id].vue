@@ -379,8 +379,6 @@ const tanksStore = useTanksStore();
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;
 let reagents = getReagents(INITIAL_REAGENT_AMOUNT);
-const reagentH2O = reagents.find((reagent) => reagent.key === H2O);
-reagentH2O.amount = 500;
 
 const tankChosen = ref<TankType>();
 
@@ -392,7 +390,7 @@ const recipeModel = reactive(new FertilizerRecipe(
     name: '',
     description: '',
     tankVolume: null,
-    reagents: [reagentH2O],
+    reagents: [],
   },
 ));
 
@@ -423,10 +421,12 @@ function fillModel(recipe: FertilizerRecipeType | FertilizerRecipeExampleType) {
   recipeModel.name = recipe.name;
   recipeModel.description = recipe.description;
   recipeModel.tankVolume = recipe.tankVolume;
-  tankChosen.value = {
-    name: recipe.tankVolume.toString(),
-    volume: recipe.tankVolume,
-  };
+  if (recipe.tankVolume) {
+    tankChosen.value = {
+      name: recipe.tankVolume.toString(),
+      volume: recipe.tankVolume,
+    };
+  }
   recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
@@ -514,6 +514,12 @@ const getSolubilityErrorMessage = (reagent: ReagentType) => {
     ? `${t('validation.solubilityLimit')} - ${reagent.solubility} ${t('units.g/l')} ${t('common.for')} 25°С!`
     : '';
 };
+
+if (isCreate.value) {
+  const reagentH2O = reagents.find((reagent) => reagent.key === H2O);
+  reagentH2O.amount = 500;
+  recipeModel.reagents.push(reagentH2O);
+}
 
 onMounted(async () => {
   if (isCreate.value && !isCopy.value) {

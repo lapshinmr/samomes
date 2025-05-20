@@ -41,7 +41,7 @@
               v-if="isHardness"
               class="text-center"
             >
-              dGh
+              Gh
             </th>
             <template v-if="fertilizationType === FERTILIZATION_EVERY_DAY">
               <th class="text-center">

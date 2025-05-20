@@ -40,7 +40,7 @@
       <v-text-field
         v-if="isGh"
         :model-value="format(gh, 2) || '—'"
-        label="dGh"
+        label="Gh"
         variant="outlined"
         readonly
         density="compact"

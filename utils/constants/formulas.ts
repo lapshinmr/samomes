@@ -33,6 +33,14 @@ export const FORMULAS = {
     solubility: 916,
     name: 'Натрия нитрат',
   },
+  Na2SO4: {
+    solubility: 192,
+    name: 'Натрия сульфат',
+  },
+  'Na2SO4(H2O)10': {
+    solubility: 195,
+    name: 'Натрия сульфат 10-водный',
+  },
   KH2PO4: {
     solubility: 226,
     name: 'Калия монофосфат',

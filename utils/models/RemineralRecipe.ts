@@ -21,13 +21,14 @@ import { MG_IN_G, ML_IN_L } from '~/utils/constants/units';
 import { typedEntries, typedValues } from '~/utils/utils';
 
 export default class RemineralRecipe extends Recipe {
-  public changeVolume: number;
-  public doseVolume?: number;
   static GH = {
     Mg: 4.346,
     Ca: 7.144,
   };
   static KH_RATIO = 2.804; // 1 °dH = 0.357 mmol/l HCO₃⁻
+
+  changeVolume: number;
+  doseVolume?: number;
 
   constructor(args: RemineralRecipeType) {
     super(args);

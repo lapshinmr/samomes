@@ -48,7 +48,7 @@
       <v-text-field
         :value="totalGh"
         label="Общую жесткость на"
-        suffix="dGh"
+        suffix="Gh"
         hide-details="auto"
         readonly
         outlined
@@ -58,7 +58,7 @@
       <v-text-field
         :value="totalKh"
         label="Карбонатную жесткость на"
-        suffix="dKh"
+        suffix="Kh"
         hide-details="auto"
         readonly
         outlined

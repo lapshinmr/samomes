@@ -1,11 +1,11 @@
 import type { TankType } from '~/utils/types/types';
 
 export default class Tank {
-  public name: string;
-  public volume?: number;
-  public waterChangePercent?: number;
-  public waterChangeVolume?: number;
-  public filterVolume?: number;
+  name: string;
+  volume?: number;
+  waterChangePercent?: number;
+  waterChangeVolume?: number;
+  filterVolume?: number;
 
   constructor(args: TankType) {
     this.name = args.name;

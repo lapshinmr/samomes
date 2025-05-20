@@ -21,9 +21,9 @@ import { typedEntries } from '~/utils/utils';
 import { ML_IN_L } from '~/utils/constants/units';
 
 export default class Recipe {
-  public name: string;
-  public description?: string;
-  public reagents: InstanceType<typeof Reagent>[] = [];
+  name: string;
+  description?: string;
+  reagents: InstanceType<typeof Reagent>[] = [];
 
   constructor(args: RecipeType) {
     this.name = args.name;

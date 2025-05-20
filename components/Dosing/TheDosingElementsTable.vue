@@ -68,7 +68,7 @@
             v-if="isHardness"
             class="text-center"
           >
-            dGh
+            Gh
           </th>
         </tr>
       </thead>

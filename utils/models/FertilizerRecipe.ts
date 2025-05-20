@@ -18,7 +18,7 @@
  */
 
 export default class FertilizerRecipe extends Recipe {
-  public tankVolume?: number;
+  tankVolume?: number;
 
   constructor(args: FertilizerRecipeType) {
     super(args);
