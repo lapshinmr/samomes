@@ -351,14 +351,14 @@ export default class RemineralRecipe extends Recipe {
       if ('Ca' in reagent.ions) {
         ratio = ghPerReagent[reagent.key] / ghCa; // this is part of gh for the reagent
         this.setReagentAmount(
-          amountCaNew * ratio / (new MolecularFormula(reagent.key).fraction['Ca'] * 1000),
+          amountCaNew * ratio / (reagent.ions.Ca * 1000),
           reagent.key,
         );
       }
       if ('Mg' in reagent.ions) {
         ratio = ghPerReagent[reagent.key] / ghMg;
         this.setReagentAmount(
-          amountMgNew * ratio / (new MolecularFormula(reagent.key).fraction['Mg'] * 1000),
+          amountMgNew * ratio / (reagent.ions.Mg * 1000),
           reagent.key,
         );
       }
