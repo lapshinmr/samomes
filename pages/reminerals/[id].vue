@@ -174,34 +174,41 @@
               />
               <v-expand-transition>
                 <div v-if="isReagentsAmount">
-                  <DividerWithNote class="my-4">
+                  <DividerWithNote
+                    v-model="isConcentration"
+                    class="my-4"
+                    button
+                  >
                     Концентрация {{ remineralModel.isLiquid ? 'раствора' : 'смеси' }}
                   </DividerWithNote>
-                  <TheSoluteElementsTable
-                    :remineral="remineralModel"
-                    class="mb-10"
-                  />
-                  <DividerWithNote class="my-4">
+                  <v-expand-transition>
+                    <TheSoluteElementsTable
+                      v-if="isConcentration"
+                      :remineral="remineralModel"
+                      class="mb-10"
+                    />
+                  </v-expand-transition>
+                  <DividerWithNote class="mt-10 mb-3">
                     Концентрация в подменной воде
                   </DividerWithNote>
                   <TheCationsAndAnions
                     :remineral="remineralModel"
                     class="mt-4"
                   />
-                  <!--                  <DividerWithNote-->
-                  <!--                    v-model="isTable"-->
-                  <!--                    class="mb-4"-->
-                  <!--                    button-->
-                  <!--                  >-->
-                  <!--                    Таблица с навесками-->
-                  <!--                  </DividerWithNote>-->
-                  <!--                  <v-expand-transition>-->
-                  <!--                    <RemineralsTheRemineralsRecipesTable-->
-                  <!--                      v-if="isTable"-->
-                  <!--                      :remineral="remineralModel"-->
-                  <!--                      :reagents="reagentsChosen"-->
-                  <!--                    />-->
-                  <!--                  </v-expand-transition>-->
+                  <DividerWithNote
+                    v-model="isTable"
+                    class="my-4"
+                    button
+                  >
+                    Таблица с навесками
+                  </DividerWithNote>
+                  <v-expand-transition>
+                    <TheRemineralsRecipesTable
+                      v-if="isTable"
+                      :remineral="remineralModel"
+                      :reagents="reagentsChosen"
+                    />
+                  </v-expand-transition>
                   <template v-if="!remineralModel.isLiquid && !isLiquidReagents">
                     <DividerWithNote
                       v-model="isMix"
@@ -531,7 +538,8 @@ const isCreate = computed(() => route.params.id === 'create');
 const isEdit = computed(() => route.params.id !== 'create');
 const isCopy = computed(() => route.query.copy !== undefined);
 const isShare = computed(() => route.params.query === 'share');
-// const isTable = ref(false);
+const isConcentration = ref(false);
+const isTable = ref(false);
 const isMix = ref(false);
 const remineralIndex = computed(() => +route.params.id);
 

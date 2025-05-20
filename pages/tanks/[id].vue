@@ -125,7 +125,6 @@
             :suffix="t('units.l')"
             :hint="t('tanks.page.filterVolumeHint')"
             hide-details="auto"
-            :rules="[positiveOrEmpty]"
           />
           <div class="d-flex mb-4">
             <NumberField
@@ -134,7 +133,6 @@
               :label="t('tanks.page.waterChangePercent')"
               suffix="%"
               hide-details="auto"
-              :rules="[positiveOrEmpty]"
               @update:model-value="onInputWaterChangePercent"
             />
             <NumberField
@@ -144,7 +142,6 @@
               :suffix="t('units.l')"
               hide-details="auto"
               class="ml-2"
-              :rules="[positiveOrEmpty]"
               @update:model-value="onInputWaterChangeVolume"
             />
           </div>
@@ -182,7 +179,7 @@
 import type { TankType } from '~/utils/types/types';
 
 const { t } = useI18n();
-const { required, positiveOrEmpty } = useValidation();
+const { required } = useValidation();
 const { appRoutes } = useAppRoutes();
 const route = useRoute();
 const router = useRouter();
