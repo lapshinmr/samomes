@@ -410,7 +410,7 @@
         cols="12"
         sm="8"
         offset-sm="2"
-        class="d-flex justify-end mb-15"
+        class="d-flex justify-end my-15"
       >
         <v-btn
           color="primary"
