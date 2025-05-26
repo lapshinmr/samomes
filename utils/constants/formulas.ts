@@ -19,6 +19,7 @@
 export const H2O = 'H2O';
 export const HCO3 = 'HCO3';
 export const TrilonB = 'C10H14N2Na2O8(H2O)2';
+export const EDTA = 'C10H16N2O8';
 
 export const FORMULAS = {
   [H2O]: {
@@ -69,6 +70,10 @@ export const FORMULAS = {
   KOH: {
     solubility: 1210,
     name: 'Калия гидроксид',
+  },
+  NaOH: {
+    solubility: 420,
+    name: 'Натрия гидроксид',
   },
   'Ca(OH)2': {
     solubility: 1.66,
@@ -399,5 +404,9 @@ export const FORMULAS = {
   [TrilonB]: {
     solubility: 100,
     name: 'Трилон Б (хелатор EDTA-Na2)',
+  },
+  [EDTA]: {
+    solubility: 100,
+    name: 'Этилендиаминтетрауксусная кислота (EDTA)',
   },
 } satisfies Record<string, FormulaObjectType>;

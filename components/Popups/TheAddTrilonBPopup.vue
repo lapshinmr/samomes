@@ -17,7 +17,7 @@
             :key="reagent.key"
             class="d-flex align-center"
           >
-            <template v-if="!['C10H14N2Na2O8(H2O)2', 'H2O'].includes(reagent.key)">
+            <template v-if="![TrilonB, EDTA, 'H2O'].includes(reagent.key)">
               <NumberField
                 :model-value="reagent.amount"
                 :label="reagent.text"
@@ -25,7 +25,6 @@
                 hide-details="auto"
                 class="mb-2 mb-sm-4"
                 readonly
-                :rules="[required, positive]"
               />
               <v-checkbox
                 v-model="reagentsChosen"
@@ -67,7 +66,7 @@
           </div>
           <NumberField
             v-model="chelatorAmount"
-            label="Расчетное количество Трилона Б (EDTA-Na2)"
+            label="Количество Трилона Б (EDTA-Na2)"
             :suffix="t('units.g')"
             variant="outlined"
             hide-details="auto"
@@ -117,7 +116,7 @@ const reagentsChosen = ref([]);
 
 watch([reagentsChosen, chelatorAmountIncrease], () => {
   let result = 0;
-  const chelatorMass = new MolecularFormula('C10H14N2Na2O8(H2O)2').mass;
+  const chelatorMass = new MolecularFormula(TrilonB).mass;
   reagentsChosen.value.forEach((reagentKey) => {
     const reagentFound = props.recipe.reagents.find((reagent) => reagent.key === reagentKey);
     if (reagentFound) {
@@ -142,6 +141,10 @@ async function onAddChelator() {
   emit('save', chelatorAmount.value);
   model.value = false;
 }
+
+defineOptions({
+  name: 'TheAddTrilonBPopup',
+});
 </script>
 
 <style scoped lang="sass">

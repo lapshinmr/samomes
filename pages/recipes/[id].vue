@@ -160,7 +160,19 @@
                     <v-btn
                       color="primary"
                       size="small"
-                      @click="isAddChelatorPopup = true;"
+                      @click="isAddTrilonBPopup = true;"
+                    >
+                      Рассчитать
+                    </v-btn>
+                  </template>
+                  <template
+                    v-else-if="reagent.key === EDTA"
+                    #append
+                  >
+                    <v-btn
+                      color="primary"
+                      size="small"
+                      @click="isAddEDTAPopup = true;"
                     >
                       Рассчитать
                     </v-btn>
@@ -354,10 +366,16 @@
       v-model="isAddReagentPopup"
     />
 
-    <TheAddChelatorPopup
-      v-model="isAddChelatorPopup"
+    <TheAddTrilonBPopup
+      v-model="isAddTrilonBPopup"
       :recipe="recipeModel"
-      @save="onSetChelatorAmount"
+      @save="onSetTrilonBAmount"
+    />
+
+    <TheAddEDTAPopup
+      v-model="isAddEDTAPopup"
+      :recipe="recipeModel"
+      @save="onSetEDTAAmount"
     />
   </v-container>
 </template>
@@ -496,7 +514,8 @@ const isShare = computed(() => route.query.share !== undefined);
 const recipeIndex = computed(() => +route.params.id);
 
 const isAddReagentPopup = ref(false);
-const isAddChelatorPopup = ref(false);
+const isAddTrilonBPopup = ref(false);
+const isAddEDTAPopup = ref(false);
 
 // Validation
 const isExist = computed(() => {
@@ -591,8 +610,15 @@ async function onCopyRecipe() {
   await router.push(`${appRoutes.value.recipes.path}create/?copy=${recipeIndex.value}`);
 }
 
-async function onSetChelatorAmount(value: number) {
-  recipeModel.setReagentAmount(value, 'C10H14N2Na2O8(H2O)2');
+async function onSetTrilonBAmount(value: number) {
+  recipeModel.setReagentAmount(value, TrilonB);
+}
+
+async function onSetEDTAAmount(EDTAAmount: number, alkaliAmount: number, alkaliName: string) {
+  recipeModel.setReagentAmount(EDTAAmount, EDTA);
+  const alkaliReagent = reagents.find((reagent) => reagent.key === alkaliName);
+  alkaliReagent.amount = alkaliAmount;
+  recipeModel.reagents.push(alkaliReagent);
 }
 
 definePageMeta({
