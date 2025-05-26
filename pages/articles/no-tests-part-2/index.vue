@@ -29,8 +29,8 @@
     <v-row>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        md="8"
+        offset-md="2"
       >
         <v-btn
           color="primary"
@@ -43,11 +43,11 @@
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        md="8"
+        offset-md="2"
       >
         <h1 class="text-h4 text-md-h3 mt-md-10">
-          Тесты для аквариума вам не нужны
+          Тесты для аквариума вам не нужны (продолжение)
         </h1>
         <h2 class="title font-weight-regular mb-6">
           Часть 2: Детальный обзор тестов и заключение
@@ -67,6 +67,15 @@
             Альберт Энйштейн
           </p>
         </h3>
+
+        <p>
+          <nuxt-link
+            to="/articles/no-tests-part-1/"
+            class="text-h5"
+          >
+            Читать начало статьи
+          </nuxt-link>
+        </p>
 
         <p>
           Данная статья является продолжением первой части с одноименным названием
@@ -473,7 +482,7 @@
         <div class="d-flex justify-center">
           <v-img
             :src="require('assets/images/no-tests/nh3.webp')"
-            :max-width="$vuetify.breakpoint['smAndUp'] ? '80%' : '100%'"
+            :max-width="$vuetify.breakpoint['mdAndUp'] ? '80%' : '100%'"
             class="mb-4"
           />
         </div>
@@ -812,11 +821,21 @@
           из них. Хотя, это может быть очень сложно остановить себя схватиться за тесты в моменты, когда в аквариуме
           начались проблемы, если тесты лежат у вас на полке.
         </p>
+
+        <p class="mt-6">
+          Хотите обсудить статью? Переходите в наш
+          <a
+            href="https://t.me/samomes_calculator"
+            target="_blank"
+          >
+            Telegram-канал.
+          </a>
+        </p>
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        md="8"
+        offset-md="2"
         class="d-flex justify-start mb-15"
       >
         <v-btn

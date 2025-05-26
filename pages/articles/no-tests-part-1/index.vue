@@ -29,8 +29,8 @@
     <v-row>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        md="8"
+        offset-md="2"
       >
         <v-btn
           color="primary"
@@ -43,8 +43,8 @@
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        md="8"
+        offset-md="2"
       >
         <h1 class="text-h4 text-md-h3 mt-md-10">
           Тесты для аквариума вам не нужны
@@ -145,10 +145,10 @@
 
         <v-divider class="my-10" />
 
-        <div class="d-flex flex-column flex-sm-row justify-sm-space-between w-100 mb-2">
+        <div class="d-flex flex-column flex-md-row justify-md-space-between w-100 mb-2">
           <div
             class="d-flex flex-column"
-            :style="$vuetify.breakpoint['smAndUp'] ? 'width: 34%;' : 'width: 100%;'"
+            :style="$vuetify.breakpoint['mdAndUp'] ? 'width: 34%;' : 'width: 100%;'"
           >
             <div>
               С тестами
@@ -159,7 +159,7 @@
           </div>
           <div
             class="d-flex flex-column"
-            :style="$vuetify.breakpoint['smAndUp'] ? 'width: 64%;' : 'width: 100%;'"
+            :style="$vuetify.breakpoint['mdAndUp'] ? 'width: 64%;' : 'width: 100%;'"
           >
             <div>
               Без тестов
@@ -209,10 +209,10 @@
 
         <v-divider class="my-10" />
 
-        <div class="d-flex flex-column flex-sm-row justify-sm-space-between w-100 mb-2">
+        <div class="d-flex flex-column flex-md-row justify-md-space-between w-100 mb-2">
           <div
             class="d-flex flex-column"
-            :style="$vuetify.breakpoint['smAndUp'] ? 'width: 49%;' : 'width: 100%;'"
+            :style="$vuetify.breakpoint['mdAndUp'] ? 'width: 49%;' : 'width: 100%;'"
           >
             <div>
               С тестами
@@ -223,7 +223,7 @@
           </div>
           <div
             class="d-flex flex-column"
-            :style="$vuetify.breakpoint['smAndUp'] ? 'width: 49%;' : 'width: 100%;'"
+            :style="$vuetify.breakpoint['mdAndUp'] ? 'width: 49%;' : 'width: 100%;'"
           >
             <div>
               Без тестов
@@ -506,11 +506,21 @@
           </nuxt-link> я
           детально разбираю каждый тест по отдельности. Жду вас на следующей странице!
         </p>
+
+        <p class="mt-6">
+          Хотите обсудить статью? Переходите в наш
+          <a
+            href="https://t.me/samomes_calculator"
+            target="_blank"
+          >
+            Telegram-канал.
+          </a>
+        </p>
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        md="8"
+        offset-md="2"
         class="d-flex justify-space-between my-15"
       >
         <v-btn
