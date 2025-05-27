@@ -85,6 +85,7 @@ export default {
     copy: 'Скопировать',
     share: 'Поделиться',
     reset: 'Сброс',
+    close: 'Закрыть',
   },
   tanks: {
     title: 'Аквариумы',

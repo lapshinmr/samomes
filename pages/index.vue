@@ -212,56 +212,6 @@
         cols="12"
         sm="10"
         offset-sm="1"
-        class="section section--schedules"
-      >
-        <nuxt-link
-          :to="appRoutes.schedules.path"
-          class="section__icon-link"
-        >
-          <Icon
-            class="section__icon text-teal"
-            :name="appRoutes.schedules.icon"
-          />
-        </nuxt-link>
-        <div class="section__content">
-          <nuxt-link :to="appRoutes.schedules.path">
-            <h2 class="section__title">
-              Расписание
-            </h2>
-          </nuxt-link>
-          <div class="section__text">
-            <p class="font-italic">
-              Сердце нашего сервиса
-            </p>
-            <p>
-              Страница "Расписание" — это, пожалуй, самая важная часть всего сервиса.
-              Она одинаково полезна как приверженцам самодельных составов, так и любителям фирменных удобрений.
-            </p>
-            <p>
-              Здесь вы можете:
-            </p>
-            <ul>
-              <li>
-                рассчитать точные дозировки удобрений для каждого из ваших аквариумов
-              </li>
-              <li>
-                составить персонализированное расписание внесения на неделю вперед
-              </li>
-              <li>
-                отслеживать процесс внесения через удобный интерактивный виджет
-              </li>
-            </ul>
-            <p>
-              Система поддерживает различные типы расписаний внесения удобрений, позволяя настроить график
-              именно под ваши потребности и режим обслуживания аквариума.
-            </p>
-          </div>
-        </div>
-      </v-col>
-      <v-col
-        cols="12"
-        sm="10"
-        offset-sm="1"
         class="section section--reminerals"
       >
         <nuxt-link
@@ -301,6 +251,59 @@
         cols="12"
         sm="10"
         offset-sm="1"
+        class="section section--dosing"
+      >
+        <nuxt-link
+          :to="appRoutes.dosing.path"
+          class="section__icon-link"
+        >
+          <Icon
+            class="section__icon text-teal"
+            :name="appRoutes.dosing.icon"
+          />
+        </nuxt-link>
+        <div class="section__content">
+          <nuxt-link :to="appRoutes.dosing.path">
+            <h2 class="section__title">
+              Дозирование
+            </h2>
+          </nuxt-link>
+          <div class="section__text">
+            <p class="font-italic">
+              Сердце нашего сервиса
+            </p>
+            <p>
+              Страница "Дозирование" — это, пожалуй, самая важная часть всего сервиса.
+              Она одинаково полезна как приверженцам самодельных составов, так и любителям фирменных удобрений.
+            </p>
+            <p>
+              Здесь вы можете:
+            </p>
+            <ul style="list-style-type: none;">
+              <li>
+                рассчитать точные дозировки удобрений для каждого из ваших аквариумов
+              </li>
+              <li>
+                составить персонализированное расписание внесения на неделю вперед
+              </li>
+              <li>
+                узнать параметры в вашем аквариуме при заданном режиме подмен и дозировок
+              </li>
+              <li>
+                отслеживать процесс внесения через удобный интерактивный виджет
+              </li>
+            </ul>
+            <p>
+              Система поддерживает различные типы расписаний внесения удобрений, позволяя настроить график
+              именно под ваши потребности и режим обслуживания аквариума.
+            </p>
+          </div>
+        </div>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="10"
+        offset-sm="1"
         class="section section--remineralization"
       >
         <nuxt-link
@@ -331,44 +334,6 @@
             <p>
               Этот инструмент особенно ценен для аквариумистов, которые разбавляют водопроводную воду осмосом,
               позволяя достичь идеальных параметров воды для конкретных видов рыб и растений.
-            </p>
-          </div>
-        </div>
-      </v-col>
-      <v-col
-        cols="12"
-        sm="10"
-        offset-sm="1"
-        class="section section--dynamics"
-      >
-        <nuxt-link
-          :to="appRoutes.dynamics.path"
-          class="section__icon-link"
-        >
-          <Icon
-            class="section__icon text-orange"
-            :name="appRoutes.dynamics.icon"
-          />
-        </nuxt-link>
-        <div class="section__content">
-          <nuxt-link :to="appRoutes.dynamics.path">
-            <h2 class="section__title">
-              Динамика
-            </h2>
-          </nuxt-link>
-          <div class="section__text">
-            <p class="font-italic">
-              Что такое динамика элементов?
-            </p>
-            <p>
-              Динамика — это анализ процессов изменения и достижения равновесной концентрации питательных
-              элементов в вашем аквариуме. Основываясь на вашем режиме подмен воды и графике внесения
-              удобрений, система рассчитывает временные зависимости концентраций всех важных элементов.
-            </p>
-            <p>
-              Такой расчет позволяет видеть более детальную картину состояния аквариума.
-              А для таких элементов как калий, можно рассчитать
-              довольно точную равновесную концентрацию и сэкономить время и деньги на тестах.
             </p>
           </div>
         </div>
@@ -582,12 +547,12 @@ definePageMeta({
     .section__content
       @media (min-width: $xs)
         order: 1
-  .section--schedules
+  .section--reminerals
     .section__icon-link
       justify-content: flex-start
       @media (min-width: $xs)
         justify-content: center
-  .section--reminerals
+  .section--dosing
     text-align: right
     .section__icon-link
       justify-content: flex-end
@@ -602,16 +567,6 @@ definePageMeta({
       justify-content: flex-start
       @media (min-width: $xs)
         justify-content: center
-  .section--dynamics
-    text-align: right
-    .section__icon-link
-      justify-content: flex-end
-      @media (min-width: $xs)
-        justify-content: center
-        order: 2
-    .section__content
-      @media (min-width: $xs)
-        order: 1
   .section--questions
     .section__icon-link
       justify-content: flex-start

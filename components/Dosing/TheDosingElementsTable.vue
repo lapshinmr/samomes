@@ -19,7 +19,7 @@
 
 <template>
   <div>
-    <div class="d-flex align-center mt-2 mb-2">
+    <div class="d-flex flex-column flex-md-row justify-space-between align-md-center mt-2 mb-2">
       <v-switch
         v-model="isHardness"
         color="primary"
@@ -27,6 +27,7 @@
         hide-details="auto"
         class="mt-0 mb-2 mb-sm-0"
       />
+      <slot />
     </div>
     <v-table density="compact">
       <thead>

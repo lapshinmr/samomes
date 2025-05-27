@@ -85,6 +85,7 @@ export default {
     copy: 'Copy',
     share: 'Share',
     reset: 'Reset',
+    close: 'Close',
   },
   tanks: {
     title: 'Tanks',

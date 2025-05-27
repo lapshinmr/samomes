@@ -75,15 +75,29 @@
                 />
               </div>
             </v-expand-transition>
-            <TheFertilizerDosesTable v-if="dosingModel.isDoses" />
+            <TheFertilizerDosesTable
+              v-if="dosingModel.isDoses"
+              class="mb-4"
+            />
             <v-expand-transition>
               <TheDosingElementsTable
                 v-if="dosingModel.isDoses"
                 is-helpful-info
                 is-switchers
                 :dosing="dosingModel"
-              />
+              >
+                <v-btn
+                  color="success"
+                  @click="isDynamicsPopup = true;"
+                >
+                  Параметры в аквариуме
+                </v-btn>
+              </TheDosingElementsTable>
             </v-expand-transition>
+            <TheDynamicsPopup
+              v-model="isDynamicsPopup"
+              :dosing="dosingModel"
+            />
             <v-alert
               v-if="dosingModel.isDoses"
               class="my-10"
@@ -130,6 +144,8 @@ const { fertilizers } = useFertilizersStore();
 const { remineralRecipes } = useRemineralsStore();
 const dosingStore = useDosingStore();
 const snackbarStore = useSnackbarStore();
+
+const isDynamicsPopup = ref<boolean>(false);
 
 const tanks = tanksStore.tankModels.map((item) => item.toJson());
 

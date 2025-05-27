@@ -46,10 +46,6 @@ export const ROUTES = {
     key: 'schedules',
     icon: 'game-icons:toggles',
   },
-  dynamics: {
-    key: 'dynamics',
-    icon: 'game-icons:chart',
-  },
   articles: {
     key: 'articles',
     icon: 'game-icons:bookmarklet',

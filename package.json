@@ -21,6 +21,7 @@
     "@nuxtjs/i18n": "^9.3.1",
     "@pinia/nuxt": "^0.10.1",
     "@unhead/vue": "^2.0.0-rc.8",
+    "chart.js": "^4.4.9",
     "chartjs": "^0.3.24",
     "chartjs-plugin-annotation": "^3.1.0",
     "chartjs-plugin-datalabels": "^2.2.0",
