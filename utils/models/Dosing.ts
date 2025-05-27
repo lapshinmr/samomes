@@ -127,7 +127,7 @@ export class Dosing {
 
   countBalancedIons(): Partial<Record<IonType, [number, number]>> {
     const result = {};
-    const dstIons: IonType[] = ['NO3', 'PO4', 'K', 'Ca', 'Mg', 'SO4', 'Cl'];
+    const dstIons: IonType[] = ['NO3', 'PO4', 'K', 'Ca', 'Mg', 'Na', 'SO4', 'Cl'];
     dstIons.forEach((ion) => {
       const data = this.countIonDynamic(ion);
       if (data) {

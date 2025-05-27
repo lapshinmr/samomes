@@ -9,7 +9,7 @@
       </v-card-title>
       <v-card-text>
         <div class="mb-4">
-          <div class="mb-4">
+          <div class="mb-4 text-body-2">
             При заданном режиме подмен ({{ dosing.waterChangePercent }}% объёма каждые {{ dosing.daysTotal }} д)
             и выбранных дозировках удобрений равновесные параметры будут достигнуты через
             {{ countBalancedWaterChangeNumber() }} подмен
@@ -49,7 +49,26 @@
             <thead>
               <tr>
                 <th class="text-center">Элемент</th>
-                <th class="text-center">Диапазон, мг/л</th>
+                <th class="text-center">Диапазон, мг/л
+                  <v-tooltip
+                    location="bottom"
+                    max-width="400"
+                    open-on-click
+                    open-on-hover
+                  >
+                    <template #activator="{ props }">
+                      <Icon
+                        name="mdi-help-circle-outline"
+                        size="18"
+                        class="mb-n1"
+                        v-bind="props"
+                      />
+                    </template>
+                    Левое значение в диапазоне концентрации элемента — это концентрация сразу после подмены воды.
+                    Правое значение — это концентрация непосредственно перед подменой. Диапазон показывает,
+                    как изменяется концентрация элемента в период между подменами.
+                  </v-tooltip>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -61,7 +80,6 @@
                 <td class="text-center">{{ format(data[0]) }} — {{ format(data[1]) }}</td>
               </tr>
             </tbody>
-            <v-divider />
             <tfoot v-if="caMgRatio1 && caMgRatio2">
               <tr>
                 <td class="text-center">Ca/Mg</td>
@@ -141,7 +159,7 @@ const props = defineProps<{
   dosing: InstanceType<typeof Dosing>;
 }>();
 
-const balancedIons = ref({});
+// const balancedIons = ref({});
 const isChart = ref<boolean>(false);
 const currentIon = ref<IonType>();
 const ionInit = ref<number>();
@@ -171,19 +189,27 @@ const chartData = computed(() => ({
   }],
 }));
 
-const caMgRatio1 = computed(() => balancedIons.value['Ca'][0] / balancedIons.value['Mg'][0]);
-const caMgRatio2 = computed(() => balancedIons.value['Ca'][1] / balancedIons.value['Mg'][1]);
+const balancedIons = computed(() => props.dosing.countBalancedIons());
 
+// TODO: refactor this place
+const caMgRatio1 = computed(() => {
+  if ('Ca' in balancedIons.value && 'Mg' in balancedIons.value) {
+    return balancedIons.value['Ca'][0] / balancedIons.value['Mg'][0];
+  }
+  return null;
+});
+const caMgRatio2 = computed(() => {
+  if ('Ca' in balancedIons.value && 'Mg' in balancedIons.value) {
+    return balancedIons.value['Ca'][1] / balancedIons.value['Mg'][1];
+  }
+  return null;
+});
+
+// TODO: refactor this place
 const gh1 = computed(() => RemineralRecipe.countCaGh(balancedIons.value['Ca'][0], 1 / MG_IN_G, 1)
   + RemineralRecipe.countMgGh(balancedIons.value['Mg'][0], 1 / MG_IN_G, 1));
 const gh2 = computed(() => RemineralRecipe.countCaGh(balancedIons.value['Ca'][1], 1 / MG_IN_G, 1)
   + RemineralRecipe.countMgGh(balancedIons.value['Mg'][1], 1 / MG_IN_G, 1));
-
-watch(model, (value) => {
-  if (value) {
-    balancedIons.value = props.dosing.countBalancedIons();
-  }
-});
 
 watch(currentIon, () => {
   ionInit.value = 0;
@@ -200,6 +226,7 @@ watch([currentIon, ionInit, ionWaterConcentration, ionConsumption], () => {
   );
 });
 
+// TODO: describe formula
 function countBalancedWaterChangeNumber() {
   return Math.ceil(Math.log(0.05) / Math.log(1 - props.dosing.waterChangeDecimal));
 }

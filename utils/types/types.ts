@@ -100,9 +100,9 @@ export type FertilizerType = {
   name: string;
   description?: string;
   ions: Partial<Record<IonType, number>>;
+  isLiquid: boolean;
   isPercent: boolean;
   updatedAt?: string;
-  isLiquid?: boolean;
   hardness?: {
     gh: number;
     kh: number;
