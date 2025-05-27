@@ -134,6 +134,82 @@
           </v-card-actions>
         </v-card>
       </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+      >
+        <v-card
+          min-height="471px"
+          to="/articles/no-tests-part-1/"
+        >
+          <v-img
+            height="250"
+            :src="require('@/assets/images/no-tests/14-min.jpeg')"
+            alt="Easiest potassium recipe"
+          />
+
+          <v-card-title>
+            Тесты для аквариума не нужны
+            <div class="subtitle-1">Часть 1</div>
+          </v-card-title>
+
+          <v-card-text>
+            В этой статье я хочу поделиться опытом содержания аквариума как с использованием тестов, так и без них —
+            основываясь на собственной практике и опыте...
+          </v-card-text>
+
+          <v-divider class="mx-4" />
+
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              text
+              class="ml-auto"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+      >
+        <v-card
+          min-height="471px"
+          to="/articles/no-tests-part-2/"
+        >
+          <v-img
+            height="250"
+            :src="require('@/assets/images/no-tests/15-min.jpeg')"
+            alt="Easiest potassium recipe"
+          />
+
+          <v-card-title>
+            Тесты для аквариума не нужны
+            <div class="subtitle-1">Часть 2</div>
+          </v-card-title>
+
+          <v-card-text>
+            И вот мы добрались до самого корня зла. Я буду рассматривать оба элемента, так как
+            они чаще всего идут в паре в удобрениях, в обсуждениях и т.д. Что же опасного может быть в таких...
+          </v-card-text>
+
+          <v-divider class="mx-4" />
+
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              text
+              class="ml-auto"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>

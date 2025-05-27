@@ -345,13 +345,19 @@
         cols="12"
         sm="8"
         offset-sm="2"
-        class="d-flex justify-start mb-15"
+        class="d-flex justify-space-between my-15"
       >
         <v-btn
           color="primary"
           to="/articles/simplest-phosphate/"
         >
           <v-icon>mdi-chevron-left</v-icon> Предыдущая <span class="hidden-xs-only">статья</span>
+        </v-btn>
+        <v-btn
+          color="primary"
+          to="/articles/no-tests-part-1/"
+        >
+          Следующая <span class="hidden-xs-only">статья</span> <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </v-col>
     </v-row>
