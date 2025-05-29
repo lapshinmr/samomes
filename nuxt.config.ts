@@ -116,4 +116,16 @@ export default defineNuxtConfig({
   eslint: {
     checker: true,
   },
+
+  image: {
+    // The screen sizes predefined by `@nuxt/image`:
+    screens: {
+      xs: 0,     // < 600px (Extra small)
+      sm: 600,   // 600px - 960px (Small)
+      md: 960,   // 960px - 1280px (Medium)
+      lg: 1280,  // 1280px - 1920px (Large)
+      xl: 1920,  // 1920px - 2560px (Extra large)
+      xxl: 2560,
+    },
+  },
 });

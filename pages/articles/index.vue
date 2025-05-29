@@ -18,20 +18,233 @@
 -->
 
 <template>
-  <v-container
-    min-height="100%"
-    class="mb-12 position-relative"
-  >
+  <v-container>
     <v-row>
-      <PageTitle>
-        Страница находится в разработке
-      </PageTitle>
+      <v-col cols="12">
+        <h1 class="text-h5 text-md-h4 mt-md-4">
+          Статьи
+        </h1>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+      >
+        <v-card
+          to="/articles/simplest-nitrate/"
+          min-height="471px"
+        >
+          <NuxtImg
+            src="/images/makrandra.jpeg"
+            alt="Easiest nitrate recipe"
+            class="card-image"
+            sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+          />
+
+          <v-card-title>
+            Простейший рецепт нитрата NO<sub>3</sub>
+          </v-card-title>
+
+          <v-card-text>
+            Данная статья посвящена самому простому рецепту жидкого удобрения, содержащего нитрат. Нитрат
+            - один из ключевых элементов, на которые обращает...
+          </v-card-text>
+
+          <v-divider class="mx-4 mt-auto" />
+
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              class="ml-auto"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+      >
+        <v-card
+          to="/articles/simplest-phosphate/"
+          min-height="471px"
+        >
+          <NuxtImg
+            src="/images/indica.jpeg"
+            class="card-image"
+            alt="Easiest phosphate recipe"
+            sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+          />
+
+          <v-card-title>
+            Простейший рецепт фосфата PO<sub>4</sub>
+          </v-card-title>
+
+          <v-card-text>
+            В этой статье мы продолжим рассматривать самые простые способы приготовления домашних удобрений и теперь
+            поговорим о фосфате — элементе...
+          </v-card-text>
+
+          <v-divider class="mx-4" />
+
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              class="ml-auto"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+      >
+        <v-card
+          min-height="471px"
+          to="/articles/potassium/"
+        >
+          <NuxtImg
+            src="/images/stavrogin.jpeg"
+            class="card-image"
+            alt="Easiest potassium recipe"
+            sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+          />
+
+          <v-card-title>Рецепт калия</v-card-title>
+
+          <v-card-text>
+            Эта статья завершает серию из трех самых простых рецептов домашних удобрений для аквариума с растениями,
+            сосредотачиваясь на калии. Для ознакомления с рецептами...
+          </v-card-text>
+
+          <v-divider class="mx-4" />
+
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              class="ml-auto"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+      >
+        <v-card
+          min-height="471px"
+          to="/articles/no-tests-part-1/"
+        >
+          <NuxtImg
+            src="/images/no-tests/14.jpeg"
+            class="card-image"
+            alt="Easiest potassium recipe"
+            sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+          />
+
+          <v-card-title>
+            Тесты для аквариума не нужны
+            <div class="subtitle-1">Часть 1</div>
+          </v-card-title>
+
+          <v-card-text>
+            В этой статье я хочу поделиться опытом содержания аквариума как с использованием тестов, так и без них —
+            основываясь на собственной практике и опыте...
+          </v-card-text>
+
+          <v-divider class="mx-4" />
+
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              class="ml-auto"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+      >
+        <v-card
+          min-height="471px"
+          to="/articles/no-tests-part-2/"
+        >
+          <NuxtImg
+            src="/images/no-tests/15.jpeg"
+            class="card-image"
+            alt="Easiest potassium recipe"
+            sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+          />
+
+          <v-card-title>
+            Тесты для аквариума не нужны
+            <div class="subtitle-1">Часть 2</div>
+          </v-card-title>
+
+          <v-card-text>
+            И вот мы добрались до самого корня зла. Я буду рассматривать оба элемента, так как
+            они чаще всего идут в паре в удобрениях, в обсуждениях и т.д. Что же опасного может быть в таких...
+          </v-card-text>
+
+          <v-divider class="mx-4" />
+
+          <v-card-actions>
+            <v-btn
+              color="deep-purple lighten-2"
+              class="ml-auto"
+            >
+              Читать
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
-<script lang="ts" setup>
+<script>
+export default {
+  name: 'ArticlesPage',
+  head() {
+    return {
+      title: 'Статьи о самодельных удобрениях для аквариумных растений',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Подробные рецепты и инструкции по приготовлению самодельных удобрений для '
+            + 'аквариумных растений: нитраты, фосфаты и калий. Простые способы создания эффективных '
+            + 'удобрений в домашних условиях.',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'самодельные удобрения, аквариумные растения, нитрат, фосфат, калий, рецепты удобрений, '
+            + 'самомес, монорастворы, аквариум с растениями',
+        },
+      ],
+    };
+  },
+};
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
+.card-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
 </style>

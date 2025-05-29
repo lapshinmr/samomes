@@ -275,6 +275,7 @@
                         :sm="reagent.ionsTotal > 3 ? '4' : ''"
                         class="py-0"
                       >
+                        <!-- TODO: v-model or model-value ? -->
                         <NumberField
                           v-model.number="reagent.unitConcs[ion]"
                           :label="ion"
