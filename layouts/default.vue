@@ -27,8 +27,9 @@
       color="primary"
       dark
       dense
+      height="48"
     >
-      <v-app-bar-title>
+      <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
         <div class="d-flex align-content-center text-uppercase">
           <a
             class="d-flex text-white"
@@ -36,8 +37,8 @@
           >
             <v-img
               src="/images/npk-120x120.png"
-              height="28"
-              width="28"
+              height="24"
+              width="24"
               alt="Main logotype NPK"
             />
             <span class="ml-1">
