@@ -24,13 +24,46 @@
   >
     <v-row>
       <PageTitle>
-        Страница находится в разработке
+        Расписание
       </PageTitle>
+      <client-only>
+        <PageSubtitle v-if="scheduleStore.schedules.length === 0">
+          У вас нет еще ни одного расписания
+        </PageSubtitle>
+        <PageText
+          v-if="scheduleStore.schedules.length === 0"
+          class="mb-16"
+        >
+          Расписание
+        </PageText>
+        <v-col
+          sm="8"
+          offset-sm="2"
+        >
+          <Schedule
+            v-for="(schedule, index) in scheduleStore.schedules"
+            :key="index"
+            :schedule="schedule"
+            :schedule-index="index"
+            class="mb-10"
+          />
+        </v-col>
+      </client-only>
     </v-row>
+    <AddButton :action="onAdd">
+      Добавить расписание
+    </AddButton>
   </v-container>
 </template>
 
 <script lang="ts" setup>
+const router = useRouter();
+const { appRoutes } = useAppRoutes();
+const scheduleStore = useSchedulesStore();
+
+function onAdd() {
+  return router.push(`${appRoutes.value.dosing.path}`);
+}
 </script>
 
 <style lang="sass" scoped>

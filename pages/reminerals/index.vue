@@ -36,41 +36,6 @@
         >
           {{ t('reminerals.hints.p3') }}
         </PageText>
-        <v-col
-          sm="8"
-          offset-sm="2"
-        >
-          <v-alert
-            v-if="remineralModels.length !== 0"
-            class="mb-10"
-            type="info"
-            color="green-lighten-1"
-            icon="mdi-help-circle"
-          >
-            <p class="mb-2">
-              Оцените, пожалуйста, изменения на странице создания рецептов реминерализаторов, заполнив анкету
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdjwZ3c1fjGRF1P3ws2fTPiBD0-ggEdtkT9xW9xUMrpU8-OQg/viewform?usp=header"
-                target="_blank"
-                class="text-underlined"
-              >
-                здесь
-              </a> (количество заполнений анкеты не ограничено).
-            </p>
-            <p>
-              Если при использовании сайта у вас возникли трудности или непонятные моменты, обязательно
-              сообщите нам через
-              <a
-                href="https://t.me/samomes_calculator"
-                target="_blank"
-              >
-                телеграм-канал
-              </a>
-              или личные сообщения в телеграм автору проекта (@lapshinmr).
-              Мы постараемся сделать сервис доступнее и удобнее.
-            </p>
-          </v-alert>
-        </v-col>
         <TheCards
           v-if="remineralModels.length !== 0"
           v-model="remineralModels"
@@ -88,13 +53,13 @@
             >
               {{ t('buttons.remove') }}
             </v-btn>
-            <v-btn
-              variant="text"
-              class="ml-sm-auto px-1 px-sm-4"
-              @click="onShare(index)"
-            >
-              {{ t('buttons.share') }}
-            </v-btn>
+            <!--            <v-btn-->
+            <!--              variant="text"-->
+            <!--              class="ml-sm-auto px-1 px-sm-4"-->
+            <!--              @click="onShare(index)"-->
+            <!--            >-->
+            <!--              {{ t('buttons.share') }}-->
+            <!--            </v-btn>-->
             <v-btn
               variant="text"
               :to="`${appRoutes.reminerals.path}${index}/`"

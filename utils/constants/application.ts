@@ -38,13 +38,13 @@ export const ROUTES = {
     key: 'dosing',
     icon: 'game-icons:settings-knobs',
   },
-  remineralization: {
-    key: 'remineralization',
-    icon: 'game-icons:full-metal-bucket-handle',
-  },
   schedules: {
     key: 'schedules',
     icon: 'game-icons:toggles',
+  },
+  remineralization: {
+    key: 'remineralization',
+    icon: 'game-icons:full-metal-bucket-handle',
   },
   articles: {
     key: 'articles',

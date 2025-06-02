@@ -17,3 +17,11 @@ export const format = (value: string | number, precision: number | undefined = 3
   return +formatter.format(num);
 };
 
+export const formatDate = (value: string | InstanceType<typeof Date>): string => {
+  return new Date(value).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+};
+
+export const getWeekday = (value: string | InstanceType<typeof Date>): string => {
+  return new Date(value).toLocaleDateString('ru-RU', { weekday: 'short' });
+};
+

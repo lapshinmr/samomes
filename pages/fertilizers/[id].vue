@@ -20,20 +20,6 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <v-col
-        sm="8"
-        offset-sm="2"
-        align="end"
-      >
-        <v-btn
-          href="https://t.me/samomes_calculator_chat"
-          target="_blank"
-          color="warning"
-          size="small"
-        >
-          Сообщить о проблеме
-        </v-btn>
-      </v-col>
       <BackButton :path="appRoutes.fertilizers.path"/>
       <PageTitle>
         <template v-if="isCreate">

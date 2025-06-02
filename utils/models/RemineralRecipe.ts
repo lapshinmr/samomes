@@ -210,7 +210,7 @@ export default class RemineralRecipe extends Recipe {
 
   get concentrationWithoutHCO3(): Partial<Record<IonType, number>> {
     return Object.fromEntries(
-      Object.entries(this.concentration).filter(([ion, ]) => ion !== HCO3));
+      Object.entries(this.concentration).filter(([ion]) => ion !== HCO3));
   };
 
   get concentrationInChangeWater(): Partial<Record<IonType, number>> {

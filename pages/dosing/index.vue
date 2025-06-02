@@ -1,20 +1,6 @@
 <template>
   <v-container class="mb-12">
     <v-row>
-      <v-col
-        sm="8"
-        offset-sm="2"
-        align="end"
-      >
-        <v-btn
-          href="https://t.me/samomes_calculator_chat"
-          target="_blank"
-          color="warning"
-          size="small"
-        >
-          Сообщить о проблеме
-        </v-btn>
-      </v-col>
       <PageTitle>
         {{ t('dosing.title') }}
         <v-btn
@@ -80,54 +66,38 @@
               class="mb-4"
             />
             <v-expand-transition>
-              <TheDosingElementsTable
-                v-if="dosingModel.isDoses"
-                is-helpful-info
-                is-switchers
-                :dosing="dosingModel"
-              >
-                <v-btn
-                  color="success"
-                  @click="isDynamicsPopup = true;"
+              <div v-if="dosingModel.isDoses">
+                <TheDosingElementsTable
+                  is-helpful-info
+                  is-switchers
+                  :dosing="dosingModel"
                 >
-                  Параметры в аквариуме
-                </v-btn>
-              </TheDosingElementsTable>
+                  <v-btn
+                    color="success"
+                    @click="isDynamicsPopup = true;"
+                  >
+                    Параметры в аквариуме
+                  </v-btn>
+                </TheDosingElementsTable>
+              </div>
+            </v-expand-transition>
+            <DividerWithNote
+              v-model="isSchedule"
+              button
+              class="my-10"
+            >
+              Составить расписание
+            </DividerWithNote>
+            <v-expand-transition>
+              <TheScheduleDoseTable
+                v-if="isSchedule"
+                :dosing="dosingModel"
+              />
             </v-expand-transition>
             <TheDynamicsPopup
               v-model="isDynamicsPopup"
               :dosing="dosingModel"
             />
-            <v-alert
-              v-if="dosingModel.isDoses"
-              class="my-10"
-              type="info"
-              color="green-lighten-1"
-              icon="mdi-help-circle"
-            >
-              <p class="mb-2">
-                Оцените, пожалуйста, изменения на странице подбора дозировок, заполнив анкету
-                <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSf9gC2eSNPXKOmSQXtqTWksVvUHZN7QPKIzizHy_QKyquAdUg/viewform?usp=header"
-                  target="_blank"
-                  class="text-underlined"
-                >
-                  здесь
-                </a> (количество заполнений анкеты не ограничено).
-              </p>
-              <p>
-                Если при использовании сайта у вас возникли трудности или непонятные моменты, обязательно
-                сообщите нам через
-                <a
-                  href="https://t.me/samomes_calculator"
-                  target="_blank"
-                >
-                  телеграм-канал
-                </a>
-                или личные сообщения в телеграм автору проекта (@lapshinmr).
-                Мы постараемся сделать сервис доступнее и удобнее.
-              </p>
-            </v-alert>
           </v-form>
         </client-only>
       </v-col>
@@ -138,6 +108,7 @@
 <script setup lang="ts">
 const { t } = useI18n();
 
+const route = useRoute();
 const tanksStore = useTanksStore();
 const { fertilizerRecipes } = useRecipesStore();
 const { fertilizers } = useFertilizersStore();
@@ -146,6 +117,7 @@ const dosingStore = useDosingStore();
 const snackbarStore = useSnackbarStore();
 
 const isDynamicsPopup = ref<boolean>(false);
+const isSchedule = ref<boolean>(false);
 
 const tanks = tanksStore.tankModels.map((item) => item.toJson());
 
@@ -192,6 +164,12 @@ const allFertilizers = computed(() => {
   ];
 });
 
+onMounted(() => {
+  if (route.query.schedule) {
+    isSchedule.value = true;
+  }
+});
+
 function onChooseTank(value: number | string | TankType) {
   if (typeof value === 'number') {
     dosingStore.setTank({
@@ -217,7 +195,7 @@ function onInputFertilizer(value: InstanceType<typeof Dose>[]) {
       return;
     }
   }
-  dosingStore.setDoses(value);
+  dosingStore.setDoses(value.map((dose) => dose.toJson()));
 }
 
 function onReset() {

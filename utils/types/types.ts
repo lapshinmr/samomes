@@ -147,3 +147,33 @@ export enum RemineralizationTypes {
   MIX,
 }
 
+export type DosingType = {
+  doses: DoseType[];
+  daysTotal: number;
+  tank: TankType;
+  fertilizersRegime: FertilizersRegime;
+}
+
+// TODO: move to enum file
+export enum AmountStatus {
+  ACTIVE,
+  COMPLETED,
+  // SKIPPED,
+}
+
+export type DayType = {
+  date: string;
+  fertilizers: Record<string, {
+    amount: number | undefined;
+    status: AmountStatus;
+    selected?: boolean;
+  }>;
+}
+
+export type ScheduleType = {
+  dosing: DosingType;
+  startDate: string;
+  waterChangeDay: DayType;
+  days: DayType[];
+}
+

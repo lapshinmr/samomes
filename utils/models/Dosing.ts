@@ -137,4 +137,13 @@ export class Dosing {
     });
     return result;
   }
+  
+  toJson(): DosingType {
+    return {
+      doses: this.doses.map((dose) => dose.toJson()),
+      daysTotal: this.daysTotal,
+      tank: { ...this.tank },
+      fertilizersRegime: this.fertilizersRegime,
+    };
+  }
 }

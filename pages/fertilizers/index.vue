@@ -36,41 +36,6 @@
         >
           {{ t('fertilizers.hints.p3') }}
         </PageText>
-        <v-col
-          sm="8"
-          offset-sm="2"
-        >
-          <v-alert
-            v-if="fertilizerModels.length !== 0"
-            class="mb-10"
-            type="info"
-            color="green-lighten-1"
-            icon="mdi-help-circle"
-          >
-            <p class="mb-2">
-              Оцените, пожалуйста, изменения на странице добавления фирменных удобрений, заполнив анкету
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSfbpnyKhWe_4jroTlXIdbrB5EbYRqy4CFxFO3ToD7v42D4vVA/viewform?usp=header"
-                target="_blank"
-                class="text-underlined"
-              >
-                здесь
-              </a> (количество заполнений анкеты не ограничено).
-            </p>
-            <p>
-              Если при использовании сайта у вас возникли трудности или непонятные моменты, обязательно
-              сообщите нам через
-              <a
-                href="https://t.me/samomes_calculator"
-                target="_blank"
-              >
-                телеграм-канал
-              </a>
-              или личные сообщения в телеграм автору проекта (@lapshinmr).
-              Мы постараемся сделать сервис доступнее и удобнее.
-            </p>
-          </v-alert>
-        </v-col>
         <TheCards
           v-if="fertilizerModels.length !== 0"
           v-model="fertilizerModels"

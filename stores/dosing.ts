@@ -69,8 +69,8 @@ export const useDosingStore = defineStore(
       fertilizersRegime.value = value;
     }
 
-    function setDoses(payload: InstanceType<typeof Dose>[]) {
-      doses.value = payload.map((dose) => dose.toJson());
+    function setDoses(value: DoseType[]) {
+      doses.value = value;
     }
 
     function updateAmountDay(value: number, index: number) {
