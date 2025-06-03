@@ -18,7 +18,10 @@
 -->
 
 <template>
-  <v-card v-bind="$attrs">
+  <v-card
+    v-bind="$attrs"
+    elevation="4"
+  >
     <v-card-title class="d-flex justify-space-between align-start font-weight-regular flex-nowrap">
       <div class="no-break">
         {{ schedule.dosing.tank.name }}
@@ -96,12 +99,7 @@
       </v-window>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        variant="text"
-        right
-        color="red"
-        @click="onRemove(scheduleIndex)"
-      >
+      <v-btn @click="onRemove(scheduleIndex)">
         {{ t('buttons.remove') }}
       </v-btn>
       <template v-if="schedule.dosing.fertilizersRegime !== FertilizersRegime.ONCE_A_WEEK">
@@ -186,23 +184,22 @@ function onClickWaterChangeDay(scheduleIndex: number, fertilizerName: string) {
   schedulesStore.toggleWaterChangeDay(scheduleIndex, fertilizerName);
 }
 
-// onMounted(() => {
-//   if (props.schedule.dosing.fertilizersRegime !== FertilizersRegime.ONCE_A_WEEK) {
-//     activeIndex.value = findCurActiveDay();
-//   }
-// });
+onMounted(() => {
+  curDay.value = findCurActiveDay();
+  console.log(curDay.value);
+});
 
-// function findCurActiveDay() {
-//   const completed = [...this.isCompletedDay];
-//   completed.reverse();
-//   let found = completed.findIndex((item) => item === true);
-//   found = found === -1 ? completed.length : found;
-//   let curActiveDay = completed.length - found + 1;
-//   if (curActiveDay > completed.length) {
-//     curActiveDay = completed.length;
-//   }
-//   return curActiveDay;
-// }
+function findCurActiveDay() {
+  const dayIndex = [props.schedule.waterChangeDay, ...props.schedule.days].findIndex(
+    (day) => typedValues(day.fertilizers).some(
+      (data) => data.status === AmountStatus.ACTIVE,
+    ),
+  );
+  if (dayIndex === -1) {
+    return slidesTotal.value - 1;
+  }
+  return dayIndex;
+}
 
 function prevStep() {
   if (curDay.value >= 1) {

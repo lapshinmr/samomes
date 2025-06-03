@@ -35,7 +35,10 @@
             {{ fertilizerName }}
           </div>
         </div>
-        <div class="text-h6 text-sm-h5 ml-2">
+        <div
+          v-if="amount > 0"
+          class="text-h6 text-sm-h5 ml-2"
+        >
           {{ format(amount) }}
         </div>
       </div>

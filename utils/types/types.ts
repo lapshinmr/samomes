@@ -154,7 +154,7 @@ export type DosingType = {
   fertilizersRegime: FertilizersRegime;
 }
 
-// TODO: move to enum file
+// TODO: move to enum file; rename
 export enum AmountStatus {
   ACTIVE,
   COMPLETED,

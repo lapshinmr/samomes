@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-text-field
-      v-model="firstDay"
+      v-model="curDate"
       type="date"
       label="Выберите дату подмены"
       @update:model-value="onInputDate"
@@ -88,14 +88,24 @@
                 class="text-center"
               >
                 <template v-if="scheduleModel.daysAmountTotal[dose.fertilizer.name]">
-                  <span
-                    :class="{
-                      'text-red': format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) !== format(dose.amount)
-                    }"
-                  >
-                    {{ format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) }}
-                  </span>
-                  / <span class="font-weight-medium">{{ format(dose.amount) }}</span>
+                  <div class="d-flex flex-column align-center">
+                    <div>
+                      <span
+                        :class="{
+                          'text-warning':
+                            format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) !== format(dose.amount)
+                        }"
+                      >
+                        {{ format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) }}
+                      </span> / <span class="font-weight-medium">{{ format(dose.amount) }}</span>
+                    </div>
+                    <div
+                      class="text-blue cursor-pointer"
+                      @click="scheduleModel.resetDaysAmount(dose.fertilizer.name)"
+                    >
+                      Сбросить
+                    </div>
+                  </div>
                 </template>
                 <template v-else>
                   —
@@ -107,7 +117,7 @@
       </v-table>
       <div class="d-flex mt-10">
         <v-btn
-          v-if="isSchedule"
+          v-if="isScheduleEdit"
           color="error"
           @click="onRemoveSchedule"
         >
@@ -144,14 +154,23 @@ const props = defineProps<{
   dosing: InstanceType<typeof Dosing>;
 }>();
 
-const firstDay = ref();
+const curDate = ref();
 const scheduleIndex = ref();
+
 const scheduleModel = reactive(new Schedule(
   props.dosing,
 ));
 
-const isSchedule = computed(() => {
+const isScheduleEdit = computed(() => {
   return !isNaN(scheduleIndex.value);
+});
+
+watch(() => props.dosing, () => {
+  scheduleModel.dosing = props.dosing;
+  if (curDate.value) {
+    scheduleModel.initWaterChangeDay();
+    scheduleModel.initDays();
+  }
 });
 
 onMounted(() => {
@@ -159,7 +178,7 @@ onMounted(() => {
   if (!isNaN(scheduleIndex.value)) {
     const curSchedule = schedulesStore.schedules[scheduleIndex.value];
     if (curSchedule) {
-      firstDay.value = curSchedule.startDate;
+      curDate.value = curSchedule.startDate;
       scheduleModel.startDate = curSchedule.startDate;
       scheduleModel.waterChangeDay = curSchedule.waterChangeDay;
       scheduleModel.days = curSchedule.days;
@@ -170,11 +189,15 @@ onMounted(() => {
 function onInputDate(value: string) {
   scheduleModel.startDate = value;
   scheduleModel.initWaterChangeDay();
-  scheduleModel.initDays();
+  if (scheduleModel.days.length > 0) {
+    scheduleModel.updateDays();
+  } else {
+    scheduleModel.initDays();
+  }
 }
 
 async function onSaveSchedule() {
-  if (isSchedule.value) {
+  if (isScheduleEdit.value) {
     schedulesStore.editSchedule(scheduleIndex.value, scheduleModel.toJson());
   } else {
     schedulesStore.saveSchedule(scheduleModel.toJson());

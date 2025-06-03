@@ -40,7 +40,19 @@ export class Schedule {
     return result;
   }
 
+  resetWaterChangeDay() {
+    this.waterChangeDay = {
+      date: '',
+      fertilizers: {},
+    };
+  }
+
+  resetDays() {
+    this.days = [];
+  }
+
   initWaterChangeDay() {
+    this.resetWaterChangeDay();
     this.waterChangeDay.date = this.startDate;
     this.dosing.doses.forEach((dose) => {
       if (dose.amountWaterChange) {
@@ -53,6 +65,7 @@ export class Schedule {
   }
 
   initDays() {
+    this.resetDays();
     let startDateObject = new Date(this.startDate);
     [...Array(this.dosing.daysTotal)].forEach(() => {
       const date = startDateObject.toISOString().split('T')[0];
@@ -62,25 +75,51 @@ export class Schedule {
           fertilizers[dose.fertilizer.name] = {
             amount: dose.amountDay,
             status: AmountStatus.ACTIVE,
-            selected: true,
+            selected: true, // TODO: investigate is I need this
           };
         }
       });
-      this.days.push({
-        date,
-        fertilizers,
-      });
+      if (Object.entries(fertilizers).length !== 0) {
+        this.days.push({
+          date,
+          fertilizers,
+        });
+      }
       startDateObject = new Date(startDateObject.setDate(startDateObject.getDate() + 1));
     });
   }
 
+  updateDays() {
+    let startDateObject = new Date(this.startDate);
+    for (const day of this.days) {
+      day.date = startDateObject.toISOString().split('T')[0];
+      for (const fertilizerName in day.fertilizers) {
+        day.fertilizers[fertilizerName].status = AmountStatus.ACTIVE;
+      }
+      startDateObject = new Date(startDateObject.setDate(startDateObject.getDate() + 1));
+    }
+  }
+
   spreadDayAmounts(fertilizerName: string) {
+    const dose = this.dosing.doses.find((dose) => dose.fertilizer.name === fertilizerName);
+    if (!dose) {
+      return;
+    }
     this.days.forEach((day) => {
-      this.dosing.doses.forEach((dose) => {
-        if (fertilizerName === dose.fertilizer.name && dose.amountDay && day.fertilizers[fertilizerName].selected) {
-          day.fertilizers[fertilizerName].amount = format(dose.amount / this.daysSelectedTotal[fertilizerName]);
-        }
-      });
+      if (dose.amountDay && day.fertilizers[fertilizerName].selected) {
+        day.fertilizers[fertilizerName].amount = format(dose.amount / this.daysSelectedTotal[fertilizerName]);
+      }
+    });
+  }
+
+  resetDaysAmount(fertilizerName: string) {
+    const dose = this.dosing.doses.find((dose) => dose.fertilizer.name === fertilizerName);
+    if (!dose) {
+      return;
+    }
+    this.days.forEach((day) => {
+      day.fertilizers[fertilizerName].amount = format(dose.amount / this.days.length);
+      day.fertilizers[fertilizerName].selected = true;
     });
   }
 

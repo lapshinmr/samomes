@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export const FERTILIZERS = [
+export const FERTILIZERS: FertilizerType[] = [
   {
     name: 'APT 3 / Complete',
     isLiquid: true,
@@ -1228,7 +1228,7 @@ export const FERTILIZERS = [
     description: 'Это фирменное удобрение. Данные взяты с сайта магазина https://www.aquasabi.com/Tetra-PlantaMin',
     updatedAt: '2025-03-04',
   },
-] satisfies FertilizerType[];
+];
 
 export const FERTILIZERS_SORTED = FERTILIZERS
   .sort((a, b) => a.name.localeCompare(b.name));

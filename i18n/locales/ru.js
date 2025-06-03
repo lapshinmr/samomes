@@ -84,7 +84,7 @@ export default {
     remove: 'Удалить',
     copy: 'Скопировать',
     share: 'Поделиться',
-    reset: 'Сброс',
+    reset: 'Сбросить',
     close: 'Закрыть',
   },
   tanks: {

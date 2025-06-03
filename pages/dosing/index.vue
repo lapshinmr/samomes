@@ -32,6 +32,7 @@
               hide-selected
               :rules="rulesTank"
               class="mb-4"
+              :disabled="isScheduleEdit"
               @update:model-value="onChooseTank"
             />
             <v-expand-transition>
@@ -92,6 +93,7 @@
               <TheScheduleDoseTable
                 v-if="isSchedule"
                 :dosing="dosingModel"
+                class="mt-10"
               />
             </v-expand-transition>
             <TheDynamicsPopup
@@ -162,6 +164,10 @@ const allFertilizers = computed(() => {
       daysTotal: dosingStore.daysTotal,
     })),
   ];
+});
+
+const isScheduleEdit = computed(() => {
+  return !isNaN(+route.query.schedule);
 });
 
 onMounted(() => {
