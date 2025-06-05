@@ -24,9 +24,9 @@ export const useRemineralizationStore = defineStore(
   'remineralization',
   () => {
     const tank = ref<TankType>();
-    const remineralizationType = ref();
+    const remineralizationType = ref(null);
     const isTests = ref<boolean>(false);
-    const osmosisChangePercent = ref();
+    const osmosisChangePercent = ref(100);
     const isDefaultFertilizers = ref<boolean>(false);
     const doses = ref<DoseType[]>([]);
 

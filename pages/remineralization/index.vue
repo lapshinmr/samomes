@@ -35,47 +35,51 @@
             item-title="name"
             variant="underlined"
             label="Объем аквариума"
-            hint="Выберите аквариум или введите объем (это может быть объем подмены)"
+            hint="Выберите аквариум или введите объем"
             persistent-hint
             hide-selected
             :rules="[required]"
             class="mb-4"
             @update:model-value="onChooseTank"
           />
-          <div class="mt-2 mt-sm-6">
-            Выберите тип подмены
-          </div>
-          <div class="d-flex flex-column flex-md-row">
-            <v-radio-group
-              v-model="remineralizationType"
-              class="my-2 ml-n2"
-              color="primary"
-              hide-details="auto"
-              :inline="smAndUp"
-            >
-              <v-radio
-                label="Осмос + реминерализатор"
-                :value="RemineralizationTypes.REM"
-              />
-              <v-radio
-                label="Осмос + водопровод"
-                :value="RemineralizationTypes.TAP"
-                class="mt-1 mt-sm-0"
-              />
-              <v-radio
-                label="Другое"
-                :value="RemineralizationTypes.MIX"
-                class="mt-1 mt-sm-0"
-              />
-            </v-radio-group>
-            <v-checkbox
-              v-model="isTests"
-              color="primary"
-              label="Тестирую воду"
-            />
-          </div>
           <v-expand-transition>
-            <div v-if="remineralizationStore.tank.volume && remineralizationType !== null">
+            <div v-if="remineralizationStore.tank?.volume">
+              <div class="mt-2 mt-sm-6">
+                Выберите тип подмены
+              </div>
+              <div class="d-flex flex-column flex-md-row">
+                <v-radio-group
+                  v-model="remineralizationType"
+                  class="my-2 ml-n2"
+                  color="primary"
+                  hide-details="auto"
+                  :inline="smAndUp"
+                >
+                  <v-radio
+                    label="Осмос + реминерализатор"
+                    :value="RemineralizationTypes.REM"
+                  />
+                  <v-radio
+                    label="Осмос + водопровод"
+                    :value="RemineralizationTypes.TAP"
+                    class="mt-1 mt-sm-0"
+                  />
+                  <v-radio
+                    label="Другое"
+                    :value="RemineralizationTypes.MIX"
+                    class="mt-1 mt-sm-0"
+                  />
+                </v-radio-group>
+                <v-checkbox
+                  v-model="isTests"
+                  color="primary"
+                  label="Тестирую воду"
+                />
+              </div>
+            </div>
+          </v-expand-transition>
+          <v-expand-transition>
+            <div v-if="remineralizationStore.tank?.volume && remineralizationType !== null">
               <div class="text-subtitle-1">
                 Подмена
               </div>
@@ -172,7 +176,7 @@
           <v-expand-transition>
             <div
               v-if="
-                remineralizationStore.tank.volume
+                remineralizationStore.tank?.volume
                   && [RemineralizationTypes.REM, RemineralizationTypes.MIX].includes(remineralizationType)
               "
               class="mt-8"
@@ -216,7 +220,7 @@
           </div>
           <v-expand-transition>
             <div
-              v-if="remineralizationStore.tank.volume && remineralizationType !== null"
+              v-if="remineralizationStore.tank?.volume && remineralizationType !== null"
               class="mt-8"
             >
               <div class="text-subtitle-1 mb-2">
