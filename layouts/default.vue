@@ -52,6 +52,7 @@
     </v-app-bar>
 
     <v-main>
+      <NuxtPwaManifest />
       <slot />
       <v-snackbar
         v-model="isSnackbar"

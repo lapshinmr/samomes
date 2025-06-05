@@ -37,12 +37,21 @@
             {{ t(`routes.${route.key}`) }}
           </v-list-item-title>
         </v-list-item>
-        <!--        <v-list-item v-if="isPWAInstallButton" @click="install">-->
-        <!--          <template #prepend>-->
-        <!--            <v-icon>mdi mdi-download</v-icon>-->
-        <!--          </template>-->
-        <!--          <v-list-item-title> Установить </v-list-item-title>-->
-        <!--        </v-list-item>-->
+        <v-list-item
+          v-if="isPWAInstallButton"
+          @click="onInstall"
+        >
+          <template #prepend>
+            <Icon
+              name="mdi-download"
+              size="24"
+              class="mr-2 mr-sm-4 text-grey-darken-1"
+            />
+          </template>
+          <v-list-item-title>
+            Установить
+          </v-list-item-title>
+        </v-list-item>
       </v-list>
       <div class="d-flex justify-space-around mt-auto pa-4 text-grey-darken-1">
         <a href="https://vk.com/samomes" target="_blank">
@@ -65,7 +74,11 @@
         </a>
       </div>
     </div>
-    <ThePWAPopup v-model="isPWAPopup" :platform="platform" :browser="browser" />
+    <ThePWAPopup
+      v-model="isPWAPopup"
+      :platform="platform"
+      :browser="browser"
+    />
   </v-navigation-drawer>
 </template>
 
@@ -73,6 +86,7 @@
 
 const { t } = useI18n();
 const { appRoutes } = useAppRoutes();
+const { $pwa } = useNuxtApp();
 
 const model = defineModel<boolean>();
 
@@ -126,9 +140,9 @@ function isChrome() {
   );
 }
 
-async function install() {
-  if (deferredPrompt.value) {
-    deferredPrompt.value.prompt();
+async function onInstall() {
+  if ($pwa.showInstallPrompt) {
+    $pwa.install();
   } else {
     isPWAPopup.value = true;
   }
@@ -138,13 +152,13 @@ onMounted(() => {
   platform.value = getPlatform();
   browser.value = isChrome() ? 'chrome' : 'unknown';
   // By default, we hide PWA install button on chrome because it can be already installed
-  if (platform.value === 'macos' && isChrome()) {
-    isPWAInstallButton.value = false;
-  }
-  window.addEventListener('beforeinstallprompt', (e) => {
-    deferredPrompt.value = e;
-    isPWAInstallButton.value = true;
-  });
+  // if (platform.value === 'macos' && isChrome()) {
+  //   isPWAInstallButton.value = false;
+  // }
+  // window.addEventListener('beforeinstallprompt', (e) => {
+  //   deferredPrompt.value = e;
+  //   isPWAInstallButton.value = true;
+  // });
   // This event is required to hide PWA install button in the PWA right after app is installed
   window.addEventListener('appinstalled', () => {
     isPWAInstallButton.value = false;

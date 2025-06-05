@@ -1,8 +1,7 @@
 <template>
   <v-dialog
-    :value="value"
+    v-model="model"
     max-width="500"
-    @input="$emit('input', $event)"
   >
     <v-card>
       <v-card-title class="text-h6">
@@ -13,9 +12,10 @@
       <v-card-text>
         <template v-if="platform === 'ios'">
           <p>Для iPhone & iPad:</p>
-          <ol class="space-y-2 text-gray-600 ml-2">
+          <ol class="space-y-2 text-gray-600 ml-6">
             <li class="mb-2 mb-md-3">
-              Нажмите на кнопку "Поделиться" <v-icon size="20">
+              Нажмите на кнопку "Поделиться"
+              <v-icon size="20">
                 mdi mdi-export-variant
               </v-icon>
             </li>
@@ -27,9 +27,10 @@
         </template>
         <template v-else-if="platform === 'macos'">
           <p>Для MacOS:</p>
-          <ol class="space-y-2 text-gray-600 ml-2">
+          <ol class="space-y-2 text-gray-600 ml-6">
             <li class="mb-2 mb-md-3">
-              Нажмите на кнопку "Поделиться" <v-icon size="20">
+              Нажмите на кнопку "Поделиться"
+              <v-icon size="20">
                 mdi mdi-export-variant
               </v-icon>
             </li>
@@ -42,9 +43,10 @@
         <!-- TODO: probably this is not used -->
         <template v-else-if="platform === 'android' && browser === 'chrome'">
           <p>Для браузера Chrome на Android:</p>
-          <ol class="space-y-2 text-gray-600 ml-2">
+          <ol class="space-y-2 text-gray-600 ml-6">
             <li class="mb-2 mb-md-3">
-              Нажмите на иконку меню <v-icon size="20">
+              Нажмите на иконку меню
+              <v-icon size="20">
                 mdi mdi-dots-vertical
               </v-icon> в Chrome
             </li>
@@ -69,8 +71,7 @@
         <v-spacer />
         <v-btn
           color="green darken-1"
-          text
-          @click="$emit('input', false)"
+          @click="$emit('update:modelValue', false)"
         >
           Закрыть
         </v-btn>
@@ -79,26 +80,25 @@
   </v-dialog>
 </template>
 
-<script>
-export default {
+<script lang="ts" setup>
+const model = defineModel<boolean>();
+
+withDefaults(defineProps<{
+  platform?: string;
+  browser?: string;
+}>(), {
+  platform: 'unknown',
+  browser: 'unknown',
+});
+
+defineEmits(['udpate:modelValue']);
+
+defineOptions({
   name: 'PWAPopup',
-  props: {
-    value: {
-      type: Boolean,
-      default: false,
-    },
-    platform: {
-      type: String,
-      default: 'unknown',
-    },
-    browser: {
-      type: String,
-      default: 'unknown',
-    },
-  },
-};
+});
 </script>
 
 <style scoped lang="sass">
-
+p
+  margin-bottom: 16px
 </style>
