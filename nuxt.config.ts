@@ -4,10 +4,10 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  devServer: {
-    host: '0.0.0.0',
-    port: 3000,
-  },
+  // devServer: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  // },
 
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
@@ -111,12 +111,12 @@ export default defineNuxtConfig({
       cleanupOutdatedCaches: true,
     },
 
-    devOptions: {
-      enabled: true,
-      navigateFallback: 'index.html',
-      suppressWarnings: true,
-      type: 'module',
-    },
+    // devOptions: {
+    //   enabled: true,
+    //   navigateFallback: undefined,
+    //   suppressWarnings: true,
+    //   type: 'module',
+    // },
   },
 
   css: ['~/assets/variables.sass'],
@@ -185,8 +185,8 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
     strategy: 'prefix_except_default',
     locales: [
-      { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.js' },
-      { code: 'en', name: 'En', iso: 'en-US', file: 'en.js' },
+      { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.ts' },
+      { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
     ],
   },
 

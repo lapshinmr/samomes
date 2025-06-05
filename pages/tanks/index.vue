@@ -113,23 +113,11 @@ async function onRemoveTankConfirmation() {
   onRemoveConfirmation();
 }
 
-definePageMeta({
-  title: 'Список аквариумов',
-  meta: [
-    {
-      name: 'description',
-      content: 'На этой странице вы можете управлять списком ваших аквариумов, рассчитывать '
-        + 'их объемы по линейным размерам, а также учитывать объем фильтра и воды в грунте. '
-        + 'Добавив аквариум, вы получите доступ к его параметрам во всех разделах калькулятора, '
-        + 'что упрощает работу с сервисом и экономит ваше время.',
-    },
-    {
-      name: 'keywords',
-      content: 'аквариумы, расчет объема, фильтр, грунт, управление аквариумами',
-    },
-  ],
+useSeoMeta({
+  title: t('meta.tanks.title'),
+  description: t('meta.tanks.description'),
+  keywords: t('meta.tanks.keywords'),
 });
-
 </script>
 
 <style lang="sass" scoped>

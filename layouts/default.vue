@@ -21,50 +21,50 @@
   <v-app>
     <client-only>
       <Drawer v-model="isDrawer" />
-    </client-only>
 
-    <v-app-bar
-      color="primary"
-      dark
-      dense
-      height="48"
-    >
-      <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
-        <div class="d-flex align-content-center text-uppercase">
-          <a
-            class="d-flex text-white"
-            href="/"
-          >
-            <v-img
-              src="/images/npk-120x120.png"
-              height="24"
-              width="24"
-              alt="Main logotype NPK"
-            />
-            <span class="ml-1">
-              {{ t('home') }}
-            </span>
-          </a>
-        </div>
-      </v-app-bar-title>
-      <LanguageSwitcher />
-      <v-app-bar-nav-icon @click="drawerStore.toggle" />
-    </v-app-bar>
-
-    <v-main>
-      <NuxtPwaManifest />
-      <slot />
-      <v-snackbar
-        v-model="isSnackbar"
-        :color="snackbarStore.color"
-        :timeout="snackbarStore.timeout"
-        location="top"
+      <v-app-bar
+        color="primary"
+        dark
+        dense
+        height="48"
       >
-        <div>
-          {{ snackbarStore.message }}
-        </div>
-      </v-snackbar>
-    </v-main>
+        <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
+          <div class="d-flex align-content-center text-uppercase">
+            <a
+              class="d-flex text-white"
+              href="/"
+            >
+              <v-img
+                src="/images/npk-120x120.png"
+                height="24"
+                width="24"
+                alt="Main logotype NPK"
+              />
+              <span class="ml-1">
+                {{ t('home') }}
+              </span>
+            </a>
+          </div>
+        </v-app-bar-title>
+        <LanguageSwitcher />
+        <v-app-bar-nav-icon @click="drawerStore.toggle" />
+      </v-app-bar>
+
+      <v-main>
+        <NuxtPwaManifest />
+        <slot />
+        <v-snackbar
+          v-model="isSnackbar"
+          :color="snackbarStore.color"
+          :timeout="snackbarStore.timeout"
+          location="top"
+        >
+          <div>
+            {{ snackbarStore.message }}
+          </div>
+        </v-snackbar>
+      </v-main>
+    </client-only>
   </v-app>
 </template>
 
@@ -95,6 +95,7 @@ onMounted(async () => {
   if (redirectPath) {
     localStorage.removeItem('404_redirect_path');
     await router.replace(redirectPath);
+    return;
   }
 
   const path = localStorage.getItem('path');

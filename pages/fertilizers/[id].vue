@@ -147,7 +147,15 @@
               class="d-flex flex-wrap mb-2"
             >
               <v-col cols="12">
-                Введите значения с этикетки
+                <div class="mb-4">
+                  Введите значения с этикетки
+                </div>
+                <div class="text-body-2 text-grey-darken-1">
+                  Пример инструкции: "5 г смеси на 100 л воды повышают Gh на 6, Kh на 3"<br>
+                  Исходя из этой инструкции, нужно ввести
+                  6 в поле с Gh, 3 в поле с Kh, 5 в поле с количеством и 100 в поле с объемом.
+                </div>
+
               </v-col>
               <v-col cols="6">
                 <number-field
@@ -160,7 +168,7 @@
                 <number-field
                   v-model="fertilizerModel.hardness.amount"
                   label="Количество"
-                  hint="Необходимое количество реминерализатора, для повышения жесткости на заявленное значение"
+                  hint="Необходимое количество реминерализатора, для повышения жесткости на заявленное значение Gh и Kh"
                   :suffix="fertilizerModel.isLiquid ? 'мл' : 'г'"
                   hide-details="auto"
                 />
@@ -170,6 +178,7 @@
                   v-model="fertilizerModel.hardness.kh"
                   label="Введите Kh"
                   suffix="Kh"
+                  hint="Заявленное производителем значение"
                   hide-details="auto"
                 />
                 <number-field

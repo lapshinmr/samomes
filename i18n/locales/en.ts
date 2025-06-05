@@ -324,4 +324,6 @@ export default {
     resetData: 'Data reset',
     allData: 'All data',
   },
+  meta: {
+  },
 };

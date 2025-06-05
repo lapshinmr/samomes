@@ -324,4 +324,14 @@ export default {
     resetData: 'Сброс данных',
     allData: 'Все данные',
   },
+  meta: {
+    tanks: {
+      title: 'Tank List',
+      description: 'On this page you can manage your list of aquariums, calculate their volumes by ' +
+        'linear dimensions, and also account for the volume of filter and water in substrate. By adding ' +
+        'an aquarium, you will get access to its parameters in all sections of the calculator, which simplifies ' +
+        'working with the service and saves your time.',
+      keywords: 'aquariums, volume calculation, filter, substrate, aquarium management',
+    },
+  },
 };

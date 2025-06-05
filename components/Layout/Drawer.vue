@@ -151,14 +151,6 @@ async function onInstall() {
 onMounted(() => {
   platform.value = getPlatform();
   browser.value = isChrome() ? 'chrome' : 'unknown';
-  // By default, we hide PWA install button on chrome because it can be already installed
-  // if (platform.value === 'macos' && isChrome()) {
-  //   isPWAInstallButton.value = false;
-  // }
-  // window.addEventListener('beforeinstallprompt', (e) => {
-  //   deferredPrompt.value = e;
-  //   isPWAInstallButton.value = true;
-  // });
   // This event is required to hide PWA install button in the PWA right after app is installed
   window.addEventListener('appinstalled', () => {
     isPWAInstallButton.value = false;
