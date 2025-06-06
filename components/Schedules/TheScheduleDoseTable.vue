@@ -11,110 +11,110 @@
       <div v-if="scheduleModel.startDate">
         <v-table>
           <thead>
-          <tr>
-            <th class="text-center pl-0">
-              Дни
-            </th>
-            <th
-              v-for="dose in scheduleModel.dosing.doses"
-              :key="dose.fertilizer.name"
-              class="text-center"
-            >
-              {{ dose.fertilizer.name }}
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
-            v-if="scheduleModel.dosing.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK
-              || scheduleModel.dosing.fertilizersRegime === FertilizersRegime.MIX"
-          >
-            <td class="pl-0 text-center">
-              Подмена
-            </td>
-            <td
-              v-for="dose in scheduleModel.dosing.doses"
-              :key="`water_change_${dose.fertilizer.name}`"
-              class="text-center"
-            >
-              {{ scheduleModel.waterChangeDay.fertilizers[dose.fertilizer.name]?.amount || '—' }}
-            </td>
-          </tr>
-          <template v-if="scheduleModel.days.length > 0">
-            <tr
-              v-for="day in scheduleModel.days"
-              :key="day.date"
-            >
-              <td class="pl-0 text-center">
-                <div class="d-flex flex-column">
-                  <span style="text-transform: capitalize;">{{ getWeekday(day.date) }}</span>
-                  <span>{{ formatDate(day.date) }}</span>
-                </div>
-              </td>
-              <td
-                v-for="dose in scheduleModel.dosing.doses"
-                :key="dose.fertilizer.name + day"
-                class="text-center"
-              >
-                <div
-                  v-if="day.fertilizers[dose.fertilizer.name]?.amount !== undefined"
-                  class="d-flex justify-center align-center"
-                >
-                  <div style="width: 50px;">
-                    <NumberField
-                      v-model="day.fertilizers[dose.fertilizer.name].amount"
-                    />
-                  </div>
-                  <v-checkbox
-                    v-model="day.fertilizers[dose.fertilizer.name].selected"
-                    color="primary"
-                    dense
-                    hide-details="auto"
-                    class="mt-0 ml-1"
-                    style="display: inline-block;"
-                    @update:model-value="onToggleCheckbox(dose.fertilizer.name, day.fertilizers[dose.fertilizer.name])"
-                  />
-                </div>
-                <template v-else>
-                  —
-                </template>
-              </td>
-            </tr>
             <tr>
-              <td class="font-weight-medium">
-                Total
-              </td>
-              <td
+              <th class="text-center pl-0">
+                Дни
+              </th>
+              <th
                 v-for="dose in scheduleModel.dosing.doses"
                 :key="dose.fertilizer.name"
                 class="text-center"
               >
-                <template v-if="scheduleModel.daysAmountTotal[dose.fertilizer.name]">
-                  <div class="d-flex flex-column align-center">
-                    <div>
-                      <span
-                        :class="{
-                          'text-warning':
-                            format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) !== format(dose.amount)
-                        }"
-                      >
-                        {{ format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) }}
-                      </span> / <span class="font-weight-medium">{{ format(dose.amount) }}</span>
-                    </div>
-                    <div
-                      class="text-blue cursor-pointer"
-                      @click="scheduleModel.resetDaysAmount(dose.fertilizer.name)"
-                    >
-                      Сбросить
-                    </div>
-                  </div>
-                </template>
-                <template v-else>
-                  —
-                </template>
+                {{ dose.fertilizer.name }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-if="scheduleModel.dosing.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK
+                || scheduleModel.dosing.fertilizersRegime === FertilizersRegime.MIX"
+            >
+              <td class="pl-0 text-center">
+                Подмена
+              </td>
+              <td
+                v-for="dose in scheduleModel.dosing.doses"
+                :key="`water_change_${dose.fertilizer.name}`"
+                class="text-center"
+              >
+                {{ scheduleModel.waterChangeDay.fertilizers[dose.fertilizer.name]?.amount || '—' }}
               </td>
             </tr>
-          </template>
+            <template v-if="scheduleModel.days.length > 0">
+              <tr
+                v-for="day in scheduleModel.days"
+                :key="day.date"
+              >
+                <td class="pl-0 text-center">
+                  <div class="d-flex flex-column">
+                    <span style="text-transform: capitalize;">{{ getWeekday(day.date) }}</span>
+                    <span>{{ formatDate(day.date) }}</span>
+                  </div>
+                </td>
+                <td
+                  v-for="dose in scheduleModel.dosing.doses"
+                  :key="dose.fertilizer.name + day"
+                  class="text-center"
+                >
+                  <div
+                    v-if="day.fertilizers[dose.fertilizer.name]?.amount !== undefined"
+                    class="d-flex justify-center align-center"
+                  >
+                    <div style="width: 50px;">
+                      <NumberField
+                        v-model="day.fertilizers[dose.fertilizer.name].amount"
+                      />
+                    </div>
+                    <v-checkbox
+                      v-model="day.fertilizers[dose.fertilizer.name].selected"
+                      color="primary"
+                      dense
+                      hide-details="auto"
+                      class="mt-0 ml-1"
+                      style="display: inline-block;"
+                      @update:model-value="onToggleCheckbox(dose.fertilizer.name, day.fertilizers[dose.fertilizer.name])"
+                    />
+                  </div>
+                  <template v-else>
+                    —
+                  </template>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-weight-medium">
+                  Total
+                </td>
+                <td
+                  v-for="dose in scheduleModel.dosing.doses"
+                  :key="dose.fertilizer.name"
+                  class="text-center"
+                >
+                  <template v-if="scheduleModel.daysAmountTotal[dose.fertilizer.name]">
+                    <div class="d-flex flex-column align-center">
+                      <div>
+                        <span
+                          :class="{
+                            'text-warning':
+                              format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) !== format(dose.amount)
+                          }"
+                        >
+                          {{ format(scheduleModel.daysAmountTotal[dose.fertilizer.name]) }}
+                        </span> / <span class="font-weight-medium">{{ format(dose.amount) }}</span>
+                      </div>
+                      <div
+                        class="text-blue cursor-pointer"
+                        @click="scheduleModel.resetDaysAmount(dose.fertilizer.name)"
+                      >
+                        Сбросить
+                      </div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    —
+                  </template>
+                </td>
+              </tr>
+            </template>
           </tbody>
         </v-table>
         <div class="d-flex mt-10">

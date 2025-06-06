@@ -136,15 +136,13 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
   ],
 
-  yandexMetrika: [
-    {
-      id: '101470252',
-      webvisor: true,
-      clickmap: true,
-      trackLinks: true,
-      accurateTrackBounce: true,
-    },
-  ],
+  yandexMetrika: {
+    id: '101470252',
+    webvisor: true,
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true,
+  },
 
   scripts: {
     registry: {
