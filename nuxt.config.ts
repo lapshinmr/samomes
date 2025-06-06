@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-04-29',
 
-  devtools: { enabled: true },
+  // devtools: { enabled: true },
 
   // devServer: {
   //   host: '0.0.0.0',
@@ -132,18 +132,27 @@ export default defineNuxtConfig({
     'vuetify-nuxt-module',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    [
-      'yandex-metrika-module-nuxt3',
-      {
-        id: '101470252',
-        webvisor: true,
-        clickmap: true,
-        trackLinks: true,
-        accurateTrackBounce: true,
-      },
-    ],
+    'yandex-metrika-module-nuxt3',
     '@vite-pwa/nuxt',
   ],
+
+  yandexMetrika: [
+    {
+      id: '101470252',
+      webvisor: true,
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+    },
+  ],
+
+  scripts: {
+    registry: {
+      googleAnalytics: {
+        id: 'G-FH5PQ388QW',
+      },
+    },
+  },
 
   imports: {
     dirs: [

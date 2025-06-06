@@ -31,7 +31,10 @@
     <template #default>
       <div class="d-flex justify-space-between align-center w-100">
         <div class="text-truncate text-subtitle-2 text-sm-h6 font-weight-regular mx-2">
-          <div style="overflow: hidden; text-overflow: ellipsis;">
+          <div
+            class="text-uppercase"
+            style="overflow: hidden; text-overflow: ellipsis;"
+          >
             {{ fertilizerName }}
           </div>
         </div>

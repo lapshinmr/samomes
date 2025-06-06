@@ -4,11 +4,13 @@
       v-model="curDate"
       type="date"
       label="Выберите дату подмены"
+      class="mb-4"
       @update:model-value="onInputDate"
     />
-    <template v-if="scheduleModel.startDate">
-      <v-table>
-        <thead>
+    <v-expand-transition>
+      <div v-if="scheduleModel.startDate">
+        <v-table>
+          <thead>
           <tr>
             <th class="text-center pl-0">
               Дни
@@ -21,8 +23,8 @@
               {{ dose.fertilizer.name }}
             </th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr
             v-if="scheduleModel.dosing.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK
               || scheduleModel.dosing.fertilizersRegime === FertilizersRegime.MIX"
@@ -113,31 +115,32 @@
               </td>
             </tr>
           </template>
-        </tbody>
-      </v-table>
-      <div class="d-flex mt-10">
-        <v-btn
-          v-if="isScheduleEdit"
-          color="error"
-          @click="onRemoveSchedule"
-        >
-          {{ t('buttons.remove') }}
-        </v-btn>
-        <v-btn
-          class="ml-auto"
-          @click="router.push(appRoutes.schedules.path)"
-        >
-          {{ t('buttons.cancel') }}
-        </v-btn>
-        <v-btn
-          color="primary"
-          class="ml-2"
-          @click="onSaveSchedule"
-        >
-          {{ t('buttons.save') }}
-        </v-btn>
+          </tbody>
+        </v-table>
+        <div class="d-flex mt-10">
+          <v-btn
+            v-if="isScheduleEdit"
+            color="error"
+            @click="onRemoveSchedule"
+          >
+            {{ t('buttons.remove') }}
+          </v-btn>
+          <v-btn
+            class="ml-auto mr-auto ml-sm-auto mr-sm-0"
+            @click="router.push(appRoutes.schedules.path)"
+          >
+            {{ t('buttons.cancel') }}
+          </v-btn>
+          <v-btn
+            color="primary"
+            class="ml-sm-2"
+            @click="onSaveSchedule"
+          >
+            {{ t('buttons.save') }}
+          </v-btn>
+        </div>
       </div>
-    </template>
+    </v-expand-transition>
   </div>
 </template>
 

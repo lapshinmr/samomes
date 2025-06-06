@@ -82,20 +82,22 @@
                 </TheDosingElementsTable>
               </div>
             </v-expand-transition>
-            <DividerWithNote
-              v-model="isSchedule"
-              button
-              class="my-10"
-            >
-              Составить расписание
-            </DividerWithNote>
-            <v-expand-transition>
-              <TheScheduleDoseTable
-                v-if="isSchedule"
-                :dosing="dosingModel"
-                class="mt-10"
-              />
-            </v-expand-transition>
+            <template v-if="dosingModel.isDoses">
+              <DividerWithNote
+                v-model="isSchedule"
+                button
+                class="my-10"
+              >
+                Составить расписание
+              </DividerWithNote>
+              <v-expand-transition>
+                <TheScheduleDoseTable
+                  v-if="isSchedule"
+                  :dosing="dosingModel"
+                  class="mt-10"
+                />
+              </v-expand-transition>
+            </template>
             <TheDynamicsPopup
               v-model="isDynamicsPopup"
               :dosing="dosingModel"

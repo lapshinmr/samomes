@@ -1147,7 +1147,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-21',
   },
   {
-    name: 'Easy Life: Potassium ',
+    name: 'Easy Life: Potassium',
     isLiquid: true,
     isPercent: false,
     ions: {

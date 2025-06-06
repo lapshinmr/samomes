@@ -24,6 +24,8 @@ export const useSchedulesStore = defineStore(
   () => {
     const schedules = ref<ScheduleType[]>([]);
 
+    const isSchedules = computed(() => schedules.value.length > 0);
+
     function saveSchedule(schedule: ScheduleType) {
       schedules.value.push(schedule);
     }
@@ -54,6 +56,7 @@ export const useSchedulesStore = defineStore(
 
     return {
       schedules,
+      isSchedules,
       saveSchedule,
       editSchedule,
       toggleDay,

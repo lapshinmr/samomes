@@ -102,6 +102,7 @@ onMounted(async () => {
   if (path && !route.query.share) {
     localStorage.removeItem('path');
     await router.push(path);
+    return;
   }
 });
 </script>

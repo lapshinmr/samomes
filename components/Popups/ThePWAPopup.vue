@@ -91,7 +91,7 @@ withDefaults(defineProps<{
   browser: 'unknown',
 });
 
-defineEmits(['udpate:modelValue']);
+defineEmits(['update:modelValue']);
 
 defineOptions({
   name: 'PWAPopup',

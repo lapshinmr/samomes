@@ -27,43 +27,11 @@
         {{ schedule.dosing.tank.name }}
       </div>
     </v-card-title>
-    <v-card-subtitle>
+    <v-card-subtitle class="mt-n3">
       {{ startDate }} - {{ endDate }}
     </v-card-subtitle>
-    <v-card-text>
+    <v-card-text class="mt-6 mb-4">
       <v-window v-model="curDay">
-        <v-window-item v-if="schedule.dosing.fertilizersRegime !== FertilizersRegime.EVERY_DAY">
-          <v-row>
-            <v-col
-              cols="12"
-              sm="10"
-              offset-sm="1"
-            >
-              <div class="d-flex flex-column text-h4 text-center mb-4">
-                <div>
-                  <span style="text-transform: capitalize;">{{ getWeekday(schedule.waterChangeDay.date) }}</span>,
-                  <span>{{ formatDate(schedule.waterChangeDay.date) }}</span>
-                </div>
-                <div class="text-center text-body-1">
-                  Подмена
-                </div>
-              </div>
-              <div
-                v-for="(data, fertilizerName) in schedule.waterChangeDay.fertilizers"
-                :key="`water_change_${fertilizerName}`"
-              >
-                <ScheduleButton
-                  :fertilizer-name="fertilizerName"
-                  :amount="data.amount"
-                  :status="data.status"
-                  @click="onClickWaterChangeDay(scheduleIndex, fertilizerName)"
-                >
-                  {{ fertilizerName }}
-                </ScheduleButton>
-              </div>
-            </v-col>
-          </v-row>
-        </v-window-item>
         <v-window-item
           v-for="(day, dayIndex) in schedule.days"
           :key="`${dayIndex}-content`"
@@ -80,6 +48,21 @@
                   <span>{{ formatDate(day.date) }}</span>
                 </div>
               </div>
+              <template v-if="dayIndex === 0">
+                <div
+                  v-for="(data, fertilizerName) in schedule.waterChangeDay.fertilizers"
+                  :key="`water_change_${fertilizerName}`"
+                >
+                  <ScheduleButton
+                    :fertilizer-name="fertilizerName"
+                    :amount="data.amount"
+                    :status="data.status"
+                    @click="onClickWaterChangeDay(scheduleIndex, fertilizerName)"
+                  >
+                    {{ fertilizerName }}
+                  </ScheduleButton>
+                </div>
+              </template>
               <div
                 v-for="(data, fertilizerName) in day.fertilizers"
                 :key="`water_change_${fertilizerName}`"
@@ -99,9 +82,6 @@
       </v-window>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="onRemove(scheduleIndex)">
-        {{ t('buttons.remove') }}
-      </v-btn>
       <template v-if="schedule.dosing.fertilizersRegime !== FertilizersRegime.ONCE_A_WEEK">
         <v-btn
           :disabled="curDay === 0"
@@ -130,13 +110,6 @@
       :model-value="scheduleProgress"
     />
   </v-card>
-
-  <TheRemovePopup
-    v-model="isRemovePopup"
-    @remove="onRemoveScheduleConfirmation"
-  >
-    Вы уверены, что хотите удалить это расписание?
-  </TheRemovePopup>
 </template>
 
 <script lang="ts" setup>
@@ -144,9 +117,7 @@ const { t } = useI18n();
 const router = useRouter();
 const dosingStore = useDosingStore();
 const schedulesStore = useSchedulesStore();
-const snackbarStore = useSnackbarStore();
 const { appRoutes } = useAppRoutes();
-const { itemIndexToRemove, isRemovePopup, onRemove, onRemoveConfirmation } = useRemovePopup();
 
 const props = defineProps<{
   schedule: ScheduleType;
@@ -162,19 +133,37 @@ const startDate = computed(() => {
 
 const endDate = computed(() => {
   const startDateObject = new Date(props.schedule.startDate);
-  const endDateObject = new Date(startDateObject.setDate(startDateObject.getDate() + props.schedule.dosing.daysTotal));
+  const endDateObject = new Date(startDateObject.setDate(startDateObject.getDate() + props.schedule.dosing.daysTotal - 1));
   return formatDate(endDateObject);
 });
 
 const slidesTotal = computed(() => {
-  let total = props.schedule.dosing.daysTotal;
-  if (props.schedule.dosing.fertilizersRegime === FertilizersRegime.MIX) {
-    total += 1;
-  }
-  return total;
+  return props.schedule.dosing.daysTotal;
 });
 
 const scheduleProgress = computed(() => (curDay.value + 1) / slidesTotal.value * 100);
+
+const days = computed(() => {
+  const [firstDay, ...otherDays] = JSON.parse(JSON.stringify(props.schedule.days));
+  firstDay.fertilizers = { ...props.schedule.waterChangeDay.fertilizers, ...firstDay.fertilizers };
+  return [firstDay, ...otherDays];
+});
+
+onMounted(() => {
+  curDay.value = findCurActiveDay();
+});
+
+function findCurActiveDay() {
+  const dayIndex = days.value.findIndex(
+    (day) => typedValues(day.fertilizers).some(
+      (data) => data.status === AmountStatus.ACTIVE && data.amount,
+    ),
+  );
+  if (dayIndex === -1) {
+    return slidesTotal.value - 1;
+  }
+  return dayIndex;
+}
 
 function onClickDay(scheduleIndex: number, dayIndex: number, fertilizerName: string) {
   schedulesStore.toggleDay(scheduleIndex, dayIndex, fertilizerName);
@@ -182,23 +171,6 @@ function onClickDay(scheduleIndex: number, dayIndex: number, fertilizerName: str
 
 function onClickWaterChangeDay(scheduleIndex: number, fertilizerName: string) {
   schedulesStore.toggleWaterChangeDay(scheduleIndex, fertilizerName);
-}
-
-onMounted(() => {
-  curDay.value = findCurActiveDay();
-  console.log(curDay.value);
-});
-
-function findCurActiveDay() {
-  const dayIndex = [props.schedule.waterChangeDay, ...props.schedule.days].findIndex(
-    (day) => typedValues(day.fertilizers).some(
-      (data) => data.status === AmountStatus.ACTIVE,
-    ),
-  );
-  if (dayIndex === -1) {
-    return slidesTotal.value - 1;
-  }
-  return dayIndex;
 }
 
 function prevStep() {
@@ -221,14 +193,8 @@ async function onScheduleOpen() {
   await router.push(`${appRoutes.value.dosing.path}?schedule=${props.scheduleIndex}`);
 }
 
-async function onRemoveScheduleConfirmation() {
-  schedulesStore.removeSchedule(itemIndexToRemove.value);
-  snackbarStore.showSuccess('Расписание удалено');
-  onRemoveConfirmation();
-}
-
 defineOptions({
-  name: 'Schedule',
+  name: 'ScheduleCard',
 });
 </script>
 
