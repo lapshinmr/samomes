@@ -61,7 +61,7 @@
         offset-md="2"
       >
         <v-form ref="remineralFormRef">
-          <v-combobox
+          <Combobox
             :model-value="reagentsChosen"
             :items="reagents"
             item-title="text"

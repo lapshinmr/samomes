@@ -61,7 +61,7 @@
         offset-md="2"
       >
         <v-form ref="recipeFormRef">
-          <v-combobox
+          <Combobox
             :model-value="recipeModel.reagents"
             :items="reagents"
             item-title="text"
