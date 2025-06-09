@@ -3,18 +3,23 @@
  *
  * Copyright (C) 2025 Mikhail Lapshin
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+ * International License. To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-nc-sa/4.0/ or send a letter to
+ * Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * You are free to:
+ *  - Share — copy and redistribute the material in any medium or format
+ *  - Adapt — remix, transform, and build upon the material
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Under the following terms:
+ *  - Attribution — You must give appropriate credit
+ *  - NonCommercial — You may not use the material for commercial purposes
+ *  - ShareAlike — If you remix, transform, or build upon the material,
+ *    you must distribute your contributions under the same license as the original
+ *
+ * No warranties are given. The license may not give you all of the permissions
+ * necessary for your intended use.
  */
 
 import type { CARBONATES, ELEMENTS, OXIDE_TO_ELEMENT } from '~/utils/constants/elements';
