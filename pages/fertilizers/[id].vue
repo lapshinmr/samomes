@@ -42,7 +42,7 @@
               {{ t('common.or') }}
             </DividerWithNote>
           </div>
-          <v-combobox
+          <Combobox
             v-model="fertilizerExampleChosen"
             :items="FERTILIZERS_SORTED"
             variant="underlined"
@@ -104,7 +104,7 @@
           >
             {{ t('fertilizers.page.alertWarning') }}
           </v-alert>
-          <v-combobox
+          <Combobox
             :model-value="ionsChosen"
             :items="allIons"
             item-title="ion"

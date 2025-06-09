@@ -165,6 +165,7 @@ const currentIon = ref<IonType>();
 const ionInit = ref<number>();
 const ionWaterConcentration = ref<number>();
 const ionConsumption = ref<number>();
+const dataset = ref([]);
 
 const ionsColors = {
   NO3: '#D81B60',
@@ -177,10 +178,8 @@ const chartOptions = {
   responsive: true,
 };
 
-const dataset = ref([]);
-
 const chartData = computed(() => ({
-  labels: Object.keys([...Array(props.dosing.daysTotal * 15)]),
+  labels: Object.keys([...Array(props.dosing.daysTotal * 15)]), // 15 - total cycles
   datasets: [{
     label: currentIon.value,
     fill: false,
@@ -217,7 +216,7 @@ watch(currentIon, () => {
   ionConsumption.value = 0;
 });
 
-watch([currentIon, ionInit, ionWaterConcentration, ionConsumption], () => {
+watch([currentIon, ionInit, ionWaterConcentration, ionConsumption, () => props.dosing], () => {
   dataset.value = props.dosing.countIonDynamic(
     currentIon.value,
     ionInit.value,

@@ -61,12 +61,15 @@
         offset-md="2"
       >
         <v-form ref="remineralFormRef">
+          <div class="text-body-2 text-grey-darken-1 mb-2">
+            {{ t('reminerals.page.reagentsHint') }}
+          </div>
           <Combobox
             :model-value="reagentsChosen"
             :items="reagents"
             item-title="text"
             :label="t('common.reagents')"
-            :hint="t('reminerals.page.reagentsHint')"
+            hint="Начните набирать текст, чтобы отфильтровать список"
             variant="underlined"
             multiple
             persistent-hint
@@ -78,7 +81,7 @@
             class="mb-2"
             @update:model-value="onInputReagent"
           />
-          <v-combobox
+          <Combobox
             v-model="remineralExampleChosen"
             :items="REMINERAL_RECIPES"
             item-title="name"

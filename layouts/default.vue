@@ -21,39 +21,39 @@
   <v-app>
     <client-only>
       <Drawer v-model="isDrawer" />
-    </client-only>
 
-    <v-app-bar
-      color="primary"
-      dark
-      dense
-      height="48"
-    >
-      <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
-        <div class="d-flex align-content-center text-uppercase">
-          <a
-            class="d-flex text-white"
-            href="/"
-          >
-            <v-img
-              src="/images/npk-120x120.png"
-              height="24"
-              width="24"
-              alt="Main logotype NPK"
-            />
-            <span class="ml-1">
-              {{ t('home') }}
-            </span>
-          </a>
-        </div>
-      </v-app-bar-title>
-      <LanguageSwitcher />
-      <v-app-bar-nav-icon @click="drawerStore.toggle" />
-    </v-app-bar>
+      <v-app-bar
+        color="primary"
+        dark
+        dense
+        height="48"
+      >
+        <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
+          <div class="d-flex align-content-center text-uppercase">
+            <a
+              class="d-flex text-white"
+              href="/"
+            >
+              <v-img
+                src="/images/npk-120x120.png"
+                height="24"
+                width="24"
+                alt="Main logotype NPK"
+              />
+              <span class="ml-1">
+                {{ t('home') }}
+              </span>
+            </a>
+          </div>
+        </v-app-bar-title>
+        <LanguageSwitcher />
+        <v-app-bar-nav-icon @click="drawerStore.toggle" />
+      </v-app-bar>
+    </client-only>
 
     <v-main>
       <NuxtPwaManifest />
-      <slot />
+      <NuxtPage />
       <v-snackbar
         v-model="isSnackbar"
         :color="snackbarStore.color"
@@ -88,8 +88,25 @@ const isSnackbar = computed({
   set: () => snackbarStore.hide(),
 });
 
+onBeforeMount(() => {
+  if (import.meta.client) {
+    const schedulesStore = useSchedulesStore();
+    const { appRoutes } = useAppRoutes();
+
+    if (
+      schedulesStore.isSchedules
+      && !sessionStorage.getItem('hasVisited')
+      // && to.path !== appRoutes.value.schedules.path
+    ) {
+      sessionStorage.setItem('hasVisited', 'true');
+      return navigateTo(appRoutes.value.schedules.path);
+    }
+  }
+});
+
 // Lifecycle hooks
 onMounted(async () => {
+  // TODO: investigate it
   // Handle page refresh with dynamic routes
   const redirectPath = localStorage.getItem('404_redirect_path');
   if (redirectPath) {
@@ -123,6 +140,12 @@ a
 
 .w-100
   width: 100% !important
+
+.page-enter-active, .page-leave-active
+  transition: all 0.3s
+
+.page-enter-from, .page-leave-to
+  opacity: 0
 
 .fade-enter
   opacity: 0

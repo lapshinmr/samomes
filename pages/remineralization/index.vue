@@ -182,7 +182,7 @@
               class="mt-8"
             >
               <div class="d-flex flex-column flex-sm-row align-md-center mb-8">
-                <v-combobox
+                <Combobox
                   :model-value="remineralizationStore.doseModels"
                   :items="allFertilizers"
                   variant="underlined"

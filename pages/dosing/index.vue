@@ -40,7 +40,7 @@
                 v-if="dosingModel.tank?.volume"
                 class="d-flex flex-column flex-md-row align-sm-center"
               >
-                <v-combobox
+                <Combobox
                   :model-value="dosingStore.doseModels"
                   :items="allFertilizers"
                   variant="underlined"
@@ -124,6 +124,10 @@ const isDynamicsPopup = ref<boolean>(false);
 const isSchedule = ref<boolean>(false);
 
 const tanks = tanksStore.tankModels.map((item) => item.toJson());
+
+onMounted(() => {
+  console.log(navigator.language);
+});
 
 const dosingModel = computed(() => {
   return new Dosing(

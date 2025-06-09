@@ -188,9 +188,7 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    defaultLocale: 'ru',
-    detectBrowserLanguage: false,
-    strategy: 'prefix_except_default',
+    strategy: 'prefix',
     locales: [
       { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.ts' },
       { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },

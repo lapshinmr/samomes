@@ -4,7 +4,6 @@
     v-bind="$attrs"
     :menu="menu"
     :search="search"
-    @focus="scrollToTop"
     @update:menu="onMenu"
     @update:search="onSearch"
   />
@@ -18,7 +17,6 @@ const initialViewportHeight = ref<number>();
 const comboboxContainer = ref();
 
 const { mobile } = useDisplay();
-const goTo = useGoTo();
 
 onMounted(() => {
   initialViewportHeight.value = getViewportHeight();
@@ -29,9 +27,6 @@ function getViewportHeight() {
 }
 
 function onMenu(event: boolean) {
-  if (event === false) {
-    search.value = '';
-  }
   const curViewportHeight = getViewportHeight();
   const isMobileKeyboardOpened = mobile.value === true && initialViewportHeight.value > curViewportHeight;
   if (isMobileKeyboardOpened) {
@@ -45,14 +40,14 @@ function onSearch(event: string) {
   search.value = event;
 }
 
-const scrollToTop = () => {
-  if (mobile.value === true) {
-    scrollBy({
-      top: 175,
-      behavior: 'smooth',
-    });
-  }
-};
+// const scrollToTop = () => {
+//   if (mobile.value === true) {
+//     scrollBy({
+//       top: 175,
+//       behavior: 'smooth',
+//     });
+//   }
+// };
 </script>
 
 <style scoped lang="sass">

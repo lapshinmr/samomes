@@ -61,6 +61,9 @@
         offset-md="2"
       >
         <v-form ref="recipeFormRef">
+          <div class="text-body-2 text-grey-darken-1 mb-2">
+            {{ recipeModel.isWater ? t('recipes.page.reagentsHintWater') : t('recipes.page.reagentsHint') }}
+          </div>
           <Combobox
             :model-value="recipeModel.reagents"
             :items="reagents"
@@ -68,7 +71,7 @@
             variant="underlined"
             multiple
             :label="t('common.reagents')"
-            :hint="recipeModel.isWater ? t('recipes.page.reagentsHintWater') : t('recipes.page.reagentsHint')"
+            hint="Начните набирать текст, чтобы отфильтровать список"
             persistent-hint
             chips
             closable-chips
@@ -82,7 +85,7 @@
           >
             Нет нужного реагента?
           </div>
-          <v-combobox
+          <Combobox
             v-model="recipeExampleChosen"
             :items="FERTILIZER_RECIPES"
             item-title="name"
@@ -603,9 +606,15 @@ async function onSetTrilonBAmount(value: number) {
 
 async function onSetEDTAAmount(EDTAAmount: number, alkaliAmount: number, alkaliName: string) {
   recipeModel.setReagentAmount(EDTAAmount, EDTA);
-  const alkaliReagent = reagents.find((reagent) => reagent.key === alkaliName);
-  alkaliReagent.amount = alkaliAmount;
-  recipeModel.reagents.push(alkaliReagent);
+  let alkaliReagent = recipeModel.reagents.find((reagent) => reagent.key === alkaliName);
+  console.log(alkaliReagent);
+  if (!alkaliReagent) {
+    alkaliReagent = reagents.find((reagent) => reagent.key === alkaliName);
+    alkaliReagent.amount = alkaliAmount;
+    recipeModel.reagents.push(alkaliReagent);
+  } else {
+    alkaliReagent.amount = alkaliAmount;
+  }
 }
 
 definePageMeta({
