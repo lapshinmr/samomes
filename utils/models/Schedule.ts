@@ -22,6 +22,8 @@
  * necessary for your intended use.
  */
 
+import { getDate } from '~/utils/format'
+
 export class Schedule {
   dosing: InstanceType<typeof Dosing>;
   // TODO: change string to Date type
@@ -92,7 +94,7 @@ export class Schedule {
     this.resetDays();
     let startDateObject = new Date(this.startDate);
     [...Array(this.dosing.daysTotal)].forEach(() => {
-      const date = startDateObject.toISOString().split('T')[0];
+      const date = getDate(startDateObject);
       const fertilizers = {};
       this.dosing.doses.forEach((dose) => {
         if (dose.amountDay) {

@@ -35,6 +35,10 @@ export const useFertilizersStore = defineStore(
       () => fertilizers.value.map((fertilizer) => new Fertilizer(fertilizer)),
     );
 
+    const isFertilizers = computed(() => {
+      return fertilizers.value.length > 0;
+    });
+
     const addFertilizer = (fertilizer: FertilizerType) => {
       fertilizers.value.push(fertilizer);
     };
@@ -58,6 +62,7 @@ export const useFertilizersStore = defineStore(
     return {
       fertilizers,
       fertilizerModels,
+      isFertilizers,
       addFertilizer,
       removeFertilizer,
       editFertilizer,

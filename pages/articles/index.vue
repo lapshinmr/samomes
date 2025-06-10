@@ -36,7 +36,7 @@
         lg="4"
       >
         <v-card
-          to="/articles/simplest-nitrate/"
+          :to="localePath('/articles/simplest-nitrate/')"
           min-height="471px"
         >
           <NuxtImg
@@ -44,6 +44,7 @@
             alt="Easiest nitrate recipe"
             class="card-image"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+            :placeholder="[50, 25, 75, 5]"
           />
 
           <v-card-title>
@@ -73,7 +74,7 @@
         lg="4"
       >
         <v-card
-          to="/articles/simplest-phosphate/"
+          :to="localePath('/articles/simplest-phosphate/')"
           min-height="471px"
         >
           <NuxtImg
@@ -81,6 +82,7 @@
             class="card-image"
             alt="Easiest phosphate recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+            :placeholder="[50, 25, 75, 5]"
           />
 
           <v-card-title>
@@ -111,13 +113,14 @@
       >
         <v-card
           min-height="471px"
-          to="/articles/potassium/"
+          :to="localePath('/articles/potassium/')"
         >
           <NuxtImg
             src="/images/stavrogin.jpeg"
             class="card-image"
             alt="Easiest potassium recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+            :placeholder="[50, 25, 75, 5]"
           />
 
           <v-card-title>Рецепт калия</v-card-title>
@@ -146,13 +149,14 @@
       >
         <v-card
           min-height="471px"
-          to="/articles/no-tests-part-1/"
+          :to="localePath('/articles/no-tests-part-1/')"
         >
           <NuxtImg
             src="/images/no-tests/14.jpeg"
             class="card-image"
             alt="Easiest potassium recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+            :placeholder="[50, 25, 75, 5]"
           />
 
           <v-card-title>
@@ -184,13 +188,14 @@
       >
         <v-card
           min-height="471px"
-          to="/articles/no-tests-part-2/"
+          :to="localePath('/articles/no-tests-part-2/')"
         >
           <NuxtImg
             src="/images/no-tests/15.jpeg"
             class="card-image"
             alt="Easiest potassium recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
+            :placeholder="[50, 25, 75, 5]"
           />
 
           <v-card-title>
@@ -220,6 +225,8 @@
 </template>
 
 <script lang="ts" setup>
+const localePath = useLocalePath();
+
 defineOptions({
   name: 'ArticlesPage',
 });

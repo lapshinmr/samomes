@@ -109,7 +109,7 @@ const tankModels = computed({
 });
 
 function onAdd() {
-  return router.push('/tanks/create/');
+  return router.push(`${appRoutes.value.tanks.path}create`);
 }
 
 async function onRemoveTankConfirmation() {

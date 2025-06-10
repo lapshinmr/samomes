@@ -1,54 +1,58 @@
 # Samomes
 
-Проект "Самомес" - это калькулятор удобрений для растительного аквариума.
+Samomes - planted aquarium fertilizer calculator.
 
 [https://samomes.com](https://samomes.com)
 
-## Лицензия
+## License
 
-GPL-3.0 licensed.
+CC-BY-NC-SA-4.0 licensed.
 
     Copyright (C) 2025 Mikhail Lapshin
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+    International License. To view a copy of this license, visit
+    http://creativecommons.org/licenses/by-nc-sa/4.0/ or send a letter to
+    Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    You are free to:
+    Share — copy and redistribute the material in any medium or format
+    Adapt — remix, transform, and build upon the material
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    Under the following terms:
+    Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+    NonCommercial — You may not use the material for commercial purposes.
+    ShareAlike — If you remix, transform, or build upon the material,
+    you must distribute your contributions under the same license as the original
 
-## О проекте
+    No warranties are given. The license may not give you all of the permissions
+    necessary for your intended use.
 
-Калькулятор упрощает расчет концентрации элементов, избавляя от рутинной работы. С его помощью вы можете:
+## About the project
 
-* создать собственный рецепт удобрения или реминерализатора, а также использовать готовые формулы
-* рассчитать оптимальные дозировки как самодельных, так и фирменных удобрений для вашего аквариума
-* составить эффективное расписание внесения удобрений
-* вычислить временную и постоянную жесткость при подмене воды
-* отслеживать динамику содержания элементов в вашем аквариуме
+The calculator simplifies the calculation of element concentrations, eliminating routine work. With it, you can:
 
-По всем возникающим вопросам и пожеланиям вы можете найти меня ВКонтакте
-([Михаил Лапшин](https://vk.com/lapshinmr</a>)) или написать на почту lapshinmr@gmail.com.
+* create your own fertilizer or remineralizer recipe, as well as use ready-made recipes
+* calculate optimal dosages for both DIY and branded fertilizers for your aquarium
+* create an effective fertilizer schedule
+* calculate general and carbonate hardness during water changes
+* track the aquarium parameters and element dynamics in the water
 
-Буду рад помочь.
+For any questions or suggestions, you can email me at lapshinmr@gmail.com.
 
-## Установка проекта
+I'll be happy to help.
+
+## Project Installation
 ```
-yarn install
+npm install
 ```
 
-### Запуск dev-версии
+### Running dev version
 ```
-yarn dev
+npm run dev
 ```
 
-### Запуск prod-версии
+### Running prod version
 ```
-yarn generate && yarn start
+npm run generate && npm run preview
 ```

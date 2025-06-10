@@ -150,10 +150,6 @@ const isSchedule = ref<boolean>(false);
 
 const tanks = tanksStore.tankModels.map((item) => item.toJson());
 
-onMounted(() => {
-  console.log(navigator.language);
-});
-
 const dosingModel = computed(() => {
   return new Dosing(
     dosingStore.doseModels,

@@ -206,7 +206,7 @@ onMounted(async () => {
   if (!isCreate.value) {
     const existingTank = tanksStore.tanks[tankIndex.value];
     if (!existingTank) {
-      await router.push('/tanks/');
+      await router.push(appRoutes.value.tanks.path);
       return;
     }
     tank.value = JSON.parse(JSON.stringify({ ...existingTank }));

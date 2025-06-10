@@ -35,9 +35,7 @@
         :style="style"
         @click="action"
       >
-        <Icon
-          name="mdi:plus"
-        />
+        <Icon name="mdi:plus" />
         {{ t('buttons.add') }}
       </v-btn>
     </template>
@@ -60,14 +58,12 @@ defineProps({
 const { t } = useI18n();
 const { smAndUp } = useDisplay();
 
-const { isOpen } = storeToRefs(useDrawerStore());
-
 const style = computed(() => {
-  let style = 'transition: 0.2s; z-index: 999;';
+  let style = 'z-index: 999;';
   if (smAndUp.value) {
-    style += ` right: calc(${ isOpen ? '255px' : '0px' } + 16px); bottom: 128px;`;
+    style += ' right: 32px; bottom: 128px;';
   } else {
-    style += ' right: 16px; bottom: 16px;';
+    style += ' right: 16px; bottom: 24px;';
   }
   return style;
 });

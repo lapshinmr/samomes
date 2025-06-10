@@ -35,6 +35,10 @@ export const useRemineralsStore = defineStore(
       () => remineralRecipes.value.map((remineral) => new RemineralRecipe(remineral)),
     );
 
+    const isReminerals = computed(() => {
+      return remineralRecipes.value.length > 0;
+    });
+
     const addRemineral = (remineral: RemineralRecipeType) => {
       remineralRecipes.value.push(remineral);
     };
@@ -58,6 +62,7 @@ export const useRemineralsStore = defineStore(
     return {
       remineralRecipes,
       remineralRecipeModels,
+      isReminerals,
       addRemineral,
       removeRemineral,
       editRemineral,

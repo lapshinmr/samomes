@@ -45,6 +45,10 @@ export const formatDate = (value: string | InstanceType<typeof Date>): string =>
   return new Date(value).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
 };
 
+export const getDate = (value: InstanceType<typeof Date>): string => {
+  return value.toISOString().split('T')[0];
+};
+
 export const getWeekday = (value: string | InstanceType<typeof Date>): string => {
   return new Date(value).toLocaleDateString('ru-RU', { weekday: 'short' });
 };

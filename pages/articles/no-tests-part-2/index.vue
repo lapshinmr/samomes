@@ -31,7 +31,7 @@
           class="full-width-image"
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
-          loading="lazy"
+          :placeholder="[50, 25, 75, 5]"
         />
       </v-col>
     </v-row>
@@ -45,7 +45,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/articles/"
+          :to="localePath('/articles/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Все статьи
         </v-btn>
@@ -76,7 +76,7 @@
 
         <p>
           <nuxt-link
-            to="/articles/no-tests-part-1/"
+            :to="localePath('/articles/no-tests-part-1/')"
             class="text-h5"
           >
             Читать начало статьи
@@ -88,7 +88,7 @@
           "Тесты для аквариума вам не нужны". Если вы попали сюда, не читая первую
           часть, то я настоятельно рекомендую перейти по
           <nuxt-link
-            to="/articles/no-tests-part-1/"
+            :to="localePath('/articles/no-tests-part-1/')"
           >
             этой ссылке
           </nuxt-link>, чтобы сначала ознакомиться с ней.
@@ -552,7 +552,7 @@
           Сэкономлю вам много денег и времени. Про калий я подробно написал в
           <nuxt-link
             target="_blank"
-            to="/articles/potassium"
+            :to="localePath('/articles/potassium')"
           >
             другой статье.
           </nuxt-link>
@@ -589,7 +589,7 @@
           каких-либо изменений калия в течение недели на нейтральном грунте. А даже если растения и потребляют калий, то
           мы больше опасаемся передозировки, а не нехватки. И лучше недолить калия, чем перелить. Более подробно про
           нехватку калия и стратегию его дозирования я написал в
-          <nuxt-link to="/articles/potassium/">
+          <nuxt-link :to="localePath('/articles/potassium/')">
             этой статье.
           </nuxt-link>
         </p>
@@ -856,7 +856,7 @@
       >
         <v-btn
           color="primary"
-          to="/articles/no-tests-part-1/"
+          :to="localePath('/articles/no-tests-part-1/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Предыдущая <span class="hidden-xs-only">часть</span>
         </v-btn>
@@ -866,6 +866,7 @@
 </template>
 
 <script lang="ts" setup>
+const localePath = useLocalePath();
 const { mdAndUp } = useDisplay();
 
 defineOptions({

@@ -26,13 +26,13 @@
   <v-container class="post">
     <v-row>
       <v-col>
-        <v-img
+        <NuxtImg
           src="/images/indica.jpeg"
           class="full-width-image"
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
-          loading="lazy"
           alt="Easiest phosphate recipe"
+          :placeholder="[50, 25, 75, 5]"
         />
       </v-col>
     </v-row>
@@ -46,7 +46,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/articles/"
+          :to="localePath('/articles/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Все статьи
         </v-btn>
@@ -77,7 +77,7 @@
           variant="tonal"
         >
           Для тех, кто хочет создать более сложный рецепт, есть основная
-          <nuxt-link to="/recipes/">
+          <nuxt-link :to="localePath('/recipes/')">
             страница
           </nuxt-link>
           с рецептами.
@@ -102,7 +102,7 @@
           Переходя к рецепту, его приготовление такое же простое, как и в случае с нитратом.
           Если вы никогда не занимались
           приготовлением домашних удобрений и не знакомы с процессом изготовления
-          <nuxt-link to="/articles/simplest-nitrate/">
+          <nuxt-link :to="localePath('/articles/simplest-nitrate/')">
             нитратного удобрения
           </nuxt-link>, я рекомендую
           начать именно с него, поскольку в данной статье будет пояснений меньше.
@@ -152,7 +152,7 @@
 
         <p class="mb-10">
           А теперь, аналогично описанию в статье про
-          <nuxt-link to="/articles/simplest-nitrate/">
+          <nuxt-link :to="localePath('/articles/simplest-nitrate/')">
             самодельный нитрат,
           </nuxt-link> вы можете составить свой рецепт с помощью ниже представленной формы:
         </p>
@@ -247,13 +247,13 @@
       >
         <v-btn
           color="primary"
-          to="/articles/simplest-nitrate/"
+          :to="localePath('/articles/simplest-nitrate/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Предыдущая <span class="hidden-xs-only">статья</span>
         </v-btn>
         <v-btn
           color="primary"
-          to="/articles/potassium/"
+          :to="localePath('/articles/potassium/')"
         >
           Следующая <span class="hidden-xs-only">статья</span> <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -264,6 +264,7 @@
 
 <script lang="ts" setup>
 const { t } = useI18n();
+const localePath = useLocalePath();
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;
 const reagents = getReagents(INITIAL_REAGENT_AMOUNT);

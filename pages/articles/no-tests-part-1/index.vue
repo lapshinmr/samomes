@@ -31,7 +31,7 @@
           class="full-width-image"
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
-          loading="lazy"
+          :placeholder="[50, 25, 75, 5]"
         />
       </v-col>
     </v-row>
@@ -45,7 +45,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/articles/"
+          :to="localePath('/articles/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Все статьи
         </v-btn>
@@ -550,7 +550,7 @@
 
         <p>
           Данная статья получилась довольно объемной, поэтому было решено разбить ее на две части. В
-          <nuxt-link to="/articles/no-tests-part-2/">
+          <nuxt-link :to="localePath('/articles/no-tests-part-2/')">
             следующей части
           </nuxt-link> я
           детально разбираю каждый тест по отдельности. Жду вас на следующей странице!
@@ -574,13 +574,13 @@
       >
         <v-btn
           color="primary"
-          to="/articles/potassium/"
+          :to="localePath('/articles/potassium/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Предыдущая <span class="hidden-xs-only">статья</span>
         </v-btn>
         <v-btn
           color="primary"
-          to="/articles/no-tests-part-2/"
+          :to="localePath('/articles/no-tests-part-2/')"
         >
           Продолжение <span class="hidden-xs-only">статьи</span> <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -590,6 +590,7 @@
 </template>
 
 <script lang="ts" setup>
+const localePath = useLocalePath();
 const { mdAndUp } = useDisplay();
 
 defineOptions({

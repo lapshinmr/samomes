@@ -22,8 +22,7 @@
  * necessary for your intended use.
  */
 
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 
 export const useDrawerStore = defineStore('drawer', () => {
   const isOpen = ref(false);
@@ -51,4 +50,12 @@ export const useDrawerStore = defineStore('drawer', () => {
     close,
     set,
   };
-});
+},
+{
+  persist: true,
+},
+);
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useDrawerStore, import.meta.hot));
+}

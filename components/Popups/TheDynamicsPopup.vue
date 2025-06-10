@@ -32,135 +32,146 @@
         Параметры в аквариуме
       </v-card-title>
       <v-card-text>
-        <div class="mb-4">
-          <div class="mb-4 text-body-2">
-            При заданном режиме подмен ({{ dosing.waterChangePercent }}% объёма каждые {{ dosing.daysTotal }} д)
-            и выбранных дозировках удобрений равновесные параметры будут достигнуты через
-            {{ countBalancedWaterChangeNumber() }} подмен
-            ({{ dosing.daysTotal * (countBalancedWaterChangeNumber() - 1) }} д)
-            и будут следующими
-            <v-tooltip
-              location="bottom"
-              max-width="400"
-              open-on-click
-              open-on-hover
+        <NumberField
+          v-model="waterChangeVolume"
+          :label="t('dosing.dosesTable.waterChange')"
+          :hint="t('dosing.dosesTable.waterChangeHint')"
+          persistent-hint
+          class="pr-2 w-60 mb-4"
+          validate-on="eager"
+          :rules="[positive]"
+        />
+        <v-expand-transition>
+          <div v-if="waterChangeVolume">
+            <div class="mb-4 text-body-2">
+              При заданном режиме подмен ({{ dosing.waterChangePercent }}% объёма каждые {{ dosing.daysTotal }} д)
+              и выбранных дозировках удобрений равновесные параметры будут достигнуты через
+              {{ countBalancedWaterChangeNumber() }} подмен
+              ({{ dosing.daysTotal * (countBalancedWaterChangeNumber() - 1) }} д)
+              и будут следующими
+              <v-tooltip
+                location="bottom"
+                max-width="400"
+                open-on-click
+                open-on-hover
+              >
+                <template #activator="{ props }">
+                  <Icon
+                    name="mdi-help-circle-outline"
+                    size="18"
+                    class="mb-n1"
+                    v-bind="props"
+                  />
+                </template>
+                <p class="mb-2">
+                  Данные концентрации в аквариуме рассчитаны с допущением, что в аквариуме нет поглотителей. И если
+                  для таких элементов, как калий, кальций, магний, такой расчет является довольно точным, то для фосфата
+                  и нитрата данные значения будут сильно завышенными. Тем не менее даже для фосфата и нитрата
+                  таким образом мы можем получить верхний диапазон значений, чтобы исключить передозировку
+                  этих элементов в том случае, если растения по каким-то причинам перестали расти.
+                </p>
+                <p>
+                  Если вы хотите понять, как будут изменяться концентрации с учетом потребления элементов, то
+                  можете воспользоваться расположенной ниже секцией «Динамика».
+                </p>
+              </v-tooltip>:
+            </div>
+            <v-table
+              v-if="Object.keys(balancedIons).length > 0"
+              density="compact"
             >
-              <template #activator="{ props }">
-                <Icon
-                  name="mdi-help-circle-outline"
-                  size="18"
-                  class="mb-n1"
-                  v-bind="props"
+              <thead>
+                <tr>
+                  <th class="text-center">Элемент</th>
+                  <th class="text-center">Диапазон, мг/л
+                    <v-tooltip
+                      location="bottom"
+                      max-width="400"
+                      open-on-click
+                      open-on-hover
+                    >
+                      <template #activator="{ props }">
+                        <Icon
+                          name="mdi-help-circle-outline"
+                          size="18"
+                          class="mb-n1"
+                          v-bind="props"
+                        />
+                      </template>
+                      Левое значение в диапазоне концентрации элемента — это концентрация сразу после подмены воды.
+                      Правое значение — это концентрация непосредственно перед подменой. Диапазон показывает,
+                      как изменяется концентрация элемента в период между подменами.
+                    </v-tooltip>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(data, ionName) in balancedIons"
+                  :key="ionName"
+                >
+                  <td class="text-center">{{ ionName }}</td>
+                  <td class="text-center">{{ format(data[0]) }} — {{ format(data[1]) }}</td>
+                </tr>
+              </tbody>
+              <tfoot v-if="caMgRatio1 && caMgRatio2">
+                <tr>
+                  <td class="text-center">Ca/Mg</td>
+                  <td class="text-center">{{ format(caMgRatio1) }} — {{ format(caMgRatio2) }}</td>
+                </tr>
+                <tr>
+                  <td class="text-center">dGh</td>
+                  <td class="text-center">{{ format(gh1) }} — {{ format(gh2) }}</td>
+                </tr>
+              </tfoot>
+            </v-table>
+            <DividerWithNote
+              v-model="isChart"
+              button
+              class="my-10"
+            >
+              Динамика
+            </DividerWithNote>
+            <v-expand-transition>
+              <div v-if="isChart">
+                <v-select
+                  v-model="currentIon"
+                  :items="dosing.ionList"
+                  variant="outlined"
+                  label="Выберите элемент"
                 />
-              </template>
-              <p class="mb-2">
-                Данные концентрации в аквариуме рассчитаны с допущением, что в аквариуме нет поглотителей. И если
-                для таких элементов, как калий, кальций, магний, такой расчет является довольно точным, то для фосфата
-                и нитрата данные значения будут сильно завышенными. Тем не менее даже для фосфата и нитрата
-                таким образом мы можем получить верхний диапазон значений, чтобы исключить передозировку
-                этих элементов в том случае, если растения по каким-то причинам перестали расти.
-              </p>
-              <p>
-                Если вы хотите понять, как будут изменяться концентрации с учетом потребления элементов, то
-                можете воспользоваться расположенной ниже секцией «Динамика».
-              </p>
-            </v-tooltip>:
-          </div>
-          <v-table
-            v-if="Object.keys(balancedIons).length > 0"
-            density="compact"
-          >
-            <thead>
-              <tr>
-                <th class="text-center">Элемент</th>
-                <th class="text-center">Диапазон, мг/л
-                  <v-tooltip
-                    location="bottom"
-                    max-width="400"
-                    open-on-click
-                    open-on-hover
-                  >
-                    <template #activator="{ props }">
-                      <Icon
-                        name="mdi-help-circle-outline"
-                        size="18"
-                        class="mb-n1"
-                        v-bind="props"
-                      />
-                    </template>
-                    Левое значение в диапазоне концентрации элемента — это концентрация сразу после подмены воды.
-                    Правое значение — это концентрация непосредственно перед подменой. Диапазон показывает,
-                    как изменяется концентрация элемента в период между подменами.
-                  </v-tooltip>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(data, ionName) in balancedIons"
-                :key="ionName"
-              >
-                <td class="text-center">{{ ionName }}</td>
-                <td class="text-center">{{ format(data[0]) }} — {{ format(data[1]) }}</td>
-              </tr>
-            </tbody>
-            <tfoot v-if="caMgRatio1 && caMgRatio2">
-              <tr>
-                <td class="text-center">Ca/Mg</td>
-                <td class="text-center">{{ format(caMgRatio1) }} — {{ format(caMgRatio2) }}</td>
-              </tr>
-              <tr>
-                <td class="text-center">dGh</td>
-                <td class="text-center">{{ format(gh1) }} — {{ format(gh2) }}</td>
-              </tr>
-            </tfoot>
-          </v-table>
-          <DividerWithNote
-            v-model="isChart"
-            button
-            class="my-10"
-          >
-            Динамика
-          </DividerWithNote>
-          <v-expand-transition>
-            <div v-if="isChart">
-              <v-select
-                v-model="currentIon"
-                :items="dosing.ionList"
-                variant="outlined"
-                label="Выберите элемент"
-              />
-              <div
-                :style="mdAndUp ? 'height: 400px;' : 'height: 250px;'"
-                class="mb-4"
-              >
-                <LineChart
-                  :data="chartData"
-                  :options="chartOptions"
-                  class="line-chart"
+                <div
+                  :style="mdAndUp ? 'height: 400px;' : 'height: 250px;'"
+                  class="mb-4"
+                >
+                  <LineChart
+                    :data="chartData"
+                    :options="chartOptions"
+                    class="line-chart"
+                  />
+                </div>
+                <NumberField
+                  v-model="ionWaterConcentration"
+                  label="Концентрация в подменной воде"
+                  suffix="мг/л"
+                  hide-details="auto"
+                />
+                <NumberField
+                  v-model="ionInit"
+                  label="В аквариуме сейчас"
+                  suffix="мг/л"
+                  hide-details="auto"
+                />
+                <NumberField
+                  v-model="ionConsumption"
+                  label="Потребление в день"
+                  suffix="мг/л"
+                  hide-details="auto"
                 />
               </div>
-              <NumberField
-                v-model="ionWaterConcentration"
-                label="Концентрация в подменной воде"
-                suffix="мг/л"
-                hide-details="auto"
-              />
-              <NumberField
-                v-model="ionInit"
-                label="В аквариуме сейчас"
-                suffix="мг/л"
-                hide-details="auto"
-              />
-              <NumberField
-                v-model="ionConsumption"
-                label="Потребление в день"
-                suffix="мг/л"
-                hide-details="auto"
-              />
-            </div>
-          </v-expand-transition>
-        </div>
+            </v-expand-transition>
+          </div>
+        </v-expand-transition>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -177,6 +188,9 @@
 <script setup lang="ts">
 const { t } = useI18n();
 const { mdAndUp } = useDisplay();
+const { positive } = useValidation();
+
+const dosingStore = useDosingStore();
 
 const model = defineModel<boolean>();
 const props = defineProps<{
@@ -233,6 +247,11 @@ const gh1 = computed(() => RemineralRecipe.countCaGh(balancedIons.value['Ca'][0]
   + RemineralRecipe.countMgGh(balancedIons.value['Mg'][0], 1 / MG_IN_G, 1));
 const gh2 = computed(() => RemineralRecipe.countCaGh(balancedIons.value['Ca'][1], 1 / MG_IN_G, 1)
   + RemineralRecipe.countMgGh(balancedIons.value['Mg'][1], 1 / MG_IN_G, 1));
+
+const waterChangeVolume = computed({
+  get() { return dosingStore.tank.waterChangeVolume; },
+  set(value) { dosingStore.setWaterChangeVolume(value); },
+});
 
 watch(currentIon, () => {
   ionInit.value = 0;

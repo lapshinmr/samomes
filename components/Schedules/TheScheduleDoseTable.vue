@@ -25,11 +25,11 @@
 <template>
   <div>
     <v-text-field
-      v-model="curDate"
+      :model-value="scheduleModel.startDate"
       type="date"
       label="Выберите дату подмены"
       class="mb-4"
-      @update:model-value="onInputDate"
+      @update:model-value="onDate"
     />
     <v-expand-transition>
       <div v-if="scheduleModel.startDate">
@@ -150,14 +150,16 @@
             {{ t('buttons.remove') }}
           </v-btn>
           <v-btn
-            class="ml-auto mr-auto ml-sm-auto mr-sm-0"
+            class="ml-auto mr-2 ml-sm-auto"
+            :class="{
+              'mr-auto mr-sm-2': isScheduleEdit,
+            }"
             @click="router.push(appRoutes.schedules.path)"
           >
             {{ t('buttons.cancel') }}
           </v-btn>
           <v-btn
             color="primary"
-            class="ml-sm-2"
             @click="onSaveSchedule"
           >
             {{ t('buttons.save') }}
@@ -181,7 +183,6 @@ const props = defineProps<{
   dosing: InstanceType<typeof Dosing>;
 }>();
 
-const curDate = ref();
 const scheduleIndex = ref();
 
 const scheduleModel = reactive(new Schedule(
@@ -194,8 +195,17 @@ const isScheduleEdit = computed(() => {
 
 watch(() => props.dosing, () => {
   scheduleModel.dosing = props.dosing;
-  if (curDate.value) {
+  if (scheduleModel.startDate) {
     scheduleModel.initWaterChangeDay();
+    scheduleModel.initDays();
+  }
+});
+
+watch(() => scheduleModel.startDate, () => {
+  scheduleModel.initWaterChangeDay();
+  if (scheduleModel.days.length > 0) {
+    scheduleModel.updateDays();
+  } else {
     scheduleModel.initDays();
   }
 });
@@ -205,21 +215,18 @@ onMounted(() => {
   if (!isNaN(scheduleIndex.value)) {
     const curSchedule = schedulesStore.schedules[scheduleIndex.value];
     if (curSchedule) {
-      curDate.value = curSchedule.startDate;
       scheduleModel.startDate = curSchedule.startDate;
       scheduleModel.waterChangeDay = curSchedule.waterChangeDay;
       scheduleModel.days = curSchedule.days;
     }
+  } else {
+    scheduleModel.startDate = getDate(new Date());
   }
 });
 
-function onInputDate(value: string) {
-  scheduleModel.startDate = value;
-  scheduleModel.initWaterChangeDay();
-  if (scheduleModel.days.length > 0) {
-    scheduleModel.updateDays();
-  } else {
-    scheduleModel.initDays();
+function onDate(value: string) {
+  if (value) {
+    scheduleModel.startDate = value;
   }
 }
 

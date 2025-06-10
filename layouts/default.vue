@@ -25,14 +25,14 @@
 <template>
   <v-app>
     <client-only>
-      <Drawer v-model="isDrawer" />
-
       <v-app-bar
         color="primary"
         dark
         dense
         height="48"
       >
+        <v-app-bar-nav-icon @click="drawerStore.toggle" />
+
         <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
           <div class="d-flex align-content-center text-uppercase">
             <a
@@ -52,8 +52,10 @@
           </div>
         </v-app-bar-title>
         <LanguageSwitcher />
-        <v-app-bar-nav-icon @click="drawerStore.toggle" />
       </v-app-bar>
+
+      <Drawer />
+
     </client-only>
 
     <v-main>
@@ -74,19 +76,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter, useRoute } from 'vue-router';
-
 const { t } = useI18n();
 
 const drawerStore = useDrawerStore();
 const snackbarStore = useSnackbarStore();
 const router = useRouter();
-const route = useRoute();
-
-const isDrawer = computed({
-  get: () => drawerStore.isOpen,
-  set: (value) => drawerStore.set(value),
-});
+// const route = useRoute();
 
 const isSnackbar = computed({
   get: () => snackbarStore.isVisible,
@@ -98,13 +93,9 @@ onBeforeMount(() => {
     const schedulesStore = useSchedulesStore();
     const { appRoutes } = useAppRoutes();
 
-    if (
-      schedulesStore.isSchedules
-      && !sessionStorage.getItem('hasVisited')
-      // && to.path !== appRoutes.value.schedules.path
-    ) {
+    if (schedulesStore.isSchedules && !sessionStorage.getItem('hasVisited')) {
       sessionStorage.setItem('hasVisited', 'true');
-      return navigateTo(appRoutes.value.schedules.path);
+      return router.push(appRoutes.value.schedules.path);
     }
   }
 });
@@ -113,19 +104,19 @@ onBeforeMount(() => {
 onMounted(async () => {
   // TODO: investigate it
   // Handle page refresh with dynamic routes
-  const redirectPath = localStorage.getItem('404_redirect_path');
-  if (redirectPath) {
-    localStorage.removeItem('404_redirect_path');
-    await router.replace(redirectPath);
-    return;
-  }
+  // const redirectPath = localStorage.getItem('404_redirect_path');
+  // if (redirectPath) {
+  //   localStorage.removeItem('404_redirect_path');
+  //   await router.replace(redirectPath);
+  //   return;
+  // }
 
-  const path = localStorage.getItem('path');
-  if (path && !route.query.share) {
-    localStorage.removeItem('path');
-    await router.push(path);
-    return;
-  }
+  // const path = localStorage.getItem('path');
+  // if (path && !route.query.share) {
+  //   localStorage.removeItem('path');
+  //   await router.push(path);
+  //   return;
+  // }
 });
 </script>
 

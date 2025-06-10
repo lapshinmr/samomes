@@ -134,6 +134,7 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     'yandex-metrika-module-nuxt3',
     '@vite-pwa/nuxt',
+    '@nuxtjs/sitemap',
   ],
 
   yandexMetrika: {
@@ -179,7 +180,8 @@ export default defineNuxtConfig({
         themes: {
           light: {
             colors: {
-              primary: '#1976d2',
+              // primary: '#1976d2',
+              primary: '#4caf50',
             },
           },
         },
@@ -188,11 +190,19 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    strategy: 'prefix',
+    defaultLocale: 'ru',
+    strategy: 'prefix_and_default',
     locales: [
       { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.ts' },
       { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
     ],
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+      // alwaysRedirect: false,
+      // fallbackLocale: 'en'
+    },
   },
 
   piniaPluginPersistedstate: {
@@ -214,5 +224,13 @@ export default defineNuxtConfig({
       xl: 1920,  // 1920px - 2560px (Extra large)
       xxl: 2560,
     },
+  },
+
+  site: {
+    url: 'https://samomes.com',
+    name: 'Samomes',
+    exclude: [
+      '/settings/',
+    ],
   },
 });

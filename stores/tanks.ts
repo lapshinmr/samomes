@@ -33,6 +33,10 @@ export const useTanksStore = defineStore(
       return tanks.value.map((tank) => new Tank(tank));
     });
 
+    const isTanks = computed(() => {
+      return tanks.value.length > 0;
+    });
+
     function addTank(payload: TankType) {
       tanks.value.push(payload);
     }
@@ -56,6 +60,7 @@ export const useTanksStore = defineStore(
     return {
       tanks,
       tankModels,
+      isTanks,
       addTank,
       removeTank,
       editTank,

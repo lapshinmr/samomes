@@ -224,7 +224,7 @@
             </v-btn>
             <v-btn
               class="ml-auto"
-              @click="$router.push('/fertilizers/')"
+              :to="appRoutes.fertilizers.path"
             >
               {{ t('buttons.cancel') }}
             </v-btn>

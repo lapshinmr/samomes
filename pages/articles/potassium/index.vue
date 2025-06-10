@@ -26,9 +26,13 @@
   <v-container class="post">
     <v-row>
       <v-col>
-        <v-img
+        <NuxtImg
           src="/images/stavrogin.jpeg"
+          class="full-width-image"
+          quality="50"
+          sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           alt="Easiest potassium recipe"
+          :placeholder="[50, 25, 75, 5]"
         />
       </v-col>
     </v-row>
@@ -42,7 +46,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/articles/"
+          :to="localePath('/articles/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Все статьи
         </v-btn>
@@ -73,7 +77,7 @@
           variant="tonal"
         >
           Для тех, кто хочет создать более сложный рецепт, есть основная
-          <nuxt-link to="/recipes/">
+          <nuxt-link :to="localePath('/recipes/')">
             страница
           </nuxt-link>
           с рецептами.
@@ -82,11 +86,11 @@
         <p>
           Эта статья завершает серию из трех самых простых рецептов домашних удобрений для аквариума с растениями,
           сосредотачиваясь на калии. Для ознакомления с рецептами
-          <nuxt-link to="/articles/simplest-nitrate/">
+          <nuxt-link :to="localePath('/articles/simplest-nitrate/')">
             нитрата
           </nuxt-link>
           и
-          <nuxt-link to="/articles/simplest-phosphate/">
+          <nuxt-link :to="localePath('/articles/simplest-phosphate/')">
             фосфата
           </nuxt-link>.
           обратитесь к предыдущим публикациям.
@@ -96,7 +100,7 @@
           Калий относится к макроэлементам, таким как нитрат, фосфат, кальций и магний, благодаря его высоким
           концентрациям в аквариумной воде по сравнению с другими элементами. Обычно концентрация калия в воде аквариума
           колеблется от 5 до 30 мг/л, а рекомендуемые дозировки — от 2 до 20 мг/л (подробнее о дозировках см. в другой
-          <nuxt-link to="/articles/simplest-nitrate/">
+          <nuxt-link :to="localePath('/articles/simplest-nitrate/')">
             статье
           </nuxt-link>; не путайте дозировку с концентрацией).
         </p>
@@ -337,13 +341,13 @@
 
         <p class="mb-15">
           Здесь вы можете найти рецепты самодельного
-          <nuxt-link to="/articles/simplest-nitrate/">
+          <NuxtLink :to="localePath('/articles/simplest-nitrate/')">
             нитрата
-          </nuxt-link>
+          </NuxtLink>
           и
-          <nuxt-link to="/articles/simplest-phosphate/">
+          <NuxtLink :to="localePath('/articles/simplest-phosphate/')">
             фосфата
-          </nuxt-link>.
+          </NuxtLink>.
         </p>
       </v-col>
       <v-col
@@ -354,13 +358,13 @@
       >
         <v-btn
           color="primary"
-          to="/articles/simplest-phosphate/"
+          :to="localePath('/articles/simplest-phosphate/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Предыдущая <span class="hidden-xs-only">статья</span>
         </v-btn>
         <v-btn
           color="primary"
-          to="/articles/no-tests-part-1/"
+          :to="localePath('/articles/no-tests-part-1/')"
         >
           Следующая <span class="hidden-xs-only">статья</span> <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -371,6 +375,7 @@
 
 <script lang="ts" setup>
 const { t } = useI18n();
+const localePath = useLocalePath();
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;
 const reagents = getReagents(INITIAL_REAGENT_AMOUNT);

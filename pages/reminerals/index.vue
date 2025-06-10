@@ -123,7 +123,7 @@ const encodedUrl = computed(() => {
 });
 
 function onAdd() {
-  return router.push('/reminerals/create/');
+  return router.push(`${appRoutes.value.reminerals.path}create/`);
 }
 
 async function onRemoveRemineralConfirmation() {

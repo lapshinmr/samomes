@@ -33,6 +33,10 @@ export const useRecipesStore = defineStore(
       () => fertilizerRecipes.value.map((recipe) => new FertilizerRecipe(recipe)),
     );
 
+    const isFertilizerRecipes = computed(() => {
+      return fertilizerRecipes.value.length > 0;
+    });
+
     // TODO: transform to functions
     const addRecipe = (recipe: FertilizerRecipeType) => {
       fertilizerRecipes.value.push(recipe);
@@ -58,6 +62,7 @@ export const useRecipesStore = defineStore(
     return {
       fertilizerRecipes,
       fertilizerRecipeModels,
+      isFertilizerRecipes,
       addRecipe,
       removeRecipe,
       editRecipe,

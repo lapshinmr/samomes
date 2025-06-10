@@ -31,8 +31,8 @@
           class="full-width-image"
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
-          loading="lazy"
           alt="Easiest nitrate recipe"
+          :placeholder="[50, 25, 75, 5]"
         />
       </v-col>
     </v-row>
@@ -46,7 +46,7 @@
           color="primary"
           class="mr-0"
           square
-          to="/articles/"
+          :to="localePath('/articles/')"
         >
           <v-icon>mdi-chevron-left</v-icon> Все статьи
         </v-btn>
@@ -76,7 +76,7 @@
           class="mb-6"
         >
           Для тех, кто хочет создать более сложный рецепт, есть основная
-          <nuxt-link to="/recipes/">
+          <nuxt-link :to="localePath('/recipes/')">
             страница
           </nuxt-link>
           с рецептами.
@@ -415,7 +415,7 @@
 
         <p>
           Рецепт самодельного фосфоросодержащего удобрения вы можете найти
-          <nuxt-link to="/articles/simplest-phosphate/">
+          <nuxt-link :to="localePath('/articles/simplest-phosphate/')">
             здесь.
           </nuxt-link>
         </p>
@@ -428,7 +428,7 @@
       >
         <v-btn
           color="primary"
-          to="/articles/simplest-phosphate/"
+          :to="localePath('/articles/simplest-phosphate/')"
         >
           Следующая <span class="hidden-xs-only">статья</span><v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -440,6 +440,7 @@
 <script lang="ts" setup>
 // TODO: refactor first three articles regarding to the similar code
 const { t } = useI18n();
+const localePath = useLocalePath();
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;
 const reagents = getReagents(INITIAL_REAGENT_AMOUNT);

@@ -23,7 +23,7 @@
 -->
 
 <template>
-  <v-navigation-drawer v-model="model" location="right">
+  <v-navigation-drawer v-model="isDrawer">
     <div class="d-flex flex-column justify-between fill-height">
       <v-list class="pt-0">
         <v-list-item
@@ -92,14 +92,18 @@
 const { t } = useI18n();
 const { appRoutes } = useAppRoutes();
 const { $pwa } = useNuxtApp();
-
-const model = defineModel<boolean>();
+const drawerStore = useDrawerStore();
 
 const isPWAInstallButton = ref(true);
 const isPWAPopup = ref(false);
 const deferredPrompt = ref(null);
 const platform = ref('unknown');
 const browser = ref('unknown');
+
+const isDrawer = computed({
+  get: () => drawerStore.isOpen,
+  set: (value) => drawerStore.set(value),
+});
 
 function getPlatform() {
   // @ts-expect-error window.opera
