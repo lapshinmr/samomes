@@ -79,7 +79,7 @@ export default defineNuxtConfig({
       description: '"Самомес" - это калькулятор самодельных рецептов удобрений для растительного аквариума, '
         + 'удобный способ расчета дозировок внесения удобрений и составления расписание на неделю.',
       display: 'standalone',
-      theme_color: '#1976d2',
+      theme_color: '#4caf50',
       icons: [
         {
           src: 'pwa-64x64.png',

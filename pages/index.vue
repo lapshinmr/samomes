@@ -37,6 +37,7 @@
         <ScriptYouTubePlayer
           video-id="98gR9vmb3S0"
           trigger="immediate"
+          class="parallax-video"
           :player-vars="{
             autoplay: 1,
             controls: 0,
@@ -59,302 +60,441 @@
         </ScriptYouTubePlayer>
       </div>
     </div>
-    <v-container>
+    <v-container
+      fluid
+      class="pa-3"
+    >
       <v-row>
         <v-col
           cols="12"
-          class="section section--about position-relative"
+          class="main-section position-relative"
           style="height: 100vh;"
         >
-          <div
-            class="about__content d-flex flex-column position-absolute"
-            style="bottom: 150px;"
-          >
-            <h1 class="about__title">
-              Самомес
+          <div class="main-section__content d-flex flex-column">
+            <h1 class="main-section__title">
+              Samomes
             </h1>
-            <h3 class="about__subtitle">
+            <h3 class="main-section__subtitle">
               калькулятор удобрений для растительного аквариума
             </h3>
-            <!--            <h3 class="about__question">-->
-            <!--              Рассчитаем калий вместе? 😉-->
-            <!--            </h3>-->
           </div>
         </v-col>
         <v-col
           cols="12"
-          class="section section--goals bg-white"
+          class="section"
         >
-          <h2 class="text-h2 mb-4">
+          <h2 class="text-h4 text-sm-h2 mb-8 mb-sm-16 text-center">
             Встречайте вашего надежного помощника!
           </h2>
-          <p class="">
-            Мы знаем как может быть тяжело аквариумисту подбирать дозировки удобрений для своего
-            растительного аквариума. Самомес поможет вам
-            делать это с легкостью и исключит ошибки в расчетах. Теперь вы сможете сосредоточиться
-            на идее, а не на расчетах.
-          </p>
+          <div class="d-flex flex-column align-center">
+            <p class="w-sm-50 text-center mb-8">
+              Мы знаем как может быть утомительно аквариумисту подбирать дозировки удобрений.
+            </p>
+            <p>
+              Samomes поможет вам делать это с легкостью и исключит ошибки в расчетах.
+            </p>
+            <p class="w-sm-50 text-center mb-8">
+              Теперь вы сможете сосредоточиться на идее, а не на расчетах.
+            </p>
+          </div>
         </v-col>
-        <v-col cols="12">
-          <h2 class="text-h2">
-            В вашем распоряжении следующий набор инструментов
+        <v-col
+          cols="12"
+          class="section"
+        >
+          <h2 class="text-h4 text-sm-h2 mb-16 text-center">
+            В вашем распоряжении<br>целый набор инструментов
           </h2>
+          <v-row class="d-flex justify-center">
+            <v-col
+              cols="12"
+              sm="4"
+            >
+              <v-card class="d-flex flex-column justify-center py-16">
+                <NuxtLink
+                  :to="appRoutes.dosing.path"
+                  class="text-center text-primary mb-4"
+                >
+                  <Icon
+                    :name="appRoutes.dosing.icon"
+                    size="100"
+                  />
+                </NuxtLink>
+                <div class="text-h5 text-center">
+                  Дозирование
+                </div>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="4"
+            >
+              <v-card class="d-flex flex-column justify-center py-16">
+                <NuxtLink
+                  :to="appRoutes.schedules.path"
+                  class="text-center text-primary mb-4"
+                >
+                  <Icon
+                    :name="appRoutes.schedules.icon"
+                    size="100"
+                  />
+                </NuxtLink>
+                <div class="text-h5 text-center">
+                  Расписание
+                </div>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="4"
+            >
+              <v-card class="d-flex flex-column justify-center py-16">
+                <NuxtLink
+                  :to="appRoutes.recipes.path"
+                  class="text-center text-primary mb-4"
+                >
+                  <Icon
+                    :name="appRoutes.recipes.icon"
+                    size="100"
+                  />
+                </NuxtLink>
+                <div class="text-h5 text-center">
+                  Рецепты
+                </div>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="4"
+            >
+              <v-card class="d-flex flex-column justify-center py-16">
+                <NuxtLink
+                  :to="appRoutes.fertilizers.path"
+                  class="text-center text-primary mb-4"
+                >
+                  <Icon
+                    :name="appRoutes.fertilizers.icon"
+                    size="100"
+                  />
+                </NuxtLink>
+                <div class="text-h5 text-center">
+                  Удобрения
+                </div>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="4"
+            >
+              <v-card class="d-flex flex-column justify-center py-16">
+                <NuxtLink
+                  :to="appRoutes.reminerals.path"
+                  class="text-center text-primary mb-4"
+                >
+                  <Icon
+                    :name="appRoutes.reminerals.icon"
+                    size="100"
+                  />
+                </NuxtLink>
+                <div class="text-h5 text-center">
+                  Реминерализаторы
+                </div>
+              </v-card>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="4"
+            >
+              <v-card class="d-flex flex-column justify-center py-16">
+                <NuxtLink
+                  :to="appRoutes.remineralization.path"
+                  class="text-center text-primary mb-4"
+                >
+                  <Icon
+                    :name="appRoutes.remineralization.icon"
+                    size="100"
+                  />
+                </NuxtLink>
+                <div class="text-h5 text-center">
+                  Водоподготовка
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <div class="text-h4 text-sm-h3 mt-16 text-center font-weight-regular">
+                Все они работают как один организм!
+              </div>
+            </v-col>
+          </v-row>
         </v-col>
-        <v-col cols="12">
-          <div class="d-flex">
-            <NuxtImg
-              src="/images/test.gif"
-              width="300"
-              alt="Main logotype NPK"
-              class="mr-10"
-            />
-            <div class="">
-              <nuxt-link
-                :to="appRoutes.dosing.path"
-                class="section__icon-link"
-              >
-                <h2 class="text-h2">
+        <v-col
+          cols="12"
+          class="section"
+        >
+          <div class="d-flex flex-column flex-sm-row">
+            <div class="order-1 order-sm-0 d-flex justify-center w-sm-50 mb-4 mb-sm-0">
+              <div class="video-wrapper w-sm-50 elevation-4">
+                <video
+                  class="background-video"
+                  autoplay
+                  loop
+                  controls
+                  muted
+                  width="100%"
+                  height="auto"
+                  controlslist="nodownload nofullscreen noremoteplayback"
+                  disablepictureinpicture
+                  @contextmenu.prevent
+                >
+                  <source src="/images/landing/dosing.webm" type="video/webm">
+                  <source src="/images/landing/dosing.mp4" type="video/mp4">
+                  Ваш браузер не поддерживает видео.
+                </video>
+                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
+              </div>
+            </div>
+            <div class="order-0 order-sm-1 w-sm-40 align-self-center">
+              <nuxt-link :to="appRoutes.dosing.path">
+                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
                   Дозирование
                 </h2>
               </nuxt-link>
-              <div class="section__text">
-                <p class="font-italic">
-                  Это сердце нашего сервиса
-                </p>
-                <p>
-                  Здесь вы за минуты сможете подобрать дозировки всех ваших удобрений и увидеть комплексную
-                  картину концентраций элементов в своем аквариуме
-                </p>
-                <p>
-                  Удобрения могут быть как фирменными, так и самодельными.
-                </p>
-              </div>
+              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+                Подбирайте дозировки за минуту
+              </h3>
             </div>
           </div>
         </v-col>
-        <v-col cols="12">
-          <div class="d-flex">
-            <NuxtImg
-              src="/images/test.gif"
-              width="300"
-              alt="Main logotype NPK"
-              class="mr-10"
-            />
-            <div class="">
-              <nuxt-link
-                :to="appRoutes.dosing.path"
-                class="section__icon-link"
-              >
-                <h2 class="text-h2">
+        <v-col
+          cols="12"
+          class="section"
+        >
+          <div class="d-flex flex-column flex-sm-row">
+            <div class="ml-sm-auto align-self-center w-sm-40">
+              <nuxt-link :to="appRoutes.schedules.path">
+                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
                   Расписание
                 </h2>
               </nuxt-link>
-              <div class="section__text">
-                <p class="font-italic">
-                  Все ваши дозировки в одном месте в виде удобного виджета
-                </p>
-                <p>
-                  Теперь вам не составит никакого труда отслеживать график внесения удобрений во все ваши аквариумы
-                </p>
+              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+                Составьте график, чтобы не забыть внести удобрения
+              </h3>
+            </div>
+            <div class="d-flex justify-center w-sm-50">
+              <div class="video-wrapper w-sm-50 elevation-4">
+                <video
+                  class="background-video"
+                  autoplay
+                  loop
+                  controls
+                  muted
+                  width="100%"
+                  height="auto"
+                  controlslist="nodownload nofullscreen noremoteplayback"
+                  disablepictureinpicture
+                  @contextmenu.prevent
+                >
+                  <source src="/images/landing/schedule.mov" type="video/mp4">
+                  Ваш браузер не поддерживает видео.
+                </video>
+                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
             </div>
           </div>
         </v-col>
         <v-col
           cols="12"
-          sm="10"
-          offset-sm="1"
-          class="section section--fertilizers"
+          class="section"
         >
-          <nuxt-link
-            :to="appRoutes.fertilizers.path"
-            class="section__icon-link"
-          >
-            <Icon
-              class="section__icon text-purple"
-              :name="appRoutes.fertilizers.icon"
-            />
-          </nuxt-link>
-          <div class="section__content">
-            <nuxt-link :to="appRoutes.fertilizers.path">
-              <h2 class="section__title">
-                Удобрения
-              </h2>
-            </nuxt-link>
-            <div class="section__text">
-              <p class="font-italic">
-                Мы собрали для вас большой список удобрений известных производителей, которые вы можете использовать
-              </p>
-            </div>
-          </div>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="10"
-          offset-sm="1"
-          class="section section--recipes"
-        >
-          <nuxt-link
-            :to="appRoutes.recipes.path"
-            class="section__icon-link"
-          >
-            <Icon
-              class="section__icon text-green"
-              :name="appRoutes.recipes.icon"
-            />
-          </nuxt-link>
-          <div class="section__content">
-            <nuxt-link :to="appRoutes.recipes.path">
-              <h2 class="section__title">
-                Рецепты
-              </h2>
-            </nuxt-link>
-            <div class="section__text">
-              <p class="font-italic">
-                Делаете удобрения сами?
-              </p>
-              <p>
-                Мы создали вам очень удобный инструмент, с помощью которого вы сможете сделать даже
-                очень сложное удобрение с легкостью за минуты.
-              </p>
-              <p>
-                Из любых реагентов!
-              </p>
-            </div>
-          </div>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="10"
-          offset-sm="1"
-          class="section section--reminerals"
-        >
-          <nuxt-link
-            :to="appRoutes.reminerals.path"
-            class="section__icon-link"
-          >
-            <Icon
-              class="section__icon text-blue-gray"
-              :name="appRoutes.reminerals.icon"
-            />
-          </nuxt-link>
-          <div class="section__content">
-            <nuxt-link :to="appRoutes.reminerals.path">
-              <h2 class="section__title">
-                Реминерализаторы
-              </h2>
-            </nuxt-link>
-            <div class="section__text">
-              <p class="font-italic">
-                Для тех кто любит контролировать абсолютно все детали в аквариуме мы создали
-                инструмент с помощью которого вы сможете подготовить воду с любым составом.
-              </p>
-            </div>
-          </div>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="10"
-          offset-sm="1"
-          class="section section--remineralization"
-        >
-          <nuxt-link
-            :to="appRoutes.remineralization.path"
-            class="section__icon-link"
-          >
-            <Icon
-              class="section__icon text-blue"
-              :name="appRoutes.remineralization.icon"
-            />
-          </nuxt-link>
-          <div class="section__content">
-            <nuxt-link :to="appRoutes.remineralization.path">
-              <h2 class="section__title">
-                Водоподготовка
-              </h2>
-            </nuxt-link>
-            <div class="section__text">
-              <p class="font-italic">
-                Управление жесткостью воды (gH и kH)
-              </p>
-              <p>
-                В этом разделе вы можете точно настроить параметры постоянной (gH) и временной (kH)
-                жесткости воды для вашего аквариума. Сервис предлагает гибкие возможности,
-                использования фирменных реминерализаторов с известным составом, а так же применение своих
-                собственных рецептов.
-              </p>
-              <p>
-                Этот инструмент особенно ценен для аквариумистов, которые разбавляют водопроводную воду осмосом,
-                позволяя достичь идеальных параметров воды для конкретных видов рыб и растений.
-              </p>
-            </div>
-          </div>
-        </v-col>
-        <v-col
-          cols="12"
-          class="section section--tanks"
-        >
-          <nuxt-link
-            :to="appRoutes.tanks.path"
-            class="section__icon-link"
-          >
-            <Icon
-              :name="appRoutes.tanks.icon"
-              class="section__icon text-blue"
-            />
-          </nuxt-link>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="10"
-          offset-sm="1"
-          class="section section--questions"
-        >
-          <a
-            href="https://vk.com/samomes"
-            target="_blank"
-            class="section__icon-link"
-          >
-            <v-icon
-              class="section__icon"
-              color="success"
-            >
-              mdi mdi-comment-question-outline
-            </v-icon>
-          </a>
-          <div class="section__content">
-            <div class="mt-6">
-              <div>
-                У нас есть Telegram-канал! Подпишитесь, чтобы быть в курсе всех новинок и обновлений.
+          <div class="d-flex flex-column flex-sm-row">
+            <div class="order-1 order-sm-0 d-flex justify-center w-sm-50">
+              <div class="video-wrapper w-sm-50 elevation-4">
+                <video
+                  class="background-video"
+                  autoplay
+                  loop
+                  controls
+                  muted
+                  width="100%"
+                  height="auto"
+                  controlslist="nodownload nofullscreen noremoteplayback"
+                  disablepictureinpicture
+                  @contextmenu.prevent
+                >
+                  <source src="/images/landing/dosing.webm" type="video/webm">
+                  <source src="/images/landing/dosing.mp4" type="video/mp4">
+                  Ваш браузер не поддерживает видео.
+                </video>
+                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
-              <v-btn
-                href="https://t.me/samomes_calculator"
-                target="_blank"
-                color="primary"
-                class="my-4"
+            </div>
+            <div class="order-0 ordre-sm-1 w-sm-40 align-self-center">
+              <nuxt-link :to="appRoutes.fertilizers.path">
+                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
+                  Удобрения
+                </h2>
+              </nuxt-link>
+              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+                Мы собрали для вас удобрения известных производителей в одном месте
+              </h3>
+            </div>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          class="section"
+        >
+          <div class="d-flex flex-column flex-sm-row">
+            <div class="w-sm-40 ml-auto align-self-center">
+              <nuxt-link :to="appRoutes.recipes.path">
+                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
+                  Рецепты
+                </h2>
+              </nuxt-link>
+              <h3 class="text-h6 mb-4 mb-sm-10 text-center text-sm-left font-weight-regular">
+                Делайте удобрения сами из любых реагентов
+              </h3>
+            </div>
+            <div class="d-flex justify-center w-sm-50">
+              <div class="video-wrapper w-sm-50 elevation-4">
+                <video
+                  class="background-video"
+                  autoplay
+                  loop
+                  controls
+                  muted
+                  width="100%"
+                  height="auto"
+                  controlslist="nodownload nofullscreen noremoteplayback"
+                  disablepictureinpicture
+                  @contextmenu.prevent
+                >
+                  <source src="/images/landing/schedule.mov" type="video/mp4">
+                  Ваш браузер не поддерживает видео.
+                </video>
+                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
+              </div>
+            </div>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          class="section"
+        >
+          <div class="d-flex flex-column flex-sm-row">
+            <div class="order-1 order-sm-0 d-flex justify-center w-sm-50">
+              <div class="video-wrapper w-sm-50 elevation-4">
+                <video
+                  class="background-video"
+                  autoplay
+                  loop
+                  controls
+                  muted
+                  width="100%"
+                  height="auto"
+                  controlslist="nodownload nofullscreen noremoteplayback"
+                  disablepictureinpicture
+                  @contextmenu.prevent
+                >
+                  <source src="/images/landing/dosing.webm" type="video/webm">
+                  <source src="/images/landing/dosing.mp4" type="video/mp4">
+                  Ваш браузер не поддерживает видео.
+                </video>
+                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
+              </div>
+            </div>
+            <div class="w-sm-40 align-self-center">
+              <nuxt-link :to="appRoutes.reminerals.path">
+                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
+                  Реминерализаторы
+                </h2>
+              </nuxt-link>
+              <h3 class="text-h6 mb-4 mb-sm-10 text-center text-sm-left font-weight-regular">
+                Создавайте идеальный состав воды
+              </h3>
+            </div>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          class="section"
+        >
+          <div class="d-flex flex-column flex-sm-row">
+            <div class="w-sm-40 ml-auto align-self-center">
+              <nuxt-link
+                :to="appRoutes.remineralization.path"
+                class="section__icon-link"
               >
-                Перейти в Telegram
-              </v-btn>
+                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
+                  Водоподготовка
+                </h2>
+              </nuxt-link>
+              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+                Для контроля жесткости воды
+              </h3>
             </div>
-            <h2 class="section__title">
-              Остались вопросы?
-            </h2>
-            <p class="section__text">
-              Не стесняйтесь задавать их в
-              <a
-                href="https://t.me/samomes_calculator"
-                target="_blank"
-              >Telegram-канале</a> или в группе
-              <a
-                href="https://vk.com/samomes"
-                target="_blank"
-              >ВКонтакте</a>.
-              Просто оставьте свой вопрос на стене
-              в группе, в комментариях под любым из постов или в личных сообщениях автору проекта.
-            </p>
-            <v-lazy v-model="isVKVisible">
-              <div id="vk_groups" />
-            </v-lazy>
+            <div class="d-flex justify-center w-sm-50">
+              <div class="video-wrapper w-sm-50 elevation-4">
+                <video
+                  class="background-video"
+                  autoplay
+                  loop
+                  controls
+                  muted
+                  width="100%"
+                  height="auto"
+                  controlslist="nodownload nofullscreen noremoteplayback"
+                  disablepictureinpicture
+                  @contextmenu.prevent
+                >
+                  <source src="/images/landing/schedule.mov" type="video/mp4">
+                  Ваш браузер не поддерживает видео.
+                </video>
+                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
+              </div>
+            </div>
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          class="section"
+        >
+          <div class="d-flex flex-column flex-sm-row">
+            <div class="order-1 order-sm-0 w-sm-40 mx-sm-auto">
+              <v-lazy v-model="isVKVisible">
+                <div id="vk_groups" class="w-100" />
+              </v-lazy>
+            </div>
+            <div class="order-0 order-sm-1 w-sm-50 align-self-center">
+              <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
+                Связаться с нами
+              </h2>
+              <div class="d-flex justify-space-between mt-auto pa-4 text-grey-darken-1 w-sm-50">
+                <a href="https://t.me/samomes_calculator" target="_blank">
+                  <Icon
+                    name="mdi:telegram"
+                    size="60"
+                    class="text-primary"
+                  />
+                </a>
+                <a href="https://vk.com/samomes" target="_blank">
+                  <Icon
+                    name="mdi:vk-circle"
+                    size="60"
+                    class="text-primary"
+                  />
+                </a>
+                <a href="https://github.com/lapshinmr/samomes" target="_blank">
+                  <Icon
+                    name="mdi:github"
+                    size="60"
+                    class="text-primary"
+                  />
+                </a>
+              </div>
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -428,6 +568,36 @@ definePageMeta({
 <style lang="sass" scoped>
 @import 'assets/variables.sass'
 
+.w-40
+  width: 40%
+
+p
+  margin-bottom: 12px
+
+.video-wrapper
+  position: relative
+  width: 100%
+  height: auto
+  overflow: hidden
+  //box-shadow: 0 1px 10px #B0BEC5
+
+.background-video
+  width: 100%
+  height: auto
+  display: block
+  pointer-events: none
+
+.video-overlay
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  z-index: 10
+  background: transparent
+  cursor: default
+
+// TODO: check this parallax
 .parallax-container
   position: absolute
   left: 0
@@ -441,155 +611,55 @@ definePageMeta({
   top: 0
   left: 0
   right: 0
-  height: 120vh  // Extra height to allow for movement
-  will-change: transform  // Optimize for animations
-  transform-style: preserve-3d  // Enhance 3D effect
-  backface-visibility: hidden  // Prevent flickering
+  height: 100vh
+  will-change: transform
+  transform-style: preserve-3d
+  backface-visibility: hidden
 
-.section
-  min-height: 400px
-  @media (min-width: $xs)
-    margin-top: 50px
-  display: flex
-  justify-content: space-between
+.parallax-video
   @media (max-width: $xs)
-    flex-direction: column
-  .section__icon-link
-    height: 150px
-    width: 100%
-    display: flex
-    justify-content: center
-    align-items: center
-    @media (min-width: $xs)
-      flex-shrink: 0
-      height: 300px
-      width: 300px
-    .section__icon
-      height: 100px
-      width: 100px
-      font-size: 100px
-      @media (min-width: $xs)
-        height: 200px
-        width: 200px
-        font-size: 200px
-  .section__content
-    flex-grow: 1
-    display: flex
-    flex-direction: column
-    .section__title
-      font-weight: 300
-      font-size: 2rem !important
-      line-height: 2rem
-      letter-spacing: -0.0083333333em !important
-      font-family: "Roboto", sans-serif !important
-      @media (min-width: $xs)
-        font-size: 3.75rem !important
-        line-height: 3.75rem
-    .section__text
-      margin-top: 2rem
-.section--about
+    margin-left: -130%!important
+    width: 390%!important
+
+.main-section
   color: white
   text-shadow: 1px 1px 1px black
   @media (max-width: $xs)
     flex-direction: column
-  .about__image
-    width: 100%
-    display: flex
-    justify-content: center
-    align-items: center
-    @media (min-width: $xs)
-      width: 40%
-  .about__content
-    @media (min-width: $xs)
-      width: 60%
+  .main-section__content
+    position: absolute
+    bottom: 150px
+    left: 100px
+    width: 60%
     @media (max-width: $xs)
-      margin-top: 2rem
-    .about__title
-      font-size: 3rem !important
-      line-height: 2.5rem
-      letter-spacing: -0.0083333333em !important
-      font-family: "Roboto", sans-serif !important
-      font-weight: 300
-      margin-bottom: 8px
-      @media (min-width: $xs)
-        font-size: 7rem !important
-        line-height: 3.75rem
-    .about__subtitle
-      margin-left: 2rem
-      @media (max-width: $xs)
-        font-size: 0.9rem !important
-      font-size: 1.5rem !important
-      font-weight: 400
-    .about__question
-      @media (max-width: $xs)
-        font-size: 1.2rem !important
-      font-size: 1.3rem !important
-      font-weight: 400
-      margin-top: 2rem
-      margin-bottom: 1rem
-.section--goals
-  display: flex
-  flex-direction: column
-  justify-content: flex-start
-  .goals__description
-    font-size: 1.2rem
+      left: 24px
+      bottom: 100px
+      width: 100%
+  .main-section__title
+    font-size: 3rem !important
+    line-height: 2.5rem
+    letter-spacing: -0.0083333333em !important
+    font-family: "Roboto", sans-serif !important
+    font-weight: 300
+    margin-bottom: 8px
     @media (min-width: $xs)
-      margin-right: 30%
-  .goals__list
-    @media (min-width: $xs)
-      margin-left: 10%
-    margin-top: 1rem
-    font-size: 1.1rem
-    li
-      margin-bottom: 1rem
-.section--tanks
-  text-align: right
-  .section__icon-link
-    justify-content: flex-end
-    @media (min-width: $xs)
-      justify-content: center
-      order: 2
-  .section__content
-    @media (min-width: $xs)
-      order: 1
-.section--recipes
-  .section__icon-link
-    justify-content: flex-start
-    @media (min-width: $xs)
-      justify-content: center
-.section--fertilizers
-  text-align: right
-  .section__icon-link
-    justify-content: flex-end
-    @media (min-width: $xs)
-      justify-content: center
-      order: 2
-  .section__content
-    @media (min-width: $xs)
-      order: 1
-.section--reminerals
-  .section__icon-link
-    justify-content: flex-start
-    @media (min-width: $xs)
-      justify-content: center
-.section--dosing
-  text-align: right
-  .section__icon-link
-    justify-content: flex-end
-    @media (min-width: $xs)
-      justify-content: center
-      order: 2
-  .section__content
-    @media (min-width: $xs)
-      order: 1
-.section--remineralization
-  .section__icon-link
-    justify-content: flex-start
-    @media (min-width: $xs)
-      justify-content: center
-.section--questions
-  .section__icon-link
-    justify-content: flex-start
-    @media (min-width: $xs)
-      justify-content: center
+      font-size: 7rem !important
+      line-height: 3.75rem
+  .main-section__subtitle
+    margin-left: 2rem
+    @media (max-width: $xs)
+      font-size: 0.9rem !important
+      margin-left: 1rem
+    font-size: 1.5rem !important
+    font-weight: 400
+
+.section
+  min-height: 400px
+  background: linear-gradient(180deg, #f4faf5 0%, #ffffff 100%)
+  border-top: 1px solid #C8E6C9
+  padding-top: 150px
+  padding-bottom: 150px
+  @media (max-width: $xs)
+    padding-top: 50px
+    padding-bottom: 50px
 </style>

@@ -27,7 +27,7 @@ export default {
     open: 'Открыть',
     close: 'Закрыть',
   },
-  home: 'Самомес',
+  home: 'Samomes',
   common: {
     volume: 'Объем',
     or: 'или',
