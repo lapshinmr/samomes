@@ -25,15 +25,15 @@
 <template>
   <v-app class="bg-transparent">
     <v-app-bar
-      color="primary"
-      dark
-      dense
+      :color="scrolled ? 'primary' : 'transparent'"
+      :elevation="scrolled ? 4 : 0"
       height="48"
+      class="v-app-bar-transition"
     >
-      <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
-        <div class="d-flex align-content-center text-uppercase">
+      <v-app-bar-title class="text-body-1">
+        <div class="d-flex">
           <a
-            class="d-flex text-white"
+            class="d-flex align-center text-white"
             href="/"
           >
             <v-img
@@ -42,17 +42,19 @@
               width="24"
               alt="Main logotype NPK"
             />
-            <span class="ml-1">
+            <span class="text-uppercase ml-1">
               {{ t('home') }}
             </span>
           </a>
         </div>
       </v-app-bar-title>
+
       <LanguageSwitcher />
 
       <v-btn
         v-if="smAndUp"
-        @click="onDashboard"
+        color="white"
+        :to="appRoutes.dosing.path"
       >
         <Icon
           name="mdi-view-dashboard"
@@ -62,12 +64,13 @@
       </v-btn>
       <v-btn
         v-else
+        color="white"
         icon="mdi-view-dashboard"
-        @click="onDashboard"
+        :to="appRoutes.dosing.path"
       />
     </v-app-bar>
 
-    <v-main>
+    <v-main class="pt-0">
       <NuxtPwaManifest />
       <NuxtPage />
       <v-snackbar
@@ -102,6 +105,7 @@ const isSnackbar = computed({
   set: () => snackbarStore.hide(),
 });
 
+// TODO: move to composables
 onBeforeMount(() => {
   if (import.meta.client) {
     const schedulesStore = useSchedulesStore();
@@ -146,34 +150,25 @@ onMounted(async () => {
   // }
 });
 
-function onDashboard() {
-  if (
-    tanksStore.isTanks
-    || recipesStore.isFertilizerRecipes
-    || fertilizersStore.isFertilizers
-    || remineralsStore.isReminerals
-  ) {
-    return router.push(appRoutes.value.dosing.path);
-  }
-}
+// Navbar scroll behaviour
+const scrolled = ref(false);
+
+const handleScroll = () => {
+  scrolled.value = window.scrollY > window.innerHeight;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <style lang="sass">
-.v-toolbar__title
-  font-size: 1rem !important
-
 a
   text-decoration: none
-
-.no-break
-  word-break: normal
-
-.v-stepper__step__step
-  .v-icon
-    font-size: 1rem !important
-
-.w-100
-  width: 100% !important
 
 .page-enter-active, .page-leave-active
   transition: all 0.3s
@@ -191,4 +186,6 @@ a
   opacity: 0
   transition: opacity 0.3s
 
+.v-app-bar-transition
+  transition: all 0.3s
 </style>

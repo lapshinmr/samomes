@@ -2,12 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-04-29',
 
-  // devtools: { enabled: true },
+  devtools: { enabled: false },
 
-  // devServer: {
-  //   host: '0.0.0.0',
-  //   port: 3000,
-  // },
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000,
+  },
 
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
         },
         { property: 'og:image', content: '/og_image.png' },
         { property: 'og:type', content: 'website' },
-        { name: 'theme-color', content: '#1976d2' },
+        { name: 'theme-color', content: '#4caf50' },
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

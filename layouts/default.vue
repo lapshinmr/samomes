@@ -78,6 +78,10 @@
 <script lang="ts" setup>
 const { t } = useI18n();
 
+const tanksStore = useTanksStore();
+const recipesStore = useRecipesStore();
+const fertilizersStore = useFertilizersStore();
+const remineralsStore = useRemineralsStore();
 const drawerStore = useDrawerStore();
 const snackbarStore = useSnackbarStore();
 const router = useRouter();
@@ -93,9 +97,22 @@ onBeforeMount(() => {
     const schedulesStore = useSchedulesStore();
     const { appRoutes } = useAppRoutes();
 
-    if (schedulesStore.isSchedules && !sessionStorage.getItem('hasVisited')) {
+    if (
+      schedulesStore.isSchedules
+      && !sessionStorage.getItem('hasVisited')
+    ) {
       sessionStorage.setItem('hasVisited', 'true');
       return router.push(appRoutes.value.schedules.path);
+    } else if (
+      (
+        tanksStore.isTanks
+        || recipesStore.isFertilizerRecipes
+        || fertilizersStore.isFertilizers
+        || remineralsStore.isReminerals
+      ) && !sessionStorage.getItem('hasVisited')
+    ) {
+      sessionStorage.setItem('hasVisited', 'true');
+      return router.push(appRoutes.value.dosing.path);
     }
   }
 });

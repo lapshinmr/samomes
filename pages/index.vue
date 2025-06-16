@@ -26,38 +26,38 @@
   <div class="position-relative">
     <div
       ref="parallaxContainer"
-      class="position-absolute left-0 right-0 top-0 parallax-container"
-      style="z-index: -1; height: 100vh; overflow: hidden;"
+      class="parallax"
     >
       <div
         ref="parallaxContent"
-        class="parallax-content"
+        class="parallax__content"
         :style="{ transform: `translateY(${parallaxOffset}px)` }"
       >
         <ScriptYouTubePlayer
           video-id="98gR9vmb3S0"
           trigger="immediate"
-          class="parallax-video"
+          class="parallax__video"
           :player-vars="{
             autoplay: 1,
             controls: 0,
             loop: 1,
+            playlist: '98gR9vmb3S0',
+            playsinline: 1,
             disablekb: 1,
             fs: 0,
             iv_load_policy: 3,
-            modestbranding: 1,
             rel: 0,
-            showinfo: 0,
             mute: 1,
           }"
+          @ready="onYoutubeReady"
         >
-          <template #placeholder>
-            <NuxtImg
-              src="/image/makrandra-landing.jpeg"
-              alt="Video Placeholder"
-            />
-          </template>
         </ScriptYouTubePlayer>
+        <NuxtImg
+          v-if="!isYoutubeReady"
+          src="/images/landing/makrandra-landing.jpeg"
+          alt="Video Placeholder"
+          class="parallax__image"
+        />
       </div>
     </div>
     <v-container
@@ -86,15 +86,15 @@
           <h2 class="text-h4 text-sm-h2 mb-8 mb-sm-16 text-center">
             Встречайте вашего надежного помощника!
           </h2>
-          <div class="d-flex flex-column align-center">
-            <p class="w-sm-50 text-center mb-8">
+          <div class="d-flex flex-column align-center text-h6 font-weight-regular text-center">
+            <p class="w-sm-33 mb-8">
               Мы знаем как может быть утомительно аквариумисту подбирать дозировки удобрений.
             </p>
-            <p>
+            <p class="mb-8">
               Samomes поможет вам делать это с легкостью и исключит ошибки в расчетах.
             </p>
-            <p class="w-sm-50 text-center mb-8">
-              Теперь вы сможете сосредоточиться на идее, а не на расчетах.
+            <p class="w-sm-50 mb-8">
+              Теперь вы можете сосредоточиться на идее, а не на расчетах.
             </p>
           </div>
         </v-col>
@@ -223,7 +223,7 @@
           </v-row>
           <v-row>
             <v-col cols="12">
-              <div class="text-h4 text-sm-h3 mt-16 text-center font-weight-regular">
+              <div class="text-h4 text-sm-h4 my-16 mt-sm-16 mb-sm-0 text-center font-weight-regular">
                 Все они работают как один организм!
               </div>
             </v-col>
@@ -240,19 +240,15 @@
                   class="background-video"
                   autoplay
                   loop
-                  controls
                   muted
+                  playsinline
                   width="100%"
                   height="auto"
-                  controlslist="nodownload nofullscreen noremoteplayback"
-                  disablepictureinpicture
-                  @contextmenu.prevent
                 >
                   <source src="/images/landing/dosing.webm" type="video/webm">
                   <source src="/images/landing/dosing.mp4" type="video/mp4">
                   Ваш браузер не поддерживает видео.
                 </video>
-                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
             </div>
             <div class="order-0 order-sm-1 w-sm-40 align-self-center">
@@ -261,7 +257,7 @@
                   Дозирование
                 </h2>
               </nuxt-link>
-              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+              <h3 class="text-h6 mb-10 mb-sm-0 text-center text-sm-left font-weight-regular">
                 Подбирайте дозировки за минуту
               </h3>
             </div>
@@ -278,7 +274,7 @@
                   Расписание
                 </h2>
               </nuxt-link>
-              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+              <h3 class="text-h6 mb-10 mb-sm-0 text-center text-sm-left font-weight-regular">
                 Составьте график, чтобы не забыть внести удобрения
               </h3>
             </div>
@@ -288,18 +284,15 @@
                   class="background-video"
                   autoplay
                   loop
-                  controls
                   muted
+                  playsinline
+                  webkit-playsinline
                   width="100%"
                   height="auto"
-                  controlslist="nodownload nofullscreen noremoteplayback"
-                  disablepictureinpicture
-                  @contextmenu.prevent
                 >
                   <source src="/images/landing/schedule.mov" type="video/mp4">
                   Ваш браузер не поддерживает видео.
                 </video>
-                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
             </div>
           </div>
@@ -315,28 +308,25 @@
                   class="background-video"
                   autoplay
                   loop
-                  controls
                   muted
+                  playsinline
+                  webkit-playsinline
                   width="100%"
                   height="auto"
-                  controlslist="nodownload nofullscreen noremoteplayback"
-                  disablepictureinpicture
-                  @contextmenu.prevent
                 >
                   <source src="/images/landing/dosing.webm" type="video/webm">
                   <source src="/images/landing/dosing.mp4" type="video/mp4">
                   Ваш браузер не поддерживает видео.
                 </video>
-                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
             </div>
-            <div class="order-0 ordre-sm-1 w-sm-40 align-self-center">
+            <div class="order-0 order-sm-1 w-sm-40 align-self-center">
               <nuxt-link :to="appRoutes.fertilizers.path">
                 <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
                   Удобрения
                 </h2>
               </nuxt-link>
-              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+              <h3 class="text-h6 mb-10 mb-sm-0 text-center text-sm-left font-weight-regular w-sm-75">
                 Мы собрали для вас удобрения известных производителей в одном месте
               </h3>
             </div>
@@ -347,13 +337,13 @@
           class="section"
         >
           <div class="d-flex flex-column flex-sm-row">
-            <div class="w-sm-40 ml-auto align-self-center">
+            <div class="w-sm-40 ml-sm-auto align-self-center">
               <nuxt-link :to="appRoutes.recipes.path">
                 <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
                   Рецепты
                 </h2>
               </nuxt-link>
-              <h3 class="text-h6 mb-4 mb-sm-10 text-center text-sm-left font-weight-regular">
+              <h3 class="text-h6 mb-10 mb-sm-10 text-center text-sm-left font-weight-regular">
                 Делайте удобрения сами из любых реагентов
               </h3>
             </div>
@@ -363,18 +353,15 @@
                   class="background-video"
                   autoplay
                   loop
-                  controls
                   muted
+                  playsinline
+                  webkit-playsinline
                   width="100%"
                   height="auto"
-                  controlslist="nodownload nofullscreen noremoteplayback"
-                  disablepictureinpicture
-                  @contextmenu.prevent
                 >
                   <source src="/images/landing/schedule.mov" type="video/mp4">
                   Ваш браузер не поддерживает видео.
                 </video>
-                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
             </div>
           </div>
@@ -390,19 +377,16 @@
                   class="background-video"
                   autoplay
                   loop
-                  controls
                   muted
+                  playsinline
+                  webkit-playsinline
                   width="100%"
                   height="auto"
-                  controlslist="nodownload nofullscreen noremoteplayback"
-                  disablepictureinpicture
-                  @contextmenu.prevent
                 >
                   <source src="/images/landing/dosing.webm" type="video/webm">
                   <source src="/images/landing/dosing.mp4" type="video/mp4">
                   Ваш браузер не поддерживает видео.
                 </video>
-                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
             </div>
             <div class="w-sm-40 align-self-center">
@@ -411,7 +395,7 @@
                   Реминерализаторы
                 </h2>
               </nuxt-link>
-              <h3 class="text-h6 mb-4 mb-sm-10 text-center text-sm-left font-weight-regular">
+              <h3 class="text-h6 mb-10 mb-sm-0 text-center text-sm-left font-weight-regular">
                 Создавайте идеальный состав воды
               </h3>
             </div>
@@ -422,16 +406,16 @@
           class="section"
         >
           <div class="d-flex flex-column flex-sm-row">
-            <div class="w-sm-40 ml-auto align-self-center">
+            <div class="w-sm-40 ml-sm-auto align-self-center">
               <nuxt-link
                 :to="appRoutes.remineralization.path"
                 class="section__icon-link"
               >
-                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
+                <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-0 text-primary text-center text-sm-left">
                   Водоподготовка
                 </h2>
               </nuxt-link>
-              <h3 class="text-h6 mb-4 mb-sm-0 text-center text-sm-left font-weight-regular">
+              <h3 class="text-h6 mb-10 mb-sm-0 text-center text-sm-left font-weight-regular">
                 Для контроля жесткости воды
               </h3>
             </div>
@@ -441,18 +425,15 @@
                   class="background-video"
                   autoplay
                   loop
-                  controls
                   muted
+                  playsinline
+                  webkit-playsinline
                   width="100%"
                   height="auto"
-                  controlslist="nodownload nofullscreen noremoteplayback"
-                  disablepictureinpicture
-                  @contextmenu.prevent
                 >
                   <source src="/images/landing/schedule.mov" type="video/mp4">
                   Ваш браузер не поддерживает видео.
                 </video>
-                <div class="video-overlay" @click.prevent @contextmenu.prevent/>
               </div>
             </div>
           </div>
@@ -471,7 +452,7 @@
               <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
                 Связаться с нами
               </h2>
-              <div class="d-flex justify-space-between mt-auto pa-4 text-grey-darken-1 w-sm-50">
+              <div class="d-flex justify-space-between my-8 mt-sm-auto pa-4 text-grey-darken-1 w-sm-50">
                 <a href="https://t.me/samomes_calculator" target="_blank">
                   <Icon
                     name="mdi:telegram"
@@ -539,6 +520,12 @@ watch(isVKVisible, (value) => {
   }
 });
 
+const isYoutubeReady = ref<boolean>(false);
+
+function onYoutubeReady() {
+  isYoutubeReady.value = true;
+}
+
 defineOptions({
   name: 'Home',
 });
@@ -571,6 +558,10 @@ definePageMeta({
 .w-40
   width: 40%
 
+.w-sm-40
+  @media (min-width: $xs)
+    width: 40%
+
 p
   margin-bottom: 12px
 
@@ -598,7 +589,8 @@ p
   cursor: default
 
 // TODO: check this parallax
-.parallax-container
+.parallax
+  z-index: -1
   position: absolute
   left: 0
   right: 0
@@ -606,20 +598,35 @@ p
   height: 100vh
   overflow: hidden
 
-.parallax-content
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  height: 100vh
-  will-change: transform
-  transform-style: preserve-3d
-  backface-visibility: hidden
+  .parallax__content
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    height: 100vh
+    overflow: hidden
+    will-change: transform
+    transform-style: preserve-3d
+    backface-visibility: hidden
 
-.parallax-video
-  @media (max-width: $xs)
-    margin-left: -130%!important
-    width: 390%!important
+  .parallax__video
+    position: absolute!important
+    top: 50%
+    left: 50%
+    width: 577.78%!important
+    height: 100%!important
+    min-width: 100%
+    min-height: 100%
+    transform: translate(-50%, -50%)
+    pointer-events: none
+
+  .parallax__image
+    position: absolute!important
+    top: 50%
+    left: 50%
+    height: 100%!important
+    transform: translate(-50%, -50%)
+    pointer-events: none
 
 .main-section
   color: white
@@ -628,30 +635,30 @@ p
     flex-direction: column
   .main-section__content
     position: absolute
-    bottom: 150px
+    bottom: 100px
     left: 100px
     width: 60%
     @media (max-width: $xs)
       left: 24px
-      bottom: 100px
-      width: 100%
-  .main-section__title
-    font-size: 3rem !important
-    line-height: 2.5rem
-    letter-spacing: -0.0083333333em !important
-    font-family: "Roboto", sans-serif !important
-    font-weight: 300
-    margin-bottom: 8px
-    @media (min-width: $xs)
-      font-size: 7rem !important
-      line-height: 3.75rem
-  .main-section__subtitle
-    margin-left: 2rem
-    @media (max-width: $xs)
-      font-size: 0.9rem !important
-      margin-left: 1rem
-    font-size: 1.5rem !important
-    font-weight: 400
+      bottom: 24px
+      width: 90%
+    .main-section__title
+      font-size: 3rem !important
+      line-height: 2.5rem
+      letter-spacing: -0.0083333333em !important
+      font-family: "Roboto", sans-serif !important
+      font-weight: 300
+      margin-bottom: 8px
+      @media (min-width: $xs)
+        font-size: 7rem !important
+        line-height: 3.75rem
+    .main-section__subtitle
+      padding-left: 2rem
+      @media (max-width: $xs)
+        font-size: 0.9rem !important
+        padding-left: 1rem
+      font-size: 1.5rem !important
+      font-weight: 400
 
 .section
   min-height: 400px

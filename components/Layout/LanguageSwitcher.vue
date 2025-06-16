@@ -24,7 +24,7 @@
 
 <template>
   <v-btn
-    text
+    color="white"
     @click="toggleLocale"
   >
     {{ curLocale.name }}
