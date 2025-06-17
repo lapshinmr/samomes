@@ -84,10 +84,10 @@
       />
     </div>
     <div
-      class="d-flex justify-end text-blue cursor-pointer mt-4"
+      class="d-flex justify-end text-blue cursor-pointer text-body-1 mt-4"
       @click="isAddRatioPopup = true;"
     >
-      Нет нужного соотношения?
+      {{ t('common.noRatio') }}
     </div>
     <TheAddRatioPopup
       v-model="isAddRatioPopup"
@@ -101,6 +101,8 @@
 defineOptions({
   name: 'TheElementsRatios',
 });
+
+const { t } = useI18n();
 
 const props = withDefaults(defineProps<{
   concentration: IonsType;

@@ -69,7 +69,7 @@
         </tr>
         <tr class="font-weight-medium">
           <td class="pl-0 text-center">
-            {{ t('common.sum') }}
+            {{ t('common.total') }}
           </td>
           <template
             v-for="([ion, value], index) in concentrationSorted"

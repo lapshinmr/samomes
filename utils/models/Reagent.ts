@@ -24,6 +24,7 @@
 
 import MolecularFormula from '~/utils/models/MolecularFormula';
 import { getElementToIonRatio, getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
+import {FORMULAS_SKIP_LIST} from "~/utils/constants/formulas";
 
 export default class Reagent {
   readonly key: ReagentKeyType;
@@ -99,20 +100,22 @@ export default class Reagent {
     } else {
       // TODO: refactoring & check if value is from formula type
       const ions = new MolecularFormula(this.key).fraction;
-      if (ions['N']) {
-        ions['NO3'] = ions['N'] * getElementToOxideRatio('N');
-      }
-      if (ions['P']) {
-        ions['PO4'] = ions['P'] * getElementToOxideRatio('P');
-      }
-      if (ions['S']) {
-        ions['SO4'] = ions['S'] * getElementToOxideRatio('S');
-      }
-      if (ions['C'] && FORMULAS[this.key]?.HCO3) {
-        ions['CO3'] = ions['C'] * getElementToOxideRatio('C');
-      }
-      if (ions['C'] && FORMULAS[this.key]?.anion?.key === 'C6H11O7' ) {
-        ions['C6H11O7'] = ions['C'] * getElementToIonRatio('C12', 'C12H22O14');
+      if (!FORMULAS_SKIP_LIST.includes(this.key)) {
+        if (ions['N']) {
+          ions['NO3'] = ions['N'] * getElementToOxideRatio('N');
+        }
+        if (ions['P']) {
+          ions['PO4'] = ions['P'] * getElementToOxideRatio('P');
+        }
+        if (ions['S']) {
+          ions['SO4'] = ions['S'] * getElementToOxideRatio('S');
+        }
+        if (ions['C'] && FORMULAS[this.key]?.HCO3) {
+          ions['CO3'] = ions['C'] * getElementToOxideRatio('C');
+        }
+        if (ions['C'] && FORMULAS[this.key]?.anion?.key === 'C6H11O7' ) {
+          ions['C6H11O7'] = ions['C'] * getElementToIonRatio('C12', 'C12H22O14');
+        }
       }
       result = ions;
     }

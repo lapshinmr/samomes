@@ -76,7 +76,7 @@
             variant="underlined"
             multiple
             :label="t('common.reagents')"
-            hint="Начните набирать текст, чтобы отфильтровать список"
+            :hint="t('common.comboboxTypingHint')"
             persistent-hint
             chips
             closable-chips
@@ -88,7 +88,7 @@
             class="d-flex justify-end text-blue cursor-pointer"
             @click="isAddReagentPopup = true;"
           >
-            Нет нужного реагента?
+            {{ t('recipes.page.noReagent') }}
           </div>
           <Combobox
             v-model="recipeExampleChosen"
@@ -306,7 +306,7 @@
           </v-expand-transition>
           <div v-if="recipeModel.isReagents">
             <DividerWithNote class="mt-10 mb-4">
-              Концентрация элементов
+              {{ t('recipes.page.fertilizerConc') }}
             </DividerWithNote>
             <TheRecipeElementsTable
               :recipe="recipeModel"

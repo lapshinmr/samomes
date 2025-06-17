@@ -22,7 +22,7 @@
  * necessary for your intended use.
  */
 
-export class Remineralization {
+export class Hardness {
   doses: InstanceType<typeof Dose>[];
   tank: TankType;
 

@@ -60,7 +60,7 @@
           name="mdi-view-dashboard"
           size="24"
           class="mr-2"
-        /> Dashboard
+        /> {{ t('dashboard') }}
       </v-btn>
       <v-btn
         v-else
@@ -105,7 +105,7 @@ const isSnackbar = computed({
   set: () => snackbarStore.hide(),
 });
 
-// TODO: move to composables
+// TODO: move to composable
 onBeforeMount(() => {
   if (import.meta.client) {
     const schedulesStore = useSchedulesStore();

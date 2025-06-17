@@ -81,7 +81,7 @@
           variant="text"
           @click="model = false"
         >
-          Закрыть
+          {{ t('buttons.close') }}
         </v-btn>
         <v-spacer />
         <v-btn
@@ -89,7 +89,7 @@
           variant="text"
           @click="onSave"
         >
-          Сохранить
+          {{ t('buttons.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>

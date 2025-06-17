@@ -68,7 +68,7 @@
                 size="small"
                 @click="isCalculateVolumePopup = true;"
               >
-                Рассчитать
+                {{ t('buttons.calculate') }}
               </v-btn>
             </template>
             <template #message="{ message }">

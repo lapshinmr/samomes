@@ -25,8 +25,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import type { RemineralizationTypes } from '~/utils/types/types';
 
-export const useRemineralizationStore = defineStore(
-  'remineralization',
+export const useHardnessStore = defineStore(
+  'hardness',
   () => {
     const tank = ref<TankType>();
     const remineralizationType = ref(null);

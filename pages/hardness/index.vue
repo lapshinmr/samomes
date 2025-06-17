@@ -35,7 +35,7 @@
       >
         <client-only>
           <v-combobox
-            v-model.number="remineralizationStore.tank"
+            v-model.number="hardnessStore.tank"
             :items="tanks"
             item-title="name"
             variant="underlined"
@@ -48,7 +48,7 @@
             @update:model-value="onChooseTank"
           />
           <v-expand-transition>
-            <div v-if="remineralizationStore.tank?.volume">
+            <div v-if="hardnessStore.tank?.volume">
               <div class="mt-2 mt-sm-6">
                 Выберите тип подмены
               </div>
@@ -84,13 +84,13 @@
             </div>
           </v-expand-transition>
           <v-expand-transition>
-            <div v-if="remineralizationStore.tank?.volume && remineralizationType !== null">
+            <div v-if="hardnessStore.tank?.volume && remineralizationType !== null">
               <div class="text-subtitle-1">
                 Подмена
               </div>
               <div class="d-flex flex-column flex-sm-row align-sm-center">
                 <NumberField
-                  :model-value="remineralizationStore.tank.waterChangeVolume"
+                  :model-value="hardnessStore.tank.waterChangeVolume"
                   label="Объем"
                   hint="Введите объем подмены"
                   persistent-hint
@@ -98,10 +98,10 @@
                   class="pt-0 mt-0"
                   append-icon="mdi-arrow-up-bold-circle-outline"
                   @update:model-value="onInputWaterChangeVolume"
-                  @click:append="onInputWaterChangeVolume(remineralizationStore.tank.volume)"
+                  @click:append="onInputWaterChangeVolume(hardnessStore.tank.volume)"
                 />
                 <NumberField
-                  :model-value="remineralizationStore.tank.waterChangePercent"
+                  :model-value="hardnessStore.tank.waterChangePercent"
                   label="Процент"
                   hint="или процент подмены от общего объема"
                   persistent-hint
@@ -113,11 +113,11 @@
                 />
                 <NumberField
                   v-if="[RemineralizationTypes.TAP, RemineralizationTypes.MIX].includes(remineralizationType)"
-                  :model-value="remineralizationStore.osmosisChangePercent"
+                  :model-value="hardnessStore.osmosisChangePercent"
                   label="Процент"
                   :hint="`
-                    Осмос: ${remineralizationStore.osmosisChangeVolume.toFixed(1)} л.
-                    Водопровод: ${(remineralizationStore.tank.waterChangeVolume - remineralizationStore.osmosisChangeVolume).toFixed(1)} л.
+                    Осмос: ${hardnessStore.osmosisChangeVolume.toFixed(1)} л.
+                    Водопровод: ${(hardnessStore.tank.waterChangeVolume - hardnessStore.osmosisChangeVolume).toFixed(1)} л.
                   `"
                   persistent-hint
                   class="mt-0 pt-0 ml-sm-3"
@@ -181,14 +181,14 @@
           <v-expand-transition>
             <div
               v-if="
-                remineralizationStore.tank?.volume
+                hardnessStore.tank?.volume
                   && [RemineralizationTypes.REM, RemineralizationTypes.MIX].includes(remineralizationType)
               "
               class="mt-8"
             >
               <div class="d-flex flex-column flex-sm-row align-md-center mb-8">
                 <Combobox
-                  :model-value="remineralizationStore.doseModels"
+                  :model-value="hardnessStore.doseModels"
                   :items="allFertilizers"
                   variant="underlined"
                   :label="t('dosing.fertilizersInputLabel')"
@@ -211,7 +211,7 @@
             </div>
           </v-expand-transition>
           <div
-            v-for="(dose, index) in remineralizationStore.doseModels"
+            v-for="(dose, index) in hardnessStore.doseModels"
             :key="`dose_${index}`"
           >
             <NumberField
@@ -220,12 +220,12 @@
               :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
               hide-details="auto"
               class="mb-2"
-              @update:model-value="remineralizationStore.updateAmountDay($event, index)"
+              @update:model-value="hardnessStore.updateAmountDay($event, index)"
             />
           </div>
           <v-expand-transition>
             <div
-              v-if="remineralizationStore.tank?.volume && remineralizationType !== null"
+              v-if="hardnessStore.tank?.volume && remineralizationType !== null"
               class="mt-8"
             >
               <div class="text-subtitle-1 mb-2">
@@ -234,8 +234,8 @@
               <div>
                 <div class="d-flex">
                   <v-text-field
-                    :model-value="format(remineralizationModel.countWaterChangeGh(
-                      ghWaterChange, remineralizationStore.osmosisChangePercent))"
+                    :model-value="format(hardnessModel.countWaterChangeGh(
+                      ghWaterChange, hardnessStore.osmosisChangePercent))"
                     label="Gh в подмене"
                     suffix="Gh"
                     hide-details="auto"
@@ -247,8 +247,8 @@
                   />
                   <v-text-field
                     v-if="isTests"
-                    :model-value="format(remineralizationModel.countTotalGh(
-                      ghInit, ghWaterChange, remineralizationStore.osmosisChangePercent))"
+                    :model-value="format(hardnessModel.countTotalGh(
+                      ghInit, ghWaterChange, hardnessStore.osmosisChangePercent))"
                     label="Gh в аквариуме"
                     suffix="Gh"
                     hide-details="auto"
@@ -261,8 +261,8 @@
                 </div>
                 <div class="d-flex">
                   <v-text-field
-                    :model-value="format(remineralizationModel.countWaterChangeKh(
-                      khWaterChange, remineralizationStore.osmosisChangePercent))"
+                    :model-value="format(hardnessModel.countWaterChangeKh(
+                      khWaterChange, hardnessStore.osmosisChangePercent))"
                     label="Kh в подмене"
                     suffix="Kh"
                     hide-details="auto"
@@ -273,8 +273,8 @@
                   />
                   <v-text-field
                     v-if="isTests"
-                    :model-value="format(remineralizationModel.countTotalKh(
-                      khInit, khWaterChange, remineralizationStore.osmosisChangePercent))"
+                    :model-value="format(hardnessModel.countTotalKh(
+                      khInit, khWaterChange, hardnessStore.osmosisChangePercent))"
                     label="Kh в аквариуме"
                     suffix="Kh"
                     hide-details="auto"
@@ -305,7 +305,7 @@ const { t } = useI18n();
 
 const { required } = useValidation();
 const { smAndUp } = useDisplay();
-const remineralizationStore = useRemineralizationStore();
+const hardnessStore = useHardnessStore();
 const tanksStore = useTanksStore();
 const { fertilizerRecipes } = useRecipesStore();
 const { fertilizers } = useFertilizersStore();
@@ -321,19 +321,19 @@ const khWaterChange = ref(0);
 
 const rulesCalculation = (v) => (!Number.isNaN(+v) && +v !== Infinity) || 'Проверьте вводимые параметры';
 
-const remineralizationModel = computed(() => {
-  return new Remineralization(
-    remineralizationStore.doseModels,
-    remineralizationStore.tank,
+const hardnessModel = computed(() => {
+  return new Hardness(
+    hardnessStore.doseModels,
+    hardnessStore.tank,
   );
 });
 
 const isDefaultFertilizers = computed({
   get() {
-    return remineralizationStore.isDefaultFertilizers;
+    return hardnessStore.isDefaultFertilizers;
   },
   set(value) {
-    remineralizationStore.setDefaultFertilizers(value);
+    hardnessStore.setDefaultFertilizers(value);
     snackbarStore.show(
       value
         ? 'Фирменные удобрения добавлены в список'
@@ -379,11 +379,11 @@ const allFertilizers = computed(() => {
 
 const remineralizationType = computed({
   get() {
-    return remineralizationStore.remineralizationType;
+    return hardnessStore.remineralizationType;
   },
   set(value) {
-    remineralizationStore.setRemineralizationType(value);
-    remineralizationStore.setDoses([]);
+    hardnessStore.setRemineralizationType(value);
+    hardnessStore.setDoses([]);
     ghInit.value = 0;
     khInit.value = 0;
     ghWaterChange.value = 0;
@@ -393,17 +393,17 @@ const remineralizationType = computed({
 
 const isTests = computed({
   get() {
-    return remineralizationStore.isTests;
+    return hardnessStore.isTests;
   },
   set(value) {
-    remineralizationStore.setIsTests(value);
+    hardnessStore.setIsTests(value);
   },
 });
 
 // TODO: move to composables
 function onChooseTank(value: number | string | TankType) {
   if (typeof value === 'number') {
-    remineralizationStore.setTank({
+    hardnessStore.setTank({
       name: value.toString(),
       volume: value,
     });
@@ -411,7 +411,7 @@ function onChooseTank(value: number | string | TankType) {
   } else if (typeof value === 'string' || value === null) {
     return;
   }
-  remineralizationStore.setTank({
+  hardnessStore.setTank({
     name: value.name,
     volume: value.volumeTotal,
     waterChangeVolume: value.waterChangeVolume || 0,
@@ -419,14 +419,14 @@ function onChooseTank(value: number | string | TankType) {
 }
 
 function onInputFertilizer(value: InstanceType<typeof Dose>[]) {
-  if (value.length > remineralizationStore.doseModels.length) {
+  if (value.length > hardnessStore.doseModels.length) {
     const lastReagent = [...value].pop();
     // Skip if search value is a string
     if (typeof lastReagent === 'string') {
       return;
     }
   }
-  remineralizationStore.setDoses(value);
+  hardnessStore.setDoses(value);
 }
 
 function onInputWaterChangePercent(value: number) {
@@ -434,8 +434,8 @@ function onInputWaterChangePercent(value: number) {
     return;
   }
   if (value <= 100) {
-    remineralizationStore.setWaterChangePercent(value);
-    remineralizationStore.setWaterChangeVolume(format(remineralizationStore.tank.volume * value / 100, 3));
+    hardnessStore.setWaterChangePercent(value);
+    hardnessStore.setWaterChangeVolume(format(hardnessStore.tank.volume * value / 100, 3));
   }
 }
 
@@ -443,9 +443,9 @@ function onInputWaterChangeVolume(value: number) {
   if (value < 0) {
     return;
   }
-  if (value <= remineralizationStore.tank.volume) {
-    remineralizationStore.setWaterChangeVolume(value);
-    remineralizationStore.setWaterChangePercent(format(value / remineralizationStore.tank.volume * 100, 3));
+  if (value <= hardnessStore.tank.volume) {
+    hardnessStore.setWaterChangeVolume(value);
+    hardnessStore.setWaterChangePercent(format(value / hardnessStore.tank.volume * 100, 3));
   }
 }
 
@@ -454,12 +454,12 @@ function inputOsmosisChange(value: number) {
     return;
   }
   if (value <= 100) {
-    remineralizationStore.setOsmosisChangePercent(+value);
+    hardnessStore.setOsmosisChangePercent(+value);
   }
 }
 
 defineOptions({
-  name: 'Remineralization',
+  name: 'HardnessPage',
 });
 
 definePageMeta({

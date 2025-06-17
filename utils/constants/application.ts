@@ -47,8 +47,8 @@ export const ROUTES = {
     key: 'schedules',
     icon: 'game-icons:toggles',
   },
-  remineralization: {
-    key: 'remineralization',
+  hardness: {
+    key: 'hardness',
     icon: 'game-icons:full-metal-bucket-handle',
   },
   articles: {

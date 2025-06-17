@@ -29,7 +29,7 @@
   >
     <v-card>
       <v-card-title>
-        Новый реагент
+        {{ t('recipes.page.reagentPopup.title') }}
       </v-card-title>
       <v-card-text>
         <v-tabs
@@ -37,8 +37,8 @@
           align-tabs="center"
           color="deep-purple-accent-4"
         >
-          <v-tab :value="ReagentTypeName.FORMULA">Формула</v-tab>
-          <v-tab :value="ReagentTypeName.COMPOUND">Готовый состав</v-tab>
+          <v-tab :value="ReagentTypeName.FORMULA">{{ t('common.formula') }}</v-tab>
+          <v-tab :value="ReagentTypeName.COMPOUND">{{ t('common.compound') }}</v-tab>
         </v-tabs>
 
         <v-tabs-window v-model="tab">
@@ -46,7 +46,7 @@
             <v-form ref="reagentFormulaFormRef">
               <v-text-field
                 v-model="formula"
-                label="Введите формулу *"
+                :label="t('recipes.page.reagentPopup.formulaInput')"
                 variant="underlined"
                 :error="isFormulaError"
                 :error-messages="getFormulaErrorMessage(isFormulaError)"
@@ -73,26 +73,28 @@
                 :rules="[required]"
               >
                 <v-radio
-                  label="Порошок"
+                  :label="t('common.dry')"
                   :value="false"
                 />
                 <v-radio
-                  label="Жидкость"
+                  :label="t('common.liquid')"
                   :value="true"
+                  class="ml-2"
                 />
               </v-radio-group>
               <v-expand-transition>
                 <NumberField
                   v-if="isLiquid"
                   v-model="density"
-                  label="Введите плотность"
-                  hint="Например, плотность воды равна 1 г/см3"
+                  :suffix="t('recipes.page.reagentPopup.densityUnit')"
+                  :label="t('recipes.page.reagentPopup.densityInput')"
+                  :hint="t('recipes.page.reagentPopup.densityHint')"
                   :rules="[required]"
                 />
               </v-expand-transition>
               <v-text-field
                 v-model="name"
-                label="Введите название *"
+                :label="t('recipes.page.reagentPopup.reagentName')"
                 variant="underlined"
                 :rules="[required, isNameExist]"
               />
@@ -110,8 +112,8 @@
                 <NumberField
                   v-if="!isLiquid"
                   v-model="solubility"
-                  label="Введите значение растворимости"
-                  hint="Обычно растворимость берется для 25°С в литре воды"
+                  :label="t('recipes.page.reagentPopup.reagentSolubilityInput')"
+                  :hint="t('recipes.page.reagentPopup.reagentSolubilityHint')"
                 />
               </v-expand-transition>
               <!--                    <v-select-->
@@ -126,7 +128,7 @@
             <v-form ref="reagentCompoundFormRef">
               <v-text-field
                 v-model="name"
-                label="Введите название"
+                :label="t('recipes.page.reagentPopup.reagentName')"
                 variant="underlined"
                 :rules="[required, isNameExist]"
               />
@@ -134,17 +136,18 @@
                 v-model="isLiquid"
                 inline
                 color="primary"
-                class="mt-3 ml-n2"
+                class="ml-n2"
                 hide-details="auto"
                 :rules="[required]"
               >
                 <v-radio
-                  label="Порошок"
+                  :label="t('common.dry')"
                   :value="false"
                 />
                 <v-radio
-                  label="Жидкость"
+                  :label="t('common.liquid')"
                   :value="true"
+                  class="ml-2"
                 />
               </v-radio-group>
               <v-combobox
@@ -186,7 +189,7 @@
           variant="text"
           @click="model = false"
         >
-          Закрыть
+          {{ t('buttons.close') }}
         </v-btn>
         <v-spacer />
         <v-btn
@@ -194,7 +197,7 @@
           variant="text"
           @click="onAddReagent"
         >
-          Сохранить
+          {{ t('buttons.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>

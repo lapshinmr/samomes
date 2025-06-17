@@ -416,3 +416,18 @@ export const FORMULAS = {
     name: 'Этилендиаминтетрауксусная кислота (EDTA)',
   },
 } satisfies Record<string, FormulaObjectType>;
+
+export const FORMULAS_SKIP_LIST = [
+  'C10H12N2Na2O8Ca(H2O)2',
+  'C10H12N2Na2O8Mg(H2O)2',
+  'C10H12N2Na2O8Mn(H2O)2',
+  'C10H12N2Na2O8Zn(H2O)2',
+  'C10H12N2Na2O8Cu(H2O)2',
+  'C10H12N2NaO8Fe(H20)3',
+  'C14H18N3O10Na2Fe',
+  TrilonB,
+  EDTA,
+  'C63H88CoN14O14P',
+  'C4H7NO4',
+  'C5H9NO4',
+] satisfies string[];
