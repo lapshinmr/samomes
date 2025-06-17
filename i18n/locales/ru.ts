@@ -28,7 +28,7 @@ export default {
     close: 'Закрыть',
   },
   home: 'Samomes',
-  dashboard: 'Дашборд',
+  dashboard: 'Панель управления',
   common: {
     volume: 'Объем',
     or: 'или',
@@ -112,7 +112,7 @@ export default {
       title: 'Все что нужно для идеального аквариума',
       subtitle: 'Все инструменты работают в связке — создавая комплексное решение для ухода за растительным аквариумом',
       dosingSubtitle: 'Точные расчеты дозировок',
-      scheduleSubtitle: 'График внесения удобрений',
+      schedulesSubtitle: 'График внесения удобрений',
       fertilizersSubtitle: 'База из 100+ фирменных препаратов',
       recipesSubtitle: 'Проверенные формулы',
       remineralsSubtitle: 'Подготовка осмоса',
@@ -121,7 +121,7 @@ export default {
     dosingSection: {
       subtitle: 'Подбирайте дозировки за минуту',
     },
-    scheduleSection: {
+    schedulesSection: {
       subtitle: 'Составьте график, чтобы не забыть внести удобрения',
     },
     fertilizersSection: {
@@ -236,6 +236,7 @@ export default {
       nameHint: 'Название рецепта должно быть уникальным',
       description: 'Описание',
       descriptionHint: 'Вы можете добавить дополнительные сведения к рецепту',
+      calculateReagentMass: 'Рассчитать массы реагентов',
       message: {
         recipeAdded: 'Рецепт добавлен',
         recipeEdited: 'Рецепт изменен',
@@ -391,12 +392,12 @@ export default {
   },
   meta: {
     tanks: {
-      title: 'Tank List',
-      description: 'On this page you can manage your list of aquariums, calculate their volumes by ' +
-        'linear dimensions, and also account for the volume of filter and water in substrate. By adding ' +
-        'an aquarium, you will get access to its parameters in all sections of the calculator, which simplifies ' +
-        'working with the service and saves your time.',
-      keywords: 'aquariums, volume calculation, filter, substrate, aquarium management',
+      title: 'Список аквариумов',
+      description: 'На этой странице вы можете управлять списком ваших аквариумов, рассчитывать '
+        + 'их объемы по линейным размерам, а также учитывать объем фильтра и воды в грунте. '
+        + 'Добавив аквариум, вы получите доступ к его параметрам во всех разделах калькулятора, '
+        + 'что упрощает работу с сервисом и экономит ваше время.',
+      keywords: 'аквариумы, расчет объема, фильтр, грунт, управление аквариумами',
     },
   },
 };

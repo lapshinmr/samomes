@@ -49,7 +49,7 @@
         </div>
       </v-app-bar-title>
 
-      <LanguageSwitcher />
+      <!--      <LanguageSwitcher />-->
 
       <v-btn
         v-if="smAndUp"

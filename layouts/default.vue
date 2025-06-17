@@ -51,7 +51,7 @@
             </a>
           </div>
         </v-app-bar-title>
-        <LanguageSwitcher />
+        <!--        <LanguageSwitcher />-->
       </v-app-bar>
 
       <Drawer />

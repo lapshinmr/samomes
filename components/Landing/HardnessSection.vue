@@ -15,7 +15,7 @@
           </h2>
         </nuxt-link>
         <h3 class="text-h6 mb-10 mb-sm-10 text-center text-sm-left font-weight-regular">
-          {{ t('landing.scheduleSection.subtitle') }}
+          {{ t('landing.schedulesSection.subtitle') }}
         </h3>
         <v-btn
           color="primary"

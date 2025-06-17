@@ -249,7 +249,7 @@
               />
             </v-radio-group>
             <NumberField
-              :model-value="reagentKNO3.unitConcs['NO3']"
+              :model-value="unitConcs['NO3']"
               label="Дозировка"
               suffix="мг/л"
               variant="outlined"
@@ -284,8 +284,8 @@
           нитрата калия (KNO<sub>3</sub>) на {{ reagentH2O.amount }} мл.
           <br><br>
           1 мл данного удобрения повышает уровень нитрата на
-          {{ reagentKNO3.unitConcs['NO3'] ? format(reagentKNO3.unitConcs['NO3']) : '-' }} мг/л и калия на
-          {{ reagentKNO3.unitConcs['K'] ? format(reagentKNO3.unitConcs['K']) : '-' }} мг/л в аквариуме объемом
+          {{ unitConcs['NO3'] ? format(unitConcs['NO3']) : '-' }} мг/л и калия на
+          {{ unitConcs['K'] ? format(unitConcs['K']) : '-' }} мг/л в аквариуме объемом
           {{ recipeModel.tankVolume }} л
         </v-alert>
 
@@ -448,6 +448,7 @@ const reagents = getReagents(INITIAL_REAGENT_AMOUNT);
 const OTHER_DOSE = 'другая';
 const doseExamples: (number | string)[] = [0.25, 0.5, 1.00, OTHER_DOSE];
 const toggleDose = ref<number>(0.5);
+const unitConcs = ref<Partial<Record<IonType, number>>>({});
 
 const recipeModel = reactive(new FertilizerRecipe(
   {
@@ -466,6 +467,8 @@ const reagentKNO3 = recipeModel.reagents[1];
 reagentH2O.amount = 500;
 reagentKNO3.amount = 500;
 
+unitConcs.value = recipeModel.countReagentUnitConcsByAmount(reagentKNO3);
+
 // TODO: move to the composables
 const checkSolubilityError = (reagent: ReagentType) => {
   return recipeModel.isLiquid && (reagent.amount / recipeModel.totalVolume) * 1000 > reagent.solubility;
@@ -478,30 +481,30 @@ const getSolubilityErrorMessage = (reagent: ReagentType) => {
 };
 
 watch(() => reagentKNO3.amount, () => {
-  recipeModel.updateRecipeUnitConcsByAmounts();
+  unitConcs.value = recipeModel.countReagentUnitConcsByAmount(reagentKNO3);
 });
 
 watch(toggleDose, (value) => {
   if (typeof toggleDose.value === 'string') {
     return;
   }
-  recipeModel.updateReagentAmountsByUnitConcs(value, reagentKNO3, 'NO3');
+  reagentKNO3.amount = format(recipeModel.countReagentAmountByUnitConc(value, reagentKNO3, 'NO3'));
 }, { immediate: true });
 
 function onInputTankVolume() {
-  recipeModel.updateReagentAmountsByUnitConcs(reagentKNO3.unitConcs['NO3'], reagentKNO3, 'NO3');
+  reagentKNO3.amount = format(recipeModel.countReagentAmountByUnitConc(unitConcs.value['NO3'], reagentKNO3, 'NO3'));
 }
 
 function onInputWaterVolume() {
-  recipeModel.updateReagentAmountsByUnitConcs(reagentKNO3.unitConcs['NO3'], reagentKNO3, 'NO3');
+  reagentKNO3.amount = format(recipeModel.countReagentAmountByUnitConc(unitConcs.value['NO3'], reagentKNO3, 'NO3'));
 }
 
 function onInputReagentAmount() {
-  recipeModel.updateReagentAmountsByUnitConcs(reagentKNO3.unitConcs['NO3'], reagentKNO3, 'NO3');
+  reagentKNO3.amount = format(recipeModel.countReagentAmountByUnitConc(unitConcs.value['NO3'], reagentKNO3, 'NO3'));
 }
 
 function onInputNO3UnitConc(value: number) {
-  recipeModel.updateReagentAmountsByUnitConcs(value, reagentKNO3, 'NO3');
+  reagentKNO3.amount = format(recipeModel.countReagentAmountByUnitConc(value, reagentKNO3, 'NO3'));
 }
 
 defineOptions({

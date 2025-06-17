@@ -191,7 +191,7 @@
               />
             </v-radio-group>
             <NumberField
-              :model-value="reagentKH2PO4.unitConcs['PO4']"
+              :model-value="unitConcs['PO4']"
               label="Дозировка"
               suffix="мг/л"
               variant="outlined"
@@ -226,8 +226,8 @@
           {{ reagentKH2PO4.amount ? format(reagentKH2PO4.amount) : '-' }}
           г монофосфата калия (KH<sub>2</sub>PO<sub>4</sub>) на {{ reagentH2O.amount }} мл.<br><br>
           1 мл данного удобрения повышает уровень фосфата на
-          {{ reagentKH2PO4.unitConcs['PO4'] ? format(reagentKH2PO4.unitConcs['PO4']) : '-' }} мг/л и калия на
-          {{ reagentKH2PO4.unitConcs['K'] ? format(reagentKH2PO4.unitConcs['K']) : '-' }} мг/л в аквариуме объемом
+          {{ unitConcs['PO4'] ? format(unitConcs['PO4']) : '-' }} мг/л и калия на
+          {{ unitConcs['K'] ? format(unitConcs['K']) : '-' }} мг/л в аквариуме объемом
           {{ recipeModel.tankVolume }} л
         </v-alert>
 
@@ -272,6 +272,7 @@ const reagents = getReagents(INITIAL_REAGENT_AMOUNT);
 const OTHER_DOSE = 'другая';
 const doseExamples: (number | string)[] = [0.025, 0.05, 0.1, OTHER_DOSE];
 const toggleDose = ref<number>(0.05);
+const unitConcs = ref<Partial<Record<IonType, number>>>({});
 
 const recipeModel = reactive(new FertilizerRecipe(
   {
@@ -290,6 +291,8 @@ const reagentKH2PO4 = recipeModel.reagents[1];
 reagentH2O.amount = 500;
 reagentKH2PO4.amount = 500;
 
+unitConcs.value = recipeModel.countReagentUnitConcsByAmount(reagentKH2PO4);
+
 // TODO: move to the composables
 const checkSolubilityError = (reagent: ReagentType) => {
   return recipeModel.isLiquid && (reagent.amount / recipeModel.totalVolume) * 1000 > reagent.solubility;
@@ -302,30 +305,30 @@ const getSolubilityErrorMessage = (reagent: ReagentType) => {
 };
 
 watch(() => reagentKH2PO4.amount, () => {
-  recipeModel.updateRecipeUnitConcsByAmounts();
+  unitConcs.value = recipeModel.countReagentUnitConcsByAmount(reagentKH2PO4);
 });
 
 watch(toggleDose, (value) => {
   if (typeof toggleDose.value === 'string') {
     return;
   }
-  recipeModel.updateReagentAmountsByUnitConcs(value, reagentKH2PO4, 'PO4');
+  reagentKH2PO4.amount = format(recipeModel.countReagentAmountByUnitConc(value, reagentKH2PO4, 'PO4'));
 }, { immediate: true });
 
 function onInputTankVolume() {
-  recipeModel.updateReagentAmountsByUnitConcs(reagentKH2PO4.unitConcs['PO4'], reagentKH2PO4, 'PO4');
+  reagentKH2PO4.amount = format(recipeModel.countReagentAmountByUnitConc(unitConcs.value['PO4'], reagentKH2PO4, 'PO4'));
 }
 
 function onInputWaterVolume() {
-  recipeModel.updateReagentAmountsByUnitConcs(reagentKH2PO4.unitConcs['PO4'], reagentKH2PO4, 'PO4');
+  reagentKH2PO4.amount = format(recipeModel.countReagentAmountByUnitConc(unitConcs.value['PO4'], reagentKH2PO4, 'PO4'));
 }
 
 function onInputReagentAmount() {
-  recipeModel.updateReagentAmountsByUnitConcs(reagentKH2PO4.unitConcs['PO4'], reagentKH2PO4, 'PO4');
+  reagentKH2PO4.amount = format(recipeModel.countReagentAmountByUnitConc(unitConcs.value['PO4'], reagentKH2PO4, 'PO4'));
 }
 
 function onInputPO4UnitConc(value: number) {
-  recipeModel.updateReagentAmountsByUnitConcs(value, reagentKH2PO4, 'PO4');
+  reagentKH2PO4.amount = format(recipeModel.countReagentAmountByUnitConc(value, reagentKH2PO4, 'PO4'));
 }
 
 defineOptions({

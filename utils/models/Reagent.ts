@@ -24,7 +24,6 @@
 
 import MolecularFormula from '~/utils/models/MolecularFormula';
 import { getElementToIonRatio, getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
-import {FORMULAS_SKIP_LIST} from "~/utils/constants/formulas";
 
 export default class Reagent {
   readonly key: ReagentKeyType;
@@ -34,7 +33,6 @@ export default class Reagent {
   readonly HCO3: number;
   readonly density?: number;
   amount: number;
-  unitConcs?: Partial<Record<IonType, number>>;
   solubility?: number;
   // TODO: add property decorator to set limits [1, 100]
   dilution?: number;
@@ -45,7 +43,6 @@ export default class Reagent {
     this.name = args.name;
     this.amount = args.amount;
     this.type = args.type;
-    this.unitConcs = args.unitConcs ?? {};
     this.solubility = args.solubility;
     this.isLiquid = args.isLiquid ?? false;
     this.density = args.density;
@@ -57,8 +54,6 @@ export default class Reagent {
     }
     this.HCO3 = args.HCO3;
     this.ions = args.ions;
-
-    this.initDoses();
   }
 
   get isFormula() {
@@ -155,18 +150,11 @@ export default class Reagent {
     return output.join(' ');
   }
 
-  initDoses() {
-    Object.keys(this.ions).forEach((ion) => {
-      this.unitConcs[ion] = 0;
-    });
-  }
-
   toJson(): ReagentType {
     return {
       key: this.key,
       name: this.name,
       amount: this.amount,
-      unitConcs: this.unitConcs,
       solubility: this.solubility,
       dilution: this.dilution,
       isLiquid: this.isLiquid,

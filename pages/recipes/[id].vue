@@ -156,7 +156,7 @@
                       size="small"
                       @click="isAddTrilonBPopup = true;"
                     >
-                      Рассчитать
+                      {{ t('buttons.calculate') }}
                     </v-btn>
                   </template>
                   <template
@@ -168,7 +168,7 @@
                       size="small"
                       @click="isAddEDTAPopup = true;"
                     >
-                      Рассчитать
+                      {{ t('buttons.calculate') }}
                     </v-btn>
                   </template>
                 </NumberField>
@@ -186,6 +186,18 @@
                   />
                 </div>
               </div>
+              <div
+                v-if="recipeModel.isLiquid"
+                class="d-flex justify-end mt-4"
+              >
+                <v-btn
+                  color="primary"
+                  size="small"
+                  @click="isUnitConcPopup = true;"
+                >
+                  {{ t('recipes.page.calculateReagentMass') }}
+                </v-btn>
+              </div>
               <v-expand-transition>
                 <div
                   v-if="recipeModel.isSeveralLiquidReagents"
@@ -201,105 +213,6 @@
                     class="mt-4"
                     @update:model-value="onInputTotalVolume"
                   />
-                </div>
-              </v-expand-transition>
-            </div>
-          </v-expand-transition>
-          <div v-if="recipeModel.isLiquid">
-            <DividerWithNote
-              v-model="isUnitConc"
-              button
-              class="mt-10 mb-4"
-            >
-              <div class="d-inline-flex align-center">
-                <span>
-                  {{ t('recipes.page.unitConcTitle') }}
-                </span>
-                <v-tooltip
-                  location="bottom"
-                  max-width="400"
-                  open-on-click
-                  open-on-hover
-                >
-                  <template #activator="{ props }">
-                    <Icon
-                      name="mdi-help-circle-outline"
-                      size="18"
-                      class="ml-1"
-                      v-bind="props"
-                    />
-                  </template>
-                  {{ t('recipes.page.unitConcDescription') }}
-                </v-tooltip>
-              </div>
-            </DividerWithNote>
-          </div>
-          <v-expand-transition>
-            <div v-if="isUnitConc && recipeModel.isLiquid">
-              <v-combobox
-                v-model.number="tankChosen"
-                :items="tanks"
-                item-title="name"
-                variant="underlined"
-                :label="t('recipes.page.tankInputLabel')"
-                persistent-hint
-                hide-selected
-                :suffix="t('units.l')"
-                @update:model-value="onTankInput"
-              />
-              <v-expand-transition>
-                <div v-if="recipeModel.tankVolume">
-                  <v-row
-                    v-for="reagent in recipeModel.reagents.filter((item) => item.key !== H2O)"
-                    :key="reagent.key"
-                    class="mb-3"
-                  >
-                    <v-col
-                      cols="12"
-                      class="font-weight-regular pb-1"
-                    >
-                      {{ reagent.text }}
-                    </v-col>
-                    <template
-                      v-for="(_, ion) in reagent.ions"
-                      :key="reagent.key + ion"
-                    >
-                      <v-col
-                        :cols="reagent.ionsTotal >= 2 ? '6' : ''"
-                        :sm="reagent.ionsTotal > 3 ? '4' : ''"
-                        class="py-0"
-                      >
-                        <!-- TODO: v-model or model-value ? -->
-                        <NumberField
-                          v-model.number="reagent.unitConcs[ion]"
-                          :label="ion"
-                          :suffix="t('units.mg/l / ml')"
-                          hide-details="auto"
-                          @update:model-value="inputIonUnitConc($event, reagent, ion)"
-                        />
-                      </v-col>
-                    </template>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12">
-                      <div class="font-weight-medium mb-2">
-                        {{ t('common.total') }}, {{ t('units.mg/l / ml') }}:
-                      </div>
-                      <div class="d-flex flex-wrap">
-                        <div
-                          v-for="[ion, value] in recipeModel.recipeIonUnitConcsSorted"
-                          :key="ion"
-                          class="d-flex justify-space-between mr-2"
-                        >
-                          <div class="font-weight-medium mr-1">{{ ion }}:</div>
-                          <div class="ml-2">
-                            {{ format(value) }}
-                            ({{ format(value / recipeModel.totalRecipeUnitConcs * 100) }}%)
-                          </div>
-                        </div>
-                      </div>
-                    </v-col>
-                  </v-row>
                 </div>
               </v-expand-transition>
             </div>
@@ -372,6 +285,12 @@
       :recipe="recipeModel"
       @save="onSetEDTAAmount"
     />
+
+    <TheUnitConcPopup
+      v-model="isUnitConcPopup"
+      :recipe="recipeModel"
+      @save="onSetRecipeReagentAmounts"
+    />
   </v-container>
 </template>
 
@@ -387,13 +306,10 @@ const route = useRoute();
 const snackbarStore = useSnackbarStore();
 const reagentsStore = useReagentsStore();
 const recipesStore = useRecipesStore();
-const tanksStore = useTanksStore();
 
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;
 let reagents = getReagents(INITIAL_REAGENT_AMOUNT);
-
-const tankChosen = ref<TankType>();
 
 // MODEL
 const recipeFormRef = ref(null);
@@ -434,13 +350,6 @@ function fillModel(recipe: FertilizerRecipeType | FertilizerRecipeExampleType) {
   recipeModel.name = recipe.name;
   recipeModel.description = recipe.description;
   recipeModel.tankVolume = recipe.tankVolume;
-  if (recipe.tankVolume) {
-    tankChosen.value = {
-      name: recipe.tankVolume.toString(),
-      volume: recipe.tankVolume,
-    };
-  }
-  recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
 const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
@@ -462,12 +371,10 @@ const onInputRecipeExample = (recipe: FertilizerRecipeExampleType) => {
 function onInputReagentAmount(value: number, reagent: InstanceType<typeof Reagent>) {
   reagent.amount = value;
   recipeModel.setReagentAmount(value, reagent.key);
-  recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
 function onInputReagentDilution(value: number, reagent: InstanceType<typeof Reagent>) {
   reagent.dilution = value;
-  recipeModel.updateRecipeUnitConcsByAmounts();
 }
 
 function onInputTotalVolume(value: number) {
@@ -475,31 +382,11 @@ function onInputTotalVolume(value: number) {
   recipeModel.setReagentAmount(waterVolume, 'H2O');
 }
 
-function onTankInput(value: number | TankType) {
-  if (typeof value === 'number') {
-    tankChosen.value = {
-      name: value.toString(),
-      volume: value,
-    };
-    recipeModel.tankVolume = +value;
-  } else {
-    tankChosen.value = value;
-    recipeModel.tankVolume = value.volumeTotal;
-  }
-  recipeModel.updateRecipeUnitConcsByAmounts();
-}
-
-function inputIonUnitConc(value: number, reagent: InstanceType<typeof Reagent>, ion: string) {
-  recipeModel.updateReagentAmountsByUnitConcs(value, reagent, ion);
-}
-
 // PAGE MANIPULATION
 const { checkName } = useNameExist();
 
 const isReagentsInfo = ref<boolean>(false);
-const isUnitConc = ref<boolean>(false);
 
-const tanks = tanksStore.tankModels.map((item) => item.toJson());
 const recipes = recipesStore.fertilizerRecipeModels;
 
 const isCreate = computed(() => route.params.id === 'create');
@@ -511,6 +398,7 @@ const recipeIndex = computed(() => +route.params.id);
 const isAddReagentPopup = ref(false);
 const isAddTrilonBPopup = ref(false);
 const isAddEDTAPopup = ref(false);
+const isUnitConcPopup = ref(false);
 
 // Validation
 const isExist = computed(() => {
@@ -605,14 +493,13 @@ async function onCopyRecipe() {
   await router.push(`${appRoutes.value.recipes.path}create/?copy=${recipeIndex.value}`);
 }
 
-async function onSetTrilonBAmount(value: number) {
+function onSetTrilonBAmount(value: number) {
   recipeModel.setReagentAmount(value, TrilonB);
 }
 
-async function onSetEDTAAmount(EDTAAmount: number, alkaliAmount: number, alkaliName: string) {
+function onSetEDTAAmount(EDTAAmount: number, alkaliAmount: number, alkaliName: string) {
   recipeModel.setReagentAmount(EDTAAmount, EDTA);
   let alkaliReagent = recipeModel.reagents.find((reagent) => reagent.key === alkaliName);
-  console.log(alkaliReagent);
   if (!alkaliReagent) {
     alkaliReagent = reagents.find((reagent) => reagent.key === alkaliName);
     alkaliReagent.amount = alkaliAmount;
@@ -620,6 +507,16 @@ async function onSetEDTAAmount(EDTAAmount: number, alkaliAmount: number, alkaliN
   } else {
     alkaliReagent.amount = alkaliAmount;
   }
+}
+
+function onSetRecipeReagentAmounts(recipeReagentAmounts: Partial<Record<ReagentKeyType, number>>) {
+  typedEntries(recipeReagentAmounts).forEach(([reagentKey, value]) => {
+    const reagent = recipeModel.reagents.find((reagent) => reagent.key === reagentKey);
+    if (reagent.isLiquid) {
+      recipeModel.correctWaterVolumeByReagentAmount(format(value), reagent.amount);
+    }
+    recipeModel.setReagentAmount(format(value), reagentKey);
+  });
 }
 
 definePageMeta({

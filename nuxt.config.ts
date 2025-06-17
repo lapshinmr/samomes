@@ -4,10 +4,10 @@ export default defineNuxtConfig({
 
   devtools: { enabled: false },
 
-  devServer: {
-    host: '0.0.0.0',
-    port: 3000,
-  },
+  // devServer: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  // },
 
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
@@ -194,15 +194,15 @@ export default defineNuxtConfig({
     strategy: 'prefix_and_default',
     locales: [
       { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.ts' },
-      { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
+      // { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
     ],
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'root',
-      // alwaysRedirect: false,
-      // fallbackLocale: 'en'
-    },
+    // detectBrowserLanguage: {
+    //   useCookie: true,
+    //   cookieKey: 'i18n_redirected',
+    //   redirectOn: 'root',
+    //   // alwaysRedirect: false,
+    //   // fallbackLocale: 'en'
+    // },
   },
 
   piniaPluginPersistedstate: {

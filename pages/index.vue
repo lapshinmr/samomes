@@ -34,7 +34,7 @@
         <WelcomeSection />
         <ToolsSection />
         <DosingSection />
-        <ScheduleSection />
+        <SchedulesSection />
         <FertilizersSection />
         <RecipesSection />
         <RemineralsSection />

@@ -112,7 +112,7 @@ export default {
       title: 'Everything you need for the perfect tank',
       subtitle: 'All tools work together — creating a comprehensive solution for planted tank care',
       dosingSubtitle: 'Precise dosage calculations',
-      scheduleSubtitle: 'Fertilizer dosing schedule',
+      schedulesSubtitle: 'Fertilizer dosing schedule',
       fertilizersSubtitle: 'Database of 100+ products',
       recipesSubtitle: 'Proven formulas',
       remineralsSubtitle: 'RO water preparation',
@@ -121,7 +121,7 @@ export default {
     dosingSection: {
       subtitle: 'Fine-tune your dosing in minutes',
     },
-    scheduleSection: {
+    schedulesSection: {
       subtitle: 'Create a schedule so you don\'t forget to add fertilizers',
     },
     fertilizersSection: {
@@ -236,6 +236,7 @@ export default {
       nameHint: 'The recipe name must be unique',
       description: 'Description',
       descriptionHint: 'You can add additional information to the recipe',
+      calculateReagentMass: 'Count reagent mass',
       message: {
         recipeAdded: 'Recipe added',
         recipeEdited: 'Recipe modified',
@@ -390,5 +391,13 @@ export default {
     allData: 'All data',
   },
   meta: {
+    tanks: {
+      title: 'Tank List',
+      description: 'On this page you can manage your list of tanks, calculate their volumes by ' +
+        'linear dimensions, and also account for the volume of filter and water in substrate. By adding ' +
+        'an aquarium, you will get access to its parameters in all sections of the calculator, which simplifies ' +
+        'working with the service and saves your time.',
+      keywords: 'aquariums, volume calculation, filter, substrate, aquarium management',
+    },
   },
 };
