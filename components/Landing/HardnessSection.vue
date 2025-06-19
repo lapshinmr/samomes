@@ -27,19 +27,21 @@
       </div>
       <div class="d-flex justify-center w-sm-50">
         <div class="video-wrapper w-sm-50 elevation-4">
-          <video
-            class="background-video"
-            autoplay
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            width="100%"
-            height="auto"
-          >
-            <source src="/images/landing/schedule.mov" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-          </video>
+          <v-lazy>
+            <video
+              class="background-video"
+              autoplay
+              loop
+              muted
+              playsinline
+              webkit-playsinline
+              width="100%"
+              height="auto"
+            >
+              <source src="/images/landing/schedule-optimized.mp4" type="video/mp4">
+              Ваш браузер не поддерживает видео.
+            </video>
+          </v-lazy>
         </div>
       </div>
     </div>
