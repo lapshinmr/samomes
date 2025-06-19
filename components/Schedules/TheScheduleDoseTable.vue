@@ -201,19 +201,10 @@ watch(() => props.dosing, () => {
   }
 });
 
-watch(() => scheduleModel.startDate, () => {
-  scheduleModel.initWaterChangeDay();
-  if (scheduleModel.days.length > 0) {
-    scheduleModel.updateDays();
-  } else {
-    scheduleModel.initDays();
-  }
-});
-
 onMounted(() => {
   scheduleIndex.value = +route.query.schedule;
   if (!isNaN(scheduleIndex.value)) {
-    const curSchedule = schedulesStore.schedules[scheduleIndex.value];
+    const curSchedule = JSON.parse(JSON.stringify(schedulesStore.schedules[scheduleIndex.value]));
     if (curSchedule) {
       scheduleModel.startDate = curSchedule.startDate;
       scheduleModel.waterChangeDay = curSchedule.waterChangeDay;
@@ -221,12 +212,20 @@ onMounted(() => {
     }
   } else {
     scheduleModel.startDate = getDate(new Date());
+    scheduleModel.initWaterChangeDay();
+    scheduleModel.initDays();
   }
 });
 
 function onDate(value: string) {
   if (value) {
     scheduleModel.startDate = value;
+    scheduleModel.initWaterChangeDay();
+    if (scheduleModel.days.length > 0) {
+      scheduleModel.updateDays();
+    } else {
+      scheduleModel.initDays();
+    }
   }
 }
 
@@ -239,6 +238,7 @@ async function onSaveSchedule() {
   await router.push(appRoutes.value.schedules.path);
 }
 
+// TODO: add type to fertilizerData
 function onToggleCheckbox(fertilizerName: string, fertilizerData) {
   if (!fertilizerData.selected) {
     fertilizerData.amount = 0;

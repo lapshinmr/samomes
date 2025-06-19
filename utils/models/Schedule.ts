@@ -22,7 +22,7 @@
  * necessary for your intended use.
  */
 
-import { getDate } from '~/utils/format'
+import { getDate } from '~/utils/format';
 
 export class Schedule {
   dosing: InstanceType<typeof Dosing>;
