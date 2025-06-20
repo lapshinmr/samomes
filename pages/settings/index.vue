@@ -156,7 +156,7 @@
           </div>
           <v-btn
             color="red"
-            :disabled="remineralsStore.resetReminerals.length === 0"
+            :disabled="remineralsStore.remineralRecipes.length === 0"
             @click="remineralsStore.resetReminerals()"
           >
             {{ t('buttons.reset') }}
@@ -281,6 +281,10 @@ function resetAll() {
   remineralsStore.resetReminerals();
   dosingStore.resetDosing();
 }
+
+useSeoMeta({
+  title: 'Настройки',
+});
 </script>
 
 <style lang="sass" scoped>
