@@ -78,29 +78,6 @@ definePageMeta({
 p
   margin-bottom: 12px
 
-.video-wrapper
-  position: relative
-  width: 100%
-  height: auto
-  overflow: hidden
-  //box-shadow: 0 1px 10px #B0BEC5
-
-.background-video
-  width: 100%
-  height: auto
-  display: block
-  pointer-events: none
-
-.video-overlay
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  z-index: 10
-  background: transparent
-  cursor: default
-
 .section
   min-height: 400px
   background: linear-gradient(180deg, #f4faf5 0%, #ffffff 100%)
@@ -108,6 +85,6 @@ p
   padding-top: 150px
   padding-bottom: 150px
   @media (max-width: $xs)
-    padding-top: 50px
-    padding-bottom: 50px
+    padding-top: 100px
+    padding-bottom: 100px
 </style>

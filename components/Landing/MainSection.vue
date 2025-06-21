@@ -12,6 +12,7 @@
         {{ t('landing.subtitle' )}}
       </h3>
     </div>
+    <ScrollIndicator />
   </v-col>
 </template>
 
@@ -38,7 +39,7 @@ defineOptions({
     width: 60%
     @media (max-width: $xs)
       left: 24px
-      bottom: 24px
+      bottom: 100px
       width: 90%
     .main-section__title
       letter-spacing: -0.0083333333em !important

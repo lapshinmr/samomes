@@ -4,10 +4,10 @@ export default defineNuxtConfig({
 
   devtools: { enabled: false },
 
-  // devServer: {
-  //   host: '0.0.0.0',
-  //   port: 3000,
-  // },
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000,
+  },
 
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },

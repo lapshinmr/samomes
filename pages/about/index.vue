@@ -221,9 +221,15 @@
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
         />
-        <div>
+        <div class="mb-2">
           Лето 2023. 20 литров
         </div>
+        <p>
+          Жизнь этого аквариума подробно показана на моем
+          <a href="https://www.youtube.com/@lapshinmr" target="_blank">
+            Youtube-канале.
+          </a>
+        </p>
 
         <!--        <p>-->
         <!--          Если вы всё-таки хотите научиться делать удобрения для аквариума своими руками и-->

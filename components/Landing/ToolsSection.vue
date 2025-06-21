@@ -20,7 +20,7 @@
         id="schedules-section"
         :icon="appRoutes.schedules.icon"
         :title="t(`routes.${appRoutes.schedules.key}`)"
-        :subtitle="t('landing.toolsSection.scheduleSubtitle')"
+        :subtitle="t('landing.toolsSection.schedulesSubtitle')"
       />
       <ToolCard
         id="fertilizers-section"
