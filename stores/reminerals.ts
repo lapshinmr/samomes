@@ -30,6 +30,7 @@ export const useRemineralsStore = defineStore(
   'reminerals',
   () => {
     const remineralRecipes = ref<RemineralRecipeType[]>([]);
+    const isUpdated = ref<boolean>(false);
 
     const remineralRecipeModels = computed(
       () => remineralRecipes.value.map((remineral) => new RemineralRecipe(remineral)),
@@ -59,15 +60,21 @@ export const useRemineralsStore = defineStore(
       remineralRecipes.value = [];
     }
 
+    function setUpdated(payload: boolean) {
+      isUpdated.value = payload;
+    }
+
     return {
       remineralRecipes,
       remineralRecipeModels,
       isReminerals,
+      isUpdated,
       addRemineral,
       removeRemineral,
       editRemineral,
       moveReminerals,
       resetReminerals,
+      setUpdated,
     };
   },
   {

@@ -28,6 +28,7 @@ export const useTanksStore = defineStore(
   'tanks',
   () => {
     const tanks = ref<TankType[]>([]);
+    const isUpdated = ref<boolean>(false);
 
     const tankModels = computed(() => {
       return tanks.value.map((tank) => new Tank(tank));
@@ -57,15 +58,21 @@ export const useTanksStore = defineStore(
       tanks.value = [];
     }
 
+    function setUpdated(payload: boolean) {
+      isUpdated.value = payload;
+    }
+
     return {
       tanks,
       tankModels,
       isTanks,
+      isUpdated,
       addTank,
       removeTank,
       editTank,
       moveTanks,
       resetTanks,
+      setUpdated,
     };
   },
   {

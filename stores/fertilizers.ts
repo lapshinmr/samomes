@@ -30,6 +30,7 @@ export const useFertilizersStore = defineStore(
   'fertilizers',
   () => {
     const fertilizers = ref<FertilizerType[]>([]);
+    const isUpdated = ref<boolean>(false);
 
     const fertilizerModels = computed(
       () => fertilizers.value.map((fertilizer) => new Fertilizer(fertilizer)),
@@ -59,15 +60,21 @@ export const useFertilizersStore = defineStore(
       fertilizers.value = [];
     }
 
+    function setUpdated(payload: boolean) {
+      isUpdated.value = payload;
+    }
+
     return {
       fertilizers,
       fertilizerModels,
       isFertilizers,
+      isUpdated,
       addFertilizer,
       removeFertilizer,
       editFertilizer,
       moveFertilizers,
       resetFertilizers,
+      setUpdated,
     };
   },
   {

@@ -31,6 +31,11 @@
         dense
         height="48"
       >
+        <v-app-bar-nav-icon
+          class="d-none d-sm-inline-block"
+          @click="drawerStore.toggle"
+        />
+
         <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
           <div class="d-flex align-content-center text-uppercase">
             <a
@@ -51,7 +56,10 @@
         </v-app-bar-title>
         <!--        <LanguageSwitcher />-->
 
-        <v-app-bar-nav-icon @click="drawerStore.toggle" />
+        <v-app-bar-nav-icon
+          class="d-inline-block d-sm-none"
+          @click="drawerStore.toggle"
+        />
 
       </v-app-bar>
 
@@ -78,13 +86,16 @@
 
 <script lang="ts" setup>
 const { t } = useI18n();
+const { appRoutes } = useAppRoutes();
 
 const tanksStore = useTanksStore();
 const recipesStore = useRecipesStore();
 const fertilizersStore = useFertilizersStore();
 const remineralsStore = useRemineralsStore();
+const schedulesStore = useSchedulesStore();
 const drawerStore = useDrawerStore();
 const snackbarStore = useSnackbarStore();
+const { copyOldData } = useCopyOldData();
 const router = useRouter();
 // const route = useRoute();
 
@@ -94,9 +105,10 @@ const isSnackbar = computed({
 });
 
 onBeforeMount(() => {
+
   if (import.meta.client) {
-    const schedulesStore = useSchedulesStore();
-    const { appRoutes } = useAppRoutes();
+    // TODO: remove this code after sometime
+    copyOldData();
 
     if (
       schedulesStore.isSchedules
@@ -135,6 +147,8 @@ onMounted(async () => {
   //   await router.push(path);
   //   return;
   // }
+
+  // Update localstorage data
 });
 </script>
 

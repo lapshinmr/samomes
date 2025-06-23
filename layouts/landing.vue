@@ -66,7 +66,7 @@
         v-else
         color="white"
         icon="mdi-view-dashboard"
-        :to="appRoutes.dosing.path"
+        @click="onDashboardClick"
       />
     </v-app-bar>
 
@@ -98,7 +98,9 @@ const tanksStore = useTanksStore();
 const recipesStore = useRecipesStore();
 const fertilizersStore = useFertilizersStore();
 const remineralsStore = useRemineralsStore();
+const schedulesStore = useSchedulesStore();
 const snackbarStore = useSnackbarStore();
+const { copyOldData } = useCopyOldData();
 
 const isSnackbar = computed({
   get: () => snackbarStore.isVisible,
@@ -108,8 +110,8 @@ const isSnackbar = computed({
 // TODO: move to composable
 onBeforeMount(() => {
   if (import.meta.client) {
-    const schedulesStore = useSchedulesStore();
-    const { appRoutes } = useAppRoutes();
+    // TODO: remove this code after sometime
+    copyOldData();
 
     if (
       schedulesStore.isSchedules
@@ -149,6 +151,14 @@ onMounted(async () => {
   //   return;
   // }
 });
+
+function onDashboardClick () {
+  if (schedulesStore.isSchedules) {
+    return router.push(appRoutes.value.schedules.path);
+  } else {
+    return router.push(appRoutes.value.dosing.path);
+  }
+}
 
 // Navbar scroll behaviour
 const scrolled = ref(false);

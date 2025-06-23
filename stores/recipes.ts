@@ -28,6 +28,7 @@ export const useRecipesStore = defineStore(
   'recipes',
   () => {
     const fertilizerRecipes = ref<FertilizerRecipeType[]>([]);
+    const isUpdated = ref<boolean>(false);
 
     const fertilizerRecipeModels = computed(
       () => fertilizerRecipes.value.map((recipe) => new FertilizerRecipe(recipe)),
@@ -59,15 +60,22 @@ export const useRecipesStore = defineStore(
       fertilizerRecipes.value = [];
     }
 
+    function setUpdated(payload: boolean) {
+      isUpdated.value = payload;
+    }
+
+
     return {
       fertilizerRecipes,
       fertilizerRecipeModels,
       isFertilizerRecipes,
+      isUpdated,
       addRecipe,
       removeRecipe,
       editRecipe,
       moveRecipes,
       resetRecipes,
+      setUpdated,
     };
   },
   {
