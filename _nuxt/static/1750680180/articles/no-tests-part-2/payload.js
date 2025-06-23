@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/articles/no-tests-part-2", {data:[{}],fetch:{},mutations:[]});

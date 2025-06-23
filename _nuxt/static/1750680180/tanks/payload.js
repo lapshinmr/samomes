@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/tanks", {data:[{}],fetch:{},mutations:[]});
