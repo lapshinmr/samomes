@@ -23,7 +23,7 @@ export default () => ({
   lang: DEFAULT_LANGUAGE,
   drawer: false,
   isSnackbar: false,
-  isSnackbarSurvey: true,
+  isSnackbarAlert: true,
   snackbarMessage: '',
   schedule: {
     isDefaultFertilizers: false,

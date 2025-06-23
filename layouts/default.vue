@@ -62,39 +62,31 @@
         </div>
       </v-snackbar>
       <v-snackbar
-        v-model="isSnackbarSurvey"
+        v-model="isSnackbarAlert"
+        color="warning"
         timeout="-1"
       >
         <div class="d-flex">
           <div>
             <p>
-              Добрый день, уважаемые аквариумисты!
+              Сайт будет обновлен 26 июня 2025 года (четверг).
             </p>
             <p>
-              Мы активно работаем над развитием проекта Самомес и нуждаемся
-              в вашем мнении для создания действительно полезного инструмента. Пожалуйста, уделите 10-15 минут
-              на заполнение анкеты — ваш опыт и обратная связь помогут нам сделать приложение гораздо
-              удобнее для ежедневных аквариумных задач.
-              Участники исследования получат ранний доступ к новой версии сайта с обновленным функционалом.
-              Каждый ответ важен для улучшения функциональности
-              проекта! Анкета находится
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSdJlrrrSV3-3nhZiDwYtaHagd90AiYlpjBionV19XPPuI6wDQ/formResponse"
-                target="_blank"
-              >ЗДЕСЬ</a>.
+              Ваши данные (аквариумы, рецепты, удобрения и реминерализаторы) будут перенесены в новую версию. Однако
+              из-за технических сложностей расписания будут удалены.
             </p>
             <p>
-              Вы можете закрыть это сообщение и заполнить анкету позже. Ссылка на анкету находится в меню справа.
+              На всякий случай рекомендуем сделать копию своих рецептов удобрений и реминерализаторов.
             </p>
             <p>
-              Спасибо за помощь!
+              Спасибо за понимание!
             </p>
           </div>
           <div>
             <v-btn
               color="pink"
               icon
-              @click="isSnackbarSurvey = false"
+              @click="isSnackbarAlert = false"
             >
               <v-icon>
                 mdi-close
@@ -154,12 +146,12 @@ export default {
         this.SNACKBAR_HIDE();
       },
     },
-    isSnackbarSurvey: {
+    isSnackbarAlert: {
       get() {
-        return this.$store.state.isSnackbarSurvey;
+        return this.$store.state.isSnackbarAlert;
       },
       set() {
-        this.SNACKBAR_SURVEY_HIDE();
+        this.SNACKBAR_ALERT_HIDE();
       },
     },
   },
@@ -167,7 +159,7 @@ export default {
     ...mapMutations([
       'DRAWER_SET',
       'SNACKBAR_HIDE',
-      'SNACKBAR_SURVEY_HIDE',
+      'SNACKBAR_ALERT_HIDE',
       'FERTILIZER_ADD',
       'RECIPE_REMOVE',
     ]),
