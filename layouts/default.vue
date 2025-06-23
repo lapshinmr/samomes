@@ -31,8 +31,6 @@
         dense
         height="48"
       >
-        <v-app-bar-nav-icon @click="drawerStore.toggle" />
-
         <v-app-bar-title class="text-body-1" style="line-height: 1.5;">
           <div class="d-flex align-content-center text-uppercase">
             <a
@@ -52,6 +50,9 @@
           </div>
         </v-app-bar-title>
         <!--        <LanguageSwitcher />-->
+
+        <v-app-bar-nav-icon @click="drawerStore.toggle" />
+
       </v-app-bar>
 
       <Drawer />

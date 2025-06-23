@@ -36,7 +36,9 @@
   box-shadow: 0 0 0 8px #1a1a1a, 0 0 0 12px #333, 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.1)
   padding: 6px 6px
   @media (max-width: $xs)
-    padding: 6px 6px
+    padding: 4px 4px
+    border-radius: 30px
+    box-shadow: 0 0 0 4px #1a1a1a, 0 0 0 8px #333, 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.1)
 
 .phone-mockup__screen
   position: relative
@@ -47,4 +49,6 @@
   overflow: hidden
   display: flex
   flex-direction: column
+  @media (max-width: $xs)
+    border-radius: 24px
 </style>

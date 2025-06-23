@@ -46,7 +46,7 @@
           </h3>
           <v-btn
             color="primary"
-            class="mb-sm-0 mb-sm-0"
+            class="mb-sm-0"
             :to="appRoutes.fertilizers.path"
           >
             {{ t('buttons.go') }}

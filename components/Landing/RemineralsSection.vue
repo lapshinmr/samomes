@@ -16,7 +16,7 @@
               width="100%"
               height="auto"
             >
-              <source src="/images/landing/reminerals-optimized.mp4" type="video/webm">
+              <source src="/images/landing/reminerals-optimized.mp4" type="video/mp4">
               Ваш браузер не поддерживает видео.
             </video>
           </PhoneVideoMockup>
@@ -41,12 +41,12 @@
           </h2>
         </nuxt-link>
         <div class="d-none d-sm-block">
-          <h3 class="text-h6 my-4 text-center font-weight-regular">
+          <h3 class="text-h6 mb-sm-10 text-sm-left font-weight-regular">
             {{ t('landing.schedulesSection.subtitle') }}
           </h3>
           <v-btn
             color="primary"
-            class="mb-10"
+            class="mb-sm-10"
             :to="appRoutes.reminerals.path"
           >
             {{ t('buttons.go') }}
