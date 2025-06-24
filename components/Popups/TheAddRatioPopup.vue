@@ -29,22 +29,22 @@
   >
     <v-card>
       <v-card-title>
-        Новые элементы
+        {{ t('popups.addRatio.title') }}
       </v-card-title>
       <v-card-text>
         <v-form ref="formRef">
           <v-text-field
             v-model="firstElement"
-            label="Первый элемент"
+            :label="t('popups.addRatio.firstElementInput')"
+            :hint="t('popups.addRatio.elementInputHint')"
             variant="underlined"
-            hint="Введите элемент, который есть в выбранных удобрениях"
             :rules="[required, isIon]"
             persistent-hint
           />
           <v-text-field
             v-model="secondElement"
-            label="Второй элемент"
-            hint="Введите второй элемент"
+            :label="t('popups.addRatio.secondElementInput')"
+            :hint="t('popups.addRatio.elementInputHint')"
             variant="underlined"
             :rules="[required, isIon]"
             persistent-hint
@@ -54,7 +54,7 @@
               v-if="ratio !== null"
               class="mt-6"
             >
-              Соотношение равно <span class="font-weight-medium">{{ format(ratio) || '—' }}</span>
+              {{ t('popups.addRatio.ratioIs') }} <span class="font-weight-medium">{{ format(ratio) || '—' }}</span>
             </div>
           </v-expand-transition>
         </v-form>
@@ -65,7 +65,7 @@
           variant="text"
           @click="model = false"
         >
-          Закрыть
+          {{ t('buttons.cancel') }}
         </v-btn>
         <v-spacer />
         <v-btn
@@ -73,7 +73,7 @@
           variant="text"
           @click="onAddElements"
         >
-          Сохранить
+          {{ t('buttons.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -81,6 +81,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const model = defineModel<boolean>();
 
 const props = defineProps<{
@@ -90,11 +92,10 @@ const props = defineProps<{
 const emit = defineEmits(['save']);
 
 const isIon = (value: string) => {
-  return value in props.concentration || 'Нет такого элемента';
+  return value in props.concentration || t('popups.addRatio.elementInputError');
 };
 
 const { required } = useValidation();
-const { t } = useI18n();
 const snackbarStore = useSnackbarStore();
 
 const formRef = ref();

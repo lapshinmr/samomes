@@ -29,12 +29,12 @@
   >
     <v-card>
       <v-card-title>
-        Этилендиаминтетрауксусная кислота (EDTA)
+        {{ t('recipes.page.edtaPopup.title') }}
       </v-card-title>
       <v-card-text>
         <v-form ref="chelatorFormRef">
           <div class="mb-4">
-            Выберите реагенты, которые хотите хелатировать:
+            {{ t('recipes.page.edtaPopup.hint') }}
           </div>
           <div
             v-for="reagent in recipe.reagents"
@@ -58,7 +58,7 @@
             </template>
           </div>
           <div class="mt-4">
-            Увеличить количество хелатора на:
+            {{ t('recipes.page.edtaPopup.chelatorIncrease') }}
           </div>
           <div class="d-flex align-center">
             <v-radio-group
@@ -83,14 +83,14 @@
             </v-radio-group>
             <NumberField
               v-model="chelatorAmountIncrease"
-              label="Другое значение"
+              :label="t('recipes.page.edtaPopup.anotherValue')"
               suffix="%"
               hide-details="auto"
             />
           </div>
           <NumberField
             :model-value="chelatorAmount"
-            label="Количество EDTA"
+            :label="t('recipes.page.edtaPopup.edtaAmount')"
             :suffix="t('units.g')"
             variant="outlined"
             hide-details="auto"
@@ -98,13 +98,13 @@
             readonly
           />
           <div class="mt-4 mb-6">
-            Выберите щелочь и количество моль для нейтрализации EDTA
+            {{ t('recipes.page.edtaPopup.alkaliHint') }}
           </div>
           <div class="d-flex align-center">
             <v-select
               v-model="alkaliChosen"
               :items="alkaliList"
-              label="Выберите щелочь"
+              :label="t('recipes.page.edtaPopup.alkaliSelect')"
               hide-selected
               hide-details="auto"
               variant="outlined"
@@ -139,7 +139,7 @@
           </div>
           <NumberField
             :model-value="alkaliAmount"
-            label="Количество щелочи"
+            :label="t('recipes.page.edtaPopup.alkaliAmount')"
             :suffix="t('units.g')"
             variant="outlined"
             hide-details="auto"
@@ -154,7 +154,7 @@
           variant="text"
           @click="model = false"
         >
-          Закрыть
+          {{ t('buttons.cancel') }}
         </v-btn>
         <v-spacer />
         <v-btn
@@ -162,7 +162,7 @@
           variant="text"
           @click="onAddChelator"
         >
-          Сохранить
+          {{ t('buttons.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>

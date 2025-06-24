@@ -70,6 +70,7 @@ export default {
     articles: 'Статьи',
     about: 'О проекте',
     settings: 'Настройки',
+    install: 'Установить',
   },
   units: {
     mm: 'мм',
@@ -137,6 +138,16 @@ export default {
     },
     contactUsSection: {
       title: 'Связаться с нами',
+    },
+  },
+  popups: {
+    addRatio: {
+      title: 'Новое соотношение элементов',
+      firstElementInput: 'Введите первый элемент',
+      secondElementInput: 'Введите второй элемент',
+      elementInputHint: 'Введите элемент, который есть в выбранных удобрениях',
+      elementInputError: 'Нет такого элемента',
+      ratioIs: 'Соотношение равно',
     },
   },
   tanks: {
@@ -253,6 +264,27 @@ export default {
         reagentSolubilityInput: 'Введите значение растворимости',
         reagentSolubilityHint: 'Обычно растворимость берется для 25°С в литре воды',
       },
+      unitConcPopup: {
+        title: 'Расчет массы реагентов',
+        hint: 'Здесь вы можете рассчитать массу каждого реагента с помощью удельной концентрации',
+      },
+      edtaPopup: {
+        title: 'Расчет EDTA',
+        hint: 'Выберите реагенты, которые хотите хелатировать:',
+        chelatorIncrease: 'Увеличить количество хелатора на:',
+        anotherValue: 'Другое значение',
+        edtaAmount: 'Количество EDTA',
+        alkaliHint: 'Выберите щелочь и количество моль для нейтрализации EDTA',
+        alkaliSelect: 'Выберите щелочь',
+        alkaliAmount: 'Количество щелочи',
+      },
+      trilonPopup: {
+        title: 'Расчет Трилона-Б',
+        hint: 'Выберите реагенты, которые хотите хелатировать:',
+        chelatorIncrease: 'Увеличить количество хелатора на:',
+        anotherValue: 'Другое значение',
+        trilonAmount: 'Количество Трилона-Б',
+      },
     },
   },
   fertilizers: {
@@ -282,6 +314,18 @@ export default {
       nameHint: 'Название удобрения должно быть уникальным',
       description: 'Описание',
       descriptionHint: 'Вы можете добавить дополнительные сведения к удобрению',
+      remineral: 'Реминерализатор',
+      remineralInstruction: 'Введите значения с этикетки',
+      remineralExample1: 'Пример инструкции: "5 г смеси на 100 л воды повышают Gh на 6, Kh на 3"',
+      remineralExample2: 'Исходя из этой инструкции, нужно ввести 6 в поле с Gh, 3 в поле с Kh, 5 в поле с количеством и 100 в поле с объемом.',
+      ghInput: 'Введите Gh',
+      ghInputHint: 'Заявленное производителем значение',
+      khInput: 'Введите Kh',
+      khInputHint: 'Заявленное производителем значение',
+      remineralAmountInput: 'Количество',
+      remineralAmountInputHint: 'Необходимое количество реминерализатора, для повышения жесткости на заявленное значение Gh и Kh',
+      remineralVolumeInput: 'Введите объем',
+      remineralVolumeInputHint: 'Объем, на который рассчитан состав',
       message: {
         fertilizerAdded: 'Удобрение добавлено',
         fertilizerEdited: 'Удобрение изменено',

@@ -143,7 +143,7 @@
             button
             class="mt-10 mb-3"
           >
-            Реминерализатор
+            {{ t('fertilizers.page.remineral') }}
           </DividerWithNote>
           <v-expand-transition>
 
@@ -153,44 +153,43 @@
             >
               <v-col cols="12">
                 <div class="mb-4">
-                  Введите значения с этикетки
+                  {{ t('fertilizers.page.remineralInstruction') }}
                 </div>
                 <div class="text-body-2 text-grey-darken-1">
-                  Пример инструкции: "5 г смеси на 100 л воды повышают Gh на 6, Kh на 3"<br>
-                  Исходя из этой инструкции, нужно ввести
-                  6 в поле с Gh, 3 в поле с Kh, 5 в поле с количеством и 100 в поле с объемом.
+                  {{ t('fertilizers.page.remineralExample1') }}<br>
+                  {{ t('fertilizers.page.remineralExample2') }}
                 </div>
 
               </v-col>
               <v-col cols="6">
                 <number-field
                   v-model="fertilizerModel.hardness.gh"
-                  label="Введите Gh"
+                  :label="t('fertilizers.page.ghInput')"
                   suffix="Gh"
-                  hint="Заявленное производителем значение"
+                  :hint="t('fertilizers.page.ghInputHint')"
                   hide-details="auto"
                 />
                 <number-field
                   v-model="fertilizerModel.hardness.amount"
-                  label="Количество"
-                  hint="Необходимое количество реминерализатора, для повышения жесткости на заявленное значение Gh и Kh"
-                  :suffix="fertilizerModel.isLiquid ? 'мл' : 'г'"
+                  :label="t('fertilizers.page.remineralAmountInput')"
+                  :hint="t('fertilizers.page.remineralAmountInputHint')"
+                  :suffix="fertilizerModel.isLiquid ? t('units.ml') : t('units.g')"
                   hide-details="auto"
                 />
               </v-col>
               <v-col cols="6">
                 <number-field
                   v-model="fertilizerModel.hardness.kh"
-                  label="Введите Kh"
+                  :label="t('fertilizers.page.khInput')"
                   suffix="Kh"
-                  hint="Заявленное производителем значение"
+                  :hint="t('fertilizers.page.khInputHint')"
                   hide-details="auto"
                 />
                 <number-field
                   v-model="fertilizerModel.hardness.volume"
-                  label="Введите объем"
-                  hint="Объем, на который рассчитан состав"
-                  suffix="л"
+                  :label="t('fertilizers.page.remineralVolumeInput')"
+                  :hint="t('fertilizers.page.remineralVolumeInputHint')"
+                  :suffix="t('units.l')"
                   hide-details="auto"
                 />
               </v-col>

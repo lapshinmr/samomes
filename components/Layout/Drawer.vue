@@ -54,27 +54,30 @@
             />
           </template>
           <v-list-item-title>
-            Установить
+            {{ t('routes.install') }}
           </v-list-item-title>
         </v-list-item>
       </v-list>
-      <div class="d-flex justify-space-around mt-auto pa-4 text-grey-darken-1">
+      <div class="d-flex justify-space-around mt-auto pa-4">
         <a href="https://vk.com/samomes" target="_blank">
           <Icon
             name="mdi:vk-circle"
             size="36"
+            class="text-grey-darken-1"
           />
         </a>
         <a href="https://t.me/samomes_calculator" target="_blank">
           <Icon
             name="mdi:telegram"
             size="36"
+            class="text-grey-darken-1"
           />
         </a>
         <a href="https://github.com/lapshinmr/samomes" target="_blank">
           <Icon
             name="mdi:github"
             size="36"
+            class="text-grey-darken-1"
           />
         </a>
       </div>

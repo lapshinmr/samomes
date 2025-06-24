@@ -29,12 +29,12 @@
   >
     <v-card>
       <v-card-title>
-        Трилон Б (EDTA-Na2)
+        {{ t('recipes.page.trilonPopup.title') }}
       </v-card-title>
       <v-card-text>
         <v-form ref="chelatorFormRef">
           <div class="mb-4">
-            Выберите реагенты, которые хотите хелатировать:
+            {{ t('recipes.page.trilonPopup.hint') }}
           </div>
           <div
             v-for="reagent in recipe.reagents"
@@ -58,7 +58,7 @@
             </template>
           </div>
           <div class="mt-4">
-            Увеличить количество хелатора на:
+            {{ t('recipes.page.trilonPopup.chelatorIncrease') }}
           </div>
           <div class="d-flex align-center">
             <v-radio-group
@@ -83,14 +83,14 @@
             </v-radio-group>
             <NumberField
               v-model="chelatorAmountIncrease"
-              label="Другое значение"
+              :label="t('recipes.page.trilonPopup.anotherValue')"
               suffix="%"
               hide-details="auto"
             />
           </div>
           <NumberField
             v-model="chelatorAmount"
-            label="Количество Трилона Б (EDTA-Na2)"
+            :label="t('recipes.page.trilonPopup.trilonAmount')"
             :suffix="t('units.g')"
             variant="outlined"
             hide-details="auto"
@@ -104,7 +104,7 @@
           variant="text"
           @click="model = false"
         >
-          Закрыть
+          {{ t('buttons.cancel') }}
         </v-btn>
         <v-spacer />
         <v-btn
@@ -112,7 +112,7 @@
           variant="text"
           @click="onAddChelator"
         >
-          Сохранить
+          {{ t('buttons.save') }}
         </v-btn>
       </v-card-actions>
     </v-card>

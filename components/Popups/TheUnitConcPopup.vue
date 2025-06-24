@@ -29,11 +29,11 @@
   >
     <v-card>
       <v-card-title>
-        Расчет массы реагентов
+        {{ t('recipes.page.unitConcPopup.title') }}
       </v-card-title>
       <v-card-text>
         <div class="text-grey-darken-1 mb-4">
-          Здеь вы можете рассчитать массу каждого реагента с помощью удельной концентрации
+          {{ t('recipes.page.unitConcPopup.hint') }}
           <v-tooltip
             location="bottom"
             max-width="400"
