@@ -384,6 +384,9 @@ export default {
     },
     smallValue: 'small',
   },
+  hardness: {
+    title: 'Hardness',
+  },
   settings: {
     title: 'Settings',
     resetData: 'Data reset',

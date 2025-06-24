@@ -24,6 +24,7 @@
 
 export const H2O = 'H2O';
 export const HCO3 = 'HCO3';
+export const Gluconat = 'C6H11O7';
 export const TrilonB = 'C10H14N2Na2O8(H2O)2';
 export const EDTA = 'C10H16N2O8';
 

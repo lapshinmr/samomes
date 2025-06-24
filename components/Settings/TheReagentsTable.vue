@@ -23,7 +23,7 @@
 -->
 
 <template>
-  <v-table>
+  <v-table height="300px">
     <thead>
       <tr>
         <th>
@@ -32,7 +32,7 @@
         <th />
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="reagentsStore.isReagents">
       <tr
         v-for="(reagent, index) in reagents"
         :key="reagent.name"
@@ -47,6 +47,13 @@
             class="ml-2 cursor-pointer text-grey-darken-1"
             @click="reagentsStore.removeReagent(index)"
           />
+        </td>
+      </tr>
+    </tbody>
+    <tbody v-else>
+      <tr>
+        <td>
+          Вы еще не добавили собственные реагенты
         </td>
       </tr>
     </tbody>

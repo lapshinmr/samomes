@@ -384,6 +384,9 @@ export default {
     },
     smallValue: 'мало',
   },
+  hardness: {
+    title: 'Жесткость',
+  },
   settings: {
     title: 'Настройки',
     resetData: 'Сброс данных',

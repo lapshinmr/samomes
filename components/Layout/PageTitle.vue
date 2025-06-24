@@ -29,7 +29,10 @@
     offset-sm="2"
   >
     <h1 class="text-h5 text-sm-h4 mt-md-4 d-flex justify-space-between mt-4 my-sm-6 mt-sm-0">
-      <slot />
+      <span class="d-inline-block">
+        <slot />
+      </span>
+      <slot name="button" />
     </h1>
   </v-col>
 </template>

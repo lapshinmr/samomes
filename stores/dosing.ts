@@ -91,9 +91,6 @@ export const useDosingStore = defineStore(
     }
 
     function resetDosing() {
-      isDefaultFertilizers.value = false;
-      isTotalMode.value = false;
-      isHardness.value = false;
       fertilizersRegime.value = FertilizersRegime.EVERY_DAY;
       daysTotal.value = 7;
       tank.value = null;

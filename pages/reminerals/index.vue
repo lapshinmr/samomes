@@ -128,7 +128,7 @@ function onAdd() {
 
 async function onRemoveRemineralConfirmation() {
   remineralsStore.removeRemineral(itemIndexToRemove.value);
-  snackbarStore.showSuccess(t('reminerals.page.message.remove'));
+  snackbarStore.show(t('reminerals.page.message.remove'));
   onRemoveConfirmation();
 }
 

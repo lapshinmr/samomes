@@ -110,7 +110,7 @@ function onAdd() {
 
 async function onRemoveFertilizerConfirmation() {
   fertilizersStore.removeFertilizer(itemIndexToRemove.value);
-  snackbarStore.showSuccess(t('fertilizers.page.message.fertilizerAdded'));
+  snackbarStore.show(t('fertilizers.page.message.fertilizerAdded'));
   onRemoveConfirmation();
 }
 

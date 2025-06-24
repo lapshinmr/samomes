@@ -28,12 +28,14 @@
     <v-row>
       <PageTitle>
         {{ t('dosing.title') }}
-        <v-btn
-          color="primary"
-          @click="onReset"
-        >
-          {{ t('buttons.reset') }}
-        </v-btn>
+        <template #button>
+          <v-btn
+            color="primary"
+            @click="onReset"
+          >
+            {{ t('buttons.reset') }}
+          </v-btn>
+        </template>
       </PageTitle>
 
       <v-col
@@ -100,6 +102,7 @@
                 >
                   <v-btn
                     color="success"
+                    class="mb-3 mb-sm-0"
                     @click="isDynamicsPopup = true;"
                   >
                     Параметры в аквариуме

@@ -114,7 +114,7 @@ function onAdd() {
 
 async function onRemoveTankConfirmation() {
   tanksStore.removeTank(itemIndexToRemove.value);
-  snackbarStore.showSuccess(t('tanks.page.message.tankRemoved'));
+  snackbarStore.show(t('tanks.page.message.tankRemoved'));
   onRemoveConfirmation();
 }
 

@@ -33,7 +33,7 @@
     />
     <v-expand-transition>
       <div v-if="scheduleModel.startDate">
-        <v-table>
+        <v-table fixed-footer>
           <thead>
             <tr>
               <th class="text-center pl-0">
@@ -150,10 +150,7 @@
             {{ t('buttons.remove') }}
           </v-btn>
           <v-btn
-            class="ml-auto mr-2 ml-sm-auto"
-            :class="{
-              'mr-auto mr-sm-2': isScheduleEdit,
-            }"
+            class="ml-auto mr-1 mr-sm-2 ml-sm-auto"
             @click="router.push(appRoutes.schedules.path)"
           >
             {{ t('buttons.cancel') }}
@@ -248,7 +245,7 @@ function onToggleCheckbox(fertilizerName: string, fertilizerData) {
 
 async function onRemoveSchedule() {
   schedulesStore.removeSchedule(scheduleIndex.value);
-  snackbarStore.showSuccess('Расписание удалено');
+  snackbarStore.show('Расписание удалено');
   await router.push(appRoutes.value.schedules.path);
 }
 

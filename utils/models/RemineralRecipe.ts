@@ -233,7 +233,7 @@ export default class RemineralRecipe extends Recipe {
   get tds(): number {
     let result = 0;
     typedEntries(this.concentration).forEach(([ion, value]) => {
-      if (ion !== 'HCO3') {
+      if (ion !== HCO3 && ion !== Gluconat) {
         if (this.isDry) {
           result += value * this.totalMass * MG_IN_G / this.changeVolume;
         } else {

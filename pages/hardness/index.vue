@@ -26,7 +26,15 @@
   <v-container class="mb-10">
     <v-row>
       <page-title>
-        Жесткость
+        {{ t('hardness.title') }}
+        <template #button>
+          <v-btn
+            color="primary"
+            @click="onReset"
+          >
+            {{ t('buttons.reset') }}
+          </v-btn>
+        </template>
       </page-title>
       <v-col
         cols="12"
@@ -86,7 +94,7 @@
           <v-expand-transition>
             <div v-if="hardnessStore.tank?.volume && remineralizationType !== null">
               <div class="text-subtitle-1">
-                Подмена
+                Введите объем или процент подмены
               </div>
               <div class="d-flex flex-column flex-sm-row align-sm-center">
                 <NumberField
@@ -103,7 +111,7 @@
                 <NumberField
                   :model-value="hardnessStore.tank.waterChangePercent"
                   label="Процент"
-                  hint="или процент подмены от общего объема"
+                  hint="или процент подмены"
                   persistent-hint
                   suffix="%"
                   class="pt-0 mt-0 ml-sm-3"
@@ -116,8 +124,8 @@
                   :model-value="hardnessStore.osmosisChangePercent"
                   label="Процент"
                   :hint="`
-                    Осмос: ${hardnessStore.osmosisChangeVolume.toFixed(1)} л.
-                    Водопровод: ${(hardnessStore.tank.waterChangeVolume - hardnessStore.osmosisChangeVolume).toFixed(1)} л.
+                    Осмос: ${toFixed(hardnessStore.osmosisChangeVolume, 1)} л.
+                    Водопровод: ${toFixed(hardnessStore.tapChangeVolume, 1)} л.
                   `"
                   persistent-hint
                   class="mt-0 pt-0 ml-sm-3"
@@ -415,6 +423,7 @@ function onChooseTank(value: number | string | TankType) {
     name: value.name,
     volume: value.volumeTotal,
     waterChangeVolume: value.waterChangeVolume || 0,
+    waterChangePercent: value.waterChangePercent || 0,
   });
 }
 
@@ -456,6 +465,10 @@ function inputOsmosisChange(value: number) {
   if (value <= 100) {
     hardnessStore.setOsmosisChangePercent(+value);
   }
+}
+
+function onReset() {
+  hardnessStore.reset();
 }
 
 defineOptions({

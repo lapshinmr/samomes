@@ -59,6 +59,10 @@ export const useSchedulesStore = defineStore(
       curFertilizer.status = (curFertilizer.status + 1) % 2;
     }
 
+    function reset() {
+      schedules.value = [];
+    }
+
     return {
       schedules,
       isSchedules,
@@ -67,6 +71,7 @@ export const useSchedulesStore = defineStore(
       toggleDay,
       toggleWaterChangeDay,
       removeSchedule,
+      reset,
     };
   },
   {

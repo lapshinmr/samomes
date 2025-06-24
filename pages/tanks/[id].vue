@@ -245,7 +245,7 @@ const onAddTank = async () =>{
     return;
   }
   tanksStore.addTank({ ...tankModel.value.toJson() });
-  snackbarStore.showSuccess(t('tanks.page.message.tankAdded'));
+  snackbarStore.show(t('tanks.page.message.tankAdded'));
   await router.push(appRoutes.value.tanks.path);
 };
 
@@ -259,13 +259,13 @@ const onEditTank = async () => {
     tank: { ...tankModel.value.toJson() },
     index: tankIndex.value,
   });
-  snackbarStore.showSuccess(t('tanks.page.message.tankEdited'));
+  snackbarStore.show(t('tanks.page.message.tankEdited'));
   await router.push(appRoutes.value.tanks.path);
 };
 
 const onRemoveTank = async () => {
   tanksStore.removeTank(tankIndex.value);
-  snackbarStore.showSuccess(t('tanks.page.message.tankRemoved'));
+  snackbarStore.show(t('tanks.page.message.tankRemoved'));
   await router.push(appRoutes.value.tanks.path);
 };
 </script>

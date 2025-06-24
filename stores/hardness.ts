@@ -52,6 +52,10 @@ export const useHardnessStore = defineStore(
         * (osmosisChangePercent.value / decimalToPercent);
     });
 
+    const tapChangeVolume = computed(() => {
+      return tank.value.waterChangeVolume - osmosisChangeVolume.value;
+    });
+
     function setTank(payload: TankType) {
       tank.value = payload;
     }
@@ -88,12 +92,21 @@ export const useHardnessStore = defineStore(
       doses.value[index].amountDay = value;
     }
 
+    function reset() {
+      tank.value = null;
+      doses.value = [];
+      osmosisChangePercent.value = 100;
+      remineralizationType.value = null;
+      isTests.value = false;
+    }
+
     return {
       tank,
       remineralizationType,
       isTests,
       osmosisChangePercent,
       osmosisChangeVolume,
+      tapChangeVolume,
       isDefaultFertilizers,
       doses,
       doseModels,
@@ -106,6 +119,7 @@ export const useHardnessStore = defineStore(
       setDefaultFertilizers,
       setDoses,
       updateAmountDay,
+      reset,
     };
   },
   {

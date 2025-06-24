@@ -131,7 +131,7 @@ function onAdd() {
 
 async function onRemoveRecipeConfirmation() {
   recipesStore.removeRecipe(itemIndexToRemove.value);
-  snackbarStore.showSuccess(t('recipes.page.message.recipeRemoved'));
+  snackbarStore.show(t('recipes.page.message.recipeRemoved'));
   onRemoveConfirmation();
 }
 

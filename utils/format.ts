@@ -53,3 +53,11 @@ export const getWeekday = (value: string | InstanceType<typeof Date>): string =>
   return new Date(value).toLocaleDateString('ru-RU', { weekday: 'short' });
 };
 
+export const toFixed = (value: number, precision: number) => {
+  if (isNaN(value) || value === undefined || value === null) {
+    return '—';
+  } else {
+    return value.toFixed(precision);
+  }
+};
+
