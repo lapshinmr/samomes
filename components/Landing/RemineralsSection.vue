@@ -22,7 +22,7 @@
           </PhoneVideoMockup>
           <div class="d-flex align-center flex-column d-sm-none">
             <h3 class="text-h6 my-4 text-center font-weight-regular">
-              {{ t('landing.schedulesSection.subtitle') }}
+              {{ t('landing.remineralsSection.subtitle') }}
             </h3>
             <v-btn
               color="primary"
@@ -42,7 +42,7 @@
         </nuxt-link>
         <div class="d-none d-sm-block">
           <h3 class="text-h6 mb-sm-10 text-sm-left font-weight-regular">
-            {{ t('landing.schedulesSection.subtitle') }}
+            {{ t('landing.remineralsSection.subtitle') }}
           </h3>
           <v-btn
             color="primary"

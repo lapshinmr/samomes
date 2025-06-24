@@ -105,8 +105,7 @@ export default {
     videoError: 'Your browser does not support video',
     welcomeSection: {
       title: 'Forget about complex fertilizer calculations!',
-      line1: 'Calculate precise dosages of any fertilizers for your planted tank',
-      line2: 'No formulas and calculation errors',
+      subtitle: 'Calculate quickly and accurately the correct dosages of any fertilizers for your planted aquarium using our calculator',
     },
     toolsSection: {
       title: 'Everything you need for the perfect tank',
@@ -130,7 +129,7 @@ export default {
     recipesSection: {
       subtitle: 'Make DIY fertilizers from any reagents',
     },
-    remineralsSections: {
+    remineralsSection: {
       subtitle: 'Create the perfect water composition',
     },
     hardnessSection: {

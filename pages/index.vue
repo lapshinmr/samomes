@@ -31,7 +31,6 @@
     >
       <v-row>
         <MainSection />
-        <WelcomeSection />
         <ToolsSection />
         <DosingSection />
         <SchedulesSection />

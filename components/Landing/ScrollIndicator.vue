@@ -7,7 +7,6 @@
       <Icon
         name="mdi-chevron-double-down"
         class="scroll-indicator__icon"
-        size="70"
       />
     </div>
   </v-fade-transition>
@@ -42,6 +41,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="sass">
+@import 'assets/variables.sass'
+
 .scroll-indicator
   position: absolute
   bottom: 15px
@@ -50,9 +51,14 @@ onUnmounted(() => {
   transform: translateX(-50%)
 
   .scroll-indicator__icon
+    height: 70px
+    width: 70px
     animation: bounce 2s infinite
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important
     transition: all 0.3s ease
+    @media (max-width: $xs)
+      height: 50px
+      width: 50px
 
 @keyframes bounce
   0%, 20%, 50%, 80%, 100%
