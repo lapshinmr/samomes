@@ -422,8 +422,8 @@ async function onRemoveFertilizer() {
   await router.push(appRoutes.value.fertilizers.path);
 }
 
-definePageMeta({
-  title: 'Редактирование удобрения',
+useSeoMeta({
+  title: 'Удобрение',
 });
 </script>
 

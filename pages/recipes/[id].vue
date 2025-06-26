@@ -519,8 +519,8 @@ function onSetRecipeReagentAmounts(recipeReagentAmounts: Partial<Record<ReagentK
   });
 }
 
-definePageMeta({
-  title: 'Редактирование рецепта',
+useSeoMeta({
+  title: 'Рецепт',
 });
 </script>
 

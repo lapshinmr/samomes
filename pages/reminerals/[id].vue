@@ -633,8 +633,8 @@ async function onCopyRemineral() {
   await router.push(`${appRoutes.value.reminerals.path}create/?copy=${remineralIndex.value}`);
 }
 
-definePageMeta({
-  title: 'Редактирование реминерализатора',
+useSeoMeta({
+  title: 'Реминерализатор',
 });
 </script>
 

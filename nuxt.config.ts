@@ -1,13 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-04-29',
+  compatibilityDate: '2025-06-26',
 
   devtools: { enabled: false },
 
-  devServer: {
-    host: '0.0.0.0',
-    port: 3000,
-  },
+  // devServer: {
+  //   host: '0.0.0.0',
+  //   port: 3000,
+  // },
 
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
@@ -18,7 +18,6 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'format-detection', content: 'telephone=no' },
-        { name: 'robots', content: 'noindex, nofollow' },
         { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'apple-touch-fullscreen', content: 'yes' },
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
@@ -138,7 +137,7 @@ export default defineNuxtConfig({
   ],
 
   yandexMetrika: {
-    id: '101470252',
+    id: '61348777',
     webvisor: true,
     clickmap: true,
     trackLinks: true,

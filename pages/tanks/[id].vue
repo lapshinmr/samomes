@@ -268,6 +268,10 @@ const onRemoveTank = async () => {
   snackbarStore.show(t('tanks.page.message.tankRemoved'));
   await router.push(appRoutes.value.tanks.path);
 };
+
+useSeoMeta({
+  title: 'Аквариум',
+});
 </script>
 
 <style lang="sass" scoped>

@@ -34,7 +34,7 @@ export const FORMULAS = {
     name: 'Вода',
   },
   KNO3: {
-    solubility: 242,
+    solubility: 316,
     name: 'Калия нитрат',
   },
   NaNO3: {
@@ -42,7 +42,7 @@ export const FORMULAS = {
     name: 'Натрия нитрат',
   },
   Na2SO4: {
-    solubility: 192,
+    solubility: 281,
     name: 'Натрия сульфат',
   },
   'Na2SO4(H2O)10': {
@@ -54,7 +54,7 @@ export const FORMULAS = {
     name: 'Калия монофосфат',
   },
   K2HPO4: {
-    solubility: 159.8,
+    solubility: 1598,
     name: 'Калия гидроортофосфат',
   },
   K4P2O7: {
@@ -79,7 +79,7 @@ export const FORMULAS = {
     name: 'Калия гидроксид',
   },
   NaOH: {
-    solubility: 420,
+    solubility: 1000,
     name: 'Натрия гидроксид',
   },
   'Ca(OH)2': {
@@ -87,11 +87,11 @@ export const FORMULAS = {
     name: 'Кальция гидроксид',
   },
   '(NH2)2CO': {
-    solubility: 108,
+    solubility: 1080,
     name: 'Карбамид (мочевина)',
   },
   NH4NO3: {
-    solubility: 190,
+    solubility: 1920,
     name: 'Нитрат аммония',
   },
   MgSO4: {
@@ -103,7 +103,7 @@ export const FORMULAS = {
   'MgSO4(H2O)7': {
     cation: { key: 'Mg', number: 1 },
     anion: { key: 'SO4', number: 1 },
-    solubility: 1130,
+    solubility: 360,
     name: 'Магния сульфат 7-водный (магнезия)',
   },
   'MgCl2(H2O)6': {
@@ -116,7 +116,7 @@ export const FORMULAS = {
     name: 'Магния нитрат 6-водный',
   },
   'Ca(NO3)2': {
-    solubility: 2710,
+    solubility: 1270,
     name: 'Кальция нитрат',
   },
   'Ca(NO3)2(H2O)2': {
@@ -228,7 +228,7 @@ export const FORMULAS = {
     name: 'Борная кислота',
   },
   KI: {
-    solubility: 144.5,
+    solubility: 1445,
     name: 'Калия йодид',
   },
   KCl: {
