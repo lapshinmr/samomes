@@ -1,7 +1,15 @@
 {
-  "name": "nuxt-app",
+  "name": "samomes",
+  "version": "2.0.0",
+  "author": "Mikhail Lapshin <lapshinmr@gmail.com> (https://samomes.com)",
+  "license": "CC-BY-NC-SA-4.0",
+  "homepage": "https://samomes.com",
+  "repository": "https://github.com/lapshinmr/samomes.git",
+  "bugs": {
+    "url": "https://github.com/lapshinmr/samomes/issues"
+  },
+  "keywords": ["aquarium", "fertilizer", "calculator", "nuxt3", "vue"],
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
