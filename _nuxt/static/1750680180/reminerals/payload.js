@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/reminerals", {data:[{}],fetch:{},mutations:[]});

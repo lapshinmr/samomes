@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/dynamics", {data:[{}],fetch:{},mutations:[]});

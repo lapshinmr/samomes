@@ -1,1 +1,0 @@
-__NUXT_JSONP__("/fertilizers", {data:[{}],fetch:{},mutations:[]});
