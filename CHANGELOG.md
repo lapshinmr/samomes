@@ -119,4 +119,4 @@ Major update with complete migration to modern technology stack and significant 
 ## [1.0.0] - 2025-02-13
 
 ### License
-- This version is distributed under GPL-3.0 license
+- This version is distributed under GPL-3.0 license (branch gpl-version)
