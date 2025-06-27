@@ -42,7 +42,7 @@
               class="d-flex text-white"
               href="/"
             >
-              <v-img
+              <NuxtImg
                 src="/images/npk-120x120.png"
                 height="24"
                 width="24"

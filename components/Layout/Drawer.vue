@@ -25,7 +25,7 @@
 <template>
   <v-navigation-drawer v-model="isDrawer">
     <div class="d-flex flex-column justify-between fill-height">
-      <v-list class="pt-0">
+      <v-list class="pt-2">
         <v-list-item
           v-for="route in appRoutes"
           :key="route.icon"

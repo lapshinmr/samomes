@@ -44,9 +44,9 @@
         <v-expand-transition>
           <div v-if="waterChangeVolume">
             <div class="mb-4 text-body-2">
-              При заданном режиме подмен ({{ dosing.waterChangePercent }}% объёма каждые {{ dosing.daysTotal }} д)
-              и выбранных дозировках удобрений равновесные параметры будут достигнуты через
-              {{ countBalancedWaterChangeNumber() }} подмен
+              При заданном режиме подмен ({{ format(dosing.waterChangePercent, 3) }}%
+              объёма каждые {{ dosing.daysTotal }} д) и выбранных дозировках удобрений равновесные
+              параметры будут достигнуты через {{ countBalancedWaterChangeNumber() }} подмен
               ({{ dosing.daysTotal * (countBalancedWaterChangeNumber() - 1) }} д)
               и будут следующими
               <v-tooltip
@@ -114,14 +114,22 @@
                   <td class="text-center">{{ format(data[0]) }} — {{ format(data[1]) }}</td>
                 </tr>
               </tbody>
-              <tfoot v-if="caMgRatio1 && caMgRatio2">
+              <tfoot>
+                <template v-if="caMgRatio1 && caMgRatio2">
+                  <tr>
+                    <td class="text-center">Ca/Mg</td>
+                    <td class="text-center">{{ format(caMgRatio1) }} — {{ format(caMgRatio2) }}</td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">dGh</td>
+                    <td class="text-center">{{ format(gh1) }} — {{ format(gh2) }}</td>
+                  </tr>
+                </template>
                 <tr>
-                  <td class="text-center">Ca/Mg</td>
-                  <td class="text-center">{{ format(caMgRatio1) }} — {{ format(caMgRatio2) }}</td>
-                </tr>
-                <tr>
-                  <td class="text-center">dGh</td>
-                  <td class="text-center">{{ format(gh1) }} — {{ format(gh2) }}</td>
+                  <td class="text-center">TDS</td>
+                  <td class="text-center">
+                    {{ format(balancedIonsTotal[0]) }} — {{ format(balancedIonsTotal[1]) }}
+                  </td>
                 </tr>
               </tfoot>
             </v-table>
@@ -227,6 +235,15 @@ const chartData = computed(() => ({
 }));
 
 const balancedIons = computed(() => props.dosing.countBalancedIons());
+const balancedIonsTotal = computed(() => {
+  let concTotal1 = 0;
+  let concTotal2 = 0;
+  typedValues(balancedIons.value).forEach(([conc1, conc2]) => {
+    concTotal1 += conc1;
+    concTotal2 += conc2;
+  });
+  return [concTotal1, concTotal2];
+});
 
 // TODO: refactor this place
 const caMgRatio1 = computed(() => {
