@@ -217,7 +217,7 @@
               </v-expand-transition>
             </div>
           </v-expand-transition>
-          <div v-if="recipeModel.isReagents">
+          <div v-if="recipeModel.isNotOnlyWaterReagent">
             <DividerWithNote class="mt-10 mb-4">
               {{ t('recipes.page.fertilizerConc') }}
             </DividerWithNote>

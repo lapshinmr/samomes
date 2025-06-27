@@ -20,7 +20,7 @@
           @canplay="onIntroVideoReady"
           @ended="onIntroVideoEnded"
         >
-          <source src="/images/landing/intro-video.mp4" type="video/mp4">
+          <source src="/video/intro-video.mp4" type="video/mp4">
         </video>
         <video
           v-if="isMainVideo"
@@ -32,7 +32,7 @@
           class="parallax__video"
           @canplay="onMainVideoReady"
         >
-          <source src="/images/landing/main-video.mp4" type="video/mp4" >
+          <source src="/video/main-video.mp4" type="video/mp4" >
         </video>
       </client-only>
       <NuxtImg

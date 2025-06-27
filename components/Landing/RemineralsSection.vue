@@ -16,7 +16,7 @@
               width="100%"
               height="auto"
             >
-              <source src="/images/landing/reminerals-optimized.mp4" type="video/mp4">
+              <source src="/video/reminerals-optimized.mp4" type="video/mp4">
               Ваш браузер не поддерживает видео.
             </video>
           </PhoneVideoMockup>

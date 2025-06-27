@@ -16,7 +16,7 @@
               width="100%"
               height="100%"
             >
-              <source src="/images/landing/dosing-optimized.mp4" type="video/mp4">
+              <source src="/video/dosing-optimized.mp4" type="video/mp4">
               {{ t('landing.videoError') }}
             </video>
           </PhoneVideoMockup>

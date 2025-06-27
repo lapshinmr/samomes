@@ -42,32 +42,32 @@
           </th>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
             <th class="text-center">
-              {{ t('dosing.elementsTable.everyDayDose') }} <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.everyDayDose') }} <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
             <th class="text-center">
-              {{ t('dosing.elementsTable.totalDose') }}, <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.totalDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
           </template>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
             <th class="text-center">
-              {{ t('dosing.elementsTable.inWaterChangeDose') }}, <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.inWaterChangeDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
             <th class="text-center">
-              {{ t('dosing.elementsTable.everyDayDose') }}, <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.everyDayDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
             <th class="text-center">
-              {{ t('dosing.elementsTable.totalDose') }}, <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.totalDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
           </template>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">
             <th class="text-center">
-              {{ t('dosing.elementsTable.inWaterChangeDose') }}, <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.inWaterChangeDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
             <th class="text-center">
-              {{ t('dosing.elementsTable.inDayWeekDose') }}, <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.inDayWeekDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
             <th class="text-center">
-              {{ t('dosing.elementsTable.totalDose') }}, <span>{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.totalDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
           </template>
           <th
@@ -88,33 +88,73 @@
             {{ ion }}
           </td>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentrationDay)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentrationDay) }}
             </td>
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentration)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentration) }}
             </td>
           </template>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK">
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentrationWaterChange)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentrationWaterChange) }}
             </td>
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentrationDay)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentrationDay) }}
             </td>
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentration)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentration) }}
             </td>
           </template>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentrationWaterChange)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentrationWaterChange) }}
             </td>
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentrationDay)) }} / {{ smallNumber(format(value.concentration)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentrationDay) }} / {{ format(value.concentration) }}
             </td>
-            <td class="text-center text-no-wrap">
-              {{ smallNumber(format(value.concentrationTotal)) }}
+            <td
+              class="text-center text-no-wrap"
+              :class="{
+                'text-caption': isSmallNumber(value.concentrationDay),
+              }"
+            >
+              {{ format(value.concentrationTotal) }}
             </td>
           </template>
           <td
@@ -172,6 +212,10 @@ function smallNumber(value: number) {
     return t('dosing.smallValue');
   }
   return value;
+}
+
+function isSmallNumber(value: number) {
+  return value < 0.01;
 }
 </script>
 

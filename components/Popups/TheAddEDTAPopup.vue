@@ -188,7 +188,7 @@ const chelatorFormRef = ref();
 const chelatorAmount = ref<number>(0);
 const chelatorAmountIncrease = ref<number>();
 
-const alkaliN = ref<number>(1);
+const alkaliN = ref<number>(4);
 const alkaliChosen = ref<string>('KOH');
 const alkaliAmount = ref<number>(0);
 
@@ -214,6 +214,15 @@ watch([reagentsChosen, chelatorAmountIncrease, alkaliN, alkaliChosen], () => {
   chelatorAmount.value = format(result);
   const nEDTA = result / EDTAMass;
   alkaliAmount.value = format(nEDTA * new MolecularFormula(alkaliChosen.value).mass * alkaliN.value);
+});
+
+watch(alkaliChosen, (value) => {
+  if ( ['NaOH', 'KOH'].includes(value)) {
+    alkaliN.value = 4;
+  } else if (value === 'K2CO3') {
+    alkaliN.value = 2;
+  }
+
 });
 
 async function onAddChelator() {

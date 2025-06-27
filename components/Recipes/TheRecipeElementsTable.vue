@@ -44,7 +44,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="(ions, reagent) in recipe.concentrationPerReagent"
+          v-for="(ions, reagent) in concentrationPerReagentWithoutWater"
           :key="reagent"
         >
           <td class="pl-0 text-center">
@@ -107,6 +107,12 @@ defineOptions({
 const props = defineProps<{
   recipe: InstanceType<typeof FertilizerRecipe>;
 }>();
+
+const concentrationPerReagentWithoutWater = computed(() => {
+  const result = { ...props.recipe.concentrationPerReagent };
+  delete result[H2O];
+  return result;
+});
 
 const concentrationSorted = computed(() => {
   return sortObject(props.recipe.concentration);

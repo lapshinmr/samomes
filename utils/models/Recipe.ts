@@ -52,6 +52,10 @@ export default class Recipe {
     return this.reagents.length > 0;
   }
 
+  get isNotOnlyWaterReagent(): boolean {
+    return !!this.reagents.find((reagent) => reagent.key !== 'H2O') && this.reagents.length > 0;
+  }
+
   get isLiquid(): boolean {
     return !!this.totalVolume;
   }
