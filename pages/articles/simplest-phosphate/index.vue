@@ -336,10 +336,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Самый простой рецепт самодельного удобрения с фосфатом',
-  description: 'В этой статье вы узнаете как сделать рецепт удобрения с фосфатом и калием (самомес фосфата). '
-    + 'И что на самом деле это совсем не сложно.',
-  keywords: 'фосфат, удобрение, самомес, монораствор, рецепт',
+  title: t('meta.articles.phosphate.title'),
+  description: t('meta.articles.phosphate.description'),
+  keywords: t('meta.articles.phosphate.keywords'),
 });
 </script>
 

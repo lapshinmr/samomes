@@ -22,7 +22,6 @@
   necessary for your intended use.
 -->
 
-
 <template>
   <v-container class="mb-12">
     <v-row>
@@ -261,12 +260,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Подбор дозировок удобрений в аквариуме',
-  description: 'Здесь вы можете подобрать дозировки всех ваших удобрений с помощью удобной таблицы. Калькулятор ' +
-    'сам рассчитает суммарные ' +
-    'концентрации всех элементов, поступающих в ваш аквариум. Это упростит подсчет таких элементов, как калий, ' +
-    'которые встречаются в разных удобрениях.',
-  keywords: 'аквариум, удобрения, дозировки, концентрация',
+  title: t('meta.dosing.title'),
+  description: t('meta.dosing.description'),
+  keywords: t('meta.dosing.keywords'),
 });
 </script>
 

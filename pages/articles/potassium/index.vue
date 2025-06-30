@@ -447,9 +447,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Самый простой рецепт самодельного удобрения с калием',
-  description: 'В этой статье вы узнаете как сделать рецепт удобрения с калием (самомес калия) для аквариум.',
-  keywords: 'калий, удобрение, самомес, монораствор, рецепт, аквариум',
+  title: t('meta.articles.potassium.title'),
+  description: t('meta.articles.potassium.description'),
+  keywords: t('meta.articles.potassium.keywords'),
 });
 </script>
 

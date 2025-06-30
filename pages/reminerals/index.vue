@@ -133,10 +133,9 @@ async function onRemoveRemineralConfirmation() {
 }
 
 useSeoMeta({
-  title: 'Рецепты реминерализаторов',
-  description: 'На этой странице вы можете разработать свой собственный рецепт реминерализатора. '
-    + 'Для этого в вашем распоряжении есть реагенты, которые часто используются аквариумистами.',
-  keywords: 'рецепты реминерализаторов, GH, KH, реминерализация воды',
+  title: t('meta.reminerals.title'),
+  description: t('meta.reminerals.description'),
+  keywords: t('meta.reminerals.keywords'),
 });
 </script>
 

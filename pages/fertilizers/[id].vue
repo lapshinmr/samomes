@@ -423,7 +423,7 @@ async function onRemoveFertilizer() {
 }
 
 useSeoMeta({
-  title: 'Удобрение',
+  title: t('meta.fertilizer.title'),
 });
 </script>
 

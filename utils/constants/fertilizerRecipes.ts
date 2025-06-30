@@ -275,6 +275,31 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     ],
     description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
+  {
+    name: 'Удар Макро',
+    reagents: [
+      { key: 'H2O', amount: 1000 },
+      { key: 'KNO3', amount: 82 },
+      { key: 'KH2PO4', amount: 7 },
+      { key: 'C6H7KO2', amount: 0.5 },
+    ],
+    description: 'Это удобрение от Юрия Христенко (https://www.youtube.com/@Echinodorus)',
+  },
+  {
+    name: 'Удар Микро',
+    reagents: [
+      { key: 'H2O', amount: 1000 },
+      { key: 'AgroMicsT', amount: 11 },
+      { key: 'Fe-EDTA13', amount: 5.6 },
+      { key: 'K2SO4', amount: 20 },
+      { key: 'MgSO4(H2O)7', amount: 30 },
+      { key: 'H3BO3', amount: 0.7 },
+      { key: 'C6H8O6', amount: 3 },
+      { key: 'C6H7KO2', amount: 0.5 },
+      { key: 'C10H14N2Na2O8(H2O)2', amount: 3 },
+    ],
+    description: 'Это удобрение от Юрия Христенко (https://www.youtube.com/@Echinodorus)',
+  },
 ];
 
 FERTILIZER_RECIPES.sort((a, b) => a.name.localeCompare(b.name));

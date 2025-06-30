@@ -46,8 +46,8 @@
         {{ t('reminerals.card.explanation.dry.t1') }}
         <span class="font-weight-bold">{{ remineral.changeVolume }}</span> {{ t('units.l') }}
         {{ t('reminerals.card.explanation.dry.t2') }}
-        <span class="font-weight-bold">{{ format(remineral.gh, 2) }}</span>
-        <template v-if="remineral.kh">
+        <span class="font-weight-bold mr-1">{{ format(remineral.gh, 2) }}</span>
+        <template v-if="!!remineral.kh">
           {{ t('reminerals.card.explanation.dry.t3') }}
           <span class="font-weight-bold">{{ format(remineral.kh, 2) }}</span>
         </template>
@@ -60,7 +60,7 @@
         {{ t('reminerals.card.explanation.liquid.t1') }}
         <span class="font-weight-bold">{{ remineral.changeVolume }}</span> {{ t('units.l') }}
         {{ t('reminerals.card.explanation.liquid.t2') }}
-        <span class="font-weight-bold">{{ format(remineral.gh, 2) }}</span>
+        <span class="font-weight-bold mr-1">{{ format(remineral.gh, 2) }}</span>
         <template v-if="!!remineral.kh">
           {{ t('reminerals.card.explanation.liquid.t3') }}
           <span class="font-weight-bold">{{ format(remineral.kh) }}</span>

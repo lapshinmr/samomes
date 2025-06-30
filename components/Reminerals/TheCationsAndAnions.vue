@@ -101,7 +101,7 @@
           class="mr-2"
         >
           <span class="font-weight-medium mr-1">{{ ion }}:</span>
-          <span>{{ format(value / remineral.tds * 100) }}%</span>
+          <span>{{ format(value / concentrationTotal * 100) }}%</span>
         </span>
       </div>
     </v-col>
@@ -117,6 +117,10 @@ const props = defineProps<{
   remineral: InstanceType<typeof RemineralRecipe>;
 }>();
 
+const concentrationTotal = computed(() => {
+  return typedValues(props.remineral.concentrationInChangeWater).reduce((acc, item) => acc + item, 0);
+});
+
 const cationsData = computed(() => {
   const cations = Object.entries(props.remineral.cations).filter(([, value]) => value[0] > 0);
   cations.sort((a, b) => b[1][0] - a[1][0]);
@@ -125,7 +129,7 @@ const cationsData = computed(() => {
   return {
     datasets: [
       {
-        backgroundColor: ['#4db6ac', '#ff8a65', '#64B5F6'],
+        backgroundColor: ['#26A69A', '#ff8a65', '#29B6F6', '#EF5350', '#AB47BC'],
         data: values,
         datalabels: {
           color: 'white',
@@ -149,7 +153,7 @@ const anionsData = computed(() => {
   return {
     datasets: [
       {
-        backgroundColor: ['#4db6ac', '#ff8a65', '#64B5F6'],
+        backgroundColor: ['#26A69A', '#ff8a65', '#29B6F6', '#EF5350', '#AB47BC'],
         data: values,
         datalabels: {
           color: 'white',

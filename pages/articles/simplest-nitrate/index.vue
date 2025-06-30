@@ -512,10 +512,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Самый простой рецепт самодельного удобрения с нитратом',
-  description: 'В этой статье вы узнаете как сделать рецепт удобрения с нитратом и калием (самомес нитрата). '
-    + 'И что на самом деле это совсем не сложно.',
-  keywords: 'нитрат, удобрение, самомес, монораствор, рецепт',
+  title: t('meta.articles.nitrate.title'),
+  description: t('meta.articles.nitrate.description'),
+  keywords: t('meta.articles.nitrate.keywords'),
 });
 </script>
 

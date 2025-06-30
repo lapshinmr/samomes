@@ -476,10 +476,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Жесткость в аквариуме',
-  description: 'Данный калькулятор позволяет подготовить подменную воду с нужными параметрами жесткости '
-    + 'воды и легко рассчитать итоговую жесткость в аквариуме.',
-  keywords: 'подмена, жесткость воды, gh, kh',
+  title: t('meta.hardness.title'),
+  description: t('meta.hardness.description'),
+  keywords: t('meta.hardness.keywords'),
 });
 </script>
 

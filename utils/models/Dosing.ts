@@ -71,7 +71,7 @@ export class Dosing {
           : 0;
         let concentrationTotal = concentration;
         if (this.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK) {
-          concentrationWaterChange = concentration * this.waterChangeDecimal;
+          concentrationWaterChange = concentration / this.waterChangeDecimal;
         }
         if (this.fertilizersRegime === FertilizersRegime.MIX) {
           concentrationTotal = concentrationWaterChange * this.waterChangeDecimal + concentration;

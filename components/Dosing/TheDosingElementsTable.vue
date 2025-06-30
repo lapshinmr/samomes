@@ -99,7 +99,7 @@
             <td
               class="text-center text-no-wrap"
               :class="{
-                'text-caption': isSmallNumber(value.concentrationDay),
+                'text-caption': isSmallNumber(value.concentration),
               }"
             >
               {{ format(value.concentration) }}
@@ -109,7 +109,7 @@
             <td
               class="text-center text-no-wrap"
               :class="{
-                'text-caption': isSmallNumber(value.concentrationDay),
+                'text-caption': isSmallNumber(value.concentrationWaterChange),
               }"
             >
               {{ format(value.concentrationWaterChange) }}
@@ -125,7 +125,7 @@
             <td
               class="text-center text-no-wrap"
               :class="{
-                'text-caption': isSmallNumber(value.concentrationDay),
+                'text-caption': isSmallNumber(value.concentration),
               }"
             >
               {{ format(value.concentration) }}
@@ -135,7 +135,7 @@
             <td
               class="text-center text-no-wrap"
               :class="{
-                'text-caption': isSmallNumber(value.concentrationDay),
+                'text-caption': isSmallNumber(value.concentrationWaterChange),
               }"
             >
               {{ format(value.concentrationWaterChange) }}
@@ -151,7 +151,7 @@
             <td
               class="text-center text-no-wrap"
               :class="{
-                'text-caption': isSmallNumber(value.concentrationDay),
+                'text-caption': isSmallNumber(value.concentrationTotal),
               }"
             >
               {{ format(value.concentrationTotal) }}
