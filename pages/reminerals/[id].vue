@@ -42,7 +42,7 @@
         </template>
         <template v-else-if="isCopy">
           <div class="text-h6 text-sm-h5">
-            {{ t('reminerals.page.titleNew') }} {{ remineralModel.name }}
+            {{ t('reminerals.page.titleCopy') }} {{ remineralModel.name }}
           </div>
           <div class="text-subtitle-1">
             {{ t('reminerals.page.subtitleCopy') }}
@@ -170,7 +170,7 @@
                 <div v-if="isReagentsAmount">
                   <DividerWithNote
                     v-model="isConcentration"
-                    class="my-4"
+                    class="mt-6 mb-4"
                     button
                   >
                     Концентрация {{ remineralModel.isLiquid ? 'раствора' : 'смеси' }}
