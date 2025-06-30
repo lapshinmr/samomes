@@ -101,7 +101,7 @@
           class="mr-2"
         >
           <span class="font-weight-medium mr-1">{{ ion }}:</span>
-          <span>{{ format(value / remineral.tds * 100) }}%</span>
+          <span>{{ format(value / concentrationTotal * 100) }}%</span>
         </span>
       </div>
     </v-col>
@@ -116,6 +116,10 @@ const { t } = useI18n();
 const props = defineProps<{
   remineral: InstanceType<typeof RemineralRecipe>;
 }>();
+
+const concentrationTotal = computed(() => {
+  return typedValues(props.remineral.concentrationInChangeWater).reduce((acc, item) => acc + item, 0);
+});
 
 const cationsData = computed(() => {
   const cations = Object.entries(props.remineral.cations).filter(([, value]) => value[0] > 0);

@@ -191,7 +191,7 @@
                   />
                   <DividerWithNote
                     v-model="isTable"
-                    class="my-4"
+                    class="mt-6 mb-4"
                     button
                   >
                     Таблица с навесками
