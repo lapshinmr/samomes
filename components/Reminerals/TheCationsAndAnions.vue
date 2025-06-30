@@ -125,7 +125,7 @@ const cationsData = computed(() => {
   return {
     datasets: [
       {
-        backgroundColor: ['#4db6ac', '#ff8a65', '#64B5F6'],
+        backgroundColor: ['#26A69A', '#ff8a65', '#29B6F6', '#EF5350', '#AB47BC'],
         data: values,
         datalabels: {
           color: 'white',
@@ -149,7 +149,7 @@ const anionsData = computed(() => {
   return {
     datasets: [
       {
-        backgroundColor: ['#4db6ac', '#ff8a65', '#64B5F6'],
+        backgroundColor: ['#26A69A', '#ff8a65', '#29B6F6', '#EF5350', '#AB47BC'],
         data: values,
         datalabels: {
           color: 'white',

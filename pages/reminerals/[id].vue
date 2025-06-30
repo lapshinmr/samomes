@@ -105,7 +105,7 @@
               <div
                 v-for="reagent in reagentsChosen"
                 :key="reagent.key"
-                class="d-flex mb-4"
+                class="d-flex align-start mb-4"
               >
                 <NumberField
                   :model-value="reagent.amount"
