@@ -115,10 +115,9 @@ async function onRemoveFertilizerConfirmation() {
 }
 
 useSeoMeta({
-  title: 'Список фирменных удобрений',
-  description: 'На этой странице вы можете добавить фирменные удобрения, '
-    + ' которые используете в своем аквариуме, чтобы легко рассчитать дозировки.',
-  keywords: 'фирменные удобрения, аквариум, дозировки, учет удобрений, подкормки растений',
+  title: t('meta.fertilizers.title'),
+  description: t('meta.fertilizers.description'),
+  keywords: t('meta.fertilizers.keywords'),
 });
 </script>
 

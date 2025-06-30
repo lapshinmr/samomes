@@ -100,8 +100,8 @@
       <Icon
         name="mdi-information-outline"
         size="16"
-        class="mr-1"
-      /> При изменении этих полей массы реагентов пересчитываются автоматически
+        class="mr-1 flex-shrink-0"
+      /> {{ t('reminerals.page.ghKhHint') }}
     </div>
   </div>
 </template>

@@ -182,7 +182,7 @@ function resetAll() {
 }
 
 useSeoMeta({
-  title: 'Настройки',
+  title: t('meta.settings.title'),
 });
 </script>
 

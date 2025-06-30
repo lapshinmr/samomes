@@ -35,19 +35,19 @@
             {{ reagentName }}
           </th>
           <th>
-            Сумма
+            {{ t('common.total') }}
           </th>
         </template>
         <template v-else>
           <th class="text-left">
-            Объем реминерализатора, мл
+            {{ t('reminerals.page.remineralVolume') }}, {{ t('units.ml') }}
           </th>
         </template>
         <th class="text-left">
           Gh/Kh
         </th>
         <th class="text-left">
-          Объем
+          {{ t('common.volume') }}
         </th>
       </tr>
     </thead>
@@ -61,19 +61,19 @@
             v-for="reagentName in reagentsNames"
             :key="reagentName"
           >
-            {{ format(countReagentsMassByGh(item.gh, item.volume)[reagentName]) }} г
+            {{ format(countReagentsMassByGh(item.gh, item.volume)[reagentName]) }} {{ t('units.g') }}
           </td>
           <td>
-            {{ format(countReagentsMassByGh(item.gh, item.volume).total) }} г
+            {{ format(countReagentsMassByGh(item.gh, item.volume).total) }} {{ t('units.g') }}
           </td>
         </template>
         <template v-else>
           <td>
-            {{ format(countVolume(item.gh, item.volume)) }} мл
+            {{ format(countVolume(item.gh, item.volume)) }} {{ t('units.ml') }}
           </td>
         </template>
         <td>{{ format(item.gh) }} / {{ format(countKhByGh(item.gh)) }}</td>
-        <td>{{ item.volume }} л</td>
+        <td>{{ item.volume }} {{ t('units.l') }}</td>
       </tr>
       <tr>
         <template v-if="remineral.isDry">
@@ -81,19 +81,19 @@
             v-for="reagentName in reagentsNames"
             :key="reagentName"
           >
-            {{ format(countReagentsMassByGh(customGh, customVolume)[reagentName]) }} г
+            {{ format(countReagentsMassByGh(customGh, customVolume)[reagentName]) }} {{ t('units.g') }}
           </td>
           <td>
-            {{ format(countReagentsMassByGh(customGh, customVolume).total) }} г
+            {{ format(countReagentsMassByGh(customGh, customVolume).total) }} {{ t('units.g') }}
           </td>
         </template>
         <template v-else>
           <td>
-            {{ format(countVolume(customGh, customVolume)) }} мл
+            {{ format(countVolume(customGh, customVolume)) }} {{ t('units.ml') }}
           </td>
         </template>
         <td>
-          <div class="d-flex align-center">
+          <div class="d-flex align-center mt-n4">
             <div style="width: 40px;">
               <NumberField
                 v-model.number="customGh"
@@ -103,7 +103,7 @@
                 @update:model-value="onInputCustomGh"
               />
             </div>
-            <div class="mx-2">
+            <div class="mx-2 align-self-end text-h5 font-weight-light">
               /
             </div>
             <div style="width: 40px;">
@@ -120,7 +120,7 @@
         </td>
         <td>
           <div
-            class="d-flex align-center"
+            class="d-flex align-center mt-n4"
             style="width: 60px"
           >
             <NumberField

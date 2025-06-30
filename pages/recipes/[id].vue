@@ -520,7 +520,7 @@ function onSetRecipeReagentAmounts(recipeReagentAmounts: Partial<Record<ReagentK
 }
 
 useSeoMeta({
-  title: 'Рецепт',
+  title: t('meta.recipe.title'),
 });
 </script>
 

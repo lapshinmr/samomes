@@ -270,7 +270,7 @@ const onRemoveTank = async () => {
 };
 
 useSeoMeta({
-  title: 'Аквариум',
+  title: t('meta.tank.title'),
 });
 </script>
 

@@ -74,7 +74,7 @@
             :items="reagents"
             item-title="text"
             :label="t('common.reagents')"
-            hint="Начните набирать текст, чтобы отфильтровать список"
+            :hint="t('common.comboboxTypingHint')"
             variant="underlined"
             multiple
             persistent-hint
@@ -173,7 +173,10 @@
                     class="mt-6 mb-4"
                     button
                   >
-                    Концентрация {{ remineralModel.isLiquid ? 'раствора' : 'смеси' }}
+                    {{ remineralModel.isLiquid
+                      ? t('reminerals.page.soluteConcentration')
+                      : t('reminerals.page.dryConcentration')
+                    }}
                   </DividerWithNote>
                   <v-expand-transition>
                     <TheSoluteElementsTable
@@ -183,7 +186,7 @@
                     />
                   </v-expand-transition>
                   <DividerWithNote class="mt-10 mb-3">
-                    Концентрация в подменной воде
+                    {{ t('reminerals.page.changeWaterConcentration') }}
                   </DividerWithNote>
                   <TheCationsAndAnions
                     :remineral="remineralModel"
@@ -194,7 +197,7 @@
                     class="mt-6 mb-4"
                     button
                   >
-                    Таблица с навесками
+                    {{ t('reminerals.page.portionsTable') }}
                   </DividerWithNote>
                   <v-expand-transition>
                     <TheRemineralsRecipesTable
@@ -634,7 +637,7 @@ async function onCopyRemineral() {
 }
 
 useSeoMeta({
-  title: 'Реминерализатор',
+  title: t('meta.remineral.title'),
 });
 </script>
 

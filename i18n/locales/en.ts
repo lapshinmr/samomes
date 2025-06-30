@@ -104,7 +104,7 @@ export default {
     title: 'Samomes',
     subtitle: 'fertilizer calculator for planted tanks',
     videoError: 'Your browser does not support video',
-    welcomeSection: {
+    mainSection: {
       title: 'Forget about complex fertilizer calculations!',
       subtitle: 'Calculate quickly and accurately the correct dosages of any fertilizers for your planted aquarium using our calculator',
     },
@@ -369,13 +369,20 @@ export default {
       subtitleShare: 'Check it, give it a name, and don\'t forget to save.',
       reagentsHint: 'You can select multiple reagents. Choose reagent "Water" if you want to create liquid remineralizer.',
       recipesHint: 'Here you can find recipe examples',
+      ghKhHint: 'When these fields are changed, reagent masses are recalculated automatically',
+      concentration: 'Concentration',
+      soluteConcentration: 'Solute concentration',
+      dryConcentration: 'Dry mix concentration',
+      changeWaterConcentration: 'Concentration in change water',
+      portionsTable: 'Portions table',
+      remineralVolume: 'Remineralizer volume',
       explanation: {
         dry: 'mixture increase in',
         liquid: 'solution increase in',
       },
       cations: 'Cations',
       anions: 'Anions',
-      ionsTotal: 'Total ionic composition',
+      ionsTotal: 'Total composition',
       mix: {
         title: 'Mixture preparation',
         t1: 'I want to prepare',
@@ -437,6 +444,15 @@ export default {
     allData: 'All data',
   },
   meta: {
+    landing: {
+      title: 'Fertilizer Calculator for Planted Aquarium',
+      description: 'DIY Mix is a convenient calculator for aquarists that simplifies the calculation '
+        + 'of element concentrations and fertilizer dosages for planted aquariums. '
+        + 'With it, you can create your own fertilizer recipes, make dosing schedules, '
+        + 'manage water hardness, and track element content dynamics.',
+      keywords: 'aquariums, recipes, fertilizers, schedule, water treatment, dynamics, planted aquarium, '
+        + 'remineralizers, aquarists',
+    },
     tanks: {
       title: 'Tank List',
       description: 'On this page you can manage your list of tanks, calculate their volumes by ' +
@@ -444,6 +460,113 @@ export default {
         'an aquarium, you will get access to its parameters in all sections of the calculator, which simplifies ' +
         'working with the service and saves your time.',
       keywords: 'aquariums, volume calculation, filter, substrate, aquarium management',
+    },
+    tank: {
+      title: 'Tank',
+    },
+    recipes: {
+      title: 'Fertilizer Recipe List',
+      description: 'On this page you can create recipes for DIY micro and macro fertilizers from '
+        + 'reagents or compounds, as well as use proven recipes that are already tested '
+        + 'and successfully used by many aquarists.',
+      keywords: 'fertilizer recipes, DIY fertilizer, macro, micro, tank, planted tank fertilizers',
+    },
+    recipe: {
+      title: 'Fertilizer recipe',
+    },
+    fertilizers: {
+      title: 'Commercial Fertilizer List',
+      description: 'On this page you can add any commercial fertilizers '
+        + 'that you use in your aquarium to easily calculate dosages.',
+      keywords: 'commercial fertilizers, aquarium, dosages, fertilizer tracking, plant nutrition',
+    },
+    fertilizer: {
+      title: 'Commercial fertilizer',
+    },
+    reminerals: {
+      title: 'Remineralizer recipes',
+      description: 'On this page you can develop your own remineralizer recipe. '
+        + 'For this purpose, you have reagents that are commonly used by aquarists at your disposal.',
+      keywords: 'remineralizer recipes, GH, KH, water remineralization',
+    },
+    remineral: {
+      title: 'Remineralizer recipe',
+    },
+    dosing: {
+      title: 'Planted Tank Fertilizer Dosage Selection',
+      description: 'Here you can select dosages for all your fertilizers using a convenient table. The calculator ' +
+        'will automatically calculate the total ' +
+        'concentrations of all elements entering your tank. This simplifies the calculation of ' +
+        'elements like potassium, which are found in different fertilizers.',
+      keywords: 'tank, fertilizers, dosages, concentration',
+    },
+    schedules: {
+      title: 'Tank Fertilizer Schedule',
+      description: 'If you have multiple bottles of fertilizers, the dosages of each fertilizer ' +
+        'differ from each other, ' +
+        'and you have several tanks, it can be quite easy to make mistakes with fertilizer dosing. ' +
+        'A convenient widget will help you create a schedule for the entire week and keep track of which ' +
+        'fertilizers need to be added.',
+      keywords: 'tank, fertilizers, dosing schedule, dosages, fertilizer planning',
+    },
+    hardness: {
+      title: 'Tank Water Hardness',
+      description: 'This calculator allows you to prepare replacement water with the desired hardness parameters '
+        + 'and easily calculate the resulting hardness in the planted tank.',
+      keywords: 'water change, water hardness, gh, kh',
+    },
+    settings: {
+      title: 'Settings',
+    },
+    about: {
+      title: 'About Samomes Project',
+      description: 'The Samomes project offers a set of tools for calculating planted tank fertilizers. '
+        + 'It helps reduce routine work in calculating reagent concentrations and creating '
+        + 'fertilizer dosing schedules. Use both DIY and commercial fertilizers to '
+        + 'achieve the desired element concentrations in water.',
+      keywords: 'DIY mix, fertilizer calculator, aquarium fertilizers, homemade recipes, '
+        + 'element concentration, schedule, aquarium plants',
+    },
+    articles: {
+      title: 'Articles',
+      description: 'Detailed recipes and instructions for making DIY fertilizers for '
+        + 'aquarium plants: nitrates, phosphates and potassium. Simple ways to create effective '
+        + 'fertilizers at home.',
+      keywords: 'DIY fertilizers, aquarium plants, nitrate, phosphate, potassium, fertilizer recipes, '
+        + 'stock solutions, planted aquarium',
+      nitrate: {
+        title: 'The Simplest Recipe for Homemade Nitrate Fertilizer',
+        description: 'In this article you will learn how to make a fertilizer recipe with nitrate and ' +
+          'potassium (DIY nitrate mix). And that it is actually not complicated at all.',
+        keywords: 'nitrate, fertilizer, DIY mix, stock solution, recipe',
+      },
+      phosphate: {
+        title: 'The Simplest Recipe for DIY Phosphate Fertilizer',
+        description: 'In this article you will learn how to make a fertilizer recipe with phosphate ' +
+          'and potassium (DIY phosphate mix). And that it is actually not complicated at all.',
+        keywords: 'phosphate, fertilizer, DIY mix, stock solution, recipe',
+      },
+      potassium: {
+        title: 'The Simplest Recipe for DIY Potassium Fertilizer',
+        description: 'In this article you will learn how to make a potassium fertilizer recipe ' +
+          '(DIY potassium mix) for aquarium.',
+        keywords: 'potassium, fertilizer, DIY mix, stock solution, recipe, aquarium',
+      },
+      noTests1: {
+        title: 'You Don\'t Need Aquarium Tests - Part 1: General Overview and Tank Examples',
+        description: 'Why aquarium tests may be unnecessary and how to successfully '
+          + 'maintain a planted aquarium without them. Real examples of tanks before and after giving up tests.',
+        keywords: 'aquarium without tests, planted tank, aquaristics, CO2 '
+          + 'in aquarium, aquarium fertilizers, algae in aquarium, water parameters, '
+          + 'nitrates, phosphates, potassium',
+      },
+      noTests2: {
+        title: 'You Don\'t Need Aquarium Tests - Part 2: Detailed Test Review and Conclusion',
+        description: 'Detailed analysis of each type of aquarium test and why most of them are unnecessary. '
+          + 'Practical advice for maintaining a planted tank without using tests.',
+        keywords: 'aquarium without tests, TDS meter, pH test, Kh, Gh, nitrate, phosphate, potassium, '
+          + 'iron, drop checker, CO2, planted tank, aquaristics',
+      },
     },
   },
 };
