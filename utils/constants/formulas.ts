@@ -189,6 +189,12 @@ export const FORMULAS = {
     solubility: 95.9,
     name: 'Натрия гидрокарбонат (пищевая сода)',
   },
+  'CaSO4(H2O)0.5': {
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'SO4', number: 1 },
+    solubility: 2.1,
+    name: 'Кальция сульфат 0.5-водный (Алебаст)',
+  },
   'CaSO4(H2O)2': {
     cation: { key: 'Ca', number: 1 },
     anion: { key: 'SO4', number: 1 },
