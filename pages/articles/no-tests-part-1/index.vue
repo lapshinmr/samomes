@@ -38,7 +38,9 @@
     <v-row>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <v-btn
@@ -52,7 +54,9 @@
       </v-col>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <h1 class="text-h4 text-md-h3 mt-md-10">
@@ -568,7 +572,9 @@
       </v-col>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
         class="d-flex justify-space-between my-15"
       >

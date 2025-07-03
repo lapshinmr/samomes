@@ -1,7 +1,8 @@
 <template>
   <v-col
     cols="12"
-    sm="4"
+    sm="6"
+    md="4"
   >
     <v-card
       class="d-flex flex-column justify-center text-center py-16 card"

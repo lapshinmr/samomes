@@ -42,8 +42,10 @@
           Начните с нажатия на кнопку «Добавить», чтобы добавить новое расписание.
         </PageText>
         <v-col
-          sm="8"
-          offset-sm="2"
+          sm="10"
+          md="8"
+          offset-sm="1"
+          offset-md="2"
         >
           <ScheduleCard
             v-for="(schedule, index) in scheduleStore.schedules"

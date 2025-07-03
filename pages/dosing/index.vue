@@ -39,7 +39,9 @@
 
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <div class="text-body-2 text-grey-darken-1 mb-8">
@@ -64,7 +66,7 @@
             <v-expand-transition>
               <div
                 v-if="dosingModel.tank?.volume"
-                class="d-flex flex-column flex-md-row align-sm-center"
+                class="d-flex flex-column flex-sm-row align-sm-center"
               >
                 <Combobox
                   :model-value="dosingStore.doseModels"
@@ -84,7 +86,7 @@
                   v-model="isDefaultFertilizers"
                   color="primary"
                   :label="t('dosing.switch')"
-                  class="ml-md-4 flex-shrink-0"
+                  class="ml-sm-4 flex-shrink-0"
                 />
               </div>
             </v-expand-transition>

@@ -68,8 +68,8 @@ definePageMeta({
 .w-40
   width: 40%
 
-.w-sm-40
-  @media (min-width: $xs)
+.w-md-40
+  @media (min-width: $sm)
     width: 40%
 
 p
@@ -81,7 +81,7 @@ p
   border-top: 1px solid #C8E6C9
   padding-top: 150px
   padding-bottom: 150px
-  @media (max-width: $xs)
+  @media (max-width: $sm)
     padding-top: 100px
     padding-bottom: 100px
 </style>
