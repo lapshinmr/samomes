@@ -412,6 +412,8 @@ export default {
       title: 'Dosage Selection',
       description: 'By adjusting the volume of selected recipes, you can achieve the necessary concentration of elements in the tank. This way, you can select an approximate value that the plants "consume" over a given period of time.',
     },
+    brandedAdded: 'Branded fertilizers have been added to the list',
+    brandedRemoved: 'Branded fertilizers have been removed from the list',
     dosesTable: {
       regime1: 'Every day',
       regime2: 'In water change',
@@ -432,6 +434,39 @@ export default {
       inTankDose: 'In the tank',
       everyDayDose: 'Per day',
       inDayWeekDose: 'Per day/week',
+    },
+    dynamicsPopup: {
+      tankParams: 'Tank Parameters',
+      description: 'With the given water change schedule ({waterChangePercent}% volume every {daysTotal} days) ' +
+        'and selected fertilizer dosages, equilibrium parameters will be reached after ' +
+        '{balancedWaterChangeNumber} changes ({balancedDaysTotal} days) and will be as follows',
+      tooltip: {
+        text1: 'These tank concentrations are calculated assuming no nutrient uptake in the aquarium. While ' +
+          'this calculation is quite accurate for elements like potassium, calcium, and magnesium, the values ' +
+          'for phosphate and nitrate will be significantly overestimated. Nevertheless, even for phosphate and ' +
+          'nitrate, this gives us an upper range to prevent overdosing these elements in case plants stop ' +
+          'growing for any reason.',
+        text2: 'If you want to understand how concentrations will change taking into account element consumption, ' +
+          'you can use the "Dynamics" section below.',
+      },
+      element: 'Element',
+      range: 'Range',
+      tableTooltip: 'The left value in the element concentration range is the concentration immediately after ' +
+        'water change and fertilizer addition. ' +
+        'The right value is the concentration just before the water change. The range shows ' +
+        'how the element concentration changes between water changes.',
+      dynamics: 'Dynamics — EI',
+      chooseElement: 'Choose element',
+      concInWaterChange: 'Concentration in change water',
+      concInTank: 'Currently in tank',
+      concPerDay: 'Daily consumption',
+    },
+    schedule: {
+      createSchedule: 'Create Schedule',
+      chooseDate: 'Choose water change date',
+      days: 'Days',
+      waterChange: 'Water Change',
+      scheduleRemoved: 'Schedule removed',
     },
     smallValue: 'small',
   },

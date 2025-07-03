@@ -3,17 +3,17 @@
     cols="12"
     class="section"
   >
-    <div class="d-flex flex-column flex-sm-row">
-      <div class="order-1 order-sm-0 w-sm-40 mx-sm-auto">
+    <div class="d-flex flex-column flex-md-row">
+      <div class="order-1 order-md-0 w-md-40 mx-md-auto">
         <v-lazy v-model="isVKVisible">
           <div id="vk_groups" class="w-100" />
         </v-lazy>
       </div>
-      <div class="order-0 order-sm-1 w-sm-50 align-self-center">
-        <h2 class="text-h4 text-sm-h2 mb-4 mb-sm-10 text-primary text-center text-sm-left">
+      <div class="order-0 order-md-1 w-md-50 align-self-center">
+        <h2 class="text-h4 text-md-h2 mb-4 mb-md-10 text-primary text-center text-md-left">
           {{ t('landing.contactUsSection.title') }}
         </h2>
-        <div class="d-flex justify-space-between my-8 mt-sm-auto pa-4 text-grey-darken-1 w-sm-50">
+        <div class="d-flex justify-space-between my-8 mt-md-auto pa-4 text-grey-darken-1 w-md-50">
           <a href="https://t.me/samomes_calculator" target="_blank">
             <Icon
               name="mdi:telegram"

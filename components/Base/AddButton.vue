@@ -56,11 +56,11 @@ defineProps({
 });
 
 const { t } = useI18n();
-const { smAndUp } = useDisplay();
+const { mdAndUp } = useDisplay();
 
 const style = computed(() => {
   let style = 'z-index: 999;';
-  if (smAndUp.value) {
+  if (mdAndUp.value) {
     style += ' right: 32px; bottom: 128px;';
   } else {
     style += ' right: 16px; bottom: 24px;';

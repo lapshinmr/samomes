@@ -27,7 +27,7 @@
     <v-text-field
       :model-value="scheduleModel.startDate"
       type="date"
-      label="Выберите дату подмены"
+      :label="t('dosing.schedule.chooseDate')"
       class="mb-4"
       @update:model-value="onDate"
     />
@@ -37,7 +37,7 @@
           <thead>
             <tr>
               <th class="text-center pl-0">
-                Дни
+                {{ t('dosing.schedule.days') }}
               </th>
               <th
                 v-for="dose in scheduleModel.dosing.doses"
@@ -54,7 +54,7 @@
                 || scheduleModel.dosing.fertilizersRegime === FertilizersRegime.MIX"
             >
               <td class="pl-0 text-center">
-                Подмена
+                {{ t('dosing.schedule.waterChange') }}
               </td>
               <td
                 v-for="dose in scheduleModel.dosing.doses"
@@ -71,8 +71,8 @@
               >
                 <td class="pl-0 text-center">
                   <div class="d-flex flex-column">
-                    <span style="text-transform: capitalize;">{{ getWeekday(day.date) }}</span>
-                    <span>{{ formatDate(day.date) }}</span>
+                    <span style="text-transform: capitalize;">{{ getWeekday(day.date, locale) }}</span>
+                    <span>{{ formatDate(day.date, locale) }}</span>
                   </div>
                 </td>
                 <td
@@ -105,8 +105,8 @@
                 </td>
               </tr>
               <tr>
-                <td class="font-weight-medium">
-                  Total
+                <td class="pl-0 text-center font-weight-medium">
+                  {{ t('common.total') }}
                 </td>
                 <td
                   v-for="dose in scheduleModel.dosing.doses"
@@ -129,7 +129,7 @@
                         class="text-blue cursor-pointer"
                         @click="scheduleModel.resetDaysAmount(dose.fertilizer.name)"
                       >
-                        Сбросить
+                        {{ t('buttons.reset') }}
                       </div>
                     </div>
                   </template>
@@ -168,7 +168,7 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const { appRoutes } = useAppRoutes();
@@ -245,7 +245,7 @@ function onToggleCheckbox(fertilizerName: string, fertilizerData) {
 
 async function onRemoveSchedule() {
   schedulesStore.removeSchedule(scheduleIndex.value);
-  snackbarStore.show('Расписание удалено');
+  snackbarStore.show(t('dosing.schedule.scheduleRemoved'));
   await router.push(appRoutes.value.schedules.path);
 }
 

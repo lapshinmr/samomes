@@ -49,7 +49,7 @@
           </div>
         </template>
         <template v-else-if="isShare">
-          <p class="text-h6 text-md-h5">
+          <p class="text-h6 text-sm-h5">
             {{ t('recipes.page.titleShare') }}
           </p>
           <p class="text-subtitle-1">
@@ -62,7 +62,9 @@
       </PageTitle>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <v-form ref="recipeFormRef">

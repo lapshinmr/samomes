@@ -11,37 +11,37 @@
     </div>
     <v-row class="d-flex justify-center">
       <ToolCard
-        id="dosing-section"
+        :link="appRoutes.dosing.path"
         :icon="appRoutes.dosing.icon"
         :title="t(`routes.${appRoutes.dosing.key}`)"
         :subtitle="t('landing.toolsSection.dosingSubtitle')"
       />
       <ToolCard
-        id="schedules-section"
+        :link="appRoutes.schedules.path"
         :icon="appRoutes.schedules.icon"
         :title="t(`routes.${appRoutes.schedules.key}`)"
         :subtitle="t('landing.toolsSection.schedulesSubtitle')"
       />
       <ToolCard
-        id="fertilizers-section"
+        :link="appRoutes.fertilizers.path"
         :icon="appRoutes.fertilizers.icon"
         :title="t(`routes.${appRoutes.fertilizers.key}`)"
         :subtitle="t('landing.toolsSection.fertilizersSubtitle')"
       />
       <ToolCard
-        id="recipes-section"
+        :link="appRoutes.recipes.path"
         :icon="appRoutes.recipes.icon"
         :title="t(`routes.${appRoutes.recipes.key}`)"
         :subtitle="t('landing.toolsSection.recipesSubtitle')"
       />
       <ToolCard
-        id="reminerals-section"
+        :link="appRoutes.reminerals.path"
         :icon="appRoutes.reminerals.icon"
         :title="t(`routes.${appRoutes.reminerals.key}`)"
         :subtitle="t('landing.toolsSection.remineralsSubtitle')"
       />
       <ToolCard
-        id="hardness-section"
+        :link="appRoutes.hardness.path"
         :icon="appRoutes.hardness.icon"
         :title="t(`routes.${appRoutes.hardness.key}`)"
         :subtitle="t('landing.toolsSection.hardnessSubtitle')"

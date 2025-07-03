@@ -92,7 +92,7 @@ export const FORMULAS = {
   },
   NH4NO3: {
     solubility: 1920,
-    name: 'Нитрат аммония',
+    name: 'Аммония нитрат',
   },
   MgSO4: {
     cation: { key: 'Mg', number: 1 },
@@ -188,6 +188,12 @@ export const FORMULAS = {
     HCO3: 1,
     solubility: 95.9,
     name: 'Натрия гидрокарбонат (пищевая сода)',
+  },
+  'CaSO4(H2O)0.5': {
+    cation: { key: 'Ca', number: 1 },
+    anion: { key: 'SO4', number: 1 },
+    solubility: 2.1,
+    name: 'Кальция сульфат 0.5-водный (Алебаст)',
   },
   'CaSO4(H2O)2': {
     cation: { key: 'Ca', number: 1 },
@@ -336,7 +342,7 @@ export const FORMULAS = {
     name: 'Железа DTPA 11%',
   },
   C6H7KO2: {
-    name: 'Сорбат калия (консервант E202)',
+    name: 'Калия сорбат (консервант E202)',
   },
   C6H8O7: {
     solubility: 1330,
@@ -377,7 +383,7 @@ export const FORMULAS = {
     name: 'Магния ацетат',
   },
   'CO(NH2)2H3PO4': {
-    name: 'Фосфат мочевины',
+    name: 'Мочевины фосфат',
   },
   C4H7NO4: {
     solubility: 4.5,

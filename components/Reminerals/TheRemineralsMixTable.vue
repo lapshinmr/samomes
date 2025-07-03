@@ -59,7 +59,7 @@
             v-for="reagent in remineral.reagents"
             :key="reagent.key"
           >
-            {{ format(reagent.amount / remineral.totalMass * requiredMixMass) }} г
+            {{ format(reagent.amount / remineral.totalMass * requiredMixMass) }} {{ t('units.g') }}
           </td>
         </tr>
       </tbody>

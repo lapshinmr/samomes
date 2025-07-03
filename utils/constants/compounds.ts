@@ -22,8 +22,6 @@
  * necessary for your intended use.
  */
 
-import type { CompoundObjectType } from '~/utils/types/types';
-
 export const COMPOUNDS = {
   Biolan: {
     ions: {

@@ -29,11 +29,11 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
     reagents: [
       {
         key: 'CaSO4(H2O)2',
-        amount: 1.28,
+        amount: 1.88,
       },
       {
         key: 'MgSO4(H2O)7',
-        amount: 1.88,
+        amount: 1.28,
       },
     ],
     changeVolume: 10,
@@ -93,23 +93,23 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
     reagents: [
       {
         key: 'CaSO4(H2O)2',
-        amount: 5,
+        amount: 0.634,
       },
       {
         key: 'MgSO4(H2O)7',
-        amount: 7,
+        amount: 0.887,
       },
       {
         key: 'CaCl2',
-        amount: 3,
+        amount: 0.38,
       },
       {
         key: 'K2CO3',
-        amount: 0.5,
+        amount: 0.0558,
       },
       {
         key: 'NaHCO3',
-        amount: 1,
+        amount: 0.112,
       },
     ],
     changeVolume: 10,

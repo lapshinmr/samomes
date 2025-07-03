@@ -49,7 +49,7 @@ defineOptions({
       rgba(0, 0, 0, 0.5) 75%,
       rgba(0, 0, 0, 0.6) 100%
     )
-    @media (max-width: $xs)
+    @media (max-width: $sm)
       height: 45%
 
   .main-section__content
@@ -58,7 +58,7 @@ defineOptions({
     left: 100px
     width: 60%
     text-align: left
-    @media (max-width: $xs)
+    @media (max-width: $sm)
       left: 24px
       bottom: 80px
       width: 90%
@@ -71,13 +71,13 @@ defineOptions({
       font-size: 48px
       line-height: 3.75rem
       margin-bottom: 32px
-      @media (max-width: $xs)
+      @media (max-width: $sm)
         font-size: 36px
         line-height: 2.5rem
         margin-bottom: 24px
     .main-section__subtitle
       font-size: 20px
       font-weight: 400
-      @media (max-width: $xs)
+      @media (max-width: $sm)
         font-size: 1.2rem !important
 </style>

@@ -132,7 +132,7 @@ export class Dosing {
         sum += this.concentration[ion].concentrationDay;
       } else if (this.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK) {
         if (+day % this.daysTotal === 0) {
-          sum += this.concentration[ion].concentrationWaterChange;
+          sum += this.concentration[ion].concentrationWaterChange * this.waterChangeDecimal;
         }
       } else if (this.fertilizersRegime === FertilizersRegime.MIX) {
         if (+day % this.daysTotal === 0) {
