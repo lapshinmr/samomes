@@ -239,11 +239,16 @@ useSeoMeta({
 });
 </script>
 
-<style scoped>
-.card-image {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  display: block;
-}
+<style lang="sass">
+@import 'assets/variables.sass'
+
+.card-image
+  width: 100%
+  height: 250px
+  object-fit: cover
+  display: block
+
+.hidden-xs-only
+  @media(max-width: $xs)
+    display: none
 </style>
