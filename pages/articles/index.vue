@@ -225,6 +225,7 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
 const localePath = useLocalePath();
 
 defineOptions({
@@ -232,20 +233,22 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Статьи',
-  description: 'Подробные рецепты и инструкции по приготовлению самодельных удобрений для '
-    + 'аквариумных растений: нитраты, фосфаты и калий. Простые способы создания эффективных '
-    + 'удобрений в домашних условиях.',
-  keywords: 'самодельные удобрения, аквариумные растения, нитрат, фосфат, калий, рецепты удобрений, '
-    + 'самомес, монорастворы, аквариум с растениями',
+  title: t('meta.articles.title'),
+  description: t('meta.articles.description'),
+  keywords: t('meta.articles.description'),
 });
 </script>
 
-<style scoped>
-.card-image {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  display: block;
-}
+<style lang="sass">
+@import 'assets/variables.sass'
+
+.card-image
+  width: 100%
+  height: 250px
+  object-fit: cover
+  display: block
+
+.hidden-xs-only
+  @media(max-width: $xs)
+    display: none
 </style>

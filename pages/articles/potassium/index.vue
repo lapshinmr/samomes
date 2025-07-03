@@ -39,8 +39,10 @@
     <v-row>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        sm="10"
+        md="8"
+        offset-sm="1"
+        offset-md="2"
       >
         <v-btn
           color="primary"
@@ -53,8 +55,10 @@
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        sm="10"
+        md="8"
+        offset-sm="1"
+        offset-md="2"
       >
         <h1 class="text-h4 text-md-h3 mt-md-10">
           Рецепт калия
@@ -352,8 +356,10 @@
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        sm="10"
+        md="8"
+        offset-sm="1"
+        offset-md="2"
         class="d-flex justify-space-between my-15"
       >
         <v-btn
@@ -447,9 +453,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Самый простой рецепт самодельного удобрения с калием',
-  description: 'В этой статье вы узнаете как сделать рецепт удобрения с калием (самомес калия) для аквариум.',
-  keywords: 'калий, удобрение, самомес, монораствор, рецепт, аквариум',
+  title: t('meta.articles.potassium.title'),
+  description: t('meta.articles.potassium.description'),
+  keywords: t('meta.articles.potassium.keywords'),
 });
 </script>
 

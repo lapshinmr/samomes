@@ -56,7 +56,7 @@ onUnmounted(() => {
     animation: bounce 2s infinite
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important
     transition: all 0.3s ease
-    @media (max-width: $xs)
+    @media (max-width: $sm)
       height: 50px
       width: 50px
 

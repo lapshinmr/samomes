@@ -45,18 +45,16 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 defineOptions({
   name: 'LandingPage',
 });
 
 useSeoMeta({
-  title: 'Калькулятор удобрений для растительного аквариума',
-  description: 'Самомес — это удобный калькулятор для аквариумистов, который упрощает расчет '
-    + 'концентрации элементов и дозировок удобрений для растительных аквариумов. '
-    + 'С его помощью можно создавать собственные рецепты удобрений, составлять расписания '
-    + 'внесения, управлять жесткостью воды и отслеживать динамику содержания элементов.',
-  keywords: 'аквариумы, рецепты, удобрения, расписание, водоподготовка, динамика, растительный аквариум, '
-    + 'реминерализаторы, аквариумисты',
+  title: t('meta.landing.title'),
+  description: t('meta.landing.description'),
+  keywords: t('meta.landing.keywords'),
 });
 
 definePageMeta({
@@ -70,8 +68,8 @@ definePageMeta({
 .w-40
   width: 40%
 
-.w-sm-40
-  @media (min-width: $xs)
+.w-md-40
+  @media (min-width: $sm)
     width: 40%
 
 p
@@ -83,7 +81,7 @@ p
   border-top: 1px solid #C8E6C9
   padding-top: 150px
   padding-bottom: 150px
-  @media (max-width: $xs)
+  @media (max-width: $sm)
     padding-top: 100px
     padding-bottom: 100px
 </style>

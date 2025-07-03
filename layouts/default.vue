@@ -42,7 +42,7 @@
               class="d-flex text-white"
               href="/"
             >
-              <v-img
+              <NuxtImg
                 src="/images/npk-120x120.png"
                 height="24"
                 width="24"
@@ -54,7 +54,8 @@
             </a>
           </div>
         </v-app-bar-title>
-        <!--        <LanguageSwitcher />-->
+
+<!--        <LanguageSwitcher />-->
 
         <v-app-bar-nav-icon
           class="d-inline-block d-sm-none"

@@ -25,8 +25,10 @@
 <template>
   <v-col
     cols="12"
-    sm="8"
-    offset-sm="2"
+    sm="10"
+    md="8"
+    offset-sm="1"
+    offset-md="2"
   >
     <h1 class="text-h5 text-sm-h4 mt-md-4 d-flex justify-space-between mt-4 my-sm-6 mt-sm-0">
       <span class="d-inline-block">

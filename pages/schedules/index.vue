@@ -42,8 +42,10 @@
           Начните с нажатия на кнопку «Добавить», чтобы добавить новое расписание.
         </PageText>
         <v-col
-          sm="8"
-          offset-sm="2"
+          sm="10"
+          md="8"
+          offset-sm="1"
+          offset-md="2"
         >
           <ScheduleCard
             v-for="(schedule, index) in scheduleStore.schedules"
@@ -74,6 +76,7 @@
 <script lang="ts" setup>
 const router = useRouter();
 const { appRoutes } = useAppRoutes();
+const { t } = useI18n();
 const scheduleStore = useSchedulesStore();
 
 function onAdd() {
@@ -81,11 +84,9 @@ function onAdd() {
 }
 
 useSeoMeta({
-  title: 'Расписание внесений удобрений в аквариум',
-  description: 'Если у вас несколько бутылок с удобрениями, дозировки каждого удобрения отличаются друг от друга, ' +
-    'да еще и несколько аквариумов, то можно довольно легко ошибиться с внесением удобрений. ' +
-    'Удобный виджет поможет вам составить расписание на всю неделю и следить за тем, какие удобрения нужно внести.',
-  keywords: 'аквариум, удобрения, расписание внесения, дозировки, планирование удобрений',
+  title: t('meta.schedules.title'),
+  description: t('meta.schedules.description'),
+  keywords: t('meta.schedules.keywords'),
 });
 </script>
 

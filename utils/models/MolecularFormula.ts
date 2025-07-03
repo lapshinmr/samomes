@@ -31,7 +31,8 @@ export default class MolecularFormula {
 
   constructor(formula: string) {
     try {
-      const formulaReplaced = MolecularFormula.replaceSupAndSub(formula);
+      let formulaReplaced = MolecularFormula.replaceSupAndSub(formula);
+      formulaReplaced = MolecularFormula.replaceComma(formulaReplaced);
       this.formulaInit = MolecularFormula.cleanParentheses(formulaReplaced);
     } catch {
       throw new Error('Error format');
@@ -43,6 +44,10 @@ export default class MolecularFormula {
       /[⁰¹²³⁴-⁹₀-₉]/g,
       (char: string) => char.charCodeAt(0).toString(16).slice(-1),
     );
+  }
+
+  static replaceComma(formula: string): string {
+    return formula.replace(/[,]/, '.');
   }
 
   static isLowerCase(char: string): boolean {
@@ -133,6 +138,8 @@ export default class MolecularFormula {
       } else if (currentElem.length > 0) {
         if (MolecularFormula.isNumber(char)) {
           currentCount += char;
+        } else if (char === '.') {
+          currentCount += char;
         } else if (MolecularFormula.isUpperCase(char)) {
           if (currentCount.length === 0) {
             currentCount = '1';
@@ -158,7 +165,7 @@ export default class MolecularFormula {
     const [startIndex, stopIndex] = innerGroup;
     let c = '';
     let i = 1;
-    while (MolecularFormula.isNumber(formula[stopIndex + i])) {
+    while (MolecularFormula.isNumber(formula[stopIndex + i]) || formula[stopIndex + i] === '.') {
       c += formula[stopIndex + i];
       i += 1;
     }

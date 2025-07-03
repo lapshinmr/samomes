@@ -42,14 +42,14 @@
         </template>
         <template v-else-if="isCopy">
           <div class="text-h6 text-sm-h5">
-            {{ t('reminerals.page.titleNew') }} {{ remineralModel.name }}
+            {{ t('reminerals.page.titleCopy') }} {{ remineralModel.name }}
           </div>
           <div class="text-subtitle-1">
             {{ t('reminerals.page.subtitleCopy') }}
           </div>
         </template>
         <template v-else-if="isShare">
-          <p class="text-h6 text-md-h5">
+          <p class="text-h6 text-sm-h5">
             {{ t('reminerals.page.titleShare') }}
           </p>
           <p class="text-subtitle-1">
@@ -62,7 +62,9 @@
       </PageTitle>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <v-form ref="remineralFormRef">
@@ -74,7 +76,7 @@
             :items="reagents"
             item-title="text"
             :label="t('common.reagents')"
-            hint="Начните набирать текст, чтобы отфильтровать список"
+            :hint="t('common.comboboxTypingHint')"
             variant="underlined"
             multiple
             persistent-hint
@@ -105,7 +107,7 @@
               <div
                 v-for="reagent in reagentsChosen"
                 :key="reagent.key"
-                class="d-flex mb-4"
+                class="d-flex align-start mb-4"
               >
                 <NumberField
                   :model-value="reagent.amount"
@@ -170,10 +172,13 @@
                 <div v-if="isReagentsAmount">
                   <DividerWithNote
                     v-model="isConcentration"
-                    class="my-4"
+                    class="mt-6 mb-4"
                     button
                   >
-                    Концентрация {{ remineralModel.isLiquid ? 'раствора' : 'смеси' }}
+                    {{ remineralModel.isLiquid
+                      ? t('reminerals.page.soluteConcentration')
+                      : t('reminerals.page.dryConcentration')
+                    }}
                   </DividerWithNote>
                   <v-expand-transition>
                     <TheSoluteElementsTable
@@ -183,7 +188,7 @@
                     />
                   </v-expand-transition>
                   <DividerWithNote class="mt-10 mb-3">
-                    Концентрация в подменной воде
+                    {{ t('reminerals.page.changeWaterConcentration') }}
                   </DividerWithNote>
                   <TheCationsAndAnions
                     :remineral="remineralModel"
@@ -191,10 +196,10 @@
                   />
                   <DividerWithNote
                     v-model="isTable"
-                    class="my-4"
+                    class="mt-6 mb-4"
                     button
                   >
-                    Таблица с навесками
+                    {{ t('reminerals.page.portionsTable') }}
                   </DividerWithNote>
                   <v-expand-transition>
                     <TheRemineralsRecipesTable
@@ -634,7 +639,7 @@ async function onCopyRemineral() {
 }
 
 useSeoMeta({
-  title: 'Реминерализатор',
+  title: t('meta.remineral.title'),
 });
 </script>
 

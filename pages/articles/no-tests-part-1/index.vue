@@ -38,7 +38,9 @@
     <v-row>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <v-btn
@@ -52,7 +54,9 @@
       </v-col>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <h1 class="text-h4 text-md-h3 mt-md-10">
@@ -568,7 +572,9 @@
       </v-col>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
         class="d-flex justify-space-between my-15"
       >
@@ -592,18 +598,16 @@
 <script lang="ts" setup>
 const localePath = useLocalePath();
 const { mdAndUp } = useDisplay();
+const { t } = useI18n();
 
 defineOptions({
   name: 'NoTestsPart1Page',
 });
 
 useSeoMeta({
-  title: 'Тесты для аквариума вам не нужны - Часть 1: Общие слова и примеры аквариумов',
-  description: 'Почему тесты для аквариума могут быть излишними и как успешно '
-    + 'содержать растительный аквариум без них. Реальные примеры аквариумов до и после отказа от тестов.',
-  keywords: 'аквариум без тестов, растительный аквариум, аквариумистика, CO2 '
-    + 'в аквариуме, удобрения для аквариума, водоросли в аквариуме, параметры воды, '
-    + 'нитраты, фосфаты, калий',
+  title: t('meta.articles.noTests1.title'),
+  description: t('meta.articles.noTests1.description'),
+  keywords: t('meta.articles.noTests1.keywords'),
 });
 </script>
 

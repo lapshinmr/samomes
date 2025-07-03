@@ -37,7 +37,7 @@
             :class="{'pr-0': index === ionsTotal - 1}"
           >
             <div style="white-space: nowrap;">
-              {{ ion }}, {{ remineral.isLiquid ? t('units.g/l') : t('units.g/1g') }}
+              {{ ion }}
             </div>
           </th>
         </tr>
@@ -45,7 +45,7 @@
       <tbody>
         <tr class="font-weight-medium">
           <td class="pl-0 text-center">
-            {{ t('common.sum') }}
+            {{ t('reminerals.page.concentration') }}, {{ remineral.isLiquid ? t('units.g/l') : t('units.g/1g') }}
           </td>
           <template
             v-for="([ion, value], index) in concentrationSorted"

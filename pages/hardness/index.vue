@@ -38,8 +38,10 @@
       </page-title>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        sm="10"
+        md="8"
+        offset-sm="1"
+        offset-md="2"
       >
         <client-only>
           <v-combobox
@@ -476,10 +478,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Жесткость в аквариуме',
-  description: 'Данный калькулятор позволяет подготовить подменную воду с нужными параметрами жесткости '
-    + 'воды и легко рассчитать итоговую жесткость в аквариуме.',
-  keywords: 'подмена, жесткость воды, gh, kh',
+  title: t('meta.hardness.title'),
+  description: t('meta.hardness.description'),
+  keywords: t('meta.hardness.keywords'),
 });
 </script>
 

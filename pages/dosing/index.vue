@@ -22,7 +22,6 @@
   necessary for your intended use.
 -->
 
-
 <template>
   <v-container class="mb-12">
     <v-row>
@@ -40,7 +39,9 @@
 
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <div class="text-body-2 text-grey-darken-1 mb-8">
@@ -65,7 +66,7 @@
             <v-expand-transition>
               <div
                 v-if="dosingModel.tank?.volume"
-                class="d-flex flex-column flex-md-row align-sm-center"
+                class="d-flex flex-column flex-sm-row align-sm-center"
               >
                 <Combobox
                   :model-value="dosingStore.doseModels"
@@ -85,7 +86,7 @@
                   v-model="isDefaultFertilizers"
                   color="primary"
                   :label="t('dosing.switch')"
-                  class="ml-md-4 flex-shrink-0"
+                  class="ml-sm-4 flex-shrink-0"
                 />
               </div>
             </v-expand-transition>
@@ -105,7 +106,7 @@
                     class="mb-3 mb-sm-0"
                     @click="isDynamicsPopup = true;"
                   >
-                    Параметры в аквариуме
+                    {{ t('dosing.dynamicsPopup.tankParams') }}
                   </v-btn>
                 </TheDosingElementsTable>
               </div>
@@ -116,7 +117,7 @@
                 button
                 class="my-10"
               >
-                Составить расписание
+                {{ t('dosing.schedule.createSchedule') }}
               </DividerWithNote>
               <v-expand-transition>
                 <TheScheduleDoseTable
@@ -246,8 +247,8 @@ const isDefaultFertilizers = computed({
     dosingStore.setDefaultFertilizers(value);
     snackbarStore.show(
       value
-        ? 'Фирменные удобрения добавлены в список'
-        : 'Фирменные удобрения удалены из списка',
+        ? t('dosing.brandedAdded')
+        : t('dosing.brandedRemoved'),
     );
   },
 });
@@ -261,12 +262,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Подбор дозировок удобрений в аквариуме',
-  description: 'Здесь вы можете подобрать дозировки всех ваших удобрений с помощью удобной таблицы. Калькулятор ' +
-    'сам рассчитает суммарные ' +
-    'концентрации всех элементов, поступающих в ваш аквариум. Это упростит подсчет таких элементов, как калий, ' +
-    'которые встречаются в разных удобрениях.',
-  keywords: 'аквариум, удобрения, дозировки, концентрация',
+  title: t('meta.dosing.title'),
+  description: t('meta.dosing.description'),
+  keywords: t('meta.dosing.keywords'),
 });
 </script>
 

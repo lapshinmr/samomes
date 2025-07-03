@@ -39,8 +39,10 @@
     <v-row>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        sm="10"
+        md="8"
+        offset-sm="1"
+        offset-md="2"
       >
         <v-btn
           color="primary"
@@ -53,8 +55,10 @@
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        sm="10"
+        md="8"
+        offset-sm="1"
+        offset-md="2"
       >
         <h1 class="text-h4 text-md-h3 mt-md-10">
           Простейший рецепт фосфата PO<sub>4</sub>
@@ -241,8 +245,10 @@
       </v-col>
       <v-col
         cols="12"
-        sm="8"
-        offset-sm="2"
+        sm="10"
+        md="8"
+        offset-sm="1"
+        offset-md="2"
         class="d-flex justify-space-between my-15"
       >
         <v-btn
@@ -336,10 +342,9 @@ defineOptions({
 });
 
 useSeoMeta({
-  title: 'Самый простой рецепт самодельного удобрения с фосфатом',
-  description: 'В этой статье вы узнаете как сделать рецепт удобрения с фосфатом и калием (самомес фосфата). '
-    + 'И что на самом деле это совсем не сложно.',
-  keywords: 'фосфат, удобрение, самомес, монораствор, рецепт',
+  title: t('meta.articles.phosphate.title'),
+  description: t('meta.articles.phosphate.description'),
+  keywords: t('meta.articles.phosphate.keywords'),
 });
 </script>
 

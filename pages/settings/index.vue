@@ -30,7 +30,9 @@
       </PageTitle>
       <v-col
         cols="12"
+        sm="10"
         md="8"
+        offset-sm="1"
         offset-md="2"
       >
         <div class="text-h5 mb-8">
@@ -182,7 +184,7 @@ function resetAll() {
 }
 
 useSeoMeta({
-  title: 'Настройки',
+  title: t('meta.settings.title'),
 });
 </script>
 

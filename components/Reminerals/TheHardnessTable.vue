@@ -75,8 +75,7 @@
         suffix="Gh"
         variant="outlined"
         hide-details="auto"
-        persistent-hint
-        class="mb-2"
+        class="mb-2 flex-1-0-0"
         :disabled="gh === null"
       />
       <NumberField
@@ -85,8 +84,7 @@
         suffix="Kh"
         variant="outlined"
         hide-details="auto"
-        persistent-hint
-        class="mb-2 ml-2"
+        class="mb-2 ml-2 flex-1-0-0"
         :disabled="kh === null || khDisabled"
       />
       <NumberField
@@ -94,10 +92,16 @@
         label="Ca / Mg"
         variant="outlined"
         hide-details="auto"
-        persistent-hint
-        class="mb-2 ml-2"
+        class="mb-2 ml-2 flex-1-0-0"
         :disabled="caMgRatio === null || caMgRatioDisabled"
       />
+    </div>
+    <div class="d-flex align-center text-body-2 text-grey-darken-1">
+      <Icon
+        name="mdi-information-outline"
+        size="16"
+        class="mr-1 flex-shrink-0"
+      /> {{ t('reminerals.page.ghKhHint') }}
     </div>
   </div>
 </template>

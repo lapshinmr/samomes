@@ -28,6 +28,9 @@
   align-items: center
   padding: 20px
   animation: phone-mockup-appear 1s ease-out
+  width: 360px
+  @media (max-width: $sm)
+    width: 300px
 
 .phone-mockup__frame
   position: relative
@@ -35,7 +38,7 @@
   border-radius: 40px
   box-shadow: 0 0 0 8px #1a1a1a, 0 0 0 12px #333, 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.1)
   padding: 6px 6px
-  @media (max-width: $xs)
+  @media (max-width: $sm)
     padding: 4px 4px
     border-radius: 30px
     box-shadow: 0 0 0 4px #1a1a1a, 0 0 0 8px #333, 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 2px rgba(255, 255, 255, 0.1)
@@ -49,6 +52,6 @@
   overflow: hidden
   display: flex
   flex-direction: column
-  @media (max-width: $xs)
+  @media (max-width: $sm)
     border-radius: 24px
 </style>

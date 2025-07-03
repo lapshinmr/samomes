@@ -20,7 +20,7 @@
           @canplay="onIntroVideoReady"
           @ended="onIntroVideoEnded"
         >
-          <source src="/images/landing/intro-video.mp4" type="video/mp4">
+          <source src="/video/intro-video.mp4" type="video/mp4">
         </video>
         <video
           v-if="isMainVideo"
@@ -32,15 +32,16 @@
           class="parallax__video"
           @canplay="onMainVideoReady"
         >
-          <source src="/images/landing/main-video.mp4" type="video/mp4" >
+          <source src="/video/main-video.mp4" type="video/mp4" >
         </video>
       </client-only>
       <NuxtImg
         v-if="isPhotoPlaceholder"
         src="/images/landing/placeholder.jpeg"
         alt="Video Placeholder"
-        quality="100"
+        quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
+        :placeholder="[192, 108, 75, 5]"
         class="parallax__image"
       />
     </div>
@@ -122,12 +123,11 @@ const handleScroll = () => {
 
   .parallax__image
     object-fit: cover
-    height: 100%
+    height: 100%!important
     width: 100%
     position: absolute!important
     top: 50%
     left: 50%
-    height: 100%!important
     transform: translate(-50%, -50%)
     pointer-events: none
 

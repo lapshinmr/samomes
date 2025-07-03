@@ -108,6 +108,8 @@ export default defineNuxtConfig({
     workbox: {
       globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
       cleanupOutdatedCaches: true,
+      skipWaiting: true,
+      clientsClaim: true,
     },
 
     // devOptions: {
@@ -179,7 +181,6 @@ export default defineNuxtConfig({
         themes: {
           light: {
             colors: {
-              // primary: '#1976d2',
               primary: '#4caf50',
             },
           },
