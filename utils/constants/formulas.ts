@@ -92,7 +92,7 @@ export const FORMULAS = {
   },
   NH4NO3: {
     solubility: 1920,
-    name: 'Нитрат аммония',
+    name: 'Аммония нитрат',
   },
   MgSO4: {
     cation: { key: 'Mg', number: 1 },
@@ -342,7 +342,7 @@ export const FORMULAS = {
     name: 'Железа DTPA 11%',
   },
   C6H7KO2: {
-    name: 'Сорбат калия (консервант E202)',
+    name: 'Калия сорбат (консервант E202)',
   },
   C6H8O7: {
     solubility: 1330,
@@ -383,7 +383,7 @@ export const FORMULAS = {
     name: 'Магния ацетат',
   },
   'CO(NH2)2H3PO4': {
-    name: 'Фосфат мочевины',
+    name: 'Мочевины фосфат',
   },
   C4H7NO4: {
     solubility: 4.5,

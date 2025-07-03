@@ -5,7 +5,7 @@
   >
     <v-card
       class="d-flex flex-column justify-center text-center py-16 card"
-      @click="goTo(`#${id}`, { duration: 500 })"
+      :to="link"
     >
       <div class="text-primary mb-4">
         <Icon
@@ -25,13 +25,11 @@
 
 <script setup lang="ts">
 defineProps<{
-  id: string;
+  link: string;
   icon: string;
   title: string;
   subtitle: string;
 }>();
-
-const goTo = useGoTo();
 
 defineOptions({
   name: 'ToolCard',

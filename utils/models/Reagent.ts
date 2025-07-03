@@ -26,6 +26,7 @@ import MolecularFormula from '~/utils/models/MolecularFormula';
 import { getElementToIonRatio, getElementToOxideRatio, getOxideToElementRatio } from '~/utils/funcs';
 
 export default class Reagent {
+  // TODO: investigate ReagentKeyType regarding to the OwnReagentType
   readonly key: ReagentKeyType;
   readonly name: string;
   readonly type: ReagentTypeName;

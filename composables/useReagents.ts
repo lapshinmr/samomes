@@ -25,8 +25,11 @@
 export default () => {
   const reagentsStore = useReagentsStore();
 
+  const { locale } = useI18n();
+
   function getReagents(amount: number = 0) {
 
+    // TODO: add types
     function getReagentType(key, data) {
       if (key in FORMULAS) {
         return ReagentTypeName.FORMULA;
@@ -36,9 +39,23 @@ export default () => {
       return data.type;
     }
 
+    const sortObjectByName = (object: Record<string, FormulaObjectType>) => {
+      const result: [string, FormulaObjectType][] = typedEntries(object);
+      result.sort((a, b) => a[1].name.localeCompare(b[1].name, locale.value));
+      return result;
+    };
+
+    const FORMULAS_SORTED = Object.fromEntries(sortObjectByName(FORMULAS));
+    const COMPOUNDS_SORTED = Object.fromEntries(sortObjectByName(COMPOUNDS));
+    const OWN_REAGENTS_SORTED = Object.fromEntries(sortObjectByName(reagentsStore.reagents));
+
     return [
-      ...typedEntries({ ...FORMULAS, ...COMPOUNDS, ...reagentsStore.reagents }).map(([key, data]) => new Reagent({
-        key,
+      ...typedEntries({
+        ...FORMULAS_SORTED,
+        ...COMPOUNDS_SORTED,
+        ...OWN_REAGENTS_SORTED,
+      }).map(([key, data]) => new Reagent({
+        key: key as ReagentKeyType,
         ...data,
         amount,
         type: getReagentType(key, data),
