@@ -41,16 +41,16 @@ export const format = (value: string | number, precision: number | undefined = 3
   return +formatter.format(num);
 };
 
-export const formatDate = (value: string | InstanceType<typeof Date>): string => {
-  return new Date(value).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+export const formatDate = (value: string | InstanceType<typeof Date>, locale: string = 'ru-RU'): string => {
+  return new Date(value).toLocaleDateString(locale, { day: 'numeric', month: 'long' });
 };
 
 export const getDate = (value: InstanceType<typeof Date>): string => {
   return value.toISOString().split('T')[0];
 };
 
-export const getWeekday = (value: string | InstanceType<typeof Date>): string => {
-  return new Date(value).toLocaleDateString('ru-RU', { weekday: 'short' });
+export const getWeekday = (value: string | InstanceType<typeof Date>, locale: string = 'ru-RU'): string => {
+  return new Date(value).toLocaleDateString(locale, { weekday: 'short' });
 };
 
 export const toFixed = (value: number, precision: number) => {

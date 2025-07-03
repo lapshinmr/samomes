@@ -104,7 +104,7 @@
                     class="mb-3 mb-sm-0"
                     @click="isDynamicsPopup = true;"
                   >
-                    Параметры в аквариуме
+                    {{ t('dosing.dynamicsPopup.tankParams') }}
                   </v-btn>
                 </TheDosingElementsTable>
               </div>
@@ -115,7 +115,7 @@
                 button
                 class="my-10"
               >
-                Составить расписание
+                {{ t('dosing.schedule.createSchedule') }}
               </DividerWithNote>
               <v-expand-transition>
                 <TheScheduleDoseTable
@@ -245,8 +245,8 @@ const isDefaultFertilizers = computed({
     dosingStore.setDefaultFertilizers(value);
     snackbarStore.show(
       value
-        ? 'Фирменные удобрения добавлены в список'
-        : 'Фирменные удобрения удалены из списка',
+        ? t('dosing.brandedAdded')
+        : t('dosing.brandedRemoved'),
     );
   },
 });

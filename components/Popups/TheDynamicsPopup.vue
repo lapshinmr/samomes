@@ -29,7 +29,7 @@
   >
     <v-card>
       <v-card-title>
-        Параметры в аквариуме
+        {{ t('dosing.dynamicsPopup.tankParams') }}
       </v-card-title>
       <v-card-text>
         <NumberField
@@ -44,11 +44,12 @@
         <v-expand-transition>
           <div v-if="waterChangeVolume">
             <div class="mb-4 text-body-2">
-              При заданном режиме подмен ({{ format(dosing.waterChangePercent, 3) }}%
-              объёма каждые {{ dosing.daysTotal }} д) и выбранных дозировках удобрений равновесные
-              параметры будут достигнуты через {{ countBalancedWaterChangeNumber() }} подмен
-              ({{ dosing.daysTotal * (countBalancedWaterChangeNumber() - 1) }} д)
-              и будут следующими
+              {{ t('dosing.dynamicsPopup.description', {
+                waterChangePercent: format(dosing.waterChangePercent, 3),
+                daysTotal: dosing.daysTotal,
+                balancedWaterChangeNumber: countBalancedWaterChangeNumber(),
+                balancedDaysTotal: dosing.daysTotal * (countBalancedWaterChangeNumber() - 1)
+              }) }}
               <v-tooltip
                 location="bottom"
                 max-width="400"
@@ -64,15 +65,10 @@
                   />
                 </template>
                 <p class="mb-2">
-                  Данные концентрации в аквариуме рассчитаны с допущением, что в аквариуме нет поглотителей. И если
-                  для таких элементов, как калий, кальций, магний, такой расчет является довольно точным, то для фосфата
-                  и нитрата данные значения будут сильно завышенными. Тем не менее даже для фосфата и нитрата
-                  таким образом мы можем получить верхний диапазон значений, чтобы исключить передозировку
-                  этих элементов в том случае, если растения по каким-то причинам перестали расти.
+                  {{ t('dosing.dynamicsPopup.tooltip.text1') }}
                 </p>
                 <p>
-                  Если вы хотите понять, как будут изменяться концентрации с учетом потребления элементов, то
-                  можете воспользоваться расположенной ниже секцией «Динамика».
+                  {{ t('dosing.dynamicsPopup.tooltip.text2') }}
                 </p>
               </v-tooltip>:
             </div>
@@ -82,8 +78,8 @@
             >
               <thead>
                 <tr>
-                  <th class="text-center">Элемент</th>
-                  <th class="text-center">Диапазон, мг/л
+                  <th class="text-center">{{ t('dosing.dynamicsPopup.element') }}</th>
+                  <th class="text-center">{{ t('dosing.dynamicsPopup.range') }}, {{ t('units.mg/l') }}
                     <v-tooltip
                       location="bottom"
                       max-width="400"
@@ -98,10 +94,7 @@
                           v-bind="props"
                         />
                       </template>
-                      Левое значение в диапазоне концентрации элемента — это концентрация сразу после подмены воды
-                      и добавления удобрения.
-                      Правое значение — это концентрация непосредственно перед подменой. Диапазон показывает,
-                      как изменяется концентрация элемента в период между подменами.
+                      {{ t('dosing.dynamicsPopup.tableTooltip') }}
                     </v-tooltip>
                   </th>
                 </tr>
@@ -139,7 +132,7 @@
               button
               class="my-10"
             >
-              Динамика
+              {{ t('dosing.dynamicsPopup.dynamics') }}
             </DividerWithNote>
             <v-expand-transition>
               <div v-if="isChart">
@@ -147,7 +140,7 @@
                   v-model="currentIon"
                   :items="dosing.ionList"
                   variant="outlined"
-                  label="Выберите элемент"
+                  :label="t('dosing.dynamicsPopup.chooseElement')"
                 />
                 <div
                   :style="mdAndUp ? 'height: 400px;' : 'height: 250px;'"
@@ -161,20 +154,20 @@
                 </div>
                 <NumberField
                   v-model="ionWaterConcentration"
-                  label="Концентрация в подменной воде"
-                  suffix="мг/л"
+                  :label="t('dosing.dynamicsPopup.concInWaterChange')"
+                  :suffix="t('units.mg/l')"
                   hide-details="auto"
                 />
                 <NumberField
                   v-model="ionInit"
-                  label="В аквариуме сейчас"
-                  suffix="мг/л"
+                  :label="t('dosing.dynamicsPopup.concInTank')"
+                  :suffix="t('units.mg/l')"
                   hide-details="auto"
                 />
                 <NumberField
                   v-model="ionConsumption"
-                  label="Потребление в день"
-                  suffix="мг/л"
+                  :label="t('dosing.dynamicsPopup.concPerDay')"
+                  :suffix="t('units.mg/l')"
                   hide-details="auto"
                 />
               </div>

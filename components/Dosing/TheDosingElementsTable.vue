@@ -42,7 +42,7 @@
           </th>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.EVERY_DAY">
             <th class="text-center">
-              {{ t('dosing.elementsTable.everyDayDose') }} <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
+              {{ t('dosing.elementsTable.everyDayDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
             <th class="text-center">
               {{ t('dosing.elementsTable.totalDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
