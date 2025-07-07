@@ -49,8 +49,8 @@
             >
               <div class="d-flex flex-column text-h4 text-center mb-4">
                 <div>
-                  <span style="text-transform: capitalize;">{{ getWeekday(day.date) }}</span>,
-                  <span>{{ formatDate(day.date) }}</span>
+                  <span style="text-transform: capitalize;">{{ getWeekday(day.date, locale) }}</span>,
+                  <span>{{ formatDate(day.date, locale) }}</span>
                 </div>
               </div>
               <template v-if="dayIndex === 0">
@@ -93,21 +93,21 @@
           class="ml-auto"
           @click="prevStep"
         >
-          Назад
+          {{ t('buttons.back') }}
         </v-btn>
         <v-btn
           :disabled="curDay === slidesTotal - 1"
           class="ml-0 ml-sm-3"
           @click="nextStep"
         >
-          Далее
+          {{ t('buttons.next') }}
         </v-btn>
       </template>
       <v-btn
         class="ml-0 ml-sm-3"
         @click="onScheduleOpen"
       >
-        Открыть
+        {{ t('buttons.edit' )}}
       </v-btn>
     </v-card-actions>
     <v-progress-linear
@@ -118,7 +118,7 @@
 </template>
 
 <script lang="ts" setup>
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const router = useRouter();
 const dosingStore = useDosingStore();
 const schedulesStore = useSchedulesStore();
@@ -133,13 +133,13 @@ const curDay = ref(0);
 
 const startDate = computed(() => {
   const startDateObject = new Date(props.schedule.startDate);
-  return formatDate(startDateObject);
+  return formatDate(startDateObject, locale.value);
 });
 
 const endDate = computed(() => {
   const startDateObject = new Date(props.schedule.startDate);
   const endDateObject = new Date(startDateObject.setDate(startDateObject.getDate() + props.schedule.dosing.daysTotal - 1));
-  return formatDate(endDateObject);
+  return formatDate(endDateObject, locale.value);
 });
 
 const slidesTotal = computed(() => {

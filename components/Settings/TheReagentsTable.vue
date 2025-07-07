@@ -27,7 +27,7 @@
     <thead>
       <tr>
         <th>
-          Реагент
+          {{ t('settings.reagentsTable.title') }}
         </th>
         <th />
       </tr>
@@ -53,7 +53,7 @@
     <tbody v-else>
       <tr>
         <td>
-          Вы еще не добавили собственные реагенты
+          {{ t('settings.reagentsTable.empty') }}
         </td>
       </tr>
     </tbody>
@@ -64,6 +64,8 @@
 defineOptions({
   name: 'TheReagentsTable',
 });
+
+const { t } = useI18n();
 
 const reagentsStore = useReagentsStore();
 const { reagents } = storeToRefs(useReagentsStore());

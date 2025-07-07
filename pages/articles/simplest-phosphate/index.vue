@@ -33,6 +33,7 @@
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           alt="Easiest phosphate recipe"
           :placeholder="[50, 25, 75, 5]"
+          format="webp"
         />
       </v-col>
     </v-row>
@@ -204,7 +205,7 @@
             />
             <NumberField
               v-model="reagentKH2PO4.amount"
-              label="Масса нитрата калия"
+              label="Масса монофосфата калия"
               suffix="г"
               variant="outlined"
               :error="checkSolubilityError(reagentKH2PO4)"
@@ -230,8 +231,8 @@
           {{ reagentKH2PO4.amount ? format(reagentKH2PO4.amount) : '-' }}
           г монофосфата калия (KH<sub>2</sub>PO<sub>4</sub>) на {{ reagentH2O.amount }} мл.<br><br>
           1 мл данного удобрения повышает уровень фосфата на
-          {{ unitConcs['PO4'] ? format(unitConcs['PO4']) : '-' }} мг/л и калия на
-          {{ unitConcs['K'] ? format(unitConcs['K']) : '-' }} мг/л в аквариуме объемом
+          {{ unitConcs['PO4'] ? format(unitConcs['PO4'], 2) : '-' }} мг/л и калия на
+          {{ unitConcs['K'] ? format(unitConcs['K'], 2) : '-' }} мг/л в аквариуме объемом
           {{ recipeModel.tankVolume }} л
         </v-alert>
 

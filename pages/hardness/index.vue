@@ -49,8 +49,8 @@
             :items="tanks"
             item-title="name"
             variant="underlined"
-            label="Объем аквариума"
-            hint="Выберите аквариум или введите объем"
+            :label="t('hardness.tankInputLabel')"
+            :hint="t('hardness.tankInputHint')"
             persistent-hint
             hide-selected
             :rules="[required]"
@@ -60,7 +60,7 @@
           <v-expand-transition>
             <div v-if="hardnessStore.tank?.volume">
               <div class="mt-2 mt-sm-6">
-                Выберите тип подмены
+                {{ t('hardness.waterChangeType') }}
               </div>
               <div class="d-flex flex-column flex-md-row">
                 <v-radio-group
@@ -71,16 +71,16 @@
                   :inline="smAndUp"
                 >
                   <v-radio
-                    label="Осмос + реминерализатор"
+                    :label="t('hardness.osmosisAndRem')"
                     :value="RemineralizationTypes.REM"
                   />
                   <v-radio
-                    label="Осмос + водопровод"
+                    :label="t('hardness.osmosisAndTap')"
                     :value="RemineralizationTypes.TAP"
                     class="mt-1 mt-sm-0"
                   />
                   <v-radio
-                    label="Другое"
+                    :label="t('hardness.otherType')"
                     :value="RemineralizationTypes.MIX"
                     class="mt-1 mt-sm-0"
                   />
@@ -88,7 +88,7 @@
                 <v-checkbox
                   v-model="isTests"
                   color="primary"
-                  label="Тестирую воду"
+                  :label="t('hardness.isTests')"
                 />
               </div>
             </div>
@@ -96,15 +96,15 @@
           <v-expand-transition>
             <div v-if="hardnessStore.tank?.volume && remineralizationType !== null">
               <div class="text-subtitle-1">
-                Введите объем или процент подмены
+                {{ t('hardness.chooseVolumeHint') }}
               </div>
               <div class="d-flex flex-column flex-sm-row align-sm-center">
                 <NumberField
                   :model-value="hardnessStore.tank.waterChangeVolume"
-                  label="Объем"
-                  hint="Введите объем подмены"
+                  :label="t('hardness.volumeInputLabel')"
+                  :hint="t('hardness.volumeInputHint')"
                   persistent-hint
-                  suffix="л"
+                  :suffix="t('units.l')"
                   class="pt-0 mt-0"
                   append-icon="mdi-arrow-up-bold-circle-outline"
                   @update:model-value="onInputWaterChangeVolume"
@@ -112,8 +112,8 @@
                 />
                 <NumberField
                   :model-value="hardnessStore.tank.waterChangePercent"
-                  label="Процент"
-                  hint="или процент подмены"
+                  :label="t('hardness.changeInputLabel')"
+                  :hint="t('hardness.changeInputHint')"
                   persistent-hint
                   suffix="%"
                   class="pt-0 mt-0 ml-sm-3"
@@ -124,11 +124,11 @@
                 <NumberField
                   v-if="[RemineralizationTypes.TAP, RemineralizationTypes.MIX].includes(remineralizationType)"
                   :model-value="hardnessStore.osmosisChangePercent"
-                  label="Процент"
-                  :hint="`
-                    Осмос: ${toFixed(hardnessStore.osmosisChangeVolume, 1)} л.
-                    Водопровод: ${toFixed(hardnessStore.tapChangeVolume, 1)} л.
-                  `"
+                  :label="t('hardness.osmosisPercentLabel')"
+                  :hint="t('hardness.osmosisPercentHint', {
+                    osmosisChangeVolume: toFixed(hardnessStore.osmosisChangeVolume, 1),
+                    tapChangeVolume: toFixed(hardnessStore.tapChangeVolume, 1),
+                  })"
                   persistent-hint
                   class="mt-0 pt-0 ml-sm-3"
                   single-line
@@ -144,20 +144,20 @@
                     || [RemineralizationTypes.TAP, RemineralizationTypes.MIX].includes(remineralizationType)"
                 >
                   <div class="text-headline mt-8">
-                    Исходная жесткость
+                    {{ t('hardness.initHardness') }}
                   </div>
                   <div class="d-flex">
                     <NumberField
                       v-if="[RemineralizationTypes.TAP, RemineralizationTypes.MIX].includes(remineralizationType)"
                       v-model="ghWaterChange"
-                      label="Gh водопровода"
+                      :label="t('hardness.tapWaterGh')"
                       suffix="Gh"
                       hide-details="auto"
                     />
                     <NumberField
                       v-if="isTests"
                       v-model="ghInit"
-                      label="Gh в аквариуме"
+                      :label="t('hardness.tankWaterGh')"
                       suffix="Gh"
                       hide-details="auto"
                       :class="{
@@ -169,14 +169,14 @@
                     <NumberField
                       v-if="[RemineralizationTypes.TAP, RemineralizationTypes.MIX].includes(remineralizationType)"
                       v-model="khWaterChange"
-                      label="Kh водопровода"
+                      :label="t('hardness.tapWaterKh')"
                       suffix="Kh"
                       hide-details="auto"
                     />
                     <NumberField
                       v-if="isTests"
                       v-model="khInit"
-                      label="Kh в аквариуме"
+                      :label="t('hardness.tankWaterKh')"
                       suffix="Kh"
                       hide-details="auto"
                       :class="{
@@ -239,14 +239,14 @@
               class="mt-8"
             >
               <div class="text-subtitle-1 mb-2">
-                Подготовленная жесткость
+                {{ t('hardness.resultHardness') }}
               </div>
               <div>
                 <div class="d-flex">
                   <v-text-field
                     :model-value="format(hardnessModel.countWaterChangeGh(
                       ghWaterChange, hardnessStore.osmosisChangePercent))"
-                    label="Gh в подмене"
+                    :label="t('hardness.result.changeWaterGh')"
                     suffix="Gh"
                     hide-details="auto"
                     readonly
@@ -259,7 +259,7 @@
                     v-if="isTests"
                     :model-value="format(hardnessModel.countTotalGh(
                       ghInit, ghWaterChange, hardnessStore.osmosisChangePercent))"
-                    label="Gh в аквариуме"
+                    :label="t('hardness.result.tankWaterGh')"
                     suffix="Gh"
                     hide-details="auto"
                     readonly
@@ -273,7 +273,7 @@
                   <v-text-field
                     :model-value="format(hardnessModel.countWaterChangeKh(
                       khWaterChange, hardnessStore.osmosisChangePercent))"
-                    label="Kh в подмене"
+                    :label="t('hardness.result.changeWaterKh')"
                     suffix="Kh"
                     hide-details="auto"
                     readonly
@@ -285,7 +285,7 @@
                     v-if="isTests"
                     :model-value="format(hardnessModel.countTotalKh(
                       khInit, khWaterChange, hardnessStore.osmosisChangePercent))"
-                    label="Kh в аквариуме"
+                    :label="t('hardness.result.tankWaterKh')"
                     suffix="Kh"
                     hide-details="auto"
                     readonly
@@ -301,8 +301,7 @@
         </client-only>
       </v-col>
       <Guide>
-        На этой странице можно рассчитать Gh/Kh в аквариуме в зависимости от исходной воды, разбавления осмосом,
-        реминерализатора и дозировок удобрений.
+        {{ t('hardness.hints.p1') }}
       </Guide>
     </v-row>
   </v-container>

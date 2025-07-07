@@ -45,6 +45,7 @@
             class="card-image"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
             :placeholder="[50, 25, 75, 5]"
+            format="webp"
           />
 
           <v-card-title>
@@ -83,6 +84,7 @@
             alt="Easiest phosphate recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
             :placeholder="[50, 25, 75, 5]"
+            format="webp"
           />
 
           <v-card-title>
@@ -121,6 +123,7 @@
             alt="Easiest potassium recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
             :placeholder="[50, 25, 75, 5]"
+            format="webp"
           />
 
           <v-card-title>Рецепт калия</v-card-title>
@@ -157,6 +160,7 @@
             alt="Easiest potassium recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
             :placeholder="[50, 25, 75, 5]"
+            format="webp"
           />
 
           <v-card-title>
@@ -196,6 +200,7 @@
             alt="Easiest potassium recipe"
             sizes="100vw sm:50vw md:33vw lg:33vw xl:33vw xxl:33vw"
             :placeholder="[50, 25, 75, 5]"
+            format="webp"
           />
 
           <v-card-title>

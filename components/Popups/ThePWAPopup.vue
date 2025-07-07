@@ -29,66 +29,66 @@
   >
     <v-card>
       <v-card-title class="text-h6">
-        Инструкция по установке
-        <br>
-        приложения Samomes
+        {{ t('pwa.title') }}
       </v-card-title>
       <v-card-text>
         <template v-if="platform === 'ios'">
-          <p>Для iPhone & iPad:</p>
+          <p>{{ t('pwa.iphone.title') }}</p>
           <ol class="space-y-2 text-gray-600 ml-6">
             <li class="mb-2 mb-md-3">
-              Нажмите на кнопку "Поделиться"
+              {{ t('pwa.iphone.description.t1') }}
               <v-icon size="20">
                 mdi mdi-export-variant
               </v-icon>
             </li>
             <li class="mb-2 mb-md-3">
-              Прокрутите меню вниз до пункта "На экран «Домой»" и нажмите его
+              {{ t('pwa.iphone.description.t2') }}
             </li>
-            <li>Нажмите "Добавить" для завершения установки</li>
+            <li>
+              {{ t('pwa.iphone.description.t3') }}
+            </li>
           </ol>
         </template>
         <template v-else-if="platform === 'macos'">
-          <p>Для MacOS:</p>
+          <p>{{ t('pwa.macOs.title') }}</p>
           <ol class="space-y-2 text-gray-600 ml-6">
             <li class="mb-2 mb-md-3">
-              Нажмите на кнопку "Поделиться"
+              {{ t('pwa.macOs.description.t1') }}
               <v-icon size="20">
                 mdi mdi-export-variant
               </v-icon>
             </li>
             <li class="mb-2 mb-md-3">
-              Нажмите "Добавить в Док" или "Добавить в Док-панель"
+              {{ t('pwa.macOs.description.t2') }}
             </li>
-            <li>Нажмите "Добавить" для завершения установки</li>
+            <li>
+              {{ t('pwa.macOs.description.t3') }}
+            </li>
           </ol>
         </template>
-        <!-- TODO: probably this is not used -->
         <template v-else-if="platform === 'android' && browser === 'chrome'">
-          <p>Для браузера Chrome на Android:</p>
+          <p>{{ t('pwa.android.title') }}</p>
           <ol class="space-y-2 text-gray-600 ml-6">
             <li class="mb-2 mb-md-3">
-              Нажмите на иконку меню
+              {{ t('pwa.android.description.t1') }}
               <v-icon size="20">
                 mdi mdi-dots-vertical
               </v-icon> в Chrome
             </li>
             <li class="mb-2 mb-md-3">
-              Выберите пункт "Установить приложение" или "Добавить на главный экран"
+              {{ t('pwa.android.description.t2') }}
             </li>
-            <li>Нажмите "Установить" для завершения</li>
+            <li>
+              {{ t('pwa.android.description.t3') }}
+            </li>
           </ol>
         </template>
         <template v-else>
-          Проект Samomes официально поддерживает только браузер Chrome. Установите его, чтобы
-          можно было использовать наше приложение.
+          {{ t('pwa.other.t1') }}
           <br><br>
-          Если у вас другая операционная система или браузер, то установка приложения всё равно возможна,
-          так как большинство современных браузеров поддерживают эту технологию.
-          Чтобы найти инструкцию по установке, используйте следующий поисковый запрос в любой поисковой системе:
+          {{ t('pwa.other.t2') }}
           <br><br>
-          "Как установить PWA в браузере [название вашего браузера]"
+          {{ t('pwa.other.t3') }}
         </template>
       </v-card-text>
       <v-card-actions>
@@ -97,7 +97,7 @@
           color="green darken-1"
           @click="$emit('update:modelValue', false)"
         >
-          Закрыть
+          {{ t('buttons.close') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -105,6 +105,8 @@
 </template>
 
 <script lang="ts" setup>
+const { t } = useI18n();
+
 const model = defineModel<boolean>();
 
 withDefaults(defineProps<{
