@@ -99,6 +99,8 @@ export default {
     close: 'Close',
     go: 'Go',
     calculate: 'Calculate',
+    back: 'Back',
+    next: 'Next',
   },
   landing: {
     title: 'Samomes',
@@ -470,13 +472,92 @@ export default {
     },
     smallValue: 'small',
   },
+  schedules: {
+    title: 'Schedule',
+    empty: 'You don\'t have any schedules yet',
+    addButton: 'Add schedule',
+    hints: {
+      p1: 'If you have multiple fertilizer bottles with different dosages for each, plus several aquariums, it\'s quite easy to make mistakes with fertilizer dosing.',
+      p2: 'A convenient widget will help you create a weekly schedule and keep track of which fertilizers need to be added.',
+      p3: 'Start by clicking the "Add" button to add a new schedule.',
+    },
+  },
   hardness: {
     title: 'Hardness',
+    tankInputLabel: 'Tank volume',
+    tankInputHint: 'Select tank or enter volume',
+    waterChangeType: 'Choose water change type',
+    osmosisAndRem: 'RO + remineralizer',
+    osmosisAndTap: 'RO + tap water',
+    otherType: 'Other',
+    isTests: 'I\'m testing water',
+    chooseVolumeHint: 'Enter volume or percentage of water change',
+    volumeInputLabel: 'Volume',
+    volumeInputHint: 'Enter water change volume',
+    changeInputLabel: 'Percentage',
+    changeInputHint: 'or water change percentage',
+    osmosisPercentLabel: 'Percentage',
+    osmosisPercentHint: 'RO: {osmosisChangeVolume} L. Tap water: {tapChangeVolume} L.',
+    initHardness: 'Initial hardness',
+    tapWaterGh: 'Tap water Gh',
+    tankWaterGh: 'Tank Gh',
+    tapWaterKh: 'Tap water Kh',
+    tankWaterKh: 'Tank Kh',
+    resultHardness: 'Prepared hardness',
+    result: {
+      changeWaterGh: 'Water change Gh',
+      tankWaterGh: 'Tank Gh',
+      changeWaterKh: 'Water change Kh',
+      tankWaterKh: 'Tank Kh',
+    },
+    hints: {
+      p1: 'On this page you can calculate GH/KH in the tank based on source water, ' +
+        'RO dilution, remineralizer and fertilizer dosages.',
+    },
   },
   settings: {
     title: 'Settings',
+    reagentsTable: {
+      title: 'Reagent',
+      empty: 'You haven\'t added your own reagents yet',
+    },
     resetData: 'Data reset',
     allData: 'All data',
+  },
+  pwa: {
+    title: 'App Installation Guide',
+    iphone: {
+      title: 'For iPhone & iPad:',
+      description: {
+        t1: 'Tap the "Share" button',
+        t2: 'Scroll down the menu to "Add to Home Screen" and tap it',
+        t3: 'Tap "Add" to complete the installation',
+      },
+    },
+    macOs: {
+      title: 'For MacOS:',
+      description: {
+        t1: 'Click the "Share" button',
+        t2: 'Click "Add to Dock" or "Add to Dock Panel"',
+        t3: 'Click "Add" to complete the installation',
+      },
+    },
+    android: {
+      title: 'For Chrome browser on Android:',
+      description: {
+        t1: 'Tap the menu icon',
+        t2: 'Select "Install app" or "Add to home screen"',
+        t3: 'Tap "Install" to complete',
+      },
+    },
+    other: {
+      t1: 'The Samomes project officially supports only Chrome browser. Install it to ' +
+        'be able to use our application.',
+      t2: 'If you have a different operating system or browser, app installation is still ' +
+        'possible, as most modern browsers support this technology. To find installation ' +
+        'instructions, use the following search query in any search engine:',
+      t3: '"How to install PWA in [your browser name] browser"',
+    },
   },
   meta: {
     landing: {

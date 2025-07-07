@@ -32,6 +32,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           :placeholder="[50, 25, 75, 5]"
+          format="webp"
         />
       </v-col>
     </v-row>
@@ -125,6 +126,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div>
           Без тестов
@@ -135,6 +137,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
 
         <p>
@@ -177,6 +180,7 @@
               sizes="100vw sm:100vw md:35vw lg:35vw xl:35vw xxl:35vw"
               loading="lazy"
               style="height: 100%;"
+              format="webp"
             />
           </div>
           <div
@@ -192,6 +196,7 @@
               quality="50"
               sizes="100vw sm:100vw md:63vw lg:63vw xl:63vw xxl:63vw"
               loading="lazy"
+              format="webp"
             />
           </div>
         </div>
@@ -249,6 +254,7 @@
               quality="50"
               sizes="100vw sm:100vw md:49vw lg:49vw xl:49vw xxl:49vw"
               loading="lazy"
+              format="webp"
             />
           </div>
           <div
@@ -265,6 +271,7 @@
               sizes="100vw sm:100vw md:49vw lg:49vw xl:49vw xxl:49vw"
               loading="lazy"
               style="height: 100%;"
+              format="webp"
             />
           </div>
         </div>
@@ -285,6 +292,7 @@
             quality="50"
             sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
             loading="lazy"
+            format="webp"
           />
         </div>
         <div class="d-flex flex-column mb-2">
@@ -297,6 +305,7 @@
             quality="50"
             sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
             loading="lazy"
+            format="webp"
           />
         </div>
 
@@ -331,6 +340,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <NuxtImg
           src="/images/no-tests/10.jpeg"
@@ -377,6 +387,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
 
         <p>
@@ -391,6 +402,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
 
         <p>

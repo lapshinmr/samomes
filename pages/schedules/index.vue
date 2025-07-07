@@ -29,17 +29,17 @@
   >
     <v-row>
       <PageTitle>
-        Расписание
+        {{ t('schedules.title') }}
       </PageTitle>
       <client-only>
         <PageSubtitle v-if="scheduleStore.schedules.length === 0">
-          У вас еще нет ни одного расписания
+          {{ t('schedules.empty') }}
         </PageSubtitle>
         <PageText
           v-if="scheduleStore.schedules.length === 0"
           class="mb-16"
         >
-          Начните с нажатия на кнопку «Добавить», чтобы добавить новое расписание.
+          {{ t('schedules.hints.p3') }}
         </PageText>
         <v-col
           sm="10"
@@ -57,18 +57,16 @@
         </v-col>
         <Guide>
           <p class="mb-2">
-            Если у вас несколько бутылок с удобрениями, дозировки каждого удобрения отличаются друг от друга,
-            да еще и несколько аквариумов, то можно довольно легко ошибиться с внесением удобрений.
+            {{ t('schedules.hints.p1') }}
           </p>
           <p class="mb-2">
-            Удобный виджет поможет вам составить расписание на всю неделю и следить за тем, какие
-            удобрения нужно внести.
+            {{ t('schedules.hints.p2') }}
           </p>
         </Guide>
       </client-only>
     </v-row>
     <AddButton :action="onAdd">
-      Добавить расписание
+      {{ t('schedules.addButton') }}
     </AddButton>
   </v-container>
 </template>

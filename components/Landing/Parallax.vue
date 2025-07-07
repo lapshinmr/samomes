@@ -43,6 +43,7 @@
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
         :placeholder="[192, 108, 75, 5]"
         class="parallax__image"
+        format="webp"
       />
     </div>
   </div>

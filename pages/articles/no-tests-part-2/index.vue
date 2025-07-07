@@ -32,6 +32,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           :placeholder="[50, 25, 75, 5]"
+          format="webp"
         />
       </v-col>
     </v-row>
@@ -294,6 +295,7 @@
           class="full-width-image mb-4"
           loading="lazy"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
+          format="webp"
         />
 
         <p>
@@ -499,6 +501,7 @@
             sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
             loading="lazy"
             :style="mdAndUp ? 'max-width: 80%;' : 'max-width: 100%;'"
+            format="webp"
           />
         </div>
         <p>
@@ -740,6 +743,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
 
         <h2 class="title font-weight-regular text-h4 my-10">
@@ -826,6 +830,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
 
         <NuxtImg
@@ -834,6 +839,7 @@
           quality="50"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
 
         <p>

@@ -41,6 +41,7 @@
               height="24"
               width="24"
               alt="Main logotype NPK"
+              format="webp"
             />
             <span class="text-uppercase ml-1">
               {{ t('home') }}
@@ -83,6 +84,8 @@
           {{ snackbarStore.message }}
         </div>
       </v-snackbar>
+
+      <TheUpdateNotification />
     </v-main>
   </v-app>
 </template>

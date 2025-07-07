@@ -64,7 +64,6 @@ export const useRecipesStore = defineStore(
       isUpdated.value = payload;
     }
 
-
     return {
       fertilizerRecipes,
       fertilizerRecipeModels,

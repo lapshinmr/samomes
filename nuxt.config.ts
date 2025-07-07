@@ -43,29 +43,108 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'icon', href: '/favicon.ico', sizes: '48x48' },
         { rel: 'apple-touch-icon', href: '/pwa-192x192.png' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-2048-2732.png', media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1668-2388.png', media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1668-2224.png', media: '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1620-2160.png', media: '(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1536-2048.png', media: '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1284-2778.png', media: '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1242-2688.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1242-2208.png', media: '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1170-2532.png', media: '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-1125-2436.png', media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-828-1792.png', media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-750-1334.png', media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
-        { rel: 'apple-touch-startup-image', href: '/ios/apple-splash-640-1136.png', media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)' },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-2048-2732.png',
+          media: '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1668-2388.png',
+          media: '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1668-2224.png',
+          media: '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1620-2160.png',
+          media: '(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1536-2048.png',
+          media: '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1284-2778.png',
+          media: '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1242-2688.png',
+          media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1242-2208.png',
+          media: '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1170-2532.png',
+          media: '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-1125-2436.png',
+          media: '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-828-1792.png',
+          media: '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-750-1334.png',
+          media: '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
+        {
+          rel: 'apple-touch-startup-image',
+          href: '/ios/apple-splash-640-1136.png',
+          media: '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)',
+        },
       ],
     },
   },
 
+  css: ['~/assets/variables.sass'],
+
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/fonts',
+    '@nuxt/icon',
+    '@nuxt/image',
+    '@nuxt/scripts',
+    '@nuxt/test-utils',
+    '@nuxtjs/i18n',
+    'vuetify-nuxt-module',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
+    'yandex-metrika-module-nuxt3',
+    '@vite-pwa/nuxt',
+    '@nuxtjs/sitemap',
+    'nuxt-booster',
+  ],
+
   pwa: {
-    registerType: 'autoUpdate',
     injectRegister: 'auto',
+    registerType: 'prompt',
 
     client: {
       installPrompt: true,
+    },
+
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,svg,png,jpeg,webp,JPG,ico,mp4,woff,woff2}'],
+      cleanupOutdatedCaches: true,
+      maximumFileSizeToCacheInBytes: 20000000,
+      // skipWaiting: true,
+      // clientsClaim: true,
     },
 
     manifest: {
@@ -105,13 +184,6 @@ export default defineNuxtConfig({
       ],
     },
 
-    workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-      cleanupOutdatedCaches: true,
-      skipWaiting: true,
-      clientsClaim: true,
-    },
-
     // devOptions: {
     //   enabled: true,
     //   navigateFallback: undefined,
@@ -119,24 +191,6 @@ export default defineNuxtConfig({
     //   type: 'module',
     // },
   },
-
-  css: ['~/assets/variables.sass'],
-
-  modules: [
-    '@nuxt/eslint',
-    '@nuxt/fonts',
-    '@nuxt/icon',
-    '@nuxt/image',
-    '@nuxt/scripts',
-    '@nuxt/test-utils',
-    '@nuxtjs/i18n',
-    'vuetify-nuxt-module',
-    '@pinia/nuxt',
-    'pinia-plugin-persistedstate/nuxt',
-    'yandex-metrika-module-nuxt3',
-    '@vite-pwa/nuxt',
-    '@nuxtjs/sitemap',
-  ],
 
   yandexMetrika: {
     id: '61348777',
@@ -173,8 +227,7 @@ export default defineNuxtConfig({
   },
 
   vuetify: {
-    moduleOptions: {
-    },
+    moduleOptions: {},
     vuetifyOptions: {
       theme: {
         defaultTheme: 'light',
@@ -232,5 +285,88 @@ export default defineNuxtConfig({
     exclude: [
       '/settings/',
     ],
+  },
+
+  booster: {
+
+    detection: {
+      performance: true,
+      browserSupport: true,
+    },
+
+    performanceMetrics: {
+      device: {
+        hardwareConcurrency: { min: 2, max: 48 },
+        deviceMemory: { min: 2 },
+      },
+      timing: {
+        fcp: 800,
+        dcl: 1200,
+      },
+    },
+
+    // fonts: [{
+    //   family: 'Font A',
+    //   locals: ['Font A'],
+    //   fallback: ['Arial', 'sans-serif'],
+    //   variances: [
+    //     {
+    //       style: 'normal',
+    //       weight: 400,
+    //       sources: [
+    //         { src: '@/assets/fonts/font-a-regular.woff', type:'woff' },
+    //         { src: '@/assets/fonts/font-a-regular.woff2', type:'woff2' },
+    //       ],
+    //     }, {
+    //       style: 'italic',
+    //       weight: 400,
+    //       sources: [
+    //         { src: '@/assets/fonts/font-a-regularItalic.woff', type:'woff' },
+    //         { src: '@/assets/fonts/font-a-regularItalic.woff2', type:'woff2' },
+    //       ],
+    //     }, {
+    //       style: 'normal',
+    //       weight: 700,
+    //       sources: [
+    //         { src: '@/assets/fonts/font-a-700.woff', type:'woff' },
+    //         { src: '@/assets/fonts/font-a-700.woff2', type:'woff2' },
+    //       ],
+    //     },
+    //   ],
+    // }],
+
+    targetFormats: ['webp', 'avif', 'jpg|jpeg|png|gif'],
+
+    // componentAutoImport: false,
+    // componentPrefix: undefined,
+
+    /**
+     * IntersectionObserver rootMargin for Compoennts and Assets
+     */
+    lazyOffset: {
+      component: '0%',
+      asset: '0%',
+    },
+
+  // image: {
+  //   screens: {
+  //     default: 320,
+  //     xxs: 480,
+  //     xs: 576,
+  //     sm: 768,
+  //     md: 996,
+  //     lg: 1200,
+  //     xl: 1367,
+  //     xxl: 1600,
+  //     '4k': 1921,
+  //   },
+  //
+  //   // domains: ['img.youtube.com', 'i.vimeocdn.com'],
+  //   //
+  //   // alias: {
+  //   //   youtube: 'https://img.youtube.com',
+  //   //   vimeo: 'https://i.vimeocdn.com',
+  //   // }
+  // },
   },
 });

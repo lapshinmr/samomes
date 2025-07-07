@@ -33,6 +33,7 @@
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           alt="Easiest potassium recipe"
           :placeholder="[50, 25, 75, 5]"
+          format="webp"
         />
       </v-col>
     </v-row>
@@ -302,7 +303,7 @@
             />
             <NumberField
               v-model="reagentK2SO4.amount"
-              label="Масса нитрата калия"
+              label="Масса сульфата калия"
               suffix="г"
               variant="outlined"
               :error="checkSolubilityError(reagentK2SO4)"
@@ -330,8 +331,8 @@
           на {{ reagentH2O.amount }} мл.
           <br><br>
           1 мл данного удобрения повышает уровень калия на
-          {{ unitConcs['K'] ? format(unitConcs['K']) : '-' }} мг/л
-          в аквариуме объемом {{ reagentH2O.amount }} л
+          {{ unitConcs['K'] ? format(unitConcs['K'], 2) : '-' }} мг/л
+          в аквариуме объемом {{ recipeModel.tankVolume }} л
         </v-alert>
 
         <p>

@@ -45,6 +45,7 @@
     "chartjs-plugin-annotation": "^3.1.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "nuxt": "^3.17.1",
+    "nuxt-booster": "^3.2.9",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",
     "vue": "^3.5.13",

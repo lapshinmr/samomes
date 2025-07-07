@@ -65,6 +65,7 @@
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div class="mb-2">
           Лето 2019. 60 литров
@@ -75,6 +76,7 @@
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div>
           Осень 2019. 60 литров
@@ -103,6 +105,7 @@
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div>
           Весна 2020. 180 литров
@@ -132,6 +135,7 @@
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div>
           Весна 2021. 180 литров
@@ -156,6 +160,7 @@
             quality="85"
             sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
             loading="lazy"
+            format="webp"
           />
           <div>
             Лето 2021. 22 литра
@@ -187,6 +192,7 @@
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div>
           Осень 2021. 120 литров
@@ -212,6 +218,7 @@
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div class="mb-2">
           Осень 2022. 35 литров
@@ -222,6 +229,7 @@
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           loading="lazy"
+          format="webp"
         />
         <div class="mb-2">
           Лето 2023. 20 литров
