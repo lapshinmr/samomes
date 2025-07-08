@@ -247,7 +247,7 @@ export default defineNuxtConfig({
     strategy: 'prefix_and_default',
     locales: [
       { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.ts' },
-      // { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
+      { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
     ],
     // detectBrowserLanguage: {
     //   useCookie: true,
