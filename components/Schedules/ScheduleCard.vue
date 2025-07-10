@@ -144,7 +144,7 @@ const endDate = computed(() => {
 
 const days = computed(() => {
   let [firstDay, ...otherDays] = JSON.parse(JSON.stringify(props.schedule.days));
-  if (otherDays) {
+  if (!otherDays) {
     otherDays = [];
   }
   if (!firstDay) {
@@ -161,17 +161,22 @@ const slidesTotal = computed(() => {
 
 const scheduleProgress = computed(() => (curDay.value + 1) / slidesTotal.value * 100);
 
-
 onMounted(() => {
   curDay.value = findCurActiveDay();
 });
 
 function findCurActiveDay() {
-  const dayIndex = days.value.findIndex(
-    (day) => typedValues(day.fertilizers).some(
-      (data) => data.status === AmountStatus.ACTIVE && data.amount,
-    ),
+  const isWaterChangeDayActive = typedValues(props.schedule.waterChangeDay.fertilizers).some(
+    (data) => data.status === AmountStatus.ACTIVE && data.amount,
   );
+  let dayIndex = 0;
+  if (!isWaterChangeDayActive) {
+    dayIndex = days.value.findIndex(
+      (day) => typedValues(day.fertilizers).some(
+        (data) => data.status === AmountStatus.ACTIVE && data.amount,
+      ),
+    );
+  }
   if (dayIndex === -1) {
     return slidesTotal.value - 1;
   }
