@@ -72,6 +72,15 @@ export const useDosingStore = defineStore(
 
     function setFertilizersRegime(value: FertilizersRegime) {
       fertilizersRegime.value = value;
+      if (fertilizersRegime.value === FertilizersRegime.EVERY_DAY) {
+        doses.value.forEach((dose) => {
+          dose.amountWaterChange = 0;
+        });
+      } else if (fertilizersRegime.value === FertilizersRegime.ONCE_A_WEEK) {
+        doses.value.forEach((dose) => {
+          dose.amountDay = 0;
+        });
+      }
     }
 
     function setDoses(value: DoseType[]) {

@@ -66,12 +66,13 @@ export class Dosing {
         }
         let concentration = dose.amount * value / this.tank.volume;
         let concentrationDay = dose.amountDay * value / this.tank.volume;
-        let concentrationWaterChange = this.tank.waterChangeVolume
-          ? (dose.amountWaterChange * value) / this.tank.waterChangeVolume
-          : 0;
+        let concentrationWaterChange = 0;
+        if (this.tank.waterChangeVolume) {
+          concentrationWaterChange = (dose.amountWaterChange * value) / this.tank.waterChangeVolume;
+        }
         let concentrationTotal = concentration;
         if (this.fertilizersRegime === FertilizersRegime.ONCE_A_WEEK) {
-          concentrationWaterChange = concentration / this.waterChangeDecimal;
+          concentrationTotal = concentrationWaterChange * this.waterChangeDecimal;
         }
         if (this.fertilizersRegime === FertilizersRegime.MIX) {
           concentrationTotal = concentrationWaterChange * this.waterChangeDecimal + concentration;

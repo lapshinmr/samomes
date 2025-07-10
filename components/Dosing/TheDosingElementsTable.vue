@@ -53,9 +53,6 @@
               {{ t('dosing.elementsTable.inWaterChangeDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
             <th class="text-center">
-              {{ t('dosing.elementsTable.everyDayDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
-            </th>
-            <th class="text-center">
               {{ t('dosing.elementsTable.totalDose') }}, <span class="text-no-wrap">{{ t('units.mg/l') }}</span>
             </th>
           </template>
@@ -117,18 +114,10 @@
             <td
               class="text-center text-no-wrap"
               :class="{
-                'text-caption': isSmallNumber(value.concentrationDay),
+                'text-caption': isSmallNumber(value.concentrationTotal),
               }"
             >
-              {{ format(value.concentrationDay) }}
-            </td>
-            <td
-              class="text-center text-no-wrap"
-              :class="{
-                'text-caption': isSmallNumber(value.concentration),
-              }"
-            >
-              {{ format(value.concentration) }}
+              {{ format(value.concentrationTotal) }}
             </td>
           </template>
           <template v-if="dosingStore.fertilizersRegime === FertilizersRegime.MIX">

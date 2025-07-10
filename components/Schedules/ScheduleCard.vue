@@ -137,18 +137,22 @@ const startDate = computed(() => {
 
 const endDate = computed(() => {
   const startDateObject = new Date(props.schedule.startDate);
-  const endDateObject = new Date(startDateObject.setDate(startDateObject.getDate() + props.schedule.dosing.daysTotal - 1));
+  const endDateObject = new Date(
+    startDateObject.setDate(startDateObject.getDate() + props.schedule.dosing.daysTotal - 1));
   return formatDate(endDateObject, locale.value);
 });
 
 const days = computed(() => {
   let [firstDay, ...otherDays] = JSON.parse(JSON.stringify(props.schedule.days));
+  if (otherDays) {
+    otherDays = [];
+  }
   if (!firstDay) {
     firstDay = { ...props.schedule.waterChangeDay };
   } else {
-    firstDay.fertilizers = { ...props.schedule.waterChangeDay.fertilizers, ...(firstDay?.fertilizers || {}) };
+    firstDay.fertilizers = { ...props.schedule.waterChangeDay.fertilizers, ...firstDay.fertilizers };
   }
-  return [firstDay, ...(otherDays || [])];
+  return [firstDay, ...otherDays];
 });
 
 const slidesTotal = computed(() => {
