@@ -51,7 +51,7 @@
           </div>
           <Combobox
             v-model="fertilizerExampleChosen"
-            :items="fertilizersSorted"
+            :items="fertilizers"
             variant="underlined"
             :label="t('fertilizers.page.fertilizers')"
             :hint="t('fertilizers.page.fertilizersHint')"
@@ -244,8 +244,6 @@
 </template>
 
 <script lang="ts" setup>
-import {FERTILIZERS} from "~/utils/constants/fertilizers";
-
 const { t, locale } = useI18n();
 
 const router = useRouter();
@@ -255,18 +253,20 @@ const { required } = useValidation();
 const fertilizersStore = useFertilizersStore();
 const snackbarStore = useSnackbarStore();
 
-const fertilizers = [...FERTILIZERS];
-if (locale.value === 'en') {
-  FERTILIZER_NAMES_EN.forEach((item) => {
-    const fertilizer = fertilizers.find((fertilizer) => item.key === fertilizer.key);
-    if (fertilizer) {
-      fertilizer.name = item.name;
-      fertilizer.description = item.description;
-    }
-  });
-}
-
-const fertilizersSorted = fertilizers.sort((a, b) => a.name.localeCompare(b.name));
+const fertilizers = computed(() => {
+  const result = JSON.parse(JSON.stringify(FERTILIZERS));
+  if (locale.value === 'en') {
+    FERTILIZER_NAMES_EN.forEach((item) => {
+      const fertilizer = result.find((fertilizer) => item.key === fertilizer.key);
+      if (fertilizer) {
+        fertilizer.name = item.name;
+        fertilizer.description = item.description;
+      }
+    });
+  }
+  result.sort((a, b) => a.name.localeCompare(b.name));
+  return result;
+});
 
 // MODEL
 const fertilizerFormRef = ref(null);

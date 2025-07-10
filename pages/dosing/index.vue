@@ -163,18 +163,20 @@ const dosingModel = computed(() => {
   );
 });
 
-const fertilizers = [...FERTILIZERS];
-if (locale.value === 'en') {
-  FERTILIZER_NAMES_EN.forEach((item) => {
-    const fertilizer = fertilizers.find((fertilizer) => item.key === fertilizer.key);
-    if (fertilizer) {
-      fertilizer.name = item.name;
-      fertilizer.description = item.description;
-    }
-  });
-}
-
-const fertilizersSorted = fertilizers.sort((a, b) => a.name.localeCompare(b.name));
+const fertilizers = computed(() => {
+  const result = JSON.parse(JSON.stringify(FERTILIZERS));
+  if (locale.value === 'en') {
+    FERTILIZER_NAMES_EN.forEach((item) => {
+      const fertilizer = result.find((fertilizer) => item.key === fertilizer.key);
+      if (fertilizer) {
+        fertilizer.name = item.name;
+        fertilizer.description = item.description;
+      }
+    });
+  }
+  result.sort((a, b) => a.name.localeCompare(b.name));
+  return result;
+});
 
 const allFertilizers = computed(() => {
   let defaultFertilizersFiltered = [];
@@ -182,7 +184,7 @@ const allFertilizers = computed(() => {
     const recipesNames = fertilizerRecipesStore.fertilizerRecipes.map((item) => item.name);
     const fertilizersNames = fertilizersStore.fertilizers.map((item) => item.name);
     const remineralsNames = remineralRecipesStore.remineralRecipes.map((item) => item.name);
-    defaultFertilizersFiltered = fertilizersSorted.filter(
+    defaultFertilizersFiltered = fertilizers.value.filter(
       (item) => ![...recipesNames, ...fertilizersNames, ...remineralsNames].includes(item.name),
     );
   }

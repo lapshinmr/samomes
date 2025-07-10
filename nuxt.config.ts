@@ -249,13 +249,12 @@ export default defineNuxtConfig({
       { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.ts' },
       { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
     ],
-    // detectBrowserLanguage: {
-    //   useCookie: true,
-    //   cookieKey: 'i18n_redirected',
-    //   redirectOn: 'root',
-    //   // alwaysRedirect: false,
-    //   // fallbackLocale: 'en'
-    // },
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+      fallbackLocale: 'en'
+    },
   },
 
   piniaPluginPersistedstate: {
