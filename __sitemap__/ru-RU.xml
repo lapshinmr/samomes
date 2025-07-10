@@ -3,14 +3,13 @@
     <url>
         <loc>https://samomes.com/</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/" />
-        <image:image>
-            <image:loc>https://samomes.com/_ipx/f_webp&amp;amp;q_75&amp;amp;blur_5&amp;amp;s_192x108/images/landing/placeholder.jpeg</image:loc>
-        </image:image>
     </url>
     <url>
         <loc>https://samomes.com/about</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/about" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/about" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/about" />
         <image:image>
             <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_1.JPG</image:loc>
@@ -40,6 +39,7 @@
     <url>
         <loc>https://samomes.com/articles</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/articles" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/articles" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/articles" />
         <image:image>
             <image:loc>https://samomes.com/_ipx/f_webp&amp;amp;q_75&amp;amp;blur_5&amp;amp;s_50x25/images/makrandra.jpeg</image:loc>
@@ -60,26 +60,31 @@
     <url>
         <loc>https://samomes.com/dosing</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/dosing" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/dosing" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/dosing" />
     </url>
     <url>
         <loc>https://samomes.com/fertilizers</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/fertilizers" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/fertilizers" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/fertilizers" />
     </url>
     <url>
         <loc>https://samomes.com/hardness</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/hardness" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/hardness" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/hardness" />
     </url>
     <url>
         <loc>https://samomes.com/recipes</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/recipes" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/recipes" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/recipes" />
     </url>
     <url>
         <loc>https://samomes.com/reminerals</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/reminerals" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/reminerals" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/reminerals" />
     </url>
     <url>
@@ -89,25 +94,90 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/schedules</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/schedules" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/schedules" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/schedules" />
     </url>
     <url>
         <loc>https://samomes.com/settings</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/settings" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/settings" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/settings" />
     </url>
     <url>
         <loc>https://samomes.com/tanks</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/tanks" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/tanks" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/tanks" />
+    </url>
+    <url>
+        <loc>https://samomes.com/about/en</loc>
+        <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/about/en" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/about/en" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/about/en" />
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2020_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_3.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2022_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2023_1.JPG</image:loc>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://samomes.com/about/ru</loc>
+        <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/about/ru" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/about/ru" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/about/ru" />
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2020_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_3.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2022_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2023_1.JPG</image:loc>
+        </image:image>
     </url>
     <url>
         <loc>https://samomes.com/articles/no-tests-part-1</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/articles/no-tests-part-1" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/articles/no-tests-part-1" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/articles/no-tests-part-1" />
         <image:image>
             <image:loc>https://samomes.com/_ipx/f_webp&amp;amp;q_75&amp;amp;blur_5&amp;amp;s_50x25/images/no-tests/14.jpeg</image:loc>
@@ -152,6 +222,7 @@
     <url>
         <loc>https://samomes.com/articles/no-tests-part-2</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/articles/no-tests-part-2" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/articles/no-tests-part-2" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/articles/no-tests-part-2" />
         <image:image>
             <image:loc>https://samomes.com/_ipx/f_webp&amp;amp;q_75&amp;amp;blur_5&amp;amp;s_50x25/images/no-tests/15.jpeg</image:loc>
@@ -175,6 +246,7 @@
     <url>
         <loc>https://samomes.com/articles/potassium</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/articles/potassium" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/articles/potassium" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/articles/potassium" />
         <image:image>
             <image:loc>https://samomes.com/_ipx/f_webp&amp;amp;q_75&amp;amp;blur_5&amp;amp;s_50x25/images/stavrogin.jpeg</image:loc>
@@ -183,6 +255,7 @@
     <url>
         <loc>https://samomes.com/articles/simplest-nitrate</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/articles/simplest-nitrate" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/articles/simplest-nitrate" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/articles/simplest-nitrate" />
         <image:image>
             <image:loc>https://samomes.com/_ipx/f_webp&amp;amp;q_75&amp;amp;blur_5&amp;amp;s_50x25/images/makrandra.jpeg</image:loc>
@@ -191,6 +264,7 @@
     <url>
         <loc>https://samomes.com/articles/simplest-phosphate</loc>
         <xhtml:link rel="alternate" hreflang="ru-RU" href="https://samomes.com/articles/simplest-phosphate" />
+        <xhtml:link rel="alternate" hreflang="en-US" href="https://samomes.com/en/articles/simplest-phosphate" />
         <xhtml:link rel="alternate" hreflang="x-default" href="https://samomes.com/articles/simplest-phosphate" />
         <image:image>
             <image:loc>https://samomes.com/_ipx/f_webp&amp;amp;q_75&amp;amp;blur_5&amp;amp;s_50x25/images/indica.jpeg</image:loc>
@@ -224,6 +298,7 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/about" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/about" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/about" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/articles</loc>
@@ -244,46 +319,115 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/articles" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/articles" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/articles" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/dosing</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/dosing" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/dosing" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/dosing" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/fertilizers</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/fertilizers" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/fertilizers" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/fertilizers" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/hardness</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/hardness" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/hardness" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/hardness" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/recipes</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/recipes" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/recipes" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/recipes" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/reminerals</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/reminerals" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/reminerals" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/reminerals" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/schedules</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/schedules" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/schedules" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/schedules" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/settings</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/settings" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/settings" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/settings" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/tanks</loc>
         <xhtml:link rel="alternate" href="https://samomes.com/tanks" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/tanks" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/tanks" hreflang="en-US" />
+    </url>
+    <url>
+        <loc>https://samomes.com/ru/about/en</loc>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2020_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_3.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2022_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2023_1.JPG</image:loc>
+        </image:image>
+        <xhtml:link rel="alternate" href="https://samomes.com/about/en" hreflang="x-default" />
+        <xhtml:link rel="alternate" href="https://samomes.com/about/en" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/about/en" hreflang="en-US" />
+    </url>
+    <url>
+        <loc>https://samomes.com/ru/about/ru</loc>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2019_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2020_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_3.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2021_2.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2022_1.JPG</image:loc>
+        </image:image>
+        <image:image>
+            <image:loc>https://samomes.com/_ipx/w_5120&amp;amp;f_webp&amp;amp;q_85/images/about/2023_1.JPG</image:loc>
+        </image:image>
+        <xhtml:link rel="alternate" href="https://samomes.com/about/ru" hreflang="x-default" />
+        <xhtml:link rel="alternate" href="https://samomes.com/about/ru" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/about/ru" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/articles/no-tests-part-1</loc>
@@ -328,6 +472,7 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/articles/no-tests-part-1" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/articles/no-tests-part-1" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/articles/no-tests-part-1" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/articles/no-tests-part-2</loc>
@@ -351,6 +496,7 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/articles/no-tests-part-2" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/articles/no-tests-part-2" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/articles/no-tests-part-2" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/articles/potassium</loc>
@@ -359,6 +505,7 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/articles/potassium" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/articles/potassium" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/articles/potassium" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/articles/simplest-nitrate</loc>
@@ -367,6 +514,7 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/articles/simplest-nitrate" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/articles/simplest-nitrate" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/articles/simplest-nitrate" hreflang="en-US" />
     </url>
     <url>
         <loc>https://samomes.com/ru/articles/simplest-phosphate</loc>
@@ -375,6 +523,7 @@
         </image:image>
         <xhtml:link rel="alternate" href="https://samomes.com/articles/simplest-phosphate" hreflang="x-default" />
         <xhtml:link rel="alternate" href="https://samomes.com/articles/simplest-phosphate" hreflang="ru-RU" />
+        <xhtml:link rel="alternate" href="https://samomes.com/en/articles/simplest-phosphate" hreflang="en-US" />
     </url>
 </urlset>
-<!-- XML Sitemap generated by @nuxtjs/sitemap v7.3.1 at 2025-07-07T13:55:25.999Z -->
+<!-- XML Sitemap generated by @nuxtjs/sitemap v7.3.1 at 2025-07-10T13:08:37.024Z -->
