@@ -26,6 +26,7 @@ import type { RemineralRecipeExampleType } from '~/utils/types/types';
 
 export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
   {
+    key: 'kubanAquariumsGh',
     reagents: [
       {
         key: 'CaSO4(H2O)2',
@@ -41,6 +42,7 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=KQE7l637Rd8)',
   },
   {
+    key: 'samomesGh',
     reagents: [
       {
         key: 'CaSO4(H2O)2',
@@ -56,6 +58,7 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
     description: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
+    key: 'samomesGhKh',
     reagents: [
       {
         key: 'CaCO3',
@@ -71,6 +74,7 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
     description: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
+    key: 'samomesGhLowKh',
     reagents: [
       {
         key: 'CaCO3',
@@ -90,6 +94,7 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
     description: 'Этот рецепт создан и проверен автором проекта Samomes',
   },
   {
+    key: 'romanChe',
     reagents: [
       {
         key: 'CaSO4(H2O)2',
@@ -117,6 +122,7 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
     description: 'Рецепт Романа Че',
   },
   {
+    key: 'samomesGh8Kh4',
     reagents: [
       {
         key: 'CaCO3',
@@ -138,3 +144,40 @@ export const REMINERAL_RECIPES: RemineralRecipeExampleType[] = [
 ];
 
 REMINERAL_RECIPES.sort((a, b) => a.name.localeCompare(b.name));
+
+export const REMINERAL_RECIPE_NAMES_EN: {
+  key: string;
+  name: string;
+  description: string;
+}[] = [
+  {
+    key: 'kubanAquariumsGh',
+    name: 'Kuban Aquariums Remineralizer',
+    description: 'Recipe taken from Kuban Aquariums YouTube channel (https://www.youtube.com/watch?v=KQE7l637Rd8)',
+  },
+  {
+    key: 'samomesGh',
+    name: 'Samomes Gh+',
+    description: 'This recipe was created and tested by the Samomes project author',
+  },
+  {
+    key: 'samomesGhKh',
+    name: 'Samomes Gh/Kh+',
+    description: 'This recipe was created and tested by the Samomes project author',
+  },
+  {
+    key: 'samomesGhLowKh',
+    name: 'Samomes Gh/Kh-',
+    description: 'This recipe was created and tested by the Samomes project author',
+  },
+  {
+    key: 'romanChe',
+    name: 'Roman Che Remineralizer',
+    description: 'Recipe by Roman Che',
+  },
+  {
+    key: 'samomesGh8Kh4',
+    name: 'Samomes Gh8/Kh4',
+    description: 'This recipe was created specifically for Serega Efremov ;)',
+  },
+];

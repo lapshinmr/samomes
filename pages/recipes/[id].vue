@@ -300,7 +300,7 @@
 import { useRouter, useRoute } from 'vue-router';
 import type { FertilizerRecipeExampleType } from '~/utils/types/types';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { appRoutes } = useAppRoutes();
 const { required, positive } = useValidation();
 const router = useRouter();
@@ -308,6 +308,17 @@ const route = useRoute();
 const snackbarStore = useSnackbarStore();
 const reagentsStore = useReagentsStore();
 const recipesStore = useRecipesStore();
+
+const fertilizerRecipes = [...FERTILIZER_RECIPES];
+if (locale.value === 'en') {
+  FERTILIZER_RECIPE_NAMES_EN.forEach((item) => {
+    const recipe = fertilizerRecipes.find((recipe) => item.key === recipe.key);
+    if (recipe) {
+      recipe.name = item.name;
+      recipe.description = item.description;
+    }
+  });
+}
 
 const { getReagents } = useReagents();
 const INITIAL_REAGENT_AMOUNT = 0;

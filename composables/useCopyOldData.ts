@@ -93,6 +93,7 @@ export default () => {
       const fertilizers = data.fertilizers || [];
       fertilizers.forEach((fertilizer) => {
         const fertilizerObject = {
+          key: fertilizer.name,
           name: fertilizer.name,
           description: fertilizer.note,
           isPercent: fertilizer.isPercent,

@@ -24,6 +24,7 @@
 
 export const FERTILIZERS: FertilizerType[] = [
   {
+    key: 'apt3Complete',
     name: 'APT 3 / Complete',
     isLiquid: true,
     isPercent: true,
@@ -44,6 +45,7 @@ export const FERTILIZERS: FertilizerType[] = [
   },
   // Prestige
   {
+    key: 'prestigeFitoMinMacro',
     name: 'Prestige FitoMin Macro',
     isLiquid: true,
     isPercent: false,
@@ -56,6 +58,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'prestigeFitoMinKaliy',
     name: 'Prestige FitoMin Калий',
     isLiquid: true,
     isPercent: false,
@@ -66,6 +69,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'prestigeFitoMinMicro',
     name: 'Prestige FitoMin Micro',
     isLiquid: true,
     isPercent: true,
@@ -83,6 +87,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'prestigeFitoMinZhelezo',
     name: 'Prestige FitoMin Железо',
     isLiquid: true,
     isPercent: true,
@@ -95,6 +100,7 @@ export const FERTILIZERS: FertilizerType[] = [
   },
   // Aquabalance
   {
+    key: 'aquabalancePolnyKompleksTotal',
     name: 'Aquabalance полный комплекс Total',
     isLiquid: true,
     isPercent: true,
@@ -115,6 +121,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceFerroBalans',
     name: 'Aquabalance Ферро Баланс',
     isLiquid: true,
     isPercent: true,
@@ -126,6 +133,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceKaliyBalans',
     name: 'Aquabalance Калий Баланс',
     isLiquid: true,
     isPercent: true,
@@ -136,6 +144,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceNitroBalans',
     name: 'Aquabalance Нитро Баланс',
     isLiquid: true,
     isPercent: true,
@@ -149,6 +158,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceFosfoBalans',
     name: 'Aquabalance Фосфо Баланс',
     isLiquid: true,
     isPercent: true,
@@ -160,6 +170,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceMakroBalans',
     name: 'Aquabalance Макро Баланс',
     isLiquid: true,
     isPercent: true,
@@ -174,6 +185,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceMikroBalans',
     name: 'Aquabalance Микро Баланс',
     isLiquid: true,
     isPercent: true,
@@ -189,6 +201,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceMikroBalansPlusK',
     name: 'Aquabalance Микро Баланс + K',
     isLiquid: true,
     isPercent: true,
@@ -205,6 +218,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceTotalMokh',
     name: 'Aquabalance Тотал-Мох',
     isLiquid: true,
     isPercent: true,
@@ -219,6 +233,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalancePremiumMicroKHLess4',
     name: 'Aquabalance Premium Micro (KH<4)',
     isLiquid: true,
     isPercent: true,
@@ -234,6 +249,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalancePremiumMicroKHGreater4',
     name: 'Aquabalance Premium Micro (KH>4)',
     isLiquid: true,
     isPercent: true,
@@ -249,6 +265,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalancePremiumMakroKorrektorPK',
     name: 'Aquabalance Premium Макро корректор P+K',
     isLiquid: true,
     isPercent: true,
@@ -260,6 +277,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalancePremiumMakroKorrektorNK',
     name: 'Aquabalance Premium Макро корректор N+K',
     isLiquid: true,
     isPercent: true,
@@ -270,6 +288,7 @@ export const FERTILIZERS: FertilizerType[] = [
     description: 'Это фирменное удобрение. Все данные взяты с этикетки.',
   },
   {
+    key: 'aquabalancePremiumMakroKompleksNPK',
     name: 'Aquabalance Premium Макро комплекс NPK',
     isLiquid: true,
     isPercent: true,
@@ -282,6 +301,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalancePremiumFeMn',
     name: 'Aquabalance Premium Fe+Mn',
     isLiquid: true,
     isPercent: true,
@@ -293,6 +313,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceKolorBalans',
     name: 'Aquabalance Колор Баланс',
     isLiquid: true,
     isPercent: true,
@@ -305,6 +326,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquabalanceGHBuster',
     name: 'Aquabalance GH-бустер',
     isLiquid: false,
     isPercent: true,
@@ -321,6 +343,7 @@ export const FERTILIZERS: FertilizerType[] = [
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    key: 'aquabalanceAquaBuster',
     name: 'Aquabalance Aqua-бустер',
     isPercent: true,
     isLiquid: false,
@@ -337,6 +360,7 @@ export const FERTILIZERS: FertilizerType[] = [
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    key: 'aquabalanceGhKaltsiy',
     name: 'Aquabalance Gh-кальций',
     isLiquid: true,
     isPercent: false,
@@ -346,6 +370,7 @@ export const FERTILIZERS: FertilizerType[] = [
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    key: 'aquabalanceGhMagniy',
     name: 'Aquabalance Gh-магний',
     isLiquid: true,
     isPercent: false,
@@ -356,6 +381,7 @@ export const FERTILIZERS: FertilizerType[] = [
   },
   // Aquayer
   {
+    key: 'aquayerMakroPlus',
     name: 'Aquayer Макро+',
     isLiquid: true,
     isPercent: false,
@@ -368,6 +394,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquayerMikroPlus',
     name: 'Aquayer Микро+',
     isLiquid: true,
     isPercent: false,
@@ -386,6 +413,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquayerZhelezoPlus',
     name: 'Aquayer Железо+',
     isLiquid: true,
     isPercent: false,
@@ -397,6 +425,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquayerKaliyPlus',
     name: 'Aquayer Калий+',
     isLiquid: true,
     isPercent: false,
@@ -407,6 +436,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquayerSmartMakroNitrat',
     name: 'Aquayer Смарт Макро (Нитрат)',
     isLiquid: true,
     isPercent: false,
@@ -418,6 +448,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquayerSmartMakroFosfat',
     name: 'Aquayer Смарт Макро (Фосфат)',
     isLiquid: true,
     isPercent: false,
@@ -429,6 +460,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquayerRemineralGHKHPlus',
     name: 'Aquayer Remineral GH/KH+',
     isLiquid: false,
     isPercent: true,
@@ -446,6 +478,7 @@ export const FERTILIZERS: FertilizerType[] = [
   },
   // Aquaerus
   {
+    key: 'aquaerusMakro',
     name: 'Aquaerus Макро',
     isLiquid: true,
     isPercent: false,
@@ -458,6 +491,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-05-02',
   },
   {
+    key: 'aquaerusMikro',
     name: 'Aquaerus Микро',
     isLiquid: true,
     isPercent: false,
@@ -476,6 +510,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-05-02',
   },
   {
+    key: 'aquaerusZhelezo',
     name: 'Aquaerus Железо',
     isLiquid: true,
     isPercent: false,
@@ -487,6 +522,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquaerusKaliy',
     name: 'Aquaerus Калий',
     isLiquid: true,
     isPercent: false,
@@ -497,6 +533,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquaerusNitratPlus',
     name: 'Aquaerus Нитрат+',
     isLiquid: true,
     isPercent: false,
@@ -510,6 +547,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'aquaerusFosfatPlus',
     name: 'Aquaerus Фосфат+',
     isLiquid: true,
     isPercent: false,
@@ -523,6 +561,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-03',
   },
   {
+    key: 'seachemNitrogen',
     name: 'Seachem Nitrogen',
     isLiquid: true,
     isPercent: true,
@@ -534,6 +573,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'seachemPhosphorus',
     name: 'Seachem Phosphorus',
     isLiquid: true,
     isPercent: true,
@@ -545,6 +585,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'seachemPotassium',
     name: 'Seachem Potassium',
     isLiquid: true,
     isPercent: true,
@@ -555,6 +596,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'seachemFlourish',
     name: 'Seachem Flourish',
     isLiquid: true,
     isPercent: true,
@@ -579,6 +621,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'seachemFlourishAdvance',
     name: 'Seachem Flourish Advance',
     isLiquid: true,
     isPercent: true,
@@ -592,6 +635,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'seachemFlourishTrace',
     name: 'Seachem Flourish Trace',
     isLiquid: true,
     isPercent: true,
@@ -610,6 +654,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'seachemFlourishIron',
     name: 'Seachem Flourish Iron',
     isLiquid: true,
     isPercent: true,
@@ -620,6 +665,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'seachemEquilibrium',
     name: 'Seachem Equilibrium',
     isPercent: true,
     isLiquid: false,
@@ -640,6 +686,7 @@ export const FERTILIZERS: FertilizerType[] = [
   },
   // Tropica
   {
+    key: 'tropicaPremiumNutrition',
     name: 'Tropica Premium Nutrition',
     isLiquid: true,
     isPercent: true,
@@ -659,6 +706,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'tropicaSpecialisedNutrition',
     name: 'Tropica Specialised Nutrition',
     isLiquid: true,
     isPercent: true,
@@ -680,6 +728,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'dennerlePlantCarePro',
     name: 'Dennerle Plant Care Pro',
     isLiquid: true,
     isPercent: true,
@@ -703,6 +752,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-05-02',
   },
   {
+    key: 'dennerlePlantCareNPK',
     name: 'Dennerle Plant Care NPK',
     isLiquid: true,
     isPercent: false,
@@ -718,6 +768,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-05-02',
   },
   {
+    key: 'dennerlePlantCareN',
     name: 'Dennerle Plant Care N',
     isLiquid: true,
     isPercent: false,
@@ -731,6 +782,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-05-02',
   },
   {
+    key: 'dennerlePlantCareP',
     name: 'Dennerle Plant Care P',
     isLiquid: true,
     isPercent: false,
@@ -743,6 +795,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-05-02',
   },
   {
+    key: 'dennerlePlantCareK',
     name: 'Dennerle Plan Care K',
     isLiquid: true,
     isPercent: false,
@@ -754,6 +807,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-05-02',
   },
   {
+    key: 'dennerleElixirBasic',
     name: 'Dennerle Elixir Basic',
     isLiquid: true,
     isPercent: true,
@@ -777,6 +831,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'dennerleNPKBooster',
     name: 'Dennerle NPK Booster',
     isLiquid: true,
     isPercent: false,
@@ -789,7 +844,8 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2021-08-14',
   },
   {
-    name: 'Dennerle Scaper’s Green',
+    key: 'dennerleScapersGreen',
+    name: 'Dennerle Scaper\'s Green',
     isLiquid: true,
     isPercent: true,
     ions: {
@@ -806,6 +862,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2021-08-14',
   },
   {
+    key: 'dennerleOsmoseReMineral',
     name: 'Dennerle Osmose ReMineral+',
     isLiquid: false,
     isPercent: true,
@@ -822,6 +879,7 @@ export const FERTILIZERS: FertilizerType[] = [
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    key: 'akvapozitivNitrogenPlus',
     name: 'Аквапозитив Азот+',
     isLiquid: true,
     isPercent: true,
@@ -835,6 +893,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivPhosphatePlus',
     name: 'Аквапозитив Фосфор+',
     isLiquid: true,
     isPercent: true,
@@ -847,6 +906,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivMacroPlus',
     name: 'Аквапозитив Макро+',
     isLiquid: true,
     isPercent: true,
@@ -859,6 +919,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivMicroPlus',
     name: 'Аквапозитив Микро+',
     isLiquid: true,
     isPercent: true,
@@ -876,6 +937,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivFePlus',
     name: 'Аквапозитив Железо+',
     isLiquid: true,
     isPercent: true,
@@ -887,6 +949,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivNitrogenPlusPowder',
     name: 'Аквапозитив Азот+ (порошок)',
     isLiquid: false,
     isPercent: true,
@@ -898,6 +961,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivPhosphatePlusPowder',
     name: 'Аквапозитив Фосфор+ (порошок)',
     isLiquid: false,
     isPercent: true,
@@ -910,6 +974,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivPotassiumPlusPowder',
     name: 'Аквапозитив Калий+ (порошок)',
     isLiquid: false,
     isPercent: true,
@@ -920,6 +985,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivMagnesiumPowder',
     name: 'Аквапозитив Магний (порошок)',
     isLiquid: false,
     isPercent: true,
@@ -930,6 +996,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-03-04',
   },
   {
+    key: 'akvapozitivGhPlus',
     name: 'Аквапозитив GH+',
     isLiquid: false,
     isPercent: true,
@@ -946,6 +1013,7 @@ export const FERTILIZERS: FertilizerType[] = [
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    key: 'akvapozitivGhKhPlus',
     name: 'Аквапозитив GH/KH+',
     isLiquid: false,
     isPercent: true,
@@ -962,6 +1030,7 @@ export const FERTILIZERS: FertilizerType[] = [
     description: 'Это заводское удобрение. Все данные взяты с этикетки.',
   },
   {
+    key: 'waterSciMicroXLOsmosis',
     name: 'WaterSci Micro XL для осмоса',
     isLiquid: true,
     isPercent: false,
@@ -984,6 +1053,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciMicroHalfFeXLOsmosis',
     name: 'WaterSci Micro 1/2 Fe XL для осмоса',
     isLiquid: true,
     isPercent: false,
@@ -1006,6 +1076,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciHalfFeGluconateXLOsmosis',
     name: 'WaterSci 1/2 Fe gluconate XL для осмоса',
     isLiquid: true,
     isPercent: false,
@@ -1019,6 +1090,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciNKXLAnyWater',
     name: 'WaterSci NK XL для любой воды',
     isLiquid: true,
     isPercent: false,
@@ -1032,6 +1104,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciPKXLAnyWater',
     name: 'WaterSci PK XL для любой воды',
     isLiquid: true,
     isPercent: false,
@@ -1045,6 +1118,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciKXLAnyWater',
     name: 'WaterSci K XL для любой воды',
     isLiquid: true,
     isPercent: false,
@@ -1057,6 +1131,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciMicro3In1LTapWater',
     name: 'WaterSci Micro 3 in 1 L для водопроводной воды',
     isLiquid: true,
     isPercent: false,
@@ -1079,6 +1154,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciMacroNPKLTapWater',
     name: 'WaterSci Mаcro NPK L для водопроводной воды',
     isLiquid: true,
     isPercent: false,
@@ -1093,6 +1169,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-24',
   },
   {
+    key: 'waterSciRemineralGHPlus',
     name: 'WaterSci Remineral Gh+',
     isLiquid: true,
     isPercent: false,
@@ -1111,6 +1188,7 @@ export const FERTILIZERS: FertilizerType[] = [
       + 'https://vk.com/watersci',
   },
   {
+    key: 'waterSciRemineralKHPlus',
     name: 'WaterSci Remineral Kh+',
     isLiquid: true,
     isPercent: false,
@@ -1131,6 +1209,7 @@ export const FERTILIZERS: FertilizerType[] = [
       + 'https://vk.com/watersci',
   },
   {
+    key: 'easyLifeNitro',
     name: 'Easy Life: Nitro',
     isLiquid: true,
     isPercent: false,
@@ -1142,6 +1221,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-21',
   },
   {
+    key: 'easyLifeFosfo',
     name: 'Easy Life: Fosfo',
     isLiquid: true,
     isPercent: false,
@@ -1152,6 +1232,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-21',
   },
   {
+    key: 'easyLifePotassium',
     name: 'Easy Life: Potassium',
     isLiquid: true,
     isPercent: false,
@@ -1162,6 +1243,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-21',
   },
   {
+    key: 'easyLifeProFito',
     name: 'Easy Life: ProFito',
     isLiquid: true,
     isPercent: false,
@@ -1181,6 +1263,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-21',
   },
   {
+    key: 'easyLifeGreenScape',
     name: 'Easy Life: GreenScape',
     isLiquid: true,
     isPercent: false,
@@ -1194,6 +1277,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-21',
   },
   {
+    key: 'easyLifeRedScape',
     name: 'Easy Life: RedScape',
     isLiquid: true,
     isPercent: false,
@@ -1207,6 +1291,7 @@ export const FERTILIZERS: FertilizerType[] = [
     updatedAt: '2025-02-21',
   },
   {
+    key: 'easyLifeFerro',
     name: 'Easy Life: Ferro',
     isLiquid: true,
     isPercent: false,
@@ -1218,6 +1303,7 @@ export const FERTILIZERS: FertilizerType[] = [
   },
   // Tetra
   {
+    key: 'tetraPlantaMin',
     name: 'Tetra PlantaMin',
     isLiquid: true,
     isPercent: true,
@@ -1235,7 +1321,447 @@ export const FERTILIZERS: FertilizerType[] = [
   },
 ];
 
-export const FERTILIZERS_SORTED = FERTILIZERS
-  .sort((a, b) => a.name.localeCompare(b.name));
-
-export default FERTILIZERS;
+export const FERTILIZER_NAMES_EN: {
+  key: string;
+  name: string;
+  description: string;
+}[] = [
+  {
+    key: 'apt3Complete',
+    name: 'APT 3 / Complete',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'prestigeFitoMinMacro',
+    name: 'Prestige FitoMin Macro',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'prestigeFitoMinKaliy',
+    name: 'Prestige FitoMin Potassium',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'prestigeFitoMinMicro',
+    name: 'Prestige FitoMin Micro',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'prestigeFitoMinZhelezo',
+    name: 'Prestige FitoMin Iron',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalancePolnyKompleksTotal',
+    name: 'Aquabalance Complete Complex Total',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceFerroBalans',
+    name: 'Aquabalance Ferro Balance',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceKaliyBalans',
+    name: 'Aquabalance Potassium Balance',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceNitroBalans',
+    name: 'Aquabalance Nitro Balance',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceFosfoBalans',
+    name: 'Aquabalance Phospho Balance',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceMakroBalans',
+    name: 'Aquabalance Macro Balance',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceMikroBalans',
+    name: 'Aquabalance Micro Balance',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceMikroBalansPlusK',
+    name: 'Aquabalance Micro Balance + K',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceTotalMokh',
+    name: 'Aquabalance Total-Moss',
+    description: 'This is a branded fertilizer. All data taken from the label. Contains macroelements: '
+      + 'nitrogen, phosphorus, potassium, calcium, magnesium, as well as microelements: iron, manganese, '
+      + 'boron including in organic form.',
+  },
+  {
+    key: 'aquabalancePremiumMicroKHLess4',
+    name: 'Aquabalance Premium Micro (KH<4)',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalancePremiumMicroKHGreater4',
+    name: 'Aquabalance Premium Micro (KH>4)',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalancePremiumMakroKorrektorPK',
+    name: 'Aquabalance Premium Macro Corrector P+K',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalancePremiumMakroKorrektorNK',
+    name: 'Aquabalance Premium Macro Corrector N+K',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalancePremiumMakroKompleksNPK',
+    name: 'Aquabalance Premium Macro Complex NPK',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalancePremiumFeMn',
+    name: 'Aquabalance Premium Fe+Mn',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceKolorBalans',
+    name: 'Aquabalance Color Balance',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceGHBuster',
+    name: 'Aquabalance GH-booster',
+    description: 'This is a factory fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceAquaBuster',
+    name: 'Aquabalance Aqua-booster',
+    description: 'This is a factory fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceGhKaltsiy',
+    name: 'Aquabalance GH-calcium',
+    description: 'This is a factory fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquabalanceGhMagniy',
+    name: 'Aquabalance GH-magnesium',
+    description: 'This is a factory fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'aquayerMakroPlus',
+    name: 'Aquayer Macro+',
+    description: 'This is a branded fertilizer. Data taken from the manufacturer\'s website https://aquayer.com',
+  },
+  {
+    key: 'aquayerMikroPlus',
+    name: 'Aquayer Micro+',
+    description: 'This is a branded fertilizer. Data taken from the manufacturer\'s website https://aquayer.com',
+  },
+  {
+    key: 'aquayerZhelezoPlus',
+    name: 'Aquayer Iron+',
+    description: 'This is a branded fertilizer. Data taken from the manufacturer\'s website https://aquayer.com',
+  },
+  {
+    key: 'aquayerKaliyPlus',
+    name: 'Aquayer Potassium+',
+    description: 'This is a branded fertilizer. Data taken from the manufacturer\'s website https://aquayer.com',
+  },
+  {
+    key: 'aquayerSmartMakroNitrat',
+    name: 'Aquayer Smart Macro (Nitrate)',
+    description: 'This is a branded fertilizer. Data taken from the manufacturer\'s website https://aquayer.com',
+  },
+  {
+    key: 'aquayerSmartMakroFosfat',
+    name: 'Aquayer Smart Macro (Phosphate)',
+    description: 'This is a branded fertilizer. Data taken from the manufacturer\'s website https://aquayer.com',
+  },
+  {
+    key: 'aquayerRemineralGHKHPlus',
+    name: 'Aquayer Remineral GH/KH+',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'aquaerusMakro',
+    name: 'Aquaerus Macro',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'aquaerusMikro',
+    name: 'Aquaerus Micro',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'aquaerusZhelezo',
+    name: 'Aquaerus Iron',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'aquaerusKaliy',
+    name: 'Aquaerus Potassium',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'aquaerusNitratPlus',
+    name: 'Aquaerus Nitrate+',
+    description: 'This is a branded fertilizer. WARNING! The manufacturer did not specify the potassium ' +
+      'content in this fertilizer. But potassium is present in the original fertilizer. Users also ' +
+      'indicate an increase in potassium in the aquarium. Therefore, it will be safer for the aquarium ' +
+      'to consider potassium as in Aquayer fertilizer.',
+  },
+  {
+    key: 'aquaerusFosfatPlus',
+    name: 'Aquaerus Phosphate+',
+    description: 'This is a branded fertilizer. WARNING! The manufacturer did not specify the potassium ' +
+      'content in this fertilizer. But potassium is present in the original fertilizer. Users also indicate ' +
+      'an increase in potassium in the aquarium. Therefore, it will be safer for the aquarium to consider ' +
+      'potassium as in Aquayer fertilizer.',
+  },
+  {
+    key: 'seachemNitrogen',
+    name: 'Seachem Nitrogen',
+    description: 'This is a branded fertilizer. Data taken from the website https://seachem.com/planted.php',
+  },
+  {
+    key: 'seachemPhosphorus',
+    name: 'Seachem Phosphorus',
+    description: 'This is a branded fertilizer. Data taken from the website https://seachem.com/planted.php',
+  },
+  {
+    key: 'seachemPotassium',
+    name: 'Seachem Potassium',
+    description: 'This is a branded fertilizer. Data taken from the website https://seachem.com/planted.php',
+  },
+  {
+    key: 'seachemFlourish',
+    name: 'Seachem Flourish',
+    description: 'This is a branded fertilizer. Data taken from the website https://seachem.com/planted.php',
+  },
+  {
+    key: 'seachemFlourishAdvance',
+    name: 'Seachem Flourish Advance',
+    description: 'This is a branded fertilizer. Data taken from the website https://seachem.com/planted.php',
+  },
+  {
+    key: 'seachemFlourishTrace',
+    name: 'Seachem Flourish Trace',
+    description: 'This is a branded fertilizer. Data taken from the website https://seachem.com/planted.php',
+  },
+  {
+    key: 'seachemFlourishIron',
+    name: 'Seachem Flourish Iron',
+    description: 'This is a branded fertilizer. Data taken from the website https://seachem.com/planted.php',
+  },
+  {
+    key: 'seachemEquilibrium',
+    name: 'Seachem Equilibrium',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'tropicaPremiumNutrition',
+    name: 'Tropica Premium Nutrition',
+    description: 'This is a branded fertilizer. Data taken from the website https://tropica.com/en/plant-care/liquid-fertilisers/premium-nutrition/',
+  },
+  {
+    key: 'tropicaSpecialisedNutrition',
+    name: 'Tropica Specialised Nutrition',
+    description: 'This is a branded fertilizer. Data taken from the website https://tropica.com/en/plant-care/liquid-fertilisers/specialised-nutrition/',
+  },
+  {
+    key: 'dennerlePlantCarePro',
+    name: 'Dennerle Plant Care Pro',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://dennerle.com/en/collections/plantcare',
+  },
+  {
+    key: 'dennerlePlantCareNPK',
+    name: 'Dennerle Plant Care NPK',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://dennerle.com/en/collections/plantcare',
+  },
+  {
+    key: 'dennerlePlantCareN',
+    name: 'Dennerle Plant Care N',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://dennerle.com/en/collections/plantcare',
+  },
+  {
+    key: 'dennerlePlantCareP',
+    name: 'Dennerle Plant Care P',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://dennerle.com/en/collections/plantcare',
+  },
+  {
+    key: 'dennerlePlanCareK',
+    name: 'Dennerle Plant Care K',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://dennerle.com/en/collections/plantcare',
+  },
+  {
+    key: 'dennerleElixirBasic',
+    name: 'Dennerle Elixir Basic',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://dennerle.com/en/collections/plantcare',
+  },
+  {
+    key: 'dennerleNPKBooster',
+    name: 'Dennerle NPK Booster',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'dennerleScapersGreen',
+    name: 'Dennerle Scaper\'s Green',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'dennerleOsmoseReMineral',
+    name: 'Dennerle Osmose ReMineral+',
+    description: 'This is a factory fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'akvapozitivNitrogenPlus',
+    name: 'Akvapozitiv Nitrogen+',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivPhosphatePlus',
+    name: 'Akvapozitiv Phosphorus+',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivMacroPlus',
+    name: 'Akvapozitiv Macro+',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivMicroPlus',
+    name: 'Akvapozitiv Micro+',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivFePlus',
+    name: 'Akvapozitiv Iron+',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivNitrogenPlusPowder',
+    name: 'Akvapozitiv Nitrogen+ (powder)',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivPhosphatePlusPowder',
+    name: 'Akvapozitiv Phosphorus+ (powder)',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivPotassiumPlusPowder',
+    name: 'Akvapozitiv Potassium+ (powder)',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivMagnesiumPowder',
+    name: 'Akvapozitiv Magnesium (powder)',
+    description: 'This is a branded fertilizer. Data taken from https://vk.com/akvapozitiv',
+  },
+  {
+    key: 'akvapozitivGhPlus',
+    name: 'Akvapozitiv GH+',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'akvapozitivGhKhPlus',
+    name: 'Akvapozitiv GH/KH+',
+    description: 'This is a branded fertilizer. Data taken from the label.',
+  },
+  {
+    key: 'waterSciMicroXLOsmosis',
+    name: 'WaterSci Micro XL for osmosis',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciMicroHalfFeXLOsmosis',
+    name: 'WaterSci Micro 1/2 Fe XL for osmosis',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciHalfFeGluconateXLOsmosis',
+    name: 'WaterSci 1/2 Fe gluconate XL for osmosis',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciNKXLAnyWater',
+    name: 'WaterSci NK XL for any water',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciPKXLAnyWater',
+    name: 'WaterSci PK XL for any water',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciKXLAnyWater',
+    name: 'WaterSci K XL for any water',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciMicro3In1LTapWater',
+    name: 'WaterSci Micro 3 in 1 L for tap water',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciMacroNPKLTapWater',
+    name: 'WaterSci Macro NPK L for tap water',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciRemineralGHPlus',
+    name: 'WaterSci Remineral GH+',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'waterSciRemineralKHPlus',
+    name: 'WaterSci Remineral KH+',
+    description: 'This is a branded fertilizer. All data taken from official sources: https://watersci.ru https://vk.com/watersci',
+  },
+  {
+    key: 'easyLifeNitro',
+    name: 'Easy Life: Nitro',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'easyLifeFosfo',
+    name: 'Easy Life: Fosfo',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'easyLifePotassium',
+    name: 'Easy Life: Potassium',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'easyLifeProFito',
+    name: 'Easy Life: ProFito',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'easyLifeGreenScape',
+    name: 'Easy Life: GreenScape',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'easyLifeRedScape',
+    name: 'Easy Life: RedScape',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'easyLifeFerro',
+    name: 'Easy Life: Ferro',
+    description: 'This is a branded fertilizer. All data taken from the label.',
+  },
+  {
+    key: 'tetraPlantaMin',
+    name: 'Tetra PlantaMin',
+    description: 'This is a branded fertilizer. Data taken from the store website https://www.aquasabi.com/Tetra-PlantaMin',
+  },
+];

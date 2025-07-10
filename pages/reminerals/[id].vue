@@ -90,7 +90,7 @@
           />
           <Combobox
             v-model="remineralExampleChosen"
-            :items="REMINERAL_RECIPES"
+            :items="remineralRecipes"
             item-title="name"
             variant="underlined"
             :label="t('common.recipes')"
@@ -286,7 +286,7 @@
 </template>
 
 <script lang="ts" setup>
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { appRoutes } = useAppRoutes();
 
 const route = useRoute();
@@ -296,6 +296,17 @@ const snackbarStore = useSnackbarStore();
 const remineralsStore = useRemineralsStore();
 
 const { getReagents } = useReagents();
+
+const remineralRecipes = [...REMINERAL_RECIPES];
+if (locale.value === 'en') {
+  REMINERAL_RECIPE_NAMES_EN.forEach((item) => {
+    const recipe = remineralRecipes.find((recipe) => item.key === recipe.key);
+    if (recipe) {
+      recipe.name = item.name;
+      recipe.description = item.description;
+    }
+  });
+}
 
 // FORM FIELDS
 const remineralFormRef = ref(null);
