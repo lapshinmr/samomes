@@ -32,7 +32,7 @@
         уровне (ниже представлены мои аквариумы в хронологическом порядке).
       </p>
       <NuxtImg
-        src="/images/about/2019_1.JPG"
+        src="/images/about/2019_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -43,7 +43,7 @@
         Лето 2019. 60 литров
       </div>
       <NuxtImg
-        src="/images/about/2019_2.JPG"
+        src="/images/about/2019_2.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -72,7 +72,7 @@
         содержался в каждой из них. Считать его общую сумму — то еще удовольствие!
       </p>
       <NuxtImg
-        src="/images/about/2020_1.JPG"
+        src="/images/about/2020_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -102,7 +102,7 @@
         элементов, что исключает необходимость в постоянном тестировании.
       </p>
       <NuxtImg
-        src="/images/about/2021_1.JPG"
+        src="/images/about/2021_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -127,7 +127,7 @@
       </p>
       <div class="w-sm-75 mx-sm-auto">
         <NuxtImg
-          src="/images/about/2021_3.JPG"
+          src="/images/about/2021_3.jpeg"
           class="full-width-image mb-2"
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -159,7 +159,7 @@
         Так вы сможете получать больше удовольствия от аквариума, а не тратить время на скучные расчеты.
       </p>
       <NuxtImg
-        src="/images/about/2021_2.JPG"
+        src="/images/about/2021_2.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -185,7 +185,7 @@
         Основатель Samomes
       </p>
       <NuxtImg
-        src="/images/about/2022_1.JPG"
+        src="/images/about/2022_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -196,7 +196,7 @@
         Осень 2022. 35 литров
       </div>
       <NuxtImg
-        src="/images/about/2023_1.JPG"
+        src="/images/about/2023_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -235,7 +235,6 @@
 <script setup lang="ts">
 
 </script>
-
 
 <style scoped lang="sass">
 

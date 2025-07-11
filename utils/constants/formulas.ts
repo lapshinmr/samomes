@@ -529,6 +529,4 @@ export const FORMULAS_SKIP_LIST = [
   TrilonB,
   EDTA,
   'C63H88CoN14O14P',
-  'C4H7NO4',
-  'C5H9NO4',
 ] satisfies string[];

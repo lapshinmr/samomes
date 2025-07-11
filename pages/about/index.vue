@@ -32,8 +32,8 @@
 </template>
 
 <script lang="ts" setup>
-import RuContent from './ru.vue';
-import EnContent from './en.vue';
+import RuContent from '~/components/About/ru.vue';
+import EnContent from '~/components/About/en.vue';
 
 const { t, locale } = useI18n();
 

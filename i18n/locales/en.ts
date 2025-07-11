@@ -559,6 +559,52 @@ export default {
       t3: '"How to install PWA in [your browser name] browser"',
     },
   },
+  articles: {
+    common: {
+      allArticles: 'All Articles',
+      tankVolume: 'Tank Volume',
+      fertilizerVolume: 'Fertilizer Volume',
+      unitConc: 'Dosage',
+      reagentMass: 'Mass of {reagentName}',
+      recipe: 'Recipe',
+      in: 'in',
+      on: 'on',
+      and: 'and',
+      ofWater: 'of water',
+      dissolve: 'dissolve',
+      another: 'another',
+      inTheTank: 'in the tank with volume',
+      fertilizerIncrease: 'of this fertilizer increases concentration of',
+      read: 'Read',
+    },
+    simplestNitrate: {
+      title: 'Simplest Nitrate NO3 Recipe',
+      description: 'This article is dedicated to the simplest recipe for liquid fertilizer containing nitrate. ' +
+        'Nitrate is one of the key elements that requires attention...',
+    },
+    simplestPhosphate: {
+      title: 'Simplest Phosphate PO4 Recipe',
+      description: 'In this article we continue to explore the simplest ways to prepare DIY ' +
+        'fertilizers and now discuss phosphate — an element...',
+    },
+    potassium: {
+      title: 'Potassium Recipe',
+      description: 'This article completes the series of three simplest recipes for DIY fertilizers for ' +
+        'planted tanks, focusing on potassium. To familiarize yourself with the recipes...',
+    },
+    noTests1: {
+      title: 'Aquarium Tests Are Not Needed',
+      part1: 'Part 1',
+      description: 'In this article I want to share my experience of maintaining an tank both with ' +
+        'and without tests — based on my own practice and experience...',
+    },
+    noTests2: {
+      title: 'Aquarium Tests Are Not Needed',
+      part2: 'Part 2',
+      description: 'And here we get to the root of the problem. I will examine both elements, as they ' +
+        'most often come as a pair in fertilizers, discussions, etc. What could be dangerous about such...',
+    },
+  },
   meta: {
     landing: {
       title: 'Fertilizer Calculator for Planted Aquarium',

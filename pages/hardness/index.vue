@@ -77,17 +77,18 @@
                   <v-radio
                     :label="t('hardness.osmosisAndTap')"
                     :value="RemineralizationTypes.TAP"
-                    class="mt-1 mt-sm-0"
+                    class="mt-1 mt-sm-0 ml-sm-2"
                   />
                   <v-radio
                     :label="t('hardness.otherType')"
                     :value="RemineralizationTypes.MIX"
-                    class="mt-1 mt-sm-0"
+                    class="mt-1 mt-sm-0 ml-sm-2"
                   />
                 </v-radio-group>
                 <v-checkbox
                   v-model="isTests"
                   color="primary"
+                  class="ml-n2 ml-0"
                   :label="t('hardness.isTests')"
                 />
               </div>

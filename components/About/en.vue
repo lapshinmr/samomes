@@ -32,7 +32,7 @@
         new level (below are my tanks in chronological order).
       </p>
       <NuxtImg
-        src="/images/about/2019_1.JPG"
+        src="/images/about/2019_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -43,7 +43,7 @@
         Summer 2019. 60 liters
       </div>
       <NuxtImg
-        src="/images/about/2019_2.JPG"
+        src="/images/about/2019_2.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -71,7 +71,7 @@
         was contained in each of them. Calculating its total sum — what a pain!
       </p>
       <NuxtImg
-        src="/images/about/2020_1.JPG"
+        src="/images/about/2020_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -101,7 +101,7 @@
         elements, eliminating the need for infiniti testing.
       </p>
       <NuxtImg
-        src="/images/about/2021_1.JPG"
+        src="/images/about/2021_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -125,7 +125,7 @@
       </p>
       <div class="w-sm-75 mx-sm-auto">
         <NuxtImg
-          src="/images/about/2021_3.JPG"
+          src="/images/about/2021_3.jpeg"
           class="full-width-image mb-2"
           quality="85"
           sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -157,7 +157,7 @@
         This way you can get more enjoyment from your aquarium, rather than spending time on boring calculations.
       </p>
       <NuxtImg
-        src="/images/about/2021_2.JPG"
+        src="/images/about/2021_2.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -184,7 +184,7 @@
         Founder of Samomes
       </p>
       <NuxtImg
-        src="/images/about/2022_1.JPG"
+        src="/images/about/2022_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
@@ -195,7 +195,7 @@
         Fall 2022. 35 liters
       </div>
       <NuxtImg
-        src="/images/about/2023_1.JPG"
+        src="/images/about/2023_1.jpeg"
         class="full-width-image mb-2"
         quality="85"
         sizes="100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
