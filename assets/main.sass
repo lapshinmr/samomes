@@ -1,13 +1,21 @@
+@import './variables.sass'
+
+p
+  margin-bottom: 16px
+
 .full-width-main-image
   width: 100%
-  height: 650px
   object-fit: cover
   display: block
+  height: 193px
+  @media (min-width: $xs)
+    height: 650px
 
 .full-width-image
   width: 100%
   object-fit: cover
   display: block
 
-p
-  margin-bottom: 16px
+.hidden-xs-only
+  @media(max-width: $xs)
+    display: none

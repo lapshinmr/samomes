@@ -258,8 +258,4 @@ useSeoMeta({
   height: 250px
   object-fit: cover
   display: block
-
-.hidden-xs-only
-  @media(max-width: $xs)
-    display: none
 </style>
