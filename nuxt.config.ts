@@ -112,7 +112,10 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['~/assets/variables.sass'],
+  css: [
+    '~/assets/variables.sass',
+    '~/assets/main.sass',
+  ],
 
   modules: [
     '@nuxt/eslint',
@@ -140,7 +143,7 @@ export default defineNuxtConfig({
     },
 
     workbox: {
-      globPatterns: ['**/*.{js,css,html,svg,png,jpeg,webp,JPG,ico,mp4,woff,woff2}'],
+      globPatterns: ['**/*.{js,css,html,svg,ico,woff,woff2}'],
       cleanupOutdatedCaches: true,
       maximumFileSizeToCacheInBytes: 20000000,
       // skipWaiting: true,
@@ -247,15 +250,14 @@ export default defineNuxtConfig({
     strategy: 'prefix_and_default',
     locales: [
       { code: 'ru', name: 'Ru', iso: 'ru-RU', file: 'ru.ts' },
-      // { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
+      { code: 'en', name: 'En', iso: 'en-US', file: 'en.ts' },
     ],
-    // detectBrowserLanguage: {
-    //   useCookie: true,
-    //   cookieKey: 'i18n_redirected',
-    //   redirectOn: 'root',
-    //   // alwaysRedirect: false,
-    //   // fallbackLocale: 'en'
-    // },
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+      fallbackLocale: 'en',
+    },
   },
 
   piniaPluginPersistedstate: {

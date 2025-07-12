@@ -26,6 +26,7 @@ import type { FertilizerRecipeExampleType } from '~/utils/types/types';
 
 export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
   {
+    key: 'kubanNitrate',
     name: 'Kuban Aquariums Нитрат',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -38,6 +39,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
+    key: 'kubanPhosphate',
     name: 'Kuban Aquariums Фосфат',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -48,6 +50,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
+    key: 'kubanPotassium',
     name: 'Kuban Aquariums Калий',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -58,6 +61,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
+    key: 'kubanMicro',
     name: 'Kuban Aquariums Микро',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -74,6 +78,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Рецепт взят с youtube канала Kuban Aquariums (https://www.youtube.com/watch?v=Vyq-R0tv384)',
   },
   {
+    key: 'botanicNitrate',
     name: 'Aqua Botanic Нитрат',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -84,6 +89,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
+    key: 'botanicNitratePlus',
     name: 'Aqua Botanic Нитрат+',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -96,6 +102,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
+    key: 'botanicPhosphate',
     name: 'Aqua Botanic Фосфат',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -106,6 +113,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
+    key: 'botanicPotassium',
     name: 'Aqua Botanic Калий',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -116,6 +124,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
   },
   {
+    key: 'botanicMicro',
     name: 'Aqua Botanic Микро',
     reagents: [
       { key: 'H2O', amount: 968 },
@@ -160,6 +169,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
 Растворять каждый последующий реактив можно только после того, как полностью растворится предыдущий.`,
   },
   {
+    key: 'amaniaNpk',
     name: 'NPK Amania.org 1:15',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -170,6 +180,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Макро в соотношении 1 к 15. Рецепт взят с сайта amania.org',
   },
   {
+    key: 'amaniaNpkPlus',
     name: 'NPK Amania.org 1:15 + амидный азот',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -182,6 +193,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
       + ' Рецепт взят с сайта amania.org',
   },
   {
+    key: 'ermolaevMicro',
     name: 'Удо Ермолаева. МИКРО',
     reagents: [
       { key: 'H2O', amount: 500 },
@@ -199,6 +211,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
+    key: 'ermolaevMikroGh7',
     name: 'Удо Ермолаева. МИКРО (gh < 7)',
     reagents: [
       { key: 'H2O', amount: 500 },
@@ -216,6 +229,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
+    key: 'ermolaevMicroFeSulphate',
     name: 'Удо Ермолаева. МИКРО (Железный купорос)',
     reagents: [
       { key: 'H2O', amount: 500 },
@@ -234,6 +248,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Микро. Рецепт - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
   },
   {
+    key: 'ppsProMacro',
     name: 'Pps-pro Macro',
     reagents: [
       { key: 'H2O', amount: 500 },
@@ -245,6 +260,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
+    key: 'ppsProMicro',
     name: 'Pps-pro Micro',
     reagents: [
       { key: 'H2O', amount: 500 },
@@ -253,6 +269,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Рецепт взят с сайта https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Методика там же',
   },
   {
+    key: 'pmddCmm',
     name: 'PMDD CMM',
     reagents: [
       { key: 'H2O', amount: 500 },
@@ -264,6 +281,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
   {
+    key: 'pmddCsm',
     name: 'PMDD CSM + B',
     reagents: [
       { key: 'H2O', amount: 500 },
@@ -276,6 +294,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'http://www.amania.org/Tech/liqfert-mikom.html',
   },
   {
+    key: 'udarMacro',
     name: 'Удар Макро',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -286,6 +305,7 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
     description: 'Это удобрение от Юрия Христенко (https://www.youtube.com/@Echinodorus)',
   },
   {
+    key: 'udarMicro',
     name: 'Удар Микро',
     reagents: [
       { key: 'H2O', amount: 1000 },
@@ -303,3 +323,139 @@ export const FERTILIZER_RECIPES: FertilizerRecipeExampleType[] = [
 ];
 
 FERTILIZER_RECIPES.sort((a, b) => a.name.localeCompare(b.name));
+
+export const FERTILIZER_RECIPE_NAMES_EN: {
+  key: string;
+  name: string;
+  description: string;
+}[] = [
+  {
+    key: 'kubanNitrate',
+    name: 'Kuban Aquariums Nitrate',
+    description: 'Recipe taken from Kuban Aquariums YouTube channel (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+  },
+  {
+    key: 'kubanPhosphate',
+    name: 'Kuban Aquariums Phosphate',
+    description: 'Recipe taken from Kuban Aquariums YouTube channel (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+  },
+  {
+    key: 'kubanPotassium',
+    name: 'Kuban Aquariums Potassium',
+    description: 'Recipe taken from Kuban Aquariums YouTube channel (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+  },
+  {
+    key: 'kubanMicro',
+    name: 'Kuban Aquariums Micro',
+    description: 'Recipe taken from Kuban Aquariums YouTube channel (https://www.youtube.com/watch?v=Vyq-R0tv384)',
+  },
+  {
+    key: 'botanicNitrate',
+    name: 'Aqua Botanic Nitrate',
+    description: 'Pure potassium nitrate. Recipe taken from aqua-botanic.ru website '
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+  },
+  {
+    key: 'botanicNitratePlus',
+    name: 'Aqua Botanic Nitrate+',
+    description: 'Potassium nitrate diluted with urea and ammonium nitrate. Recipe taken from aqua-botanic.ru website '
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+  },
+  {
+    key: 'botanicPhosphate',
+    name: 'Aqua Botanic Phosphate',
+    description: 'Pure monopotassium phosphate. Recipe taken from aqua-botanic.ru website '
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+  },
+  {
+    key: 'botanicPotassium',
+    name: 'Aqua Botanic Potassium',
+    description: 'Pure potassium sulfate. Recipe taken from aqua-botanic.ru website '
+      + '(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html)',
+  },
+  {
+    key: 'botanicMicro',
+    name: 'Aqua Botanic Micro',
+    description: `Recipe taken from aqua-botanic.ru website
+(https://web.archive.org/web/20131206073940/http://www.aqua-botanic.ru/index.html):
+
+Using a measuring cup, measure 700 ml of distilled water or reverse osmosis filtered water.
+Pre-boil the water and dissolve:
+
+* Citric acid 30 grams
+* Iron sulfate - 10 grams
+* Manganese sulfate - 0.5 grams
+* Copper sulfate - 0.05 grams
+* Zinc sulfate - 0.6 grams
+* Magnesium sulfate - 10.54 grams
+* take a 1-hour break
+* Boric acid - 0.3 grams
+* Potassium sulfate - 8.6 grams
+* Citovit 4 ampoules
+* Ferovit - 4 ampoules
+* Vitamin B12 2 ampoules
+* Sulfuric acid - 20 ml
+
+Important! Only add acid to water, never the other way around.
+If desired, sulfuric acid can be replaced with Cidex (2.5% glutaraldehyde solution) in
+the amount of 200-250 ml. Add water to the fertilizer solution up to the 1 liter mark. Water doesn't need to be boiled.
+
+Each subsequent reagent should only be dissolved after the previous one has completely dissolved.`,
+  },
+  {
+    key: 'amaniaNpk',
+    name: 'NPK Amania.org 1:15',
+    description: 'Macro in a 1 to 15 ratio. Recipe taken from amania.org website',
+  },
+  {
+    key: 'amaniaNpkPlus',
+    name: 'NPK Amania.org 1:15 + amide nitrogen',
+    description: 'Macro in a 1 to 15 ratio. Potassium nitrate in a 50-50 ratio with urea. '
+      + 'Recipe taken from amania.org website',
+  },
+  {
+    key: 'ermolaevMicro',
+    name: 'Udo Ermolaev. MICRO',
+    description: 'Micro fertilizer. Recipe - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
+  },
+  {
+    key: 'ermolaevMikroGh7',
+    name: 'Udo Ermolaev. MICRO (gh < 7)',
+    description: 'Micro fertilizer. Recipe - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
+  },
+  {
+    key: 'ermolaevMicroFeSulphate',
+    name: 'Udo Ermolaev. MICRO (Iron Sulfate)',
+    description: 'Micro fertilizer. Recipe - https://aquascape-promotion.com/udobreniya-svoimi-rukami',
+  },
+  {
+    key: 'ppsProMacro',
+    name: 'PPS-Pro Macro',
+    description: 'Recipe taken from https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Methodology available there',
+  },
+  {
+    key: 'ppsProMicro',
+    name: 'PPS-Pro Micro',
+    description: 'Recipe taken from https://sites.google.com/site/aquaticplantfertilizer/pps-pro. Methodology available there',
+  },
+  {
+    key: 'pmddCmm',
+    name: 'PMDD CMM',
+    description: 'http://www.amania.org/Tech/liqfert-mikom.html',
+  },
+  {
+    key: 'pmddCsm',
+    name: 'PMDD CSM + B',
+    description: 'http://www.amania.org/Tech/liqfert-mikom.html',
+  },
+  {
+    key: 'udarMacro',
+    name: 'Udar Macro',
+    description: 'This fertilizer is by Yuri Khristenko (https://www.youtube.com/@Echinodorus)',
+  },
+  {
+    key: 'udarMicro',
+    name: 'Udar Micro',
+    description: 'This fertilizer is by Yuri Khristenko (https://www.youtube.com/@Echinodorus)',
+  },
+];

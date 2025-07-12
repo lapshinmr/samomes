@@ -123,13 +123,13 @@
         class="d-flex justify-space-between align-center"
       >
         <NumberField
-          :model-value="format(dose.amount)"
+          :model-value="format(dose.amountWaterChange)"
           :label="dose.fertilizer.name"
           :suffix="dose.fertilizer.isLiquid ? t('units.ml') : t('units.g')"
           hide-details="auto"
           class="pr-2"
           :disabled="!waterChangeVolume"
-          @update:model-value="dosingStore.updateAmount($event, index)"
+          @update:model-value="dosingStore.updateAmountWaterChange($event, index)"
         />
       </div>
     </template>

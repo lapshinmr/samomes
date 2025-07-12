@@ -69,7 +69,7 @@ export type OwnReagentType = { type: ReagentTypeName } & { key: string } & (Form
 export enum ReagentTypeName { FORMULA = 'formula', COMPOUND = 'compound' }
 
 export type ReagentType = {
-  key: ReagentKeyType;
+  key?: ReagentKeyType;
   name: string;
   type: ReagentTypeName;
   amount: number;
@@ -95,6 +95,7 @@ export type FertilizerRecipeType = RecipeType & {
 }
 
 export type FertilizerRecipeExampleType = {
+  key?: string;
   name: string;
   description?: string;
   reagents: { key: ReagentKeyType, amount: number }[];
@@ -102,6 +103,7 @@ export type FertilizerRecipeExampleType = {
 }
 
 export type FertilizerType = {
+  key?: string;
   name: string;
   description?: string;
   ions: Partial<Record<IonType, number>>;
@@ -122,6 +124,7 @@ export type RemineralRecipeType = RecipeType & {
 }
 
 export type RemineralRecipeExampleType = {
+  key?: string;
   name: string;
   description?: string;
   reagents: { key: ReagentKeyType, amount: number }[]

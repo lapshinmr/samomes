@@ -45,8 +45,28 @@ export default () => {
       return result;
     };
 
-    const FORMULAS_SORTED = Object.fromEntries(sortObjectByName(FORMULAS));
-    const COMPOUNDS_SORTED = Object.fromEntries(sortObjectByName(COMPOUNDS));
+    const formulas: Record<string, FormulaObjectType> = { ...FORMULAS };
+    if (locale.value === 'en') {
+      typedEntries(FORMULA_NAMES_EN).forEach(([key, name]) => {
+        formulas[key] = {
+          ...FORMULAS[key],
+          name,
+        };
+      });
+    }
+
+    const compounds: Record<string, CompoundObjectType> = { ...COMPOUNDS };
+    if (locale.value === 'en') {
+      typedEntries(COMPOUND_NAMES_EN).forEach(([key, name]) => {
+        compounds[key] = {
+          ...FORMULAS[key],
+          name,
+        };
+      });
+    }
+
+    const FORMULAS_SORTED = Object.fromEntries(sortObjectByName(formulas));
+    const COMPOUNDS_SORTED = Object.fromEntries(sortObjectByName(compounds));
     const OWN_REAGENTS_SORTED = Object.fromEntries(sortObjectByName(reagentsStore.reagents));
 
     return [

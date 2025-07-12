@@ -139,13 +139,13 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const route = useRoute();
 const tanksStore = useTanksStore();
-const { fertilizerRecipes } = useRecipesStore();
-const { fertilizers } = useFertilizersStore();
-const { remineralRecipes } = useRemineralsStore();
+const fertilizerRecipesStore = useRecipesStore();
+const fertilizersStore = useFertilizersStore();
+const remineralRecipesStore = useRemineralsStore();
 const dosingStore = useDosingStore();
 const snackbarStore = useSnackbarStore();
 
@@ -163,28 +163,43 @@ const dosingModel = computed(() => {
   );
 });
 
+const fertilizers = computed(() => {
+  const result = JSON.parse(JSON.stringify(FERTILIZERS));
+  if (locale.value === 'en') {
+    FERTILIZER_NAMES_EN.forEach((item) => {
+      const fertilizer = result.find((fertilizer) => item.key === fertilizer.key);
+      if (fertilizer) {
+        fertilizer.name = item.name;
+        fertilizer.description = item.description;
+      }
+    });
+  }
+  result.sort((a, b) => a.name.localeCompare(b.name));
+  return result;
+});
+
 const allFertilizers = computed(() => {
   let defaultFertilizersFiltered = [];
   if (isDefaultFertilizers.value) {
-    const recipesNames = fertilizerRecipes.map((item) => item.name);
-    const fertilizersNames = fertilizers.map((item) => item.name);
-    const remineralsNames = remineralRecipes.map((item) => item.name);
-    defaultFertilizersFiltered = FERTILIZERS_SORTED.filter(
+    const recipesNames = fertilizerRecipesStore.fertilizerRecipes.map((item) => item.name);
+    const fertilizersNames = fertilizersStore.fertilizers.map((item) => item.name);
+    const remineralsNames = remineralRecipesStore.remineralRecipes.map((item) => item.name);
+    defaultFertilizersFiltered = fertilizers.value.filter(
       (item) => ![...recipesNames, ...fertilizersNames, ...remineralsNames].includes(item.name),
     );
   }
   return [
-    ...fertilizerRecipes.map((item) => new Dose({
+    ...fertilizerRecipesStore.fertilizerRecipes.map((item) => new Dose({
       fertilizer: item,
       fertilizerType: DoseFertilizerType.fertilizerRecipe,
       daysTotal: dosingStore.daysTotal,
     })),
-    ...fertilizers.map((item) => new Dose({
+    ...fertilizersStore.fertilizers.map((item) => new Dose({
       fertilizer: item,
       fertilizerType: DoseFertilizerType.fertilizer,
       daysTotal: dosingStore.daysTotal,
     })),
-    ...remineralRecipes.map((item) => new Dose({
+    ...remineralRecipesStore.remineralRecipes.map((item) => new Dose({
       fertilizer: item,
       fertilizerType: DoseFertilizerType.remineralRecipe,
       daysTotal: dosingStore.daysTotal,

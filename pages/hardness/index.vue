@@ -77,17 +77,18 @@
                   <v-radio
                     :label="t('hardness.osmosisAndTap')"
                     :value="RemineralizationTypes.TAP"
-                    class="mt-1 mt-sm-0"
+                    class="mt-1 mt-sm-0 ml-sm-2"
                   />
                   <v-radio
                     :label="t('hardness.otherType')"
                     :value="RemineralizationTypes.MIX"
-                    class="mt-1 mt-sm-0"
+                    class="mt-1 mt-sm-0 ml-sm-2"
                   />
                 </v-radio-group>
                 <v-checkbox
                   v-model="isTests"
                   color="primary"
+                  class="ml-n2 ml-0"
                   :label="t('hardness.isTests')"
                 />
               </div>
@@ -310,15 +311,15 @@
 <script lang="ts" setup>
 import { RemineralizationTypes } from '~/utils/types/types';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const { required } = useValidation();
 const { smAndUp } = useDisplay();
 const hardnessStore = useHardnessStore();
 const tanksStore = useTanksStore();
-const { fertilizerRecipes } = useRecipesStore();
-const { fertilizers } = useFertilizersStore();
-const { remineralRecipes } = useRemineralsStore();
+const fertilizerRecipesStore = useRecipesStore();
+const fertilizersStore = useFertilizersStore();
+const remineralRecipesStore = useRemineralsStore();
 const snackbarStore = useSnackbarStore();
 
 const tanks = tanksStore.tankModels.map((item) => item.toJson());
@@ -351,29 +352,45 @@ const isDefaultFertilizers = computed({
   },
 });
 
+// TODO: refactor this and similar places
+const fertilizers = computed(() => {
+  const result = JSON.parse(JSON.stringify(FERTILIZERS));
+  if (locale.value === 'en') {
+    FERTILIZER_NAMES_EN.forEach((item) => {
+      const fertilizer = result.find((fertilizer) => item.key === fertilizer.key);
+      if (fertilizer) {
+        fertilizer.name = item.name;
+        fertilizer.description = item.description;
+      }
+    });
+  }
+  result.sort((a, b) => a.name.localeCompare(b.name));
+  return result;
+});
+
 // TODO: move to composables
 const allFertilizers = computed(() => {
   let defaultFertilizersFiltered = [];
   if (isDefaultFertilizers.value) {
-    const recipesNames = fertilizerRecipes.map((item) => item.name);
-    const fertilizersNames = fertilizers.map((item) => item.name);
-    const remineralsNames = remineralRecipes.map((item) => item.name);
-    defaultFertilizersFiltered = FERTILIZERS_SORTED.filter(
+    const recipesNames = fertilizerRecipesStore.fertilizerRecipes.map((item) => item.name);
+    const fertilizersNames = fertilizersStore.fertilizers.map((item) => item.name);
+    const remineralsNames = remineralRecipesStore.remineralRecipes.map((item) => item.name);
+    defaultFertilizersFiltered = fertilizers.value.filter(
       (item) => ![...recipesNames, ...fertilizersNames, ...remineralsNames].includes(item.name),
     );
   }
   return [
-    ...fertilizerRecipes.map((item) => new Dose({
+    ...fertilizerRecipesStore.fertilizerRecipes.map((item) => new Dose({
       fertilizer: item,
       fertilizerType: DoseFertilizerType.fertilizerRecipe,
       daysTotal: 1,
     })),
-    ...fertilizers.map((item) => new Dose({
+    ...fertilizersStore.fertilizers.map((item) => new Dose({
       fertilizer: item,
       fertilizerType: DoseFertilizerType.fertilizer,
       daysTotal: 1,
     })),
-    ...remineralRecipes.map((item) => new Dose({
+    ...remineralRecipesStore.remineralRecipes.map((item) => new Dose({
       fertilizer: item,
       fertilizerType: DoseFertilizerType.remineralRecipe,
       daysTotal: 1,

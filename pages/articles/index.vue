@@ -38,6 +38,7 @@
         <v-card
           :to="localePath('/articles/simplest-nitrate/')"
           min-height="471px"
+          class="d-flex flex-column"
         >
           <NuxtImg
             src="/images/makrandra.jpeg"
@@ -49,12 +50,11 @@
           />
 
           <v-card-title>
-            Простейший рецепт нитрата NO<sub>3</sub>
+            {{ t('articles.simplestNitrate.title') }}
           </v-card-title>
 
           <v-card-text>
-            Данная статья посвящена самому простому рецепту жидкого удобрения, содержащего нитрат. Нитрат
-            - один из ключевых элементов, на которые обращает...
+            {{ t('articles.simplestNitrate.description') }}
           </v-card-text>
 
           <v-divider class="mx-4 mt-auto" />
@@ -64,7 +64,7 @@
               color="deep-purple lighten-2"
               class="ml-auto"
             >
-              Читать
+              {{ t('articles.common.read') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -77,6 +77,7 @@
         <v-card
           :to="localePath('/articles/simplest-phosphate/')"
           min-height="471px"
+          class="d-flex flex-column"
         >
           <NuxtImg
             src="/images/indica.jpeg"
@@ -88,22 +89,21 @@
           />
 
           <v-card-title>
-            Простейший рецепт фосфата PO<sub>4</sub>
+            {{ t('articles.simplestPhosphate.title') }}
           </v-card-title>
 
           <v-card-text>
-            В этой статье мы продолжим рассматривать самые простые способы приготовления домашних удобрений и теперь
-            поговорим о фосфате — элементе...
+            {{ t('articles.simplestPhosphate.description') }}
           </v-card-text>
 
-          <v-divider class="mx-4" />
+          <v-divider class="mx-4 mt-auto" />
 
           <v-card-actions>
             <v-btn
               color="deep-purple lighten-2"
               class="ml-auto"
             >
-              Читать
+              {{ t('articles.common.read') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -116,6 +116,7 @@
         <v-card
           min-height="471px"
           :to="localePath('/articles/potassium/')"
+          class="d-flex flex-column"
         >
           <NuxtImg
             src="/images/stavrogin.jpeg"
@@ -126,21 +127,22 @@
             format="webp"
           />
 
-          <v-card-title>Рецепт калия</v-card-title>
+          <v-card-title>
+            {{ t('articles.potassium.title') }}
+          </v-card-title>
 
           <v-card-text>
-            Эта статья завершает серию из трех самых простых рецептов домашних удобрений для аквариума с растениями,
-            сосредотачиваясь на калии. Для ознакомления с рецептами...
+            {{ t('articles.potassium.description') }}
           </v-card-text>
 
-          <v-divider class="mx-4" />
+          <v-divider class="mx-4 mt-auto" />
 
           <v-card-actions>
             <v-btn
               color="deep-purple lighten-2"
               class="ml-auto"
             >
-              Читать
+              {{ t('articles.common.read') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -153,6 +155,7 @@
         <v-card
           min-height="471px"
           :to="localePath('/articles/no-tests-part-1/')"
+          class="d-flex flex-column"
         >
           <NuxtImg
             src="/images/no-tests/14.jpeg"
@@ -164,23 +167,24 @@
           />
 
           <v-card-title>
-            Тесты для аквариума не нужны
-            <div class="subtitle-1">Часть 1</div>
+            {{ t('articles.noTests1.title') }}
+            <div class="">
+              {{ t('articles.noTests1.part1') }}
+            </div>
           </v-card-title>
 
           <v-card-text>
-            В этой статье я хочу поделиться опытом содержания аквариума как с использованием тестов, так и без них —
-            основываясь на собственной практике и опыте...
+            {{ t('articles.noTests1.description') }}
           </v-card-text>
 
-          <v-divider class="mx-4" />
+          <v-divider class="mx-4 mt-auto" />
 
           <v-card-actions>
             <v-btn
               color="deep-purple lighten-2"
               class="ml-auto"
             >
-              Читать
+              {{ t('articles.common.read') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -193,6 +197,7 @@
         <v-card
           min-height="471px"
           :to="localePath('/articles/no-tests-part-2/')"
+          class="d-flex flex-column"
         >
           <NuxtImg
             src="/images/no-tests/15.jpeg"
@@ -204,23 +209,24 @@
           />
 
           <v-card-title>
-            Тесты для аквариума не нужны
-            <div class="subtitle-1">Часть 2</div>
+            {{ t('articles.noTests2.title') }}
+            <div class="">
+              {{ t('articles.noTests2.part2') }}
+            </div>
           </v-card-title>
 
           <v-card-text>
-            И вот мы добрались до самого корня зла. Я буду рассматривать оба элемента, так как
-            они чаще всего идут в паре в удобрениях, в обсуждениях и т.д. Что же опасного может быть в таких...
+            {{ t('articles.noTests2.description') }}
           </v-card-text>
 
-          <v-divider class="mx-4" />
+          <v-divider class="mx-4 mt-auto" />
 
           <v-card-actions>
             <v-btn
               color="deep-purple lighten-2"
               class="ml-auto"
             >
-              Читать
+              {{ t('articles.common.read') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -244,7 +250,7 @@ useSeoMeta({
 });
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import 'assets/variables.sass'
 
 .card-image
@@ -252,8 +258,4 @@ useSeoMeta({
   height: 250px
   object-fit: cover
   display: block
-
-.hidden-xs-only
-  @media(max-width: $xs)
-    display: none
 </style>

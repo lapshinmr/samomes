@@ -38,7 +38,7 @@
     <v-card-text class="mt-6 mb-4">
       <v-window v-model="curDay">
         <v-window-item
-          v-for="(day, dayIndex) in schedule.days"
+          v-for="(day, dayIndex) in days"
           :key="`${dayIndex}-content`"
         >
           <v-row>
@@ -69,7 +69,7 @@
                 </div>
               </template>
               <div
-                v-for="(data, fertilizerName) in day.fertilizers"
+                v-for="(data, fertilizerName) in schedule.days[dayIndex]?.fertilizers || {}"
                 :key="`water_change_${fertilizerName}`"
               >
                 <ScheduleButton
@@ -86,11 +86,10 @@
         </v-window-item>
       </v-window>
     </v-card-text>
-    <v-card-actions>
-      <template v-if="schedule.dosing.fertilizersRegime !== FertilizersRegime.ONCE_A_WEEK">
+    <v-card-actions class="d-flex justify-end">
+      <template v-if="days.length > 1">
         <v-btn
           :disabled="curDay === 0"
-          class="ml-auto"
           @click="prevStep"
         >
           {{ t('buttons.back') }}
@@ -138,32 +137,46 @@ const startDate = computed(() => {
 
 const endDate = computed(() => {
   const startDateObject = new Date(props.schedule.startDate);
-  const endDateObject = new Date(startDateObject.setDate(startDateObject.getDate() + props.schedule.dosing.daysTotal - 1));
+  const endDateObject = new Date(
+    startDateObject.setDate(startDateObject.getDate() + props.schedule.dosing.daysTotal - 1));
   return formatDate(endDateObject, locale.value);
 });
 
+const days = computed(() => {
+  let [firstDay, ...otherDays] = JSON.parse(JSON.stringify(props.schedule.days));
+  if (!otherDays) {
+    otherDays = [];
+  }
+  if (!firstDay) {
+    firstDay = { ...props.schedule.waterChangeDay };
+  } else {
+    firstDay.fertilizers = { ...props.schedule.waterChangeDay.fertilizers, ...firstDay.fertilizers };
+  }
+  return [firstDay, ...otherDays];
+});
+
 const slidesTotal = computed(() => {
-  return props.schedule.dosing.daysTotal;
+  return days.value.length;
 });
 
 const scheduleProgress = computed(() => (curDay.value + 1) / slidesTotal.value * 100);
-
-const days = computed(() => {
-  const [firstDay, ...otherDays] = JSON.parse(JSON.stringify(props.schedule.days));
-  firstDay.fertilizers = { ...props.schedule.waterChangeDay.fertilizers, ...firstDay.fertilizers };
-  return [firstDay, ...otherDays];
-});
 
 onMounted(() => {
   curDay.value = findCurActiveDay();
 });
 
 function findCurActiveDay() {
-  const dayIndex = days.value.findIndex(
-    (day) => typedValues(day.fertilizers).some(
-      (data) => data.status === AmountStatus.ACTIVE && data.amount,
-    ),
+  const isWaterChangeDayActive = typedValues(props.schedule.waterChangeDay.fertilizers).some(
+    (data) => data.status === AmountStatus.ACTIVE && data.amount,
   );
+  let dayIndex = 0;
+  if (!isWaterChangeDayActive) {
+    dayIndex = days.value.findIndex(
+      (day) => typedValues(day.fertilizers).some(
+        (data) => data.status === AmountStatus.ACTIVE && data.amount,
+      ),
+    );
+  }
   if (dayIndex === -1) {
     return slidesTotal.value - 1;
   }
